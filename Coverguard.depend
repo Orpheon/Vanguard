@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1463774705 source:/home/orpheon/Programming/C++/Coverguard/main.cpp
+	<cstdio>
+	<sys/time.h>
+	<allegro5/allegro.h>
+	"include/engine.h"
+
+1463774399 /home/orpheon/Programming/C++/Coverguard/include/engine.h
+
+1463774696 source:/home/orpheon/Programming/C++/Coverguard/src/engine.cpp
+	<cstdio>
+	"../include/engine.h"
+
