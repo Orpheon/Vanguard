@@ -6,9 +6,11 @@ class Engine
 {
     public:
         Engine();
-        virtual ~Engine();
+        ~Engine();
+		void run();
     protected:
     private:
+        long int getmillisec();
 };
 
 #endif // ENGINE_H

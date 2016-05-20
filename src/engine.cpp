@@ -1,4 +1,6 @@
-#include "engine.h"
+#include <cstdio>
+
+#include "../include/engine.h"
 
 Engine::Engine()
 {
@@ -7,11 +9,10 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-    //dtor
+    //destructor
 }
 
-
-Engine::run()
+void Engine::run()
 {
 
 }
