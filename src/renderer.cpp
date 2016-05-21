@@ -6,14 +6,6 @@
 
 Renderer::Renderer()
 {
-	// Initialize Allegro | FIXME: Maybe move this elsewhere? Is sound to be managed here too?
-    if (!al_init())
-    {
-		// FIXME: Make the error argument mean anything?
-        fprintf(stderr, "Fatal Error: Allegro initialization failed!\n");
-        throw -1;
-	}
-
 	// Create a display
     display = al_create_display(WINDOW_WIDTH, WINDOW_HEIGHT);
     if(!display)

@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1463825076 source:/home/orpheon/Programming/C++/Coverguard/main.cpp
+1463834010 source:/home/orpheon/Programming/C++/Coverguard/main.cpp
 	<cstdio>
 	<allegro5/allegro.h>
+	"inputcatcher.h"
 	"engine.h"
 	"renderer.h"
 	"global_constants.h"
@@ -19,14 +20,17 @@
 
 1463819887 /home/orpheon/Programming/C++/Coverguard/include/global_constants.h
 
-1463821075 source:/home/orpheon/Programming/C++/Coverguard/src/renderer.cpp
+1463833945 source:/home/orpheon/Programming/C++/Coverguard/src/renderer.cpp
 	<allegro5/allegro.h>
 	<cstdio>
-	"../include/renderer.h"
-	"../include/global_constants.h"
+	"renderer.h"
+	"global_constants.h"
 
-1463822114 source:/home/orpheon/Programming/C++/Coverguard/src/inputcatcher.cpp
+1463833869 source:/home/orpheon/Programming/C++/Coverguard/src/inputcatcher.cpp
+	<allegro5/allegro.h>
+	<cstdio>
 	"inputcatcher.h"
 
-1463822124 /home/orpheon/Programming/C++/Coverguard/include/inputcatcher.h
+1463825145 /home/orpheon/Programming/C++/Coverguard/include/inputcatcher.h
+	<allegro5/allegro.h>
 

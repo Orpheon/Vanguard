@@ -47,12 +47,16 @@ void InputCatcher::run()
 				switch (event.keyboard.keycode)
 				{
 					case ALLEGRO_KEY_W:
+						printf("\nW");
 						break;
 					case ALLEGRO_KEY_S:
+						printf("\nS");
 						break;
 					case ALLEGRO_KEY_A:
+						printf("\nA");
 						break;
 					case ALLEGRO_KEY_D:
+						printf("\nD");
 						break;
 				}
 		}
