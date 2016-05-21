@@ -9,14 +9,26 @@ long int getmillisec();
 
 int main(int argc, char **argv)
 {
+	Engine *engine;
+	Renderer *renderer;
+
 	try
 	{
-		Engine* engine = new Engine();
-		Renderer* renderer = new Renderer();
+		// Initialize everything
+		// The various allegro initializations can throw errors
+		engine = new Engine();
+		renderer = new Renderer();
 	}
 	catch (int e)
 	{
-		fprintf("\nInitialization failed.");
+		if (e == -1)
+		{
+			fprintf(stderr, "\nAllegro initialization failed.");
+		}
+		else
+		{
+			fprintf(stderr, "\nUNKNOWN ERROR HAPPENED");
+		}
 		return -1;
 	}
 
