@@ -9,10 +9,10 @@ Map::Map(char *name)
 
 Map::~Map()
 {
-	al_destroy_bitmap(background);
+    al_destroy_bitmap(background);
 }
 
 void Map::render()
 {
-	al_draw_bitmap(background, 0, 0, 0);
+    al_draw_bitmap(background, 0, 0, 0);
 }

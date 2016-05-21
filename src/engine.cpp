@@ -8,9 +8,8 @@
 
 Engine::Engine()
 {
-	lasttimeupdated = getmillisec();
-	millisecperframe = 1000.0 / PHYSICS_FPS;
-	std::list<Entity*> gameentities;
+    lasttimeupdated = getmillisec();
+    millisecperframe = 1000.0 / PHYSICS_FPS;
 }
 
 Engine::~Engine()
@@ -20,13 +19,13 @@ Engine::~Engine()
 
 void Engine::run()
 {
-	int timediff = getmillisec() - lasttimeupdated;
-	while (timediff - millisecperframe >= 0)
-	{
-		// TODO Actual physics here
-		lasttimeupdated += millisecperframe;
-		timediff -= millisecperframe;
-	}
+    int timediff = getmillisec() - lasttimeupdated;
+    while (timediff - millisecperframe >= 0)
+    {
+        // TODO Actual physics here
+        lasttimeupdated += millisecperframe;
+        timediff -= millisecperframe;
+    }
 }
 
 long int Engine::getmillisec()

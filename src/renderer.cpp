@@ -6,11 +6,11 @@
 
 Renderer::Renderer()
 {
-	// Create a display
+    // Create a display
     display = al_create_display(WINDOW_WIDTH, WINDOW_HEIGHT);
     if(!display)
     {
-		// FIXME: Make the error argument mean anything?
+        // FIXME: Make the error argument mean anything?
         fprintf(stderr, "Fatal Error: Could not create display\n");
         throw -1;
     }
@@ -18,13 +18,13 @@ Renderer::Renderer()
 
 Renderer::~Renderer()
 {
-	// Cleanup
-	al_destroy_display(display);
+    // Cleanup
+    al_destroy_display(display);
 }
 
 void Renderer::render()
 {
-	// Draw everything
+    // Draw everything
     al_clear_to_color(al_map_rgb(0,0,0));
 
     al_flip_display();

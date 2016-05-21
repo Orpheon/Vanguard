@@ -5,13 +5,13 @@
 
 class Map
 {
-	public:
-		Map(char *name);
-		~Map();
-		void render();
-	protected:
-	private:
-		ALLEGRO_BITMAP *background;
+    public:
+        Map(char *name);
+        ~Map();
+        void render();
+    protected:
+    private:
+        ALLEGRO_BITMAP *background;
 };
 
 #endif // MAP_H

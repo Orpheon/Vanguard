@@ -5,13 +5,13 @@
 
 class Renderer
 {
-	public:
-		Renderer();
-		~Renderer();
-		void render();
-		ALLEGRO_DISPLAY *display;
-	protected:
-	private:
+    public:
+        Renderer();
+        ~Renderer();
+        void render();
+        ALLEGRO_DISPLAY *display;
+    protected:
+    private:
 };
 
 #endif // RENDERER_H
