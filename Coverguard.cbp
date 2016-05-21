@@ -8,8 +8,12 @@
 		<Build>
 			<Target title="default">
 				<Option output="Coverguard" prefix_auto="1" extension_auto="1" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add directory="include" />
+				</Compiler>
 			</Target>
 		</Build>
 		<Compiler>
@@ -18,8 +22,10 @@
 		<Linker>
 			<Add library="allegro" />
 		</Linker>
+		<Unit filename="include/renderer.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/engine.cpp" />
+		<Unit filename="src/renderer.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
