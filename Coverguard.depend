@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1463842819 source:/home/orpheon/Programming/C++/Coverguard/main.cpp
+1463850971 source:/home/orpheon/Programming/C++/Coverguard/main.cpp
 	<cstdio>
 	<allegro5/allegro.h>
 	<allegro5/allegro_image.h>
@@ -10,26 +10,25 @@
 
 1463820822 /home/orpheon/Programming/C++/Coverguard/include/engine.h
 
-1463847908 source:/home/orpheon/Programming/C++/Coverguard/src/engine.cpp
+1463850972 source:/home/orpheon/Programming/C++/Coverguard/src/engine.cpp
 	<cstdio>
 	<sys/time.h>
-	<list>
 	"engine.h"
 	"entity.h"
 	"global_constants.h"
 
-1463835767 /home/orpheon/Programming/C++/Coverguard/include/renderer.h
+1463850974 /home/orpheon/Programming/C++/Coverguard/include/renderer.h
 	<allegro5/allegro.h>
 
 1463819887 /home/orpheon/Programming/C++/Coverguard/include/global_constants.h
 
-1463833945 source:/home/orpheon/Programming/C++/Coverguard/src/renderer.cpp
+1463850973 source:/home/orpheon/Programming/C++/Coverguard/src/renderer.cpp
 	<allegro5/allegro.h>
 	<cstdio>
 	"renderer.h"
 	"global_constants.h"
 
-1463834243 source:/home/orpheon/Programming/C++/Coverguard/src/inputcatcher.cpp
+1463850973 source:/home/orpheon/Programming/C++/Coverguard/src/inputcatcher.cpp
 	<allegro5/allegro.h>
 	<cstdio>
 	"inputcatcher.h"
@@ -41,18 +40,29 @@
 	"engine.h"
 	"renderer.h"
 
-1463842794 source:/home/orpheon/Programming/C++/Coverguard/src/map.cpp
+1463850975 source:/home/orpheon/Programming/C++/Coverguard/src/map.cpp
 	<allegro5/allegro.h>
 	"map.h"
 
-1463841344 /home/orpheon/Programming/C++/Coverguard/include/map.h
+1463850976 /home/orpheon/Programming/C++/Coverguard/include/map.h
 	<allegro5/allegro.h>
 
-1463848522 /home/orpheon/Programming/C++/Coverguard/include/entity.h
+1463857451 /home/orpheon/Programming/C++/Coverguard/include/entity.h
 	"engine.h"
 	<list>
 
 1463848561 source:/home/orpheon/Programming/C++/Coverguard/src/entity.cpp
 	<list>
+	"entity.h"
+
+1463857630 source:/home/orpheon/Programming/C++/Coverguard/src/gamestate.cpp
+	<list>
+	"gamestate.h"
+	"engine.h"
+	"entity.h"
+
+1463857551 /home/orpheon/Programming/C++/Coverguard/include/gamestate.h
+	<list>
+	"engine.h"
 	"entity.h"
 
