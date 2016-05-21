@@ -44,7 +44,7 @@ int main(int argc, char **argv)
 
     while (true)
     {
-		inputcatcher->run();
+		inputcatcher->run(engine, renderer);
 		engine->run();
 		renderer->render();
     }

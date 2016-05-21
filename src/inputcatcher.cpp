@@ -2,6 +2,8 @@
 #include <cstdio>
 
 #include "inputcatcher.h"
+#include "engine.h"
+#include "renderer.h"
 
 InputCatcher::InputCatcher(ALLEGRO_DISPLAY *display)
 {
@@ -31,7 +33,7 @@ InputCatcher::~InputCatcher()
 	//dtor
 }
 
-void InputCatcher::run()
+void InputCatcher::run(Engine *engine, Renderer *renderer)
 {
     ALLEGRO_EVENT event;
     // Catch all events that have stacked up this frame. al_get_next_event() returns false when event_queue is empty, and contents of event are undefined
