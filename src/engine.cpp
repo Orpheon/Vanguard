@@ -1,8 +1,8 @@
 #include <cstdio>
 #include <sys/time.h>
 
-#include "../include/engine.h"
-#include "../include/global_constants.h"
+#include "engine.h"
+#include "global_constants.h"
 
 Engine::Engine()
 {

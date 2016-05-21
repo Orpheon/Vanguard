@@ -19,3 +19,14 @@
 
 1463819887 /home/orpheon/Programming/C++/Coverguard/include/global_constants.h
 
+1463821075 source:/home/orpheon/Programming/C++/Coverguard/src/renderer.cpp
+	<allegro5/allegro.h>
+	<cstdio>
+	"../include/renderer.h"
+	"../include/global_constants.h"
+
+1463822114 source:/home/orpheon/Programming/C++/Coverguard/src/inputcatcher.cpp
+	"inputcatcher.h"
+
+1463822124 /home/orpheon/Programming/C++/Coverguard/include/inputcatcher.h
+

@@ -1,8 +1,8 @@
 #include <allegro5/allegro.h>
 #include <cstdio>
 
-#include "../include/renderer.h"
-#include "../include/global_constants.h"
+#include "renderer.h"
+#include "global_constants.h"
 
 Renderer::Renderer()
 {
