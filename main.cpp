@@ -9,8 +9,16 @@ long int getmillisec();
 
 int main(int argc, char **argv)
 {
-    Engine* engine = new Engine();
-    Renderer* renderer = new Renderer();
+	try
+	{
+		Engine* engine = new Engine();
+		Renderer* renderer = new Renderer();
+	}
+	catch (int e)
+	{
+		fprintf("\nInitialization failed.");
+		return -1;
+	}
 
     while (true)
     {
