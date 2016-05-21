@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_image.h>
 
 #include "inputcatcher.h"
 #include "engine.h"
@@ -15,6 +16,13 @@ int main(int argc, char **argv)
     {
         fprintf(stderr, "Fatal Error: Allegro initialization failed!\n");
         return -1;
+	}
+
+	// Initialize the Allegro Image addon, used to load sprites and maps
+	if (!al_init_image_addon())
+	{
+		fprintf(stderr, "Fatal Error: Allegro Image Addon initialization failed!\n");
+		return -1;
 	}
 
 	InputCatcher *inputcatcher;

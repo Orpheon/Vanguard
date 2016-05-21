@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1463834010 source:/home/orpheon/Programming/C++/Coverguard/main.cpp
+1463842819 source:/home/orpheon/Programming/C++/Coverguard/main.cpp
 	<cstdio>
 	<allegro5/allegro.h>
+	<allegro5/allegro_image.h>
 	"inputcatcher.h"
 	"engine.h"
 	"renderer.h"
@@ -15,7 +16,7 @@
 	"engine.h"
 	"global_constants.h"
 
-1463824037 /home/orpheon/Programming/C++/Coverguard/include/renderer.h
+1463835767 /home/orpheon/Programming/C++/Coverguard/include/renderer.h
 	<allegro5/allegro.h>
 
 1463819887 /home/orpheon/Programming/C++/Coverguard/include/global_constants.h
@@ -26,11 +27,22 @@
 	"renderer.h"
 	"global_constants.h"
 
-1463833869 source:/home/orpheon/Programming/C++/Coverguard/src/inputcatcher.cpp
+1463834243 source:/home/orpheon/Programming/C++/Coverguard/src/inputcatcher.cpp
 	<allegro5/allegro.h>
 	<cstdio>
 	"inputcatcher.h"
+	"engine.h"
+	"renderer.h"
 
-1463825145 /home/orpheon/Programming/C++/Coverguard/include/inputcatcher.h
+1463834288 /home/orpheon/Programming/C++/Coverguard/include/inputcatcher.h
+	<allegro5/allegro.h>
+	"engine.h"
+	"renderer.h"
+
+1463842794 source:/home/orpheon/Programming/C++/Coverguard/src/map.cpp
+	<allegro5/allegro.h>
+	"map.h"
+
+1463841344 /home/orpheon/Programming/C++/Coverguard/include/map.h
 	<allegro5/allegro.h>
 
