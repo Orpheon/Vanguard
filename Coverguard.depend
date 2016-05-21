@@ -1,10 +1,10 @@
 # depslib dependency file v1.0
-1463820847 source:/home/orpheon/Programming/C++/Coverguard/main.cpp
+1463825076 source:/home/orpheon/Programming/C++/Coverguard/main.cpp
 	<cstdio>
 	<allegro5/allegro.h>
-	"include/engine.h"
-	"include/renderer.h"
-	"include/global_constants.h"
+	"engine.h"
+	"renderer.h"
+	"global_constants.h"
 
 1463820822 /home/orpheon/Programming/C++/Coverguard/include/engine.h
 
@@ -14,7 +14,7 @@
 	"engine.h"
 	"global_constants.h"
 
-1463820962 /home/orpheon/Programming/C++/Coverguard/include/renderer.h
+1463824037 /home/orpheon/Programming/C++/Coverguard/include/renderer.h
 	<allegro5/allegro.h>
 
 1463819887 /home/orpheon/Programming/C++/Coverguard/include/global_constants.h
