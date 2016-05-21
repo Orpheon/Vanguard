@@ -9,9 +9,9 @@ class Renderer
 		Renderer();
 		~Renderer();
 		void render();
+		ALLEGRO_DISPLAY *display;
 	protected:
 	private:
-		ALLEGRO_DISPLAY *display = 0;
 };
 
 #endif // RENDERER_H
