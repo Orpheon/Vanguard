@@ -61,6 +61,7 @@ void InputCatcher::run(Engine *engine, Renderer *renderer)
 						printf("\nD");
 						break;
 				}
+				fflush(stdout);
 		}
     }
 }
