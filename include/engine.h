@@ -8,9 +8,12 @@ class Engine
         Engine();
         ~Engine();
         void run();
-    protected:
+
     private:
         long int getmillisec();
+
+		long int lasttimeupdated;
+		double millisecperframe;
 };
 
 #endif // ENGINE_H
