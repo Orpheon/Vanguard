@@ -6,16 +6,12 @@
 
 class Entity
 {
-	public:
-		Entity(std::list<Entity*> *gameentities);
-		~Entity();
-
-		void beginstep(Engine engine, double frametime);
-		void midstep(Engine engine, double frametime);
-		void endstep(Engine engine, double frametime);
-		void render();
-	protected:
-	private:
+    public:
+        virtual void beginstep(Engine engine, double frametime) = 0;
+        virtual void midstep(Engine engine, double frametime) = 0;
+        virtual void endstep(Engine engine, double frametime) = 0;
+        virtual void render() = 0;
+        virtual Entity* clone() = 0;
 };
 
 #endif // ENTITY_H

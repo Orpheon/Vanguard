@@ -1,6 +1,5 @@
 #include <cstdio>
 #include <sys/time.h>
-#include <list>
 
 #include "engine.h"
 #include "entity.h"
