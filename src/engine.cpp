@@ -1,13 +1,16 @@
 #include <cstdio>
 #include <sys/time.h>
+#include <list>
 
 #include "engine.h"
+#include "entity.h"
 #include "global_constants.h"
 
 Engine::Engine()
 {
-	long int lasttimeupdated = getmillisec();
-	double millisecperframe = 1000.0 / PHYSICS_FPS;
+	lasttimeupdated = getmillisec();
+	millisecperframe = 1000.0 / PHYSICS_FPS;
+	std::list<Entity*> gameentities;
 }
 
 Engine::~Engine()
