@@ -24,6 +24,7 @@
 		</Compiler>
 		<Linker>
 			<Add library="allegro" />
+			<Add library="allegro_image" />
 		</Linker>
 		<Unit filename="include/engine.h" />
 		<Unit filename="include/entity.h" />
