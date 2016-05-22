@@ -25,15 +25,19 @@
 		<Linker>
 			<Add library="allegro" />
 		</Linker>
-		<Unit filename="include/inputcatcher.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
-		<Unit filename="include/renderer.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="include/engine.h" />
+		<Unit filename="include/entity.h" />
+		<Unit filename="include/gamestate.h" />
+		<Unit filename="include/global_constants.h" />
+		<Unit filename="include/inputcatcher.h" />
+		<Unit filename="include/json.hpp" />
+		<Unit filename="include/map.h" />
+		<Unit filename="include/renderer.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/engine.cpp" />
+		<Unit filename="src/gamestate.cpp" />
 		<Unit filename="src/inputcatcher.cpp" />
+		<Unit filename="src/map.cpp" />
 		<Unit filename="src/renderer.cpp" />
 		<Extensions>
 			<code_completion />
