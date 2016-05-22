@@ -33,12 +33,14 @@
 		<Unit filename="include/inputcatcher.h" />
 		<Unit filename="include/json.hpp" />
 		<Unit filename="include/map.h" />
+		<Unit filename="include/movingentity.h" />
 		<Unit filename="include/renderer.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/engine.cpp" />
 		<Unit filename="src/gamestate.cpp" />
 		<Unit filename="src/inputcatcher.cpp" />
 		<Unit filename="src/map.cpp" />
+		<Unit filename="src/movingentity.cpp" />
 		<Unit filename="src/renderer.cpp" />
 		<Extensions>
 			<code_completion />
