@@ -7,9 +7,9 @@
 class Entity
 {
     public:
-        virtual void beginstep(Engine engine, double frametime) = 0;
-        virtual void midstep(Engine engine, double frametime) = 0;
-        virtual void endstep(Engine engine, double frametime) = 0;
+        virtual void beginstep(Gamestate *state, double frametime) = 0;
+        virtual void midstep(Gamestate *state, double frametime) = 0;
+        virtual void endstep(Gamestate *state, double frametime) = 0;
         virtual void render() = 0;
         virtual Entity* clone() = 0;
 };

@@ -20,22 +20,22 @@ Gamestate::~Gamestate()
     delete entitylist;
 }
 
-void Gamestate::update(Engine engine, double frametime)
+void Gamestate::update(double frametime)
 {
     time += frametime;
 
     std::list<Entity*>::iterator i;
     for (i=entitylist->begin(); i!=entitylist->end(); i++)
     {
-        (*i)->beginstep(engine, frametime);
+        (*i)->beginstep(this, frametime);
     }
     for (i=entitylist->begin(); i!=entitylist->end(); i++)
     {
-        (*i)->midstep(engine, frametime);
+        (*i)->midstep(this, frametime);
     }
     for (i=entitylist->begin(); i!=entitylist->end(); i++)
     {
-        (*i)->endstep(engine, frametime);
+        (*i)->endstep(this, frametime);
     }
 }
 

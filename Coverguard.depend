@@ -44,10 +44,11 @@
 	<allegro5/allegro.h>
 	"map.h"
 
-1463850976 /home/orpheon/Programming/C++/Coverguard/include/map.h
+1463913519 /home/orpheon/Programming/C++/Coverguard/include/map.h
+	"entity.h"
 	<allegro5/allegro.h>
 
-1463857451 /home/orpheon/Programming/C++/Coverguard/include/entity.h
+1463912984 /home/orpheon/Programming/C++/Coverguard/include/entity.h
 	"engine.h"
 	<list>
 
@@ -55,14 +56,20 @@
 	<list>
 	"entity.h"
 
-1463857630 source:/home/orpheon/Programming/C++/Coverguard/src/gamestate.cpp
+1463912995 source:/home/orpheon/Programming/C++/Coverguard/src/gamestate.cpp
 	<list>
 	"gamestate.h"
 	"engine.h"
 	"entity.h"
 
-1463857551 /home/orpheon/Programming/C++/Coverguard/include/gamestate.h
+1463912988 /home/orpheon/Programming/C++/Coverguard/include/gamestate.h
 	<list>
 	"engine.h"
 	"entity.h"
+
+1463913394 source:/home/orpheon/Programming/C++/Coverguard/src/movingentity.cpp
+	"movingentity.h"
+
+1463913421 /home/orpheon/Programming/C++/Coverguard/include/movingentity.h
+	<entity.h>
 

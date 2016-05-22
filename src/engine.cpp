@@ -3,12 +3,14 @@
 
 #include "engine.h"
 #include "entity.h"
+#include "gamestate.h"
 #include "global_constants.h"
 
 Engine::Engine()
 {
     lasttimeupdated = getmillisec();
     millisecperframe = 1000.0 / PHYSICS_FPS;
+    Gamestate currentstate = Gamestate();
 }
 
 Engine::~Engine()
@@ -21,7 +23,7 @@ void Engine::run()
     int timediff = getmillisec() - lasttimeupdated;
     while (timediff - millisecperframe >= 0)
     {
-        // TODO Actual physics here
+        currentstate.update(millisecperframe);
         lasttimeupdated += millisecperframe;
         timediff -= millisecperframe;
     }

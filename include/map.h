@@ -1,9 +1,11 @@
 #ifndef MAP_H
 #define MAP_H
 
+#include "entity.h"
+
 #include <allegro5/allegro.h>
 
-class Map
+class Map : public Entity
 {
     public:
         Map(char *name);

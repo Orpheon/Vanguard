@@ -11,7 +11,7 @@ class Gamestate
     public:
         Gamestate();
         ~Gamestate();
-        void update(Engine engine, double frametime);
+        void update(Gamestate *state, double frametime);
         Gamestate* clone();
 
         std::list<Entity*> *entitylist;
