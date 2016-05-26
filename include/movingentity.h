@@ -1,18 +1,15 @@
 #ifndef MOVINGENTITY_H
 #define MOVINGENTITY_H
 
-#include <entity.h>
-
+#include "entity.h"
+#include "gamestate.h"
 
 class MovingEntity : public Entity
 {
     public:
         MovingEntity();
-        virtual void beginstep(Gamestate *state, double frametime) = 0;
-        virtual void midstep(Gamestate *state, double frametime) = 0;
-        virtual void endstep(Gamestate *state, double frametime);
-        virtual void render() = 0;
-        virtual MovingEntity* clone() = 0;
+        virtual ~MovingEntity();
+        virtual void endstep(Gamestate *state, double frametime) override;
 
         double x, y;
         double hspeed, vspeed;

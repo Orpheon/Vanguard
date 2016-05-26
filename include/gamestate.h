@@ -1,9 +1,8 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
-#include <list>
+#include <vector>
 
-#include "engine.h"
 #include "entity.h"
 
 class Gamestate
@@ -11,10 +10,10 @@ class Gamestate
     public:
         Gamestate();
         ~Gamestate();
-        void update(Gamestate *state, double frametime);
+        void update(double frametime);
         Gamestate* clone();
 
-        std::list<Entity*> *entitylist;
+        std::vector<Entity*> entitylist;
         double time;
     protected:
     private:

@@ -1,4 +1,5 @@
 #include "movingentity.h"
+#include "gamestate.h"
 
 MovingEntity::MovingEntity()
 {
