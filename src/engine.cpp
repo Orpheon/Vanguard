@@ -10,7 +10,7 @@ Engine::Engine()
 {
     lasttimeupdated = getmillisec();
     millisecperframe = 1000.0 / PHYSICS_FPS;
-    Gamestate currentstate = Gamestate();
+    currentstate = Gamestate();
 }
 
 Engine::~Engine()
