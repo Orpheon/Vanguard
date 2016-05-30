@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1463850971 source:/home/orpheon/Programming/C++/Coverguard/main.cpp
+1464619915 source:/home/orpheon/Programming/C++/Coverguard/main.cpp
 	<cstdio>
 	<allegro5/allegro.h>
 	<allegro5/allegro_image.h>
@@ -8,7 +8,7 @@
 	"renderer.h"
 	"global_constants.h"
 
-1464221629 /home/orpheon/Programming/C++/Coverguard/include/engine.h
+1464619801 /home/orpheon/Programming/C++/Coverguard/include/engine.h
 	"gamestate.h"
 
 1464221682 source:/home/orpheon/Programming/C++/Coverguard/src/engine.cpp
@@ -19,7 +19,8 @@
 	"gamestate.h"
 	"global_constants.h"
 
-1463850974 /home/orpheon/Programming/C++/Coverguard/include/renderer.h
+1464619992 /home/orpheon/Programming/C++/Coverguard/include/renderer.h
+	"gamestate.h"
 	<allegro5/allegro.h>
 
 1463819887 /home/orpheon/Programming/C++/Coverguard/include/global_constants.h
@@ -42,15 +43,15 @@
 	"engine.h"
 	"renderer.h"
 
-1463850975 source:/home/orpheon/Programming/C++/Coverguard/src/map.cpp
+1464617852 source:/home/orpheon/Programming/C++/Coverguard/src/map.cpp
 	<allegro5/allegro.h>
 	"map.h"
 
-1463913519 /home/orpheon/Programming/C++/Coverguard/include/map.h
+1464617926 /home/orpheon/Programming/C++/Coverguard/include/map.h
 	"entity.h"
 	<allegro5/allegro.h>
 
-1464221594 /home/orpheon/Programming/C++/Coverguard/include/entity.h
+1464618969 /home/orpheon/Programming/C++/Coverguard/include/entity.h
 	<vector>
 
 1463848561 source:/home/orpheon/Programming/C++/Coverguard/src/entity.cpp
@@ -63,15 +64,18 @@
 	"engine.h"
 	"entity.h"
 
-1464221755 /home/orpheon/Programming/C++/Coverguard/include/gamestate.h
+1464619602 /home/orpheon/Programming/C++/Coverguard/include/gamestate.h
 	<vector>
+	<memory>
 	"entity.h"
+	"map.h"
 
-1463913904 source:/home/orpheon/Programming/C++/Coverguard/src/movingentity.cpp
+1464614996 source:/home/orpheon/Programming/C++/Coverguard/src/movingentity.cpp
 	"movingentity.h"
 	"gamestate.h"
+	"entity.h"
 
-1463913916 /home/orpheon/Programming/C++/Coverguard/include/movingentity.h
+1464618006 /home/orpheon/Programming/C++/Coverguard/include/movingentity.h
 	"entity.h"
 	"gamestate.h"
 
