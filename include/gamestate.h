@@ -2,8 +2,10 @@
 #define GAMESTATE_H
 
 #include <vector>
+#include <memory>
 
 #include "entity.h"
+#include "map.h"
 
 class Gamestate
 {
@@ -15,6 +17,7 @@ class Gamestate
 
         std::vector<Entity*> entitylist;
         double time;
+        std::shared_ptr<Map> currentmap;
     protected:
     private:
 };

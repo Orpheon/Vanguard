@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <sys/time.h>
+#include <memory.h>
 
 #include "engine.h"
 #include "entity.h"
@@ -16,6 +17,11 @@ Engine::Engine()
 Engine::~Engine()
 {
     //destructor
+}
+
+void Engine::loadmap(char *mapname)
+{
+    currentstate.currentmap = std::make_shared<Map>(mapname);
 }
 
 void Engine::run()

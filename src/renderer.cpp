@@ -22,7 +22,7 @@ Renderer::~Renderer()
     al_destroy_display(display);
 }
 
-void Renderer::render()
+void Renderer::render(const Gamestate& currentstate)
 {
     // Draw everything
     al_clear_to_color(al_map_rgb(0,0,0));

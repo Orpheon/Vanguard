@@ -54,7 +54,7 @@ int main(int argc, char **argv)
     {
         inputcatcher->run(engine, renderer);
         engine->run();
-        renderer->render();
+        renderer->render(engine->currentstate);
     }
     return 0;
 }
