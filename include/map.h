@@ -5,7 +5,7 @@
 
 #include <allegro5/allegro.h>
 
-class Map : public Entity
+class Map
 {
     public:
         Map(char *name);

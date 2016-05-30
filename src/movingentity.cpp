@@ -1,7 +1,8 @@
 #include "movingentity.h"
 #include "gamestate.h"
+#include "entity.h"
 
-MovingEntity::MovingEntity()
+MovingEntity::MovingEntity() : Entity()
 {
     x = 0;
     y = 0;
