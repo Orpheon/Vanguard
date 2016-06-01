@@ -24,8 +24,11 @@ Renderer::~Renderer()
 
 void Renderer::render(const Gamestate& currentstate)
 {
-    // Draw everything
-    al_clear_to_color(al_map_rgb(0,0,0));
+    // Set render target to be the display
+    al_set_target_backbuffer(display);
+
+    // Draw the map background first
+    currentstate.currentmap->render();
 
     al_flip_display();
 }

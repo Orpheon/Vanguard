@@ -50,6 +50,8 @@ int main(int argc, char **argv)
         return -1;
     }
 
+    engine->loadmap("maps/conflict.png");
+
     while (true)
     {
         inputcatcher->run(engine, renderer);
