@@ -50,7 +50,7 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    engine->loadmap("maps/conflict.png");
+    engine->loadmap("conflict");
 
     while (true)
     {
