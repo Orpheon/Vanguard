@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1464788825 source:/home/orpheon/Programming/C++/Coverguard/main.cpp
+1464923087 source:/home/orpheon/Programming/C++/Coverguard/main.cpp
 	<cstdio>
 	<allegro5/allegro.h>
 	<allegro5/allegro_image.h>
@@ -8,12 +8,14 @@
 	"renderer.h"
 	"global_constants.h"
 
-1464619801 /home/orpheon/Programming/C++/Coverguard/include/engine.h
+1464898776 /home/orpheon/Programming/C++/Coverguard/include/engine.h
+	<string.h>
 	"gamestate.h"
 
-1464620927 source:/home/orpheon/Programming/C++/Coverguard/src/engine.cpp
+1464898753 source:/home/orpheon/Programming/C++/Coverguard/src/engine.cpp
 	<cstdio>
 	<sys/time.h>
+	<string.h>
 	<memory.h>
 	"engine.h"
 	"entity.h"
@@ -26,7 +28,7 @@
 
 1464791169 /home/orpheon/Programming/C++/Coverguard/include/global_constants.h
 
-1464789589 source:/home/orpheon/Programming/C++/Coverguard/src/renderer.cpp
+1464922903 source:/home/orpheon/Programming/C++/Coverguard/src/renderer.cpp
 	<allegro5/allegro.h>
 	<cstdio>
 	"renderer.h"
@@ -44,13 +46,15 @@
 	"engine.h"
 	"renderer.h"
 
-1464789797 source:/home/orpheon/Programming/C++/Coverguard/src/map.cpp
+1464923020 source:/home/orpheon/Programming/C++/Coverguard/src/map.cpp
 	<allegro5/allegro.h>
+	<string>
 	"map.h"
 
-1464617926 /home/orpheon/Programming/C++/Coverguard/include/map.h
+1464922370 /home/orpheon/Programming/C++/Coverguard/include/map.h
 	"entity.h"
 	<allegro5/allegro.h>
+	<string>
 
 1464788856 /home/orpheon/Programming/C++/Coverguard/include/entity.h
 	<vector>
