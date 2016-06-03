@@ -47,3 +47,5 @@ Temporary Items
 *.exe
 Coverguard
 .objs/
+*.depend
+*.layout
