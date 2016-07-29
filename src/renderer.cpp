@@ -28,7 +28,7 @@ void Renderer::render(const Gamestate& currentstate)
     al_set_target_backbuffer(display);
 
     // Draw the map background first
-    currentstate.currentmap->render();
+    currentstate.currentmap->render(cam_x, cam_y);
 
     al_flip_display();
 }

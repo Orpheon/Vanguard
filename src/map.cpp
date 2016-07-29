@@ -28,7 +28,7 @@ Map::~Map()
     al_destroy_bitmap(background);
 }
 
-void Map::render()
+void Map::render(double cam_x, double cam_y)
 {
-    al_draw_bitmap(background, 0, 0, 0);
+    al_draw_bitmap(background, -cam_x, -cam_y, 0);
 }

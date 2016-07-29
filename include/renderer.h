@@ -12,6 +12,8 @@ class Renderer
         ~Renderer();
         void render(const Gamestate& currentstate);
         ALLEGRO_DISPLAY *display;
+        double cam_x;
+        double cam_y;
     protected:
     private:
 };

@@ -64,4 +64,24 @@ void InputCatcher::run(Engine *engine, Renderer *renderer)
                 fflush(stdout);
         }
     }
+    // TODO: The Inputcatcher should probably not be directly modifying Renderer. I'm not sure at this point.
+    // Also, this camera moving is so far frame independent. This is bad, I think all of this should go to the engine somehow.
+    ALLEGRO_KEYBOARD_STATE keystate;
+    al_get_keyboard_state(&keystate);
+    if (al_key_down(&keystate, ALLEGRO_KEY_W))
+    {
+        renderer->cam_y -= 10;
+    }
+    if (al_key_down(&keystate, ALLEGRO_KEY_S))
+    {
+        renderer->cam_y += 10;
+    }
+    if (al_key_down(&keystate, ALLEGRO_KEY_A))
+    {
+        renderer->cam_x -= 10;
+    }
+    if (al_key_down(&keystate, ALLEGRO_KEY_D))
+    {
+        renderer->cam_x += 10;
+    }
 }

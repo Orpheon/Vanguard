@@ -11,7 +11,7 @@ class Map
     public:
         Map(std::string name);
         ~Map();
-        void render();
+        void render(double cam_x, double cam_y);
     protected:
     private:
         ALLEGRO_BITMAP *background;
