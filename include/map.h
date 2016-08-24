@@ -16,7 +16,7 @@ class Map
     protected:
     private:
         ALLEGRO_BITMAP *background;
-        ALLEGRO_BITMAP *wallmask;
+        COVERGUARD_BITMAP wallmask;
 };
 
 #endif // MAP_H
