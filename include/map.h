@@ -2,6 +2,7 @@
 #define MAP_H
 
 #include "entity.h"
+#include "datastructures.h"
 
 #include <allegro5/allegro.h>
 #include <string>
