@@ -6,6 +6,7 @@
 
 #include "entity.h"
 #include "map.h"
+#include "player.h"
 
 class Gamestate
 {
@@ -16,6 +17,8 @@ class Gamestate
         Gamestate* clone();
 
         std::vector<Entity*> entitylist;
+        std::vector<Player*> playerlist;
+
         double time;
         std::shared_ptr<Map> currentmap;
     protected:

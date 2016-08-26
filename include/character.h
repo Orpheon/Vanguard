@@ -1,16 +1,20 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include <movingentity.h>
-#include <global_constants.h>
+#include "movingentity.h"
+#include "global_constants.h"
 
 
 class Character : public MovingEntity
 {
     public:
-        Character();
+        Character(Gamestate *state);
         virtual ~Character();
-        void setinput(bool left, bool right, bool jump, bool crouch);
+        virtual void setinput(bool left, bool right, bool jump, bool crouch);
+        virtual void beginstep(Gamestate *state, double frametime);
+        virtual void midstep(Gamestate *state, double frametime);
+        virtual void endstep(Gamestate *state, double frametime);
+        virtual void clonedata(Character *c);
 
     protected:
     private:
