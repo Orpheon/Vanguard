@@ -6,12 +6,22 @@
 #include "renderer.h"
 #include "character.h"
 
+#define LEFT_MOUSE_BUTTON 1
+#define RIGHT_MOUSE_BUTTON 2
+
 InputCatcher::InputCatcher(ALLEGRO_DISPLAY *display)
 {
-    // Initialize keyboard (TODO: and mouse) modules
+    // Initialize keyboard modules
     if (!al_install_keyboard())
     {
         fprintf(stderr, "Fatal Error: Could not initialize keyboard module!");
+        throw -1;
+    }
+
+    // Initialize mouse
+    if (!al_install_mouse())
+    {
+        fprintf(stderr, "Fatal Error: Could not initialize mouse module!");
         throw -1;
     }
 
@@ -74,6 +84,18 @@ void InputCatcher::run(Player *myself, Renderer *renderer)
                         pressed_keys.ULTIMATE = true;
                         break;
                 }
+
+            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+                switch (event.mouse.button)
+                {
+                    // FIXME: I have no idea if these constants are correct, allegro docs don't mention the specifics, just that it starts with 1.
+                    case LEFT_MOUSE_BUTTON:
+                        pressed_keys.PRIMARY_FIRE = true;
+                        break;
+                    case RIGHT_MOUSE_BUTTON:
+                        pressed_keys.SECONDARY_FIRE = true;
+                        break;
+                }
         }
     }
 
@@ -108,7 +130,17 @@ void InputCatcher::run(Player *myself, Renderer *renderer)
         held_keys.ULTIMATE = true;
     }
 
-
+    ALLEGRO_MOUSE_STATE mousestate;
+    al_get_mouse_state(&mousestate);
+    // FIXME: I have no idea if these constants are correct, allegro docs don't mention the specifics, just that it starts with 1.
+    if (al_mouse_button_down(&mousestate, LEFT_MOUSE_BUTTON))
+    {
+        held_keys.PRIMARY_FIRE = true;
+    }
+    if (al_mouse_button_down(&mousestate, RIGHT_MOUSE_BUTTON))
+    {
+        held_keys.SECONDARY_FIRE = true;
+    }
 
 
 
@@ -138,16 +170,4 @@ void InputCatcher::run(Player *myself, Renderer *renderer)
             renderer->cam_y += 10;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
 }
