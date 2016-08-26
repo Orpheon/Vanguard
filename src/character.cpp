@@ -30,7 +30,8 @@ void Character::beginstep(Gamestate *state, double frametime)
 
 void Character::midstep(Gamestate *state, double frametime)
 {
-    ;
+    // Gravity
+    vspeed += 140*frametime;
 }
 
 void Character::endstep(Gamestate *state, double frametime)
