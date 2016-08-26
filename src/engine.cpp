@@ -30,7 +30,7 @@ void Engine::run()
     int timediff = getmillisec() - lasttimeupdated;
     while (timediff - millisecperframe >= 0)
     {
-        currentstate.update(millisecperframe);
+        currentstate.update(millisecperframe / 1000.0);
         lasttimeupdated += millisecperframe;
         timediff -= millisecperframe;
     }
