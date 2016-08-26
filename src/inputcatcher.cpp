@@ -5,6 +5,7 @@
 #include "player.h"
 #include "renderer.h"
 #include "character.h"
+#include "global_constants.h"
 
 #define LEFT_MOUSE_BUTTON 1
 #define RIGHT_MOUSE_BUTTON 2
@@ -44,8 +45,11 @@ InputCatcher::~InputCatcher()
     //dtor
 }
 
-void InputCatcher::run(Player *myself, Renderer *renderer)
+void InputCatcher::run(Player *myself, Engine *engine, Renderer *renderer)
 {
+    // FIXME: Debugtool
+    bool spawnplayer = false;
+
     INPUT_CONTAINER pressed_keys = {};
     INPUT_CONTAINER held_keys = {};
 
@@ -83,6 +87,10 @@ void InputCatcher::run(Player *myself, Renderer *renderer)
                     case ALLEGRO_KEY_Q:
                         pressed_keys.ULTIMATE = true;
                         break;
+
+                    // FIXME: Debugtool
+                    case ALLEGRO_KEY_R:
+                        spawnplayer = true;
                 }
 
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
@@ -133,13 +141,19 @@ void InputCatcher::run(Player *myself, Renderer *renderer)
     ALLEGRO_MOUSE_STATE mousestate;
     al_get_mouse_state(&mousestate);
     // FIXME: I have no idea if these constants are correct, allegro docs don't mention the specifics, just that it starts with 1.
-    if (al_mouse_button_down(&mousestate, LEFT_MOUSE_BUTTON))
+    if (mousestate.buttons & LEFT_MOUSE_BUTTON)
     {
         held_keys.PRIMARY_FIRE = true;
     }
-    if (al_mouse_button_down(&mousestate, RIGHT_MOUSE_BUTTON))
+    if (mousestate.buttons & RIGHT_MOUSE_BUTTON)
     {
         held_keys.SECONDARY_FIRE = true;
+    }
+
+    // FIXME: Debugtool
+    if (spawnplayer)
+    {
+        myself->spawn(&(engine->currentstate), mousestate.x+renderer->cam_x, mousestate.y+renderer->cam_y);
     }
 
 
@@ -150,6 +164,8 @@ void InputCatcher::run(Player *myself, Renderer *renderer)
     if (myself->character != 0)
     {
         myself->character->setinput(pressed_keys, held_keys);
+        renderer->cam_x = myself->character->x - WINDOW_WIDTH/2.0;
+        renderer->cam_y = myself->character->y - WINDOW_HEIGHT/2.0;
     }
     else
     {

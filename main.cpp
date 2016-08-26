@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 
     while (true)
     {
-        inputcatcher->run(myself, renderer);
+        inputcatcher->run(myself, engine, renderer);
         engine->run();
         renderer->render(engine->currentstate);
     }

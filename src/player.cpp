@@ -34,7 +34,6 @@ void Player::spawn(Gamestate *state, double x, double y)
         fprintf(stderr, "\nERROR: Tried to spawn character that was already alive.");
         delete character;
     }
-
     character = new Mccree(state, this);
     character->x = x;
     character->y = y;
