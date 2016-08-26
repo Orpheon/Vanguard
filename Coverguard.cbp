@@ -26,6 +26,8 @@
 			<Add library="allegro" />
 			<Add library="allegro_image" />
 		</Linker>
+		<Unit filename="include/character.h" />
+		<Unit filename="include/datastructures.h" />
 		<Unit filename="include/engine.h" />
 		<Unit filename="include/entity.h" />
 		<Unit filename="include/gamestate.h" />
@@ -33,11 +35,15 @@
 		<Unit filename="include/inputcatcher.h" />
 		<Unit filename="include/json.hpp" />
 		<Unit filename="include/map.h" />
+		<Unit filename="include/mccree.h" />
 		<Unit filename="include/movingentity.h" />
+		<Unit filename="include/player.h" />
 		<Unit filename="include/renderer.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/Heroes/mccree.cpp" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/engine.cpp" />
+		<Unit filename="src/entity.cpp" />
 		<Unit filename="src/gamestate.cpp" />
 		<Unit filename="src/inputcatcher.cpp" />
 		<Unit filename="src/map.cpp" />
