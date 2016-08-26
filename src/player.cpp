@@ -6,6 +6,7 @@
 Player::Player(Gamestate *state)
 {
     state->playerlist.push_back(this);
+    character = 0;
 }
 
 Player::~Player()
@@ -34,7 +35,7 @@ void Player::spawn(Gamestate *state, double x, double y)
         delete character;
     }
 
-    character = new Mccree(state);
+    character = new Mccree(state, this);
     character->x = x;
     character->y = y;
 }

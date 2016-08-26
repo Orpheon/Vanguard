@@ -1,6 +1,7 @@
 #include "mccree.h"
+#include "player.h"
 
-Mccree::Mccree(Gamestate *state) : Character(state)
+Mccree::Mccree(Gamestate *state, Player *owner) : Character(state, owner)
 {
     //ctor
 }
@@ -17,7 +18,7 @@ void Mccree::render()
 
 Mccree* Mccree::clone(Gamestate *state)
 {
-    Mccree* m = new Mccree(state);
+    Mccree* m = new Mccree(state, owner);
     Character::clonedata(m);
     return m;
 }

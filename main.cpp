@@ -5,6 +5,7 @@
 #include "inputcatcher.h"
 #include "engine.h"
 #include "renderer.h"
+#include "player.h"
 #include "global_constants.h"
 
 long int getmillisec();
@@ -28,6 +29,7 @@ int main(int argc, char **argv)
     InputCatcher *inputcatcher;
     Engine *engine;
     Renderer *renderer;
+    Player *myself;
 
     try
     {
@@ -51,10 +53,11 @@ int main(int argc, char **argv)
     }
 
     engine->loadmap("conflict");
+    myself = engine->newplayer();
 
     while (true)
     {
-        inputcatcher->run(engine, renderer);
+        inputcatcher->run(myself, renderer);
         engine->run();
         renderer->render(engine->currentstate);
     }

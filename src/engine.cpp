@@ -42,3 +42,8 @@ long int Engine::getmillisec()
     gettimeofday(&tp, 0);
     return ((long) tp.tv_sec) * 1000 + ((long) tp.tv_usec) / 1000;
 }
+
+Player* Engine::newplayer()
+{
+    return new Player(&currentstate);
+}

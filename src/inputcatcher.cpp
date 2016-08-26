@@ -2,8 +2,9 @@
 #include <cstdio>
 
 #include "inputcatcher.h"
-#include "engine.h"
+#include "player.h"
 #include "renderer.h"
+#include "character.h"
 
 InputCatcher::InputCatcher(ALLEGRO_DISPLAY *display)
 {
@@ -33,8 +34,11 @@ InputCatcher::~InputCatcher()
     //dtor
 }
 
-void InputCatcher::run(Engine *engine, Renderer *renderer)
+void InputCatcher::run(Player *myself, Renderer *renderer)
 {
+    INPUT_CONTAINER pressed_keys = {};
+    INPUT_CONTAINER held_keys = {};
+
     ALLEGRO_EVENT event;
     // Catch all events that have stacked up this frame. al_get_next_event() returns false when event_queue is empty, and contents of event are undefined
     while (al_get_next_event(event_queue, &event))
@@ -49,39 +53,101 @@ void InputCatcher::run(Engine *engine, Renderer *renderer)
                 switch (event.keyboard.keycode)
                 {
                     case ALLEGRO_KEY_W:
-                        printf("\nW");
+                        pressed_keys.JUMP = true;
                         break;
                     case ALLEGRO_KEY_S:
-                        printf("\nS");
+                        pressed_keys.CROUCH = true;
                         break;
                     case ALLEGRO_KEY_A:
-                        printf("\nA");
+                        pressed_keys.LEFT = true;
                         break;
                     case ALLEGRO_KEY_D:
-                        printf("\nD");
+                        pressed_keys.RIGHT = true;
+                        break;
+                    case ALLEGRO_KEY_LSHIFT:
+                        pressed_keys.ABILITY_1 = true;
+                        break;
+                    case ALLEGRO_KEY_E:
+                        pressed_keys.ABILITY_2 = true;
+                        break;
+                    case ALLEGRO_KEY_Q:
+                        pressed_keys.ULTIMATE = true;
                         break;
                 }
-                fflush(stdout);
         }
     }
-    // TODO: The Inputcatcher should probably not be directly modifying Renderer. I'm not sure at this point.
-    // Also, this camera moving is so far frame independent. This is bad, I think all of this should go to the engine somehow.
+
     ALLEGRO_KEYBOARD_STATE keystate;
     al_get_keyboard_state(&keystate);
     if (al_key_down(&keystate, ALLEGRO_KEY_W))
     {
-        renderer->cam_y -= 10;
+        held_keys.JUMP = true;
     }
     if (al_key_down(&keystate, ALLEGRO_KEY_S))
     {
-        renderer->cam_y += 10;
+        held_keys.CROUCH = true;
     }
     if (al_key_down(&keystate, ALLEGRO_KEY_A))
     {
-        renderer->cam_x -= 10;
+        held_keys.LEFT = true;
     }
     if (al_key_down(&keystate, ALLEGRO_KEY_D))
     {
-        renderer->cam_x += 10;
+        held_keys.RIGHT = true;
     }
+    if (al_key_down(&keystate, ALLEGRO_KEY_LSHIFT))
+    {
+        held_keys.ABILITY_1 = true;
+    }
+    if (al_key_down(&keystate, ALLEGRO_KEY_E))
+    {
+        held_keys.ABILITY_2 = true;
+    }
+    if (al_key_down(&keystate, ALLEGRO_KEY_Q))
+    {
+        held_keys.ULTIMATE = true;
+    }
+
+
+
+
+
+
+
+    // Check if the current player has a character to run around with or is in spectate mode
+    if (myself->character != 0)
+    {
+        myself->character->setinput(pressed_keys, held_keys);
+    }
+    else
+    {
+        if (held_keys.LEFT)
+        {
+            renderer->cam_x -= 10;
+        }
+        if (held_keys.RIGHT)
+        {
+            renderer->cam_x += 10;
+        }
+        if (held_keys.JUMP)
+        {
+            renderer->cam_y -= 10;
+        }
+        if (held_keys.CROUCH)
+        {
+            renderer->cam_y += 10;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 }

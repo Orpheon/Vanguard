@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "gamestate.h"
-
+#include "player.h"
 
 class Engine
 {
@@ -13,6 +13,7 @@ class Engine
         ~Engine();
         void run();
         void loadmap(std::string mapname);
+        Player* newplayer();
 
         Gamestate currentstate; // FIXME: This used to be private, was taken out to be passed to renderer. Possibly very bad idea.
 

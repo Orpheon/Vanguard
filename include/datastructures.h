@@ -32,6 +32,7 @@ enum HEROCLASS {BASTION,
 struct INPUT_CONTAINER {
     bool LEFT;
     bool RIGHT;
+    bool JUMP;
     bool CROUCH;
     bool PRIMARY_FIRE;
     bool SECONDARY_FIRE;
