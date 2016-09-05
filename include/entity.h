@@ -4,7 +4,8 @@
 #include <vector>
 #include <allegro5/allegro.h>
 
-#include "gamestate.h"
+// Circular dependency
+class Gamestate;
 
 class Entity
 {

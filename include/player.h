@@ -3,11 +3,10 @@
 
 #include <memory>
 
-#include "gamestate.h"
 #include "datastructures.h"
 
-// FIXME: Circular dependencies between player.h and gamestate.h (as well as indirect character.h)
-class Character;
+// Circular dependency
+class Gamestate;
 
 class Player
 {

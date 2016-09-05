@@ -15,7 +15,7 @@ class Engine
         void loadmap(std::string mapname);
         Player* newplayer();
 
-        Gamestate currentstate; // FIXME: This used to be private, was taken out to be passed to renderer. Possibly very bad idea.
+        Gamestate currentstate;
 
     private:
         long int getmillisec();

@@ -10,7 +10,7 @@
 class Character : public MovingEntity
 {
     public:
-        Character(Gamestate *state, int ownerid);
+        Character(Gamestate *state, PlayerPtr owner_);
         virtual ~Character();
         virtual void setinput(INPUT_CONTAINER pressed_keys, INPUT_CONTAINER held_keys);
         virtual void beginstep(Gamestate *state, double frametime);

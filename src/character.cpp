@@ -5,7 +5,7 @@
 #include "movingentity.h"
 #include "player.h"
 
-Character::Character(Gamestate *state, int ownerid) : MovingEntity(state), owner(ownerid)
+Character::Character(Gamestate *state, PlayerPtr owner_) : MovingEntity(state), owner(owner_)
 {
     inputstate = 0;
 }

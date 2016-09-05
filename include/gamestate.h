@@ -6,10 +6,8 @@
 
 #include "map.h"
 #include "datastructures.h"
-
-// FIXME: Circular references
-class Player;
-class Entity;
+#include "player.h"
+#include "character.h"
 
 class Gamestate
 {
@@ -27,7 +25,10 @@ class Gamestate
         Gamestate* clone();
 
         std::unordered_map<int, std::unique_ptr<Entity>> entitylist;
-        std::unordered_map<int, std::unique_ptr<Entity>> playerlist;
+        std::unordered_map<int, std::unique_ptr<Player>> playerlist;
+
+        // Make gamestate move-assigneable, so that " = " doesn't copy but move.
+        Gamestate & operator=(Gamestate &&)=default;
 
         double time;
         std::shared_ptr<Map> currentmap;

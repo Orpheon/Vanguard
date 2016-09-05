@@ -30,7 +30,6 @@
 		<Unit filename="include/datastructures.h" />
 		<Unit filename="include/engine.h" />
 		<Unit filename="include/entity.h" />
-		<Unit filename="include/entityptr.h" />
 		<Unit filename="include/gamestate.h" />
 		<Unit filename="include/global_constants.h" />
 		<Unit filename="include/inputcatcher.h" />

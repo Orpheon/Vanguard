@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <sys/time.h>
 #include <string.h>
-#include <memory.h>
+#include <memory>
 
 #include "engine.h"
 #include "entity.h"
@@ -17,7 +17,7 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-    //destructor
+    ;// destructor
 }
 
 void Engine::loadmap(std::string mapname)
@@ -43,7 +43,7 @@ long int Engine::getmillisec()
     return ((long) tp.tv_sec) * 1000 + ((long) tp.tv_usec) / 1000;
 }
 
-//Player* Engine::newplayer()
-//{
-//    return new Player(&currentstate);
-//}
+Player* Engine::newplayer()
+{
+    return new Player(&currentstate);
+}
