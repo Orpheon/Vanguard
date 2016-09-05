@@ -21,7 +21,6 @@ class Character : public MovingEntity
         PlayerPtr owner;
 
     protected:
-        std::shared_ptr<ALLEGRO_BITMAP> sprite;
     private:
         enum INPUTBITS {LEFT, RIGHT, JUMP, CROUCH};
         unsigned int inputstate;

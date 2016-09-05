@@ -5,8 +5,7 @@
 
 Mccree::Mccree(Gamestate *state, PlayerPtr owner_) : Character(state, owner_)
 {
-    // Load mccree sprites
-    sprite = al_load_bitmap("sprites/heroes/mccree/mccree.png");
+    sprite = "sprites/heroes/mccree/mccree.png";
 }
 
 Mccree::~Mccree()
