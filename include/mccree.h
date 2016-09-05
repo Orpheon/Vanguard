@@ -8,10 +8,10 @@
 class Mccree : public Character
 {
     public:
-        Mccree(Gamestate *state, Player *owner);
+        Mccree(Gamestate *state, int ownerid);
         virtual ~Mccree();
         void render(ALLEGRO_BITMAP *background, ALLEGRO_BITMAP *midground, ALLEGRO_BITMAP *foreground, int cam_x, int cam_y);
-        Mccree* clone(Gamestate *state);
+        void clone(Gamestate *state);
     protected:
     private:
 };

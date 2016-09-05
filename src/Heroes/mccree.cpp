@@ -3,7 +3,7 @@
 
 #include <memory>
 
-Mccree::Mccree(Gamestate *state, Player *owner) : Character(state, owner)
+Mccree::Mccree(Gamestate *state, int ownerid) : Character(state, owner)
 {
     // Load mccree sprites
     sprite = al_load_bitmap("sprites/heroes/mccree/mccree.png");
@@ -22,5 +22,6 @@ void Mccree::render(ALLEGRO_BITMAP *background, ALLEGRO_BITMAP *midground, ALLEG
 
 void Mccree::clone(Gamestate *state)
 {
+    // TODO
     ;
 }

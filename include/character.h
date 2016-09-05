@@ -6,8 +6,6 @@
 #include "movingentity.h"
 #include "datastructures.h"
 #include "player.h"
-#include "entityptr.h"
-
 
 class Character : public MovingEntity
 {

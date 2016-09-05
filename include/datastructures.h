@@ -1,7 +1,8 @@
 #ifndef DATASTRUCTURES_H_INCLUDED
 #define DATASTRUCTURES_H_INCLUDED
 
-struct COVERGUARD_BITMAP {
+struct COVERGUARD_BITMAP
+{
     bool *bitmap;
     int width;
     int height;
@@ -29,7 +30,8 @@ enum HEROCLASS {BASTION,
                 ZARYA,
                 ZENYATTA};
 
-struct INPUT_CONTAINER {
+struct INPUT_CONTAINER
+{
     bool LEFT;
     bool RIGHT;
     bool JUMP;
@@ -39,6 +41,18 @@ struct INPUT_CONTAINER {
     bool ABILITY_1;
     bool ABILITY_2;
     bool ULTIMATE;
+};
+
+struct EntityPtr
+{
+    EntityPtr(uint64_t id_) : id(id_) {}
+    uint64_t id;
+};
+
+struct PlayerPtr
+{
+    PlayerPtr(uint64_t id_) : id(id_) {}
+    uint64_t id;
 };
 
 #endif // DATASTRUCTURES_H_INCLUDED

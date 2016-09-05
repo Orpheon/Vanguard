@@ -1,5 +1,6 @@
 #include "player.h"
 #include "gamestate.h"
+#include "datastructures.h"
 
 #include "mccree.h"
 
@@ -21,10 +22,8 @@ void Player::midstep(Gamestate *state, double frametime)
 
 void Player::clone(Gamestate *oldstate, Gamestate *newstate)
 {
-    Player *p = new Player(new);
-    // FIXME: BROKEN
-    p->character = character;
-    return p;
+    PlayerPtr p = newstate->make_player();
+    newstate->get(p)->character = character;
 }
 
 void Player::spawn(Gamestate *state, double x, double y)
@@ -35,7 +34,7 @@ void Player::spawn(Gamestate *state, double x, double y)
         fprintf(stderr, "\nERROR: Tried to spawn character that was already alive.");
         delete character;
     }
-    character = new Mccree(state, this);
+    character = state->make_entity<Mccree>(state, this);
     character->x = x;
     character->y = y;
 }

@@ -17,11 +17,11 @@ Gamestate::~Gamestate()
 }
 
 template<class EntityT, class ...Args>
-EntityPtr<EntityT> Gamestate::make_entity(Args&& ...args)
+EntityPtr Gamestate::make_entity(Args&& ...args)
 {
     uint64_t id = entityidcounter++;
     entitylist[id] = new std::unique_ptr<Entity>(new EntityT(std::forward<Args>(args)...));
-    return EntityPtr<EntityT>(id);
+    return EntityPtr(id);
 }
 
 PlayerPtr Gamestate::make_player()
@@ -29,6 +29,16 @@ PlayerPtr Gamestate::make_player()
     uint64_t id = playeridcounter++;
     playerlist[id] = new std::unique_ptr<Player>(new Player(this));
     return PlayerPtr(id);
+}
+
+Entity* Gamestate::get(EntityPtr e)
+{
+    return entitylist[e.id].get();
+}
+
+Player* Gamestate::get(PlayerPtr p)
+{
+    return playerlist[p.id].get();
 }
 
 void Gamestate::update(double frametime)
