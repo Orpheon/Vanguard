@@ -1,9 +1,12 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <memory>
+
+#include "gamestate.h"
+
 // FIXME: Circular dependencies between player.h and gamestate.h (as well as indirect character.h)
 class Character;
-class Gamestate;
 
 class Player
 {
@@ -11,10 +14,10 @@ class Player
         Player(Gamestate *state);
         virtual ~Player();
         void midstep(Gamestate *state, double frametime);
-        Player* clone(Gamestate *state);
+        std::unique_ptr<Player> clone(Gamestate *state);
         void spawn(Gamestate *state, double x, double y);
 
-        Character *character;
+        int characterid;
 };
 
 #endif // PLAYER_H

@@ -30,6 +30,7 @@
 		<Unit filename="include/datastructures.h" />
 		<Unit filename="include/engine.h" />
 		<Unit filename="include/entity.h" />
+		<Unit filename="include/entityptr.h" />
 		<Unit filename="include/gamestate.h" />
 		<Unit filename="include/global_constants.h" />
 		<Unit filename="include/inputcatcher.h" />
@@ -43,7 +44,6 @@
 		<Unit filename="src/Heroes/mccree.cpp" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/engine.cpp" />
-		<Unit filename="src/entity.cpp" />
 		<Unit filename="src/gamestate.cpp" />
 		<Unit filename="src/inputcatcher.cpp" />
 		<Unit filename="src/map.cpp" />

@@ -6,12 +6,12 @@
 Player::Player(Gamestate *state)
 {
     state->playerlist.push_back(this);
-    character = 0;
+    characterid = 0;
 }
 
-Player::~Player()
+Player::~Player(Gamestate *state)
 {
-    delete character;
+    delete state->entitylist[characterid];
 }
 
 void Player::midstep(Gamestate *state, double frametime)
@@ -19,9 +19,10 @@ void Player::midstep(Gamestate *state, double frametime)
     ;
 }
 
-Player* Player::clone(Gamestate *state)
+void Player::clone(Gamestate *oldstate, Gamestate *newstate)
 {
-    Player *p = new Player(state);
+    Player *p = new Player(new);
+    // FIXME: BROKEN
     p->character = character;
     return p;
 }

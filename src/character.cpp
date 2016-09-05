@@ -1,17 +1,18 @@
+#include <vector>
+
 #include "character.h"
 #include "gamestate.h"
 #include "movingentity.h"
 #include "player.h"
 
-Character::Character(Gamestate *state, Player *owner) : MovingEntity(state)
+Character::Character(Gamestate *state, int ownerid) : MovingEntity(state), owner(ownerid)
 {
     inputstate = 0;
-    this->owner = owner;
 }
 
 Character::~Character()
 {
-    owner->character = 0;
+    ;
 }
 
 void Character::setinput(INPUT_CONTAINER pressed_keys, INPUT_CONTAINER held_keys)
@@ -43,4 +44,6 @@ void Character::clonedata(Character *c)
 {
     MovingEntity::clonedata(c);
     c->inputstate = inputstate;
+    c->sprite = sprite;
+    c->owner = owner;
 }

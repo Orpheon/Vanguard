@@ -1,4 +1,4 @@
-#include <vector>
+#include <unordered_map>
 #include <memory>
 
 #include "gamestate.h"
@@ -6,47 +6,50 @@
 #include "entity.h"
 #include "player.h"
 
-Gamestate::Gamestate() : entitylist(), currentmap()
+Gamestate::Gamestate() : entitylist(), currentmap(), entityidcounter(0), playeridcounter(0)
 {
     time = 0;
 }
 
 Gamestate::~Gamestate()
 {
-    std::vector<Entity*>::iterator i;
-    for (i=entitylist.begin(); i!=entitylist.end(); i++)
-    {
-        delete *i;
-    }
+    ;
+}
 
-    std::vector<Player*>::iterator p;
-    for (p=playerlist.begin(); p!=playerlist.end(); p++)
-    {
-        delete *p;
-    }
+template<class EntityT, class ...Args>
+EntityPtr<EntityT> Gamestate::make_entity(Args&& ...args)
+{
+    uint64_t id = entityidcounter++;
+    entitylist[id] = new std::unique_ptr<Entity>(new EntityT(std::forward<Args>(args)...));
+    return EntityPtr<EntityT>(id);
+}
+
+PlayerPtr Gamestate::make_player()
+{
+    uint64_t id = playeridcounter++;
+    playerlist[id] = new std::unique_ptr<Player>(new Player(this));
+    return PlayerPtr(id);
 }
 
 void Gamestate::update(double frametime)
 {
     time += frametime;
 
-    std::vector<Entity*>::iterator i;
-    std::vector<Player*>::iterator p;
-    for (i=entitylist.begin(); i!=entitylist.end(); i++)
+    for (auto e : entitylist)
     {
-        (*i)->beginstep(this, frametime);
+        e.second->beginstep(this, frametime);
     }
-    for (p=playerlist.begin(); p!=playerlist.end(); p++)
+    for (auto p : playerlist)
     {
-        (*p)->midstep(this, frametime);
+        p.second->midstep(this, frametime);
     }
-    for (i=entitylist.begin(); i!=entitylist.end(); i++)
+    for (auto e : entitylist)
     {
-        (*i)->midstep(this, frametime);
+        e.second->midstep(this, frametime);
     }
-    for (i=entitylist.begin(); i!=entitylist.end(); i++)
+    for (auto e : entitylist)
     {
-        (*i)->endstep(this, frametime);
+        e.second->endstep(this, frametime);
     }
 }
 
@@ -55,15 +58,15 @@ Gamestate* Gamestate::clone()
     Gamestate *g = new Gamestate();
     g->time = time;
     g->currentmap = currentmap;
-    std::vector<Entity*>::iterator i;
-    for (i=entitylist.begin(); i!=entitylist.end(); i++)
+
+    for (auto e : entitylist)
     {
-        g->entitylist.push_back((*i)->clone(g));
+        e.second->clone(this, g);
     }
-    std::vector<Player*>::iterator p;
-    for (p=playerlist.begin(); p!=playerlist.end(); p++)
+    for (auto p : playerlist)
     {
-        g->playerlist.push_back((*p)->clone(g));
+        p.second->clone(this, g);
     }
+
     return g;
 }

@@ -2,10 +2,9 @@
 #define ENTITY_H
 
 #include <vector>
+#include <allegro5/allegro.h>
 
-// FIXME: THIS IS TERRIBLE, solution to solve circular dependency between this file and gamestate.h
-// This file needs gamestate for the method declarations, and gamestate needs this file for the entity list declarations
-class Gamestate;
+#include "gamestate.h"
 
 class Entity
 {
@@ -15,8 +14,8 @@ class Entity
         virtual void beginstep(Gamestate *state, double frametime) = 0;
         virtual void midstep(Gamestate *state, double frametime) = 0;
         virtual void endstep(Gamestate *state, double frametime) = 0;
-        virtual void render() = 0;
-        virtual Entity* clone(Gamestate *state) = 0;
+        virtual void render(ALLEGRO_BITMAP *background, ALLEGRO_BITMAP *midground, ALLEGRO_BITMAP *foreground, int cam_x, int cam_y) = 0;
+        virtual void clone(Gamestate *oldstate, Gamestate *newstate) = 0;
 };
 
 #endif // ENTITY_H
