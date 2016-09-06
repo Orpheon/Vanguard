@@ -38,10 +38,9 @@ void Renderer::render(Gamestate *currentstate)
     al_clear_to_color(al_map_rgba(0, 0, 0, 0));
 
     // Go through all objects and let them render themselves on the layers
-    std::vector<Entity*>::iterator e;
-    for (e=currentstate->entitylist.begin(); e!=currentstate->entitylist.end(); e++)
+    for (auto& e : currentstate->entitylist)
     {
-        (*e)->render(background, midground, foreground, cam_x, cam_y);
+        e.second->render(background, midground, foreground, cam_x, cam_y);
     }
 
     // Set render target to be the display

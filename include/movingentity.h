@@ -2,7 +2,9 @@
 #define MOVINGENTITY_H
 
 #include "entity.h"
-#include "gamestate.h"
+
+// Circular reference
+class Gamestate;
 
 class MovingEntity : public Entity
 {

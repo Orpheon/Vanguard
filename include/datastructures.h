@@ -46,12 +46,14 @@ struct INPUT_CONTAINER
 struct EntityPtr
 {
     EntityPtr(uint64_t id_) : id(id_) {}
+    operator int() const { return id; }
     uint64_t id;
 };
 
 struct PlayerPtr
 {
     PlayerPtr(uint64_t id_) : id(id_) {}
+    operator int() const { return id; }
     uint64_t id;
 };
 

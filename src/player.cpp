@@ -4,15 +4,14 @@
 
 #include "mccree.h"
 
-Player::Player(Gamestate *state)
+Player::Player(Gamestate *state) : character(0)
 {
-    state->playerlist.push_back(this);
-    characterid = 0;
+    ;
 }
 
-Player::~Player(Gamestate *state)
+Player::~Player()
 {
-    delete state->entitylist[characterid];
+    ;
 }
 
 void Player::midstep(Gamestate *state, double frametime)
@@ -23,7 +22,7 @@ void Player::midstep(Gamestate *state, double frametime)
 void Player::clone(Gamestate *oldstate, Gamestate *newstate)
 {
     PlayerPtr p = newstate->make_player();
-    newstate->get(p)->character = characterid;
+    newstate->get(p)->character = character;
 }
 
 void Player::spawn(Gamestate *state, double x, double y)
@@ -32,9 +31,9 @@ void Player::spawn(Gamestate *state, double x, double y)
     {
         // We already have a character, error and respawn
         fprintf(stderr, "\nERROR: Tried to spawn character that was already alive.");
-        delete character;
     }
     character = state->make_entity<Mccree>(state, this);
-    character->x = x;
-    character->y = y;
+    Character *c = static_cast<Character*>(state->get(character));
+    c->x = x;
+    c->y = y;
 }

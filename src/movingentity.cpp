@@ -2,7 +2,7 @@
 #include "gamestate.h"
 #include "entity.h"
 
-MovingEntity::MovingEntity(Gamestate *state) : Entity(state)
+MovingEntity::MovingEntity(Gamestate *state) : Entity()
 {
     x = 0;
     y = 0;

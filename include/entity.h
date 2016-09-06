@@ -11,7 +11,7 @@ class Gamestate;
 class Entity
 {
     public:
-        Entity(Gamestate *state);
+        Entity() = default;
         virtual ~Entity() = default;
         virtual void beginstep(Gamestate *state, double frametime) = 0;
         virtual void midstep(Gamestate *state, double frametime) = 0;
