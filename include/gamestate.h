@@ -15,7 +15,14 @@ class Gamestate
         Gamestate();
         ~Gamestate();
 
-        template<class EntityT, class ...Args>EntityPtr make_entity(Args&& ...args);
+        template<class EntityT, class ...Args>EntityPtr make_entity(Args&& ...args)
+        {
+            uint64_t id = entityidcounter++;
+            entitylist[id] = std::unique_ptr<Entity>(new EntityT(std::forward<Args>(args)...));
+            entitylist[id]->id = id;
+            return EntityPtr(id);
+        }
+
         PlayerPtr make_player();
 
         Entity* get(EntityPtr);

@@ -19,7 +19,7 @@ void Mccree::render(ALLEGRO_BITMAP *background, ALLEGRO_BITMAP *midground, ALLEG
 //    al_draw_bitmap(sprite, x-cam_x, y-cam_y, 0);
 }
 
-void Mccree::clone(Gamestate *state)
+void Mccree::clone(Gamestate *oldstate, Gamestate *newstate)
 {
     // TODO
     ;

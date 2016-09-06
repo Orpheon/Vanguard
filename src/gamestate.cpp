@@ -16,18 +16,11 @@ Gamestate::~Gamestate()
     ;
 }
 
-template<class EntityT, class ...Args>
-EntityPtr Gamestate::make_entity(Args&& ...args)
-{
-    uint64_t id = entityidcounter++;
-    entitylist[id] = std::unique_ptr<Entity>(new EntityT(std::forward<Args>(args)...));
-    return EntityPtr(id);
-}
-
 PlayerPtr Gamestate::make_player()
 {
     uint64_t id = playeridcounter++;
     playerlist[id] = std::unique_ptr<Player>(new Player(this));
+    playerlist[id]->id = id;
     return PlayerPtr(id);
 }
 

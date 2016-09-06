@@ -18,6 +18,7 @@ class Player
         void spawn(Gamestate *state, double x, double y);
 
         EntityPtr character;
+        uint64_t id;
 };
 
 #endif // PLAYER_H

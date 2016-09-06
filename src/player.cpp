@@ -32,7 +32,7 @@ void Player::spawn(Gamestate *state, double x, double y)
         // We already have a character, error and respawn
         fprintf(stderr, "\nERROR: Tried to spawn character that was already alive.");
     }
-    character = state->make_entity<Mccree>(state, this);
+    character = state->make_entity<Mccree>(state, PlayerPtr(id));
     Character *c = static_cast<Character*>(state->get(character));
     c->x = x;
     c->y = y;
