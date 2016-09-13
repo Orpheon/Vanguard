@@ -39,11 +39,3 @@ void Character::endstep(Gamestate *state, double frametime)
 {
     MovingEntity::endstep(state, frametime);
 }
-
-void Character::clonedata(Character *c)
-{
-    MovingEntity::clonedata(c);
-    c->inputstate = inputstate;
-    c->sprite = sprite;
-    c->owner = owner;
-}

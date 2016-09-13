@@ -16,7 +16,6 @@ class Character : public MovingEntity
         virtual void beginstep(Gamestate *state, double frametime);
         virtual void midstep(Gamestate *state, double frametime);
         virtual void endstep(Gamestate *state, double frametime);
-        virtual void clonedata(Character *c);
 
         PlayerPtr owner;
 

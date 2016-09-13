@@ -55,21 +55,3 @@ void Gamestate::update(double frametime)
         e.second->endstep(this, frametime);
     }
 }
-
-Gamestate* Gamestate::clone()
-{
-    Gamestate *g = new Gamestate();
-    g->time = time;
-    g->currentmap = currentmap;
-
-    for (auto& e : entitylist)
-    {
-        e.second->clone(this, g);
-    }
-    for (auto& p : playerlist)
-    {
-        p.second->clone(this, g);
-    }
-
-    return g;
-}

@@ -29,7 +29,6 @@ class Gamestate
         Player* get(PlayerPtr);
 
         void update(double frametime);
-        Gamestate* clone();
 
         std::unordered_map<int, std::unique_ptr<Entity>> entitylist;
         std::unordered_map<int, std::unique_ptr<Player>> playerlist;
