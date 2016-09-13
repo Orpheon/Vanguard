@@ -26,19 +26,45 @@
 			<Add library="allegro" />
 			<Add library="allegro_image" />
 		</Linker>
-		<Unit filename="include/character.h" />
-		<Unit filename="include/datastructures.h" />
-		<Unit filename="include/engine.h" />
-		<Unit filename="include/entity.h" />
-		<Unit filename="include/gamestate.h" />
-		<Unit filename="include/global_constants.h" />
-		<Unit filename="include/inputcatcher.h" />
-		<Unit filename="include/json.hpp" />
-		<Unit filename="include/map.h" />
-		<Unit filename="include/mccree.h" />
-		<Unit filename="include/movingentity.h" />
-		<Unit filename="include/player.h" />
-		<Unit filename="include/renderer.h" />
+		<Unit filename="include/character.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="include/datastructures.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="include/engine.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="include/entity.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="include/gamestate.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="include/global_constants.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="include/inputcatcher.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="include/json.hpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="include/map.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="include/mccree.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="include/movingentity.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="include/player.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="include/renderer.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Heroes/mccree.cpp" />
 		<Unit filename="src/character.cpp" />
@@ -49,6 +75,7 @@
 		<Unit filename="src/movingentity.cpp" />
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/renderer.cpp" />
+		<Unit filename="src/spriteloader.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
