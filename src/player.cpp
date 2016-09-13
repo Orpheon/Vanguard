@@ -19,12 +19,6 @@ void Player::midstep(Gamestate *state, double frametime)
     ;
 }
 
-void Player::clone(Gamestate *oldstate, Gamestate *newstate)
-{
-    PlayerPtr p = newstate->make_player();
-    newstate->get(p)->character = character;
-}
-
 void Player::spawn(Gamestate *state, double x, double y)
 {
     if (character != 0)
