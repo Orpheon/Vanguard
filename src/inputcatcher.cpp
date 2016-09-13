@@ -2,7 +2,7 @@
 #include <cstdio>
 
 #include "inputcatcher.h"
-#include "player.h"
+#include "datastructures.h"
 #include "renderer.h"
 #include "character.h"
 #include "global_constants.h"
@@ -45,7 +45,7 @@ InputCatcher::~InputCatcher()
     //dtor
 }
 
-void InputCatcher::run(Player *myself, Engine *engine, Renderer *renderer)
+void InputCatcher::run(PlayerPtr myself, Engine *engine, Renderer *renderer)
 {
     // FIXME: Debugtool
     bool spawnplayer = false;
@@ -150,18 +150,12 @@ void InputCatcher::run(Player *myself, Engine *engine, Renderer *renderer)
         held_keys.SECONDARY_FIRE = true;
     }
 
-    // FIXME: Debugtool
-    if (spawnplayer)
-    {
-        myself->spawn(&(engine->currentstate), mousestate.x+renderer->cam_x, mousestate.y+renderer->cam_y);
-    }
-
 
 
 
 
     // Check if the current player has a character to run around with or is in spectate mode
-    Character *c = static_cast<Character*>(engine->currentstate.get(myself->character));
+    Character *c = static_cast<Character*>(engine->currentstate.get((engine->currentstate.get(myself))->character));
     if (c != 0)
     {
         c->setinput(pressed_keys, held_keys);

@@ -4,7 +4,7 @@
 #include <string.h>
 
 #include "gamestate.h"
-#include "player.h"
+#include "datastructures.h"
 
 class Engine
 {
@@ -13,7 +13,7 @@ class Engine
         ~Engine();
         void run();
         void loadmap(std::string mapname);
-        Player* newplayer();
+        PlayerPtr newplayer();
 
         Gamestate currentstate;
 

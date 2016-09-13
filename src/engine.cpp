@@ -43,7 +43,7 @@ long int Engine::getmillisec()
     return ((long) tp.tv_sec) * 1000 + ((long) tp.tv_usec) / 1000;
 }
 
-Player* Engine::newplayer()
+PlayerPtr Engine::newplayer()
 {
-    return new Player(&currentstate);
+    return currentstate.make_player();
 }
