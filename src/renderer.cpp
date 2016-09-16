@@ -6,7 +6,7 @@
 #include "global_constants.h"
 #include "entity.h"
 
-Renderer::Renderer()
+Renderer::Renderer() : spriteloader()
 {
     // Create a display
     display = al_create_display(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -33,14 +33,14 @@ void Renderer::render(Gamestate *currentstate)
     al_set_target_bitmap(background);
     al_clear_to_color(al_map_rgba(0, 0, 0, 0));
     al_set_target_bitmap(midground);
-    al_clear_to_color(al_map_rgb(0, 0, 0));
+    al_clear_to_color(al_map_rgba(0, 0, 0, 0));
     al_set_target_bitmap(foreground);
     al_clear_to_color(al_map_rgba(0, 0, 0, 0));
 
     // Go through all objects and let them render themselves on the layers
     for (auto& e : currentstate->entitylist)
     {
-        e.second->render(background, midground, foreground, cam_x, cam_y);
+        e.second->render(this);
     }
 
     // Set render target to be the display
@@ -52,7 +52,7 @@ void Renderer::render(Gamestate *currentstate)
     // Then draw each layer
     al_draw_bitmap(background, 0, 0, 0);
     al_draw_bitmap(midground, 0, 0, 0);
-//    al_draw_bitmap(foreground, 0, 0, 0);
+    al_draw_bitmap(foreground, 0, 0, 0);
 
     al_flip_display();
 }

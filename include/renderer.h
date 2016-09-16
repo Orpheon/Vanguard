@@ -2,6 +2,7 @@
 #define RENDERER_H
 
 #include "gamestate.h"
+#include "spriteloader.h"
 
 #include <allegro5/allegro.h>
 
@@ -17,6 +18,7 @@ class Renderer
         ALLEGRO_BITMAP *background;
         ALLEGRO_BITMAP *midground;
         ALLEGRO_BITMAP *foreground;
+        Spriteloader spriteloader;
     protected:
     private:
 };

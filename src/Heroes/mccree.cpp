@@ -1,5 +1,6 @@
 #include "mccree.h"
-#include "player.h"
+#include "datastructures.h"
+#include "spriteloader.h"
 
 #include <memory>
 
@@ -13,8 +14,8 @@ Mccree::~Mccree()
     //dtor
 }
 
-void Mccree::render(ALLEGRO_BITMAP *background, ALLEGRO_BITMAP *midground, ALLEGRO_BITMAP *foreground, int cam_x, int cam_y)
+void Mccree::render(Renderer *renderer)
 {
-    al_set_target_bitmap(midground);
-//    al_draw_bitmap(sprite, x-cam_x, y-cam_y, 0);
+    al_set_target_bitmap(renderer->midground);
+    al_draw_bitmap(renderer->spriteloader.request_sprite(sprite), x-renderer->cam_x, y-renderer->cam_y, 0);
 }

@@ -50,7 +50,6 @@ int main(int argc, char **argv)
         }
         return -1;
     }
-
     engine->loadmap("conflict");
     PlayerPtr myself = engine->newplayer();
 
