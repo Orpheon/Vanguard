@@ -9,10 +9,13 @@
 #include "player.h"
 #include "character.h"
 
+// Circular reference
+class Engine;
+
 class Gamestate
 {
     public:
-        Gamestate();
+        Gamestate(Engine *engine_);
         ~Gamestate();
 
         template<class EntityT, class ...Args>EntityPtr make_entity(Args&& ...args)
@@ -38,6 +41,7 @@ class Gamestate
 
         double time;
         std::shared_ptr<Map> currentmap;
+        Engine *engine;
     protected:
     private:
         uint64_t entityidcounter;

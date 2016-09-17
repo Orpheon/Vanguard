@@ -8,11 +8,10 @@
 #include "gamestate.h"
 #include "global_constants.h"
 
-Engine::Engine()
+Engine::Engine() : currentstate(this), maskloader()
 {
     lasttimeupdated = getmillisec();
     millisecperframe = 1000.0 / PHYSICS_FPS;
-    currentstate = Gamestate();
 }
 
 Engine::~Engine()

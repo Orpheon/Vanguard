@@ -2,11 +2,10 @@
 #include <memory>
 
 #include "gamestate.h"
-#include "engine.h"
 #include "entity.h"
 #include "player.h"
 
-Gamestate::Gamestate() : entitylist(), playerlist(), currentmap(), entityidcounter(1), playeridcounter(1)
+Gamestate::Gamestate(Engine *engine_) : entitylist(), playerlist(), currentmap(), entityidcounter(1), playeridcounter(1), engine(engine_)
 {
     time = 0;
 }
