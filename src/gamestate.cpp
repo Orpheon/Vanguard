@@ -6,7 +6,7 @@
 #include "entity.h"
 #include "player.h"
 
-Gamestate::Gamestate() : entitylist(), playerlist(), currentmap(), entityidcounter(0), playeridcounter(0)
+Gamestate::Gamestate() : entitylist(), playerlist(), currentmap(), entityidcounter(1), playeridcounter(1)
 {
     time = 0;
 }
@@ -26,11 +26,19 @@ PlayerPtr Gamestate::make_player()
 
 Entity* Gamestate::get(EntityPtr e)
 {
+    if (e == 0)
+    {
+        return 0;
+    }
     return entitylist[e.id].get();
 }
 
 Player* Gamestate::get(PlayerPtr p)
 {
+    if (p == 0)
+    {
+        return 0;
+    }
     return playerlist[p.id].get();
 }
 

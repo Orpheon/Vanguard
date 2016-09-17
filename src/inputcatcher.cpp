@@ -152,11 +152,9 @@ void InputCatcher::run(PlayerPtr myself, Engine *engine, Renderer *renderer)
 
 
     // Check if the current player has a character to run around with or is in spectate mode
-    EntityPtr c_ptr = engine->currentstate.get(myself)->character;
-
-    if (c_ptr != 0)
+    Character *c = static_cast<Character*>(engine->currentstate.get(engine->currentstate.get(myself)->character));
+    if (c != 0)
     {
-        Character *c = static_cast<Character*>(engine->currentstate.get(c_ptr));
         c->setinput(pressed_keys, held_keys);
         renderer->cam_x = c->x - WINDOW_WIDTH/2.0;
         renderer->cam_y = c->y - WINDOW_HEIGHT/2.0;
