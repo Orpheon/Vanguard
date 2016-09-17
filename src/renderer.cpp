@@ -28,8 +28,16 @@ Renderer::~Renderer()
     al_destroy_display(display);
 }
 
-void Renderer::render(Gamestate *currentstate)
+void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
 {
+    // Set camera
+    Character *c = static_cast<Character*>(currentstate->get(currentstate->get(myself)->character));
+    if (c != 0)
+    {
+        cam_x = c->x - WINDOW_WIDTH/2.0;
+        cam_y = c->y - WINDOW_HEIGHT/2.0;
+    }
+
     al_set_target_bitmap(background);
     al_clear_to_color(al_map_rgba(0, 0, 0, 0));
     al_set_target_bitmap(midground);

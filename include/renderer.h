@@ -11,7 +11,7 @@ class Renderer
     public:
         Renderer();
         ~Renderer();
-        void render(Gamestate *currentstate);
+        void render(Gamestate *currentstate, PlayerPtr myself);
         ALLEGRO_DISPLAY *display;
         double cam_x;
         double cam_y;

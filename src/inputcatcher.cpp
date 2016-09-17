@@ -156,8 +156,6 @@ void InputCatcher::run(PlayerPtr myself, Engine *engine, Renderer *renderer)
     if (c != 0)
     {
         c->setinput(pressed_keys, held_keys);
-        renderer->cam_x = c->x - WINDOW_WIDTH/2.0;
-        renderer->cam_y = c->y - WINDOW_HEIGHT/2.0;
     }
     else
     {
