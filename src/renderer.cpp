@@ -54,6 +54,9 @@ void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
     // Set render target to be the display
     al_set_target_backbuffer(display);
 
+    // Clear black
+    al_clear_to_color(al_map_rgba(0, 0, 0, 1));
+
     // Draw the map background first
     currentstate->currentmap->render(cam_x, cam_y);
 
