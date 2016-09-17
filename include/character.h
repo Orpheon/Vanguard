@@ -12,7 +12,7 @@ class Character : public MovingEntity
     public:
         Character(Gamestate *state, PlayerPtr owner_);
         virtual ~Character();
-        virtual void setinput(INPUT_CONTAINER pressed_keys, INPUT_CONTAINER held_keys);
+        virtual void setinput(INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_);
         virtual void beginstep(Gamestate *state, double frametime);
         virtual void midstep(Gamestate *state, double frametime);
         virtual void endstep(Gamestate *state, double frametime);
@@ -21,8 +21,8 @@ class Character : public MovingEntity
 
     protected:
     private:
-        enum INPUTBITS {LEFT, RIGHT, JUMP, CROUCH};
-        unsigned int inputstate;
+        INPUT_CONTAINER pressed_keys;
+        INPUT_CONTAINER held_keys;
 };
 
 #endif // CHARACTER_H

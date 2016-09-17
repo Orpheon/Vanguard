@@ -5,9 +5,9 @@
 #include "movingentity.h"
 #include "player.h"
 
-Character::Character(Gamestate *state, PlayerPtr owner_) : MovingEntity(state), owner(owner_)
+Character::Character(Gamestate *state, PlayerPtr owner_) : MovingEntity(state), owner(owner_), pressed_keys(), held_keys()
 {
-    inputstate = 0;
+    ;
 }
 
 Character::~Character()
@@ -15,13 +15,10 @@ Character::~Character()
     ;
 }
 
-void Character::setinput(INPUT_CONTAINER pressed_keys, INPUT_CONTAINER held_keys)
+void Character::setinput(INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_)
 {
-    // FIXME: Should JUMP really be in here?
-    inputstate = (held_keys.LEFT << INPUTBITS::LEFT)
-               + (held_keys.RIGHT << INPUTBITS::RIGHT)
-               + (held_keys.JUMP << INPUTBITS::JUMP)
-               + (held_keys.CROUCH << INPUTBITS::CROUCH);
+    pressed_keys = pressed_keys_;
+    held_keys = held_keys_;
 }
 
 void Character::beginstep(Gamestate *state, double frametime)
@@ -31,8 +28,23 @@ void Character::beginstep(Gamestate *state, double frametime)
 
 void Character::midstep(Gamestate *state, double frametime)
 {
-    // Gravity
-    vspeed += 140*frametime;
+    if (held_keys.LEFT)
+    {
+        hspeed -= 140*frametime;
+    }
+    if (held_keys.RIGHT)
+    {
+        hspeed += 140*frametime;
+    }
+
+    if (held_keys.JUMP)
+    {
+        vspeed -= 140*frametime;
+    }
+    if (held_keys.CROUCH)
+    {
+        vspeed += 140*frametime;
+    }
 }
 
 void Character::endstep(Gamestate *state, double frametime)
