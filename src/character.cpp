@@ -33,21 +33,21 @@ void Character::midstep(Gamestate *state, double frametime)
 {
     if (held_keys.LEFT)
     {
-        hspeed -= 140*frametime;
+        hspeed = std::max(hspeed-300*frametime, -200.0);
     }
     if (held_keys.RIGHT)
     {
-        hspeed += 140*frametime;
+        hspeed = std::min(hspeed+300*frametime, 200.0);
+    }
+    if (pressed_keys.JUMP)
+    {
+        if (onground(state))
+        {
+            vspeed = -150.0;
+        }
     }
 
-    if (held_keys.JUMP)
-    {
-        vspeed -= 140*frametime;
-    }
-    if (held_keys.CROUCH)
-    {
-        vspeed += 140*frametime;
-    }
+    vspeed += 140.0*frametime;
 }
 
 void Character::endstep(Gamestate *state, double frametime)
@@ -141,4 +141,12 @@ void Character::endstep(Gamestate *state, double frametime)
             printf("\nERROR: Character still stuck after collision reaction.");
         }
     }
+}
+
+bool Character::onground(Gamestate *state)
+{
+    y += 1;
+    bool result = state->currentmap->collides(state, this);
+    y -= 1;
+    return result;
 }

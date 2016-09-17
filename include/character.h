@@ -17,6 +17,8 @@ class Character : public MovingEntity
         virtual void midstep(Gamestate *state, double frametime);
         virtual void endstep(Gamestate *state, double frametime);
 
+        virtual bool onground(Gamestate *state);
+
         PlayerPtr owner;
 
     protected:
