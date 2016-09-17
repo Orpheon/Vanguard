@@ -45,7 +45,10 @@ Temporary Items
 # C++ files
 *.o
 *.exe
-Coverguard
+Surveillance
 .objs/
 *.depend
 *.layout
+*ninja*
+main
+obj/
