@@ -5,6 +5,7 @@
 
 #include "gamestate.h"
 #include "datastructures.h"
+#include "maskloader.h"
 
 class Engine
 {
@@ -16,6 +17,7 @@ class Engine
         PlayerPtr newplayer();
 
         Gamestate currentstate;
+        Maskloader maskloader;
 
     private:
         long int getmillisec();

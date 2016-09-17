@@ -14,6 +14,7 @@ class MovingEntity : public Entity
 
         double x, y;
         double hspeed, vspeed;
+        std::string mask;
 };
 
 #endif // MOVINGENTITY_H
