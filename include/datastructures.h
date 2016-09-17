@@ -1,13 +1,6 @@
 #ifndef DATASTRUCTURES_H_INCLUDED
 #define DATASTRUCTURES_H_INCLUDED
 
-struct COVERGUARD_BITMAP
-{
-    bool *bitmap;
-    int width;
-    int height;
-};
-
 enum HEROCLASS {BASTION,
                 DVA,
                 GENJI,

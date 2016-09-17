@@ -17,6 +17,7 @@ ALLEGRO_BITMAP* Spriteloader::request_sprite(std::string path)
 {
     if (bitmapcache.count(path) == 0)
     {
+        al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
         bitmapcache[path] = al_load_bitmap(path.c_str());
     }
     return bitmapcache[path];
