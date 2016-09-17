@@ -136,5 +136,9 @@ void Character::endstep(Gamestate *state, double frametime)
         {
             vspeed = 0;
         }
+        if (state->currentmap->collides(state, this))
+        {
+            printf("\nERROR: Character still stuck after collision reaction.");
+        }
     }
 }
