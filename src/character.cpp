@@ -50,4 +50,7 @@ void Character::midstep(Gamestate *state, double frametime)
 void Character::endstep(Gamestate *state, double frametime)
 {
     MovingEntity::endstep(state, frametime);
+
+    // Collision with wallmask
+    printf("\n%s", state->currentmap->collides(state, this) ? "true" : "false");
 }

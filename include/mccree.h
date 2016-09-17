@@ -14,8 +14,6 @@ class Mccree : public Character
         void render(Renderer *renderer);
     protected:
     private:
-        std::string sprite = "sprites/heroes/mccree/mccree.png";
-        std::string mask = "masks/heroes/mccree/mccree.png";
 };
 
 #endif // MCCREE_H

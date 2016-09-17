@@ -6,7 +6,8 @@
 
 Mccree::Mccree(Gamestate *state, PlayerPtr owner_) : Character(state, owner_)
 {
-    // Constructor for normal constuction
+    sprite = "sprites/heroes/mccree/mccree.png";
+    mask = "masks/heroes/mccree/mccree.png";
 }
 
 Mccree::~Mccree()
