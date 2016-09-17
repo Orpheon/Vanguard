@@ -4,6 +4,8 @@
 #include <fstream>
 
 #include "map.h"
+#include "gamestate.h"
+#include "engine.h"
 
 Map::Map(std::string name)
 {
@@ -26,4 +28,9 @@ Map::~Map()
 void Map::render(double cam_x, double cam_y)
 {
     al_draw_bitmap(background, -cam_x, -cam_y, 0);
+}
+
+bool Map::collides(Gamestate *state, MovingEntity *entity)
+{
+    ALLEGRO_BITMAP *mask = state->engine->maskloader.request_mask(entity->mask);
 }
