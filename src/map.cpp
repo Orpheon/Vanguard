@@ -1,5 +1,4 @@
 #include <allegro5/allegro.h>
-#include <zip.h>
 #include <string>
 #include <fstream>
 

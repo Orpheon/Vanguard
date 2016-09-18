@@ -33,21 +33,21 @@ void Character::midstep(Gamestate *state, double frametime)
 {
     if (held_keys.LEFT)
     {
-        hspeed = std::max(hspeed-300*frametime, -200.0);
+        hspeed = std::max(hspeed-300*frametime, -450.0);
     }
     if (held_keys.RIGHT)
     {
-        hspeed = std::min(hspeed+300*frametime, 200.0);
+        hspeed = std::min(hspeed+300*frametime, 450.0);
     }
     if (pressed_keys.JUMP)
     {
         if (onground(state))
         {
-            vspeed = -150.0;
+            vspeed = -240.0;
         }
     }
 
-    vspeed += 140.0*frametime;
+    vspeed += 700.0*frametime;
 }
 
 void Character::endstep(Gamestate *state, double frametime)
@@ -57,9 +57,8 @@ void Character::endstep(Gamestate *state, double frametime)
     // Collision with wallmask
     if (state->currentmap->collides(state, this))
     {
-        double hs = hspeed*frametime, vs = vspeed*frametime;
         // We collide, do collision handling
-        double oldx = x-hs, oldy = y-vs;
+        double hs = hspeed*frametime, vs = vspeed*frametime;
         // Buffers for "undone" horizontal/vertical movement
         double xbuffer = 0.0, ybuffer = 0.0;
         int steps = std::ceil(std::fmax(std::abs(hs), std::abs(vs)));

@@ -5,7 +5,7 @@
 #include "entity.h"
 #include "player.h"
 
-Gamestate::Gamestate(Engine *engine_) : entitylist(), playerlist(), currentmap(), entityidcounter(1), playeridcounter(1), engine(engine_)
+Gamestate::Gamestate(Engine *engine_) : engine(engine_), entitylist(), playerlist(), currentmap(), entityidcounter(1), playeridcounter(1)
 {
     time = 0;
 }
