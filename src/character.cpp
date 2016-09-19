@@ -47,7 +47,7 @@ void Character::midstep(Gamestate *state, double frametime)
         }
     }
 
-    vspeed += 700.0*frametime;
+    vspeed += 540.0*frametime;
 }
 
 void Character::endstep(Gamestate *state, double frametime)
