@@ -30,7 +30,7 @@ def build_files(n, args):
     for root, dirnames, filenames in os.walk("./"):
         for filename in fnmatch.filter(filenames, "*.cpp"):
             src = os.path.join(root, filename)
-            obj = os.path.join("obj", os.path.splitext(src)[0] + obj_ext)
+            obj = os.path.join(".objs", os.path.splitext(src)[0] + obj_ext)
             n.build(obj, "cxx", src)
             # n.build(obj, "cxx", src, precompiled_header)
             objects.append(obj)
