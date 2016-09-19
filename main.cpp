@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
+#include <sys/time.h>
 
 #include "inputcatcher.h"
 #include "engine.h"
@@ -53,11 +54,25 @@ int main(int argc, char **argv)
     engine->loadmap("conflict");
     PlayerPtr myself = engine->newplayer();
 
+    long int lasttimeupdated = getmillisec();
     while (true)
     {
-        inputcatcher->run(myself, engine, renderer);
-        engine->run();
+        while (getmillisec() - lasttimeupdated >= 1000.0*ENGINE_TIMESTEP)
+        {
+            inputcatcher->run(myself, engine, renderer);
+            engine->update(ENGINE_TIMESTEP);
+
+            lasttimeupdated += 1000.0*ENGINE_TIMESTEP;
+        }
         renderer->render(&(engine->currentstate), myself);
     }
     return 0;
+}
+
+
+long int getmillisec()
+{
+    static struct timeval tp;
+    gettimeofday(&tp, 0);
+    return ((long) tp.tv_sec) * 1000 + ((long) tp.tv_usec) / 1000;
 }

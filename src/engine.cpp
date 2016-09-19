@@ -1,6 +1,3 @@
-#include <cstdio>
-#include <sys/time.h>
-#include <string.h>
 #include <memory>
 
 #include "engine.h"
@@ -10,8 +7,7 @@
 
 Engine::Engine() : currentstate(this), maskloader()
 {
-    lasttimeupdated = getmillisec();
-    millisecperframe = 1000.0 / PHYSICS_FPS;
+    ;// constructor
 }
 
 Engine::~Engine()
@@ -24,22 +20,9 @@ void Engine::loadmap(std::string mapname)
     currentstate.currentmap = std::make_shared<Map>(mapname);
 }
 
-void Engine::run()
+void Engine::update(double frametime)
 {
-    int timediff = getmillisec() - lasttimeupdated;
-    while (timediff - millisecperframe >= 0)
-    {
-        currentstate.update(millisecperframe / 1000.0);
-        lasttimeupdated += millisecperframe;
-        timediff -= millisecperframe;
-    }
-}
-
-long int Engine::getmillisec()
-{
-    static struct timeval tp;
-    gettimeofday(&tp, 0);
-    return ((long) tp.tv_sec) * 1000 + ((long) tp.tv_usec) / 1000;
+    currentstate.update(frametime);
 }
 
 PlayerPtr Engine::newplayer()

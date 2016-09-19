@@ -12,18 +12,12 @@ class Engine
     public:
         Engine();
         ~Engine();
-        void run();
+        void update(double frametime);
         void loadmap(std::string mapname);
         PlayerPtr newplayer();
 
         Gamestate currentstate;
         Maskloader maskloader;
-
-    private:
-        long int getmillisec();
-
-		long int lasttimeupdated;
-		double millisecperframe;
 };
 
 #endif // ENGINE_H

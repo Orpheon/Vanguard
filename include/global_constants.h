@@ -1,7 +1,7 @@
 #ifndef GLOBAL_CONSTANTS_H
 #define GLOBAL_CONSTANTS_H
 
-const double PHYSICS_FPS = 60.0;
+const double ENGINE_TIMESTEP = 1.0/60.0;
 
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
