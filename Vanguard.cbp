@@ -2,18 +2,29 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Surveillance" />
+		<Option title="Vanguard" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="default">
-				<Option output="Surveillance" prefix_auto="1" extension_auto="1" />
+				<Option output="Vanguard" prefix_auto="1" extension_auto="1" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
 				<Compiler>
 					<Add directory="include" />
 				</Compiler>
+			</Target>
+			<Target title="cross_compilation">
+				<Option output="Vanguard" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="windows_compiler" />
+				<Option use_console_runner="0" />
+				<Option projectLinkerOptionsRelation="1" />
+				<Linker>
+					<Add library="allegro-5.0.10-mt" />
+					<Add library="allegro_image-5.0.10-mt" />
+				</Linker>
 			</Target>
 		</Build>
 		<Compiler>

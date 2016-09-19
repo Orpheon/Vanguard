@@ -45,10 +45,9 @@ Temporary Items
 # C++ files
 *.o
 *.exe
-Surveillance
+Vanguard
 .objs/
 *.depend
 *.layout
 *ninja*
 main
-obj/
