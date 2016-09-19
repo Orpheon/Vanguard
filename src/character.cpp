@@ -5,7 +5,7 @@
 #include "gamestate.h"
 #include "movingentity.h"
 #include "player.h"
-
+#include "global_constants.h"
 
 
 Character::Character(Gamestate *state, PlayerPtr owner_) : MovingEntity(state), owner(owner_), pressed_keys(), held_keys()
@@ -33,11 +33,11 @@ void Character::midstep(Gamestate *state, double frametime)
 {
     if (held_keys.LEFT)
     {
-        hspeed = std::max(hspeed-300*frametime, -450.0);
+        hspeed = std::max(hspeed-300*frametime, -153.0);
     }
     if (held_keys.RIGHT)
     {
-        hspeed = std::min(hspeed+300*frametime, 450.0);
+        hspeed = std::min(hspeed+300*frametime, 153.0);
     }
     if (pressed_keys.JUMP)
     {
@@ -88,11 +88,18 @@ void Character::endstep(Gamestate *state, double frametime)
                 if (state->currentmap->collides(state, this))
                 {
                     // Doesn't work
-                    x -= xstep;
-                    xblocked = true;
-                    xfinished = true;
+                    // Check if we collided with a staircase
+                    y += STAIRCASE_STEPSIZE;
+                    if (state->currentmap->collides(state, this))
+                    {
+                        // Still doesn't work, revert step testing and mark coordinate as blocked
+                        x -= xstep;
+                        y -= STAIRCASE_STEPSIZE;
+                        xblocked = true;
+                        xfinished = true;
+                    }
                 }
-                else
+                if (not xblocked)
                 {
                     // It did work, deduct this from distance still to travel
                     xbuffer -= xstep;
@@ -103,7 +110,7 @@ void Character::endstep(Gamestate *state, double frametime)
                     }
                 }
             }
-            // Do the same vertically
+            // Do the same vertically, but without stair code
             if (not yfinished)
             {
                 y += ystep;
