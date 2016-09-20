@@ -12,7 +12,7 @@ class Character : public MovingEntity
     public:
         Character(Gamestate *state, PlayerPtr owner_);
         virtual ~Character();
-        virtual void setinput(INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_);
+        virtual void setinput(INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_, double mouse_x_, double mouse_y_);
         virtual void beginstep(Gamestate *state, double frametime);
         virtual void midstep(Gamestate *state, double frametime);
         virtual void endstep(Gamestate *state, double frametime);
@@ -22,9 +22,10 @@ class Character : public MovingEntity
         PlayerPtr owner;
 
     protected:
-    private:
         INPUT_CONTAINER pressed_keys;
         INPUT_CONTAINER held_keys;
+        double mouse_x;
+        double mouse_y;
 };
 
 #endif // CHARACTER_H

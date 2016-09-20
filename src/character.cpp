@@ -18,10 +18,12 @@ Character::~Character()
     ;
 }
 
-void Character::setinput(INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_)
+void Character::setinput(INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_, double mouse_x_, double mouse_y_)
 {
     pressed_keys = pressed_keys_;
     held_keys = held_keys_;
+    mouse_x = mouse_x_;
+    mouse_y = mouse_y_;
 }
 
 void Character::beginstep(Gamestate *state, double frametime)
