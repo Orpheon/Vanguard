@@ -14,6 +14,10 @@
 				<Compiler>
 					<Add directory="include" />
 				</Compiler>
+				<Linker>
+					<Add library="allegro" />
+					<Add library="allegro_image" />
+				</Linker>
 			</Target>
 			<Target title="cross_compilation">
 				<Option output="Vanguard" prefix_auto="1" extension_auto="1" />
@@ -26,11 +30,45 @@
 					<Add library="allegro_image-5.0.10-mt" />
 				</Linker>
 			</Target>
+			<Target title="release">
+				<Option output="Vanguard" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Option projectLinkerOptionsRelation="1" />
+				<Linker>
+					<Add option="-static-libstdc++" />
+					<Add option="-static-libgcc" />
+					<Add option="-static" />
+					<Add library="allegro_monolith-static" />
+					<Add library="jpeg" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+					<Add library="glu32" />
+					<Add library="opengl32" />
+					<Add library="freetype" />
+					<Add library="png" />
+					<Add library="z" />
+					<Add library="kernel32" />
+					<Add library="user32" />
+					<Add library="gdi32" />
+					<Add library="comdlg32" />
+					<Add library="ole32" />
+					<Add library="dinput" />
+					<Add library="ddraw" />
+					<Add library="dxguid" />
+					<Add library="winmm" />
+					<Add library="dsound" />
+					<Add library="wsock32" />
+					<Add library="psapi" />
+					<Add library="shlwapi" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wshadow" />
-			<Add option="-std=c++11" />
 			<Add option="-Wall" />
+			<Add option="-std=c++11" />
 			<Add directory="include" />
 		</Compiler>
 		<Linker>
