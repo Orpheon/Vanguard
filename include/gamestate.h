@@ -33,6 +33,8 @@ class Gamestate
 
         void update(double frametime);
 
+        Engine *engine;
+
         std::unordered_map<int, std::unique_ptr<Entity>> entitylist;
         std::unordered_map<int, std::unique_ptr<Player>> playerlist;
 
@@ -41,7 +43,6 @@ class Gamestate
 
         double time;
         std::shared_ptr<Map> currentmap;
-        Engine *engine;
     protected:
     private:
         uint64_t entityidcounter;
