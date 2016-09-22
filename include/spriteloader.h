@@ -8,7 +8,7 @@
 class Spriteloader
 {
     public:
-        Spriteloader();
+        Spriteloader(bool memory_only);
         virtual ~Spriteloader();
 
         ALLEGRO_BITMAP* request_sprite(std::string path);

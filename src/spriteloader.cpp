@@ -1,8 +1,8 @@
 #include "spriteloader.h"
 
-Spriteloader::Spriteloader() : bitmapcache()
+Spriteloader::Spriteloader(bool memory_only) : bitmapcache()
 {
-    //ctor
+    MEMORY_ONLY = memory_only;
 }
 
 Spriteloader::~Spriteloader()
@@ -17,7 +17,14 @@ ALLEGRO_BITMAP* Spriteloader::request_sprite(std::string path)
 {
     if (bitmapcache.count(path) == 0)
     {
-        al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
+        if (MEMORY_ONLY)
+        {
+            al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
+        }
+        else
+        {
+            al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
+        }
         bitmapcache[path] = al_load_bitmap(path.c_str());
         if (bitmapcache[path] == NULL)
         {

@@ -5,7 +5,7 @@
 
 #include "gamestate.h"
 #include "datastructures.h"
-#include "maskloader.h"
+#include "spriteloader.h"
 
 class Engine
 {
@@ -17,7 +17,7 @@ class Engine
         PlayerPtr newplayer();
 
         Gamestate currentstate;
-        Maskloader maskloader;
+        Spriteloader maskloader;
 };
 
 #endif // ENGINE_H

@@ -6,7 +6,7 @@
 #include "global_constants.h"
 #include "entity.h"
 
-Renderer::Renderer() : spriteloader()
+Renderer::Renderer() : spriteloader(false)
 {
     // Create a display
     display = al_create_display(WINDOW_WIDTH, WINDOW_HEIGHT);

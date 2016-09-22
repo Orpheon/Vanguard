@@ -5,7 +5,7 @@
 #include "gamestate.h"
 #include "global_constants.h"
 
-Engine::Engine() : currentstate(this), maskloader()
+Engine::Engine() : currentstate(this), maskloader(true)
 {
     ;// constructor
 }
