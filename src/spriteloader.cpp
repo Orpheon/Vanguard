@@ -1,7 +1,14 @@
 #include "spriteloader.h"
+#include <iostream>
+#include <fstream>
 
 Spriteloader::Spriteloader(bool memory_only) : bitmapcache()
 {
+    // Load the sprite offset data
+    std::ifstream spriteoffsetsfile("spriteoffsets.json");
+    spriteoffsets << spriteoffsetsfile;
+    spriteoffsetsfile.close();
+
     MEMORY_ONLY = memory_only;
 }
 
@@ -20,12 +27,13 @@ ALLEGRO_BITMAP* Spriteloader::request_sprite(std::string path)
         if (MEMORY_ONLY)
         {
             al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
+            bitmapcache[path] = al_load_bitmap(("masks/"+path).c_str());
         }
         else
         {
             al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
+            bitmapcache[path] = al_load_bitmap(("sprites/"+path).c_str());
         }
-        bitmapcache[path] = al_load_bitmap(path.c_str());
         if (bitmapcache[path] == NULL)
         {
             printf("\nERROR: Could not load %s!", path.c_str());

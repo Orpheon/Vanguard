@@ -31,13 +31,19 @@ void Map::render(double cam_x, double cam_y)
 
 bool Map::collides(Gamestate *state, MovingEntity *entity)
 {
-    ALLEGRO_BITMAP *mask = state->engine->maskloader.request_mask(entity->mask);
+    ALLEGRO_BITMAP *mask = state->engine->maskloader.request_sprite(entity->mask);
+    int x = (int) entity->x - state->engine->maskloader.get_spriteoffset_x(entity->mask);
+    int y = (int) entity->y - state->engine->maskloader.get_spriteoffset_y(entity->mask);
+    if (entity->isflipped)
+    {
+        x = (int) entity->x - (al_get_bitmap_width(mask) - state->engine->maskloader.get_spriteoffset_x(entity->mask));
+    }
+
     int w = al_get_bitmap_width(mask), h = al_get_bitmap_height(mask);
-    if (entity->x < 0 or entity->y < 0 or entity->x+w > al_get_bitmap_width(wallmask) or entity->y+h > al_get_bitmap_height(wallmask))
+    if (x < 0 or y < 0 or x+w > al_get_bitmap_width(wallmask) or y+h > al_get_bitmap_height(wallmask))
     {
         return true;
     }
-    int x = (int) entity->x, y = (int) entity->y;
     for (int i=0; i<w; ++i)
     {
         for (int j=0; j<h; ++j)

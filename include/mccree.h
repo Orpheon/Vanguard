@@ -12,6 +12,8 @@ class Mccree : public Character
         Mccree(Gamestate *state, PlayerPtr owner_);
         virtual ~Mccree();
         void render(Renderer *renderer);
+
+        std::string mainsprite = "heroes/mccree/mccree.png";
     protected:
     private:
 };

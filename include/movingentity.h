@@ -2,6 +2,7 @@
 #define MOVINGENTITY_H
 
 #include "entity.h"
+#include <string>
 
 // Circular reference
 class Gamestate;
@@ -15,6 +16,7 @@ class MovingEntity : public Entity
         double x, y;
         double hspeed, vspeed;
         std::string mask;
+        bool isflipped;
 };
 
 #endif // MOVINGENTITY_H

@@ -10,7 +10,7 @@
 
 Character::Character(Gamestate *state, PlayerPtr owner_) : MovingEntity(state), owner(owner_), pressed_keys(), held_keys()
 {
-    ;
+    isflipped = false;
 }
 
 Character::~Character()
@@ -50,6 +50,8 @@ void Character::midstep(Gamestate *state, double frametime)
     }
 
     vspeed += 540.0*frametime;
+
+    isflipped = (mouse_x < 0);
 }
 
 void Character::endstep(Gamestate *state, double frametime)

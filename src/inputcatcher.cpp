@@ -155,7 +155,7 @@ void InputCatcher::run(PlayerPtr myself, Engine *engine, Renderer *renderer)
     Character *c = static_cast<Character*>(engine->currentstate.get(engine->currentstate.get(myself)->character));
     if (c != 0)
     {
-        c->setinput(pressed_keys, held_keys, mousestate.x, mousestate.y);
+        c->setinput(pressed_keys, held_keys, mousestate.x+renderer->cam_x-c->x, mousestate.y+renderer->cam_y-c->y);
     }
     else
     {
