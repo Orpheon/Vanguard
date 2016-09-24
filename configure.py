@@ -35,8 +35,8 @@ def build_files(n, args):
             # n.build(obj, "cxx", src, precompiled_header)
             objects.append(obj)
 
-    n.build("main" + exe_ext, "cxxlink", objects)
-    n.default("main" + exe_ext)
+    n.build("Vanguard" + exe_ext, "cxxlink", objects)
+    n.default("Vanguard" + exe_ext)
 
 
 def build_rules(n, args):
