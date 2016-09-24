@@ -35,8 +35,8 @@ def build_files(n, args):
             # n.build(obj, "cxx", src, precompiled_header)
             objects.append(obj)
 
-    n.build("main" + exe_ext, "cxxlink", objects)
-    n.default("main" + exe_ext)
+    n.build("Vanguard" + exe_ext, "cxxlink", objects)
+    n.default("Vanguard" + exe_ext)
 
 
 def build_rules(n, args):
@@ -60,7 +60,7 @@ def build_rules(n, args):
     n.variable("cflags", cflags + "".join(defines))
     n.variable("clinkflags", "")
     n.variable("cxxflags", cxxflags + "".join(defines) + " -I"+os.path.abspath("include"))
-    n.variable("cxxlinkflags", "-lallegro -lallegro_image")
+    n.variable("cxxlinkflags", "-static-libstdc++ -static-libgcc -static  -lallegro_monolith-static -ljpeg -lvorbis -logg -lglu32 -lopengl32 -lfreetype -lpng -lz -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lole32 -ldinput -lddraw -ldxguid -lwinmm -ldsound -lwsock32 -lpsapi -lshlwapi")
 
     n.rule("cc",
            "$cc $xtype -MMD -MF $out.d $optflags $dbgflags $cflags -c $in -o $out",
