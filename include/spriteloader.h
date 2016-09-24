@@ -15,8 +15,8 @@ class Spriteloader
         ALLEGRO_BITMAP* request_sprite(std::string path);
 
         Spriteloader & operator=(Spriteloader &&)=default;
-        int get_spriteoffset_x(std::string s) {return spriteoffsets[s][0];}
-        int get_spriteoffset_y(std::string s) {return spriteoffsets[s][1];}
+        int get_spriteoffset_x(std::string s) {return 13;}//spriteoffsets[s][0];}
+        int get_spriteoffset_y(std::string s) {return 13;}//spriteoffsets[s][1];}
     protected:
     private:
         std::unordered_map<std::string, ALLEGRO_BITMAP*> bitmapcache;

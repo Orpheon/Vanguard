@@ -1,6 +1,8 @@
 #ifndef DATASTRUCTURES_H_INCLUDED
 #define DATASTRUCTURES_H_INCLUDED
 
+#include <string>
+
 enum HEROCLASS {BASTION,
                 DVA,
                 GENJI,
@@ -48,6 +50,11 @@ struct PlayerPtr
     PlayerPtr(uint64_t id_) : id(id_) {}
     operator int() const { return id; }
     uint64_t id;
+};
+
+struct CharacterChildParameters
+{
+    std::string walkanimpath;
 };
 
 #endif // DATASTRUCTURES_H_INCLUDED

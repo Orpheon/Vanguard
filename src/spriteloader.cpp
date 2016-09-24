@@ -1,5 +1,4 @@
 #include "spriteloader.h"
-#include <iostream>
 #include <fstream>
 
 Spriteloader::Spriteloader(bool memory_only) : bitmapcache()

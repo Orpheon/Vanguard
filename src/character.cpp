@@ -9,7 +9,8 @@
 #include "engine.h"
 
 
-Character::Character(Gamestate *state, PlayerPtr owner_) : MovingEntity(state), owner(owner_), pressed_keys(), held_keys()
+Character::Character(Gamestate *state, PlayerPtr owner_, CharacterChildParameters arguments) : MovingEntity(state),
+            owner(owner_), pressed_keys(), held_keys(), walkanim(arguments.walkanimpath)
 {
     isflipped = false;
 }
@@ -50,9 +51,8 @@ void Character::midstep(Gamestate *state, double frametime)
         }
     }
 
-    vspeed += 540.0*frametime;
-
     isflipped = (mouse_x < 0);
+    vspeed += 540.0*frametime;
 }
 
 void Character::endstep(Gamestate *state, double frametime)
@@ -147,10 +147,10 @@ void Character::endstep(Gamestate *state, double frametime)
             // Therefore, it's enough to check around us for the closest airspace, and move there
 
             // Check horizontally first
-            int left_offset = state->engine->maskloader.get_spriteoffset_x(mask);
-            int right_offset = al_get_bitmap_width(state->engine->maskloader.request_sprite(mask)) - left_offset;
-            int top_offset = state->engine->maskloader.get_spriteoffset_y(mask);
-            int bot_offset = al_get_bitmap_height(state->engine->maskloader.request_sprite(mask)) - top_offset;
+            int left_offset = state->engine->maskloader.get_spriteoffset_x(getmask());
+            int right_offset = al_get_bitmap_width(state->engine->maskloader.request_sprite(getmask())) - left_offset;
+            int top_offset = state->engine->maskloader.get_spriteoffset_y(getmask());
+            int bot_offset = al_get_bitmap_height(state->engine->maskloader.request_sprite(getmask())) - top_offset;
             int dir_x = 0;
             bool finished = false;
 
@@ -245,6 +245,21 @@ void Character::endstep(Gamestate *state, double frametime)
                 vspeed = 0;
             }
         }
+    } // end collision with wallmask
+
+
+    // Walking animation
+    if (isflipped)
+    {
+        walkanim.update(-hspeed*frametime);
+    }
+    else
+    {
+        walkanim.update(hspeed*frametime);
+    }
+    if (hspeed == 0.0)
+    {
+        walkanim.reset();
     }
 }
 
@@ -254,4 +269,9 @@ bool Character::onground(Gamestate *state)
     bool result = state->currentmap->collides(state, this);
     y -= 1;
     return result;
+}
+
+std::string Character::getmask()
+{
+    return walkanim.get_frame();
 }
