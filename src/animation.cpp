@@ -56,12 +56,14 @@ LoopAnimation::~LoopAnimation()
 void LoopAnimation::update(double modification)
 {
     timer += modification;
+    // Round timer
+    timer = std::round(timer*1000.0)/1000.0;
     while (timer >= duration)
     {
         // Yes, we could use fmod, but apparently that can give some ugly rounding errors so this is safer
         timer -= duration;
     }
-    while (timer < 0)
+    while (timer < -0.0)
     {
         timer += duration;
     }
