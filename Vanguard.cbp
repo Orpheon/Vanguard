@@ -25,6 +25,9 @@
 				<Option compiler="windows_compiler" />
 				<Option use_console_runner="0" />
 				<Option projectLinkerOptionsRelation="1" />
+				<Compiler>
+					<Add directory="include" />
+				</Compiler>
 				<Linker>
 					<Add library="allegro-5.0.10-mt" />
 					<Add library="allegro_image-5.0.10-mt" />
@@ -36,6 +39,9 @@
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
 				<Option projectLinkerOptionsRelation="1" />
+				<Compiler>
+					<Add directory="include" />
+				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
@@ -75,6 +81,7 @@
 			<Add library="allegro" />
 			<Add library="allegro_image" />
 		</Linker>
+		<Unit filename="include/animation.h" />
 		<Unit filename="include/character.h" />
 		<Unit filename="include/datastructures.h" />
 		<Unit filename="include/engine.h" />
@@ -84,7 +91,6 @@
 		<Unit filename="include/inputcatcher.h" />
 		<Unit filename="include/json.hpp" />
 		<Unit filename="include/map.h" />
-		<Unit filename="include/maskloader.h" />
 		<Unit filename="include/mccree.h" />
 		<Unit filename="include/movingentity.h" />
 		<Unit filename="include/player.h" />
@@ -92,12 +98,12 @@
 		<Unit filename="include/spriteloader.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Heroes/mccree.cpp" />
+		<Unit filename="src/animation.cpp" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/engine.cpp" />
 		<Unit filename="src/gamestate.cpp" />
 		<Unit filename="src/inputcatcher.cpp" />
 		<Unit filename="src/map.cpp" />
-		<Unit filename="src/maskloader.cpp" />
 		<Unit filename="src/movingentity.cpp" />
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/renderer.cpp" />
