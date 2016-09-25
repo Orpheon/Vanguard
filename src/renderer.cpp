@@ -1,6 +1,7 @@
 #include <allegro5/allegro.h>
 #include <cstdio>
 #include <vector>
+#include <string>
 
 #include "renderer.h"
 #include "global_constants.h"
@@ -20,16 +21,35 @@ Renderer::Renderer() : spriteloader(false), cam_x(0), cam_y(0)
     background = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     midground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     foreground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+    //load font
+    //gg2 font as placeholder for now i guess
+    al_init_font_addon();
+    al_init_ttf_addon();
+    font = al_load_font("gg2bold.ttf", 12, 0);
+    if (!font)
+    {
+      fprintf(stderr, "Could not load 'gg2bold.ttf'.\n");
+      throw -1;
+    }
+
+    // fps stuff
+    // create timer
+    startframe = al_get_time();
 }
 
 Renderer::~Renderer()
 {
     // Cleanup
     al_destroy_display(display);
+    al_destroy_font(font);
+    al_shutdown_font_addon();
+    al_shutdown_ttf_addon();
 }
 
 void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
 {
+    startframe = al_get_time() * 1000;
     // Set camera
     Character *c = static_cast<Character*>(currentstate->get(currentstate->get(myself)->character));
 
@@ -66,5 +86,12 @@ void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
     al_draw_bitmap(midground, 0, 0, 0);
     al_draw_bitmap(foreground, 0, 0, 0);
 
+    //fps counter
+    endframe = al_get_time() * 1000;
+    al_draw_text(font, al_map_rgb(255,255,255), 0, 0,ALLEGRO_ALIGN_LEFT, ("Frame time: " + std::to_string((endframe - startframe)) + "ms").c_str());
+
+
     al_flip_display();
+
+
 }
