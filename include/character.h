@@ -20,7 +20,7 @@ class Character : public MovingEntity
         virtual void endstep(Gamestate *state, double frametime);
 
         virtual bool onground(Gamestate *state);
-        virtual std::string getmask();
+        virtual Rect getcollisionrect(Gamestate *state) = 0;
 
         PlayerPtr owner;
 

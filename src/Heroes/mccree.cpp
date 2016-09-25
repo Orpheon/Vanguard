@@ -3,6 +3,7 @@
 #include "spriteloader.h"
 #include "animation.h"
 #include "gamestate.h"
+#include "engine.h"
 
 #include <memory>
 #include <cmath>
@@ -64,4 +65,14 @@ CharacterChildParameters Mccree::constructCharacterChildParameters()
     CharacterChildParameters c;
     c.walkanimpath = "heroes/mccree/walking/";
     return c;
+}
+
+Rect Mccree::getcollisionrect(Gamestate *state)
+{
+    return state->engine->maskloader.get_rect("heroes/mccree/walking/").offset(x, y);
+}
+
+std::string Mccree::getmask()
+{
+    return walkanim.get_frame();
 }

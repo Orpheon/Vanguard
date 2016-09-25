@@ -57,4 +57,15 @@ struct CharacterChildParameters
     std::string walkanimpath;
 };
 
+struct Rect
+{
+    double x;
+    double y;
+    double w;
+    double h;
+
+    Rect(double x_, double y_, double w_, double h_) : x(x_), y(y_), w(w_), h(h_) {}
+    Rect offset(double x_, double y_) {return Rect(x+x_, y+y_, w, h);}
+};
+
 #endif // DATASTRUCTURES_H_INCLUDED
