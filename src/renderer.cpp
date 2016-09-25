@@ -6,7 +6,7 @@
 #include "global_constants.h"
 #include "entity.h"
 
-Renderer::Renderer() : spriteloader(false)
+Renderer::Renderer() : spriteloader(false), cam_x(0), cam_y(0)
 {
     // Create a display
     display = al_create_display(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -32,6 +32,7 @@ void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
 {
     // Set camera
     Character *c = static_cast<Character*>(currentstate->get(currentstate->get(myself)->character));
+
     if (c != 0)
     {
         cam_x = c->x - WINDOW_WIDTH/2.0;
