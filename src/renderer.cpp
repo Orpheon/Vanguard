@@ -34,7 +34,6 @@ Renderer::Renderer() : spriteloader(false), cam_x(0), cam_y(0)
     }
 
     // fps stuff
-    // create timer
     startframe = al_get_time();
 }
 
