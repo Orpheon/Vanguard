@@ -57,14 +57,26 @@ int main(int argc, char **argv)
     double lasttimeupdated = al_get_time();
     while (true)
     {
-        while (al_get_time() - lasttimeupdated >= ENGINE_TIMESTEP)
+        try
         {
-            inputcatcher->run(myself, engine, renderer);
-            engine->update(ENGINE_TIMESTEP);
+            while (al_get_time() - lasttimeupdated >= ENGINE_TIMESTEP)
+            {
+                inputcatcher->run(myself, engine, renderer);
+                engine->update(ENGINE_TIMESTEP);
 
-            lasttimeupdated += ENGINE_TIMESTEP;
+                lasttimeupdated += ENGINE_TIMESTEP;
+            }
+            renderer->render(&(engine->currentstate), myself);
         }
-        renderer->render(&(engine->currentstate), myself);
+        catch (int e)
+        {
+            if (e != 0)
+            {
+                fprintf(stderr, "\nError during regular loop.");
+                fprintf(stderr, "\nExiting..");
+            }
+            return 0;
+        }
     }
     return 0;
 }
