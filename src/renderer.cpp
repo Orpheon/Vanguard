@@ -7,7 +7,7 @@
 #include "global_constants.h"
 #include "entity.h"
 
-Renderer::Renderer() : spriteloader(false), cam_x(0), cam_y(0)
+Renderer::Renderer() : cam_x(0), cam_y(0), spriteloader(false)
 {
     // Create a display
     display = al_create_display(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -44,6 +44,9 @@ Renderer::~Renderer()
     al_destroy_font(font);
     al_shutdown_font_addon();
     al_shutdown_ttf_addon();
+    al_destroy_bitmap(background);
+    al_destroy_bitmap(midground);
+    al_destroy_bitmap(foreground);
 }
 
 void Renderer::render(Gamestate *currentstate, PlayerPtr myself)

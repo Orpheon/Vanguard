@@ -56,3 +56,22 @@ bool Map::collides(Gamestate *state, MovingEntity *entity)
     }
     return false;
 }
+
+bool Map::collides(Gamestate *state, Rect r)
+{
+    if (r.x < 0 or r.y < 0 or r.x+r.w > al_get_bitmap_width(wallmask) or r.y+r.h > al_get_bitmap_height(wallmask))
+    {
+        return true;
+    }
+    for (int i=0; i<r.w; ++i)
+    {
+        for (int j=0; j<r.h; ++j)
+        {
+            if (al_get_pixel(wallmask, i+r.x, j+r.y).a != 0)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}

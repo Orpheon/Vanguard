@@ -7,6 +7,7 @@
         "heroes/mccree/rolling/4.png": [18, 10],
     "heroes/mccree/walking/ number of frames": 4,
         "heroes/mccree/walking/ duration": 25,
+        "heroes/mccree/walking/ rect": [-5, -13, 9, 40],
         "heroes/mccree/walking/1.png": [13, 13],
         "heroes/mccree/walking/2.png": [13, 13],
         "heroes/mccree/walking/3.png": [13, 13],

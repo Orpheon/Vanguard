@@ -5,6 +5,7 @@
 #include "renderer.h"
 #include "datastructures.h"
 
+#include <string>
 
 class Mccree : public Character
 {
@@ -13,6 +14,8 @@ class Mccree : public Character
         virtual ~Mccree();
         void render(Renderer *renderer);
         CharacterChildParameters constructCharacterChildParameters();
+        Rect getcollisionrect(Gamestate *state);
+        std::string getmask();
     protected:
     private:
 };
