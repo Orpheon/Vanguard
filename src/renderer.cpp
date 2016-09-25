@@ -26,6 +26,9 @@ Renderer::~Renderer()
 {
     // Cleanup
     al_destroy_display(display);
+    al_destroy_bitmap(background);
+    al_destroy_bitmap(midground);
+    al_destroy_bitmap(foreground);
 }
 
 void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
