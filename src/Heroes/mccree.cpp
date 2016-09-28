@@ -20,7 +20,16 @@ Mccree::~Mccree()
 
 void Mccree::render(Renderer *renderer)
 {
-    std::string mainsprite = walkanim.get_frame();
+    std::string mainsprite;
+    // FIXME: This really shouldn't be in the rendering code, but in a getsprite() method.
+    if (std::fabs(hspeed) < 11.0)
+    {
+        mainsprite = "heroes/mccree/idle/1.png";
+    }
+    else
+    {
+        mainsprite = walkanim.get_frame();
+    }
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.request_sprite(mainsprite);
     int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
@@ -63,13 +72,13 @@ void Mccree::render(Renderer *renderer)
 CharacterChildParameters Mccree::constructCharacterChildParameters()
 {
     CharacterChildParameters c;
-    c.walkanimpath = "heroes/mccree/walking/";
+    c.walkanimpath = "heroes/mccree/run/";
     return c;
 }
 
 Rect Mccree::getcollisionrect(Gamestate *state)
 {
-    return state->engine->maskloader.get_rect("heroes/mccree/walking/").offset(x, y);
+    return state->engine->maskloader.get_rect("heroes/mccree/").offset(x, y);
 }
 
 std::string Mccree::getmask()

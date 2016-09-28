@@ -36,6 +36,7 @@ ALLEGRO_BITMAP* Spriteloader::request_sprite(std::string path)
         if (bitmapcache[path] == NULL)
         {
             printf("\nERROR: Could not load %s!", path.c_str());
+            printf("\n");
             return 0;
         }
     }

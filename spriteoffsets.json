@@ -1,4 +1,6 @@
 {
+    "heroes/mccree/ rect": [-7, -3, 7, 39],
+
     "heroes/mccree/ult/1.png": [9, 4],
     "heroes/mccree/jump/1.png": [14, 9],
     "heroes/mccree/crouch/1.png": [19, -5],
@@ -13,22 +15,22 @@
         "heroes/mccree/reload/2.png": [6, 1],
         "heroes/mccree/reload/1.png": [3, -6],
 
-    "heroes/mccree/run/1 number of frames": 4,
-    "heroes/mccree/run/1 duration": 30,
+    "heroes/mccree/run/ number of frames": 4,
+    "heroes/mccree/run/ duration": 50,
         "heroes/mccree/run/3.png": [11, 4],
         "heroes/mccree/run/2.png": [15, 4],
         "heroes/mccree/run/1.png": [16, 4],
         "heroes/mccree/run/4.png": [14, 4],
 
-    "heroes/mccree/ultwalk/1 number of frames": 4,
-    "heroes/mccree/ultwalk/1 duration": 10,
+    "heroes/mccree/ultwalk/ number of frames": 4,
+    "heroes/mccree/ultwalk/ duration": 10,
         "heroes/mccree/ultwalk/3.png": [11, 4],
         "heroes/mccree/ultwalk/2.png": [11, 4],
         "heroes/mccree/ultwalk/1.png": [11, 4],
         "heroes/mccree/ultwalk/4.png": [11, 4],
 
     "heroes/mccree/flashbang/ number of frames": 4,
-    "heroes/mccree/flashbang/1 duration": 10,
+    "heroes/mccree/flashbang/ duration": 10,
         "heroes/mccree/flashbang/3.png": [-3, -4],
         "heroes/mccree/flashbang/2.png": [-3, -4],
         "heroes/mccree/flashbang/1.png": [-3, 4],
