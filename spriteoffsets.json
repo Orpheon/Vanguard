@@ -1,5 +1,6 @@
 {
-    "heroes/mccree/ rect": [-7, -3, 7, 39],
+    "heroes/mccree/ rect": [-7, -3, 14, 39],
+    "heroes/mccree/crouch/ rect": [-7, 6, 14, 30],
 
     "heroes/mccree/ult/1.png": [9, 4],
     "heroes/mccree/jump/1.png": [14, 9],
@@ -53,7 +54,7 @@
         "heroes/mccree/emote/5.png": [8, 6],
 
     "heroes/mccree/crouchwalk/ number of frames": 4,
-    "heroes/mccree/emote/ duration": 10,
+    "heroes/mccree/crouchwalk/ duration": 10,
         "heroes/mccree/crouchwalk/3.png": [19, -5],
         "heroes/mccree/crouchwalk/2.png": [19, -5],
         "heroes/mccree/crouchwalk/1.png": [19, -5],

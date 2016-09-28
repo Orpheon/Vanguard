@@ -52,7 +52,7 @@ void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
     // Go through all objects and let them render themselves on the layers
     for (auto& e : currentstate->entitylist)
     {
-        e.second->render(this);
+        e.second->render(this, currentstate);
     }
 
     // Set render target to be the display

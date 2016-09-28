@@ -13,6 +13,7 @@ Character::Character(Gamestate *state, PlayerPtr owner_, CharacterChildParameter
             owner(owner_), pressed_keys(), held_keys(), walkanim(arguments.walkanimpath)
 {
     isflipped = false;
+    crouched = false;
 }
 
 Character::~Character()
@@ -48,6 +49,19 @@ void Character::midstep(Gamestate *state, double frametime)
         if (onground(state))
         {
             vspeed = -240.0;
+        }
+    }
+    if (held_keys.CROUCH)
+    {
+        crouched = true;
+    }
+    else if (crouched)
+    {
+        // We're crouched and we'd like to uncrouch
+        // Do so only if we have the room
+        if (not state->currentmap->collides(state, getstandingcollisionrect(state)))
+        {
+            crouched = false;
         }
     }
 

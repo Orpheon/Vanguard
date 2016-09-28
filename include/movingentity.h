@@ -12,7 +12,6 @@ class MovingEntity : public Entity
     public:
         MovingEntity(Gamestate *state);
         virtual void endstep(Gamestate *state, double frametime);
-        virtual std::string getmask() = 0;
 
         double x, y;
         double hspeed, vspeed;
