@@ -62,12 +62,15 @@ void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
     al_clear_to_color(al_map_rgba(0, 0, 0, 1));
 
     // Draw the map background first
-    currentstate->currentmap->render(cam_x, cam_y);
+    currentstate->currentmap->renderbackground(cam_x, cam_y);
 
     // Then draw each layer
     al_draw_bitmap(background, 0, 0, 0);
     al_draw_bitmap(midground, 0, 0, 0);
     al_draw_bitmap(foreground, 0, 0, 0);
+
+    // Draw the map wallmask on top of everything, to prevent sprites that go through walls
+    currentstate->currentmap->renderwallground(cam_x, cam_y);
 
     al_flip_display();
 }
