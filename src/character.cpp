@@ -191,5 +191,6 @@ void Character::endstep(Gamestate *state, double frametime)
 
 bool Character::onground(Gamestate *state)
 {
-    return state->currentmap->collides(state, getcollisionrect(state).offset(0, 1));
+    Rect r = getcollisionrect(state);
+    return state->currentmap->collides(state, Rect(r.x, r.y+r.h, r.w, 1));
 }
