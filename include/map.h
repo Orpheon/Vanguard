@@ -12,13 +12,15 @@ class Map
     public:
         Map(std::string name);
         ~Map();
-        void render(double cam_x, double cam_y);
+        void renderbackground(double cam_x, double cam_y);
+        void renderwallground(double cam_x, double cam_y);
         bool collides(Gamestate *state, MovingEntity *entity);
         bool collides(Gamestate *state, Rect rect);
         bool place_free(double x, double y) {return al_get_pixel(wallmask, x, y).a == 0;}
     protected:
     private:
         ALLEGRO_BITMAP *background;
+        ALLEGRO_BITMAP *wallground;
         ALLEGRO_BITMAP *wallmask;
 };
 

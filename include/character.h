@@ -21,8 +21,10 @@ class Character : public MovingEntity
 
         virtual bool onground(Gamestate *state);
         virtual Rect getcollisionrect(Gamestate *state) = 0;
+        virtual Rect getstandingcollisionrect(Gamestate *state) = 0;
 
         PlayerPtr owner;
+        bool crouched;
 
     protected:
         INPUT_CONTAINER pressed_keys;

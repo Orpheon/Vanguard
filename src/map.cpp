@@ -8,9 +8,10 @@
 
 Map::Map(std::string name)
 {
-    // Load and scale the map (background and then wallmask)
+    // Load the map
     al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
     background = al_load_bitmap(("maps/"+name+".png").c_str());
+    wallground = al_load_bitmap(("maps/"+name+"_wm.png").c_str());
 
     al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
     wallmask = al_load_bitmap(("maps/"+name+"_wm.png").c_str());
@@ -20,23 +21,29 @@ Map::Map(std::string name)
 Map::~Map()
 {
     al_destroy_bitmap(background);
+    al_destroy_bitmap(wallground);
     al_unlock_bitmap(wallmask);
     al_destroy_bitmap(wallmask);
 }
 
-void Map::render(double cam_x, double cam_y)
+void Map::renderbackground(double cam_x, double cam_y)
 {
     al_draw_bitmap(background, -cam_x, -cam_y, 0);
 }
 
+void Map::renderwallground(double cam_x, double cam_y)
+{
+    al_draw_bitmap(wallground, -cam_x, -cam_y, 0);
+}
+
 bool Map::collides(Gamestate *state, MovingEntity *entity)
 {
-    ALLEGRO_BITMAP *mask = state->engine->maskloader.request_sprite(entity->getmask());
-    int x = (int) entity->x - state->engine->maskloader.get_spriteoffset_x(entity->getmask());
-    int y = (int) entity->y - state->engine->maskloader.get_spriteoffset_y(entity->getmask());
+    ALLEGRO_BITMAP *mask = state->engine->maskloader.request_sprite(entity->getsprite(state, true));
+    int x = (int) entity->x - state->engine->maskloader.get_spriteoffset_x(entity->getsprite(state, true));
+    int y = (int) entity->y - state->engine->maskloader.get_spriteoffset_y(entity->getsprite(state, true));
     if (entity->isflipped)
     {
-        x = (int) entity->x - (al_get_bitmap_width(mask) - state->engine->maskloader.get_spriteoffset_x(entity->getmask()));
+        x = (int) entity->x - (al_get_bitmap_width(mask) - state->engine->maskloader.get_spriteoffset_x(entity->getsprite(state, true)));
     }
 
     int w = al_get_bitmap_width(mask), h = al_get_bitmap_height(mask);

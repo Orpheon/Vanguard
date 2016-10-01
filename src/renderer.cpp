@@ -70,7 +70,7 @@ void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
     // Go through all objects and let them render themselves on the layers
     for (auto& e : currentstate->entitylist)
     {
-        e.second->render(this);
+        e.second->render(this, currentstate);
     }
 
     // Set render target to be the display
@@ -80,7 +80,7 @@ void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
     al_clear_to_color(al_map_rgba(0, 0, 0, 1));
 
     // Draw the map background first
-    currentstate->currentmap->render(cam_x, cam_y);
+    currentstate->currentmap->renderbackground(cam_x, cam_y);
 
     // Then draw each layer
     al_draw_bitmap(background, 0, 0, 0);
@@ -90,6 +90,9 @@ void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
     //fps counter
     endframe = al_get_time() * 1000.0;
     al_draw_text(font, al_map_rgb(255,255,255), 0, 0,ALLEGRO_ALIGN_LEFT, ("Frame time: " + std::to_string((endframe - startframe)) + "ms").c_str());
+    
+    // Draw the map wallmask on top of everything, to prevent sprites that go through walls
+    currentstate->currentmap->renderwallground(cam_x, cam_y);
 
     al_flip_display();
     startframe = al_get_time() * 1000.0;

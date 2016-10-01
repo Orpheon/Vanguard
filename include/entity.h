@@ -1,6 +1,7 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include <string>
 #include <vector>
 #include <allegro5/allegro.h>
 
@@ -16,7 +17,8 @@ class Entity
         virtual void beginstep(Gamestate *state, double frametime) = 0;
         virtual void midstep(Gamestate *state, double frametime) = 0;
         virtual void endstep(Gamestate *state, double frametime) = 0;
-        virtual void render(Renderer *renderer) = 0;
+        virtual void render(Renderer *renderer, Gamestate *state) = 0;
+        virtual std::string getsprite(Gamestate *state, bool mask) = 0;
         uint64_t id;
 };
 

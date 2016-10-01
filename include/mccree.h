@@ -11,11 +11,12 @@ class Mccree : public Character
 {
     public:
         Mccree(Gamestate *state, PlayerPtr owner_);
-        virtual ~Mccree();
-        void render(Renderer *renderer);
-        CharacterChildParameters constructCharacterChildParameters();
-        Rect getcollisionrect(Gamestate *state);
-        std::string getmask();
+        virtual ~Mccree() override;
+        void render(Renderer *renderer, Gamestate *state) override;
+        CharacterChildParameters constructCharacterChildParameters() override;
+        Rect getcollisionrect(Gamestate *state) override;
+        Rect getstandingcollisionrect(Gamestate *state) override;
+        std::string getsprite(Gamestate *state, bool mask) override;
     protected:
     private:
 };

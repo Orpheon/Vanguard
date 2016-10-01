@@ -18,9 +18,9 @@ Mccree::~Mccree()
     //dtor
 }
 
-void Mccree::render(Renderer *renderer)
+void Mccree::render(Renderer *renderer, Gamestate *state)
 {
-    std::string mainsprite = walkanim.get_frame();
+    std::string mainsprite = getsprite(state, false);
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.request_sprite(mainsprite);
     int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
@@ -63,16 +63,37 @@ void Mccree::render(Renderer *renderer)
 CharacterChildParameters Mccree::constructCharacterChildParameters()
 {
     CharacterChildParameters c;
-    c.walkanimpath = "heroes/mccree/walking/";
+    c.walkanimpath = "heroes/mccree/run/";
     return c;
 }
 
 Rect Mccree::getcollisionrect(Gamestate *state)
 {
-    return state->engine->maskloader.get_rect("heroes/mccree/walking/").offset(x, y);
+    if (crouched)
+    {
+        return state->engine->maskloader.get_rect("heroes/mccree/crouch/").offset(x, y);
+    }
+    return getstandingcollisionrect(state);
 }
 
-std::string Mccree::getmask()
+Rect Mccree::getstandingcollisionrect(Gamestate *state)
 {
+    return state->engine->maskloader.get_rect("heroes/mccree/").offset(x, y);
+}
+
+std::string Mccree::getsprite(Gamestate *state, bool mask)
+{
+    if (crouched)
+    {
+        return "heroes/mccree/crouch/1.png";
+    }
+    if (not onground(state))
+    {
+        return "heroes/mccree/jump/1.png";
+    }
+    if (std::fabs(hspeed) < 11.0)
+    {
+        return "heroes/mccree/idle/1.png";
+    }
     return walkanim.get_frame();
 }
