@@ -51,7 +51,6 @@ Renderer::~Renderer()
 
 void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
 {
-    startframe = al_get_time() * 1000;
     // Set camera
     Character *c = static_cast<Character*>(currentstate->get(currentstate->get(myself)->character));
 
@@ -89,11 +88,9 @@ void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
     al_draw_bitmap(foreground, 0, 0, 0);
 
     //fps counter
-    endframe = al_get_time() * 1000;
+    endframe = al_get_time() * 1000.0;
     al_draw_text(font, al_map_rgb(255,255,255), 0, 0,ALLEGRO_ALIGN_LEFT, ("Frame time: " + std::to_string((endframe - startframe)) + "ms").c_str());
 
-
     al_flip_display();
-
-
+    startframe = al_get_time() * 1000.0;
 }
