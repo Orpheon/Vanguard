@@ -14,7 +14,7 @@ class Engine
         ~Engine();
         void update(double frametime);
         void loadmap(std::string mapname);
-        PlayerPtr newplayer();
+        EntityPtr newplayer();
 
         Gamestate currentstate;
         Spriteloader maskloader;

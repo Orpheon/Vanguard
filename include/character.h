@@ -12,18 +12,19 @@
 class Character : public MovingEntity
 {
     public:
-        Character(Gamestate *state, PlayerPtr owner_, CharacterChildParameters arguments);
+        Character(Gamestate *state, EntityPtr owner_, CharacterChildParameters arguments);
         virtual ~Character();
         virtual void setinput(INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_, double mouse_x_, double mouse_y_);
         virtual void beginstep(Gamestate *state, double frametime);
         virtual void midstep(Gamestate *state, double frametime);
         virtual void endstep(Gamestate *state, double frametime);
+        bool isrootobject() {return false;}
 
         virtual bool onground(Gamestate *state);
         virtual Rect getcollisionrect(Gamestate *state) = 0;
         virtual Rect getstandingcollisionrect(Gamestate *state) = 0;
 
-        PlayerPtr owner;
+        EntityPtr owner;
         bool crouched;
 
     protected:

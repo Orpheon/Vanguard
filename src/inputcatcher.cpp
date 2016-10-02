@@ -45,7 +45,7 @@ InputCatcher::~InputCatcher()
     //dtor
 }
 
-void InputCatcher::run(PlayerPtr myself, Engine *engine, Renderer *renderer)
+void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
 {
     // FIXME: Debugtool
     bool spawnplayer = false;
@@ -152,7 +152,7 @@ void InputCatcher::run(PlayerPtr myself, Engine *engine, Renderer *renderer)
 
 
     // Check if the current player has a character to run around with or is in spectate mode
-    Character *c = static_cast<Character*>(engine->currentstate.get(engine->currentstate.get(myself)->character));
+    Character *c = engine->currentstate.get<Player>(myself)->getcharacter(&(engine->currentstate));
     if (c != 0)
     {
         c->setinput(pressed_keys, held_keys, mousestate.x+renderer->cam_x-c->x, mousestate.y+renderer->cam_y-c->y);
@@ -162,7 +162,7 @@ void InputCatcher::run(PlayerPtr myself, Engine *engine, Renderer *renderer)
         // DEBUGTOOL
         if (spawnplayer)
         {
-            engine->currentstate.get(myself)->spawn(&engine->currentstate, renderer->cam_x+mousestate.x, renderer->cam_y+mousestate.y);
+            engine->currentstate.get<Player>(myself)->spawn(&engine->currentstate, renderer->cam_x+mousestate.x, renderer->cam_y+mousestate.y);
         }
         if (held_keys.LEFT)
         {

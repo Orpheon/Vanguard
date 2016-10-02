@@ -9,7 +9,7 @@
 #include "engine.h"
 
 
-Character::Character(Gamestate *state, PlayerPtr owner_, CharacterChildParameters arguments) : MovingEntity(state),
+Character::Character(Gamestate *state, EntityPtr owner_, CharacterChildParameters arguments) : MovingEntity(state),
             owner(owner_), pressed_keys(), held_keys(), walkanim(arguments.walkanimpath)
 {
     isflipped = false;

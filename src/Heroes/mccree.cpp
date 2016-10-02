@@ -8,7 +8,7 @@
 #include <memory>
 #include <cmath>
 
-Mccree::Mccree(Gamestate *state, PlayerPtr owner_) : Character(state, owner_, constructCharacterChildParameters())
+Mccree::Mccree(Gamestate *state, EntityPtr owner_) : Character(state, owner_, constructCharacterChildParameters())
 {
     ;
 }

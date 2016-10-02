@@ -25,7 +25,7 @@ void Engine::update(double frametime)
     currentstate.update(frametime);
 }
 
-PlayerPtr Engine::newplayer()
+EntityPtr Engine::newplayer()
 {
-    return currentstate.make_player();
+    return currentstate.make_entity<Player>(&currentstate);
 }

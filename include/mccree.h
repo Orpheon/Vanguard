@@ -10,7 +10,7 @@
 class Mccree : public Character
 {
     public:
-        Mccree(Gamestate *state, PlayerPtr owner_);
+        Mccree(Gamestate *state, EntityPtr owner_);
         virtual ~Mccree() override;
         void render(Renderer *renderer, Gamestate *state) override;
         CharacterChildParameters constructCharacterChildParameters() override;

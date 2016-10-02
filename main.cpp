@@ -52,7 +52,7 @@ int main(int argc, char **argv)
         return -1;
     }
     engine->loadmap("conflict");
-    PlayerPtr myself = engine->newplayer();
+    EntityPtr myself = engine->newplayer();
 
     double lasttimeupdated = al_get_time();
     while (true)

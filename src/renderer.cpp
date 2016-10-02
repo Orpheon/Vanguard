@@ -31,10 +31,10 @@ Renderer::~Renderer()
     al_destroy_bitmap(foreground);
 }
 
-void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
+void Renderer::render(Gamestate *currentstate, EntityPtr myself)
 {
     // Set camera
-    Character *c = static_cast<Character*>(currentstate->get(currentstate->get(myself)->character));
+    Character *c = currentstate->get<Player>(myself)->getcharacter(currentstate);
 
     if (c != 0)
     {

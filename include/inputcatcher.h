@@ -12,7 +12,7 @@ class InputCatcher
 	public:
 		InputCatcher(ALLEGRO_DISPLAY *display);
 		~InputCatcher();
-		void run(PlayerPtr myself, Engine *engine, Renderer *renderer);
+		void run(EntityPtr myself, Engine *engine, Renderer *renderer);
 	private:
 		ALLEGRO_EVENT_QUEUE *event_queue;
 };
