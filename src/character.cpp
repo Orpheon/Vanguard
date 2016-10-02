@@ -194,3 +194,27 @@ bool Character::onground(Gamestate *state)
     Rect r = getcollisionrect(state);
     return state->currentmap->collides(state, Rect(r.x, r.y+r.h, r.w, 1));
 }
+
+void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
+{
+    MovingEntity::interpolate(prev_entity, next_entity, alpha);
+
+    Character *prev_e = static_cast<Character*>(prev_entity);
+    Character *next_e = static_cast<Character*>(next_entity);
+
+    if (alpha < 0.5)
+    {
+        held_keys = prev_e->held_keys;
+        pressed_keys = prev_e->pressed_keys;
+        crouched = prev_e->crouched;
+    }
+    else
+    {
+        held_keys = next_e->held_keys;
+        pressed_keys = next_e->pressed_keys;
+        crouched = prev_e->crouched;
+    }
+    mouse_x = prev_e->mouse_x + alpha*(next_e->mouse_x - prev_e->mouse_x);
+    mouse_y = prev_e->mouse_y + alpha*(next_e->mouse_y - prev_e->mouse_y);
+    walkanim.interpolate(prev_e->walkanim.gettimer(), next_e->walkanim.gettimer(), alpha);
+}

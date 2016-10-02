@@ -152,7 +152,7 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
 
 
     // Check if the current player has a character to run around with or is in spectate mode
-    Character *c = engine->currentstate.get<Player>(myself)->getcharacter(&(engine->currentstate));
+    Character *c = engine->currentstate->get<Player>(myself)->getcharacter(engine->currentstate.get());
     if (c != 0)
     {
         c->setinput(pressed_keys, held_keys, mousestate.x+renderer->cam_x-c->x, mousestate.y+renderer->cam_y-c->y);
@@ -162,7 +162,7 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
         // DEBUGTOOL
         if (spawnplayer)
         {
-            engine->currentstate.get<Player>(myself)->spawn(&engine->currentstate, renderer->cam_x+mousestate.x, renderer->cam_y+mousestate.y);
+            engine->currentstate->get<Player>(myself)->spawn(engine->currentstate.get(), renderer->cam_x+mousestate.x, renderer->cam_y+mousestate.y);
         }
         if (held_keys.LEFT)
         {

@@ -19,6 +19,7 @@ class Character : public MovingEntity
         virtual void midstep(Gamestate *state, double frametime);
         virtual void endstep(Gamestate *state, double frametime);
         bool isrootobject() {return false;}
+        virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha);
 
         virtual bool onground(Gamestate *state);
         virtual Rect getcollisionrect(Gamestate *state) = 0;

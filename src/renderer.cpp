@@ -31,10 +31,10 @@ Renderer::~Renderer()
     al_destroy_bitmap(foreground);
 }
 
-void Renderer::render(Gamestate *currentstate, EntityPtr myself)
+void Renderer::render(Gamestate *state, EntityPtr myself)
 {
     // Set camera
-    Character *c = currentstate->get<Player>(myself)->getcharacter(currentstate);
+    Character *c = state->get<Player>(myself)->getcharacter(state);
 
     if (c != 0)
     {
@@ -50,9 +50,9 @@ void Renderer::render(Gamestate *currentstate, EntityPtr myself)
     al_clear_to_color(al_map_rgba(0, 0, 0, 0));
 
     // Go through all objects and let them render themselves on the layers
-    for (auto& e : currentstate->entitylist)
+    for (auto& e : state->entitylist)
     {
-        e.second->render(this, currentstate);
+        e.second->render(this, state);
     }
 
     // Set render target to be the display
@@ -62,7 +62,7 @@ void Renderer::render(Gamestate *currentstate, EntityPtr myself)
     al_clear_to_color(al_map_rgba(0, 0, 0, 1));
 
     // Draw the map background first
-    currentstate->currentmap->renderbackground(cam_x, cam_y);
+    state->currentmap->renderbackground(cam_x, cam_y);
 
     // Then draw each layer
     al_draw_bitmap(background, 0, 0, 0);
@@ -70,7 +70,7 @@ void Renderer::render(Gamestate *currentstate, EntityPtr myself)
     al_draw_bitmap(foreground, 0, 0, 0);
 
     // Draw the map wallmask on top of everything, to prevent sprites that go through walls
-    currentstate->currentmap->renderwallground(cam_x, cam_y);
+    state->currentmap->renderwallground(cam_x, cam_y);
 
     al_flip_display();
 }

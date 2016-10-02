@@ -16,7 +16,8 @@ class Engine
         void loadmap(std::string mapname);
         EntityPtr newplayer();
 
-        Gamestate currentstate;
+        std::unique_ptr<Gamestate> currentstate;
+        std::unique_ptr<Gamestate> oldstate;
         Spriteloader maskloader;
 };
 

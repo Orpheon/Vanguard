@@ -12,6 +12,8 @@ class Animation
         virtual ~Animation();
         virtual std::string get_frame();
         bool update(double modification);
+        double gettimer() {return timer;}
+        void interpolate(double t1, double t2, double alpha);
     protected:
         double duration;
         double timer;

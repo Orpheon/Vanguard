@@ -36,6 +36,8 @@ class Gamestate
         }
 
         void update(double frametime);
+        std::unique_ptr<Gamestate> clone();
+        void interpolate(Gamestate *prevstate, Gamestate *nextstate, double alpha);
 
         std::unordered_map<int, std::unique_ptr<Entity>> entitylist;
 

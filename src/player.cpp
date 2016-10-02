@@ -63,3 +63,18 @@ Character* Player::getcharacter(Gamestate *state)
 {
     return state->get<Character>(character);
 }
+
+void Player::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
+{
+    Player *prev_e = static_cast<Player*>(prev_entity);
+    Player *next_e = static_cast<Player*>(next_entity);
+
+    if (alpha < 0.5)
+    {
+        character = prev_e->character;
+    }
+    else
+    {
+        character = next_e->character;
+    }
+}
