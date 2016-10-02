@@ -31,6 +31,12 @@ ALLEGRO_BITMAP* Spriteloader::request_sprite(std::string path)
         {
             al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
         }
+//        ALLEGRO_BITMAP *tmp = al_load_bitmap(("sprites/"+path).c_str());
+//        int w = al_get_bitmap_width(tmp), h = al_get_bitmap_height(tmp);
+//        bitmapcache[path] = al_create_bitmap(w*2, h*2);
+//        al_set_target_bitmap(bitmapcache[path]);
+//        al_draw_scaled_rotated_bitmap(tmp, 0, 0, 0, 0, 2, 2, 0, 0);
+//        al_destroy_bitmap(tmp);
         bitmapcache[path] = al_load_bitmap(("sprites/"+path).c_str());
         if (bitmapcache[path] == NULL)
         {
