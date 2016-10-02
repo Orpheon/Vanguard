@@ -3,8 +3,8 @@
 
 const double ENGINE_TIMESTEP = 1.0/60.0;
 
-const int WINDOW_WIDTH = 640;
-const int WINDOW_HEIGHT = 480;
+const int WINDOW_WIDTH = 1280;
+const int WINDOW_HEIGHT = 720;
 
 const int STAIRCASE_STEPSIZE = -6;
 
