@@ -17,7 +17,7 @@
         "heroes/mccree/reload/1.png": [3, -6],
 
     "heroes/mccree/run/ number of frames": 4,
-    "heroes/mccree/run/ duration": 50,
+    "heroes/mccree/run/ duration": 80,
         "heroes/mccree/run/3.png": [11, 4],
         "heroes/mccree/run/2.png": [15, 4],
         "heroes/mccree/run/1.png": [16, 4],
