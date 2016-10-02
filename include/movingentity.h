@@ -12,6 +12,7 @@ class MovingEntity : public Entity
     public:
         MovingEntity(Gamestate *state);
         virtual void endstep(Gamestate *state, double frametime);
+        virtual std::string getsprite(Gamestate *state, bool mask) = 0;
 
         double x, y;
         double hspeed, vspeed;

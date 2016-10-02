@@ -18,7 +18,6 @@ class Entity
         virtual void midstep(Gamestate *state, double frametime) = 0;
         virtual void endstep(Gamestate *state, double frametime) = 0;
         virtual void render(Renderer *renderer, Gamestate *state) = 0;
-        virtual std::string getsprite(Gamestate *state, bool mask) = 0;
         virtual bool isrootobject() = 0;
         uint64_t id;
 };

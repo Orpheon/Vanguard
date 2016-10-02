@@ -22,7 +22,6 @@ class Player : public Entity
         void spawn(Gamestate *state, double x, double y);
         bool isrootobject() {return true;}
         void render(Renderer *renderer, Gamestate *state);
-        std::string getsprite(Gamestate *state, bool mask) {}
 
         Character* getcharacter(Gamestate *state);
 
