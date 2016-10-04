@@ -183,7 +183,7 @@ void Character::endstep(Gamestate *state, double frametime)
     {
         walkanim.update(hspeed*frametime);
     }
-    if (hspeed == 0.0)
+    if (hspeed == 0.0 or not onground(state))
     {
         walkanim.reset();
     }
