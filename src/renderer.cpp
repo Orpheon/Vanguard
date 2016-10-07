@@ -87,13 +87,14 @@ void Renderer::render(Gamestate *currentstate, PlayerPtr myself)
     al_draw_bitmap(midground, 0, 0, 0);
     al_draw_bitmap(foreground, 0, 0, 0);
 
-    //fps counter
-    endframe = al_get_time() * 1000.0;
-    al_draw_text(font, al_map_rgb(255,255,255), 0, 0,ALLEGRO_ALIGN_LEFT, ("Frame time: " + std::to_string((endframe - startframe)) + "ms").c_str());
-    
     // Draw the map wallmask on top of everything, to prevent sprites that go through walls
     currentstate->currentmap->renderwallground(cam_x, cam_y);
 
+    //fps counter
+    endframe = al_get_time();
+    al_draw_text(font, al_map_rgb(255,255,255), 0, 0,ALLEGRO_ALIGN_LEFT, ("Frame time: " + std::to_string((endframe - startframe)) + "ms").c_str());
+    al_draw_text(font, al_map_rgb(255,255,255), 0, 12,ALLEGRO_ALIGN_LEFT, ("FPS: " + std::to_string(1.0 / (endframe - startframe)) + "ms").c_str());
+
     al_flip_display();
-    startframe = al_get_time() * 1000.0;
+    startframe = al_get_time();
 }
