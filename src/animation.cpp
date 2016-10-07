@@ -40,6 +40,11 @@ bool Animation::update(double modification)
     return false;
 }
 
+void Animation::interpolate(double t1, double t2, double alpha)
+{
+    timer = t1 + alpha*(t2-t1);
+}
+
 
 
 

@@ -5,7 +5,7 @@
 #include "gamestate.h"
 #include "global_constants.h"
 
-Engine::Engine() : currentstate(this), maskloader(true)
+Engine::Engine() : currentstate(new Gamestate(this)), oldstate(new Gamestate(this)), maskloader(true)
 {
     ;// constructor
 }
@@ -17,15 +17,16 @@ Engine::~Engine()
 
 void Engine::loadmap(std::string mapname)
 {
-    currentstate.currentmap = std::make_shared<Map>(mapname);
+    currentstate->currentmap = std::make_shared<Map>(mapname);
 }
 
 void Engine::update(double frametime)
 {
-    currentstate.update(frametime);
+    oldstate = currentstate->clone();
+    currentstate->update(frametime);
 }
 
-PlayerPtr Engine::newplayer()
+EntityPtr Engine::newplayer()
 {
-    return currentstate.make_player();
+    return currentstate->make_entity<Player>(currentstate.get());
 }

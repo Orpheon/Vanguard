@@ -3,22 +3,31 @@
 
 #include <memory>
 
+#include "entity.h"
 #include "datastructures.h"
 
 // Circular dependency
 class Gamestate;
+class Character;
 
-class Player
+class Player : public Entity
 {
     public:
         Player(Gamestate *state);
         virtual ~Player();
+        void beginstep(Gamestate *state, double frametime);
         void midstep(Gamestate *state, double frametime);
+        void endstep(Gamestate *state, double frametime);
         void clone(Gamestate *oldstate, Gamestate *newstate);
         void spawn(Gamestate *state, double x, double y);
+        bool isrootobject() {return true;}
+        void render(Renderer *renderer, Gamestate *state);
+        virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha);
+        std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Player(*this));}
+
+        Character* getcharacter(Gamestate *state);
 
         EntityPtr character;
-        uint64_t id;
 };
 
 #endif // PLAYER_H

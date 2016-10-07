@@ -30,6 +30,7 @@ int main(int argc, char **argv)
     InputCatcher *inputcatcher;
     Engine *engine;
     Renderer *renderer;
+    Gamestate *renderingstate;
 
     try
     {
@@ -38,6 +39,7 @@ int main(int argc, char **argv)
         engine = new Engine();
         renderer = new Renderer();
         inputcatcher = new InputCatcher(renderer->display);
+        renderingstate = new Gamestate(engine);
     }
     catch (int e)
     {
@@ -52,7 +54,9 @@ int main(int argc, char **argv)
         return -1;
     }
     engine->loadmap("conflict");
-    PlayerPtr myself = engine->newplayer();
+    EntityPtr myself = engine->newplayer();
+    // FIXME: Hack to make sure the oldstate is properly initialized
+    engine->update(0);
 
     double lasttimeupdated = al_get_time();
     while (true)
@@ -66,7 +70,8 @@ int main(int argc, char **argv)
 
                 lasttimeupdated += ENGINE_TIMESTEP;
             }
-            renderer->render(&(engine->currentstate), myself);
+            renderingstate->interpolate(engine->oldstate.get(), engine->currentstate.get(), (al_get_time()-lasttimeupdated)/ENGINE_TIMESTEP);
+            renderer->render(renderingstate, myself);
         }
         catch (int e)
         {

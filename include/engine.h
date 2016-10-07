@@ -14,9 +14,10 @@ class Engine
         ~Engine();
         void update(double frametime);
         void loadmap(std::string mapname);
-        PlayerPtr newplayer();
+        EntityPtr newplayer();
 
-        Gamestate currentstate;
+        std::unique_ptr<Gamestate> currentstate;
+        std::unique_ptr<Gamestate> oldstate;
         Spriteloader maskloader;
 };
 

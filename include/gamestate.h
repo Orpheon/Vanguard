@@ -26,27 +26,30 @@ class Gamestate
             return EntityPtr(id);
         }
 
-        PlayerPtr make_player();
-
-        Entity* get(EntityPtr);
-        Player* get(PlayerPtr);
+        template<class EntityT> EntityT* get(EntityPtr e)
+        {
+            if (e == 0)
+            {
+                return 0;
+            }
+            return static_cast<EntityT*>(entitylist[e.id].get());
+        }
 
         void update(double frametime);
-
-        Engine *engine;
+        std::unique_ptr<Gamestate> clone();
+        void interpolate(Gamestate *prevstate, Gamestate *nextstate, double alpha);
 
         std::unordered_map<int, std::unique_ptr<Entity>> entitylist;
-        std::unordered_map<int, std::unique_ptr<Player>> playerlist;
 
         // Make gamestate move-assigneable, so that " = " doesn't copy but move.
         Gamestate & operator=(Gamestate &&)=default;
 
         double time;
         std::shared_ptr<Map> currentmap;
+        Engine *engine;
     protected:
     private:
         uint64_t entityidcounter;
-        uint64_t playeridcounter;
 };
 
 #endif // GAMESTATE_H

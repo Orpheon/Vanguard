@@ -9,7 +9,7 @@
 #include "engine.h"
 
 
-Character::Character(Gamestate *state, PlayerPtr owner_, CharacterChildParameters arguments) : MovingEntity(state),
+Character::Character(Gamestate *state, EntityPtr owner_, CharacterChildParameters arguments) : MovingEntity(state),
             owner(owner_), pressed_keys(), held_keys(), walkanim(arguments.walkanimpath)
 {
     isflipped = false;
@@ -183,7 +183,7 @@ void Character::endstep(Gamestate *state, double frametime)
     {
         walkanim.update(hspeed*frametime);
     }
-    if (hspeed == 0.0)
+    if (hspeed == 0.0 or not onground(state))
     {
         walkanim.reset();
     }
@@ -193,4 +193,28 @@ bool Character::onground(Gamestate *state)
 {
     Rect r = getcollisionrect(state);
     return state->currentmap->collides(state, Rect(r.x, r.y+r.h, r.w, 1));
+}
+
+void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
+{
+    MovingEntity::interpolate(prev_entity, next_entity, alpha);
+
+    Character *prev_e = static_cast<Character*>(prev_entity);
+    Character *next_e = static_cast<Character*>(next_entity);
+
+    if (alpha < 0.5)
+    {
+        held_keys = prev_e->held_keys;
+        pressed_keys = prev_e->pressed_keys;
+        crouched = prev_e->crouched;
+    }
+    else
+    {
+        held_keys = next_e->held_keys;
+        pressed_keys = next_e->pressed_keys;
+        crouched = prev_e->crouched;
+    }
+    mouse_x = prev_e->mouse_x + alpha*(next_e->mouse_x - prev_e->mouse_x);
+    mouse_y = prev_e->mouse_y + alpha*(next_e->mouse_y - prev_e->mouse_y);
+    walkanim.interpolate(prev_e->walkanim.gettimer(), next_e->walkanim.gettimer(), alpha);
 }
