@@ -14,6 +14,11 @@ Character::Character(Gamestate *state, EntityPtr owner_, CharacterChildParameter
 {
     isflipped = false;
     crouched = false;
+
+    // friction factor per second of null movement; calculated directly from Gang Garrison 2
+    // from pygg2
+    friction = 0.01510305449388463132584804061124;
+
 }
 
 Character::~Character()
@@ -67,6 +72,9 @@ void Character::midstep(Gamestate *state, double frametime)
 
     isflipped = (mouse_x < 0);
     vspeed += 540.0*frametime;
+
+    // apply friction
+    hspeed *= std::pow(friction, frametime);
 }
 
 void Character::endstep(Gamestate *state, double frametime)
