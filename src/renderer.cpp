@@ -85,6 +85,7 @@ void Renderer::render(Gamestate *state, EntityPtr myself)
 
     // Draw the map background first
     state->currentmap->renderbackground(cam_x, cam_y);
+
     // Then draw each layer
     al_draw_bitmap(background, 0, 0, 0);
     al_draw_bitmap(midground, 0, 0, 0);
@@ -105,7 +106,7 @@ void Renderer::render(Gamestate *state, EntityPtr myself)
         fps = 1.0 / frametime;
 
     al_draw_text(font, al_map_rgb(255,255,255), 0, 0,ALLEGRO_ALIGN_LEFT, ("Frame time: " + std::to_string(frametime * 1000) + "ms").c_str());
-    al_draw_text(font, al_map_rgb(255,255,255), 0, 12,ALLEGRO_ALIGN_LEFT, ("FPS: " + std::to_string(fps)).c_str());
+    al_draw_text(font, al_map_rgb(255,255,255), 0, 12,ALLEGRO_ALIGN_LEFT, ("FPS: " + std::to_string((int)fps)).c_str());
 
     al_flip_display();
 }
