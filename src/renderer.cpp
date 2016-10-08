@@ -85,7 +85,6 @@ void Renderer::render(Gamestate *state, EntityPtr myself)
 
     // Draw the map background first
     state->currentmap->renderbackground(cam_x, cam_y);
-lasttime = al_get_time();
     // Then draw each layer
     al_draw_bitmap(background, 0, 0, 0);
     al_draw_bitmap(midground, 0, 0, 0);
