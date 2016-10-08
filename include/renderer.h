@@ -24,8 +24,11 @@ class Renderer
         ALLEGRO_FONT *font;
     protected:
     private:
-        double startframe;
-        double endframe;
+        double lasttime;
+        double currenttime;
+        double frametime;
+        double deltatime;
+        double fps;
 };
 
 #endif // RENDERER_H

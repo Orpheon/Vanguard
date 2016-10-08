@@ -34,7 +34,11 @@ Renderer::Renderer() : cam_x(0), cam_y(0), spriteloader(false)
     }
 
     // fps stuff
-    startframe = al_get_time();
+    lasttime = al_get_time();
+    currenttime = al_get_time();
+    frametime = 0;
+    deltatime = 0;
+    fps = 0;
 }
 
 Renderer::~Renderer()
@@ -81,7 +85,7 @@ void Renderer::render(Gamestate *state, EntityPtr myself)
 
     // Draw the map background first
     state->currentmap->renderbackground(cam_x, cam_y);
-
+lasttime = al_get_time();
     // Then draw each layer
     al_draw_bitmap(background, 0, 0, 0);
     al_draw_bitmap(midground, 0, 0, 0);
@@ -90,11 +94,19 @@ void Renderer::render(Gamestate *state, EntityPtr myself)
     // Draw the map wallmask on top of everything, to prevent sprites that go through walls
     state->currentmap->renderwallground(cam_x, cam_y);
 
-    //fps counter
-    endframe = al_get_time();
-    al_draw_text(font, al_map_rgb(255,255,255), 0, 0,ALLEGRO_ALIGN_LEFT, ("Frame time: " + std::to_string((endframe - startframe)) + "ms").c_str());
-    al_draw_text(font, al_map_rgb(255,255,255), 0, 12,ALLEGRO_ALIGN_LEFT, ("FPS: " + std::to_string(1.0 / (endframe - startframe)) + "ms").c_str());
+    //fps counter mostly borrowed from pygg2
+    lasttime = currenttime;
+    currenttime = al_get_time();
+    deltatime = currenttime - lasttime;
+    frametime = 0.99 * frametime + 0.01 * deltatime;
+
+    if (frametime == 0)
+        fps = 0;
+    else
+        fps = 1.0 / frametime;
+
+    al_draw_text(font, al_map_rgb(255,255,255), 0, 0,ALLEGRO_ALIGN_LEFT, ("Frame time: " + std::to_string(frametime * 1000) + "ms").c_str());
+    al_draw_text(font, al_map_rgb(255,255,255), 0, 12,ALLEGRO_ALIGN_LEFT, ("FPS: " + std::to_string(fps)).c_str());
 
     al_flip_display();
-    startframe = al_get_time();
 }
