@@ -105,8 +105,19 @@ void Renderer::render(Gamestate *state, EntityPtr myself)
     else
         fps = 1.0 / frametime;
 
-    al_draw_text(font, al_map_rgb(255,255,255), 0, 0,ALLEGRO_ALIGN_LEFT, ("Frame time: " + std::to_string(frametime * 1000) + "ms").c_str());
-    al_draw_text(font, al_map_rgb(255,255,255), 0, 12,ALLEGRO_ALIGN_LEFT, ("FPS: " + std::to_string((int)fps)).c_str());
+    al_draw_text(font, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, ("Frametime: " + std::to_string(frametime * 1000) + "ms").c_str());
+    al_draw_text(font, al_map_rgb(255, 255, 255), 0, 12, ALLEGRO_ALIGN_LEFT, ("FPS: " + std::to_string((int)fps)).c_str());
+    al_draw_text(font, al_map_rgb(255, 255, 255), 0, 60, ALLEGRO_ALIGN_LEFT, ("pos: " + std::to_string(cam_x) + " " + std::to_string(cam_y)).c_str());
+    if (c != 0)
+    {
+        al_draw_text(font, al_map_rgb(255, 255, 255), 0, 72, ALLEGRO_ALIGN_LEFT, ("hspeed: " + std::to_string(c->hspeed)).c_str());
+        al_draw_text(font, al_map_rgb(255, 255, 255), 0, 84, ALLEGRO_ALIGN_LEFT, ("vspeed: " + std::to_string(c->vspeed)).c_str());
+    }
+    else
+    {
+        al_draw_text(font, al_map_rgb(255, 255, 255), 0, 72, ALLEGRO_ALIGN_LEFT, "hspeed: 0.000000");
+        al_draw_text(font, al_map_rgb(255, 255, 255), 0, 84, ALLEGRO_ALIGN_LEFT, "vspeed: 0.000000");
+    }
 
     al_flip_display();
 }
