@@ -72,8 +72,16 @@ void Character::midstep(Gamestate *state, double frametime)
         }
     }
 
-    isflipped = (mouse_x < 0);
-    vspeed += 540.0*frametime;
+    if (isflipped != (mouse_x < 0))
+    {
+        // Spinjumping
+        vspeed += 540.0*frametime/4.0;
+        isflipped = (mouse_x < 0);
+    }
+    else
+    {
+        vspeed += 540.0*frametime;
+    }
 
     // apply friction
     hspeed *= std::pow(friction, frametime);
