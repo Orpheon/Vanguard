@@ -91,6 +91,7 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
                     // FIXME: Debugtool
                     case ALLEGRO_KEY_R:
                         spawnplayer = true;
+                        break;
 
                     case ALLEGRO_KEY_ESCAPE:
                         // Exit game
