@@ -7,10 +7,11 @@
 #include "player.h"
 #include "global_constants.h"
 #include "engine.h"
+#include "weapon.h"
 
 
 Character::Character(Gamestate *state, EntityPtr owner_, CharacterChildParameters arguments) : MovingEntity(state),
-            owner(owner_), pressed_keys(), held_keys(), walkanim(arguments.walkanimpath)
+            owner(owner_), pressed_keys(), held_keys(), weapon(getweapon(state)), walkanim(arguments.walkanimpath)
 {
     isflipped = false;
     crouched = false;
@@ -21,12 +22,14 @@ Character::~Character()
     ;
 }
 
-void Character::setinput(INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_, double mouse_x_, double mouse_y_)
+void Character::setinput(Gamestate *state, INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_, double mouse_x_, double mouse_y_)
 {
     pressed_keys = pressed_keys_;
     held_keys = held_keys_;
     mouse_x = mouse_x_;
     mouse_y = mouse_y_;
+    Weapon *w = state->get<Weapon>(weapon);
+    w->setaim(mouse_x, mouse_y);
 }
 
 void Character::beginstep(Gamestate *state, double frametime)

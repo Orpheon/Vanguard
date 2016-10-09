@@ -93,11 +93,14 @@
 		<Unit filename="include/map.h" />
 		<Unit filename="include/mccree.h" />
 		<Unit filename="include/movingentity.h" />
+		<Unit filename="include/peacemaker.h" />
 		<Unit filename="include/player.h" />
 		<Unit filename="include/renderer.h" />
 		<Unit filename="include/spriteloader.h" />
+		<Unit filename="include/weapon.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Heroes/mccree.cpp" />
+		<Unit filename="src/Weapons/peacemaker.cpp" />
 		<Unit filename="src/animation.cpp" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/engine.cpp" />
@@ -108,6 +111,7 @@
 		<Unit filename="src/player.cpp" />
 		<Unit filename="src/renderer.cpp" />
 		<Unit filename="src/spriteloader.cpp" />
+		<Unit filename="src/weapon.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
