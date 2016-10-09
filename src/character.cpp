@@ -49,7 +49,7 @@ void Character::midstep(Gamestate *state, double frametime)
     }
     if (held_keys.RIGHT)
     {
-        hspeed = std::min(hspeed + acceleration * runpower * frametime , 153.0);
+        hspeed = std::min(hspeed + acceleration * runpower * frametime, 153.0);
     }
     if (pressed_keys.JUMP)
     {
