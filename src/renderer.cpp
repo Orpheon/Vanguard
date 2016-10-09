@@ -27,7 +27,7 @@ Renderer::Renderer() : cam_x(0), cam_y(0), spriteloader(false)
     //gg2 font as placeholder for now i guess
     al_init_font_addon();
     al_init_ttf_addon();
-    font = al_load_font("gg2bold.ttf", 12, 0);
+    font = al_load_font("gg2bold.ttf", 12, ALLEGRO_TTF_MONOCHROME);
     if (!font)
     {
       fprintf(stderr, "Could not load 'gg2bold.ttf'.\n");
