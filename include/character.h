@@ -29,6 +29,8 @@ class Character : public MovingEntity
         bool crouched;
 
         double friction;
+        double acceleration;
+        double runpower;
 
     protected:
         INPUT_CONTAINER pressed_keys;
