@@ -28,6 +28,10 @@ class Character : public MovingEntity
         EntityPtr owner;
         bool crouched;
 
+        double friction;
+        double acceleration;
+        double runpower;
+
     protected:
         INPUT_CONTAINER pressed_keys;
         INPUT_CONTAINER held_keys;
