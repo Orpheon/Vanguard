@@ -10,6 +10,7 @@
 Renderer::Renderer() : cam_x(0), cam_y(0), spriteloader(false)
 {
     // Create a display
+    al_set_new_display_option(ALLEGRO_VSYNC, 2, ALLEGRO_REQUIRE);
     display = al_create_display(WINDOW_WIDTH, WINDOW_HEIGHT);
     if(!display)
     {
