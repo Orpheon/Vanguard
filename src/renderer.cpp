@@ -35,10 +35,6 @@ Renderer::Renderer() : cam_x(0), cam_y(0), spriteloader(false)
 
     // fps stuff
     lasttime = al_get_time();
-    currenttime = al_get_time();
-    frametime = 0;
-    deltatime = 0;
-    fps = 0;
 }
 
 Renderer::~Renderer()
@@ -95,19 +91,12 @@ void Renderer::render(Gamestate *state, EntityPtr myself)
     state->currentmap->renderwallground(cam_x, cam_y);
 
     //fps counter mostly borrowed from pygg2
-    lasttime = currenttime;
-    currenttime = al_get_time();
-    deltatime = currenttime - lasttime;
-    frametime = 0.99 * frametime + 0.01 * deltatime;
-
-    if (frametime == 0)
-        fps = 0;
-    else
-        fps = 1.0 / frametime;
+    double frametime = al_get_time() - lasttime;
+    lasttime = al_get_time();
 
     al_draw_text(font, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, ("Frametime: " + std::to_string(frametime * 1000) + "ms").c_str());
-    al_draw_text(font, al_map_rgb(255, 255, 255), 0, 12, ALLEGRO_ALIGN_LEFT, ("FPS: " + std::to_string((int)fps)).c_str());
-    al_draw_text(font, al_map_rgb(255, 255, 255), 0, 60, ALLEGRO_ALIGN_LEFT, ("pos: " + std::to_string(cam_x) + " " + std::to_string(cam_y)).c_str());
+    al_draw_text(font, al_map_rgb(255, 255, 255), 0, 12, ALLEGRO_ALIGN_LEFT, ("FPS: " + std::to_string((int)(1/frametime))).c_str());
+    al_draw_text(font, al_map_rgb(255, 255, 255), 0, 60, ALLEGRO_ALIGN_LEFT, ("pos: " + std::to_string(cam_x+WINDOW_WIDTH/2.0) + " " + std::to_string(cam_y+WINDOW_HEIGHT/2.0)).c_str());
     if (c != 0)
     {
         al_draw_text(font, al_map_rgb(255, 255, 255), 0, 72, ALLEGRO_ALIGN_LEFT, ("hspeed: " + std::to_string(c->hspeed)).c_str());

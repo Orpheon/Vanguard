@@ -25,10 +25,6 @@ class Renderer
     protected:
     private:
         double lasttime;
-        double currenttime;
-        double frametime;
-        double deltatime;
-        double fps;
 };
 
 #endif // RENDERER_H
