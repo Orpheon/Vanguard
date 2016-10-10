@@ -20,5 +20,15 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
 
     al_set_target_bitmap(renderer->midground);
-    al_draw_rotated_bitmap(sprite, xoffset, yoffset, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, aimdirection, 0);
+
+    Character *c = state->get<Character>(owner);
+    if (c->isflipped)
+    {
+        // FIXME What the hell is going on here, this needs to be recalculated properly with paper
+        al_draw_scaled_rotated_bitmap(sprite, xoffset, yoffset, x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 1, -1, aimdirection, 0);
+    }
+    else
+    {
+        al_draw_rotated_bitmap(sprite, xoffset, yoffset, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, aimdirection, 0);
+    }
 }
