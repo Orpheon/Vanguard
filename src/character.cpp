@@ -9,12 +9,17 @@
 #include "engine.h"
 #include "weapon.h"
 
-
-Character::Character(Gamestate *state, EntityPtr owner_, CharacterChildParameters arguments) : MovingEntity(state),
-            owner(owner_), pressed_keys(), held_keys(), weapon(getweapon(state)), walkanim(arguments.walkanimpath)
+Character::Character(Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(state),
+            owner(owner_), pressed_keys(), held_keys(), weapon(parameters.weapon), runanim(parameters.runanimfolder)
 {
     isflipped = false;
     crouched = false;
+
+    acceleration = 300;
+    runpower = parameters.runpower;
+    // friction factor per second of null movement; calculated directly from Gang Garrison 2
+    // from pygg2
+    friction = 0.01510305449388463132584804061124;
 }
 
 Character::~Character()
@@ -41,11 +46,11 @@ void Character::midstep(Gamestate *state, double frametime)
 {
     if (held_keys.LEFT)
     {
-        hspeed = std::max(hspeed-300*frametime, -153.0);
+        hspeed = std::max(hspeed - acceleration * runpower * frametime, -153.0);
     }
     if (held_keys.RIGHT)
     {
-        hspeed = std::min(hspeed+300*frametime, 153.0);
+        hspeed = std::min(hspeed + acceleration * runpower * frametime, 153.0);
     }
     if (pressed_keys.JUMP)
     {
@@ -68,8 +73,19 @@ void Character::midstep(Gamestate *state, double frametime)
         }
     }
 
-    isflipped = (mouse_x < 0);
-    vspeed += 540.0*frametime;
+    if (isflipped != (mouse_x < 0))
+    {
+        // Spinjumping
+        vspeed += 540.0*frametime/4.0;
+        isflipped = (mouse_x < 0);
+    }
+    else
+    {
+        vspeed += 540.0*frametime;
+    }
+
+    // apply friction
+    hspeed *= std::pow(friction, frametime);
 }
 
 void Character::endstep(Gamestate *state, double frametime)
@@ -177,18 +193,18 @@ void Character::endstep(Gamestate *state, double frametime)
     } // end collision with wallmask
 
 
-    // Walking animation
+    // Running animation
     if (isflipped)
     {
-        walkanim.update(-hspeed*frametime);
+        runanim.update(state, -hspeed*frametime);
     }
     else
     {
-        walkanim.update(hspeed*frametime);
+        runanim.update(state, hspeed*frametime);
     }
-    if (hspeed == 0.0)
+    if (hspeed == 0.0 or not onground(state))
     {
-        walkanim.reset();
+        runanim.reset();
     }
 }
 
@@ -219,5 +235,5 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
     }
     mouse_x = prev_e->mouse_x + alpha*(next_e->mouse_x - prev_e->mouse_x);
     mouse_y = prev_e->mouse_y + alpha*(next_e->mouse_y - prev_e->mouse_y);
-    walkanim.interpolate(prev_e->walkanim.gettimer(), next_e->walkanim.gettimer(), alpha);
+    runanim.interpolate(&(prev_e->runanim), &(next_e->runanim), alpha);
 }

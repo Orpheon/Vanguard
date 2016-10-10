@@ -8,7 +8,7 @@
 #include <memory>
 #include <cmath>
 
-Mccree::Mccree(Gamestate *state, EntityPtr owner_) : Character(state, owner_, constructCharacterChildParameters())
+Mccree::Mccree(Gamestate *state, EntityPtr owner_) : Character(state, owner_, constructparameters())
 {
     ;
 }
@@ -59,14 +59,6 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
 }
 */
 
-
-CharacterChildParameters Mccree::constructCharacterChildParameters()
-{
-    CharacterChildParameters c;
-    c.walkanimpath = "heroes/mccree/run/";
-    return c;
-}
-
 Rect Mccree::getcollisionrect(Gamestate *state)
 {
     if (crouched)
@@ -95,5 +87,14 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     {
         return "heroes/mccree/idle/1.png";
     }
-    return walkanim.get_frame();
+    return runanim.get_frame();
+}
+
+CharacterChildParameters Mccree::constructparameters()
+{
+    CharacterChildParameters p;
+    p.runanimfolder = "heroes/mccree/run/";
+    p.runpower = 1.8;
+    p.weapon = state->make_entity<Peacemaker>(state, EntityPtr(id));
+    return p;
 }
