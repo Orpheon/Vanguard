@@ -35,6 +35,8 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
     {
         al_draw_bitmap(sprite, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 0);
     }
+
+    state->get<Weapon>(weapon)->render(renderer, state);
 }
 
 /*void Mccree::midstep(Gamestate *state, double frametime)

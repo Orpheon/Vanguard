@@ -39,7 +39,7 @@ void Character::setinput(Gamestate *state, INPUT_CONTAINER pressed_keys_, INPUT_
 
 void Character::beginstep(Gamestate *state, double frametime)
 {
-    ;
+    state->get<Weapon>(weapon)->beginstep(state, frametime);
 }
 
 void Character::midstep(Gamestate *state, double frametime)
@@ -86,6 +86,8 @@ void Character::midstep(Gamestate *state, double frametime)
 
     // apply friction
     hspeed *= std::pow(friction, frametime);
+
+    state->get<Weapon>(weapon)->midstep(state, frametime);
 }
 
 void Character::endstep(Gamestate *state, double frametime)
@@ -206,6 +208,8 @@ void Character::endstep(Gamestate *state, double frametime)
     {
         runanim.reset();
     }
+
+    state->get<Weapon>(weapon)->endstep(state, frametime);
 }
 
 bool Character::onground(Gamestate *state)

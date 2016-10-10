@@ -8,19 +8,19 @@
 class Weapon : public MovingEntity
 {
     public:
-        Weapon(Gamestate *state, EntityPtr owner_);
+        Weapon(uint64_t id_, Gamestate *state, EntityPtr owner_);
         virtual ~Weapon();
-        void setaim(double x, double y);
+        virtual void setaim(double x_, double y_);
 
         bool isrootobject() {return false;}
 
         EntityPtr owner;
         double aimdirection;
 
-        void beginstep(Gamestate *state, double frametime);
-        void midstep(Gamestate *state, double frametime);
-        void endstep(Gamestate *state, double frametime);
-        std::unique_ptr<Entity> clone();
+        virtual void beginstep(Gamestate *state, double frametime);
+        virtual void midstep(Gamestate *state, double frametime);
+        virtual void endstep(Gamestate *state, double frametime);
+        virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha);
 
         std::string idlesprite;
     protected:

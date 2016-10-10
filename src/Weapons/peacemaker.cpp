@@ -10,7 +10,7 @@ Peacemaker::~Peacemaker()
     //dtor
 }
 
-Peacemaker::render(Renderer *renderer, Gamestate *state)
+void Peacemaker::render(Renderer *renderer, Gamestate *state)
 {
     // FIXME: Placeholder
     std::string mainsprite = "heroes/mccree/arm/1.png";
