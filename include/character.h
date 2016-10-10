@@ -12,7 +12,7 @@
 class Character : public MovingEntity
 {
     public:
-        Character(Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters);
+        Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters);
         virtual ~Character();
         virtual void setinput(Gamestate *state, INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_, double mouse_x_, double mouse_y_);
         virtual void beginstep(Gamestate *state, double frametime);
@@ -24,7 +24,7 @@ class Character : public MovingEntity
         virtual bool onground(Gamestate *state);
         virtual Rect getcollisionrect(Gamestate *state) = 0;
         virtual Rect getstandingcollisionrect(Gamestate *state) = 0;
-        virtual CharacterChildParameters constructparameters() = 0;
+        virtual CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state) = 0;
 
         EntityPtr owner;
         EntityPtr weapon;

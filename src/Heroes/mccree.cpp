@@ -8,7 +8,7 @@
 #include <memory>
 #include <cmath>
 
-Mccree::Mccree(Gamestate *state, EntityPtr owner_) : Character(state, owner_, constructparameters())
+Mccree::Mccree(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state))
 {
     ;
 }
@@ -92,11 +92,11 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     return runanim.get_frame();
 }
 
-CharacterChildParameters Mccree::constructparameters()
+CharacterChildParameters Mccree::constructparameters(uint64_t id_, Gamestate *state)
 {
     CharacterChildParameters p;
     p.runanimfolder = "heroes/mccree/run/";
     p.runpower = 1.8;
-    p.weapon = state->make_entity<Peacemaker>(state, EntityPtr(id));
+    p.weapon = state->make_entity<Peacemaker>(state, EntityPtr(id_));
     return p;
 }

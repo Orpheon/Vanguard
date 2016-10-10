@@ -1,6 +1,7 @@
 #include "peacemaker.h"
+#include "renderer.h"
 
-Peacemaker::Peacemaker(Gamestate *state, EntityPtr owner_) : Weapon(state, owner_)
+Peacemaker::Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_)
 {
 
 }

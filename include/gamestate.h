@@ -21,8 +21,7 @@ class Gamestate
         template<class EntityT, class ...Args>EntityPtr make_entity(Args&& ...args)
         {
             uint64_t id = entityidcounter++;
-            entitylist[id] = std::unique_ptr<Entity>(new EntityT(std::forward<Args>(args)...));
-            entitylist[id]->id = id;
+            entitylist[id] = std::unique_ptr<Entity>(new EntityT(id, std::forward<Args>(args)...));
             return EntityPtr(id);
         }
 

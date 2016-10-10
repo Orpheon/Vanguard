@@ -6,11 +6,12 @@
 class Peacemaker : public Weapon
 {
     public:
-        Peacemaker(Gamestate *state, EntityPtr owner_);
+        Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_);
         virtual ~Peacemaker();
 
         void render(Renderer *renderer, Gamestate *state);
         std::string getsprite(Gamestate *state, bool mask) {return "";}
+        std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Peacemaker(*this));}
     protected:
     private:
         double xoffset = 0;

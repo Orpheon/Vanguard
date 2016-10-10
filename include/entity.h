@@ -13,7 +13,7 @@ class Renderer;
 class Entity
 {
     public:
-        Entity() = default;
+        Entity(uint64_t id_) : id(id_) {}
         virtual ~Entity() = default;
         virtual void beginstep(Gamestate *state, double frametime) = 0;
         virtual void midstep(Gamestate *state, double frametime) = 0;

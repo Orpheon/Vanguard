@@ -13,7 +13,7 @@ class Character;
 class Player : public Entity
 {
     public:
-        Player(Gamestate *state);
+        Player(uint64_t id_, Gamestate *state);
         virtual ~Player();
         void beginstep(Gamestate *state, double frametime);
         void midstep(Gamestate *state, double frametime);

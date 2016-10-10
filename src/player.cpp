@@ -4,7 +4,7 @@
 #include "character.h"
 #include "mccree.h"
 
-Player::Player(Gamestate *state) : character(0)
+Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0)
 {
     ;
 }

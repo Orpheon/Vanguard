@@ -9,8 +9,8 @@
 #include "engine.h"
 #include "weapon.h"
 
-Character::Character(Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(state),
-            owner(owner_), pressed_keys(), held_keys(), weapon(parameters.weapon), runanim(parameters.runanimfolder)
+Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
+            owner(owner_), weapon(parameters.weapon), pressed_keys(), held_keys(), runanim(parameters.runanimfolder)
 {
     isflipped = false;
     crouched = false;

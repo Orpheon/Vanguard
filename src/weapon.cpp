@@ -1,10 +1,12 @@
 #include "weapon.h"
+#include "character.h"
+#include "gamestate.h"
 
 #include <cmath>
 
-Weapon::Weapon(Gamestate *state, EntityPtr owner_) : MovingEntity(state), owner(owner_), aimdirection(0)
+Weapon::Weapon(uint64_t id_, Gamestate *state, EntityPtr owner_) : MovingEntity(id_, state), owner(owner_), aimdirection(0)
 {
-    //ctor
+    ;
 }
 
 Weapon::~Weapon()
