@@ -21,23 +21,34 @@ void Gamestate::update(double frametime)
 
     for (auto& e : entitylist)
     {
-        if (e.second->isrootobject())
+        if (e.second->isrootobject() and not e.second->destroyentity)
         {
             e.second->beginstep(this, frametime);
         }
     }
     for (auto& e : entitylist)
     {
-        if (e.second->isrootobject())
+        if (e.second->isrootobject() and not e.second->destroyentity)
         {
             e.second->midstep(this, frametime);
         }
     }
     for (auto& e : entitylist)
     {
-        if (e.second->isrootobject())
+        if (e.second->isrootobject() and not e.second->destroyentity)
         {
             e.second->endstep(this, frametime);
+        }
+    }
+    for (auto e = entitylist.begin(); e != entitylist.end();)
+    {
+        if (e->second->destroyentity)
+        {
+            e = entitylist.erase(e);
+        }
+        else
+        {
+            ++e;
         }
     }
 }

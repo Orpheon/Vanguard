@@ -23,6 +23,7 @@ class Entity
         virtual std::unique_ptr<Entity> clone() = 0;
         virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha) = 0;
         uint64_t id;
+        bool destroyentity = false;
 };
 
 #endif // ENTITY_H

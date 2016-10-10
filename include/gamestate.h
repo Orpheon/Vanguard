@@ -27,7 +27,7 @@ class Gamestate
 
         template<class EntityT> EntityT* get(EntityPtr e)
         {
-            if (e == 0)
+            if (e == 0 or entitylist.count(e.id) == 0 or entitylist[e.id]->destroyentity)
             {
                 return 0;
             }
