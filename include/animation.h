@@ -3,20 +3,19 @@
 
 #include <allegro5/allegro.h>
 #include <string>
+#include "timer.h"
 
 class Animation
 {
     public:
-        Animation();
         Animation(std::string path_);
+        Animation(std::string path_, void (*eventfunc_)(Gamestate *state));
         virtual ~Animation();
         virtual std::string get_frame();
-        bool update(double modification);
-        double gettimer() {return timer;}
-        void interpolate(double t1, double t2, double alpha);
-    protected:
-        double duration;
-        double timer;
+        void update(Gamestate *state, double dt);
+        double getpercent() {return timer.getpercent();}
+        void interpolate(Animation *prev_anim, Animation *next_anim, double alpha);
+        Timer timer;
         int nframes;
         std::string path;
 };
@@ -25,10 +24,10 @@ class Animation
 class LoopAnimation : public Animation
 {
     public:
-        LoopAnimation();
         LoopAnimation(std::string path_);
+        LoopAnimation(std::string path_, void (*eventfunc_)(Gamestate *state));
         virtual ~LoopAnimation();
-        void update(double modification);
+        void update(Gamestate *state, double dt);
         void reset();
 };
 

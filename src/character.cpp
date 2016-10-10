@@ -9,18 +9,17 @@
 #include "engine.h"
 
 
-Character::Character(Gamestate *state, EntityPtr owner_, CharacterChildParameters arguments) : MovingEntity(state),
-            owner(owner_), pressed_keys(), held_keys(), walkanim(arguments.walkanimpath)
+Character::Character(Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(state),
+            owner(owner_), pressed_keys(), held_keys(), runanim(parameters.runanimfolder)
 {
     isflipped = false;
     crouched = false;
 
     acceleration = 300;
-    runpower = 1.8;
+    runpower = parameters.runpower;
     // friction factor per second of null movement; calculated directly from Gang Garrison 2
     // from pygg2
     friction = 0.01510305449388463132584804061124;
-
 }
 
 Character::~Character()
@@ -192,18 +191,18 @@ void Character::endstep(Gamestate *state, double frametime)
     } // end collision with wallmask
 
 
-    // Walking animation
+    // Running animation
     if (isflipped)
     {
-        walkanim.update(-hspeed*frametime);
+        runanim.update(state, -hspeed*frametime);
     }
     else
     {
-        walkanim.update(hspeed*frametime);
+        runanim.update(state, hspeed*frametime);
     }
     if (hspeed == 0.0 or not onground(state))
     {
-        walkanim.reset();
+        runanim.reset();
     }
 }
 
@@ -234,5 +233,5 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
     }
     mouse_x = prev_e->mouse_x + alpha*(next_e->mouse_x - prev_e->mouse_x);
     mouse_y = prev_e->mouse_y + alpha*(next_e->mouse_y - prev_e->mouse_y);
-    walkanim.interpolate(prev_e->walkanim.gettimer(), next_e->walkanim.gettimer(), alpha);
+    runanim.interpolate(&(prev_e->runanim), &(next_e->runanim), alpha);
 }

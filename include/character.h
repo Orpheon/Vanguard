@@ -12,7 +12,7 @@
 class Character : public MovingEntity
 {
     public:
-        Character(Gamestate *state, EntityPtr owner_, CharacterChildParameters arguments);
+        Character(Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters);
         virtual ~Character();
         virtual void setinput(INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_, double mouse_x_, double mouse_y_);
         virtual void beginstep(Gamestate *state, double frametime);
@@ -24,6 +24,7 @@ class Character : public MovingEntity
         virtual bool onground(Gamestate *state);
         virtual Rect getcollisionrect(Gamestate *state) = 0;
         virtual Rect getstandingcollisionrect(Gamestate *state) = 0;
+        virtual CharacterChildParameters constructparameters() = 0;
 
         EntityPtr owner;
         bool crouched;
@@ -37,9 +38,7 @@ class Character : public MovingEntity
         INPUT_CONTAINER held_keys;
         double mouse_x;
         double mouse_y;
-        LoopAnimation walkanim;
-
-        virtual CharacterChildParameters constructCharacterChildParameters() = 0;
+        LoopAnimation runanim;
 };
 
 #endif // CHARACTER_H

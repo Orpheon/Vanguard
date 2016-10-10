@@ -47,7 +47,8 @@ struct EntityPtr
 
 struct CharacterChildParameters
 {
-    std::string walkanimpath;
+    std::string runanimfolder = "";
+    double runpower = 0;
 };
 
 struct Rect
