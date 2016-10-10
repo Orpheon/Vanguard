@@ -208,15 +208,18 @@ void Character::endstep(Gamestate *state, double frametime)
 
 
     // Running animation
-    if (isflipped)
+    if (onground(state))
     {
-        runanim.update(state, -hspeed*frametime);
+        if (isflipped)
+        {
+            runanim.update(state, -hspeed*frametime);
+        }
+        else
+        {
+            runanim.update(state, hspeed*frametime);
+        }
     }
-    else
-    {
-        runanim.update(state, hspeed*frametime);
-    }
-    if (hspeed == 0.0 or not onground(state))
+    if (hspeed == 0.0)
     {
         runanim.reset();
     }
