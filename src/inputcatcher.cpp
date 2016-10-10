@@ -98,10 +98,11 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
                         throw 0;
                 }
 
+            // FIXME: BROKEN DOES NOT WORK
+            // event.mouse.button seems to always be 0
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
                 switch (event.mouse.button)
                 {
-                    // FIXME: I have no idea if these constants are correct, allegro docs don't mention the specifics, just that it starts with 1.
                     case LEFT_MOUSE_BUTTON:
                         pressed_keys.PRIMARY_FIRE = true;
                         break;
