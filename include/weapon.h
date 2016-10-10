@@ -22,6 +22,9 @@ class Weapon : public MovingEntity
         virtual void endstep(Gamestate *state, double frametime);
         virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha);
 
+        virtual void fireprimary(Gamestate *state, double frametime) = 0;
+        virtual void firesecondary(Gamestate *state, double frametime) = 0;
+
         std::string idlesprite;
     protected:
     private:

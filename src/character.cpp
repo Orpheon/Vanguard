@@ -73,6 +73,18 @@ void Character::midstep(Gamestate *state, double frametime)
         }
     }
 
+    // Shooting
+    if (held_keys.PRIMARY_FIRE)
+    {
+        Weapon *w = state->get<Weapon>(weapon);
+        w->fireprimary(state, frametime);
+    }
+    if (held_keys.SECONDARY_FIRE)
+    {
+        Weapon *w = state->get<Weapon>(weapon);
+        w->firesecondary(state, frametime);
+    }
+
     if (isflipped != (mouse_x < 0))
     {
         // Spinjumping

@@ -58,5 +58,7 @@
         "heroes/mccree/crouchwalk/3.png": [19, -5],
         "heroes/mccree/crouchwalk/2.png": [19, -5],
         "heroes/mccree/crouchwalk/1.png": [19, -5],
-        "heroes/mccree/crouchwalk/4.png": [19, -5]
+        "heroes/mccree/crouchwalk/4.png": [19, -5],
+
+    "projectiles/bullet.png": [2, 0]
 }

@@ -1,5 +1,9 @@
+
+#include <cmath>
+
 #include "peacemaker.h"
 #include "renderer.h"
+#include "peacemakerbullet.h"
 
 Peacemaker::Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_)
 {
@@ -30,5 +34,19 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     else
     {
         al_draw_rotated_bitmap(sprite, xoffset, yoffset, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, aimdirection, 0);
+    }
+}
+
+void Peacemaker::fireprimary(Gamestate *state, double frametime)
+{
+    for (int i=0; i<10; ++i)
+    {
+        EntityPtr newshot = state->make_entity<PeacemakerBullet>(state, owner);
+        PeacemakerBullet *shot = state->get<PeacemakerBullet>(newshot);
+        shot->x = x;
+        shot->y = y+9.0;
+        double dir = aimdirection + 0.3*(2.0*(rand()/(RAND_MAX + 1.0))-1.0);
+        shot->hspeed = std::cos(dir) * bulletspeed;
+        shot->vspeed = std::sin(dir) * bulletspeed;
     }
 }
