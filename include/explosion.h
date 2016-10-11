@@ -11,7 +11,7 @@ class Explosion : public MovingEntity
         Explosion(uint64_t id_, Gamestate *state, std::string animationpath);
         virtual ~Explosion();
         void beginstep(Gamestate *state, double frametime) {}
-        void midstep(Gamestate *state, double frametime) {}
+        void midstep(Gamestate *state, double frametime);
         void endstep(Gamestate *state, double frametime) {}
         std::string getsprite(Gamestate *state, bool mask) {return explosionanim.getframe();}
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Explosion(*this));}

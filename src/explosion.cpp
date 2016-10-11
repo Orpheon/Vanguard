@@ -11,6 +11,11 @@ Explosion::~Explosion()
     //dtor
 }
 
+void Explosion::midstep(Gamestate *state, double frametime)
+{
+    explosionanim.update(state, frametime);
+}
+
 void Explosion::render(Renderer *renderer, Gamestate *state)
 {
     std::string mainsprite = getsprite(state, false);

@@ -33,7 +33,7 @@ void Flashbang::render(Renderer *renderer, Gamestate *state)
 
 void Flashbang::explode(Gamestate *state)
 {
-    Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "projectiles/flashbang_explosion/"));
+    Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "heroes/mccree/flashbang_explosion/"));
     e->x = x;
     e->y = y;
     destroyentity = true;

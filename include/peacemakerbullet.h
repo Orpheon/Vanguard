@@ -11,7 +11,7 @@ class PeacemakerBullet : public Projectile
         virtual ~PeacemakerBullet();
         void midstep(Gamestate *state, double frametime);
         void endstep(Gamestate *state, double frametime);
-        std::string getsprite(Gamestate *state, bool mask) {return "projectiles/bullet.png";}
+        std::string getsprite(Gamestate *state, bool mask) {return "heroes/mccree/projectiles/bullet.png";}
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new PeacemakerBullet(*this));}
         void render(Renderer *renderer, Gamestate *state);
     protected:

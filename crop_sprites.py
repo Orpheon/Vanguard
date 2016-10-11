@@ -27,6 +27,6 @@ for filename in sys.argv[1:]:
                 if b < y:
                     b = y
 
-    print('"{0}": [{1}, {2}],'.format(filename, w/2-l, h/2-t))
+    print('"{0}": [{1}, {2}],'.format(filename[8:], w/2-l, h/2-t))
     im2 = im.crop((l, t, r+1, b+1))
     im2.save(filename)
