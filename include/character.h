@@ -34,13 +34,14 @@ class Character : public MovingEntity
         double acceleration;
         double runpower;
 
-        struct CharacterAnimationState : public AnimationState
+        struct AnimationState
         {
+            bool isflipped;
             LoopAnimation runanim;
             LoopAnimation crouchanim;
-            CharacterAnimationState(std::string characterfolder) : AnimationState(), runanim(characterfolder+"run/"), crouchanim(characterfolder+"crouchwalk/") {}
+            AnimationState(std::string characterfolder) : isflipped(false), runanim(characterfolder+"run/"), crouchanim(characterfolder+"crouchwalk/") {}
         };
-        virtual CharacterAnimationState* animstate() = 0;
+        virtual AnimationState* animstate() = 0;
 
     protected:
         INPUT_CONTAINER pressed_keys;

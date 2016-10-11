@@ -15,15 +15,11 @@ class Peacemaker : public Weapon
 
         void fireprimary(Gamestate *state, double frametime) override;
         void firesecondary(Gamestate *state, double frametime) override {}
-
-        AnimationState* animstate() override {return &animstate_;}
-
     protected:
     private:
         double xoffset = 0;
         double yoffset = 0;
         double bulletspeed = 200.0;
-        AnimationState animstate_;
 };
 
 #endif // PEACEMAKER_H

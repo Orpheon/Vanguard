@@ -22,11 +22,11 @@ class Mccree : public Character
         CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state) override;
         bool cangetinput(Gamestate *state) override {return not animstate()->rolling.active();}
 
-        struct MccreeAnimationState : public CharacterAnimationState
+        struct MccreeAnimationState : public AnimationState
         {
             Animation rolling;
             Animation flashbang;
-            MccreeAnimationState() : CharacterAnimationState("heroes/mccree/"), rolling("heroes/mccree/roll/"), flashbang("heroes/mccree/flashbang/")
+            MccreeAnimationState() : AnimationState("heroes/mccree/"), rolling("heroes/mccree/roll/"), flashbang("heroes/mccree/flashbang/")
             {
                 rolling.active(false);
                 flashbang.active(false);

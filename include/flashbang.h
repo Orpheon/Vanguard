@@ -16,10 +16,8 @@ class Flashbang : public Projectile
         void explode(Gamestate *state);
 
         Timer countdown;
-        AnimationState* animstate() override {return &animstate_;}
     protected:
     private:
-        AnimationState animstate_;
 };
 
 #endif // FLASHBANG_H

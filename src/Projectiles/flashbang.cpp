@@ -1,5 +1,6 @@
 #include "flashbang.h"
 #include "renderer.h"
+#include "explosion.h"
 
 #include <functional>
 
@@ -32,5 +33,8 @@ void Flashbang::render(Renderer *renderer, Gamestate *state)
 
 void Flashbang::explode(Gamestate *state)
 {
+    Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "projectiles/flashbang_explosion/"));
+    e->x = x;
+    e->y = y;
     destroyentity = true;
 }

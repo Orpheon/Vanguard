@@ -41,6 +41,30 @@ bool Map::collides(Gamestate *state, MovingEntity *entity)
     ALLEGRO_BITMAP *mask = state->engine->maskloader.request_sprite(entity->getsprite(state, true));
     int x = (int) entity->x - state->engine->maskloader.get_spriteoffset_x(entity->getsprite(state, true));
     int y = (int) entity->y - state->engine->maskloader.get_spriteoffset_y(entity->getsprite(state, true));
+
+    int w = al_get_bitmap_width(mask), h = al_get_bitmap_height(mask);
+    if (x < 0 or y < 0 or x+w > al_get_bitmap_width(wallmask) or y+h > al_get_bitmap_height(wallmask))
+    {
+        return true;
+    }
+    for (int i=0; i<w; ++i)
+    {
+        for (int j=0; j<h; ++j)
+        {
+            if (al_get_pixel(wallmask, i+x, j+y).a != 0 and al_get_pixel(mask, i, j).a != 0)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Map::collides(Gamestate *state, Character *entity)
+{
+    ALLEGRO_BITMAP *mask = state->engine->maskloader.request_sprite(entity->getsprite(state, true));
+    int x = (int) entity->x - state->engine->maskloader.get_spriteoffset_x(entity->getsprite(state, true));
+    int y = (int) entity->y - state->engine->maskloader.get_spriteoffset_y(entity->getsprite(state, true));
     if (entity->animstate()->isflipped)
     {
         x = (int) entity->x - (al_get_bitmap_width(mask) - state->engine->maskloader.get_spriteoffset_x(entity->getsprite(state, true)));

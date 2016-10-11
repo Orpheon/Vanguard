@@ -3,6 +3,7 @@
 
 #include "datastructures.h"
 #include "movingentity.h"
+#include "character.h"
 
 #include <allegro5/allegro.h>
 #include <string>
@@ -15,6 +16,7 @@ class Map
         void renderbackground(double cam_x, double cam_y);
         void renderwallground(double cam_x, double cam_y);
         bool collides(Gamestate *state, MovingEntity *entity);
+        bool collides(Gamestate *state, Character *entity);
         bool collides(Gamestate *state, Rect rect);
         bool place_free(double x, double y) {return al_get_pixel(wallmask, x, y).a == 0;}
     protected:
