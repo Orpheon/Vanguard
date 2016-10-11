@@ -2,7 +2,7 @@
     "heroes/mccree/ rect": [-7, -3, 14, 39],
     "heroes/mccree/crouch/ rect": [-7, 6, 14, 30],
 
-    "heroes/mccree/reload/ duration": 0.7,
+    "heroes/mccree/reload/ duration": 1.5,
     "heroes/mccree/run/ duration": 80,
     "heroes/mccree/ultwalk/ duration": 10,
     "heroes/mccree/flashbang_explosion/ duration": 0.3,
