@@ -6,7 +6,8 @@
 
 class Gamestate;
 
-enum HEROCLASS {BASTION,
+enum HEROCLASS {ANA,
+                BASTION,
                 DVA,
                 GENJI,
                 HANZO,
@@ -36,6 +37,7 @@ struct INPUT_CONTAINER
     bool CROUCH;
     bool PRIMARY_FIRE;
     bool SECONDARY_FIRE;
+    bool RELOAD;
     bool ABILITY_1;
     bool ABILITY_2;
     bool ULTIMATE;
