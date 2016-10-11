@@ -25,21 +25,28 @@ class Character : public MovingEntity
         virtual Rect getcollisionrect(Gamestate *state) = 0;
         virtual Rect getstandingcollisionrect(Gamestate *state) = 0;
         virtual CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state) = 0;
+        virtual bool cangetinput(Gamestate *state) {return true;}
 
         EntityPtr owner;
         EntityPtr weapon;
-        bool crouched;
 
         double friction;
         double acceleration;
         double runpower;
+
+        struct CharacterAnimationState : public AnimationState
+        {
+            LoopAnimation runanim;
+            LoopAnimation crouchanim;
+            CharacterAnimationState(std::string characterfolder) : AnimationState(), runanim(characterfolder+"run/"), crouchanim(characterfolder+"crouchwalk/") {}
+        };
+        virtual CharacterAnimationState* animstate() = 0;
 
     protected:
         INPUT_CONTAINER pressed_keys;
         INPUT_CONTAINER held_keys;
         double mouse_x;
         double mouse_y;
-        LoopAnimation runanim;
 };
 
 #endif // CHARACTER_H

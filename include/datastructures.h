@@ -47,7 +47,6 @@ struct EntityPtr
 
 struct CharacterChildParameters
 {
-    std::string runanimfolder = "";
     double runpower = 0;
     EntityPtr weapon = 0;
 };

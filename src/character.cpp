@@ -10,11 +10,8 @@
 #include "weapon.h"
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
-            owner(owner_), weapon(parameters.weapon), pressed_keys(), held_keys(), runanim(parameters.runanimfolder)
+            owner(owner_), weapon(parameters.weapon), pressed_keys(), held_keys()
 {
-    isflipped = false;
-    crouched = false;
-
     acceleration = 300;
     runpower = parameters.runpower;
     // friction factor per second of null movement; calculated directly from Gang Garrison 2
@@ -44,57 +41,73 @@ void Character::beginstep(Gamestate *state, double frametime)
 
 void Character::midstep(Gamestate *state, double frametime)
 {
-    if (held_keys.LEFT)
+    if (cangetinput(state))
     {
-        hspeed = std::max(hspeed - acceleration * runpower * frametime, -153.0);
-    }
-    if (held_keys.RIGHT)
-    {
-        hspeed = std::min(hspeed + acceleration * runpower * frametime, 153.0);
-    }
-    if (pressed_keys.JUMP)
-    {
-        if (onground(state))
+        double maxhspeed;
+        if (animstate()->crouchanim.active())
         {
-            vspeed = -240.0;
+            maxhspeed = 60.0;
         }
-    }
-    if (held_keys.CROUCH)
-    {
-        crouched = true;
-    }
-    else if (crouched)
-    {
-        // We're crouched and we'd like to uncrouch
-        // Do so only if we have the room
-        if (not state->currentmap->collides(state, getstandingcollisionrect(state)))
+        else
         {
-            crouched = false;
+            maxhspeed = 153.0;
+        }
+
+        if (held_keys.LEFT)
+        {
+            hspeed = std::max(hspeed - acceleration * runpower * frametime, -maxhspeed);
+        }
+        if (held_keys.RIGHT)
+        {
+            hspeed = std::min(hspeed + acceleration * runpower * frametime, maxhspeed);
+        }
+        if (pressed_keys.JUMP)
+        {
+            if (onground(state))
+            {
+                vspeed = -240.0;
+            }
+        }
+        if (held_keys.CROUCH)
+        {
+            if (not animstate()->crouchanim.active())
+            {
+                animstate()->crouchanim.active(true);
+                animstate()->crouchanim.reset();
+            }
+        }
+        else if (animstate()->crouchanim.active())
+        {
+            // We're crouched and we'd like to uncrouch
+            // Do so only if we have the room
+            if (not state->currentmap->collides(state, getstandingcollisionrect(state)))
+            {
+                animstate()->crouchanim.active(false);
+            }
+        }
+
+        // Shooting
+        if (held_keys.PRIMARY_FIRE)
+        {
+            Weapon *w = state->get<Weapon>(weapon);
+            w->fireprimary(state, frametime);
+        }
+        if (held_keys.SECONDARY_FIRE)
+        {
+            Weapon *w = state->get<Weapon>(weapon);
+            w->firesecondary(state, frametime);
+        }
+
+        if (animstate()->isflipped != (mouse_x < 0))
+        {
+            // Spinjumping (compensate for later gravity)
+            vspeed -= 540.0*frametime*3.0/4.0;
+            animstate()->isflipped = (mouse_x < 0);
         }
     }
 
-    // Shooting
-    if (held_keys.PRIMARY_FIRE)
-    {
-        Weapon *w = state->get<Weapon>(weapon);
-        w->fireprimary(state, frametime);
-    }
-    if (held_keys.SECONDARY_FIRE)
-    {
-        Weapon *w = state->get<Weapon>(weapon);
-        w->firesecondary(state, frametime);
-    }
-
-    if (isflipped != (mouse_x < 0))
-    {
-        // Spinjumping
-        vspeed += 540.0*frametime/4.0;
-        isflipped = (mouse_x < 0);
-    }
-    else
-    {
-        vspeed += 540.0*frametime;
-    }
+    // Gravity
+    vspeed += 540.0*frametime;
 
     // apply friction
     hspeed *= std::pow(friction, frametime);
@@ -210,18 +223,21 @@ void Character::endstep(Gamestate *state, double frametime)
     // Running animation
     if (onground(state))
     {
-        if (isflipped)
+        if (animstate()->isflipped)
         {
-            runanim.update(state, -hspeed*frametime);
+            animstate()->runanim.update(state, -hspeed*frametime);
+            animstate()->crouchanim.update(state, -hspeed*frametime);
         }
         else
         {
-            runanim.update(state, hspeed*frametime);
+            animstate()->runanim.update(state, hspeed*frametime);
+            animstate()->crouchanim.update(state, hspeed*frametime);
         }
     }
     if (hspeed == 0.0)
     {
-        runanim.reset();
+        animstate()->runanim.reset();
+        animstate()->crouchanim.reset();
     }
 
     state->get<Weapon>(weapon)->endstep(state, frametime);
@@ -244,15 +260,15 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
     {
         held_keys = prev_e->held_keys;
         pressed_keys = prev_e->pressed_keys;
-        crouched = prev_e->crouched;
+        animstate()->crouchanim.active(prev_e->animstate()->crouchanim.active());
     }
     else
     {
         held_keys = next_e->held_keys;
         pressed_keys = next_e->pressed_keys;
-        crouched = prev_e->crouched;
+        animstate()->crouchanim.active(prev_e->animstate()->crouchanim.active());
     }
     mouse_x = prev_e->mouse_x + alpha*(next_e->mouse_x - prev_e->mouse_x);
     mouse_y = prev_e->mouse_y + alpha*(next_e->mouse_y - prev_e->mouse_y);
-    runanim.interpolate(&(prev_e->runanim), &(next_e->runanim), alpha);
+    animstate()->runanim.interpolate(&(prev_e->animstate()->runanim), &(next_e->animstate()->runanim), alpha);
 }

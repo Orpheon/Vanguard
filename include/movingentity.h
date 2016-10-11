@@ -17,7 +17,13 @@ class MovingEntity : public Entity
 
         double x, y;
         double hspeed, vspeed;
-        bool isflipped;
+
+        struct AnimationState
+        {
+            bool isflipped;
+            AnimationState() : isflipped(false) {}
+        };
+        virtual AnimationState* animstate() = 0;
 };
 
 #endif // MOVINGENTITY_H

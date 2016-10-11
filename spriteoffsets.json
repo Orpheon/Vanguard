@@ -5,9 +5,9 @@
     "heroes/mccree/run/ duration": 80,
     "heroes/mccree/ultwalk/ duration": 10,
     "heroes/mccree/roll/ duration": 0.5,
-    "heroes/mccree/flashbang/ duration": 10,
+    "heroes/mccree/flashbang/ duration": 0.5,
     "heroes/mccree/emote/ duration": 3,
-    "heroes/mccree/crouchwalk/ duration": 10,
+    "heroes/mccree/crouchwalk/ duration": 40,
 
     "heroes/mccree/ult/1.png": [9, 4],
     "heroes/mccree/reload/ number of frames": 8,

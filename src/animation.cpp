@@ -34,7 +34,7 @@ Animation::~Animation()
     //dtor
 }
 
-std::string Animation::get_frame()
+std::string Animation::getframe()
 {
     return path+std::to_string(static_cast<int>(std::floor(nframes*timer.getpercent()))+1)+".png";
 }
@@ -47,6 +47,11 @@ void Animation::update(Gamestate *state, double dt)
 void Animation::interpolate(Animation *prev_anim, Animation *next_anim, double alpha)
 {
     timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
+}
+
+void Animation::Animation::reset()
+{
+    timer.timer = 0.0;
 }
 
 
@@ -70,7 +75,7 @@ LoopAnimation::~LoopAnimation()
 void LoopAnimation::update(Gamestate *state, double dt)
 {
     timer.update(state, dt);
-    if (not timer.active)
+    if (not timer.active and timer.timer >= timer.duration)
     {
         timer.timer -= timer.duration;
         timer.active = true;
@@ -79,9 +84,4 @@ void LoopAnimation::update(Gamestate *state, double dt)
     {
         timer.timer += timer.duration;
     }
-}
-
-void LoopAnimation::reset()
-{
-    timer.timer = 0.0;
 }

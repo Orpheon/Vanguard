@@ -4,6 +4,7 @@
 #include "peacemaker.h"
 #include "renderer.h"
 #include "peacemakerbullet.h"
+#include "mccree.h"
 
 Peacemaker::Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_)
 {
@@ -25,15 +26,18 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
 
     al_set_target_bitmap(renderer->midground);
 
-    Character *c = state->get<Character>(owner);
-    if (c->isflipped)
+    Mccree *c = state->get<Mccree>(owner);
+    if (not c->animstate()->rolling.active())
     {
-        // FIXME What the hell is going on here, this needs to be recalculated properly with paper
-        al_draw_scaled_rotated_bitmap(sprite, xoffset, yoffset, x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 1, -1, aimdirection, 0);
-    }
-    else
-    {
-        al_draw_rotated_bitmap(sprite, xoffset, yoffset, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, aimdirection, 0);
+        if (c->animstate()->isflipped)
+        {
+            // FIXME What the hell is going on here, this needs to be recalculated properly with paper
+            al_draw_scaled_rotated_bitmap(sprite, xoffset, yoffset, x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 1, -1, aimdirection, 0);
+        }
+        else
+        {
+            al_draw_rotated_bitmap(sprite, xoffset, yoffset, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, aimdirection, 0);
+        }
     }
 }
 
