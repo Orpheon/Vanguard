@@ -87,9 +87,11 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
                     case ALLEGRO_KEY_Q:
                         pressed_keys.ULTIMATE = true;
                         break;
-
-                    // FIXME: Debugtool
                     case ALLEGRO_KEY_R:
+                        pressed_keys.RELOAD = true;
+                        break;
+
+                    case ALLEGRO_KEY_1:
                         spawnplayer = true;
                         break;
 
@@ -142,6 +144,10 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
     if (al_key_down(&keystate, ALLEGRO_KEY_Q))
     {
         held_keys.ULTIMATE = true;
+    }
+    if (al_key_down(&keystate, ALLEGRO_KEY_R))
+    {
+        held_keys.RELOAD = true;
     }
 
     ALLEGRO_MOUSE_STATE mousestate;

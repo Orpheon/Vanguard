@@ -23,11 +23,9 @@ void Weapon::beginstep(Gamestate *state, double frametime)
 
 void Weapon::midstep(Gamestate *state, double frametime)
 {
-    if (clip == 0 and not firinganim.active() and not reloadanim.active())
+    if (clip == 0)
     {
-        // We need to reload
-        reloadanim.reset();
-        reloadanim.active(true);
+        reload(state, frametime);
     }
     reloadanim.update(state, frametime);
     firinganim.update(state, frametime);
@@ -46,6 +44,16 @@ void Weapon::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
 //    Weapon *next_e = static_cast<Weapon*>(next_entity);
 
     // Todo
+}
+
+void Weapon::reload(Gamestate *state, double frametime)
+{
+    if (clip < getclipsize() and not firinganim.active() and not reloadanim.active())
+    {
+        // We need to reload
+        reloadanim.reset();
+        reloadanim.active(true);
+    }
 }
 
 void Weapon::setaim(double x_, double y_)

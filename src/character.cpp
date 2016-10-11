@@ -61,7 +61,7 @@ void Character::midstep(Gamestate *state, double frametime)
         {
             hspeed = std::min(hspeed + acceleration * runpower * frametime, maxhspeed);
         }
-        if (pressed_keys.JUMP)
+        if (held_keys.JUMP)
         {
             if (onground(state))
             {
@@ -96,6 +96,11 @@ void Character::midstep(Gamestate *state, double frametime)
         {
             Weapon *w = state->get<Weapon>(weapon);
             w->firesecondary(state, frametime);
+        }
+        if (held_keys.RELOAD)
+        {
+            Weapon *w = state->get<Weapon>(weapon);
+            w->reload(state, frametime);
         }
 
         if (animstate()->isflipped != (mouse_x < 0))

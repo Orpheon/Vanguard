@@ -26,6 +26,7 @@ class Weapon : public MovingEntity
         virtual void fireprimary(Gamestate *state, double frametime) = 0;
         virtual void firesecondary(Gamestate *state, double frametime) = 0;
         virtual int getclipsize() = 0;
+        virtual void reload(Gamestate *state, double frametime);
         virtual WeaponChildParameters constructparameters(Gamestate *state) = 0;
 
         void restoreclip(Gamestate *state) {clip = getclipsize();}

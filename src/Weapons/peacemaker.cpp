@@ -19,6 +19,8 @@ Peacemaker::~Peacemaker()
 void Peacemaker::render(Renderer *renderer, Gamestate *state)
 {
     std::string mainsprite;
+    double dir = aimdirection;
+    Mccree *c = state->get<Mccree>(owner);
     if (firinganim.active())
     {
         mainsprite = firinganim.getframe();
@@ -26,6 +28,7 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     else if (reloadanim.active())
     {
         mainsprite = reloadanim.getframe();
+        dir = 3.1415*c->animstate()->isflipped;
     }
     else
     {
@@ -36,18 +39,16 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
 
     al_set_target_bitmap(renderer->midground);
-
-    Mccree *c = state->get<Mccree>(owner);
     if (not c->animstate()->rolling.active())
     {
         if (c->animstate()->isflipped)
         {
             // FIXME What the hell is going on here, this needs to be recalculated properly with paper
-            al_draw_scaled_rotated_bitmap(sprite, xoffset, yoffset, x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 1, -1, aimdirection, 0);
+            al_draw_scaled_rotated_bitmap(sprite, xoffset, yoffset, x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 1, -1, dir, 0);
         }
         else
         {
-            al_draw_rotated_bitmap(sprite, xoffset, yoffset, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, aimdirection, 0);
+            al_draw_rotated_bitmap(sprite, xoffset, yoffset, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, dir, 0);
         }
     }
 }
