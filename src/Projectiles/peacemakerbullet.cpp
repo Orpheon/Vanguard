@@ -31,7 +31,6 @@ void PeacemakerBullet::midstep(Gamestate *state, double frametime)
 
 void PeacemakerBullet::endstep(Gamestate *state, double frametime)
 {
-    vspeed += 50.0*frametime;
     Projectile::endstep(state, frametime);
 }
 

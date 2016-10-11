@@ -6,9 +6,9 @@
 #include "peacemakerbullet.h"
 #include "mccree.h"
 
-Peacemaker::Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_)
+Peacemaker::Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_, constructparameters(state))
 {
-
+    //ctor
 }
 
 Peacemaker::~Peacemaker()
@@ -18,8 +18,19 @@ Peacemaker::~Peacemaker()
 
 void Peacemaker::render(Renderer *renderer, Gamestate *state)
 {
-    // FIXME: Placeholder
-    std::string mainsprite = "heroes/mccree/arm/1.png";
+    std::string mainsprite;
+    if (firinganim.active())
+    {
+        mainsprite = firinganim.getframe();
+    }
+    else if (reloadanim.active())
+    {
+        mainsprite = reloadanim.getframe();
+    }
+    else
+    {
+        mainsprite = "heroes/mccree/arm/1.png";
+    }
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.request_sprite(mainsprite);
     int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
@@ -43,14 +54,26 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
 
 void Peacemaker::fireprimary(Gamestate *state, double frametime)
 {
-    for (int i=0; i<10; ++i)
+    if (clip > 0 and not firinganim.active())
     {
         EntityPtr newshot = state->make_entity<PeacemakerBullet>(state, owner);
         PeacemakerBullet *shot = state->get<PeacemakerBullet>(newshot);
         shot->x = x;
         shot->y = y+9.0;
-        double dir = aimdirection + 0.3*(2.0*(rand()/(RAND_MAX + 1.0))-1.0);
-        shot->hspeed = std::cos(dir) * bulletspeed;
-        shot->vspeed = std::sin(dir) * bulletspeed;
+        shot->hspeed = std::cos(aimdirection) * bulletspeed;
+        shot->vspeed = std::sin(aimdirection) * bulletspeed;
+
+        --clip;
+        firinganim.reset();
+        firinganim.active(true);
     }
+}
+
+WeaponChildParameters Peacemaker::constructparameters(Gamestate *state)
+{
+    WeaponChildParameters p;
+    p.clipsize = 6;
+    p.characterfolder = "heroes/mccree/";
+    p.reloadfunction = std::bind(&Peacemaker::restoreclip, this, state);
+    return p;
 }

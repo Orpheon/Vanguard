@@ -2,6 +2,9 @@
 #define DATASTRUCTURES_H_INCLUDED
 
 #include <string>
+#include <functional>
+
+class Gamestate;
 
 enum HEROCLASS {BASTION,
                 DVA,
@@ -49,6 +52,13 @@ struct CharacterChildParameters
 {
     double runpower = 0;
     EntityPtr weapon = 0;
+};
+
+struct WeaponChildParameters
+{
+    int clipsize = 0;
+    std::string characterfolder;
+    std::function<void(Gamestate *state)> reloadfunction;
 };
 
 struct Rect

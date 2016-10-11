@@ -77,11 +77,13 @@ void Mccree::midstep(Gamestate *state, double frametime)
 
     if (cangetinput(state))
     {
-        if (pressed_keys.ABILITY_1 and not animstate()->crouchanim.active())
+        if (pressed_keys.ABILITY_1)
         {
             // Lets roll
             animstate()->rolling.reset();
             animstate()->rolling.active(true);
+            Weapon *p = state->get<Peacemaker>(weapon);
+            p->clip = p->getclipsize();
         }
         if (pressed_keys.ABILITY_2)
         {

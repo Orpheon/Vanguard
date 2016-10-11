@@ -4,9 +4,11 @@
 
 #include <cmath>
 
-Weapon::Weapon(uint64_t id_, Gamestate *state, EntityPtr owner_) : MovingEntity(id_, state), owner(owner_), aimdirection(0)
+Weapon::Weapon(uint64_t id_, Gamestate *state, EntityPtr owner_, WeaponChildParameters parameters) : MovingEntity(id_, state), owner(owner_), aimdirection(0),
+            firinganim(parameters.characterfolder+"firing/"), reloadanim(parameters.characterfolder+"reload/", parameters.reloadfunction), clip(parameters.clipsize)
 {
-    ;
+    reloadanim.active(false);
+    firinganim.active(false);
 }
 
 Weapon::~Weapon()
@@ -21,7 +23,14 @@ void Weapon::beginstep(Gamestate *state, double frametime)
 
 void Weapon::midstep(Gamestate *state, double frametime)
 {
-    ;
+    if (clip == 0 and not firinganim.active() and not reloadanim.active())
+    {
+        // We need to reload
+        reloadanim.reset();
+        reloadanim.active(true);
+    }
+    reloadanim.update(state, frametime);
+    firinganim.update(state, frametime);
 }
 
 void Weapon::endstep(Gamestate *state, double frametime)

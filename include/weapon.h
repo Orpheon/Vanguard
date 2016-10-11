@@ -3,12 +3,13 @@
 
 #include "movingentity.h"
 #include "datastructures.h"
+#include "animation.h"
 
 
 class Weapon : public MovingEntity
 {
     public:
-        Weapon(uint64_t id_, Gamestate *state, EntityPtr owner_);
+        Weapon(uint64_t id_, Gamestate *state, EntityPtr owner_, WeaponChildParameters parameters);
         virtual ~Weapon();
         virtual void setaim(double x_, double y_);
 
@@ -24,8 +25,15 @@ class Weapon : public MovingEntity
 
         virtual void fireprimary(Gamestate *state, double frametime) = 0;
         virtual void firesecondary(Gamestate *state, double frametime) = 0;
+        virtual int getclipsize() = 0;
+        virtual WeaponChildParameters constructparameters(Gamestate *state) = 0;
+
+        void restoreclip(Gamestate *state) {clip = getclipsize();}
 
         std::string idlesprite;
+        Animation firinganim;
+        Animation reloadanim;
+        int clip;
     protected:
     private:
 };

@@ -15,11 +15,14 @@ class Peacemaker : public Weapon
 
         void fireprimary(Gamestate *state, double frametime) override;
         void firesecondary(Gamestate *state, double frametime) override {}
+
+        int getclipsize() {return 6;}
+        WeaponChildParameters constructparameters(Gamestate *state);
     protected:
     private:
         double xoffset = 0;
         double yoffset = 0;
-        double bulletspeed = 200.0;
+        double bulletspeed = 500.0;
 };
 
 #endif // PEACEMAKER_H
