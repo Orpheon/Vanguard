@@ -2,7 +2,7 @@
 
 #include "timer.h"
 
-Timer::Timer(void (*eventfunc_)(Gamestate *state), double duration_) : timer(0), duration(duration_), active(true), eventfunc(eventfunc_)
+Timer::Timer(std::function<void(Gamestate *state)> eventfunc_, double duration_) : timer(0), duration(duration_), active(true), eventfunc(eventfunc_)
 {
     ;
 }
@@ -19,7 +19,10 @@ void Timer::update(Gamestate *state, double dt)
         timer += dt;
         if (timer >= duration)
         {
-            eventfunc(state);
+            if (eventfunc != 0)
+            {
+                eventfunc(state);
+            }
             active = false;
         }
     }

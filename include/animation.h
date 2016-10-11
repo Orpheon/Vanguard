@@ -9,7 +9,7 @@ class Animation
 {
     public:
         Animation(std::string path_);
-        Animation(std::string path_, void (*eventfunc_)(Gamestate *state));
+        Animation(std::string path_, std::function<void(Gamestate *state)> eventfunc_);
         virtual ~Animation();
         virtual std::string getframe();
         void update(Gamestate *state, double dt);
@@ -28,7 +28,7 @@ class LoopAnimation : public Animation
 {
     public:
         LoopAnimation(std::string path_);
-        LoopAnimation(std::string path_, void (*eventfunc_)(Gamestate *state));
+        LoopAnimation(std::string path_, std::function<void(Gamestate *state)> eventfunc_);
         virtual ~LoopAnimation();
         void update(Gamestate *state, double dt);
 };

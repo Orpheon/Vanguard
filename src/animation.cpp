@@ -4,8 +4,6 @@
 #include <fstream>
 #include <cmath>
 
-void do_nothing(Gamestate *state) {}
-
 Animation::Animation(std::string path_) : timer(0, 0), path(path_)
 {
     std::ifstream datafile("spriteoffsets.json");
@@ -15,10 +13,9 @@ Animation::Animation(std::string path_) : timer(0, 0), path(path_)
     nframes = data[path+" number of frames"];
 
     timer.duration = data[path+" duration"];
-    timer.eventfunc = &do_nothing;
 }
 
-Animation::Animation(std::string path_, void (*eventfunc_)(Gamestate *state)) : timer(eventfunc_, 0), path(path_)
+Animation::Animation(std::string path_, std::function<void(Gamestate *state)> eventfunc_) : timer(eventfunc_, 0), path(path_)
 {
     std::ifstream datafile("spriteoffsets.json");
     nlohmann::json data;
@@ -62,7 +59,7 @@ LoopAnimation::LoopAnimation(std::string path_) : Animation::Animation(path_)
     ;
 }
 
-LoopAnimation::LoopAnimation(std::string path_, void (*eventfunc_)(Gamestate *state)) : Animation::Animation(path_, eventfunc_)
+LoopAnimation::LoopAnimation(std::string path_, std::function<void(Gamestate *state)> eventfunc_) : Animation::Animation(path_, eventfunc_)
 {
     ;
 }

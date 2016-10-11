@@ -1,13 +1,16 @@
 #ifndef TIMER_H
 #define TIMER_H
 
+#include "entity.h"
+#include <functional>
+
 // Circular reference
 class Gamestate;
 
 class Timer
 {
     public:
-        Timer(void (*eventfunc_)(Gamestate *state), double duration_);
+        Timer(std::function<void(Gamestate *state)> eventfunc_, double duration_);
         virtual ~Timer();
         void update(Gamestate *state, double dt);
         double getpercent();
@@ -15,7 +18,7 @@ class Timer
         double timer;
         double duration;
         bool active;
-        void (*eventfunc)(Gamestate *state);
+        std::function<void(Gamestate *state)> eventfunc;
 };
 
 #endif // TIMER_H

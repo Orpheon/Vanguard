@@ -4,6 +4,7 @@
 #include "animation.h"
 #include "gamestate.h"
 #include "engine.h"
+#include "flashbang.h"
 
 #include <memory>
 #include <cmath>
@@ -87,6 +88,12 @@ void Mccree::midstep(Gamestate *state, double frametime)
             // Flashbang
             animstate()->flashbang.reset();
             animstate()->flashbang.active(true);
+            Flashbang *f = state->get<Flashbang>(state->make_entity<Flashbang>(state, EntityPtr(id)));
+            f->x = x;
+            f->y = y;
+            double dir = std::atan2(mouse_y, mouse_x);
+            f->hspeed = std::cos(dir) * 300;
+            f->vspeed = std::sin(dir) * 300;
         }
     }
 }
