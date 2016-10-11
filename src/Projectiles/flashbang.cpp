@@ -17,6 +17,11 @@ Flashbang::~Flashbang()
 void Flashbang::endstep(Gamestate *state, double frametime)
 {
     MovingEntity::endstep(state, frametime);
+    // Check collision with wallmask
+    if (state->currentmap->collides(state, this))
+    {
+        explode(state);
+    }
     countdown.update(state, frametime);
 }
 
