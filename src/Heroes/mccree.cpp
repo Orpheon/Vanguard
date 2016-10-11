@@ -81,10 +81,6 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     {
         return "heroes/mccree/crouch/1.png";
     }
-    if (not onground(state) and vspeed > 140.0)
-    {
-        return "heroes/mccree/jump/1.png";
-    }
     if (std::fabs(hspeed) < 11.0)
     {
         return "heroes/mccree/idle/1.png";
