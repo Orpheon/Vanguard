@@ -36,5 +36,8 @@ double Timer::getpercent()
 
 void Timer::interpolate(Timer *prev_timer, Timer *next_timer, double alpha)
 {
-    timer = prev_timer->timer + alpha*(next_timer->timer - prev_timer->timer);
+    if (prev_timer->active and next_timer->active)
+    {
+        timer = prev_timer->timer + alpha*(next_timer->timer - prev_timer->timer);
+    }
 }

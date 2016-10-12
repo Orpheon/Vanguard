@@ -40,10 +40,22 @@ void Weapon::endstep(Gamestate *state, double frametime)
 
 void Weapon::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
 {
-//    Weapon *prev_e = static_cast<Weapon*>(prev_entity);
-//    Weapon *next_e = static_cast<Weapon*>(next_entity);
+    MovingEntity::interpolate(prev_entity, next_entity, alpha);
 
-    // Todo
+    Weapon *prev_e = static_cast<Weapon*>(prev_entity);
+    Weapon *next_e = static_cast<Weapon*>(next_entity);
+
+    if (alpha < 0.5)
+    {
+        clip = prev_e->clip;
+    }
+    else
+    {
+        clip = next_e->clip;
+    }
+
+    reloadanim.interpolate(&(prev_e->reloadanim), &(next_e->reloadanim), alpha);
+    firinganim.interpolate(&(prev_e->firinganim), &(next_e->firinganim), alpha);
 }
 
 void Weapon::reload(Gamestate *state, double frametime)
