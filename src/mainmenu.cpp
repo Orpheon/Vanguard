@@ -65,6 +65,11 @@ bool MainMenu::run(ALLEGRO_DISPLAY *display, GAMETYPE *gametype)
         }
     }
 
+    ALLEGRO_MOUSE_STATE mousestate;
+    al_get_mouse_state(&mousestate);
+
+    // use mousestate.x or .y for position of mouse on screen
+
     // Draw
 //    al_draw_bitmap(spriteloader.request_sprite("mainmenu/background.png"), 0, 0);
 
