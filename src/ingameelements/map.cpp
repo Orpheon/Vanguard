@@ -88,7 +88,7 @@ bool Map::collides(Gamestate *state, Character *entity)
     return false;
 }
 
-bool Map::collides(Gamestate *state, Rect r)
+bool Map::collides(Rect r)
 {
     if (r.x < 0 or r.y < 0 or r.x+r.w > al_get_bitmap_width(wallmask) or r.y+r.h > al_get_bitmap_height(wallmask))
     {
@@ -105,4 +105,9 @@ bool Map::collides(Gamestate *state, Rect r)
         }
     }
     return false;
+}
+
+bool Map::testpixel(double x, double y)
+{
+    return collides(Rect(x, y, 1, 1));
 }

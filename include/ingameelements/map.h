@@ -17,7 +17,8 @@ class Map
         void renderwallground(double cam_x, double cam_y);
         bool collides(Gamestate *state, MovingEntity *entity);
         bool collides(Gamestate *state, Character *entity);
-        bool collides(Gamestate *state, Rect rect);
+        bool collides(Rect rect);
+        bool testpixel(double x, double y);
         bool place_free(double x, double y) {return al_get_pixel(wallmask, x, y).a == 0;}
     protected:
     private:

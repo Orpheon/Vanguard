@@ -18,7 +18,7 @@ void PeacemakerBullet::midstep(Gamestate *state, double frametime)
 {
     if (true)
     {
-        if (state->currentmap->collides(state, Rect(x-2, y, 5, 1)))
+        if (state->currentmap->collides(Rect(x-2, y, 5, 1)))
         {
             destroyentity = true;
         }

@@ -80,7 +80,7 @@ void Character::midstep(Gamestate *state, double frametime)
         {
             // We're crouched and we'd like to uncrouch
             // Do so only if we have the room
-            if (not state->currentmap->collides(state, getstandingcollisionrect(state)))
+            if (not state->currentmap->collides(getstandingcollisionrect(state)))
             {
                 animstate()->crouchanim.active(false);
             }
@@ -125,7 +125,7 @@ void Character::endstep(Gamestate *state, double frametime)
     MovingEntity::endstep(state, frametime);
 
     // Collision with wallmask
-    if (state->currentmap->collides(state, getcollisionrect(state)))
+    if (state->currentmap->collides(getcollisionrect(state)))
     {
         // We collide, do collision handling
         double hs = hspeed*frametime, vs = vspeed*frametime;
@@ -138,7 +138,7 @@ void Character::endstep(Gamestate *state, double frametime)
         {
             x -= xstep; y -= ystep;
             xbuffer += xstep; ybuffer += ystep;
-            if (not state->currentmap->collides(state, getcollisionrect(state)))
+            if (not state->currentmap->collides(getcollisionrect(state)))
             {
                 break;
             }
@@ -154,7 +154,7 @@ void Character::endstep(Gamestate *state, double frametime)
             // Try first moving horizontally
             if (not xfinished)
             {
-                if (not state->currentmap->collides(state, getcollisionrect(state).offset(xstep, 0)))
+                if (not state->currentmap->collides(getcollisionrect(state).offset(xstep, 0)))
                 {
                     x += xstep;
                     xbuffer -= xstep;
@@ -167,7 +167,7 @@ void Character::endstep(Gamestate *state, double frametime)
                 else
                 {
                     // There's the possibility we might have walked into a staircase
-                    if (not state->currentmap->collides(state, getcollisionrect(state).offset(xstep, STAIRCASE_STEPSIZE)))
+                    if (not state->currentmap->collides(getcollisionrect(state).offset(xstep, STAIRCASE_STEPSIZE)))
                     {
                         // Indeed we did. Move up
                         x += xstep;
@@ -190,7 +190,7 @@ void Character::endstep(Gamestate *state, double frametime)
             // Do the same vertically, but without stair code
             if (not yfinished)
             {
-                if (not state->currentmap->collides(state, getcollisionrect(state).offset(0, ystep)))
+                if (not state->currentmap->collides(getcollisionrect(state).offset(0, ystep)))
                 {
                     // We cam move through
                     y += ystep;
@@ -218,7 +218,7 @@ void Character::endstep(Gamestate *state, double frametime)
         {
             vspeed = 0;
         }
-        if (state->currentmap->collides(state, getcollisionrect(state)))
+        if (state->currentmap->collides(getcollisionrect(state)))
         {
             printf("\nError: Still in wallmask after collision handling.");
         }
@@ -254,7 +254,7 @@ void Character::endstep(Gamestate *state, double frametime)
 bool Character::onground(Gamestate *state)
 {
     Rect r = getcollisionrect(state);
-    return state->currentmap->collides(state, Rect(r.x, r.y+r.h, r.w, 1));
+    return state->currentmap->collides(Rect(r.x, r.y+r.h, r.w, 1));
 }
 
 void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
