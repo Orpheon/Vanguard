@@ -7,6 +7,11 @@ Timer::Timer(std::function<void(Gamestate *state)> eventfunc_, double duration_)
     ;
 }
 
+Timer::Timer(double duration_) : timer(0), duration(duration_), active(true), eventfunc(0)
+{
+    ;
+}
+
 Timer::~Timer()
 {
     //dtor

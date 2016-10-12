@@ -48,7 +48,7 @@ void Animation::interpolate(Animation *prev_anim, Animation *next_anim, double a
 
 void Animation::Animation::reset()
 {
-    timer.timer = 0.0;
+    timer.reset();
 }
 
 

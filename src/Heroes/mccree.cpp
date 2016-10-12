@@ -9,9 +9,10 @@
 #include <memory>
 #include <cmath>
 
-Mccree::Mccree(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state)), animstate_()
+Mccree::Mccree(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state)), animstate_(), rollcooldown(8), flashbangcooldown(10)
 {
-    ;
+    rollcooldown.active = false;
+    flashbangcooldown.active = false;
 }
 
 Mccree::~Mccree()
@@ -74,22 +75,24 @@ void Mccree::midstep(Gamestate *state, double frametime)
         }
     }
     animstate()->flashbang.update(state, frametime);
+    rollcooldown.update(state, frametime);
+    flashbangcooldown.update(state, frametime);
 
     if (cangetinput(state))
     {
-        if (held_keys.ABILITY_1 and onground(state))
+        if (held_keys.ABILITY_1 and onground(state) and not rollcooldown.active)
         {
             // Lets roll
             animstate()->rolling.reset();
-            animstate()->rolling.active(true);
+            rollcooldown.reset();
             Weapon *p = state->get<Peacemaker>(weapon);
             p->clip = p->getclipsize();
         }
-        if (held_keys.ABILITY_2)
+        if (held_keys.ABILITY_2 and not flashbangcooldown.active)
         {
             // Flashbang
             animstate()->flashbang.reset();
-            animstate()->flashbang.active(true);
+            flashbangcooldown.reset();
             Flashbang *f = state->get<Flashbang>(state->make_entity<Flashbang>(state, EntityPtr(id)));
             f->x = x;
             f->y = y;

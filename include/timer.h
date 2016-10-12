@@ -11,10 +11,12 @@ class Timer
 {
     public:
         Timer(std::function<void(Gamestate *state)> eventfunc_, double duration_);
+        Timer(double duration_);
         virtual ~Timer();
         void update(Gamestate *state, double dt);
         double getpercent();
         void interpolate(Timer *prev_timer, Timer *next_timer, double alpha);
+        void reset() {timer = 0.0; active=true;}
         double timer;
         double duration;
         bool active;

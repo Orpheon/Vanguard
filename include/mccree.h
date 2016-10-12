@@ -33,6 +33,8 @@ class Mccree : public Character
             }
         };
         MccreeAnimationState* animstate() override {return &animstate_;}
+        Timer rollcooldown;
+        Timer flashbangcooldown;
     protected:
     private:
         MccreeAnimationState animstate_;
