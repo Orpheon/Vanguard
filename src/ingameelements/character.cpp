@@ -10,7 +10,7 @@
 #include "ingameelements/weapon.h"
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
-            owner(owner_), weapon(parameters.weapon), pressed_keys(), held_keys()
+            owner(owner_), weapon(parameters.weapon), pressed_keys(), held_keys(), lastdirectionpressed(0)
 {
     acceleration = 300;
     runpower = parameters.runpower;
@@ -53,14 +53,32 @@ void Character::midstep(Gamestate *state, double frametime)
             maxhspeed = 153.0;
         }
 
-        if (held_keys.LEFT)
+        if (pressed_keys.LEFT)
+        {
+            lastdirectionpressed = LEFT;
+        }
+        else if (lastdirectionpressed == LEFT and not held_keys.LEFT)
+        {
+            lastdirectionpressed = RIGHT*held_keys.RIGHT;
+        }
+        if (pressed_keys.RIGHT)
+        {
+            lastdirectionpressed = RIGHT;
+        }
+        else if (lastdirectionpressed == RIGHT and not held_keys.RIGHT)
+        {
+            lastdirectionpressed = LEFT*held_keys.LEFT;
+        }
+
+        if (lastdirectionpressed == LEFT)
         {
             hspeed = std::max(hspeed - acceleration * runpower * frametime, -maxhspeed);
         }
-        if (held_keys.RIGHT)
+        else if (lastdirectionpressed == RIGHT)
         {
             hspeed = std::min(hspeed + acceleration * runpower * frametime, maxhspeed);
         }
+
         if (held_keys.JUMP)
         {
             if (onground(state))
