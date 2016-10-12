@@ -1,10 +1,10 @@
-#include "mccree.h"
+#include "ingameelements/heroes/mccree.h"
 #include "datastructures.h"
 #include "spriteloader.h"
 #include "animation.h"
 #include "gamestate.h"
 #include "engine.h"
-#include "flashbang.h"
+#include "ingameelements/projectiles/flashbang.h"
 
 #include <memory>
 #include <cmath>

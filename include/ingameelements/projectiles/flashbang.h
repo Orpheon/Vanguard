@@ -1,7 +1,7 @@
 #ifndef FLASHBANG_H
 #define FLASHBANG_H
 
-#include <projectile.h>
+#include <ingameelements/projectile.h>
 
 
 class Flashbang : public Projectile

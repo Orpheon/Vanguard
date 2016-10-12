@@ -1,7 +1,7 @@
 #ifndef PEACEMAKER_H
 #define PEACEMAKER_H
 
-#include "weapon.h"
+#include "ingameelements/weapon.h"
 
 class Peacemaker : public Weapon
 {

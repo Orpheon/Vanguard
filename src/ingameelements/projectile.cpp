@@ -1,4 +1,4 @@
-#include "projectile.h"
+#include "ingameelements/projectile.h"
 
 Projectile::Projectile(double id_, Gamestate *state, EntityPtr owner_) : MovingEntity(id_, state), owner(owner_)
 {

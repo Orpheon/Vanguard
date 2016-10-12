@@ -1,7 +1,7 @@
 #ifndef EXPLOSION_H
 #define EXPLOSION_H
 
-#include <movingentity.h>
+#include <ingameelements/movingentity.h>
 #include "animation.h"
 
 

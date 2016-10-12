@@ -1,4 +1,4 @@
-#include "movingentity.h"
+#include "ingameelements/movingentity.h"
 #include "gamestate.h"
 #include "entity.h"
 

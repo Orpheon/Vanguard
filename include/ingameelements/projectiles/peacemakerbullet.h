@@ -1,7 +1,7 @@
 #ifndef PEACEMAKERBULLET_H
 #define PEACEMAKERBULLET_H
 
-#include "projectile.h"
+#include "ingameelements/projectile.h"
 #include <string>
 
 class PeacemakerBullet : public Projectile

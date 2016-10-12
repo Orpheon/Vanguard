@@ -1,7 +1,7 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
-#include "movingentity.h"
+#include "ingameelements/movingentity.h"
 #include "datastructures.h"
 #include "animation.h"
 

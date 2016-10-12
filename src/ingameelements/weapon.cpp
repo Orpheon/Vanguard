@@ -1,5 +1,5 @@
-#include "weapon.h"
-#include "character.h"
+#include "ingameelements/weapon.h"
+#include "ingameelements/character.h"
 #include "gamestate.h"
 
 #include <cmath>

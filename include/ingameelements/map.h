@@ -2,8 +2,8 @@
 #define MAP_H
 
 #include "datastructures.h"
-#include "movingentity.h"
-#include "character.h"
+#include "ingameelements/movingentity.h"
+#include "ingameelements/character.h"
 
 #include <allegro5/allegro.h>
 #include <string>

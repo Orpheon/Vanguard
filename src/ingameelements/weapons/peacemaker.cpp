@@ -1,10 +1,10 @@
 
 #include <cmath>
 
-#include "peacemaker.h"
+#include "ingameelements/weapons/peacemaker.h"
 #include "renderer.h"
-#include "peacemakerbullet.h"
-#include "mccree.h"
+#include "ingameelements/projectiles/peacemakerbullet.h"
+#include "ingameelements/heroes/mccree.h"
 
 Peacemaker::Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_, constructparameters(state))
 {

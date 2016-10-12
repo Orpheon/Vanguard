@@ -4,10 +4,10 @@
 #include <unordered_map>
 #include <memory>
 
-#include "map.h"
+#include "ingameelements/map.h"
 #include "datastructures.h"
 #include "player.h"
-#include "character.h"
+#include "ingameelements/character.h"
 
 // Circular reference
 class Engine;

@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 
-#include "movingentity.h"
+#include "ingameelements/movingentity.h"
 #include "datastructures.h"
 #include "player.h"
 #include "animation.h"

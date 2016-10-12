@@ -1,7 +1,7 @@
 
 #include <cmath>
 
-#include "peacemakerbullet.h"
+#include "ingameelements/projectiles/peacemakerbullet.h"
 #include "renderer.h"
 
 PeacemakerBullet::PeacemakerBullet(uint64_t id_, Gamestate *state, EntityPtr owner_) : Projectile::Projectile(id_, state, owner_)

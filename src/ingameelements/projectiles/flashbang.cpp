@@ -1,6 +1,6 @@
-#include "flashbang.h"
+#include "ingameelements/projectiles/flashbang.h"
 #include "renderer.h"
-#include "explosion.h"
+#include "ingameelements/explosion.h"
 
 #include <functional>
 

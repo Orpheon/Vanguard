@@ -1,8 +1,8 @@
 #include "player.h"
 #include "gamestate.h"
 #include "datastructures.h"
-#include "character.h"
-#include "mccree.h"
+#include "ingameelements/character.h"
+#include "ingameelements/heroes/mccree.h"
 
 Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0)
 {

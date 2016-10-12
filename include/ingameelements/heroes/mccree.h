@@ -1,10 +1,10 @@
 #ifndef MCCREE_H
 #define MCCREE_H
 
-#include "character.h"
+#include "ingameelements/character.h"
 #include "renderer.h"
 #include "datastructures.h"
-#include "peacemaker.h"
+#include "ingameelements/weapons/peacemaker.h"
 
 #include <string>
 

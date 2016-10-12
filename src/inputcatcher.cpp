@@ -4,7 +4,7 @@
 #include "inputcatcher.h"
 #include "datastructures.h"
 #include "renderer.h"
-#include "character.h"
+#include "ingameelements/character.h"
 #include "global_constants.h"
 
 #define LEFT_MOUSE_BUTTON 1

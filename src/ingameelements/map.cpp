@@ -2,7 +2,7 @@
 #include <string>
 #include <fstream>
 
-#include "map.h"
+#include "ingameelements/map.h"
 #include "gamestate.h"
 #include "engine.h"
 

@@ -1,13 +1,13 @@
 #include <vector>
 #include <cmath>
 
-#include "character.h"
+#include "ingameelements/character.h"
 #include "gamestate.h"
-#include "movingentity.h"
+#include "ingameelements/movingentity.h"
 #include "player.h"
 #include "global_constants.h"
 #include "engine.h"
-#include "weapon.h"
+#include "ingameelements/weapon.h"
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
             owner(owner_), weapon(parameters.weapon), pressed_keys(), held_keys()
