@@ -77,7 +77,7 @@ void Mccree::midstep(Gamestate *state, double frametime)
 
     if (cangetinput(state))
     {
-        if (pressed_keys.ABILITY_1)
+        if (held_keys.ABILITY_1 and onground(state))
         {
             // Lets roll
             animstate()->rolling.reset();
@@ -85,7 +85,7 @@ void Mccree::midstep(Gamestate *state, double frametime)
             Weapon *p = state->get<Peacemaker>(weapon);
             p->clip = p->getclipsize();
         }
-        if (pressed_keys.ABILITY_2)
+        if (held_keys.ABILITY_2)
         {
             // Flashbang
             animstate()->flashbang.reset();
