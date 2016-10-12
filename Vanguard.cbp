@@ -88,6 +88,7 @@
 		<Unit filename="include/datastructures.h" />
 		<Unit filename="include/engine.h" />
 		<Unit filename="include/entity.h" />
+		<Unit filename="include/explosion.h" />
 		<Unit filename="include/flashbang.h" />
 		<Unit filename="include/gamestate.h" />
 		<Unit filename="include/global_constants.h" />
@@ -112,6 +113,7 @@
 		<Unit filename="src/animation.cpp" />
 		<Unit filename="src/character.cpp" />
 		<Unit filename="src/engine.cpp" />
+		<Unit filename="src/explosion.cpp" />
 		<Unit filename="src/gamestate.cpp" />
 		<Unit filename="src/inputcatcher.cpp" />
 		<Unit filename="src/map.cpp" />
