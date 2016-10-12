@@ -244,6 +244,23 @@ void Character::endstep(Gamestate *state, double frametime)
         }
     } // end collision with wallmask
 
+    // Stick to stairs when going down
+    if (std::fabs(vspeed*frametime) <= 3.0 and not onground(state))
+    {
+        Rect r = getcollisionrect(state);
+        int stepsize = (-STAIRCASE_STEPSIZE)*std::ceil(std::fabs(hspeed)*frametime/(-STAIRCASE_STEPSIZE));
+        if (state->currentmap->collides(Rect(r.x, r.y+r.h+stepsize, r.w, 1)))
+        {
+            for (int i=0; i<stepsize; ++i)
+            {
+                ++y;
+                if (onground(state))
+                {
+                    break;
+                }
+            }
+        }
+    }
 
     // Running animation
     if (onground(state))
