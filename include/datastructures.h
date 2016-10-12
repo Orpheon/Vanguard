@@ -29,6 +29,10 @@ enum HEROCLASS {ANA,
                 ZARYA,
                 ZENYATTA};
 
+enum GAMETYPE { SERVER_ONLY,
+                CLIENT_ONLY,
+                SERVER_AND_CLIENT};
+
 struct INPUT_CONTAINER
 {
     bool LEFT;

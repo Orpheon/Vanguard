@@ -9,17 +9,6 @@
 
 Renderer::Renderer() : cam_x(0), cam_y(0), spriteloader(false)
 {
-    // Create a display
-    al_set_new_display_option(ALLEGRO_VSYNC, 2, ALLEGRO_REQUIRE);
-    al_set_new_display_flags(ALLEGRO_OPENGL);
-    display = al_create_display(WINDOW_WIDTH, WINDOW_HEIGHT);
-    if(!display)
-    {
-        // FIXME: Make the error argument mean anything?
-        fprintf(stderr, "Fatal Error: Could not create display\n");
-        throw -1;
-    }
-
     background = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     midground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     foreground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -42,7 +31,6 @@ Renderer::Renderer() : cam_x(0), cam_y(0), spriteloader(false)
 Renderer::~Renderer()
 {
     // Cleanup
-    al_destroy_display(display);
     al_destroy_font(font);
     al_shutdown_font_addon();
     al_shutdown_ttf_addon();
@@ -51,7 +39,7 @@ Renderer::~Renderer()
     al_destroy_bitmap(foreground);
 }
 
-void Renderer::render(Gamestate *state, EntityPtr myself)
+void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myself)
 {
     // Set camera
     Character *c = state->get<Player>(myself)->getcharacter(state);

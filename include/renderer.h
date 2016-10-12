@@ -13,8 +13,7 @@ class Renderer
     public:
         Renderer();
         ~Renderer();
-        void render(Gamestate *currentstate, EntityPtr myself);
-        ALLEGRO_DISPLAY *display;
+        void render(ALLEGRO_DISPLAY *display, Gamestate *currentstate, EntityPtr myself);
         double cam_x;
         double cam_y;
         ALLEGRO_BITMAP *background;

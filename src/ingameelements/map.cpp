@@ -106,8 +106,3 @@ bool Map::collides(Rect r)
     }
     return false;
 }
-
-bool Map::testpixel(double x, double y)
-{
-    return collides(Rect(x, y, 1, 1));
-}

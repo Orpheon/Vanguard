@@ -8,6 +8,7 @@
 #include "renderer.h"
 #include "datastructures.h"
 #include "global_constants.h"
+#include "mainmenu.h"
 
 long int getmillisec();
 
@@ -27,18 +28,57 @@ int main(int argc, char **argv)
         return -1;
     }
 
+    // Initialize keyboard modules
+    if (!al_install_keyboard())
+    {
+        fprintf(stderr, "Fatal Error: Could not initialize keyboard module!");
+        throw -1;
+    }
+
+    // Initialize mouse
+    if (!al_install_mouse())
+    {
+        fprintf(stderr, "Fatal Error: Could not initialize mouse module!");
+        throw -1;
+    }
+
+    // Create a display
+    ALLEGRO_DISPLAY *display;
+    al_set_new_display_option(ALLEGRO_VSYNC, 2, ALLEGRO_REQUIRE);
+    al_set_new_display_flags(ALLEGRO_OPENGL);
+    display = al_create_display(WINDOW_WIDTH, WINDOW_HEIGHT);
+    if(!display)
+    {
+        // FIXME: Make the error argument mean anything?
+        fprintf(stderr, "Fatal Error: Could not create display\n");
+        throw -1;
+    }
+
+    MainMenu *mainmenu = new MainMenu(display);
+    GAMETYPE gametype;
+    double lasttimeupdated = al_get_time();
+    bool run = true;
+    while (run)
+    {
+        if (al_get_time() - lasttimeupdated >= MENU_TIMESTEP)
+        {
+            run = mainmenu->run(display, &gametype);
+            lasttimeupdated = al_get_time();
+        }
+    }
+    delete mainmenu;
+
     InputCatcher *inputcatcher;
     Engine *engine;
     Renderer *renderer;
     Gamestate *renderingstate;
-
     try
     {
         // Initialize everything
         // The various allegro initializations can throw errors
         engine = new Engine();
         renderer = new Renderer();
-        inputcatcher = new InputCatcher(renderer->display);
+        inputcatcher = new InputCatcher(display);
         renderingstate = new Gamestate(engine);
     }
     catch (int e)
@@ -58,7 +98,7 @@ int main(int argc, char **argv)
     // FIXME: Hack to make sure the oldstate is properly initialized
     engine->update(0);
 
-    double lasttimeupdated = al_get_time();
+    lasttimeupdated = al_get_time();
     while (true)
     {
         try
@@ -71,7 +111,7 @@ int main(int argc, char **argv)
                 lasttimeupdated += ENGINE_TIMESTEP;
             }
             renderingstate->interpolate(engine->oldstate.get(), engine->currentstate.get(), (al_get_time()-lasttimeupdated)/ENGINE_TIMESTEP);
-            renderer->render(renderingstate, myself);
+            renderer->render(display, renderingstate, myself);
         }
         catch (int e)
         {
@@ -80,8 +120,10 @@ int main(int argc, char **argv)
                 fprintf(stderr, "\nError during regular loop.");
                 fprintf(stderr, "\nExiting..");
             }
+            al_destroy_display(display);
             return 0;
         }
     }
+    al_destroy_display(display);
     return 0;
 }

@@ -12,20 +12,6 @@
 
 InputCatcher::InputCatcher(ALLEGRO_DISPLAY *display)
 {
-    // Initialize keyboard modules
-    if (!al_install_keyboard())
-    {
-        fprintf(stderr, "Fatal Error: Could not initialize keyboard module!");
-        throw -1;
-    }
-
-    // Initialize mouse
-    if (!al_install_mouse())
-    {
-        fprintf(stderr, "Fatal Error: Could not initialize mouse module!");
-        throw -1;
-    }
-
     // Create an event queue, and error if it fails
     event_queue = al_create_event_queue();
     if (!event_queue)
@@ -37,12 +23,12 @@ InputCatcher::InputCatcher(ALLEGRO_DISPLAY *display)
     // Connect the window, keyboard and mouse events to this event queue
     al_register_event_source(event_queue, al_get_display_event_source(display));
     al_register_event_source(event_queue, al_get_keyboard_event_source());
-    // TODO: Mouse
+//    al_register_event_source(event_queue, al_get_mouse_event_source(display));
 }
 
 InputCatcher::~InputCatcher()
 {
-    //dtor
+    al_destroy_event_queue(event_queue);
 }
 
 void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
@@ -100,8 +86,6 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
                         throw 0;
                 }
 
-            // FIXME: BROKEN DOES NOT WORK
-            // event.mouse.button seems to always be 0
             case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
                 switch (event.mouse.button)
                 {
