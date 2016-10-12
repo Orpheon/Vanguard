@@ -19,7 +19,6 @@ class Map
         bool collides(Gamestate *state, Character *entity);
         bool collides(Rect rect);
         bool testpixel(double x, double y);
-        bool place_free(double x, double y) {return al_get_pixel(wallmask, x, y).a == 0;}
     protected:
     private:
         ALLEGRO_BITMAP *background;
