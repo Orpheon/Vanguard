@@ -26,9 +26,9 @@ InputCatcher::InputCatcher(ALLEGRO_DISPLAY *display)
     al_register_event_source(event_queue, al_get_keyboard_event_source());
 //    al_register_event_source(event_queue, al_get_mouse_event_source(display));
 
-	std::ifstream configfile("config.json");
-	config << configfile;
-	configfile.close();
+    std::ifstream configfile("config.json");
+    config << configfile;
+    configfile.close();
 }
 
 InputCatcher::~InputCatcher()
@@ -55,9 +55,9 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
                 throw 0;
 
             case ALLEGRO_EVENT_KEY_DOWN:
-				//Debug: print the keycode number and name of the key we press
-				printf("\n%i\t%s", event.keyboard.keycode, al_keycode_to_name(event.keyboard.keycode));
-				
+                //Debug: print the keycode number and name of the key we press
+                printf("\n%i\t%s", event.keyboard.keycode, al_keycode_to_name(event.keyboard.keycode));
+
                 if (event.keyboard.keycode == config["jump"] or event.keyboard.keycode == config["jump_alt1"] or event.keyboard.keycode == config["jump_alt2"])
                 {
                     pressed_keys.JUMP = true;
@@ -74,27 +74,27 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
                 {
                     pressed_keys.RIGHT = true;
                 }
-				if (event.keyboard.keycode == config["right"] or event.keyboard.keycode == config["right_alt1"] or event.keyboard.keycode == config["right_alt2"])
+                if (event.keyboard.keycode == config["right"] or event.keyboard.keycode == config["right_alt1"] or event.keyboard.keycode == config["right_alt2"])
                 {
                     pressed_keys.RIGHT = true;
                 }
-				if (event.keyboard.keycode == config["ability1"] or event.keyboard.keycode == config["ability1_alt1"] or event.keyboard.keycode == config["ability1_alt2"])
+                if (event.keyboard.keycode == config["ability1"] or event.keyboard.keycode == config["ability1_alt1"] or event.keyboard.keycode == config["ability1_alt2"])
                 {
                     pressed_keys.ABILITY_1 = true;
                 }
-				if (event.keyboard.keycode == config["ability2"] or event.keyboard.keycode == config["ability2_alt1"] or event.keyboard.keycode == config["ability2_alt2"])
+                if (event.keyboard.keycode == config["ability2"] or event.keyboard.keycode == config["ability2_alt1"] or event.keyboard.keycode == config["ability2_alt2"])
                 {
                     pressed_keys.ABILITY_2 = true;
                 }
-				if (event.keyboard.keycode == config["ultimate"] or event.keyboard.keycode == config["ultimate_alt1"] or event.keyboard.keycode == config["ultimate_alt2"])
+                if (event.keyboard.keycode == config["ultimate"] or event.keyboard.keycode == config["ultimate_alt1"] or event.keyboard.keycode == config["ultimate_alt2"])
                 {
                     pressed_keys.ULTIMATE = true;
                 }
-				if (event.keyboard.keycode == config["reload"] or event.keyboard.keycode == config["reload_alt1"] or event.keyboard.keycode == config["reload_alt2"])
+                if (event.keyboard.keycode == config["reload"] or event.keyboard.keycode == config["reload_alt1"] or event.keyboard.keycode == config["reload_alt2"])
                 {
                     pressed_keys.RELOAD = true;
                 }
-				
+
                 switch (event.keyboard.keycode)
                 {
                     case ALLEGRO_KEY_1:

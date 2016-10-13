@@ -10,13 +10,13 @@
 
 class InputCatcher
 {
-	public:
-		InputCatcher(ALLEGRO_DISPLAY *display);
-		~InputCatcher();
-		void run(EntityPtr myself, Engine *engine, Renderer *renderer);
-	private:
-		ALLEGRO_EVENT_QUEUE *event_queue;
-		nlohmann::json config;
+    public:
+        InputCatcher(ALLEGRO_DISPLAY *display);
+        ~InputCatcher();
+        void run(EntityPtr myself, Engine *engine, Renderer *renderer);
+    private:
+        ALLEGRO_EVENT_QUEUE *event_queue;
+        nlohmann::json config;
 };
 
 #endif // INPUTCATCHER_H
