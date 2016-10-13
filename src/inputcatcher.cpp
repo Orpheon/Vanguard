@@ -56,7 +56,7 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
 
             case ALLEGRO_EVENT_KEY_DOWN:
                 //Debug: print the keycode number and name of the key we press
-                printf("\n%i\t%s", event.keyboard.keycode, al_keycode_to_name(event.keyboard.keycode));
+//                printf("\n%i\t%s", event.keyboard.keycode, al_keycode_to_name(event.keyboard.keycode));
 
                 if (event.keyboard.keycode == config["jump"] or event.keyboard.keycode == config["jump_alt1"] or event.keyboard.keycode == config["jump_alt2"])
                 {
