@@ -1,5 +1,6 @@
 #include <allegro5/allegro.h>
 #include <cstdio>
+#include <fstream>
 
 #include "inputcatcher.h"
 #include "datastructures.h"
@@ -24,6 +25,10 @@ InputCatcher::InputCatcher(ALLEGRO_DISPLAY *display)
     al_register_event_source(event_queue, al_get_display_event_source(display));
     al_register_event_source(event_queue, al_get_keyboard_event_source());
 //    al_register_event_source(event_queue, al_get_mouse_event_source(display));
+
+	std::ifstream configfile("config.json");
+	config << configfile;
+	configfile.close();
 }
 
 InputCatcher::~InputCatcher()
@@ -52,18 +57,22 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
             case ALLEGRO_EVENT_KEY_DOWN:
                 switch (event.keyboard.keycode)
                 {
-                    case ALLEGRO_KEY_W:
+					if (event.keyboard.keycode== config["jump"]){
                         pressed_keys.JUMP = true;
-                        break;
-                    case ALLEGRO_KEY_S:
+                        //break;
+					}
+					if (event.keyboard.keycode== config["crouch"]){
                         pressed_keys.CROUCH = true;
-                        break;
-                    case ALLEGRO_KEY_A:
+                        //break;
+					}
+					if (event.keyboard.keycode== config["left"]){
                         pressed_keys.LEFT = true;
-                        break;
-                    case ALLEGRO_KEY_D:
+                        //break;
+					}
+					if (event.keyboard.keycode== config["right"]){
                         pressed_keys.RIGHT = true;
-                        break;
+                        //break;
+					}						
                     case ALLEGRO_KEY_LSHIFT:
                         pressed_keys.ABILITY_1 = true;
                         break;
@@ -101,19 +110,19 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
 
     ALLEGRO_KEYBOARD_STATE keystate;
     al_get_keyboard_state(&keystate);
-    if (al_key_down(&keystate, ALLEGRO_KEY_W))
+    if (al_key_down(&keystate, config["jump"]))
     {
         held_keys.JUMP = true;
     }
-    if (al_key_down(&keystate, ALLEGRO_KEY_S))
+    if (al_key_down(&keystate, config["crouch"]))
     {
         held_keys.CROUCH = true;
     }
-    if (al_key_down(&keystate, ALLEGRO_KEY_A))
+    if (al_key_down(&keystate, config["left"]))
     {
         held_keys.LEFT = true;
     }
-    if (al_key_down(&keystate, ALLEGRO_KEY_D))
+    if (al_key_down(&keystate, config["right"]))
     {
         held_keys.RIGHT = true;
     }
