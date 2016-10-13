@@ -1,5 +1,5 @@
-#include "buffer.h"
 #include <cstdlib>
+#include "networking/buffer.h"
 
 Buffer::Buffer(void *data_, uint64_t datalen_) : data(data_), datalen(datalen_), pos(0)
 {
