@@ -55,24 +55,25 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
                 throw 0;
 
             case ALLEGRO_EVENT_KEY_DOWN:
+                if (event.keyboard.keycode == config["jump"])
+                {
+                    pressed_keys.JUMP = true;
+                }
+                if (event.keyboard.keycode == config["crouch"])
+                {
+                    pressed_keys.CROUCH = true;
+                }
+                if (event.keyboard.keycode == config["left"])
+                {
+                    pressed_keys.LEFT = true;
+                }
+                if (event.keyboard.keycode == config["right"])
+                {
+                    pressed_keys.RIGHT = true;
+                }
+
                 switch (event.keyboard.keycode)
                 {
-                    if (event.keyboard.keycode == config["jump"])
-                    {
-                        pressed_keys.JUMP = true;
-                    }
-                    if (event.keyboard.keycode == config["crouch"])
-                    {
-                        pressed_keys.CROUCH = true;
-                    }
-                    if (event.keyboard.keycode == config["left"])
-                    {
-                        pressed_keys.LEFT = true;
-                    }
-                    if (event.keyboard.keycode == config["right"])
-                    {
-                        pressed_keys.RIGHT = true;
-                    }						
                     case ALLEGRO_KEY_LSHIFT:
                         pressed_keys.ABILITY_1 = true;
                         break;
