@@ -9,7 +9,7 @@
 #include <memory>
 #include <cmath>
 
-Mccree::Mccree(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state)), animstate_(), rollcooldown(8), flashbangcooldown(10)
+Mccree::Mccree(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state)), rollcooldown(8), flashbangcooldown(10), animstate_()
 {
     rollcooldown.active = false;
     flashbangcooldown.active = false;
@@ -95,6 +95,7 @@ void Mccree::midstep(Gamestate *state, double frametime)
             rollcooldown.reset();
             Weapon *p = state->get<Peacemaker>(weapon);
             p->clip = p->getclipsize();
+            p->reloadanim.active(0);
         }
         if (held_keys.ABILITY_2 and not flashbangcooldown.active)
         {
