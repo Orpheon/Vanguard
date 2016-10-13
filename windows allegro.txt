@@ -2,7 +2,7 @@ http://download.gna.org/allegro/allegro-bin/5.2.1.1/allegro-mingw-gcc5.3.0-x64-s
 http://download.gna.org/allegro/allegro-deps/1.4.0/allegro_deps-mingw-gcc5.3.0-x64-1.4.0.zip
 
 
-
+pacman -S --force --needed base-devel mingw-w64-i686-toolchain mingw-w64-x86_64-toolchain git mingw-w64-i686-cmake mingw-w64-x86_64-cmake
 
 # For compilation
 pacman -S --needed mingw-w64-x86_64-freetype mingw-w64-x86_64-physfs mingw-w64-x86_64-libvorbis mingw-w64-x86_64-flac mingw-w64-x86_64-dumb mingw-w64-x86_64-libtheora mingw-w64-x86_64-libjpeg-turbo mingw64/mingw-w64-x86_64-freeglut
