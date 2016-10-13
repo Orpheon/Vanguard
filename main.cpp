@@ -54,19 +54,19 @@ int main(int argc, char **argv)
         throw -1;
     }
 
-    MainMenu *mainmenu = new MainMenu(display);
-    GAMETYPE gametype;
+//    MainMenu *mainmenu = new MainMenu(display);
+//    GAMETYPE gametype;
     double lasttimeupdated = al_get_time();
-    bool run = true;
-    while (run)
-    {
-        if (al_get_time() - lasttimeupdated >= MENU_TIMESTEP)
-        {
-            run = mainmenu->run(display, &gametype);
-            lasttimeupdated = al_get_time();
-        }
-    }
-    delete mainmenu;
+//    bool run = true;
+//    while (run)
+//    {
+//        if (al_get_time() - lasttimeupdated >= MENU_TIMESTEP)
+//        {
+//            run = mainmenu->run(display, &gametype);
+//            lasttimeupdated = al_get_time();
+//        }
+//    }
+//    delete mainmenu;
 
     InputCatcher *inputcatcher;
     Engine *engine;
