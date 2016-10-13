@@ -80,7 +80,7 @@ void Mccree::midstep(Gamestate *state, double frametime)
 
     if (cangetinput(state))
     {
-        if (held_keys.ABILITY_1 and onground(state) and not rollcooldown.active)
+        if (held_keys.ABILITY_1 and not rollcooldown.active)
         {
             // Lets roll
             if (lastdirectionpressed == LEFT)
