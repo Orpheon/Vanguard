@@ -1,4 +1,5 @@
 #include "buffer.h"
+#include <cstdlib>
 
 Buffer::Buffer(void *data_, uint64_t datalen_) : data(data_), datalen(datalen_), pos(0)
 {
@@ -6,14 +7,14 @@ Buffer::Buffer(void *data_, uint64_t datalen_) : data(data_), datalen(datalen_),
 }
 Buffer::~Buffer()
 {
-    // TODO: free data somehow
+    std::free(data);
 }
 
-ReadonlyBuffer::ReadonlyBuffer(void *data_, uint64_t datalen_) : Buffer(data_, datalen_)
+ReadBuffer::ReadBuffer(void *data_, uint64_t datalen_) : Buffer(data_, datalen_)
 {
     //ctor
 }
-ReadonlyBuffer::~ReadonlyBuffer()
+ReadBuffer::~ReadBuffer()
 {
-    // TODO: free data somehow
+    //dtor
 }

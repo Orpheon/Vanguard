@@ -15,11 +15,11 @@ class Buffer
         uint64_t pos;
 };
 
-class ReadonlyBuffer : public Buffer
+class ReadBuffer : public Buffer
 {
     public:
-        ReadonlyBuffer(void *data_, uint64_t datalen_);
-        virtual ~ReadonlyBuffer();
+        ReadBuffer(void *data_, uint64_t datalen_);
+        virtual ~ReadBuffer();
         template<class T> T read()
         {
             if (datalen-pos < sizeof(T))
@@ -30,6 +30,26 @@ class ReadonlyBuffer : public Buffer
             T r = (*reinterpret_cast<T*>(data+pos));
             pos += sizeof(T);
             return r;
+        }
+    protected:
+    private:
+};
+
+class WriteBuffer : public Buffer
+{
+    public:
+        WriteBuffer(void *data_, uint64_t datalen_);
+        virtual ~WriteBuffer();
+        template<class T> void write(T)
+        {
+//            if (datalen-pos < sizeof(T))
+//            {
+//                // Pulling too much data
+//                throw -1;
+//            }
+//            T r = (*reinterpret_cast<T*>(data+pos));
+//            pos += sizeof(T);
+//            return r;
         }
     protected:
     private:
