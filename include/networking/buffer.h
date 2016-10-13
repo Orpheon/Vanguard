@@ -2,17 +2,20 @@
 #define BUFFER_H
 
 #include <cstdint>
+#include <cstdlib>
+#include <cstring>
 
 class Buffer
 {
     public:
         Buffer(void *data_, uint64_t datalen_);
         virtual ~Buffer();
+        void* getdata() {return data;}
     protected:
-    private:
         void *data;
         uint64_t datalen;
         uint64_t pos;
+    private:
 };
 
 class ReadBuffer : public Buffer
@@ -38,20 +41,20 @@ class ReadBuffer : public Buffer
 class WriteBuffer : public Buffer
 {
     public:
-        WriteBuffer(void *data_, uint64_t datalen_);
+        WriteBuffer();
         virtual ~WriteBuffer();
-        template<class T> void write(T)
+        void enlarge(uint64_t newsize);
+        template<class T> void write(T input)
         {
-//            if (datalen-pos < sizeof(T))
-//            {
-//                // Pulling too much data
-//                throw -1;
-//            }
-//            T r = (*reinterpret_cast<T*>(data+pos));
-//            pos += sizeof(T);
-//            return r;
+            if (datalen-pos < sizeof(T))
+            {
+                // Buffer too small, resize
+                enlarge(datalen*2.0);
+            }
+            std::memcpy(data+pos, &input, sizeof(T));
         }
     protected:
     private:
+        uint64_t STARTING_SIZE = 128;
 };
 #endif // BUFFER_H
