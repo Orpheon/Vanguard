@@ -83,6 +83,14 @@ void Mccree::midstep(Gamestate *state, double frametime)
         if (held_keys.ABILITY_1 and onground(state) and not rollcooldown.active)
         {
             // Lets roll
+            if (lastdirectionpressed == LEFT)
+            {
+                animstate()->isflipped = true;
+            }
+            else if (lastdirectionpressed == RIGHT)
+            {
+                animstate()->isflipped = false;
+            }
             animstate()->rolling.reset();
             rollcooldown.reset();
             Weapon *p = state->get<Peacemaker>(weapon);

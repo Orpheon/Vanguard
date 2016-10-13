@@ -13,6 +13,7 @@
 				<Option use_console_runner="0" />
 				<Compiler>
 					<Add directory="include" />
+					<Add directory="include/networking" />
 				</Compiler>
 				<Linker>
 					<Add library="allegro" />
@@ -29,6 +30,7 @@
 				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
 					<Add directory="include" />
+					<Add directory="include/networking" />
 				</Compiler>
 				<Linker>
 					<Add library="allegro-5.0.10-mt" />
@@ -43,6 +45,7 @@
 				<Option projectLinkerOptionsRelation="1" />
 				<Compiler>
 					<Add directory="include" />
+					<Add directory="include/networking" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
@@ -84,46 +87,50 @@
 			<Add library="allegro_image" />
 		</Linker>
 		<Unit filename="include/animation.h" />
-		<Unit filename="include/character.h" />
 		<Unit filename="include/datastructures.h" />
 		<Unit filename="include/engine.h" />
 		<Unit filename="include/entity.h" />
-		<Unit filename="include/explosion.h" />
-		<Unit filename="include/flashbang.h" />
 		<Unit filename="include/gamestate.h" />
 		<Unit filename="include/global_constants.h" />
+		<Unit filename="include/ingameelements/character.h" />
+		<Unit filename="include/ingameelements/explosion.h" />
+		<Unit filename="include/ingameelements/heroes/mccree.h" />
+		<Unit filename="include/ingameelements/map.h" />
+		<Unit filename="include/ingameelements/movingentity.h" />
+		<Unit filename="include/ingameelements/projectile.h" />
+		<Unit filename="include/ingameelements/projectiles/flashbang.h" />
+		<Unit filename="include/ingameelements/projectiles/peacemakerbullet.h" />
+		<Unit filename="include/ingameelements/weapon.h" />
+		<Unit filename="include/ingameelements/weapons/peacemaker.h" />
 		<Unit filename="include/inputcatcher.h" />
 		<Unit filename="include/json.hpp" />
-		<Unit filename="include/map.h" />
-		<Unit filename="include/mccree.h" />
-		<Unit filename="include/movingentity.h" />
-		<Unit filename="include/peacemaker.h" />
-		<Unit filename="include/peacemakerbullet.h" />
+		<Unit filename="include/mainmenu.h" />
+		<Unit filename="include/networking/buffer.h" />
 		<Unit filename="include/player.h" />
-		<Unit filename="include/projectile.h" />
 		<Unit filename="include/renderer.h" />
 		<Unit filename="include/spriteloader.h" />
 		<Unit filename="include/timer.h" />
-		<Unit filename="include/weapon.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src/Heroes/mccree.cpp" />
-		<Unit filename="src/Projectiles/flashbang.cpp" />
-		<Unit filename="src/Projectiles/peacemakerbullet.cpp" />
-		<Unit filename="src/Weapons/peacemaker.cpp" />
 		<Unit filename="src/animation.cpp" />
-		<Unit filename="src/character.cpp" />
 		<Unit filename="src/engine.cpp" />
-		<Unit filename="src/explosion.cpp" />
 		<Unit filename="src/gamestate.cpp" />
+		<Unit filename="src/ingameelements/character.cpp" />
+		<Unit filename="src/ingameelements/explosion.cpp" />
+		<Unit filename="src/ingameelements/heroes/mccree.cpp" />
+		<Unit filename="src/ingameelements/map.cpp" />
+		<Unit filename="src/ingameelements/movingentity.cpp" />
+		<Unit filename="src/ingameelements/projectile.cpp" />
+		<Unit filename="src/ingameelements/projectiles/flashbang.cpp" />
+		<Unit filename="src/ingameelements/projectiles/peacemakerbullet.cpp" />
+		<Unit filename="src/ingameelements/weapon.cpp" />
+		<Unit filename="src/ingameelements/weapons/peacemaker.cpp" />
 		<Unit filename="src/inputcatcher.cpp" />
-		<Unit filename="src/map.cpp" />
-		<Unit filename="src/movingentity.cpp" />
+		<Unit filename="src/mainmenu.cpp" />
+		<Unit filename="src/networking/buffer.cpp" />
 		<Unit filename="src/player.cpp" />
-		<Unit filename="src/projectile.cpp" />
 		<Unit filename="src/renderer.cpp" />
 		<Unit filename="src/spriteloader.cpp" />
 		<Unit filename="src/timer.cpp" />
-		<Unit filename="src/weapon.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -56,6 +56,8 @@ void Weapon::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
 
     reloadanim.interpolate(&(prev_e->reloadanim), &(next_e->reloadanim), alpha);
     firinganim.interpolate(&(prev_e->firinganim), &(next_e->firinganim), alpha);
+
+    aimdirection = prev_e->aimdirection + alpha*(next_e->aimdirection - prev_e->aimdirection);
 }
 
 void Weapon::reload(Gamestate *state, double frametime)

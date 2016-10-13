@@ -46,8 +46,11 @@ class Character : public MovingEntity
     protected:
         INPUT_CONTAINER pressed_keys;
         INPUT_CONTAINER held_keys;
+        int lastdirectionpressed;
         double mouse_x;
         double mouse_y;
+        const int LEFT = -1;
+        const int RIGHT = 1;
 };
 
 #endif // CHARACTER_H
