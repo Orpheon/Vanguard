@@ -79,7 +79,7 @@ void Character::midstep(Gamestate *state, double frametime)
             hspeed = std::min(hspeed + acceleration * runpower * frametime, maxhspeed);
         }
 
-        if (held_keys.JUMP)
+        if (pressed_keys.JUMP)
         {
             if (onground(state))
             {
@@ -245,7 +245,7 @@ void Character::endstep(Gamestate *state, double frametime)
     } // end collision with wallmask
 
     // Stick to stairs when going down
-    if (std::fabs(vspeed*frametime) <= 3.0 and not onground(state))
+    if (std::fabs(vspeed*frametime) <= 3.0 and not std::signbit(vspeed*frametime) and not onground(state))
     {
         Rect r = getcollisionrect(state);
         int stepsize = (-STAIRCASE_STEPSIZE)*std::ceil(std::fabs(hspeed)*frametime/(-STAIRCASE_STEPSIZE));
