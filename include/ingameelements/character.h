@@ -26,6 +26,7 @@ class Character : public MovingEntity
         virtual Rect getstandingcollisionrect(Gamestate *state) = 0;
         virtual CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state) = 0;
         virtual bool cangetinput(Gamestate *state) {return true;}
+        virtual double gethppercent() {return hp/maxhp;}
 
         EntityPtr owner;
         EntityPtr weapon;
@@ -33,6 +34,10 @@ class Character : public MovingEntity
         double friction;
         double acceleration;
         double runpower;
+
+        double hp;
+        int maxhp;
+        int hpdir; // DEBUGTOOL
 
         struct AnimationState
         {

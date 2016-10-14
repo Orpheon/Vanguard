@@ -2,6 +2,7 @@
 #include <string>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
 
 #include "inputcatcher.h"
 #include "engine.h"
@@ -26,6 +27,13 @@ int main(int argc, char **argv)
     {
         fprintf(stderr, "Fatal Error: Allegro Image Addon initialization failed!\n");
         return -1;
+    }
+
+    // Initialize primitives for drawing
+    if (!al_init_primitives_addon())
+    {
+        fprintf(stderr, "Fatal Error: Could not initialize primitives module!");
+        throw -1;
     }
 
     // Initialize keyboard modules

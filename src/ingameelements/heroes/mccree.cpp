@@ -149,5 +149,6 @@ CharacterChildParameters Mccree::constructparameters(uint64_t id_, Gamestate *st
     CharacterChildParameters p;
     p.runpower = 1.8;
     p.weapon = state->make_entity<Peacemaker>(state, EntityPtr(id_));
+    p.maxhp = 200;
     return p;
 }

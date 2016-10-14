@@ -58,6 +58,7 @@ struct CharacterChildParameters
 {
     double runpower = 0;
     EntityPtr weapon = 0;
+    int maxhp = 0;
 };
 
 struct WeaponChildParameters
