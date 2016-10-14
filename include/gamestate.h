@@ -1,6 +1,7 @@
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 
+#include <list>
 #include <unordered_map>
 #include <memory>
 
@@ -37,8 +38,10 @@ class Gamestate
         void update(double frametime);
         std::unique_ptr<Gamestate> clone();
         void interpolate(Gamestate *prevstate, Gamestate *nextstate, double alpha);
+        EntityPtr addplayer();
 
         std::unordered_map<int, std::unique_ptr<Entity>> entitylist;
+        std::list<EntityPtr> playerlist;
 
         // Make gamestate move-assigneable, so that " = " doesn't copy but move.
         Gamestate & operator=(Gamestate &&)=default;
