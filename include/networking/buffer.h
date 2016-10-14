@@ -30,7 +30,7 @@ class ReadBuffer : public Buffer
                 // Pulling too much data
                 throw -1;
             }
-            T r = (*reinterpret_cast<T*>(data+pos));
+            T r = (*reinterpret_cast<T*>(reinterpret_cast<char*>(data)+pos));
             pos += sizeof(T);
             return r;
         }
@@ -51,7 +51,7 @@ class WriteBuffer : public Buffer
                 // Buffer too small, resize
                 enlarge(datalen*2.0);
             }
-            std::memcpy(data+pos, &input, sizeof(T));
+            std::memcpy(reinterpret_cast<char*>(data)+pos, &input, sizeof(T));
         }
     protected:
     private:

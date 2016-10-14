@@ -330,3 +330,33 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
     animstate()->runanim.interpolate(&(prev_e->animstate()->runanim), &(next_e->animstate()->runanim), alpha);
     hp = prev_e->hp + alpha*(next_e->hp - prev_e->hp);
 }
+
+void Character::serialize(Gamestate *state, WriteBuffer *buffer)
+{
+    MovingEntity::serialize(state, buffer);
+    buffer->write<float>(hp);
+    pressed_keys.serialize(buffer);
+    held_keys.serialize(buffer);
+    buffer->write<float>(mouse_x);
+    buffer->write<float>(mouse_y);
+    Weapon *w = state->get<Weapon>(weapon);
+    if (w->issynced())
+    {
+        w->serialize(state, buffer);
+    }
+}
+
+void Character::deserialize(Gamestate *state, ReadBuffer *buffer)
+{
+    MovingEntity::deserialize(state, buffer);
+    hp = buffer->read<float>();
+    pressed_keys.deserialize(buffer);
+    held_keys.deserialize(buffer);
+    mouse_x = buffer->read<float>();
+    mouse_y = buffer->read<float>();
+    Weapon *w = state->get<Weapon>(weapon);
+    if (w->issynced())
+    {
+        w->deserialize(state, buffer);
+    }
+}

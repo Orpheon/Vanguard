@@ -18,8 +18,11 @@ class Character : public MovingEntity
         virtual void beginstep(Gamestate *state, double frametime);
         virtual void midstep(Gamestate *state, double frametime);
         virtual void endstep(Gamestate *state, double frametime);
+        bool issynced() {return true;}
         bool isrootobject() {return false;}
         virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha);
+        virtual void serialize(Gamestate *state, WriteBuffer *buffer);
+        virtual void deserialize(Gamestate *state, ReadBuffer *buffer);
 
         virtual bool onground(Gamestate *state);
         virtual Rect getcollisionrect(Gamestate *state) = 0;

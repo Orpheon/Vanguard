@@ -13,7 +13,7 @@ class Projectile : public MovingEntity
         virtual void beginstep(Gamestate *state, double frametime);
         virtual void midstep(Gamestate *state, double frametime);
         virtual void endstep(Gamestate *state, double frametime);
-
+        virtual bool issynced() {return false;}
         virtual bool isrootobject() {return true;}
 
         EntityPtr owner;

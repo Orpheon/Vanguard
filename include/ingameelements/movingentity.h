@@ -16,6 +16,9 @@ class MovingEntity : public Entity
         virtual std::string getsprite(Gamestate *state, bool mask) = 0;
         virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha);
         virtual bool collides(Gamestate *state, EntityPtr otherentity);
+        virtual void serialize(Gamestate *state, WriteBuffer *buffer);
+        virtual void deserialize(Gamestate *state, ReadBuffer *buffer);
+        virtual bool issynced() = 0;
 
         double x, y;
         double hspeed, vspeed;

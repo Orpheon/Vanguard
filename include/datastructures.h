@@ -3,6 +3,7 @@
 
 #include <string>
 #include <functional>
+#include "networking/buffer.h"
 
 class Gamestate;
 
@@ -45,6 +46,37 @@ struct INPUT_CONTAINER
     bool ABILITY_1;
     bool ABILITY_2;
     bool ULTIMATE;
+
+    void serialize(WriteBuffer *buffer)
+    {
+        uint16_t d = 0;
+        d |= LEFT<<1;
+        d |= RIGHT<<2;
+        d |= JUMP<<3;
+        d |= CROUCH<<4;
+        d |= PRIMARY_FIRE<<5;
+        d |= SECONDARY_FIRE<<6;
+        d |= RELOAD<<7;
+        d |= ABILITY_1<<8;
+        d |= ABILITY_2<<9;
+        d |= ULTIMATE<<10;
+        buffer->write<uint16_t>(d);
+    }
+
+    void deserialize(ReadBuffer *buffer)
+    {
+        uint16_t d = buffer->read<uint16_t>();
+        LEFT = d & 1<<1;
+        RIGHT = d & 1<<2;
+        JUMP = d & 1<<3;
+        CROUCH = d & 1<<4;
+        PRIMARY_FIRE = d & 1<<5;
+        SECONDARY_FIRE = d & 1<<6;
+        RELOAD = d & 1<<7;
+        ABILITY_1 = d & 1<<8;
+        ABILITY_2 = d & 1<<9;
+        ULTIMATE = d & 1<<10;
+    }
 };
 
 struct EntityPtr
