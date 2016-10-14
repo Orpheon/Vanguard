@@ -11,7 +11,7 @@
 class Renderer
 {
     public:
-        Renderer();
+        Renderer(ALLEGRO_FONT *font_);
         ~Renderer();
         void render(ALLEGRO_DISPLAY *display, Gamestate *currentstate, EntityPtr myself);
         double cam_x;

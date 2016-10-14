@@ -1,4 +1,5 @@
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
 #include <cstdio>
 #include <vector>
 #include <string>
@@ -7,22 +8,11 @@
 #include "global_constants.h"
 #include "entity.h"
 
-Renderer::Renderer() : cam_x(0), cam_y(0), spriteloader(false)
+Renderer::Renderer(ALLEGRO_FONT *font_) : cam_x(0), cam_y(0), spriteloader(false), font(font_)
 {
     background = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     midground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     foreground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
-
-    //load font
-    //gg2 font as placeholder for now i guess
-    al_init_font_addon();
-    al_init_ttf_addon();
-    font = al_load_font("gg2bold.ttf", 12, ALLEGRO_TTF_MONOCHROME);
-    if (!font)
-    {
-      fprintf(stderr, "Could not load 'gg2bold.ttf'.\n");
-      throw -1;
-    }
 
     // fps stuff
     lasttime = al_get_time();
@@ -96,6 +86,57 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
     {
         al_draw_text(font, al_map_rgb(255, 255, 255), 0, 72, ALLEGRO_ALIGN_LEFT, "hspeed: 0.000000");
         al_draw_text(font, al_map_rgb(255, 255, 255), 0, 84, ALLEGRO_ALIGN_LEFT, "vspeed: 0.000000");
+    }
+
+    // Experimental health
+    ALLEGRO_COLOR LIGHT_BLUE = al_map_rgb(0, 222, 255);
+    int nrects = 25;
+    int width = 10;
+    int height = 10;
+    int space = 3;
+    int x;
+    int y = 6.0*WINDOW_HEIGHT/7.0;
+    double start = WINDOW_WIDTH/2.0 -(nrects/2.0)*width - ((nrects-1)/2.0)*space;
+    float r[8];
+    double slant = 0.5;
+    double hp = 1.0;
+    if (c != 0)
+    {
+        hp = c->gethppercent();
+    }
+    for (int i=0; i<std::floor(nrects*hp); ++i)
+    {
+        x = start + i*width + (i-1)*space;
+        r[0] = x+height*slant;
+        r[1] = y;
+
+        r[2] = x;
+        r[3] = y+height;
+
+        r[4] = x+width;
+        r[5] = y+height;
+
+        r[6] = x+width+height*slant;
+        r[7] = y;
+        al_draw_filled_polygon(r, 4, LIGHT_BLUE);
+    }
+    double leftover = nrects*hp - std::floor(nrects*hp);
+    if (leftover > 0.0)
+    {
+        // Draw the half-rectangle
+        x = start + std::floor(nrects*hp)*width + (std::floor(nrects*hp)-1)*space;
+        r[0] = x+height*slant;
+        r[1] = y;
+
+        r[2] = x;
+        r[3] = y+height;
+
+        r[4] = x+width*leftover;
+        r[5] = y+height;
+
+        r[6] = x+width*leftover+height*slant;
+        r[7] = y;
+        al_draw_filled_polygon(r, 4, LIGHT_BLUE);
     }
 
     al_flip_display();

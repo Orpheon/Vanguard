@@ -117,14 +117,14 @@ Rect Mccree::getcollisionrect(Gamestate *state)
 {
     if (animstate()->crouchanim.active())
     {
-        return state->engine->maskloader.get_rect("heroes/mccree/crouch/").offset(x, y);
+        return state->engine->maskloader.get_rect_from_json("heroes/mccree/crouch/").offset(x, y);
     }
     return getstandingcollisionrect(state);
 }
 
 Rect Mccree::getstandingcollisionrect(Gamestate *state)
 {
-    return state->engine->maskloader.get_rect("heroes/mccree/").offset(x, y);
+    return state->engine->maskloader.get_rect_from_json("heroes/mccree/").offset(x, y);
 }
 
 std::string Mccree::getsprite(Gamestate *state, bool mask)
@@ -149,5 +149,6 @@ CharacterChildParameters Mccree::constructparameters(uint64_t id_, Gamestate *st
     CharacterChildParameters p;
     p.runpower = 1.8;
     p.weapon = state->make_entity<Peacemaker>(state, EntityPtr(id_));
+    p.maxhp = 200;
     return p;
 }

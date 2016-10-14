@@ -10,7 +10,7 @@
 #include "ingameelements/weapon.h"
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
-            owner(owner_), weapon(parameters.weapon), pressed_keys(), held_keys(), lastdirectionpressed(0)
+            owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), maxhp(parameters.maxhp), hpdir(-1), pressed_keys(), held_keys(), lastdirectionpressed(0)
 {
     acceleration = 300;
     runpower = parameters.runpower;
@@ -129,6 +129,18 @@ void Character::midstep(Gamestate *state, double frametime)
             vspeed -= 540.0*frametime*3.0/4.0;
             animstate()->isflipped = (mouse_x < 0);
         }
+    }
+
+    hp += 20*hpdir*frametime;
+    if (hp <= 0)
+    {
+        hp = 0;
+        hpdir = 1;
+    }
+    else if (hp >= maxhp)
+    {
+        hp = maxhp;
+        hpdir = -1;
     }
 
     // Gravity
@@ -316,4 +328,5 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
     mouse_x = prev_e->mouse_x + alpha*(next_e->mouse_x - prev_e->mouse_x);
     mouse_y = prev_e->mouse_y + alpha*(next_e->mouse_y - prev_e->mouse_y);
     animstate()->runanim.interpolate(&(prev_e->animstate()->runanim), &(next_e->animstate()->runanim), alpha);
+    hp = prev_e->hp + alpha*(next_e->hp - prev_e->hp);
 }

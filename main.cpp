@@ -2,6 +2,7 @@
 #include <string>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
 
 #include "inputcatcher.h"
 #include "engine.h"
@@ -26,6 +27,13 @@ int main(int argc, char **argv)
     {
         fprintf(stderr, "Fatal Error: Allegro Image Addon initialization failed!\n");
         return -1;
+    }
+
+    // Initialize primitives for drawing
+    if (!al_init_primitives_addon())
+    {
+        fprintf(stderr, "Fatal Error: Could not initialize primitives module!");
+        throw -1;
     }
 
     // Initialize keyboard modules
@@ -54,6 +62,17 @@ int main(int argc, char **argv)
         throw -1;
     }
 
+    //load font
+    //gg2 font as placeholder for now i guess
+    al_init_font_addon();
+    al_init_ttf_addon();
+    ALLEGRO_FONT *font = al_load_font("gg2bold.ttf", 12, ALLEGRO_TTF_MONOCHROME);
+    if (!font)
+    {
+      fprintf(stderr, "Could not load 'gg2bold.ttf'.\n");
+      throw -1;
+    }
+
 //    MainMenu *mainmenu = new MainMenu(display);
 //    GAMETYPE gametype;
     double lasttimeupdated = al_get_time();
@@ -77,7 +96,7 @@ int main(int argc, char **argv)
         // Initialize everything
         // The various allegro initializations can throw errors
         engine = new Engine();
-        renderer = new Renderer();
+        renderer = new Renderer(font);
         inputcatcher = new InputCatcher(display);
         renderingstate = new Gamestate(engine);
     }

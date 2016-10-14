@@ -47,3 +47,10 @@ ALLEGRO_BITMAP* Spriteloader::request_sprite(std::string path)
     }
     return bitmapcache[path];
 }
+
+Rect Spriteloader::get_rect(std::string s)
+{
+    ALLEGRO_BITMAP *sprite = request_sprite(s);
+    int dx = get_spriteoffset_x(s), dy = get_spriteoffset_y(s);
+    return Rect(-dx, -dy, al_get_bitmap_width(sprite), al_get_bitmap_height(sprite));
+}
