@@ -62,6 +62,17 @@ int main(int argc, char **argv)
         throw -1;
     }
 
+    //load font
+    //gg2 font as placeholder for now i guess
+    al_init_font_addon();
+    al_init_ttf_addon();
+    ALLEGRO_FONT *font = al_load_font("gg2bold.ttf", 12, ALLEGRO_TTF_MONOCHROME);
+    if (!font)
+    {
+      fprintf(stderr, "Could not load 'gg2bold.ttf'.\n");
+      throw -1;
+    }
+
 //    MainMenu *mainmenu = new MainMenu(display);
 //    GAMETYPE gametype;
     double lasttimeupdated = al_get_time();
@@ -85,7 +96,7 @@ int main(int argc, char **argv)
         // Initialize everything
         // The various allegro initializations can throw errors
         engine = new Engine();
-        renderer = new Renderer();
+        renderer = new Renderer(font);
         inputcatcher = new InputCatcher(display);
         renderingstate = new Gamestate(engine);
     }

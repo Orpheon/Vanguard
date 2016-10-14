@@ -8,22 +8,11 @@
 #include "global_constants.h"
 #include "entity.h"
 
-Renderer::Renderer() : cam_x(0), cam_y(0), spriteloader(false)
+Renderer::Renderer(ALLEGRO_FONT *font_) : cam_x(0), cam_y(0), spriteloader(false), font(font_)
 {
     background = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     midground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     foreground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
-
-    //load font
-    //gg2 font as placeholder for now i guess
-    al_init_font_addon();
-    al_init_ttf_addon();
-    font = al_load_font("gg2bold.ttf", 12, ALLEGRO_TTF_MONOCHROME);
-    if (!font)
-    {
-      fprintf(stderr, "Could not load 'gg2bold.ttf'.\n");
-      throw -1;
-    }
 
     // fps stuff
     lasttime = al_get_time();
