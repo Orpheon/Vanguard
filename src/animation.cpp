@@ -34,7 +34,7 @@ Animation::~Animation()
 std::string Animation::getframe()
 {
     int f = static_cast<int>(std::floor(nframes*timer.getpercent()))+1;
-    f = std::min(std::max(f, 0), nframes);
+    f = std::min(std::max(f, 1), nframes);
     return path+std::to_string(f)+".png";
 }
 
