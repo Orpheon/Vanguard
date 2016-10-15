@@ -117,8 +117,6 @@ void Character::midstep(Gamestate *state, double frametime)
         }
         if (held_keys.SECONDARY_FIRE and state->engine->isserver)
         {
-            x = mouse_x;
-            y = mouse_y;
             Weapon *w = state->get<Weapon>(weapon);
             w->firesecondary(state, frametime);
         }
