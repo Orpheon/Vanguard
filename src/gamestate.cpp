@@ -3,7 +3,7 @@
 
 #include "gamestate.h"
 #include "entity.h"
-#include "player.h"
+#include "ingameelements/player.h"
 
 Gamestate::Gamestate(Engine *engine_) : entitylist(), playerlist(), currentmap(), engine(engine_), entityidcounter(1)
 {

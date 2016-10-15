@@ -6,7 +6,7 @@
 
 #include "ingameelements/movingentity.h"
 #include "datastructures.h"
-#include "player.h"
+#include "ingameelements/player.h"
 #include "animation.h"
 
 class Character : public MovingEntity

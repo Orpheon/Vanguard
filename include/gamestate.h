@@ -7,7 +7,7 @@
 
 #include "ingameelements/map.h"
 #include "datastructures.h"
-#include "player.h"
+#include "ingameelements/player.h"
 #include "ingameelements/character.h"
 
 // Circular reference

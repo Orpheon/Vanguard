@@ -4,7 +4,7 @@
 #include "ingameelements/character.h"
 #include "gamestate.h"
 #include "ingameelements/movingentity.h"
-#include "player.h"
+#include "ingameelements/player.h"
 #include "global_constants.h"
 #include "engine.h"
 #include "ingameelements/weapon.h"
