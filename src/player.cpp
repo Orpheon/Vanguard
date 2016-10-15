@@ -54,7 +54,7 @@ void Player::spawn(Gamestate *state, double x, double y)
         fprintf(stderr, "\nERROR: Tried to spawn character that was already alive.");
     }
     character = state->make_entity<Mccree>(state, EntityPtr(id));
-    Character *c = static_cast<Character*>(state->get<Character>(character));
+    Character *c = state->get<Character>(character);
     c->x = x;
     c->y = y;
 }
@@ -76,5 +76,35 @@ void Player::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
     else
     {
         character = next_e->character;
+    }
+}
+
+void Player::serialize(Gamestate *state, WriteBuffer *buffer)
+{
+    buffer->write<bool>(character != 0);
+    if (character != 0)
+    {
+        Character *c = state->get<Character>(character);
+        if (c->issynced())
+        {
+            c->serialize(state, buffer);
+        }
+    }
+}
+
+void Player::deserialize(Gamestate *state, ReadBuffer *buffer)
+{
+    bool havechar = buffer->read<bool>();
+    if (havechar != (character != 0))
+    {
+        fprintf(stderr, "\nERROR: Character existence inconsistency while deserializing");
+    }
+    if (havechar)
+    {
+        Character *c = state->get<Character>(character);
+        if (c->issynced())
+        {
+            c->deserialize(state, buffer);
+        }
     }
 }

@@ -5,7 +5,7 @@
 #include "entity.h"
 #include "player.h"
 
-Gamestate::Gamestate(Engine *engine_) : entitylist(), currentmap(), engine(engine_), entityidcounter(1)
+Gamestate::Gamestate(Engine *engine_) : entitylist(), playerlist(), currentmap(), engine(engine_), entityidcounter(1)
 {
     time = 0;
 }
@@ -51,6 +51,13 @@ void Gamestate::update(double frametime)
             ++e;
         }
     }
+}
+
+EntityPtr Gamestate::addplayer()
+{
+    EntityPtr r = make_entity<Player>(this);
+    playerlist.push_back(r);
+    return r;
 }
 
 std::unique_ptr<Gamestate> Gamestate::clone()

@@ -78,13 +78,14 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wshadow" />
-			<Add option="-Wall" />
 			<Add option="-std=c++11" />
+			<Add option="-Wall" />
 			<Add directory="include" />
 		</Compiler>
 		<Linker>
 			<Add library="allegro" />
 			<Add library="allegro_image" />
+			<Add library="allegro_primitives" />
 		</Linker>
 		<Unit filename="include/animation.h" />
 		<Unit filename="include/datastructures.h" />

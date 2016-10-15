@@ -33,7 +33,9 @@ Animation::~Animation()
 
 std::string Animation::getframe()
 {
-    return path+std::to_string(static_cast<int>(std::floor(nframes*timer.getpercent()))+1)+".png";
+    int f = static_cast<int>(std::floor(nframes*timer.getpercent()))+1;
+    f = std::min(std::max(f, 1), nframes);
+    return path+std::to_string(f)+".png";
 }
 
 void Animation::update(Gamestate *state, double dt)
