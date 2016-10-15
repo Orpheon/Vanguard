@@ -46,7 +46,7 @@ void Player::render(Renderer *renderer, Gamestate *state)
     }
 }
 
-void Player::spawn(Gamestate *state, double x, double y)
+void Player::spawn(Gamestate *state)
 {
     if (character != 0)
     {
@@ -55,8 +55,8 @@ void Player::spawn(Gamestate *state, double x, double y)
     }
     character = state->make_entity<Mccree>(state, EntityPtr(id));
     Character *c = state->get<Character>(character);
-    c->x = x;
-    c->y = y;
+    c->x = 740;
+    c->y = 356;
 }
 
 Character* Player::getcharacter(Gamestate *state)

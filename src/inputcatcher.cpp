@@ -178,7 +178,7 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
         // DEBUGTOOL
         if (spawnplayer)
         {
-            engine->currentstate->get<Player>(myself)->spawn(engine->currentstate.get(), renderer->cam_x+mousestate.x, renderer->cam_y+mousestate.y);
+            engine->currentstate->get<Player>(myself)->spawn(engine->currentstate.get());
         }
         if (held_keys.LEFT)
         {

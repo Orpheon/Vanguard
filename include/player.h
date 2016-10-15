@@ -19,7 +19,7 @@ class Player : public Entity
         void midstep(Gamestate *state, double frametime);
         void endstep(Gamestate *state, double frametime);
         void clone(Gamestate *oldstate, Gamestate *newstate);
-        void spawn(Gamestate *state, double x, double y);
+        void spawn(Gamestate *state);
         bool isrootobject() {return true;}
         bool issynced() {return true;}
         void render(Renderer *renderer, Gamestate *state);
