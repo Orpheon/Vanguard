@@ -98,6 +98,7 @@
 		<Unit filename="include/ingameelements/heroes/mccree.h" />
 		<Unit filename="include/ingameelements/map.h" />
 		<Unit filename="include/ingameelements/movingentity.h" />
+		<Unit filename="include/ingameelements/player.h" />
 		<Unit filename="include/ingameelements/projectile.h" />
 		<Unit filename="include/ingameelements/projectiles/flashbang.h" />
 		<Unit filename="include/ingameelements/projectiles/peacemakerbullet.h" />
@@ -107,7 +108,6 @@
 		<Unit filename="include/json.hpp" />
 		<Unit filename="include/mainmenu.h" />
 		<Unit filename="include/networking/buffer.h" />
-		<Unit filename="include/player.h" />
 		<Unit filename="include/renderer.h" />
 		<Unit filename="include/spriteloader.h" />
 		<Unit filename="include/timer.h" />
@@ -120,6 +120,7 @@
 		<Unit filename="src/ingameelements/heroes/mccree.cpp" />
 		<Unit filename="src/ingameelements/map.cpp" />
 		<Unit filename="src/ingameelements/movingentity.cpp" />
+		<Unit filename="src/ingameelements/player.cpp" />
 		<Unit filename="src/ingameelements/projectile.cpp" />
 		<Unit filename="src/ingameelements/projectiles/flashbang.cpp" />
 		<Unit filename="src/ingameelements/projectiles/peacemakerbullet.cpp" />
@@ -128,7 +129,6 @@
 		<Unit filename="src/inputcatcher.cpp" />
 		<Unit filename="src/mainmenu.cpp" />
 		<Unit filename="src/networking/buffer.cpp" />
-		<Unit filename="src/player.cpp" />
 		<Unit filename="src/renderer.cpp" />
 		<Unit filename="src/spriteloader.cpp" />
 		<Unit filename="src/timer.cpp" />
