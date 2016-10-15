@@ -75,13 +75,13 @@ void Weapon::setaim(double x_, double y_)
     aimdirection = std::atan2(y_, x_);
 }
 
-void Weapon::serialize(Gamestate *state, WriteBuffer *buffer)
+void Weapon::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
 {
     // Hopefully no clip size goes above 255
     buffer->write<uint8_t>(clip);
 }
 
-void Weapon::deserialize(Gamestate *state, ReadBuffer *buffer)
+void Weapon::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate)
 {
     // Hopefully no clip size goes above 255
     clip = buffer->read<uint8_t>();

@@ -79,32 +79,32 @@ void Player::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
     }
 }
 
-void Player::serialize(Gamestate *state, WriteBuffer *buffer)
+void Player::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
 {
-    buffer->write<bool>(character != 0);
     if (character != 0)
     {
-        Character *c = state->get<Character>(character);
-        if (c->issynced())
+        if (fullupdate)
         {
-            c->serialize(state, buffer);
+            buffer->write<bool>(character != 0);
         }
+        Character *c = state->get<Character>(character);
+        c->serialize(state, buffer, fullupdate);
     }
 }
 
-void Player::deserialize(Gamestate *state, ReadBuffer *buffer)
+void Player::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate)
 {
-    bool havechar = buffer->read<bool>();
-    if (havechar != (character != 0))
+    if (character != 0)
     {
-        fprintf(stderr, "\nERROR: Character existence inconsistency while deserializing");
-    }
-    if (havechar)
-    {
-        Character *c = state->get<Character>(character);
-        if (c->issynced())
+        if (fullupdate)
         {
-            c->deserialize(state, buffer);
+            bool hascharacter = buffer->read<bool>();
+            if (hascharacter)
+            {
+                spawn(state);
+            }
         }
+        Character *c = state->get<Character>(character);
+        c->deserialize(state, buffer, fullupdate);
     }
 }

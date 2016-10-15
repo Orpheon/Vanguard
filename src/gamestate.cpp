@@ -98,3 +98,41 @@ void Gamestate::interpolate(Gamestate *prevstate, Gamestate *nextstate, double a
         }
     }
 }
+
+void Gamestate::serializesnapshot(WriteBuffer *buffer)
+{
+    for (auto p : playerlist)
+    {
+        get<Player>(p)->serialize(this, buffer, false);
+    }
+}
+
+void Gamestate::deserializesnapshot(ReadBuffer *buffer)
+{
+    for (auto p : playerlist)
+    {
+        get<Player>(p)->deserialize(this, buffer, false);
+    }
+}
+
+void Gamestate::serializefull(WriteBuffer *buffer)
+{
+    buffer->write<uint32_t>(playerlist.size());
+    for (auto p : playerlist)
+    {
+        get<Player>(p)->serialize(this, buffer, true);
+    }
+}
+
+void Gamestate::deserializefull(ReadBuffer *buffer)
+{
+    int nplayers = buffer->read<uint32_t>();
+    for (int i=0; i<nplayers; ++i)
+    {
+        addplayer();
+    }
+    for (auto p : playerlist)
+    {
+        get<Player>(p)->deserialize(this, buffer, true);
+    }
+}

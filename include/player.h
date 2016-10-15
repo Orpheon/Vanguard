@@ -21,12 +21,11 @@ class Player : public Entity
         void clone(Gamestate *oldstate, Gamestate *newstate);
         void spawn(Gamestate *state);
         bool isrootobject() {return true;}
-        bool issynced() {return true;}
         void render(Renderer *renderer, Gamestate *state);
         void interpolate(Entity *prev_entity, Entity *next_entity, double alpha);
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Player(*this));}
-        void serialize(Gamestate *state, WriteBuffer *buffer);
-        void deserialize(Gamestate *state, ReadBuffer *buffer);
+        void serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate);
+        void deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate);
 
         Character* getcharacter(Gamestate *state);
 

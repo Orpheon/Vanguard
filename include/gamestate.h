@@ -39,6 +39,10 @@ class Gamestate
         std::unique_ptr<Gamestate> clone();
         void interpolate(Gamestate *prevstate, Gamestate *nextstate, double alpha);
         EntityPtr addplayer();
+        void serializesnapshot(WriteBuffer *buffer);
+        void deserializesnapshot(ReadBuffer *buffer);
+        void serializefull(WriteBuffer *buffer);
+        void deserializefull(ReadBuffer *buffer);
 
         std::unordered_map<int, std::unique_ptr<Entity>> entitylist;
         std::list<EntityPtr> playerlist;

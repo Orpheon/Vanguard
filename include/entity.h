@@ -5,6 +5,7 @@
 #include <memory>
 #include <vector>
 #include <allegro5/allegro.h>
+#include "buffer.h"
 
 // Circular dependency
 class Gamestate;

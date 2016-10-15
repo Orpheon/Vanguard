@@ -61,7 +61,7 @@ bool MovingEntity::collides(Gamestate *state, EntityPtr otherentity)
     return false;
 }
 
-void MovingEntity::serialize(Gamestate *state, WriteBuffer *buffer)
+void MovingEntity::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
 {
     buffer->write<float>(x);
     buffer->write<float>(y);
@@ -69,7 +69,7 @@ void MovingEntity::serialize(Gamestate *state, WriteBuffer *buffer)
     buffer->write<float>(vspeed);
 }
 
-void MovingEntity::deserialize(Gamestate *state, ReadBuffer *buffer)
+void MovingEntity::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate)
 {
     x = buffer->read<float>();
     y = buffer->read<float>();

@@ -22,9 +22,8 @@ class Weapon : public MovingEntity
         virtual void midstep(Gamestate *state, double frametime);
         virtual void endstep(Gamestate *state, double frametime);
         virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha);
-        virtual bool issynced() {return true;}
-        virtual void serialize(Gamestate *state, WriteBuffer *buffer);
-        virtual void deserialize(Gamestate *state, ReadBuffer *buffer);
+        virtual void serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate);
+        virtual void deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate);
 
         virtual void fireprimary(Gamestate *state, double frametime) = 0;
         virtual void firesecondary(Gamestate *state, double frametime) = 0;

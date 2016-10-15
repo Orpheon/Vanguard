@@ -17,7 +17,6 @@ class Explosion : public MovingEntity
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Explosion(*this));}
         void render(Renderer *renderer, Gamestate *state);
         bool isrootobject() {return true;}
-        bool issynced() {return false;}
 
         Animation explosionanim;
     protected:
