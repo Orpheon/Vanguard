@@ -80,7 +80,7 @@ void Mccree::midstep(Gamestate *state, double frametime)
 
     if (cangetinput(state))
     {
-        if (held_keys.ABILITY_1 and not rollcooldown.active)
+        if (held_keys.ABILITY_1 and not rollcooldown.active and state->engine->isserver)
         {
             // Lets roll
             if (lastdirectionpressed == LEFT)
@@ -97,7 +97,7 @@ void Mccree::midstep(Gamestate *state, double frametime)
             p->clip = p->getclipsize();
             p->reloadanim.active(0);
         }
-        if (held_keys.ABILITY_2 and not flashbangcooldown.active)
+        if (held_keys.ABILITY_2 and not flashbangcooldown.active and state->engine->isserver)
         {
             // Flashbang
             animstate()->flashbang.reset();

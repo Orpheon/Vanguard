@@ -95,7 +95,7 @@ int main(int argc, char **argv)
     {
         // Initialize everything
         // The various allegro initializations can throw errors
-        engine = new Engine();
+        engine = new Engine(true);
         renderer = new Renderer(font);
         inputcatcher = new InputCatcher(display);
         renderingstate = new Gamestate(engine);

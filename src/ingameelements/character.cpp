@@ -110,12 +110,12 @@ void Character::midstep(Gamestate *state, double frametime)
             w->reload(state, frametime);
         }
         // Shooting
-        if (held_keys.PRIMARY_FIRE)
+        if (held_keys.PRIMARY_FIRE and state->engine->isserver)
         {
             Weapon *w = state->get<Weapon>(weapon);
             w->fireprimary(state, frametime);
         }
-        if (held_keys.SECONDARY_FIRE)
+        if (held_keys.SECONDARY_FIRE and state->engine->isserver)
         {
             x = mouse_x;
             y = mouse_y;

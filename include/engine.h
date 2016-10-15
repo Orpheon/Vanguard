@@ -10,7 +10,7 @@
 class Engine
 {
     public:
-        Engine();
+        Engine(bool isserver_);
         ~Engine();
         void update(double frametime);
         void loadmap(std::string mapname);
@@ -19,6 +19,7 @@ class Engine
         std::unique_ptr<Gamestate> currentstate;
         std::unique_ptr<Gamestate> oldstate;
         Spriteloader maskloader;
+        bool isserver;
 };
 
 #endif // ENGINE_H
