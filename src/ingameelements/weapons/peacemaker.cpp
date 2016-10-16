@@ -28,20 +28,20 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     else if (reloadanim.active())
     {
         mainsprite = reloadanim.getframe();
-        dir = 3.1415*c->animstate()->isflipped;
+        dir = 3.1415*c->isflipped;
     }
     else
     {
-        mainsprite = "heroes/mccree/arm/1.png";
+        mainsprite = c->getcharacterfolder()+"arm/1.png";
     }
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.request_sprite(mainsprite);
     int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
 
     al_set_target_bitmap(renderer->midground);
-    if (not c->animstate()->rolling.active())
+    if (not c->rollanim.active())
     {
-        if (c->animstate()->isflipped)
+        if (c->isflipped)
         {
             // FIXME What the hell is going on here, this needs to be recalculated properly with paper
             al_draw_scaled_rotated_bitmap(sprite, xoffset, yoffset, x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 1, -1, dir, 0);

@@ -103,6 +103,7 @@ struct CharacterChildParameters
     double runpower = 0;
     EntityPtr weapon = 0;
     Health maxhp;
+    std::string characterfolder;
 };
 
 struct WeaponChildParameters

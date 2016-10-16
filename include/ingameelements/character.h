@@ -27,6 +27,7 @@ class Character : public MovingEntity
         virtual Rect getcollisionrect(Gamestate *state) = 0;
         virtual Rect getstandingcollisionrect(Gamestate *state) = 0;
         virtual CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state) = 0;
+        virtual std::string getcharacterfolder() = 0;
         virtual bool cangetinput(Gamestate *state) {return true;}
         virtual void damage(double amount);
 
@@ -41,14 +42,9 @@ class Character : public MovingEntity
         virtual Health getmaxhp() = 0;
         int hpdir = -1;
 
-        struct AnimationState
-        {
-            bool isflipped;
-            LoopAnimation runanim;
-            LoopAnimation crouchanim;
-            AnimationState(std::string characterfolder) : isflipped(false), runanim(characterfolder+"run/"), crouchanim(characterfolder+"crouchwalk/") {}
-        };
-        virtual AnimationState* animstate() = 0;
+        bool isflipped;
+        LoopAnimation runanim;
+        LoopAnimation crouchanim;
 
     protected:
         INPUT_CONTAINER pressed_keys;

@@ -65,7 +65,7 @@ bool Map::collides(Gamestate *state, Character *entity)
     ALLEGRO_BITMAP *mask = state->engine->maskloader.request_sprite(entity->getsprite(state, true));
     int x = (int) entity->x - state->engine->maskloader.get_spriteoffset_x(entity->getsprite(state, true));
     int y = (int) entity->y - state->engine->maskloader.get_spriteoffset_y(entity->getsprite(state, true));
-    if (entity->animstate()->isflipped)
+    if (entity->isflipped)
     {
         x = (int) entity->x - (al_get_bitmap_width(mask) - state->engine->maskloader.get_spriteoffset_x(entity->getsprite(state, true)));
     }

@@ -20,25 +20,16 @@ class Mccree : public Character
         std::string getsprite(Gamestate *state, bool mask) override;
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Mccree(*this));}
         CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state) override;
-        bool cangetinput(Gamestate *state) override {return not animstate()->rolling.active();}
+        std::string getcharacterfolder() {return "heroes/mccree/";}
+        bool cangetinput(Gamestate *state) override {return not rollanim.active();}
         Health getmaxhp() override;
 
-        struct MccreeAnimationState : public AnimationState
-        {
-            Animation rolling;
-            Animation flashbang;
-            MccreeAnimationState() : AnimationState("heroes/mccree/"), rolling("heroes/mccree/roll/"), flashbang("heroes/mccree/flashbang/")
-            {
-                rolling.active(false);
-                flashbang.active(false);
-            }
-        };
-        MccreeAnimationState* animstate() override {return &animstate_;}
+        Animation rollanim;
+        Animation flashbanganim;
         Timer rollcooldown;
         Timer flashbangcooldown;
     protected:
     private:
-        MccreeAnimationState animstate_;
 };
 
 #endif // MCCREE_H

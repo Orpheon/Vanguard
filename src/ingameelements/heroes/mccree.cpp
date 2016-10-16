@@ -10,9 +10,12 @@
 #include <cmath>
 #include <allegro5/allegro_primitives.h>
 
-Mccree::Mccree(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state)), rollcooldown(8), flashbangcooldown(10), animstate_()
+Mccree::Mccree(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state)),
+                rollanim("heroes/mccree/roll/"), flashbanganim("heroes/mccree/flashbang/"), rollcooldown(8), flashbangcooldown(10)
 {
+    rollanim.active(false);
     rollcooldown.active = false;
+    flashbanganim.active(false);
     flashbangcooldown.active = false;
 }
 
@@ -29,7 +32,7 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
 
     al_set_target_bitmap(renderer->midground);
-    if (animstate()->isflipped)
+    if (isflipped)
     {
         // Flip horizontally
         al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
@@ -39,13 +42,13 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
         al_draw_bitmap(sprite, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 0);
     }
 
-    if (animstate()->flashbang.active())
+    if (flashbanganim.active())
     {
-        std::string armsprite = animstate()->flashbang.getframe();
+        std::string armsprite = flashbanganim.getframe();
         sprite = renderer->spriteloader.request_sprite(armsprite);
         spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(armsprite);
         spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(armsprite);
-        if (animstate()->isflipped)
+        if (isflipped)
         {
             // Flip horizontally
             al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
@@ -215,10 +218,10 @@ void Mccree::midstep(Gamestate *state, double frametime)
 {
     Character::midstep(state, frametime);
 
-    animstate()->rolling.update(state, frametime);
-    if (animstate()->rolling.active())
+    rollanim.update(state, frametime);
+    if (rollanim.active())
     {
-        if (animstate()->isflipped)
+        if (isflipped)
         {
             hspeed = -300;
         }
@@ -227,7 +230,7 @@ void Mccree::midstep(Gamestate *state, double frametime)
             hspeed = 300;
         }
     }
-    animstate()->flashbang.update(state, frametime);
+    flashbanganim.update(state, frametime);
     rollcooldown.update(state, frametime);
     flashbangcooldown.update(state, frametime);
 
@@ -238,13 +241,13 @@ void Mccree::midstep(Gamestate *state, double frametime)
             // Lets roll
             if (lastdirectionpressed == LEFT)
             {
-                animstate()->isflipped = true;
+                isflipped = true;
             }
             else if (lastdirectionpressed == RIGHT)
             {
-                animstate()->isflipped = false;
+                isflipped = false;
             }
-            animstate()->rolling.reset();
+            rollanim.reset();
             rollcooldown.reset();
             Weapon *p = state->get<Peacemaker>(weapon);
             p->clip = p->getclipsize();
@@ -253,7 +256,7 @@ void Mccree::midstep(Gamestate *state, double frametime)
         if (held_keys.ABILITY_2 and not flashbangcooldown.active and state->engine->isserver)
         {
             // Flashbang
-            animstate()->flashbang.reset();
+            flashbanganim.reset();
             flashbangcooldown.reset();
             Flashbang *f = state->get<Flashbang>(state->make_entity<Flashbang>(state, EntityPtr(id)));
             f->x = x;
@@ -268,33 +271,33 @@ void Mccree::midstep(Gamestate *state, double frametime)
 
 Rect Mccree::getcollisionrect(Gamestate *state)
 {
-    if (animstate()->crouchanim.active())
+    if (crouchanim.active())
     {
-        return state->engine->maskloader.get_rect_from_json("heroes/mccree/crouch/").offset(x, y);
+        return state->engine->maskloader.get_rect_from_json(getcharacterfolder()+"crouch/").offset(x, y);
     }
     return getstandingcollisionrect(state);
 }
 
 Rect Mccree::getstandingcollisionrect(Gamestate *state)
 {
-    return state->engine->maskloader.get_rect_from_json("heroes/mccree/").offset(x, y);
+    return state->engine->maskloader.get_rect_from_json(getcharacterfolder()).offset(x, y);
 }
 
 std::string Mccree::getsprite(Gamestate *state, bool mask)
 {
-    if (animstate()->rolling.active())
+    if (rollanim.active())
     {
-        return animstate()->rolling.getframe();
+        return rollanim.getframe();
     }
-    if (animstate()->crouchanim.active())
+    if (crouchanim.active())
     {
-        return animstate()->crouchanim.getframe();
+        return crouchanim.getframe();
     }
     if (std::fabs(hspeed) < 11.0)
     {
-        return "heroes/mccree/idle/1.png";
+        return getcharacterfolder()+"idle/1.png";
     }
-    return animstate()->runanim.getframe();
+    return runanim.getframe();
 }
 
 CharacterChildParameters Mccree::constructparameters(uint64_t id_, Gamestate *state)
@@ -305,6 +308,7 @@ CharacterChildParameters Mccree::constructparameters(uint64_t id_, Gamestate *st
     p.maxhp.normal = 200;
     p.maxhp.armor = 100;
     p.maxhp.shields = 50;
+    p.characterfolder = "heroes/mccree/";
     return p;
 }
 

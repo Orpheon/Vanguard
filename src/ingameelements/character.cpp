@@ -10,7 +10,8 @@
 #include "ingameelements/weapon.h"
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
-            owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), hpdir(-1), pressed_keys(), held_keys(), lastdirectionpressed(0)
+            owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), hpdir(-1), isflipped(false), runanim(parameters.characterfolder+"run/"),
+            crouchanim(parameters.characterfolder+"crouchwalk/"), pressed_keys(), held_keys(), lastdirectionpressed(0)
 {
     acceleration = 300;
     runpower = parameters.runpower;
@@ -44,7 +45,7 @@ void Character::midstep(Gamestate *state, double frametime)
     if (cangetinput(state))
     {
         double maxhspeed;
-        if (animstate()->crouchanim.active())
+        if (crouchanim.active())
         {
             maxhspeed = 60.0;
         }
@@ -88,19 +89,19 @@ void Character::midstep(Gamestate *state, double frametime)
         }
         if (held_keys.CROUCH)
         {
-            if (not animstate()->crouchanim.active())
+            if (not crouchanim.active())
             {
-                animstate()->crouchanim.active(true);
-                animstate()->crouchanim.reset();
+                crouchanim.active(true);
+                crouchanim.reset();
             }
         }
-        else if (animstate()->crouchanim.active())
+        else if (crouchanim.active())
         {
             // We're crouched and we'd like to uncrouch
             // Do so only if we have the room
             if (not state->currentmap->collides(getstandingcollisionrect(state)))
             {
-                animstate()->crouchanim.active(false);
+                crouchanim.active(false);
             }
         }
 
@@ -121,11 +122,11 @@ void Character::midstep(Gamestate *state, double frametime)
             w->firesecondary(state, frametime);
         }
 
-        if (animstate()->isflipped != (mouse_x < 0))
+        if (isflipped != (mouse_x < 0))
         {
             // Spinjumping (compensate for later gravity)
             vspeed -= 540.0*frametime*3.0/4.0;
-            animstate()->isflipped = (mouse_x < 0);
+            isflipped = (mouse_x < 0);
         }
     }
 
@@ -269,24 +270,24 @@ void Character::endstep(Gamestate *state, double frametime)
     // Running animation
     if (onground(state))
     {
-        if (animstate()->isflipped)
+        if (isflipped)
         {
-            animstate()->runanim.update(state, -hspeed*frametime);
-            animstate()->crouchanim.update(state, -hspeed*frametime);
+            runanim.update(state, -hspeed*frametime);
+            crouchanim.update(state, -hspeed*frametime);
         }
         else
         {
-            animstate()->runanim.update(state, hspeed*frametime);
-            animstate()->crouchanim.update(state, hspeed*frametime);
+            runanim.update(state, hspeed*frametime);
+            crouchanim.update(state, hspeed*frametime);
         }
     }
     if (hspeed == 0.0)
     {
-        bool run=animstate()->runanim.active(), crouch=animstate()->crouchanim.active();
-        animstate()->runanim.reset();
-        animstate()->runanim.active(run);
-        animstate()->crouchanim.reset();
-        animstate()->crouchanim.active(crouch);
+        bool run=runanim.active(), crouch=crouchanim.active();
+        runanim.reset();
+        runanim.active(run);
+        crouchanim.reset();
+        crouchanim.active(crouch);
     }
 
     state->get<Weapon>(weapon)->endstep(state, frametime);
@@ -309,17 +310,17 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
     {
         held_keys = prev_e->held_keys;
         pressed_keys = prev_e->pressed_keys;
-        animstate()->crouchanim.active(prev_e->animstate()->crouchanim.active());
+        crouchanim.active(prev_e->crouchanim.active());
     }
     else
     {
         held_keys = next_e->held_keys;
         pressed_keys = next_e->pressed_keys;
-        animstate()->crouchanim.active(prev_e->animstate()->crouchanim.active());
+        crouchanim.active(prev_e->crouchanim.active());
     }
     mouse_x = prev_e->mouse_x + alpha*(next_e->mouse_x - prev_e->mouse_x);
     mouse_y = prev_e->mouse_y + alpha*(next_e->mouse_y - prev_e->mouse_y);
-    animstate()->runanim.interpolate(&(prev_e->animstate()->runanim), &(next_e->animstate()->runanim), alpha);
+    runanim.interpolate(&(prev_e->runanim), &(next_e->runanim), alpha);
     hp.normal = prev_e->hp.normal + alpha*(next_e->hp.normal - prev_e->hp.normal);
     hp.armor = prev_e->hp.armor + alpha*(next_e->hp.armor - prev_e->hp.armor);
     hp.shields = prev_e->hp.shields + alpha*(next_e->hp.shields - prev_e->hp.shields);
