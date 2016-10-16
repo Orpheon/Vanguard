@@ -19,6 +19,7 @@ class Renderer
         ALLEGRO_BITMAP *background;
         ALLEGRO_BITMAP *midground;
         ALLEGRO_BITMAP *foreground;
+        ALLEGRO_BITMAP *surfaceground;
         Spriteloader spriteloader;
         ALLEGRO_FONT *font;
     protected:

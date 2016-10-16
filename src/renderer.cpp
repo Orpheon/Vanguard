@@ -13,6 +13,7 @@ Renderer::Renderer(ALLEGRO_FONT *font_) : cam_x(0), cam_y(0), spriteloader(false
     background = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     midground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     foreground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
+    surfaceground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
 
     // fps stuff
     lasttime = al_get_time();
@@ -27,6 +28,7 @@ Renderer::~Renderer()
     al_destroy_bitmap(background);
     al_destroy_bitmap(midground);
     al_destroy_bitmap(foreground);
+    al_destroy_bitmap(surfaceground);
 }
 
 void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myself)
@@ -45,6 +47,8 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
     al_set_target_bitmap(midground);
     al_clear_to_color(al_map_rgba(0, 0, 0, 0));
     al_set_target_bitmap(foreground);
+    al_clear_to_color(al_map_rgba(0, 0, 0, 0));
+    al_set_target_bitmap(surfaceground);
     al_clear_to_color(al_map_rgba(0, 0, 0, 0));
 
     // Go through all objects and let them render themselves on the layers
@@ -69,6 +73,9 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
 
     // Draw the map wallmask on top of everything, to prevent sprites that go through walls
     state->currentmap->renderwallground(cam_x, cam_y);
+
+    // Draw the final layer on top of even that, for certain things like character healthbars
+    al_draw_bitmap(surfaceground, 0, 0, 0);
 
     //fps counter mostly borrowed from pygg2
     double frametime = al_get_time() - lasttime;

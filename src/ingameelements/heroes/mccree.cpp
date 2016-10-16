@@ -60,7 +60,7 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
 
 
     // --------------- HEALTHBAR ---------------
-    al_set_target_bitmap(renderer->midground);
+    al_set_target_bitmap(renderer->surfaceground);
     double healthalpha = 1.0;
     double lack_healthalpha = 0.2;
 
