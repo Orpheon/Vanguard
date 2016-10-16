@@ -89,21 +89,31 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
     }
 
     // Experimental health
-    ALLEGRO_COLOR LIGHT_BLUE = al_map_rgb(0, 222, 255);
-    int nrects = 25;
-    int width = 10;
-    int height = 10;
-    int space = 3;
+    double healthalpha = 1.0;
+    double missinghealthalpha = 0.4;
+    double outlinealpha = healthalpha;
+    double shade = 225/255.0;
+    double outlineshade = shade;
+    ALLEGRO_COLOR HEALTH_COLOR = al_map_rgba_f(healthalpha*shade, healthalpha*shade, healthalpha*shade, healthalpha);
+    ALLEGRO_COLOR MISSINGHEALTH_COLOR = al_map_rgba_f(missinghealthalpha*shade, missinghealthalpha*shade, missinghealthalpha*shade, missinghealthalpha);
+    ALLEGRO_COLOR OUTLINE_COLOR = al_map_rgba_f(outlinealpha*outlineshade, outlinealpha*outlineshade, outlinealpha*outlineshade, outlinealpha);
+    int nrects = 8;
+    int width = 20;
+    int height = width;
+    int space = width/9.0;
+    double slant = 0.3;//0.167;
+    double thickness = 0.0;
     int x;
     int y = 6.0*WINDOW_HEIGHT/7.0;
-    double start = WINDOW_WIDTH/2.0 -(nrects/2.0)*width - ((nrects-1)/2.0)*space;
+    double start = WINDOW_WIDTH/5.0 -(nrects/2.0)*width - ((nrects-1)/2.0)*space;
     float r[8];
-    double slant = 0.5;
+
     double hp = 1.0;
     if (c != 0)
     {
         hp = c->gethppercent();
     }
+    // Health boxes
     for (int i=0; i<std::floor(nrects*hp); ++i)
     {
         x = start + i*width + (i-1)*space;
@@ -118,7 +128,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
 
         r[6] = x+width+height*slant;
         r[7] = y;
-        al_draw_filled_polygon(r, 4, LIGHT_BLUE);
+        al_draw_filled_polygon(r, 4, HEALTH_COLOR);
     }
     double leftover = nrects*hp - std::floor(nrects*hp);
     if (leftover > 0.0)
@@ -136,7 +146,54 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
 
         r[6] = x+width*leftover+height*slant;
         r[7] = y;
-        al_draw_filled_polygon(r, 4, LIGHT_BLUE);
+        al_draw_filled_polygon(r, 4, HEALTH_COLOR);
+
+        r[0] = x+width*leftover+height*slant;
+        r[1] = y;
+
+        r[2] = x+width*leftover;
+        r[3] = y+height;
+
+        r[4] = x+width;
+        r[5] = y+height;
+
+        r[6] = x+width+height*slant;
+        r[7] = y;
+        al_draw_filled_polygon(r, 4, MISSINGHEALTH_COLOR);
+    }
+    // Missing health boxes
+    for (int i=std::ceil(nrects*hp); i<nrects; ++i)
+    {
+        x = start + i*width + (i-1)*space;
+        r[0] = x+height*slant;
+        r[1] = y;
+
+        r[2] = x;
+        r[3] = y+height;
+
+        r[4] = x+width;
+        r[5] = y+height;
+
+        r[6] = x+width+height*slant;
+        r[7] = y;
+        al_draw_filled_polygon(r, 4, MISSINGHEALTH_COLOR);
+    }
+    // Outline
+    for (int i=0; i<nrects; ++i)
+    {
+        x = start + i*width + (i-1)*space;
+        r[0] = x+height*slant;
+        r[1] = y;
+
+        r[2] = x;
+        r[3] = y+height;
+
+        r[4] = x+width;
+        r[5] = y+height;
+
+        r[6] = x+width+height*slant;
+        r[7] = y;
+        al_draw_polygon(r, 4, ALLEGRO_LINE_JOIN_ROUND, OUTLINE_COLOR, 0, 0);
     }
 
     al_flip_display();
