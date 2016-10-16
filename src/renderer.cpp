@@ -127,7 +127,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
         int space = 20/9.0;
         double slant = 0.3;
         double y = 6.0*WINDOW_HEIGHT/7.0;
-        double start_x = WINDOW_WIDTH/6.0;
+        double start_x = WINDOW_WIDTH/9.0;
 
         // Draw first normal health, then armor, then shields
         for (int healthtype=0; healthtype<3; ++healthtype)
