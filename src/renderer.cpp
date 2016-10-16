@@ -88,112 +88,160 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
         al_draw_text(font, al_map_rgb(255, 255, 255), 0, 84, ALLEGRO_ALIGN_LEFT, "vspeed: 0.000000");
     }
 
-    // Experimental health
-    double healthalpha = 1.0;
-    double missinghealthalpha = 0.4;
-    double outlinealpha = healthalpha;
-    double shade = 225/255.0;
-    double outlineshade = shade;
-    ALLEGRO_COLOR HEALTH_COLOR = al_map_rgba_f(healthalpha*shade, healthalpha*shade, healthalpha*shade, healthalpha);
-    ALLEGRO_COLOR MISSINGHEALTH_COLOR = al_map_rgba_f(missinghealthalpha*shade, missinghealthalpha*shade, missinghealthalpha*shade, missinghealthalpha);
-    ALLEGRO_COLOR OUTLINE_COLOR = al_map_rgba_f(outlinealpha*outlineshade, outlinealpha*outlineshade, outlinealpha*outlineshade, outlinealpha);
-    int nrects = 8;
-    int width = 20;
-    int height = width;
-    int space = width/9.0;
-    double slant = 0.3;//0.167;
-    double thickness = 0.0;
-    int x;
-    int y = 6.0*WINDOW_HEIGHT/7.0;
-    double start = WINDOW_WIDTH/5.0 -(nrects/2.0)*width - ((nrects-1)/2.0)*space;
-    float r[8];
 
-    double hp = 1.0;
     if (c != 0)
     {
-        hp = c->gethppercent();
-    }
-    // Health boxes
-    for (int i=0; i<std::floor(nrects*hp); ++i)
-    {
-        x = start + i*width + (i-1)*space;
-        r[0] = x+height*slant;
-        r[1] = y;
+        // Experimental healthbar
+        double healthalpha = 1.0;
+        double lack_healthalpha = 0.4;
 
-        r[2] = x;
-        r[3] = y+height;
 
-        r[4] = x+width;
-        r[5] = y+height;
+        // Lucio shield
+        // al_premul_rgba_f(242/255.0, 197/255.0, 84/255.0, healthalpha)
+        // Torb armor
+        // al_premul_rgba_f(69/255.0, 122/255.0, 255/255.0, healthalpha)
 
-        r[6] = x+width+height*slant;
-        r[7] = y;
-        al_draw_filled_polygon(r, 4, HEALTH_COLOR);
-    }
-    double leftover = nrects*hp - std::floor(nrects*hp);
-    if (leftover > 0.0)
-    {
-        // Draw the half-rectangle
-        x = start + std::floor(nrects*hp)*width + (std::floor(nrects*hp)-1)*space;
-        r[0] = x+height*slant;
-        r[1] = y;
+        // Normal, armor, shields
+        ALLEGRO_COLOR EXISTING_HEALTH[] = { al_premul_rgba_f(225/255.0, 225/255.0, 225/255.0, healthalpha),
+                                            al_premul_rgba_f(237/255.0, 223/255.0, 132/255.0, healthalpha),
+                                            al_premul_rgba_f(101/255.0, 206/255.0, 240/255.0, healthalpha)};
+        ALLEGRO_COLOR LACKING_HEALTH[] = {  al_premul_rgba_f(225/255.0, 225/255.0, 225/255.0, lack_healthalpha),
+                                            al_premul_rgba_f(237/255.0, 223/255.0, 132/255.0, lack_healthalpha),
+                                            al_premul_rgba_f(101/255.0, 206/255.0, 240/255.0, lack_healthalpha)};
 
-        r[2] = x;
-        r[3] = y+height;
+        Health maxhp = c->getmaxhp();
+        Health hp = c->hp;
+        double x;
+        float r[8]; // Array used to pass the polygon data for the actual drawing
 
-        r[4] = x+width*leftover;
-        r[5] = y+height;
+        // Parameters
+        int width = 20;
+        int height = width;
+        int space = width/9.0;
+        double slant = 0.3;
+        double y = 6.0*WINDOW_HEIGHT/7.0;
+        double start_x = WINDOW_WIDTH/6.0;
 
-        r[6] = x+width*leftover+height*slant;
-        r[7] = y;
-        al_draw_filled_polygon(r, 4, HEALTH_COLOR);
+        // Draw first normal health, then armor, then shields
+        for (int healthtype=0; healthtype<3; ++healthtype)
+        {
+            int nrects = 0;
+            double hppercent = 1.0;
+            if (healthtype == 0)
+            {
+                nrects = std::ceil(maxhp.normal/25.0);
+                if (nrects == 0)
+                {
+                    continue;
+                }
+                hppercent = hp.normal/maxhp.normal;
+            }
+            else if (healthtype == 1)
+            {
+                nrects = std::ceil(maxhp.armor/25.0);
+                if (nrects == 0)
+                {
+                    continue;
+                }
+                hppercent = hp.armor/maxhp.armor;
+            }
+            else if (healthtype == 2)
+            {
+                nrects = std::ceil(maxhp.shields/25.0);
+                if (nrects == 0)
+                {
+                    continue;
+                }
+                hppercent = hp.shields/maxhp.shields;
+            }
 
-        r[0] = x+width*leftover+height*slant;
-        r[1] = y;
+            // Full existing health boxes
+            for (int i=0; i<std::floor(nrects*hppercent); ++i)
+            {
+                x = start_x + i*width + (i-1)*space;
+                r[0] = x+height*slant;
+                r[1] = y;
 
-        r[2] = x+width*leftover;
-        r[3] = y+height;
+                r[2] = x;
+                r[3] = y+height;
 
-        r[4] = x+width;
-        r[5] = y+height;
+                r[4] = x+width;
+                r[5] = y+height;
 
-        r[6] = x+width+height*slant;
-        r[7] = y;
-        al_draw_filled_polygon(r, 4, MISSINGHEALTH_COLOR);
-    }
-    // Missing health boxes
-    for (int i=std::ceil(nrects*hp); i<nrects; ++i)
-    {
-        x = start + i*width + (i-1)*space;
-        r[0] = x+height*slant;
-        r[1] = y;
+                r[6] = x+width+height*slant;
+                r[7] = y;
+                al_draw_filled_polygon(r, 4, EXISTING_HEALTH[healthtype]);
+            }
+            // Interface between existing and lacking health
+            double leftover = nrects*hppercent - std::floor(nrects*hppercent);
+            if (leftover > 0.0)
+            {
+                // Draw the half-rectangle
+                x = start_x + std::floor(nrects*hppercent)*width + (std::floor(nrects*hppercent)-1)*space;
+                r[0] = x+height*slant;
+                r[1] = y;
 
-        r[2] = x;
-        r[3] = y+height;
+                r[2] = x;
+                r[3] = y+height;
 
-        r[4] = x+width;
-        r[5] = y+height;
+                r[4] = x+width*leftover;
+                r[5] = y+height;
 
-        r[6] = x+width+height*slant;
-        r[7] = y;
-        al_draw_filled_polygon(r, 4, MISSINGHEALTH_COLOR);
-    }
-    // Outline
-    for (int i=0; i<nrects; ++i)
-    {
-        x = start + i*width + (i-1)*space;
-        r[0] = x+height*slant;
-        r[1] = y;
+                r[6] = x+width*leftover+height*slant;
+                r[7] = y;
+                al_draw_filled_polygon(r, 4, EXISTING_HEALTH[healthtype]);
 
-        r[2] = x;
-        r[3] = y+height;
+                // Draw the other half rectangle
+                r[0] = x+width*leftover+height*slant;
+                r[1] = y;
 
-        r[4] = x+width;
-        r[5] = y+height;
+                r[2] = x+width*leftover;
+                r[3] = y+height;
 
-        r[6] = x+width+height*slant;
-        r[7] = y;
-        al_draw_polygon(r, 4, ALLEGRO_LINE_JOIN_ROUND, OUTLINE_COLOR, 0, 0);
+                r[4] = x+width;
+                r[5] = y+height;
+
+                r[6] = x+width+height*slant;
+                r[7] = y;
+                al_draw_filled_polygon(r, 4, LACKING_HEALTH[healthtype]);
+            }
+            // Full lacking health boxes
+            for (int i=std::ceil(nrects*hppercent); i<nrects; ++i)
+            {
+                x = start_x + i*width + (i-1)*space;
+                r[0] = x+height*slant;
+                r[1] = y;
+
+                r[2] = x;
+                r[3] = y+height;
+
+                r[4] = x+width;
+                r[5] = y+height;
+
+                r[6] = x+width+height*slant;
+                r[7] = y;
+                al_draw_filled_polygon(r, 4, LACKING_HEALTH[healthtype]);
+            }
+            // Outline
+            for (int i=0; i<nrects; ++i)
+            {
+                x = start_x + i*width + (i-1)*space;
+                r[0] = x+height*slant;
+                r[1] = y;
+
+                r[2] = x;
+                r[3] = y+height;
+
+                r[4] = x+width;
+                r[5] = y+height;
+
+                r[6] = x+width+height*slant;
+                r[7] = y;
+                al_draw_polygon(r, 4, ALLEGRO_LINE_JOIN_ROUND, EXISTING_HEALTH[healthtype], 0, 0);
+            }
+            // Offset starting position for the next health
+            start_x += nrects*(width + space);
+        }
     }
 
     al_flip_display();

@@ -10,7 +10,7 @@
 #include "ingameelements/weapon.h"
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
-            owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), maxhp(parameters.maxhp), hpdir(-1), pressed_keys(), held_keys(), lastdirectionpressed(0)
+            owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), hpdir(-1), pressed_keys(), held_keys(), lastdirectionpressed(0)
 {
     acceleration = 300;
     runpower = parameters.runpower;
@@ -129,16 +129,10 @@ void Character::midstep(Gamestate *state, double frametime)
         }
     }
 
-    hp += 20*hpdir*frametime;
-    if (hp <= 0)
+    damage(20*frametime);
+    if (hp.total() <= 0)
     {
-        hp = 0;
-        hpdir = 1;
-    }
-    else if (hp >= maxhp)
-    {
-        hp = maxhp;
-        hpdir = -1;
+        hp = getmaxhp();
     }
 
     // Gravity
@@ -326,13 +320,17 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
     mouse_x = prev_e->mouse_x + alpha*(next_e->mouse_x - prev_e->mouse_x);
     mouse_y = prev_e->mouse_y + alpha*(next_e->mouse_y - prev_e->mouse_y);
     animstate()->runanim.interpolate(&(prev_e->animstate()->runanim), &(next_e->animstate()->runanim), alpha);
-    hp = prev_e->hp + alpha*(next_e->hp - prev_e->hp);
+    hp.normal = prev_e->hp.normal + alpha*(next_e->hp.normal - prev_e->hp.normal);
+    hp.armor = prev_e->hp.armor + alpha*(next_e->hp.armor - prev_e->hp.armor);
+    hp.shields = prev_e->hp.shields + alpha*(next_e->hp.shields - prev_e->hp.shields);
 }
 
 void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
 {
     MovingEntity::serialize(state, buffer, fullupdate);
-    buffer->write<float>(hp);
+    buffer->write<float>(hp.normal);
+    buffer->write<float>(hp.armor);
+    buffer->write<float>(hp.shields);
     pressed_keys.serialize(buffer);
     held_keys.serialize(buffer);
     buffer->write<float>(mouse_x);
@@ -344,11 +342,40 @@ void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate
 void Character::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate)
 {
     MovingEntity::deserialize(state, buffer, fullupdate);
-    hp = buffer->read<float>();
+    hp.normal = buffer->read<float>();
+    hp.armor = buffer->read<float>();
+    hp.shields = buffer->read<float>();
     pressed_keys.deserialize(buffer);
     held_keys.deserialize(buffer);
     mouse_x = buffer->read<float>();
     mouse_y = buffer->read<float>();
     Weapon *w = state->get<Weapon>(weapon);
     w->deserialize(state, buffer, fullupdate);
+}
+
+void Character::damage(double amount)
+{
+    if (hp.shields < amount)
+    {
+        amount -= hp.shields;
+        hp.shields = 0;
+        if (hp.armor > 0)
+        {
+            amount -= std::min(amount/2.0, 5.0);
+        }
+        if (hp.armor < amount)
+        {
+            amount -= hp.armor;
+            hp.armor = 0;
+            hp.normal = std::max(0.0, hp.normal-amount);
+        }
+        else
+        {
+            hp.armor -= amount;
+        }
+    }
+    else
+    {
+        hp.shields -= amount;
+    }
 }

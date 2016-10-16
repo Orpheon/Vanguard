@@ -79,6 +79,18 @@ struct INPUT_CONTAINER
     }
 };
 
+struct Health
+{
+    double normal;
+    double armor;
+    double shields;
+
+    double total()
+    {
+        return normal + armor + shields;
+    }
+};
+
 struct EntityPtr
 {
     EntityPtr(uint64_t id_) : id(id_) {}
@@ -90,7 +102,7 @@ struct CharacterChildParameters
 {
     double runpower = 0;
     EntityPtr weapon = 0;
-    int maxhp = 0;
+    Health maxhp;
 };
 
 struct WeaponChildParameters

@@ -21,6 +21,7 @@ class Mccree : public Character
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Mccree(*this));}
         CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state) override;
         bool cangetinput(Gamestate *state) override {return not animstate()->rolling.active();}
+        Health getmaxhp() override;
 
         struct MccreeAnimationState : public AnimationState
         {
