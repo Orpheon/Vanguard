@@ -95,7 +95,6 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
         double healthalpha = 1.0;
         double lack_healthalpha = 0.4;
 
-
         // Lucio shield
         // al_premul_rgba_f(242/255.0, 197/255.0, 84/255.0, healthalpha)
         // Torb armor
@@ -115,9 +114,10 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
         float r[8]; // Array used to pass the polygon data for the actual drawing
 
         // Parameters
-        int width = 20;
-        int height = width;
-        int space = width/9.0;
+        int totalwidth = 250;
+        double width = totalwidth/std::ceil(maxhp.total()/25.0);
+        int height = 20;
+        int space = 20/9.0;
         double slant = 0.3;
         double y = 6.0*WINDOW_HEIGHT/7.0;
         double start_x = WINDOW_WIDTH/6.0;
