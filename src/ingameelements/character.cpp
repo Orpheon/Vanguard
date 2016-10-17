@@ -324,13 +324,16 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
 void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
 {
     MovingEntity::serialize(state, buffer, fullupdate);
+
     buffer->write<float>(hp.normal);
     buffer->write<float>(hp.armor);
     buffer->write<float>(hp.shields);
+
     pressed_keys.serialize(buffer);
     held_keys.serialize(buffer);
     buffer->write<float>(mouse_x);
     buffer->write<float>(mouse_y);
+
     Weapon *w = state->get<Weapon>(weapon);
     w->serialize(state, buffer, fullupdate);
 }
@@ -338,13 +341,16 @@ void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate
 void Character::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate)
 {
     MovingEntity::deserialize(state, buffer, fullupdate);
+
     hp.normal = buffer->read<float>();
     hp.armor = buffer->read<float>();
     hp.shields = buffer->read<float>();
+
     pressed_keys.deserialize(buffer);
     held_keys.deserialize(buffer);
     mouse_x = buffer->read<float>();
     mouse_y = buffer->read<float>();
+
     Weapon *w = state->get<Weapon>(weapon);
     w->deserialize(state, buffer, fullupdate);
 }
