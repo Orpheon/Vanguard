@@ -13,7 +13,7 @@ class Character : public MovingEntity
 {
     public:
         Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters);
-        virtual ~Character();
+        virtual ~Character() = default;
         virtual void setinput(Gamestate *state, INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_, double mouse_x_, double mouse_y_);
         virtual void beginstep(Gamestate *state, double frametime);
         virtual void midstep(Gamestate *state, double frametime);
@@ -22,6 +22,7 @@ class Character : public MovingEntity
         virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha);
         virtual void serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate);
         virtual void deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate);
+        virtual void destroy(Gamestate *state);
 
         virtual bool onground(Gamestate *state);
         virtual Rect getcollisionrect(Gamestate *state) = 0;

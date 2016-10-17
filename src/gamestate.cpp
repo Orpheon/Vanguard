@@ -60,6 +60,12 @@ EntityPtr Gamestate::addplayer()
     return r;
 }
 
+void Gamestate::removeplayer(int playerid)
+{
+    get<Player>(playerlist[playerid])->destroy(this);
+    playerlist.erase(playerlist.begin()+playerid);
+}
+
 std::unique_ptr<Gamestate> Gamestate::clone()
 {
     std::unique_ptr<Gamestate> g = std::unique_ptr<Gamestate>(new Gamestate(engine));

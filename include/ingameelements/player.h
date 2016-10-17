@@ -14,7 +14,7 @@ class Player : public Entity
 {
     public:
         Player(uint64_t id_, Gamestate *state);
-        virtual ~Player();
+        virtual ~Player() = default;
         void beginstep(Gamestate *state, double frametime);
         void midstep(Gamestate *state, double frametime);
         void endstep(Gamestate *state, double frametime);
@@ -26,6 +26,7 @@ class Player : public Entity
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Player(*this));}
         void serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate);
         void deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate);
+        void destroy(Gamestate *state);
 
         Character* getcharacter(Gamestate *state);
 

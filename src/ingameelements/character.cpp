@@ -20,11 +20,6 @@ Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, Character
     friction = 0.01510305449388463132584804061124;
 }
 
-Character::~Character()
-{
-    ;
-}
-
 void Character::setinput(Gamestate *state, INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_, double mouse_x_, double mouse_y_)
 {
     pressed_keys = pressed_keys_;
@@ -379,4 +374,9 @@ void Character::damage(double amount)
     {
         hp.shields -= amount;
     }
+}
+
+void Character::destroy(Gamestate *state)
+{
+    state->get<Weapon>(weapon)->destroy(state);
 }

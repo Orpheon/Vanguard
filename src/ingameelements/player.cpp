@@ -9,11 +9,6 @@ Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0)
     ;
 }
 
-Player::~Player()
-{
-    ;
-}
-
 void Player::beginstep(Gamestate *state, double frametime)
 {
     if (character != 0)
@@ -106,5 +101,13 @@ void Player::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate)
         }
         Character *c = state->get<Character>(character);
         c->deserialize(state, buffer, fullupdate);
+    }
+}
+
+void Player::destroy(Gamestate *state)
+{
+    if (character != 0)
+    {
+        state->get<Character>(character)->destroy(state);
     }
 }

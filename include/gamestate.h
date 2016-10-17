@@ -39,13 +39,14 @@ class Gamestate
         std::unique_ptr<Gamestate> clone();
         void interpolate(Gamestate *prevstate, Gamestate *nextstate, double alpha);
         EntityPtr addplayer();
+        void removeplayer(int playerid);
         void serializesnapshot(WriteBuffer *buffer);
         void deserializesnapshot(ReadBuffer *buffer);
         void serializefull(WriteBuffer *buffer);
         void deserializefull(ReadBuffer *buffer);
 
         std::unordered_map<int, std::unique_ptr<Entity>> entitylist;
-        std::list<EntityPtr> playerlist;
+        std::vector<EntityPtr> playerlist;
 
         // Make gamestate move-assigneable, so that " = " doesn't copy but move.
         Gamestate & operator=(Gamestate &&)=default;
