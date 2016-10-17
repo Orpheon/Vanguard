@@ -30,6 +30,18 @@ enum HEROCLASS {ANA,
                 ZARYA,
                 ZENYATTA};
 
+enum EVENTTYPE {SERVER_SNAPSHOTUPDATE,
+                SERVER_FULLUPDATE,
+                PLAYER_JOINED,
+                PLAYER_LEFT,
+                PLAYER_SPAWNED,
+                PRIMARY_FIRED,
+                SECONDARY_FIRED,
+                ABILITY1_USED,
+                ABILITY2_USED,
+                ULTIMATE_USED };
+
+
 enum GAMETYPE { SERVER,
                 CLIENT};
 
