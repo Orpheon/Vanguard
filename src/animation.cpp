@@ -55,7 +55,6 @@ void Animation::Animation::reset()
 
 
 
-
 LoopAnimation::LoopAnimation(std::string path_) : Animation::Animation(path_)
 {
     ;

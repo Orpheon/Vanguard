@@ -17,6 +17,12 @@ Timer::~Timer()
     //dtor
 }
 
+void Timer::reset()
+{
+    timer = 0.0;
+    active=true;
+}
+
 void Timer::update(Gamestate *state, double dt)
 {
     if (active)

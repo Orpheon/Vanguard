@@ -6,9 +6,10 @@
 #include "ingameelements/projectiles/peacemakerbullet.h"
 #include "ingameelements/heroes/mccree.h"
 
-Peacemaker::Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_, constructparameters(state))
+Peacemaker::Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_, constructparameters(state)),
+                        fthanim("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, state)), isfthing(false)
 {
-    //ctor
+    fthanim.active(false);
 }
 
 Peacemaker::~Peacemaker()
@@ -28,7 +29,11 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     else if (reloadanim.active())
     {
         mainsprite = reloadanim.getframe();
-        dir = 3.1415*c->isflipped;
+        dir = M_PI*c->isflipped;
+    }
+    else if (fthanim.active())
+    {
+        mainsprite = fthanim.getframe();
     }
     else
     {
@@ -53,7 +58,28 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     }
 }
 
-void Peacemaker::fireprimary(Gamestate *state, double frametime)
+void Peacemaker::midstep(Gamestate *state, double frametime)
+{
+    Weapon::midstep(state, frametime);
+
+    if (isfthing)
+    {
+        fthanim.active(true);
+    }
+    fthanim.update(state, frametime);
+}
+
+void Peacemaker::reload(Gamestate *state)
+{
+    if (clip < getclipsize() and not firinganim.active() and not reloadanim.active() and not isfthing)
+    {
+        // We need to reload
+        reloadanim.reset();
+        reloadanim.active(true);
+    }
+}
+
+void Peacemaker::fireprimary(Gamestate *state)
 {
     if (clip > 0 and not firinganim.active())
     {
@@ -67,6 +93,37 @@ void Peacemaker::fireprimary(Gamestate *state, double frametime)
         --clip;
         firinganim.reset();
         firinganim.active(true);
+    }
+}
+
+void Peacemaker::firesecondary(Gamestate *state)
+{
+    if (clip > 0 and (not isfthing or fthanim.getpercent() >= 1))
+    {
+        EntityPtr newshot = state->make_entity<PeacemakerBullet>(state, owner);
+        PeacemakerBullet *shot = state->get<PeacemakerBullet>(newshot);
+        shot->x = x;
+        shot->y = y+9.0;
+        double spread = (2*(rand()/(RAND_MAX+1.0)) - 1)*40*M_PI/180.0;
+        shot->hspeed = std::cos(aimdirection+spread) * bulletspeed;
+        shot->vspeed = std::sin(aimdirection+spread) * bulletspeed;
+
+        --clip;
+        if (isfthing)
+        {
+            // We're already in the middle of a fth firing spree
+            // Fire on
+            fthanim = Animation("heroes/mccree/fanthehammerloop/", std::bind(&Peacemaker::firesecondary, this, state));
+        }
+        else
+        {
+            fthanim = Animation("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, state));
+        }
+        isfthing = true;
+    }
+    else if (clip <= 0)
+    {
+        isfthing = false;
     }
 }
 

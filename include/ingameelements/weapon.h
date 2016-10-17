@@ -25,10 +25,10 @@ class Weapon : public MovingEntity
         virtual void serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate);
         virtual void deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate);
 
-        virtual void fireprimary(Gamestate *state, double frametime) = 0;
-        virtual void firesecondary(Gamestate *state, double frametime) = 0;
+        virtual void fireprimary(Gamestate *state) = 0;
+        virtual void firesecondary(Gamestate *state) = 0;
         virtual int getclipsize() = 0;
-        virtual void reload(Gamestate *state, double frametime);
+        virtual void reload(Gamestate *state);
         virtual WeaponChildParameters constructparameters(Gamestate *state) = 0;
 
         void restoreclip(Gamestate *state) {clip = getclipsize();}

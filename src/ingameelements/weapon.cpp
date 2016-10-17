@@ -25,7 +25,7 @@ void Weapon::midstep(Gamestate *state, double frametime)
 {
     if (clip == 0)
     {
-        reload(state, frametime);
+        reload(state);
     }
     reloadanim.update(state, frametime);
     firinganim.update(state, frametime);
@@ -60,7 +60,7 @@ void Weapon::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
     aimdirection = prev_e->aimdirection + alpha*(next_e->aimdirection - prev_e->aimdirection);
 }
 
-void Weapon::reload(Gamestate *state, double frametime)
+void Weapon::reload(Gamestate *state)
 {
     if (clip < getclipsize() and not firinganim.active() and not reloadanim.active())
     {

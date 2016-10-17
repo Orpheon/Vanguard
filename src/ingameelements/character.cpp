@@ -103,18 +103,18 @@ void Character::midstep(Gamestate *state, double frametime)
         if (held_keys.RELOAD)
         {
             Weapon *w = state->get<Weapon>(weapon);
-            w->reload(state, frametime);
+            w->reload(state);
         }
         // Shooting
         if (held_keys.PRIMARY_FIRE and state->engine->isserver)
         {
             Weapon *w = state->get<Weapon>(weapon);
-            w->fireprimary(state, frametime);
+            w->fireprimary(state);
         }
         if (held_keys.SECONDARY_FIRE and state->engine->isserver)
         {
             Weapon *w = state->get<Weapon>(weapon);
-            w->firesecondary(state, frametime);
+            w->firesecondary(state);
         }
 
         if (isflipped != (mouse_x < 0))

@@ -16,7 +16,7 @@ class Timer
         void update(Gamestate *state, double dt);
         double getpercent();
         void interpolate(Timer *prev_timer, Timer *next_timer, double alpha);
-        void reset() {timer = 0.0; active=true;}
+        void reset();
         double timer;
         double duration;
         bool active;
