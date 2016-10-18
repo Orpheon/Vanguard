@@ -236,7 +236,8 @@ void Mccree::midstep(Gamestate *state, double frametime)
 
     if (cangetinput(state))
     {
-        if (held_keys.ABILITY_1 and not rollcooldown.active and state->engine->isserver)
+        Peacemaker *p = state->get<Peacemaker>(weapon);
+        if (held_keys.ABILITY_1 and not rollcooldown.active and not p->isfthing and state->engine->isserver)
         {
             // Lets roll
             if (lastdirectionpressed == LEFT)
@@ -249,7 +250,6 @@ void Mccree::midstep(Gamestate *state, double frametime)
             }
             rollanim.reset();
             rollcooldown.reset();
-            Weapon *p = state->get<Peacemaker>(weapon);
             p->clip = p->getclipsize();
             p->reloadanim.active(0);
         }
