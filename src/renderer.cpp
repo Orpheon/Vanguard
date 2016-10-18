@@ -54,7 +54,10 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
     // Go through all objects and let them render themselves on the layers
     for (auto& e : state->entitylist)
     {
-        e.second->render(this, state);
+        if (e.second->isrootobject())
+        {
+            e.second->render(this, state);
+        }
     }
 
     // Set render target to be the display
