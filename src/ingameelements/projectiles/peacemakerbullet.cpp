@@ -1,4 +1,3 @@
-
 #include <cmath>
 
 #include "ingameelements/projectiles/peacemakerbullet.h"
@@ -44,5 +43,5 @@ void PeacemakerBullet::render(Renderer *renderer, Gamestate *state)
     double direction = std::atan2(vspeed, hspeed);
 
     al_set_target_bitmap(renderer->background);
-    al_draw_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, direction, 0);
+    al_draw_rotated_bitmap(sprite, 0, 0, x - renderer->cam_x, y - renderer->cam_y, direction, 0);
 }

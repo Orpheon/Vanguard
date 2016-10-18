@@ -1,4 +1,3 @@
-
 #include <cmath>
 
 #include "ingameelements/weapons/peacemaker.h"
@@ -48,12 +47,11 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     {
         if (c->isflipped)
         {
-            // FIXME What the hell is going on here, this needs to be recalculated properly with paper
-            al_draw_scaled_rotated_bitmap(sprite, xoffset, yoffset, x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 1, -1, dir, 0);
+            al_draw_scaled_rotated_bitmap(sprite, -getattachpoint_x()-spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y, 1, -1, dir, 0);
         }
         else
         {
-            al_draw_rotated_bitmap(sprite, xoffset, yoffset, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, dir, 0);
+            al_draw_rotated_bitmap(sprite, getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y, dir, 0);
         }
     }
 }
@@ -85,8 +83,9 @@ void Peacemaker::fireprimary(Gamestate *state)
     {
         EntityPtr newshot = state->make_entity<PeacemakerBullet>(state, owner);
         PeacemakerBullet *shot = state->get<PeacemakerBullet>(newshot);
-        shot->x = x;
-        shot->y = y+9.0;
+        shot->x = x+std::cos(aimdirection)*10;
+        shot->y = y+std::sin(aimdirection)*10;
+
         shot->hspeed = std::cos(aimdirection) * bulletspeed;
         shot->vspeed = std::sin(aimdirection) * bulletspeed;
 
@@ -102,8 +101,8 @@ void Peacemaker::firesecondary(Gamestate *state)
     {
         EntityPtr newshot = state->make_entity<PeacemakerBullet>(state, owner);
         PeacemakerBullet *shot = state->get<PeacemakerBullet>(newshot);
-        shot->x = x;
-        shot->y = y+9.0;
+        shot->x = x+std::cos(aimdirection)*10;
+        shot->y = y+std::sin(aimdirection)*10;
         double spread = (2*(rand()/(RAND_MAX+1.0)) - 1)*40*M_PI/180.0;
         shot->hspeed = std::cos(aimdirection+spread) * bulletspeed;
         shot->vspeed = std::sin(aimdirection+spread) * bulletspeed;

@@ -18,14 +18,15 @@ class Peacemaker : public Weapon
         void midstep(Gamestate *state, double frametime) override;
         void reload(Gamestate *state) override;
 
-        int getclipsize() {return 6;}
+        int getclipsize() override {return 6;}
+        double getattachpoint_x() override {return -3;}
+        double getattachpoint_y() override {return 8;}
+
         WeaponChildParameters constructparameters(Gamestate *state);
         Animation fthanim;
         bool isfthing;
     protected:
     private:
-        double xoffset = 0;
-        double yoffset = 0;
         double bulletspeed = 500.0;
 };
 

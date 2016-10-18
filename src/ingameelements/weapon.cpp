@@ -34,8 +34,8 @@ void Weapon::midstep(Gamestate *state, double frametime)
 void Weapon::endstep(Gamestate *state, double frametime)
 {
     Character *c = state->get<Character>(owner);
-    x = c->x;
-    y = c->y;
+    x = c->x + c->getweaponpos_x() - 2*c->getweaponpos_x()*c->isflipped;
+    y = c->y + c->getweaponpos_y();
 }
 
 void Weapon::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)

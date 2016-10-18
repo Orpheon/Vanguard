@@ -31,6 +31,8 @@ class Character : public MovingEntity
         virtual std::string getcharacterfolder() = 0;
         virtual bool cangetinput(Gamestate *state) {return true;}
         virtual void damage(double amount);
+        virtual double getweaponpos_x() = 0;
+        virtual double getweaponpos_y() = 0;
 
         EntityPtr owner;
         EntityPtr weapon;
