@@ -8,7 +8,7 @@
 class Explosion : public MovingEntity
 {
     public:
-        Explosion(uint64_t id_, Gamestate *state, std::string animationpath);
+        Explosion(uint64_t id_, Gamestate *state, std::string animationpath, double direction_);
         virtual ~Explosion();
         void beginstep(Gamestate *state, double frametime) {}
         void midstep(Gamestate *state, double frametime);
@@ -19,6 +19,7 @@ class Explosion : public MovingEntity
         bool isrootobject() {return true;}
 
         Animation explosionanim;
+        double direction;
     protected:
     private:
 };
