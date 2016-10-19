@@ -28,7 +28,7 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     else if (reloadanim.active())
     {
         mainsprite = reloadanim.getframe();
-        dir = M_PI*c->isflipped;
+        dir = 3.1415*c->isflipped;
     }
     else if (fthanim.active())
     {
@@ -103,7 +103,7 @@ void Peacemaker::firesecondary(Gamestate *state)
         PeacemakerBullet *shot = state->get<PeacemakerBullet>(newshot);
         shot->x = x+std::cos(aimdirection)*10;
         shot->y = y+std::sin(aimdirection)*10;
-        double spread = (2*(rand()/(RAND_MAX+1.0)) - 1)*40*M_PI/180.0;
+        double spread = (2*(rand()/(RAND_MAX+1.0)) - 1)*40*3.1415/180.0;
         shot->hspeed = std::cos(aimdirection+spread) * bulletspeed;
         shot->vspeed = std::sin(aimdirection+spread) * bulletspeed;
 
