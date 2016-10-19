@@ -40,6 +40,7 @@ class Gamestate
         void interpolate(Gamestate *prevstate, Gamestate *nextstate, double alpha);
         EntityPtr addplayer();
         void removeplayer(int playerid);
+        Player* findplayer(int playerid);
         void serializesnapshot(WriteBuffer *buffer);
         void deserializesnapshot(ReadBuffer *buffer);
         void serializefull(WriteBuffer *buffer);

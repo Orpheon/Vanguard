@@ -3,6 +3,7 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
+#include <enet/enet.h>
 
 #include "inputcatcher.h"
 #include "engine.h"
@@ -47,6 +48,13 @@ int main(int argc, char **argv)
     if (!al_install_mouse())
     {
         fprintf(stderr, "Fatal Error: Could not initialize mouse module!");
+        throw -1;
+    }
+
+    // Initialize networking system
+    if (enet_initialize())
+    {
+        fprintf(stderr, "Fatal Error: Could not initialize enet!");
         throw -1;
     }
 
@@ -153,5 +161,6 @@ int main(int argc, char **argv)
         }
     }
     al_destroy_display(display);
+    enet_deinitialize();
     return 0;
 }

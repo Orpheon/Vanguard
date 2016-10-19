@@ -9,4 +9,6 @@ const int WINDOW_HEIGHT = 720;
 
 const int STAIRCASE_STEPSIZE = -6;
 
+const int PLAYER_LIMIT = 16;
+
 #endif // GLOBAL_CONSTANTS_H

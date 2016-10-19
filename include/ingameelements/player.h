@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <memory>
+#include <enet/enet.h>
 
 #include "entity.h"
 #include "datastructures.h"

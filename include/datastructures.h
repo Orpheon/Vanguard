@@ -32,6 +32,7 @@ enum HEROCLASS {ANA,
 
 enum EVENTTYPE {SERVER_SNAPSHOTUPDATE,
                 SERVER_FULLUPDATE,
+                CLIENT_INPUT,
                 PLAYER_JOINED,
                 PLAYER_LEFT,
                 PLAYER_SPAWNED,

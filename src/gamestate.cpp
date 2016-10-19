@@ -66,6 +66,11 @@ void Gamestate::removeplayer(int playerid)
     playerlist.erase(playerlist.begin()+playerid);
 }
 
+Player* Gamestate::findplayer(int playerid)
+{
+    return get<Player>(playerlist[playerid]);
+}
+
 std::unique_ptr<Gamestate> Gamestate::clone()
 {
     std::unique_ptr<Gamestate> g = std::unique_ptr<Gamestate>(new Gamestate(engine));
