@@ -24,7 +24,7 @@ MainMenu::~MainMenu()
     al_destroy_event_queue(event_queue);
 }
 
-bool MainMenu::run(ALLEGRO_DISPLAY *display, GAMETYPE *gametype)
+bool MainMenu::run(ALLEGRO_DISPLAY *display)
 {
     ALLEGRO_EVENT event;
     bool finished = false;

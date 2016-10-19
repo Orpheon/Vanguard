@@ -41,10 +41,6 @@ enum EVENTTYPE {SERVER_SNAPSHOTUPDATE,
                 ABILITY2_USED,
                 ULTIMATE_USED };
 
-
-enum GAMETYPE { SERVER,
-                CLIENT};
-
 struct INPUT_CONTAINER
 {
     bool LEFT;

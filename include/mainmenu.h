@@ -9,7 +9,7 @@ class MainMenu
     public:
         MainMenu(ALLEGRO_DISPLAY *display);
         virtual ~MainMenu();
-        bool run(ALLEGRO_DISPLAY *display, GAMETYPE *gametype);
+        bool run(ALLEGRO_DISPLAY *display);
         Spriteloader spriteloader;
         ALLEGRO_EVENT_QUEUE *event_queue;
     protected:

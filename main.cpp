@@ -74,7 +74,16 @@ int main(int argc, char **argv)
     }
 
 //    MainMenu *mainmenu = new MainMenu(display);
-//    GAMETYPE gametype;
+    bool isserver;
+    if (argc >= 2)
+    {
+        // If there are any arguments
+        isserver = false;
+    }
+    else
+    {
+        isserver = true;
+    }
     double lasttimeupdated = al_get_time();
 //    bool run = true;
 //    while (run)
@@ -83,8 +92,8 @@ int main(int argc, char **argv)
 //        {
 //            run = mainmenu->run(display, &gametype);
 //            lasttimeupdated = al_get_time();
-//        }
 //    }
+//        }
 //    delete mainmenu;
 
     InputCatcher *inputcatcher;
@@ -95,7 +104,7 @@ int main(int argc, char **argv)
     {
         // Initialize everything
         // The various allegro initializations can throw errors
-        engine = new Engine(true);
+        engine = new Engine(isserver);
         renderer = new Renderer(font);
         inputcatcher = new InputCatcher(display);
         renderingstate = new Gamestate(engine);
