@@ -1,4 +1,4 @@
-#include "eventhandler.h"
+#include "networking/eventhandler.h"
 
 #include "gamestate.h"
 
