@@ -37,8 +37,6 @@ void PeacemakerBullet::render(Renderer *renderer, Gamestate *state)
 {
     std::string mainsprite = getsprite(state, false);
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.request_sprite(mainsprite);
-    int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
-    int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
 
     double direction = std::atan2(vspeed, hspeed);
 
