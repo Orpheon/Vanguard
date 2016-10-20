@@ -74,6 +74,7 @@
 					<Add library="psapi" />
 					<Add library="shlwapi" />
 					<Add library="enet" />
+					<Add library="ws2_32" />
 				</Linker>
 			</Target>
 		</Build>
