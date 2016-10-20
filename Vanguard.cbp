@@ -86,6 +86,7 @@
 			<Add library="allegro" />
 			<Add library="allegro_image" />
 			<Add library="allegro_primitives" />
+			<Add library="enet" />
 		</Linker>
 		<Unit filename="include/animation.h" />
 		<Unit filename="include/datastructures.h" />
