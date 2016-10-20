@@ -101,41 +101,19 @@ int main(int argc, char **argv)
 //        {
 //            run = mainmenu->run(display, &gametype);
 //            lasttimeupdated = al_get_time();
-//    }
 //        }
+//    }
 //    delete mainmenu;
 
-    std::unique_ptr<Engine> engine;
-    std::unique_ptr<Renderer> renderer;
-    std::unique_ptr<InputCatcher> inputcatcher;
-    std::unique_ptr<Gamestate> renderingstate;
+    Engine engine(isserver);
+    Renderer renderer(font);
+    InputCatcher inputcatcher(display);
+    Gamestate renderingstate(&engine);
 
-    try
-    {
-        // Initialize everything
-        // The various allegro initializations can throw errors
-        engine = std::unique_ptr<Engine>(new Engine(isserver));
-        renderer = std::unique_ptr<Renderer>(new Renderer(font));
-        inputcatcher = std::unique_ptr<InputCatcher>(new InputCatcher(display));
-        renderingstate = std::unique_ptr<Gamestate>(new Gamestate(engine.get()));
-    }
-    catch (int e)
-    {
-        if (e == -1)
-        {
-            fprintf(stderr, "\nAllegro initialization failed.");
-        }
-        else
-        {
-            fprintf(stderr, "\nUNKNOWN ERROR HAPPENED");
-        }
-        return -1;
-    }
-
-    engine->loadmap("lijiang");
+    engine.loadmap("lijiang");
     // FIXME: Hack to make sure the oldstate is properly initialized
-    engine->update(0);
-    EntityPtr myself = engine->currentstate->addplayer();
+    engine.update(0);
+    EntityPtr myself = engine.currentstate->addplayer();
 
     lasttimeupdated = al_get_time();
     while (true)
@@ -144,13 +122,13 @@ int main(int argc, char **argv)
         {
             while (al_get_time() - lasttimeupdated >= ENGINE_TIMESTEP)
             {
-                inputcatcher->run(myself, engine.get(), renderer.get());
-                engine->update(ENGINE_TIMESTEP);
+                inputcatcher.run(myself, &engine, &renderer);
+                engine.update(ENGINE_TIMESTEP);
 
                 lasttimeupdated += ENGINE_TIMESTEP;
             }
-            renderingstate->interpolate(engine->oldstate.get(), engine->currentstate.get(), (al_get_time()-lasttimeupdated)/ENGINE_TIMESTEP);
-            renderer->render(display, renderingstate.get(), myself);
+            renderingstate.interpolate(engine.oldstate.get(), engine.currentstate.get(), (al_get_time()-lasttimeupdated)/ENGINE_TIMESTEP);
+            renderer.render(display, &renderingstate, myself);
         }
         catch (int e)
         {

@@ -19,6 +19,9 @@ class Engine
         std::unique_ptr<Gamestate> oldstate;
         Spriteloader maskloader;
         bool isserver;
+
+        // Make engine move-assigneable, so that " = " doesn't copy but move.
+        Engine & operator=(Engine &&)=default;
 };
 
 #endif // ENGINE_H
