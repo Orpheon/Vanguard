@@ -1,7 +1,7 @@
 #include "networking/networker.h"
 #include "global_constants.h"
 
-Networker::Networker(bool isserver)
+Networker::Networker(bool isserver) : sendbuffer()
 {
     if (isserver)
     {

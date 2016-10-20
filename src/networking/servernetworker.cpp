@@ -52,6 +52,23 @@ void ServerNetworker::receive(Gamestate *state)
     }
 }
 
+void ServerNetworker::sendeventdata(Gamestate *state)
+{
+    if (sendbuffer.length() > 0)
+    {
+        ENetPacket *eventpacket = enet_packet_create(sendbuffer.getdata(), sendbuffer.length(), ENET_PACKET_FLAG_RELIABLE);
+        enet_host_broadcast(host, 1, eventpacket);
+    }
+}
+
+void ServerNetworker::sendframedata(Gamestate *state)
+{
+    WriteBuffer frame = WriteBuffer();
+    state->serializesnapshot(&frame);
+    ENetPacket *framepacket = enet_packet_create(frame.getdata(), frame.length(), 0);
+    enet_host_broadcast(host, 0, framepacket);
+}
+
 int ServerNetworker::findpeer(Gamestate *state, ENetPeer *peer)
 {
     for (unsigned int i=0; i<state->playerlist.size(); ++i)

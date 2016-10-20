@@ -11,6 +11,7 @@ class Buffer
         Buffer(void *data_, uint64_t datalen_);
         virtual ~Buffer();
         void* getdata() {return data;}
+        uint64_t length() {return datalen;}
     protected:
         void *data;
         uint64_t datalen;

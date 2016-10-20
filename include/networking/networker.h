@@ -10,7 +10,9 @@ class Networker
         Networker(bool isserver);
         virtual ~Networker();
         virtual void receive(Gamestate *state) = 0;
-        virtual void send(Gamestate *state) = 0;
+        virtual void sendeventdata(Gamestate *state) = 0;
+        virtual void sendframedata(Gamestate *state) = 0;
+        WriteBuffer sendbuffer;
     protected:
         ENetHost *host;
     private:
