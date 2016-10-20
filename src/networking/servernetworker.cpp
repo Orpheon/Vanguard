@@ -1,8 +1,12 @@
 #include "networking/servernetworker.h"
+#include "global_constants.h"
 
 ServerNetworker::ServerNetworker() : Networker(true)
 {
-    //ctor
+    ENetAddress address;
+    address.host = ENET_HOST_ANY;
+    address.port = 3224; // 3223-3230
+    host = enet_host_create(&address, PLAYER_LIMIT, 2, 0, 0);
 }
 
 ServerNetworker::~ServerNetworker()
@@ -58,6 +62,7 @@ void ServerNetworker::sendeventdata(Gamestate *state)
     {
         ENetPacket *eventpacket = enet_packet_create(sendbuffer.getdata(), sendbuffer.length(), ENET_PACKET_FLAG_RELIABLE);
         enet_host_broadcast(host, 1, eventpacket);
+        enet_host_flush(host);
     }
 }
 
@@ -67,6 +72,7 @@ void ServerNetworker::sendframedata(Gamestate *state)
     state->serializesnapshot(&frame);
     ENetPacket *framepacket = enet_packet_create(frame.getdata(), frame.length(), 0);
     enet_host_broadcast(host, 0, framepacket);
+    enet_host_flush(host);
 }
 
 int ServerNetworker::findpeer(Gamestate *state, ENetPeer *peer)

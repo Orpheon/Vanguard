@@ -12,7 +12,7 @@ class ServerNetworker : public Networker
         virtual ~ServerNetworker();
         void receive(Gamestate *state) override;
         void sendeventdata(Gamestate *state) override;
-        void sendframedata(Gamestate *state) override;
+        void sendframedata(Gamestate *state);
     protected:
     private:
         int findpeer(Gamestate *state, ENetPeer *peer);

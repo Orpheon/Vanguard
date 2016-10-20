@@ -111,7 +111,7 @@
 		<Unit filename="include/json.hpp" />
 		<Unit filename="include/mainmenu.h" />
 		<Unit filename="include/networking/buffer.h" />
-		<Unit filename="include/networking/eventhandler.h" />
+		<Unit filename="include/networking/clientnetworker.h" />
 		<Unit filename="include/networking/networker.h" />
 		<Unit filename="include/networking/servernetworker.h" />
 		<Unit filename="include/renderer.h" />
@@ -135,7 +135,7 @@
 		<Unit filename="src/inputcatcher.cpp" />
 		<Unit filename="src/mainmenu.cpp" />
 		<Unit filename="src/networking/buffer.cpp" />
-		<Unit filename="src/networking/eventhandler.cpp" />
+		<Unit filename="src/networking/clientnetworker.cpp" />
 		<Unit filename="src/networking/networker.cpp" />
 		<Unit filename="src/networking/servernetworker.cpp" />
 		<Unit filename="src/renderer.cpp" />
