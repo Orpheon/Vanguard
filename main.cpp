@@ -132,7 +132,7 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    engine->loadmap("conflict");
+    engine->loadmap("lijiang");
     // FIXME: Hack to make sure the oldstate is properly initialized
     engine->update(0);
     EntityPtr myself = engine->currentstate->addplayer();
