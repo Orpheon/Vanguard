@@ -131,10 +131,11 @@ int main(int argc, char **argv)
         }
         return -1;
     }
+
     engine->loadmap("conflict");
-    EntityPtr myself = engine->newplayer();
     // FIXME: Hack to make sure the oldstate is properly initialized
     engine->update(0);
+    EntityPtr myself = engine->currentstate->addplayer();
 
     lasttimeupdated = al_get_time();
     while (true)

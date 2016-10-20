@@ -25,8 +25,3 @@ void Engine::update(double frametime)
     oldstate = currentstate->clone();
     currentstate->update(frametime);
 }
-
-EntityPtr Engine::newplayer()
-{
-    return currentstate->make_entity<Player>(currentstate.get());
-}

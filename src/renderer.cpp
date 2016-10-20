@@ -34,12 +34,16 @@ Renderer::~Renderer()
 void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myself)
 {
     // Set camera
-    Character *c = state->get<Player>(myself)->getcharacter(state);
-
-    if (c != 0)
+    Player *p = state->get<Player>(myself);
+    Character *c = 0;
+    if (p != 0)
     {
-        cam_x = c->x - WINDOW_WIDTH/2.0;
-        cam_y = c->y - WINDOW_HEIGHT/2.0;
+        c = p->getcharacter(state);
+        if (c != 0)
+        {
+            cam_x = c->x - WINDOW_WIDTH/2.0;
+            cam_y = c->y - WINDOW_HEIGHT/2.0;
+        }
     }
 
     al_set_target_bitmap(background);

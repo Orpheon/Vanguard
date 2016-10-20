@@ -11,11 +11,11 @@ class ServerNetworker : public Networker
         ServerNetworker();
         virtual ~ServerNetworker();
         void receive(Gamestate *state) override;
-        void send(Gamestate *state) override;
+//        void send(Gamestate *state) override;
     protected:
     private:
-        std::vector<ENetPeer*> clients;
-        int findpeer(ENetPeer *peer);
+        int findpeer(Gamestate *state, ENetPeer *peer);
+        Player* findplayer(Gamestate *state, ENetPeer *peer);
 };
 
 #endif // SERVERNETWORKER_H

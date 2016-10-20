@@ -55,7 +55,14 @@ void Gamestate::update(double frametime)
 
 EntityPtr Gamestate::addplayer()
 {
-    EntityPtr r = make_entity<Player>(this);
+    EntityPtr r = make_entity<Player>(this, reinterpret_cast<ENetPeer*>(0));
+    playerlist.push_back(r);
+    return r;
+}
+
+EntityPtr Gamestate::addplayer(ENetPeer *networkconnection)
+{
+    EntityPtr r = make_entity<Player>(this, networkconnection);
     playerlist.push_back(r);
     return r;
 }

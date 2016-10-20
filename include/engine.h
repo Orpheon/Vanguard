@@ -14,7 +14,6 @@ class Engine
         ~Engine();
         void update(double frametime);
         void loadmap(std::string mapname);
-        EntityPtr newplayer();
 
         std::unique_ptr<Gamestate> currentstate;
         std::unique_ptr<Gamestate> oldstate;

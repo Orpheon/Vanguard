@@ -1,6 +1,6 @@
 #include "networking/servernetworker.h"
 
-ServerNetworker::ServerNetworker() : Networker(true), clients()
+ServerNetworker::ServerNetworker() : Networker(true)
 {
     //ctor
 }
@@ -17,24 +17,22 @@ void ServerNetworker::receive(Gamestate *state)
     {
         if (event.type == ENET_EVENT_TYPE_CONNECT)
         {
-            clients.push_back(event.peer);
-            state->addplayer();
+            state->addplayer(event.peer);
         }
         else if (event.type == ENET_EVENT_TYPE_DISCONNECT)
         {
-            int i = findpeer(event.peer);
+            int i = findpeer(state, event.peer);
             state->removeplayer(i);
-            clients.erase(clients.begin() + i);
             // TODO: Send PLAYER_DISCONNECT event
         }
         else if (event.type == ENET_EVENT_TYPE_RECEIVE)
         {
             ReadBuffer data = ReadBuffer(event.packet->data, event.packet->dataLength);
-            int packet_event = event.packet->channelID;
+            int eventtype = data.read<uint8_t>();
             enet_packet_destroy(event.packet);
-            if (packet_event == CLIENT_INPUT)
+            if (eventtype == CLIENT_INPUT)
             {
-                Player *p = state->findplayer(findpeer(event.peer));
+                Player *p = findplayer(state, event.peer);
                 if (p->character != 0)
                 {
                     INPUT_CONTAINER pressedkeys = INPUT_CONTAINER();
@@ -48,19 +46,34 @@ void ServerNetworker::receive(Gamestate *state)
             }
             else
             {
-                fprintf(stderr, "Invalid packet received on server: %i!", packet_event);
+                fprintf(stderr, "Invalid packet received on server: %i!", eventtype);
             }
         }
     }
 }
 
-int ServerNetworker::findpeer(ENetPeer *peer)
+int ServerNetworker::findpeer(Gamestate *state, ENetPeer *peer)
 {
-    for (unsigned int i=0; i<clients.size(); ++i)
+    for (unsigned int i=0; i<state->playerlist.size(); ++i)
     {
-        if (clients[i] == peer)
+        if (state->get<Player>(state->playerlist[i])->networkconnection == peer)
         {
             return i;
+        }
+    }
+    fprintf(stderr, "Searched for nonexistent player!");
+    throw -1;
+}
+
+Player* ServerNetworker::findplayer(Gamestate *state, ENetPeer *peer)
+{
+    Player *p;
+    for (unsigned int i=0; i<state->playerlist.size(); ++i)
+    {
+        p = state->get<Player>(state->playerlist[i]);
+        if (p->networkconnection == peer)
+        {
+            return p;
         }
     }
     fprintf(stderr, "Searched for nonexistent player!");

@@ -4,7 +4,7 @@
 #include "ingameelements/character.h"
 #include "ingameelements/heroes/mccree.h"
 
-Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0)
+Player::Player(uint64_t id_, Gamestate *state, ENetPeer *networkconnection_) : Entity(id_), character(0), networkconnection(networkconnection_)
 {
     ;
 }

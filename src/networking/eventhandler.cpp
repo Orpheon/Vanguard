@@ -12,8 +12,9 @@ EventHandler::~EventHandler()
     //dtor
 }
 
-void EventHandler::deserialize_event(Gamestate *state, ReadBuffer *buffer, int eventtype)
+void EventHandler::deserialize_event(Gamestate *state, ReadBuffer *buffer)
 {
+    int eventtype = buffer->read<uint8_t>();
     switch (eventtype)
     {
         case SERVER_SNAPSHOTUPDATE:
