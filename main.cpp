@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <string>
+#include <memory>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
@@ -104,18 +105,19 @@ int main(int argc, char **argv)
 //        }
 //    delete mainmenu;
 
-    InputCatcher *inputcatcher;
-    Engine *engine;
-    Renderer *renderer;
-    Gamestate *renderingstate;
+    std::unique_ptr<Engine> engine;
+    std::unique_ptr<Renderer> renderer;
+    std::unique_ptr<InputCatcher> inputcatcher;
+    std::unique_ptr<Gamestate> renderingstate;
+
     try
     {
         // Initialize everything
         // The various allegro initializations can throw errors
-        engine = new Engine(isserver);
-        renderer = new Renderer(font);
-        inputcatcher = new InputCatcher(display);
-        renderingstate = new Gamestate(engine);
+        engine = std::unique_ptr<Engine>(new Engine(isserver));
+        renderer = std::unique_ptr<Renderer>(new Renderer(font));
+        inputcatcher = std::unique_ptr<InputCatcher>(new InputCatcher(display));
+        renderingstate = std::unique_ptr<Gamestate>(new Gamestate(engine.get()));
     }
     catch (int e)
     {
@@ -141,13 +143,13 @@ int main(int argc, char **argv)
         {
             while (al_get_time() - lasttimeupdated >= ENGINE_TIMESTEP)
             {
-                inputcatcher->run(myself, engine, renderer);
+                inputcatcher->run(myself, engine.get(), renderer.get());
                 engine->update(ENGINE_TIMESTEP);
 
                 lasttimeupdated += ENGINE_TIMESTEP;
             }
             renderingstate->interpolate(engine->oldstate.get(), engine->currentstate.get(), (al_get_time()-lasttimeupdated)/ENGINE_TIMESTEP);
-            renderer->render(display, renderingstate, myself);
+            renderer->render(display, renderingstate.get(), myself);
         }
         catch (int e)
         {
