@@ -73,6 +73,7 @@
 					<Add library="wsock32" />
 					<Add library="psapi" />
 					<Add library="shlwapi" />
+					<Add library="enet" />
 				</Linker>
 			</Target>
 		</Build>
