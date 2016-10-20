@@ -14,7 +14,7 @@ class Character;
 class Player : public Entity
 {
     public:
-        Player(uint64_t id_, Gamestate *state, ENetPeer *networkconnection_);
+        Player(uint64_t id_, Gamestate *state);
         virtual ~Player() = default;
         void beginstep(Gamestate *state, double frametime);
         void midstep(Gamestate *state, double frametime);
@@ -32,7 +32,6 @@ class Player : public Entity
         Character* getcharacter(Gamestate *state);
 
         EntityPtr character;
-        ENetPeer *networkconnection;
 };
 
 #endif // PLAYER_H

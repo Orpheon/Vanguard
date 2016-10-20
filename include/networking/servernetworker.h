@@ -15,8 +15,6 @@ class ServerNetworker : public Networker
         void sendframedata(Gamestate *state);
     protected:
     private:
-        int findpeer(Gamestate *state, ENetPeer *peer);
-        Player* findplayer(Gamestate *state, ENetPeer *peer);
 };
 
 #endif // SERVERNETWORKER_H

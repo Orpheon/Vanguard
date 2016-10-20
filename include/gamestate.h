@@ -39,7 +39,6 @@ class Gamestate
         std::unique_ptr<Gamestate> clone();
         void interpolate(Gamestate *prevstate, Gamestate *nextstate, double alpha);
         EntityPtr addplayer();
-        EntityPtr addplayer(ENetPeer *networkconnection);
         void removeplayer(int playerid);
         Player* findplayer(int playerid);
         void serializesnapshot(WriteBuffer *buffer);
