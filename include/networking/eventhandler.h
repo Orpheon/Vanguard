@@ -8,7 +8,7 @@ class EventHandler
     public:
         EventHandler();
         virtual ~EventHandler();
-        void deserialize_event(Gamestate *state, ReadBuffer *buffer);
+        void deserialize_event(Gamestate *state, ReadBuffer *buffer, int eventtype);
     protected:
         void deserialize_server_snapshotupdate(Gamestate *state, ReadBuffer *buffer);
         void deserialize_server_fullupdate(Gamestate *state, ReadBuffer *buffer);

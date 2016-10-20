@@ -30,8 +30,8 @@ void ServerNetworker::receive(Gamestate *state)
         else if (event.type == ENET_EVENT_TYPE_RECEIVE)
         {
             ReadBuffer data = ReadBuffer(event.packet->data, event.packet->dataLength);
+            int packet_event = event.packet->channelID;
             enet_packet_destroy(event.packet);
-            int packet_event = data.read<uint8_t>();
             if (packet_event == CLIENT_INPUT)
             {
                 Player *p = state->findplayer(findpeer(event.peer));
@@ -48,7 +48,7 @@ void ServerNetworker::receive(Gamestate *state)
             }
             else
             {
-                fprintf(stderr, "Invalid packet received on server!");
+                fprintf(stderr, "Invalid packet received on server: %i!", packet_event);
             }
         }
     }

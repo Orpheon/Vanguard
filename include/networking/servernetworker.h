@@ -11,6 +11,7 @@ class ServerNetworker : public Networker
         ServerNetworker();
         virtual ~ServerNetworker();
         void receive(Gamestate *state) override;
+        void send(Gamestate *state) override;
     protected:
     private:
         std::vector<ENetPeer*> clients;
