@@ -85,6 +85,20 @@ struct INPUT_CONTAINER
         ABILITY_2 = d & 1<<9;
         ULTIMATE = d & 1<<10;
     }
+
+    void reset()
+    {
+        LEFT = false;
+        RIGHT = false;
+        JUMP = false;
+        CROUCH = false;
+        PRIMARY_FIRE = false;
+        SECONDARY_FIRE = false;
+        RELOAD = false;
+        ABILITY_1 = false;
+        ABILITY_2 = false;
+        ULTIMATE = false;
+    }
 };
 
 struct Health
