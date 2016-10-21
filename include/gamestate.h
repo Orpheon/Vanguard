@@ -35,7 +35,7 @@ class Gamestate
             return static_cast<EntityT*>(entitylist[e.id].get());
         }
 
-        void update(double frametime);
+        void update(WriteBuffer *sendbuffer_, double frametime);
         std::unique_ptr<Gamestate> clone();
         void interpolate(Gamestate *prevstate, Gamestate *nextstate, double alpha);
         EntityPtr addplayer();
@@ -55,6 +55,7 @@ class Gamestate
         double time;
         std::shared_ptr<Map> currentmap;
         Engine *engine;
+        WriteBuffer *sendbuffer;
     protected:
     private:
         uint64_t entityidcounter;

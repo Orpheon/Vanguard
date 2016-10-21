@@ -36,13 +36,10 @@ InputCatcher::~InputCatcher()
     al_destroy_event_queue(event_queue);
 }
 
-void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
+void InputCatcher::run(INPUT_CONTAINER *pressed_keys, INPUT_CONTAINER *held_keys, double *mouse_x, double *mouse_y)
 {
-    // FIXME: Debugtool
-    bool spawnplayer = false;
-
-    INPUT_CONTAINER pressed_keys = {};
-    INPUT_CONTAINER held_keys = {};
+    pressed_keys->reset();
+    held_keys->reset();
 
     ALLEGRO_EVENT event;
     // Catch all events that have stacked up this frame. al_get_next_event() returns false when event_queue is empty, and contents of event are undefined
@@ -60,47 +57,43 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
 
                 if (event.keyboard.keycode == config["jump"] or event.keyboard.keycode == config["jump_alt1"] or event.keyboard.keycode == config["jump_alt2"])
                 {
-                    pressed_keys.JUMP = true;
+                    pressed_keys->JUMP = true;
                 }
                 if (event.keyboard.keycode == config["crouch"] or event.keyboard.keycode == config["crouch_alt1"] or event.keyboard.keycode == config["crouch_alt2"])
                 {
-                    pressed_keys.CROUCH = true;
+                    pressed_keys->CROUCH = true;
                 }
                 if (event.keyboard.keycode == config["left"] or event.keyboard.keycode == config["left_alt1"] or event.keyboard.keycode == config["left_alt2"])
                 {
-                    pressed_keys.LEFT = true;
+                    pressed_keys->LEFT = true;
                 }
                 if (event.keyboard.keycode == config["right"] or event.keyboard.keycode == config["right_alt1"] or event.keyboard.keycode == config["right_alt2"])
                 {
-                    pressed_keys.RIGHT = true;
+                    pressed_keys->RIGHT = true;
                 }
                 if (event.keyboard.keycode == config["right"] or event.keyboard.keycode == config["right_alt1"] or event.keyboard.keycode == config["right_alt2"])
                 {
-                    pressed_keys.RIGHT = true;
+                    pressed_keys->RIGHT = true;
                 }
                 if (event.keyboard.keycode == config["ability1"] or event.keyboard.keycode == config["ability1_alt1"] or event.keyboard.keycode == config["ability1_alt2"])
                 {
-                    pressed_keys.ABILITY_1 = true;
+                    pressed_keys->ABILITY_1 = true;
                 }
                 if (event.keyboard.keycode == config["ability2"] or event.keyboard.keycode == config["ability2_alt1"] or event.keyboard.keycode == config["ability2_alt2"])
                 {
-                    pressed_keys.ABILITY_2 = true;
+                    pressed_keys->ABILITY_2 = true;
                 }
                 if (event.keyboard.keycode == config["ultimate"] or event.keyboard.keycode == config["ultimate_alt1"] or event.keyboard.keycode == config["ultimate_alt2"])
                 {
-                    pressed_keys.ULTIMATE = true;
+                    pressed_keys->ULTIMATE = true;
                 }
                 if (event.keyboard.keycode == config["reload"] or event.keyboard.keycode == config["reload_alt1"] or event.keyboard.keycode == config["reload_alt2"])
                 {
-                    pressed_keys.RELOAD = true;
+                    pressed_keys->RELOAD = true;
                 }
 
                 switch (event.keyboard.keycode)
                 {
-                    case ALLEGRO_KEY_1:
-                        spawnplayer = true;
-                        break;
-
                     case ALLEGRO_KEY_ESCAPE:
                         // Exit game
                         throw 0;
@@ -110,10 +103,10 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
                 switch (event.mouse.button)
                 {
                     case LEFT_MOUSE_BUTTON:
-                        pressed_keys.PRIMARY_FIRE = true;
+                        pressed_keys->PRIMARY_FIRE = true;
                         break;
                     case RIGHT_MOUSE_BUTTON:
-                        pressed_keys.SECONDARY_FIRE = true;
+                        pressed_keys->SECONDARY_FIRE = true;
                         break;
                 }
         }
@@ -123,35 +116,35 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
     al_get_keyboard_state(&keystate);
     if (al_key_down(&keystate, config["jump"]) or al_key_down(&keystate, config["jump_alt1"]) or al_key_down(&keystate, config["jump_alt2"]))
     {
-        held_keys.JUMP = true;
+        held_keys->JUMP = true;
     }
     if (al_key_down(&keystate, config["crouch"]) or al_key_down(&keystate, config["crouch_alt1"]) or al_key_down(&keystate, config["crouch_alt2"]))
     {
-        held_keys.CROUCH = true;
+        held_keys->CROUCH = true;
     }
     if (al_key_down(&keystate, config["left"]) or al_key_down(&keystate, config["left_alt1"]) or al_key_down(&keystate, config["left_alt2"]))
     {
-        held_keys.LEFT = true;
+        held_keys->LEFT = true;
     }
     if (al_key_down(&keystate, config["right"]) or al_key_down(&keystate, config["right_alt1"]) or al_key_down(&keystate, config["right_alt2"]))
     {
-        held_keys.RIGHT = true;
+        held_keys->RIGHT = true;
     }
     if (al_key_down(&keystate, config["ability1"]) or al_key_down(&keystate, config["ability1_alt1"]) or al_key_down(&keystate, config["ability1_alt2"]))
     {
-        held_keys.ABILITY_1 = true;
+        held_keys->ABILITY_1 = true;
     }
     if (al_key_down(&keystate, config["ability2"]) or al_key_down(&keystate, config["ability2_alt1"]) or al_key_down(&keystate, config["ability2_alt2"]))
     {
-        held_keys.ABILITY_2 = true;
+        held_keys->ABILITY_2 = true;
     }
     if (al_key_down(&keystate, config["ultimate"]) or al_key_down(&keystate, config["ultimate_alt1"]) or al_key_down(&keystate, config["ultimate_alt2"]))
     {
-        held_keys.ULTIMATE = true;
+        held_keys->ULTIMATE = true;
     }
     if (al_key_down(&keystate, config["reload"]) or al_key_down(&keystate, config["reload_alt1"]) or al_key_down(&keystate, config["reload_alt2"]))
     {
-        held_keys.RELOAD = true;
+        held_keys->RELOAD = true;
     }
 
     ALLEGRO_MOUSE_STATE mousestate;
@@ -159,42 +152,13 @@ void InputCatcher::run(EntityPtr myself, Engine *engine, Renderer *renderer)
     // FIXME: I have no idea if these constants are correct, allegro docs don't mention the specifics, just that it starts with 1.
     if (mousestate.buttons & LEFT_MOUSE_BUTTON)
     {
-        held_keys.PRIMARY_FIRE = true;
+        held_keys->PRIMARY_FIRE = true;
     }
     if (mousestate.buttons & RIGHT_MOUSE_BUTTON)
     {
-        held_keys.SECONDARY_FIRE = true;
+        held_keys->SECONDARY_FIRE = true;
     }
 
-
-    // Check if the current player has a character to run around with or is in spectate mode
-    Character *c = engine->currentstate->get<Player>(myself)->getcharacter(engine->currentstate.get());
-    if (c != 0)
-    {
-        c->setinput(engine->currentstate.get(), pressed_keys, held_keys, mousestate.x+renderer->cam_x-c->x, mousestate.y+renderer->cam_y-c->y);
-    }
-    else
-    {
-        // DEBUGTOOL
-        if (spawnplayer)
-        {
-            engine->currentstate->get<Player>(myself)->spawn(engine->currentstate.get());
-        }
-        if (held_keys.LEFT)
-        {
-            renderer->cam_x -= 10;
-        }
-        if (held_keys.RIGHT)
-        {
-            renderer->cam_x += 10;
-        }
-        if (held_keys.JUMP)
-        {
-            renderer->cam_y -= 10;
-        }
-        if (held_keys.CROUCH)
-        {
-            renderer->cam_y += 10;
-        }
-    }
+    *mouse_x = mousestate.x;
+    *mouse_y = mousestate.y;
 }

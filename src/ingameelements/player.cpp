@@ -76,12 +76,12 @@ void Player::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
 
 void Player::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
 {
+    if (fullupdate)
+    {
+        buffer->write<bool>(character != 0);
+    }
     if (character != 0)
     {
-        if (fullupdate)
-        {
-            buffer->write<bool>(character != 0);
-        }
         Character *c = state->get<Character>(character);
         c->serialize(state, buffer, fullupdate);
     }
@@ -89,16 +89,16 @@ void Player::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
 
 void Player::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate)
 {
+    if (fullupdate)
+    {
+        bool hascharacter = buffer->read<bool>();
+        if (hascharacter)
+        {
+            spawn(state);
+        }
+    }
     if (character != 0)
     {
-        if (fullupdate)
-        {
-            bool hascharacter = buffer->read<bool>();
-            if (hascharacter)
-            {
-                spawn(state);
-            }
-        }
         Character *c = state->get<Character>(character);
         c->deserialize(state, buffer, fullupdate);
     }

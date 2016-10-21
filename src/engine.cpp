@@ -20,8 +20,18 @@ void Engine::loadmap(std::string mapname)
     currentstate->currentmap = std::make_shared<Map>(mapname);
 }
 
-void Engine::update(double frametime)
+void Engine::update(WriteBuffer *sendbuffer, double frametime)
 {
     oldstate = currentstate->clone();
-    currentstate->update(frametime);
+    currentstate->update(sendbuffer, frametime);
+}
+
+void Engine::setinput(EntityPtr myself, INPUT_CONTAINER pressed_keys, INPUT_CONTAINER held_keys, double mouse_x, double mouse_y)
+{
+    Player *p = currentstate->get<Player>(myself);
+    if (p != 0)
+    {
+        Character *c = p->getcharacter(currentstate.get());
+        c->setinput(currentstate.get(), pressed_keys, held_keys, mouse_x-c->x, mouse_y-c->y);
+    }
 }

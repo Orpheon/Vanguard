@@ -12,6 +12,8 @@
 #include "datastructures.h"
 #include "global_constants.h"
 #include "mainmenu.h"
+#include "networking/servernetworker.h"
+#include "networking/clientnetworker.h"
 
 long int getmillisec();
 
@@ -93,7 +95,7 @@ int main(int argc, char **argv)
     {
         isserver = true;
     }
-    double lasttimeupdated = al_get_time();
+//    double lasttimeupdated = al_get_time();
 //    bool run = true;
 //    while (run)
 //    {
@@ -110,24 +112,73 @@ int main(int argc, char **argv)
     InputCatcher inputcatcher(display);
     Gamestate renderingstate(&engine);
 
+    std::unique_ptr<Networker> networker;
+    if (isserver)
+    {
+        networker = std::unique_ptr<Networker>(new ServerNetworker());
+    }
+    else
+    {
+        networker = std::unique_ptr<Networker>(new ClientNetworker());
+    }
+
     engine.loadmap("lijiang");
     // FIXME: Hack to make sure the oldstate is properly initialized
-    engine.update(0);
-    EntityPtr myself = engine.currentstate->addplayer();
+    engine.update(&(networker->sendbuffer), 0);
 
-    lasttimeupdated = al_get_time();
+    EntityPtr myself(0);
+    if (isserver)
+    {
+        myself = engine.currentstate->addplayer();
+        engine.currentstate->get<Player>(myself)->spawn(engine.currentstate.get());
+    }
+    else
+    {
+        ClientNetworker *n = reinterpret_cast<ClientNetworker*>(networker.get());
+        while (not n->isconnected())
+        {
+            n->receive(engine.currentstate.get());
+        }
+        myself = engine.currentstate->playerlist[engine.currentstate->playerlist.size()-1];
+    }
+
+    INPUT_CONTAINER pressed_keys;
+    INPUT_CONTAINER held_keys;
+    double mouse_x;
+    double mouse_y;
+
+    double enginetime = al_get_time();
+    double networkertime = al_get_time();
     while (true)
     {
         try
         {
-            while (al_get_time() - lasttimeupdated >= ENGINE_TIMESTEP)
+            while (al_get_time() - enginetime >= ENGINE_TIMESTEP)
             {
-                inputcatcher.run(myself, &engine, &renderer);
-                engine.update(ENGINE_TIMESTEP);
+                networker->receive(engine.currentstate.get());
+                inputcatcher.run(&pressed_keys, &held_keys, &mouse_x, &mouse_y);
+                if (not isserver)
+                {
+                    ClientNetworker *n = reinterpret_cast<ClientNetworker*>(networker.get());
+                    n->sendinput(pressed_keys, held_keys, mouse_x+renderer.cam_x, mouse_y+renderer.cam_y);
+                }
+                engine.setinput(myself, pressed_keys, held_keys, mouse_x+renderer.cam_x, mouse_y+renderer.cam_y);
+                engine.update(&(networker->sendbuffer), ENGINE_TIMESTEP);
+                networker->sendeventdata(engine.currentstate.get());
 
-                lasttimeupdated += ENGINE_TIMESTEP;
+                enginetime += ENGINE_TIMESTEP;
             }
-            renderingstate.interpolate(engine.oldstate.get(), engine.currentstate.get(), (al_get_time()-lasttimeupdated)/ENGINE_TIMESTEP);
+            if (isserver)
+            {
+                if (al_get_time() - networkertime >= NETWORKING_TIMESTEP)
+                {
+                    ServerNetworker *n = reinterpret_cast<ServerNetworker*>(networker.get());
+                    n->sendframedata(engine.currentstate.get());
+
+                    networkertime = al_get_time();
+                }
+            }
+            renderingstate.interpolate(engine.oldstate.get(), engine.currentstate.get(), (al_get_time()-enginetime)/ENGINE_TIMESTEP);
             renderer.render(display, &renderingstate, myself);
         }
         catch (int e)

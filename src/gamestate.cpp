@@ -5,7 +5,7 @@
 #include "entity.h"
 #include "ingameelements/player.h"
 
-Gamestate::Gamestate(Engine *engine_) : entitylist(), playerlist(), currentmap(), engine(engine_), entityidcounter(1)
+Gamestate::Gamestate(Engine *engine_) : entitylist(), playerlist(), currentmap(), engine(engine_), sendbuffer(0), entityidcounter(1)
 {
     time = 0;
 }
@@ -15,8 +15,9 @@ Gamestate::~Gamestate()
     ;
 }
 
-void Gamestate::update(double frametime)
+void Gamestate::update(WriteBuffer *sendbuffer_, double frametime)
 {
+    sendbuffer = sendbuffer_;
     time += frametime;
 
     for (auto& e : entitylist)
@@ -51,6 +52,8 @@ void Gamestate::update(double frametime)
             ++e;
         }
     }
+
+    sendbuffer = 0;
 }
 
 EntityPtr Gamestate::addplayer()
@@ -81,6 +84,7 @@ std::unique_ptr<Gamestate> Gamestate::clone()
     g->time = time;
     g->entityidcounter = entityidcounter;
     g->currentmap = currentmap;
+    g->playerlist = playerlist;
     return g;
 }
 
@@ -97,6 +101,9 @@ void Gamestate::interpolate(Gamestate *prevstate, Gamestate *nextstate, double a
         preferredstate = nextstate;
     }
     currentmap = preferredstate->currentmap;
+    entityidcounter = preferredstate->entityidcounter;
+    playerlist = preferredstate->playerlist;
+    time = prevstate->time + alpha*(nextstate->time - prevstate->time);
 
     entitylist.clear();
     for (auto& e : preferredstate->entitylist)

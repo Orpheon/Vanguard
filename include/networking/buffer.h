@@ -11,7 +11,8 @@ class Buffer
         Buffer(void *data_, uint64_t datalen_);
         virtual ~Buffer();
         void* getdata() {return data;}
-        uint64_t length() {return datalen;}
+        virtual uint64_t length() = 0;
+        void reset() {pos = 0;}
     protected:
         void *data;
         uint64_t datalen;
@@ -35,6 +36,7 @@ class ReadBuffer : public Buffer
             pos += sizeof(T);
             return r;
         }
+        uint64_t length() {return datalen-pos;}
     protected:
     private:
 };
@@ -53,9 +55,10 @@ class WriteBuffer : public Buffer
                 enlarge(datalen*2.0);
             }
             std::memcpy(reinterpret_cast<char*>(data)+pos, &input, sizeof(T));
+            pos += sizeof(T);
         }
+        uint64_t length() {return pos;}
     protected:
     private:
-        uint64_t STARTING_SIZE = 128;
 };
 #endif // BUFFER_H

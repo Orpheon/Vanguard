@@ -18,7 +18,7 @@ ReadBuffer::~ReadBuffer()
     //dtor
 }
 
-WriteBuffer::WriteBuffer() : Buffer(std::malloc(STARTING_SIZE), STARTING_SIZE)
+WriteBuffer::WriteBuffer() : Buffer(std::malloc(32), 32)
 {
     //ctor
 }
