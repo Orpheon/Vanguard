@@ -6,7 +6,7 @@ Buffer::Buffer(void *data_, uint64_t datalen_) : data(data_), datalen(datalen_),
 }
 Buffer::~Buffer()
 {
-    std::free(data);
+    //dtor
 }
 
 ReadBuffer::ReadBuffer(void *data_, uint64_t datalen_) : Buffer(data_, datalen_)
@@ -24,7 +24,7 @@ WriteBuffer::WriteBuffer() : Buffer(std::malloc(32), 32)
 }
 WriteBuffer::~WriteBuffer()
 {
-    //dtor
+    std::free(data);
 }
 void WriteBuffer::enlarge(uint64_t newsize)
 {
