@@ -33,6 +33,12 @@ void ServerNetworker::receive(Gamestate *state)
             ENetPacket *eventpacket = enet_packet_create(frame.getdata(), frame.length(), ENET_PACKET_FLAG_RELIABLE);
             enet_peer_send(event.peer, 0, eventpacket);
             enet_host_flush(host);
+
+            // Send spawn event of that player
+            sendbuffer.write<uint8_t>(PLAYER_SPAWNED);
+            sendbuffer.write<uint8_t>(state->playerlist.size()-1);
+            // and spawn said player ourselves
+            state->findplayer(state->playerlist.size()-1)->spawn(state);
         }
         else if (event.type == ENET_EVENT_TYPE_DISCONNECT)
         {

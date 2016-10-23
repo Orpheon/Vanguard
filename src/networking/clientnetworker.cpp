@@ -54,6 +54,11 @@ void ClientNetworker::receive(Gamestate *state)
                     int playerid = data.read<uint8_t>();
                     state->removeplayer(playerid);
                 }
+                else if (eventtype == PLAYER_SPAWNED)
+                {
+                    int playerid = data.read<uint8_t>();
+                    state->findplayer(playerid)->spawn(state);
+                }
                 else
                 {
                     fprintf(stderr, "\nInvalid packet received on client: %i!", eventtype);
