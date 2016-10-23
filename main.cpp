@@ -159,8 +159,12 @@ int main(int argc, char **argv)
                 inputcatcher.run(&pressed_keys, &held_keys, &mouse_x, &mouse_y);
                 if (not isserver)
                 {
-                    ClientNetworker *n = reinterpret_cast<ClientNetworker*>(networker.get());
-                    n->sendinput(pressed_keys, held_keys, mouse_x+renderer.cam_x, mouse_y+renderer.cam_y);
+                    Character *c = engine.currentstate->get<Player>(myself)->getcharacter(engine.currentstate.get());
+                    if (c != 0)
+                    {
+                        ClientNetworker *n = reinterpret_cast<ClientNetworker*>(networker.get());
+                        n->sendinput(pressed_keys, held_keys, mouse_x+renderer.cam_x, mouse_y+renderer.cam_y);
+                    }
                 }
                 engine.setinput(myself, pressed_keys, held_keys, mouse_x+renderer.cam_x, mouse_y+renderer.cam_y);
                 engine.update(&(networker->sendbuffer), ENGINE_TIMESTEP);
