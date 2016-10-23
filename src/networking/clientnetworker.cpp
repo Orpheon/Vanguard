@@ -1,4 +1,4 @@
-#include "clientnetworker.h"
+#include "networking/clientnetworker.h"
 
 ClientNetworker::ClientNetworker() : Networker(false), connected(false)
 {
