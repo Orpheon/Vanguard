@@ -325,9 +325,9 @@ void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate
 {
     MovingEntity::serialize(state, buffer, fullupdate);
 
-    buffer->write<float>(hp.normal);
-    buffer->write<float>(hp.armor);
-    buffer->write<float>(hp.shields);
+    buffer->write<uint16_t>(hp.normal);
+    buffer->write<uint16_t>(hp.armor);
+    buffer->write<uint16_t>(hp.shields);
 
     pressed_keys.serialize(buffer);
     held_keys.serialize(buffer);
@@ -342,9 +342,9 @@ void Character::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdat
 {
     MovingEntity::deserialize(state, buffer, fullupdate);
 
-    hp.normal = buffer->read<float>();
-    hp.armor = buffer->read<float>();
-    hp.shields = buffer->read<float>();
+    hp.normal = buffer->read<uint16_t>();
+    hp.armor = buffer->read<uint16_t>();
+    hp.shields = buffer->read<uint16_t>();
 
     pressed_keys.deserialize(buffer);
     held_keys.deserialize(buffer);
