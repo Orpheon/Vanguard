@@ -45,7 +45,10 @@ void ServerNetworker::receive(Gamestate *state)
             int i = reinterpret_cast<int*>(event.peer->data)[0];
             state->removeplayer(i);
             std::free(event.peer->data);
-            // TODO: Send PLAYER_DISCONNECT event
+
+            // Send disconnect even of that player
+            sendbuffer.write<uint8_t>(PLAYER_LEFT);
+            sendbuffer.write<uint8_t>(i);
         }
         else if (event.type == ENET_EVENT_TYPE_RECEIVE)
         {
