@@ -32,6 +32,9 @@ void Engine::setinput(EntityPtr myself, INPUT_CONTAINER pressed_keys, INPUT_CONT
     if (p != 0)
     {
         Character *c = p->getcharacter(currentstate.get());
-        c->setinput(currentstate.get(), pressed_keys, held_keys, mouse_x-c->x, mouse_y-c->y);
+        if (c != 0)
+        {
+            c->setinput(currentstate.get(), pressed_keys, held_keys, mouse_x-c->x, mouse_y-c->y);
+        }
     }
 }
