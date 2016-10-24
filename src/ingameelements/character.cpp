@@ -24,15 +24,14 @@ void Character::setinput(Gamestate *state, INPUT_CONTAINER pressed_keys_, INPUT_
 {
     pressed_keys = pressed_keys_;
     held_keys = held_keys_;
-    mouse_x = mouse_x_;
-    mouse_y = mouse_y_;
-    Weapon *w = state->get<Weapon>(weapon);
-    w->setaim(mouse_x, mouse_y);
+    mouse_x = mouse_x_ - x;
+    mouse_y = mouse_y_ - y;
+    getweapon(state)->setaim(mouse_x, mouse_y);
 }
 
 void Character::beginstep(Gamestate *state, double frametime)
 {
-    state->get<Weapon>(weapon)->beginstep(state, frametime);
+    getweapon(state)->beginstep(state, frametime);
 }
 
 void Character::midstep(Gamestate *state, double frametime)
@@ -102,19 +101,16 @@ void Character::midstep(Gamestate *state, double frametime)
 
         if (held_keys.RELOAD)
         {
-            Weapon *w = state->get<Weapon>(weapon);
-            w->reload(state);
+            getweapon(state)->reload(state);
         }
         // Shooting
         if (held_keys.PRIMARY_FIRE and state->engine->isserver)
         {
-            Weapon *w = state->get<Weapon>(weapon);
-            w->fireprimary(state);
+            getweapon(state)->fireprimary(state);
         }
         if (held_keys.SECONDARY_FIRE and state->engine->isserver)
         {
-            Weapon *w = state->get<Weapon>(weapon);
-            w->firesecondary(state);
+            getweapon(state)->firesecondary(state);
         }
 
         if (isflipped != (mouse_x < 0))
@@ -137,7 +133,7 @@ void Character::midstep(Gamestate *state, double frametime)
     // apply friction
     hspeed *= std::pow(friction, frametime);
 
-    state->get<Weapon>(weapon)->midstep(state, frametime);
+    getweapon(state)->midstep(state, frametime);
 }
 
 void Character::endstep(Gamestate *state, double frametime)
@@ -285,7 +281,7 @@ void Character::endstep(Gamestate *state, double frametime)
         crouchanim.active(crouch);
     }
 
-    state->get<Weapon>(weapon)->endstep(state, frametime);
+    getweapon(state)->endstep(state, frametime);
 }
 
 bool Character::onground(Gamestate *state)
@@ -331,11 +327,10 @@ void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate
 
     pressed_keys.serialize(buffer);
     held_keys.serialize(buffer);
-    buffer->write<float>(mouse_x);
-    buffer->write<float>(mouse_y);
+    buffer->write<int16_t>(mouse_x);
+    buffer->write<int16_t>(mouse_y);
 
-    Weapon *w = state->get<Weapon>(weapon);
-    w->serialize(state, buffer, fullupdate);
+    getweapon(state)->serialize(state, buffer, fullupdate);
 }
 
 void Character::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate)
@@ -348,11 +343,12 @@ void Character::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdat
 
     pressed_keys.deserialize(buffer);
     held_keys.deserialize(buffer);
-    mouse_x = buffer->read<float>();
-    mouse_y = buffer->read<float>();
+    mouse_x = buffer->read<int16_t>();
+    mouse_y = buffer->read<int16_t>();
 
-    Weapon *w = state->get<Weapon>(weapon);
-    w->deserialize(state, buffer, fullupdate);
+    getweapon(state)->setaim(mouse_x, mouse_y);
+
+    getweapon(state)->deserialize(state, buffer, fullupdate);
 }
 
 void Character::damage(double amount)
@@ -384,5 +380,10 @@ void Character::damage(double amount)
 
 void Character::destroy(Gamestate *state)
 {
-    state->get<Weapon>(weapon)->destroy(state);
+    getweapon(state)->destroy(state);
+}
+
+Weapon* Character::getweapon(Gamestate *state)
+{
+    return state->get<Weapon>(weapon);
 }

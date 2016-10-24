@@ -30,7 +30,6 @@ void ClientNetworker::receive(Gamestate *state)
         }
         else if (event.type == ENET_EVENT_TYPE_RECEIVE)
         {
-            printf("\nClient received packet of length %i", event.packet->dataLength);
             ReadBuffer data = ReadBuffer(event.packet->data, event.packet->dataLength);
             while (data.length() > 0)
             {
@@ -59,6 +58,16 @@ void ClientNetworker::receive(Gamestate *state)
                     int playerid = data.read<uint8_t>();
                     state->findplayer(playerid)->spawn(state);
                 }
+                else if (eventtype == PRIMARY_FIRED)
+                {
+                    int playerid = data.read<uint8_t>();
+                    state->findplayer(playerid)->getcharacter(state)->getweapon(state)->fireprimary(state);
+                }
+                else if (eventtype == SECONDARY_FIRED)
+                {
+                    int playerid = data.read<uint8_t>();
+                    state->findplayer(playerid)->getcharacter(state)->getweapon(state)->firesecondary(state);
+                }
                 else
                 {
                     fprintf(stderr, "\nInvalid packet received on client: %i!", eventtype);
@@ -86,8 +95,8 @@ void ClientNetworker::sendinput(INPUT_CONTAINER pressedkeys, INPUT_CONTAINER hel
     input.write<uint8_t>(CLIENT_INPUT);
     pressedkeys.serialize(&input);
     heldkeys.serialize(&input);
-    input.write<float>(mouse_x);
-    input.write<float>(mouse_y);
+    input.write<int16_t>(mouse_x);
+    input.write<int16_t>(mouse_y);
     ENetPacket *inputpacket = enet_packet_create(input.getdata(), input.length(), 0);
     enet_host_broadcast(host, 0, inputpacket);
     enet_host_flush(host);

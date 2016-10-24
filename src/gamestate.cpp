@@ -1,5 +1,6 @@
 #include <unordered_map>
 #include <memory>
+#include <algorithm>
 
 #include "gamestate.h"
 #include "entity.h"
@@ -72,6 +73,11 @@ void Gamestate::removeplayer(int playerid)
 Player* Gamestate::findplayer(int playerid)
 {
     return get<Player>(playerlist[playerid]);
+}
+
+int Gamestate::findplayerid(EntityPtr player)
+{
+    return std::find(playerlist.begin(), playerlist.end(), player) - playerlist.begin();
 }
 
 std::unique_ptr<Gamestate> Gamestate::clone()

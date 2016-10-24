@@ -5,6 +5,7 @@
 #include "ingameelements/projectiles/peacemakerbullet.h"
 #include "ingameelements/heroes/mccree.h"
 #include "ingameelements/explosion.h"
+#include "engine.h"
 
 Peacemaker::Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_, constructparameters(state)),
                         fthanim("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, state)), isfthing(false)
@@ -97,6 +98,13 @@ void Peacemaker::fireprimary(Gamestate *state)
         --clip;
         firinganim.reset();
         firinganim.active(true);
+
+        // If we're the server, send the event to everyone
+        if (state->engine->isserver)
+        {
+            state->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
+            state->sendbuffer->write<uint8_t>(state->findplayerid(state->get<Character>(owner)->owner));
+        }
     }
 }
 
@@ -126,6 +134,12 @@ void Peacemaker::firesecondary(Gamestate *state)
         else
         {
             fthanim = Animation("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, state));
+            // If we're the server, send the event to everyone
+            if (state->engine->isserver)
+            {
+                state->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
+                state->sendbuffer->write<uint8_t>(state->findplayerid(state->get<Character>(owner)->owner));
+            }
         }
         isfthing = true;
     }

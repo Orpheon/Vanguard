@@ -8,6 +8,7 @@
 #include "datastructures.h"
 #include "ingameelements/player.h"
 #include "animation.h"
+#include "ingameelements/weapon.h"
 
 class Character : public MovingEntity
 {
@@ -31,6 +32,7 @@ class Character : public MovingEntity
         virtual std::string getcharacterfolder() = 0;
         virtual bool cangetinput(Gamestate *state) {return true;}
         virtual void damage(double amount);
+        Weapon *getweapon(Gamestate *state);
         virtual double getweaponpos_x() = 0;
         virtual double getweaponpos_y() = 0;
 

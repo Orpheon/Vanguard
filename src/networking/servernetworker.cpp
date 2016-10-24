@@ -29,7 +29,6 @@ void ServerNetworker::receive(Gamestate *state)
             WriteBuffer frame = WriteBuffer();
             frame.write<uint8_t>(SERVER_FULLUPDATE);
             state->serializefull(&frame);
-            printf("\nServer frame length: %i", frame.length()); printf("\n");
             ENetPacket *eventpacket = enet_packet_create(frame.getdata(), frame.length(), ENET_PACKET_FLAG_RELIABLE);
             enet_peer_send(event.peer, 0, eventpacket);
             enet_host_flush(host);
@@ -65,8 +64,8 @@ void ServerNetworker::receive(Gamestate *state)
                         INPUT_CONTAINER heldkeys = INPUT_CONTAINER();
                         pressedkeys.deserialize(&data);
                         heldkeys.deserialize(&data);
-                        double mouse_x = data.read<float>();
-                        double mouse_y = data.read<float>();
+                        double mouse_x = data.read<int16_t>();
+                        double mouse_y = data.read<int16_t>();
                         p->getcharacter(state)->setinput(state, pressedkeys, heldkeys, mouse_x, mouse_y);
                     }
                 }
