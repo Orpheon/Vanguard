@@ -19,7 +19,7 @@ Spriteloader::~Spriteloader()
     }
 }
 
-ALLEGRO_BITMAP* Spriteloader::request_sprite(std::string path)
+ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path)
 {
     if (bitmapcache.count(path) == 0)
     {
@@ -50,7 +50,7 @@ ALLEGRO_BITMAP* Spriteloader::request_sprite(std::string path)
 
 Rect Spriteloader::get_rect(std::string s)
 {
-    ALLEGRO_BITMAP *sprite = request_sprite(s);
+    ALLEGRO_BITMAP *sprite = requestsprite(s);
     int dx = get_spriteoffset_x(s), dy = get_spriteoffset_y(s);
     return Rect(-dx, -dy, al_get_bitmap_width(sprite), al_get_bitmap_height(sprite));
 }

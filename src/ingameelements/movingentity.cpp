@@ -41,8 +41,8 @@ bool MovingEntity::collides(Gamestate *state, EntityPtr otherentity)
     if (overlap.w > 0 and overlap.h > 0)
     {
         // There is an actual overlap of sprites, time to go pixel perfect
-        ALLEGRO_BITMAP *selfsprite = state->engine->maskloader.request_sprite(getsprite(state, true));
-        ALLEGRO_BITMAP *othersprite = state->engine->maskloader.request_sprite(m->getsprite(state, true));
+        ALLEGRO_BITMAP *selfsprite = state->engine->maskloader.requestsprite(getsprite(state, true));
+        ALLEGRO_BITMAP *othersprite = state->engine->maskloader.requestsprite(m->getsprite(state, true));
         int selfdx = overlap.x - self.x;
         int selfdy = overlap.y - self.y;
         int otherdx = overlap.x - other.x;

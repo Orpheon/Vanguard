@@ -27,7 +27,7 @@ Mccree::~Mccree()
 void Mccree::render(Renderer *renderer, Gamestate *state)
 {
     std::string mainsprite = getsprite(state, false);
-    ALLEGRO_BITMAP *sprite = renderer->spriteloader.request_sprite(mainsprite);
+    ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
     int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
 
@@ -45,7 +45,7 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
     if (flashbanganim.active())
     {
         std::string armsprite = flashbanganim.getframe();
-        sprite = renderer->spriteloader.request_sprite(armsprite);
+        sprite = renderer->spriteloader.requestsprite(armsprite);
         spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(armsprite);
         spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(armsprite);
         if (isflipped)

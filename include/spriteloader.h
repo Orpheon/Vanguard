@@ -13,7 +13,7 @@ class Spriteloader
         Spriteloader(bool memory_only);
         virtual ~Spriteloader();
 
-        ALLEGRO_BITMAP* request_sprite(std::string path);
+        ALLEGRO_BITMAP* requestsprite(std::string path);
 
         Spriteloader & operator=(Spriteloader &&)=default;
         int get_spriteoffset_x(std::string s) {return spriteoffsets[s][0];}

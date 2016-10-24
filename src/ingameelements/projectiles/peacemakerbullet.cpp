@@ -36,8 +36,7 @@ void PeacemakerBullet::endstep(Gamestate *state, double frametime)
 void PeacemakerBullet::render(Renderer *renderer, Gamestate *state)
 {
     std::string mainsprite = getsprite(state, false);
-    ALLEGRO_BITMAP *sprite = renderer->spriteloader.request_sprite(mainsprite);
-
+    ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
     double direction = std::atan2(vspeed, hspeed);
 
     al_set_target_bitmap(renderer->background);

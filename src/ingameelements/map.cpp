@@ -38,7 +38,7 @@ void Map::renderwallground(double cam_x, double cam_y)
 
 bool Map::collides(Gamestate *state, MovingEntity *entity)
 {
-    ALLEGRO_BITMAP *mask = state->engine->maskloader.request_sprite(entity->getsprite(state, true));
+    ALLEGRO_BITMAP *mask = state->engine->maskloader.requestsprite(entity->getsprite(state, true));
     int x = (int) entity->x - state->engine->maskloader.get_spriteoffset_x(entity->getsprite(state, true));
     int y = (int) entity->y - state->engine->maskloader.get_spriteoffset_y(entity->getsprite(state, true));
 
@@ -62,7 +62,7 @@ bool Map::collides(Gamestate *state, MovingEntity *entity)
 
 bool Map::collides(Gamestate *state, Character *entity)
 {
-    ALLEGRO_BITMAP *mask = state->engine->maskloader.request_sprite(entity->getsprite(state, true));
+    ALLEGRO_BITMAP *mask = state->engine->maskloader.requestsprite(entity->getsprite(state, true));
     int x = (int) entity->x - state->engine->maskloader.get_spriteoffset_x(entity->getsprite(state, true));
     int y = (int) entity->y - state->engine->maskloader.get_spriteoffset_y(entity->getsprite(state, true));
     if (entity->isflipped)
