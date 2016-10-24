@@ -6,7 +6,7 @@
 #include <allegro5/allegro_primitives.h>
 #define boolean enet_boolean
 #include <enet/enet.h>
-#undef enet_boolean
+#undef boolean
 
 #include "inputcatcher.h"
 #include "engine.h"

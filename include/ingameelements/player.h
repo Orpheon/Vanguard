@@ -5,7 +5,7 @@
 
 #define boolean enet_boolean
 #include <enet/enet.h>
-#undef enet_boolean
+#undef boolean
 
 #include "entity.h"
 #include "datastructures.h"
