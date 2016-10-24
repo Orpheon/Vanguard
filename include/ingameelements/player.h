@@ -2,7 +2,10 @@
 #define PLAYER_H
 
 #include <memory>
+
+#define boolean enet_boolean
 #include <enet/enet.h>
+#undef enet_boolean
 
 #include "entity.h"
 #include "datastructures.h"

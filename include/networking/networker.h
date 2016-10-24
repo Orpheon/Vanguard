@@ -2,7 +2,9 @@
 #define NETWORKER_H
 
 #include "gamestate.h"
+#define boolean enet_boolean
 #include <enet/enet.h>
+#undef enet_boolean
 
 class Networker
 {
