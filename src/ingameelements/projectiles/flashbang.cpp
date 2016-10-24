@@ -14,11 +14,9 @@ Flashbang::~Flashbang()
     //dtor
 }
 
-void Flashbang::endstep(Gamestate *state, double frametime)
+void Flashbang::midstep(Gamestate *state, double frametime)
 {
-    MovingEntity::endstep(state, frametime);
-    // Check collision with wallmask
-    if (state->currentmap->collides(state, this))
+    if (state->currentmap->collides(getrect(), std::atan2(vspeed, hspeed)))
     {
         explode(state);
     }

@@ -18,6 +18,7 @@ class Map
         bool collides(Gamestate *state, MovingEntity *entity);
         bool collides(Gamestate *state, Character *entity);
         bool collides(Rect rect);
+        bool collides(Rect rect, double angle);
         bool testpixel(double x, double y) {return al_get_pixel(wallmask, x, y).a != 0;}
     protected:
     private:

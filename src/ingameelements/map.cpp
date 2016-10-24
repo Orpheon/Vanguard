@@ -106,3 +106,26 @@ bool Map::collides(Rect r)
     }
     return false;
 }
+
+bool Map::collides(Rect r, double angle)
+{
+    if (r.x < 0 or r.y < 0 or r.x+r.w > al_get_bitmap_width(wallmask) or r.y+r.h > al_get_bitmap_height(wallmask))
+    {
+        return true;
+    }
+
+    double cosa = std::cos(angle);
+    double sina = std::sin(angle);
+
+    for (int i=0; i<r.w; ++i)
+    {
+        for (int j=0; j<r.h; ++j)
+        {
+            if (al_get_pixel(wallmask, r.x + cosa*i - sina*j, r.y+sina*i + cosa*j).a != 0)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
