@@ -20,7 +20,7 @@ void Corpse::midstep(Gamestate *state, double frametime)
     countdown.update(state, frametime);
 
     // Gravity
-//    vspeed += 540.0*frametime;
+    vspeed += 540.0*frametime;
 
     // Collision with wallmask
     if (state->currentmap->collides(state->engine->maskloader.get_rect(getsprite(state, true))))
