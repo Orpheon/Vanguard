@@ -37,6 +37,7 @@ class Character : public MovingEntity
         virtual double getweaponpos_y() = 0;
         virtual void useability1(Gamestate *state) = 0;
         virtual void useability2(Gamestate *state) = 0;
+        virtual void drawhud(Renderer *renderer, Gamestate *state);
 
         EntityPtr owner;
         EntityPtr weapon;

@@ -1,5 +1,6 @@
 #include <vector>
 #include <cmath>
+#include <allegro5/allegro_primitives.h>
 
 #include "ingameelements/character.h"
 #include "gamestate.h"
@@ -9,6 +10,8 @@
 #include "engine.h"
 #include "ingameelements/weapon.h"
 #include "ingameelements/corpse.h"
+#include "renderer.h"
+
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
             owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), isflipped(false), runanim(parameters.characterfolder+"run/"),
@@ -279,6 +282,177 @@ void Character::endstep(Gamestate *state, double frametime)
     }
 
     getweapon(state)->endstep(state, frametime);
+}
+
+void Character::drawhud(Renderer *renderer, Gamestate *state)
+{
+    // Experimental healthbar
+    double healthalpha = 1.0;
+    double lack_healthalpha = 0.4;
+
+    // Lucio shield
+    // al_premul_rgba_f(242/255.0, 197/255.0, 84/255.0, healthalpha)
+    // Torb armor
+    // al_premul_rgba_f(69/255.0, 122/255.0, 255/255.0, healthalpha)
+
+    // Normal, armor, shields
+    ALLEGRO_COLOR EXISTING_HEALTH[] = { al_premul_rgba_f(225/255.0, 225/255.0, 225/255.0, healthalpha),
+                                        al_premul_rgba_f(237/255.0, 223/255.0, 132/255.0, healthalpha),
+                                        al_premul_rgba_f(101/255.0, 206/255.0, 240/255.0, healthalpha)};
+    ALLEGRO_COLOR LACKING_HEALTH[] = {  al_premul_rgba_f(225/255.0, 225/255.0, 225/255.0, lack_healthalpha),
+                                        al_premul_rgba_f(237/255.0, 223/255.0, 132/255.0, lack_healthalpha),
+                                        al_premul_rgba_f(101/255.0, 206/255.0, 240/255.0, lack_healthalpha)};
+    double tmpx;
+    float r[8]; // Array used to pass the polygon data for the actual drawing
+
+    // Parameters
+    int totalwidth = 250;
+    Health maxhp = getmaxhp();
+    double width = totalwidth/std::ceil(maxhp.total()/25.0);
+    int height = 20;
+    int space = 20/9.0;
+    double slant = 0.3;
+    double baseline_y = 7.0*WINDOW_HEIGHT/8.0;
+    double tmpy = baseline_y - height;
+    double start_x = WINDOW_WIDTH/9.0;
+
+    // Draw first normal health, then armor, then shields
+    for (int healthtype=0; healthtype<3; ++healthtype)
+    {
+        int nrects = 0;
+        double hppercent = 1.0;
+        if (healthtype == 0)
+        {
+            nrects = std::ceil(maxhp.normal/25.0);
+            if (nrects == 0)
+            {
+                continue;
+            }
+            hppercent = hp.normal/maxhp.normal;
+        }
+        else if (healthtype == 1)
+        {
+            nrects = std::ceil(maxhp.armor/25.0);
+            if (nrects == 0)
+            {
+                continue;
+            }
+            hppercent = hp.armor/maxhp.armor;
+        }
+        else if (healthtype == 2)
+        {
+            nrects = std::ceil(maxhp.shields/25.0);
+            if (nrects == 0)
+            {
+                continue;
+            }
+            hppercent = hp.shields/maxhp.shields;
+        }
+
+        // Full existing health boxes
+        for (int i=0; i<std::floor(nrects*hppercent); ++i)
+        {
+            x = start_x + i*width + (i-1)*space;
+            r[0] = tmpx+height*slant;
+            r[1] = tmpy;
+
+            r[2] = tmpx;
+            r[3] = tmpy+height;
+
+            r[4] = tmpx+width;
+            r[5] = tmpy+height;
+
+            r[6] = tmpx+width+height*slant;
+            r[7] = tmpy;
+            al_draw_filled_polygon(r, 4, EXISTING_HEALTH[healthtype]);
+        }
+        // Interface between existing and lacking health
+        double leftover = nrects*hppercent - std::floor(nrects*hppercent);
+        if (leftover > 0.0)
+        {
+            // Draw the half-rectangle
+            x = start_x + std::floor(nrects*hppercent)*width + (std::floor(nrects*hppercent)-1)*space;
+            r[0] = tmpx+height*slant;
+            r[1] = tmpy;
+
+            r[2] = tmpx;
+            r[3] = tmpy+height;
+
+            r[4] = tmpx+width*leftover;
+            r[5] = tmpy+height;
+
+            r[6] = tmpx+width*leftover+height*slant;
+            r[7] = tmpy;
+            al_draw_filled_polygon(r, 4, EXISTING_HEALTH[healthtype]);
+
+            // Draw the other half rectangle
+            r[0] = tmpx+width*leftover+height*slant;
+            r[1] = tmpy;
+
+            r[2] = tmpx+width*leftover;
+            r[3] = tmpy+height;
+
+            r[4] = tmpx+width;
+            r[5] = tmpy+height;
+
+            r[6] = tmpx+width+height*slant;
+            r[7] = tmpy;
+            al_draw_filled_polygon(r, 4, LACKING_HEALTH[healthtype]);
+        }
+        // Full lacking health boxes
+        for (int i=std::ceil(nrects*hppercent); i<nrects; ++i)
+        {
+            x = start_x + i*width + (i-1)*space;
+            r[0] = tmpx+height*slant;
+            r[1] = tmpy;
+
+            r[2] = tmpx;
+            r[3] = tmpy+height;
+
+            r[4] = tmpx+width;
+            r[5] = tmpy+height;
+
+            r[6] = tmpx+width+height*slant;
+            r[7] = tmpy;
+            al_draw_filled_polygon(r, 4, LACKING_HEALTH[healthtype]);
+        }
+        // Outline
+        for (int i=0; i<nrects; ++i)
+        {
+            x = start_x + i*width + (i-1)*space;
+            r[0] = tmpx+height*slant;
+            r[1] = tmpy;
+
+            r[2] = tmpx;
+            r[3] = tmpy+height;
+
+            r[4] = tmpx+width;
+            r[5] = tmpy+height;
+
+            r[6] = tmpx+width+height*slant;
+            r[7] = tmpy;
+            al_draw_polygon(r, 4, ALLEGRO_LINE_JOIN_ROUND, EXISTING_HEALTH[healthtype], 0, 0);
+        }
+        // Offset starting position for the next health
+        start_x += nrects*(width + space);
+    }
+
+
+    // Ammo count
+    Weapon *w = getweapon(state);
+    const char *ammo = std::to_string(w->clip).c_str();
+    const char *maxammo = ("I "+std::to_string(w->getclipsize())).c_str();
+    tmpx = WINDOW_WIDTH*9/10.0;
+    al_draw_text(renderer->font20, al_map_rgb(255, 255, 255), tmpx, baseline_y-al_get_font_line_height(renderer->font20), ALLEGRO_ALIGN_LEFT, ammo);
+    al_draw_text(renderer->font10, al_map_rgb(255, 255, 255), tmpx+al_get_text_width(renderer->font20, ammo), baseline_y-al_get_font_line_height(renderer->font10), ALLEGRO_ALIGN_LEFT, maxammo);
+
+
+    // Ult charge meter
+    ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/ultbar.png");
+    Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/ultbar.png").offset(WINDOW_WIDTH/2.0, baseline_y);
+    double ultcharge = 2*3.1415*70/100.0;
+    al_draw_bitmap(ultbar, ultbarrect.x - ultbarrect.w/2.0, ultbarrect.y - ultbarrect.h/2.0, 0);
+    al_draw_arc(ultbarrect.x, ultbarrect.y-8, 33, -3.1415/2.0, ultcharge, al_map_rgb(255, 230, 125), 8);
 }
 
 bool Character::onground(Gamestate *state)

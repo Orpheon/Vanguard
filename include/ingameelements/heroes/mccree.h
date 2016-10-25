@@ -27,6 +27,7 @@ class Mccree : public Character
         double getweaponpos_y() override {return crouchanim.active() ? 17 : 7;}
         void useability1(Gamestate *state) override;
         void useability2(Gamestate *state) override;
+        void drawhud(Renderer *renderer, Gamestate *state) override;
 
         Animation rollanim;
         Animation flashbanganim;

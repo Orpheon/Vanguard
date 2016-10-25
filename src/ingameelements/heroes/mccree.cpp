@@ -214,6 +214,11 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
     // --------------- /HEALTHBAR ---------------
 }
 
+void Mccree::drawhud(Renderer *renderer, Gamestate *state)
+{
+    Character::drawhud(renderer, state);
+}
+
 void Mccree::midstep(Gamestate *state, double frametime)
 {
     Character::midstep(state, frametime);
