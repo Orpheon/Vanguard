@@ -8,6 +8,7 @@
 #include "global_constants.h"
 #include "engine.h"
 #include "ingameelements/weapon.h"
+#include "ingameelements/corpse.h"
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
             owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), isflipped(false), runanim(parameters.characterfolder+"run/"),
@@ -391,6 +392,11 @@ void Character::destroy(Gamestate *state)
 {
     state->get<Player>(owner)->character = 0;
     getweapon(state)->destroy(state);
+    Corpse *c = state->get<Corpse>(state->make_entity<Corpse>(state, getcharacterfolder(), isflipped));
+    c->x = x;
+    c->y = y;
+
+    MovingEntity::destroy(state);
 }
 
 Weapon* Character::getweapon(Gamestate *state)

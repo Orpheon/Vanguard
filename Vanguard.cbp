@@ -14,6 +14,7 @@
 				<Compiler>
 					<Add directory="include" />
 					<Add directory="include/networking" />
+					<Add directory="include/ingameelements" />
 				</Compiler>
 				<Linker>
 					<Add library="allegro" />
@@ -31,6 +32,7 @@
 				<Compiler>
 					<Add directory="include" />
 					<Add directory="include/networking" />
+					<Add directory="include/ingameelements" />
 				</Compiler>
 				<Linker>
 					<Add library="allegro-5.0.10-mt" />
@@ -46,6 +48,7 @@
 				<Compiler>
 					<Add directory="include" />
 					<Add directory="include/networking" />
+					<Add directory="include/ingameelements" />
 				</Compiler>
 				<Linker>
 					<Add option="-static-libstdc++" />
@@ -97,6 +100,7 @@
 		<Unit filename="include/gamestate.h" />
 		<Unit filename="include/global_constants.h" />
 		<Unit filename="include/ingameelements/character.h" />
+		<Unit filename="include/ingameelements/corpse.h" />
 		<Unit filename="include/ingameelements/explosion.h" />
 		<Unit filename="include/ingameelements/heroes/mccree.h" />
 		<Unit filename="include/ingameelements/map.h" />
@@ -122,6 +126,7 @@
 		<Unit filename="src/engine.cpp" />
 		<Unit filename="src/gamestate.cpp" />
 		<Unit filename="src/ingameelements/character.cpp" />
+		<Unit filename="src/ingameelements/corpse.cpp" />
 		<Unit filename="src/ingameelements/explosion.cpp" />
 		<Unit filename="src/ingameelements/heroes/mccree.cpp" />
 		<Unit filename="src/ingameelements/map.cpp" />
