@@ -42,6 +42,7 @@ void ClientNetworker::receive(Gamestate *state)
                 else if (eventtype == SERVER_SNAPSHOTUPDATE)
                 {
                     state->deserializesnapshot(&data);
+                    state->update(&sendbuffer, 0);
                 }
                 else if (eventtype == PLAYER_JOINED)
                 {
