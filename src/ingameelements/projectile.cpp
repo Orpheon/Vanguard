@@ -70,8 +70,8 @@ bool Projectile::collides(Gamestate *state, EntityPtr otherentity, double angle)
                 }
             }
         }
-        return false;
     }
+    return false;
 }
 
 void Projectile::oncollision(Gamestate *state, Character *c)
