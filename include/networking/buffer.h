@@ -1,6 +1,7 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
+#include <cstdio>
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
@@ -30,6 +31,7 @@ class ReadBuffer : public Buffer
             if (datalen-pos < sizeof(T))
             {
                 // Pulling too much data
+                fprintf(stderr, "\nERROR: Attempted to pull too much data from a readbuffer!");
                 throw -1;
             }
             T r = (*reinterpret_cast<T*>(reinterpret_cast<char*>(data)+pos));
