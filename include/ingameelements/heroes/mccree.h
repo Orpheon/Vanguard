@@ -25,6 +25,8 @@ class Mccree : public Character
         Health getmaxhp() override;
         double getweaponpos_x() override {return crouchanim.active() ? 0 : -2;}
         double getweaponpos_y() override {return crouchanim.active() ? 17 : 7;}
+        void useability1(Gamestate *state) override;
+        void useability2(Gamestate *state) override;
 
         Animation rollanim;
         Animation flashbanganim;

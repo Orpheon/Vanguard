@@ -236,41 +236,53 @@ void Mccree::midstep(Gamestate *state, double frametime)
 
     if (cangetinput(state))
     {
-        Peacemaker *p = state->get<Peacemaker>(weapon);
         if (held_keys.ABILITY_1 and not rollcooldown.active and onground(state) and state->engine->isserver)
         {
-            // Lets roll
-            if (lastdirectionpressed == LEFT)
-            {
-                isflipped = true;
-            }
-            else if (lastdirectionpressed == RIGHT)
-            {
-                isflipped = false;
-            }
-            rollanim.reset();
-            rollcooldown.reset();
-            p->clip = p->getclipsize();
-            p->reloadanim.active(0);
-            Peacemaker *w = reinterpret_cast<Peacemaker*>(getweapon(state));
-            w->isfthing = false;
-            w->fthanim.active(false);
+            useability1(state);
+            state->sendbuffer->write<uint8_t>(ABILITY1_USED);
+            state->sendbuffer->write<uint8_t>(state->findplayerid(owner));
         }
         if (held_keys.ABILITY_2 and not flashbangcooldown.active and state->engine->isserver)
         {
-            // Flashbang
-            flashbanganim.reset();
-            flashbangcooldown.reset();
-            Flashbang *f = state->get<Flashbang>(state->make_entity<Flashbang>(state, EntityPtr(id)));
-            f->x = x;
-            f->y = y;
-            double dir = std::atan2(mouse_y, mouse_x);
-            f->hspeed = std::cos(dir) * 300;
-            f->vspeed = std::sin(dir) * 300;
+            useability2(state);
+            state->sendbuffer->write<uint8_t>(ABILITY2_USED);
+            state->sendbuffer->write<uint8_t>(state->findplayerid(owner));
         }
     }
 }
 
+void Mccree::useability1(Gamestate *state)
+{
+    // Lets roll
+    if (lastdirectionpressed == LEFT)
+    {
+        isflipped = true;
+    }
+    else if (lastdirectionpressed == RIGHT)
+    {
+        isflipped = false;
+    }
+    rollanim.reset();
+    rollcooldown.reset();
+    Peacemaker *w = reinterpret_cast<Peacemaker*>(getweapon(state));
+    w->clip = w->getclipsize();
+    w->reloadanim.active(0);
+    w->isfthing = false;
+    w->fthanim.active(false);
+}
+
+void Mccree::useability2(Gamestate *state)
+{
+    // Flashbang
+    flashbanganim.reset();
+    flashbangcooldown.reset();
+    Flashbang *f = state->get<Flashbang>(state->make_entity<Flashbang>(state, EntityPtr(id)));
+    f->x = x;
+    f->y = y;
+    double dir = std::atan2(mouse_y, mouse_x);
+    f->hspeed = std::cos(dir) * 300;
+    f->vspeed = std::sin(dir) * 300;
+}
 
 Rect Mccree::getcollisionrect(Gamestate *state)
 {

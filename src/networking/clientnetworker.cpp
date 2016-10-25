@@ -68,6 +68,16 @@ void ClientNetworker::receive(Gamestate *state)
                     int playerid = data.read<uint8_t>();
                     state->findplayer(playerid)->getcharacter(state)->getweapon(state)->firesecondary(state);
                 }
+                else if (eventtype == ABILITY1_USED)
+                {
+                    int playerid = data.read<uint8_t>();
+                    state->findplayer(playerid)->getcharacter(state)->useability1(state);
+                }
+                else if (eventtype == ABILITY2_USED)
+                {
+                    int playerid = data.read<uint8_t>();
+                    state->findplayer(playerid)->getcharacter(state)->useability2(state);
+                }
                 else
                 {
                     fprintf(stderr, "\nInvalid packet received on client: %i!", eventtype);
