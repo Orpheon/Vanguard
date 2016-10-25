@@ -217,6 +217,18 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
 void Mccree::drawhud(Renderer *renderer, Gamestate *state)
 {
     Character::drawhud(renderer, state);
+
+    double space = 3;
+
+    ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/rolling.png");
+    Rect spriterect = renderer->spriteloader.get_rect("ui/ingame/mccree/rolling.png");
+    spriterect.x = WINDOW_WIDTH*6/7.0 - spriterect.w*2 - space;
+    spriterect.y = hudheight()-spriterect.h;
+    al_draw_bitmap(sprite, spriterect.x, spriterect.y, 0);
+
+    sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/flashbang.png");
+    spriterect.x = spriterect.x + spriterect.w+space;
+    al_draw_bitmap(sprite, spriterect.x, spriterect.y, 0);
 }
 
 void Mccree::midstep(Gamestate *state, double frametime)
