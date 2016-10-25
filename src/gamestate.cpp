@@ -66,7 +66,7 @@ EntityPtr Gamestate::addplayer()
 
 void Gamestate::removeplayer(int playerid)
 {
-    get<Player>(playerlist[playerid])->destroy(this);
+    findplayer(playerid)->destroy(this);
     playerlist.erase(playerlist.begin()+playerid);
 }
 

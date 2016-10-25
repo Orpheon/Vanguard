@@ -110,4 +110,5 @@ void Player::destroy(Gamestate *state)
     {
         state->get<Character>(character)->destroy(state);
     }
+    destroyentity = true;
 }

@@ -23,7 +23,7 @@ void ServerNetworker::receive(Gamestate *state)
         {
             state->addplayer();
             event.peer->data = std::malloc(sizeof(int));
-            reinterpret_cast<int*>(event.peer->data)[0] = state->playerlist.size()-1;
+            reinterpret_cast<int*>(event.peer->data)[0] = state->playerlist[state->playerlist.size()-1];
 
             // Send full update
             WriteBuffer frame = WriteBuffer();
@@ -41,11 +41,11 @@ void ServerNetworker::receive(Gamestate *state)
         }
         else if (event.type == ENET_EVENT_TYPE_DISCONNECT)
         {
-            int i = reinterpret_cast<int*>(event.peer->data)[0];
+            int i = state->findplayerid(reinterpret_cast<int*>(event.peer->data)[0]);
             state->removeplayer(i);
             std::free(event.peer->data);
 
-            // Send disconnect even of that player
+            // Send disconnect event of that player
             sendbuffer.write<uint8_t>(PLAYER_LEFT);
             sendbuffer.write<uint8_t>(i);
         }
@@ -57,7 +57,7 @@ void ServerNetworker::receive(Gamestate *state)
                 int eventtype = data.read<uint8_t>();
                 if (eventtype == CLIENT_INPUT)
                 {
-                    Player *p = state->findplayer(reinterpret_cast<int*>(event.peer->data)[0]);
+                    Player *p = state->get<Player>(reinterpret_cast<int*>(event.peer->data)[0]);
                     if (p->character != 0)
                     {
                         INPUT_CONTAINER pressedkeys = INPUT_CONTAINER();
