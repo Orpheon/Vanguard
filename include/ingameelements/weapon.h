@@ -26,7 +26,9 @@ class Weapon : public MovingEntity
         virtual void deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate);
 
         virtual void fireprimary(Gamestate *state) = 0;
+        virtual void wantfireprimary(Gamestate *state) = 0;
         virtual void firesecondary(Gamestate *state) = 0;
+        virtual void wantfiresecondary(Gamestate *state) = 0;
         virtual void reload(Gamestate *state);
         virtual int getclipsize() = 0;
         virtual double getattachpoint_x() = 0;

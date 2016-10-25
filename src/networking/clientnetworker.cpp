@@ -34,7 +34,6 @@ void ClientNetworker::receive(Gamestate *state)
             while (data.length() > 0)
             {
                 int eventtype = data.read<uint8_t>();
-                printf("\nEvent type: %i", eventtype);
                 if (eventtype == SERVER_FULLUPDATE)
                 {
                     state->deserializefull(&data);

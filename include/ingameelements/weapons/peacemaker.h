@@ -14,7 +14,9 @@ class Peacemaker : public Weapon
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Peacemaker(*this));}
 
         void fireprimary(Gamestate *state) override;
+        void wantfireprimary(Gamestate *state) override;
         void firesecondary(Gamestate *state) override;
+        void wantfiresecondary(Gamestate *state) override;
         void midstep(Gamestate *state, double frametime) override;
         void reload(Gamestate *state) override;
 
