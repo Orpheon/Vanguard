@@ -11,8 +11,8 @@
 class Renderer
 {
     public:
-        Renderer(ALLEGRO_FONT *font_);
-        ~Renderer();
+        Renderer();
+        virtual ~Renderer();
         void render(ALLEGRO_DISPLAY *display, Gamestate *currentstate, EntityPtr myself);
         double cam_x;
         double cam_y;
@@ -21,7 +21,10 @@ class Renderer
         ALLEGRO_BITMAP *foreground;
         ALLEGRO_BITMAP *surfaceground;
         Spriteloader spriteloader;
-        ALLEGRO_FONT *font;
+        ALLEGRO_FONT *font20;
+        ALLEGRO_FONT *font10;
+        ALLEGRO_FONT *font6;
+        ALLEGRO_FONT *gg2font;
     protected:
     private:
         double lasttime;

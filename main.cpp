@@ -79,7 +79,7 @@ int main(int argc, char **argv)
     //gg2 font as placeholder for now i guess
     al_init_font_addon();
     al_init_ttf_addon();
-    ALLEGRO_FONT *font = al_load_font("gg2bold.ttf", 12, ALLEGRO_TTF_MONOCHROME);
+    ALLEGRO_FONT *font = al_load_font("Vanguard Main Font.ttf", 12, ALLEGRO_TTF_MONOCHROME);
     if (!font)
     {
       fprintf(stderr, "Could not load 'gg2bold.ttf'.\n");
@@ -110,7 +110,7 @@ int main(int argc, char **argv)
 //    delete mainmenu;
 
     Engine engine(isserver);
-    Renderer renderer(font);
+    Renderer renderer;
     InputCatcher inputcatcher(display);
     Gamestate renderingstate(&engine);
 
@@ -198,6 +198,8 @@ int main(int argc, char **argv)
             return 0;
         }
     }
+    al_shutdown_font_addon();
+    al_shutdown_ttf_addon();
     al_destroy_display(display);
     enet_deinitialize();
     return 0;

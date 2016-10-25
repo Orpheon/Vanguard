@@ -8,7 +8,7 @@
 #include "global_constants.h"
 #include "entity.h"
 
-Renderer::Renderer(ALLEGRO_FONT *font_) : cam_x(0), cam_y(0), spriteloader(false), font(font_)
+Renderer::Renderer() : cam_x(0), cam_y(0), spriteloader(false)
 {
     background = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     midground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -17,14 +17,20 @@ Renderer::Renderer(ALLEGRO_FONT *font_) : cam_x(0), cam_y(0), spriteloader(false
 
     // fps stuff
     lasttime = al_get_time();
+
+    font20 = al_load_font("Vanguard Main Font.ttf", 20, ALLEGRO_TTF_MONOCHROME);
+    font10 = al_load_font("Vanguard Main Font.ttf", 10, ALLEGRO_TTF_MONOCHROME);
+    font6 = al_load_font("Vanguard Main Font.ttf", 6, ALLEGRO_TTF_MONOCHROME);
+    gg2font = al_load_font("gg2bold.ttf", 12, ALLEGRO_TTF_MONOCHROME);
 }
 
 Renderer::~Renderer()
 {
     // Cleanup
-    al_destroy_font(font);
-    al_shutdown_font_addon();
-    al_shutdown_ttf_addon();
+    al_destroy_font(font20);
+    al_destroy_font(font10);
+    al_destroy_font(font6);
+    al_destroy_font(gg2font);
     al_destroy_bitmap(background);
     al_destroy_bitmap(midground);
     al_destroy_bitmap(foreground);
@@ -88,22 +94,24 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
     double frametime = al_get_time() - lasttime;
     lasttime = al_get_time();
 
-    al_draw_text(font, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, ("Frametime: " + std::to_string(frametime * 1000) + "ms").c_str());
-    al_draw_text(font, al_map_rgb(255, 255, 255), 0, 12, ALLEGRO_ALIGN_LEFT, ("FPS: " + std::to_string((int)(1/frametime))).c_str());
-    al_draw_text(font, al_map_rgb(255, 255, 255), 0, 60, ALLEGRO_ALIGN_LEFT, ("pos: " + std::to_string(cam_x+WINDOW_WIDTH/2.0) + " " + std::to_string(cam_y+WINDOW_HEIGHT/2.0)).c_str());
+    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, ("Frametime: " + std::to_string(frametime * 1000) + "ms").c_str());
+    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 12, ALLEGRO_ALIGN_LEFT, ("FPS: " + std::to_string((int)(1/frametime))).c_str());
+    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 60, ALLEGRO_ALIGN_LEFT, ("pos: " + std::to_string(cam_x+WINDOW_WIDTH/2.0) + " " + std::to_string(cam_y+WINDOW_HEIGHT/2.0)).c_str());
     if (c != 0)
     {
-        al_draw_text(font, al_map_rgb(255, 255, 255), 0, 72, ALLEGRO_ALIGN_LEFT, ("hspeed: " + std::to_string(c->hspeed)).c_str());
-        al_draw_text(font, al_map_rgb(255, 255, 255), 0, 84, ALLEGRO_ALIGN_LEFT, ("vspeed: " + std::to_string(c->vspeed)).c_str());
+        al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 72, ALLEGRO_ALIGN_LEFT, ("hspeed: " + std::to_string(c->hspeed)).c_str());
+        al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 84, ALLEGRO_ALIGN_LEFT, ("vspeed: " + std::to_string(c->vspeed)).c_str());
     }
     else
     {
-        al_draw_text(font, al_map_rgb(255, 255, 255), 0, 72, ALLEGRO_ALIGN_LEFT, "hspeed: 0.000000");
-        al_draw_text(font, al_map_rgb(255, 255, 255), 0, 84, ALLEGRO_ALIGN_LEFT, "vspeed: 0.000000");
+        al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 72, ALLEGRO_ALIGN_LEFT, "hspeed: 0.000000");
+        al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 84, ALLEGRO_ALIGN_LEFT, "vspeed: 0.000000");
     }
-    al_draw_text(font, al_map_rgb(255, 255, 255), 0, 96, ALLEGRO_ALIGN_LEFT, ("#Players: " + std::to_string(state->playerlist.size())).c_str());
+    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 96, ALLEGRO_ALIGN_LEFT, ("#Players: " + std::to_string(state->playerlist.size())).c_str());
 
 
+
+    // ----- HUD -----
 
     if (c != 0)
     {
@@ -135,7 +143,8 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
         int height = 20;
         int space = 20/9.0;
         double slant = 0.3;
-        double y = 6.0*WINDOW_HEIGHT/7.0;
+        double baseline_y = 7.0*WINDOW_HEIGHT/8.0;
+        double y = baseline_y - height;
         double start_x = WINDOW_WIDTH/9.0;
 
         // Draw first normal health, then armor, then shields
@@ -258,7 +267,23 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
             // Offset starting position for the next health
             start_x += nrects*(width + space);
         }
+
+
+        // Ammo count
+        Weapon *weapon = c->getweapon(state);
+        const char *ammo = std::to_string(weapon->clip).c_str();
+        const char *maxammo = ("I "+std::to_string(weapon->getclipsize())).c_str();
+        x = WINDOW_WIDTH*9/10.0;
+        al_draw_text(font20, al_map_rgb(255, 255, 255), x, baseline_y-al_get_font_line_height(font20), ALLEGRO_ALIGN_LEFT, ammo);
+        al_draw_text(font10, al_map_rgb(255, 255, 255), x+al_get_text_width(font20, ammo), baseline_y-al_get_font_line_height(font10), ALLEGRO_ALIGN_LEFT, maxammo);
+
+
+        // Ult charge meter
+        // 255, 230, 125
+        // Width 9px, inner radius 27px, outer radius 36px
     }
+
+    // ----- HUD FINISHED -----
 
     al_flip_display();
 }
