@@ -28,6 +28,7 @@ class Mccree : public Character
         void useability1(Gamestate *state) override;
         void useability2(Gamestate *state) override;
         void drawhud(Renderer *renderer, Gamestate *state) override;
+        double passiveultcharge() override {return 0.4166666666666667;}
 
         Animation rollanim;
         Animation flashbanganim;

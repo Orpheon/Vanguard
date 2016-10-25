@@ -38,6 +38,7 @@ class Character : public MovingEntity
         virtual void useability1(Gamestate *state) = 0;
         virtual void useability2(Gamestate *state) = 0;
         virtual void drawhud(Renderer *renderer, Gamestate *state);
+        virtual double passiveultcharge() = 0;
 
         EntityPtr owner;
         EntityPtr weapon;
@@ -52,6 +53,7 @@ class Character : public MovingEntity
         bool isflipped;
         LoopAnimation runanim;
         LoopAnimation crouchanim;
+        Timer ultcharge;
 
     protected:
         INPUT_CONTAINER pressed_keys;

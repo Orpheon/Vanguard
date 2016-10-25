@@ -15,7 +15,7 @@
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
             owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), isflipped(false), runanim(parameters.characterfolder+"run/"),
-            crouchanim(parameters.characterfolder+"crouchwalk/"), pressed_keys(), held_keys(), lastdirectionpressed(0)
+            crouchanim(parameters.characterfolder+"crouchwalk/"), ultcharge(100), pressed_keys(), held_keys(), lastdirectionpressed(0)
 {
     acceleration = 300;
     runpower = parameters.runpower;
@@ -132,6 +132,9 @@ void Character::midstep(Gamestate *state, double frametime)
 
     // apply friction
     hspeed *= std::pow(friction, frametime);
+
+    // Passive ult charge
+    ultcharge.update(state, frametime*passiveultcharge());
 
     getweapon(state)->midstep(state, frametime);
 }
@@ -450,9 +453,8 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
     // Ult charge meter
     ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/ultbar.png");
     Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/ultbar.png").offset(WINDOW_WIDTH/2.0, baseline_y);
-    double ultcharge = 2*3.1415*70/100.0;
     al_draw_bitmap(ultbar, ultbarrect.x - ultbarrect.w/2.0, ultbarrect.y - ultbarrect.h/2.0, 0);
-    al_draw_arc(ultbarrect.x, ultbarrect.y-8, 33, -3.1415/2.0, ultcharge, al_map_rgb(255, 230, 125), 8);
+    al_draw_arc(ultbarrect.x, ultbarrect.y-8, 33, -3.1415/2.0, 2*3.1415*ultcharge.timer/100.0, al_map_rgb(255, 230, 125), 8);
 }
 
 bool Character::onground(Gamestate *state)
