@@ -25,6 +25,8 @@ void ServerNetworker::receive(Gamestate *state)
             event.peer->data = std::malloc(sizeof(int));
             reinterpret_cast<int*>(event.peer->data)[0] = state->playerlist[state->playerlist.size()-1];
 
+            enet_peer_timeout(event.peer, 0, 2000, 3000);
+
             // Send full update
             WriteBuffer frame = WriteBuffer();
             frame.write<uint8_t>(SERVER_FULLUPDATE);
