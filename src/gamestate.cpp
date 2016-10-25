@@ -5,6 +5,7 @@
 #include "gamestate.h"
 #include "entity.h"
 #include "ingameelements/player.h"
+#include "ingameelements/projectile.h"
 
 Gamestate::Gamestate(Engine *engine_) : entitylist(), playerlist(), currentmap(), engine(engine_), sendbuffer(0), entityidcounter(1)
 {
@@ -66,7 +67,22 @@ EntityPtr Gamestate::addplayer()
 
 void Gamestate::removeplayer(int playerid)
 {
-    findplayer(playerid)->destroy(this);
+    Player *player = findplayer(playerid);
+    for (auto& e : entitylist)
+    {
+        if (e.second->isrootobject())
+        {
+            if (e.second->entitytype == PROJECTILE)
+            {
+                Projectile *p = reinterpret_cast<Projectile*>(e.second.get());
+                if (p->owner.id == player->id)
+                {
+                    p->destroy(this);
+                }
+            }
+        }
+    }
+    player->destroy(this);
     playerlist.erase(playerlist.begin()+playerid);
 }
 

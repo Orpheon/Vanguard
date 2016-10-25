@@ -4,7 +4,7 @@
 Explosion::Explosion(uint64_t id_, Gamestate *state, std::string animationpath, double direction_) : MovingEntity(id_, state),
                         explosionanim(animationpath, std::bind(&Explosion::destroy, this, state)), direction(direction_)
 {
-    //ctor
+    entitytype = EXPLOSION;
 }
 
 Explosion::~Explosion()

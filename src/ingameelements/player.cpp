@@ -6,7 +6,7 @@
 
 Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0)
 {
-    ;
+    entitytype = PLAYER;
 }
 
 void Player::beginstep(Gamestate *state, double frametime)

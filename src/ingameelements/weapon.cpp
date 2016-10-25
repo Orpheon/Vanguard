@@ -9,6 +9,8 @@ Weapon::Weapon(uint64_t id_, Gamestate *state, EntityPtr owner_, WeaponChildPara
 {
     reloadanim.active(false);
     firinganim.active(false);
+
+    entitytype = WEAPON;
 }
 
 Weapon::~Weapon()

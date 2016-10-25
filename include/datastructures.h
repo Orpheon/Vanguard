@@ -42,6 +42,12 @@ enum EVENTTYPE {SERVER_SNAPSHOTUPDATE,
                 ABILITY2_USED,
                 ULTIMATE_USED };
 
+enum ENTITYTYPE {   PLAYER,
+                    CHARACTER,
+                    WEAPON,
+                    PROJECTILE,
+                    EXPLOSION };
+
 struct INPUT_CONTAINER
 {
     bool LEFT;

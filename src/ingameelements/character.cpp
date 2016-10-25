@@ -18,6 +18,8 @@ Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, Character
     // friction factor per second of null movement; calculated directly from Gang Garrison 2
     // from pygg2
     friction = 0.01510305449388463132584804061124;
+
+    entitytype = CHARACTER;
 }
 
 void Character::setinput(Gamestate *state, INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_, double mouse_x_, double mouse_y_)
