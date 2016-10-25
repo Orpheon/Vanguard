@@ -321,8 +321,8 @@ CharacterChildParameters Mccree::constructparameters(uint64_t id_, Gamestate *st
     p.runpower = 1.8;
     p.weapon = state->make_entity<Peacemaker>(state, owner_);
     p.maxhp.normal = 200;
-    p.maxhp.armor = 100;
-    p.maxhp.shields = 50;
+    p.maxhp.armor = 0;
+    p.maxhp.shields = 0;
     p.characterfolder = "heroes/mccree/";
     return p;
 }
@@ -331,7 +331,7 @@ Health Mccree::getmaxhp()
 {
     Health maxhp;
     maxhp.normal = 200;
-    maxhp.armor = 100;
-    maxhp.shields = 50;
+    maxhp.armor = 0;
+    maxhp.shields = 0;
     return maxhp;
 }

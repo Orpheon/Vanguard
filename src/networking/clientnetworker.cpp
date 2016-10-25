@@ -58,6 +58,11 @@ void ClientNetworker::receive(Gamestate *state)
                     int playerid = data.read<uint8_t>();
                     state->findplayer(playerid)->spawn(state);
                 }
+                else if (eventtype == PLAYER_DIED)
+                {
+                    int playerid = data.read<uint8_t>();
+                    state->findplayer(playerid)->getcharacter(state)->destroy(state);
+                }
                 else if (eventtype == PRIMARY_FIRED)
                 {
                     int playerid = data.read<uint8_t>();

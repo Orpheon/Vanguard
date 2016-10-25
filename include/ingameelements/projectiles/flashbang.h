@@ -16,6 +16,7 @@ class Flashbang : public Projectile
         bool isrectangular() {return true;}
         Rect getrect() {return Rect(x-2, y-4, 3, 5);}
         double getradius() {return 0;}
+        double damage() {return 0;}
         void render(Renderer *renderer, Gamestate *state);
         void explode(Gamestate *state);
 

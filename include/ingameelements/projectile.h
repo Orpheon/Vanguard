@@ -13,7 +13,10 @@ class Projectile : public MovingEntity
         virtual bool isrectangular() = 0;
         virtual Rect getrect() = 0;
         virtual double getradius() = 0;
+        virtual void oncollision(Gamestate *state, Character *c);
+        virtual double damage() = 0;
         virtual void midstep(Gamestate *state, double frametime);
+        virtual bool collides(Gamestate *state, EntityPtr otherentity, double angle);
         EntityPtr owner;
     protected:
     private:

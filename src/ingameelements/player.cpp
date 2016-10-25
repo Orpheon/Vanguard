@@ -3,9 +3,12 @@
 #include "datastructures.h"
 #include "ingameelements/character.h"
 #include "ingameelements/heroes/mccree.h"
+#include "engine.h"
 
-Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0)
+Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0), spawntimer(std::bind(&Player::spawn, this, state), 4)
 {
+    spawntimer.active = false;
+    spawntimer.timer = spawntimer.duration;
     entitytype = PLAYER;
 }
 
@@ -19,6 +22,7 @@ void Player::beginstep(Gamestate *state, double frametime)
 
 void Player::midstep(Gamestate *state, double frametime)
 {
+    spawntimer.update(state, frametime);
     if (character != 0)
     {
         state->get<Character>(character)->midstep(state, frametime);
@@ -43,6 +47,7 @@ void Player::render(Renderer *renderer, Gamestate *state)
 
 void Player::spawn(Gamestate *state)
 {
+    spawntimer.active = false;
     if (character != 0)
     {
         // We already have a character, error and respawn
@@ -52,6 +57,11 @@ void Player::spawn(Gamestate *state)
     Character *c = state->get<Character>(character);
     c->x = 443;
     c->y = 950;
+    if (state->engine->isserver)
+    {
+        state->sendbuffer->write<uint8_t>(PLAYER_SPAWNED);
+        state->sendbuffer->write<uint8_t>(state->findplayerid(EntityPtr(id)));
+    }
 }
 
 Character* Player::getcharacter(Gamestate *state)

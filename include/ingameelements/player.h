@@ -9,6 +9,7 @@
 
 #include "entity.h"
 #include "datastructures.h"
+#include "timer.h"
 
 // Circular dependency
 class Gamestate;
@@ -35,6 +36,7 @@ class Player : public Entity
         Character* getcharacter(Gamestate *state);
 
         EntityPtr character;
+        Timer spawntimer;
 };
 
 #endif // PLAYER_H

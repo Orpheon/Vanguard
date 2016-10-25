@@ -21,7 +21,7 @@ void ServerNetworker::receive(Gamestate *state)
     {
         if (event.type == ENET_EVENT_TYPE_CONNECT)
         {
-            state->addplayer();
+            EntityPtr player = state->addplayer();
             event.peer->data = std::malloc(sizeof(int));
             reinterpret_cast<int*>(event.peer->data)[0] = state->playerlist[state->playerlist.size()-1];
 
@@ -35,11 +35,9 @@ void ServerNetworker::receive(Gamestate *state)
             enet_peer_send(event.peer, 0, eventpacket);
             enet_host_flush(host);
 
-            // Send spawn event of that player
-            sendbuffer.write<uint8_t>(PLAYER_SPAWNED);
-            sendbuffer.write<uint8_t>(state->playerlist.size()-1);
-            // and spawn said player ourselves
-            state->findplayer(state->playerlist.size()-1)->spawn(state);
+            // Set the spawn timer for the new player so that they will spawn at next opportunity
+            state->get<Player>(player)->spawntimer.timer = state->get<Player>(player)->spawntimer.duration;
+            state->get<Player>(player)->spawntimer.active = true;
         }
         else if (event.type == ENET_EVENT_TYPE_DISCONNECT)
         {

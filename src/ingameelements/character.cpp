@@ -10,7 +10,7 @@
 #include "ingameelements/weapon.h"
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
-            owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), hpdir(-1), isflipped(false), runanim(parameters.characterfolder+"run/"),
+            owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), isflipped(false), runanim(parameters.characterfolder+"run/"),
             crouchanim(parameters.characterfolder+"crouchwalk/"), pressed_keys(), held_keys(), lastdirectionpressed(0)
 {
     acceleration = 300;
@@ -121,12 +121,6 @@ void Character::midstep(Gamestate *state, double frametime)
             vspeed -= 540.0*frametime*3.0/4.0;
             isflipped = (mouse_x < 0);
         }
-    }
-
-    damage(20*frametime);
-    if (hp.total() <= 0)
-    {
-        hp = getmaxhp();
     }
 
     // Gravity
@@ -353,7 +347,7 @@ void Character::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdat
     getweapon(state)->deserialize(state, buffer, fullupdate);
 }
 
-void Character::damage(double amount)
+void Character::damage(Gamestate *state, double amount)
 {
     if (hp.shields < amount)
     {
@@ -367,7 +361,20 @@ void Character::damage(double amount)
         {
             amount -= hp.armor;
             hp.armor = 0;
-            hp.normal = std::max(0.0, hp.normal-amount);
+            hp.normal -= amount;
+            if (hp.normal <= 0)
+            {
+                // RIP
+                if (state->engine->isserver)
+                {
+                    destroy(state);
+
+                    state->sendbuffer->write<uint8_t>(PLAYER_DIED);
+                    state->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+
+                    state->get<Player>(owner)->spawntimer.reset();
+                }
+            }
         }
         else
         {
@@ -382,6 +389,7 @@ void Character::damage(double amount)
 
 void Character::destroy(Gamestate *state)
 {
+    state->get<Player>(owner)->character = 0;
     getweapon(state)->destroy(state);
 }
 

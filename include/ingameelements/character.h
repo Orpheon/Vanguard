@@ -31,7 +31,7 @@ class Character : public MovingEntity
         virtual CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) = 0;
         virtual std::string getcharacterfolder() = 0;
         virtual bool cangetinput(Gamestate *state) {return true;}
-        virtual void damage(double amount);
+        virtual void damage(Gamestate *state, double amount);
         Weapon *getweapon(Gamestate *state);
         virtual double getweaponpos_x() = 0;
         virtual double getweaponpos_y() = 0;
@@ -47,7 +47,6 @@ class Character : public MovingEntity
 
         Health hp;
         virtual Health getmaxhp() = 0;
-        int hpdir = -1;
 
         bool isflipped;
         LoopAnimation runanim;

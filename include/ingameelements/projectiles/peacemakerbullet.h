@@ -16,6 +16,7 @@ class PeacemakerBullet : public Projectile
         Rect getrect() {return Rect(x, y, 20, 1);}
         double getradius() {return 0;}
         void render(Renderer *renderer, Gamestate *state);
+        double damage() {return 70;}
     protected:
     private:
 };
