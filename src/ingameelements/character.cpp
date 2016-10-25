@@ -442,12 +442,11 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
 
 
     // Ammo count
-    Weapon *w = getweapon(state);
-    const char *ammo = std::to_string(w->clip).c_str();
-    const char *maxammo = ("I "+std::to_string(w->getclipsize())).c_str();
+    std::string ammo = std::to_string(getweapon(state)->clip);
+    std::string maxammo = "I "+std::to_string(getweapon(state)->getclipsize());
     tmpx = WINDOW_WIDTH*9/10.0;
-    al_draw_text(renderer->font20, al_map_rgb(255, 255, 255), tmpx, baseline_y-al_get_font_line_height(renderer->font20), ALLEGRO_ALIGN_LEFT, ammo);
-    al_draw_text(renderer->font10, al_map_rgb(255, 255, 255), tmpx+al_get_text_width(renderer->font20, ammo), baseline_y-al_get_font_line_height(renderer->font10), ALLEGRO_ALIGN_LEFT, maxammo);
+    al_draw_text(renderer->font20, al_map_rgb(255, 255, 255), tmpx, baseline_y-al_get_font_line_height(renderer->font20), ALLEGRO_ALIGN_LEFT, ammo.c_str());
+    al_draw_text(renderer->font10, al_map_rgb(255, 255, 255), tmpx+al_get_text_width(renderer->font20, ammo.c_str()), baseline_y-al_get_font_line_height(renderer->font10), ALLEGRO_ALIGN_LEFT, maxammo.c_str());
 
 
     // Ult charge meter
@@ -488,6 +487,7 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
     hp.normal = prev_e->hp.normal + alpha*(next_e->hp.normal - prev_e->hp.normal);
     hp.armor = prev_e->hp.armor + alpha*(next_e->hp.armor - prev_e->hp.armor);
     hp.shields = prev_e->hp.shields + alpha*(next_e->hp.shields - prev_e->hp.shields);
+    ultcharge.timer = prev_e->ultcharge.timer + alpha*(next_e->ultcharge.timer - prev_e->ultcharge.timer);
 }
 
 void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
@@ -502,6 +502,8 @@ void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate
     held_keys.serialize(buffer);
     buffer->write<int16_t>(mouse_x);
     buffer->write<int16_t>(mouse_y);
+
+    buffer->write<uint16_t>(ultcharge.timer*65536/100.0);
 
     getweapon(state)->serialize(state, buffer, fullupdate);
 }
@@ -518,8 +520,9 @@ void Character::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdat
     held_keys.deserialize(buffer);
     mouse_x = buffer->read<int16_t>();
     mouse_y = buffer->read<int16_t>();
-
     getweapon(state)->setaim(mouse_x, mouse_y);
+
+    ultcharge.timer = 100*buffer->read<uint16_t>()/65536.0;
 
     getweapon(state)->deserialize(state, buffer, fullupdate);
 }
