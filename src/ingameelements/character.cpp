@@ -352,7 +352,7 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
         // Full existing health boxes
         for (int i=0; i<std::floor(nrects*hppercent); ++i)
         {
-            x = start_x + i*width + (i-1)*space;
+            tmpx = start_x + i*width + (i-1)*space;
             r[0] = tmpx+height*slant;
             r[1] = tmpy;
 
@@ -371,7 +371,7 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
         if (leftover > 0.0)
         {
             // Draw the half-rectangle
-            x = start_x + std::floor(nrects*hppercent)*width + (std::floor(nrects*hppercent)-1)*space;
+            tmpx = start_x + std::floor(nrects*hppercent)*width + (std::floor(nrects*hppercent)-1)*space;
             r[0] = tmpx+height*slant;
             r[1] = tmpy;
 
@@ -402,7 +402,7 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
         // Full lacking health boxes
         for (int i=std::ceil(nrects*hppercent); i<nrects; ++i)
         {
-            x = start_x + i*width + (i-1)*space;
+            tmpx = start_x + i*width + (i-1)*space;
             r[0] = tmpx+height*slant;
             r[1] = tmpy;
 
@@ -419,7 +419,7 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
         // Outline
         for (int i=0; i<nrects; ++i)
         {
-            x = start_x + i*width + (i-1)*space;
+            tmpx = start_x + i*width + (i-1)*space;
             r[0] = tmpx+height*slant;
             r[1] = tmpy;
 
