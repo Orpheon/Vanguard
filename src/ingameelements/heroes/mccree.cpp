@@ -223,11 +223,11 @@ void Mccree::midstep(Gamestate *state, double frametime)
     {
         if (isflipped)
         {
-            hspeed = -300;
+            hspeed = -360;
         }
         else
         {
-            hspeed = 300;
+            hspeed = 360;
         }
     }
     flashbanganim.update(state, frametime);
@@ -237,7 +237,7 @@ void Mccree::midstep(Gamestate *state, double frametime)
     if (cangetinput(state))
     {
         Peacemaker *p = state->get<Peacemaker>(weapon);
-        if (held_keys.ABILITY_1 and not rollcooldown.active and not p->isfthing and state->engine->isserver)
+        if (held_keys.ABILITY_1 and not rollcooldown.active and onground(state) and state->engine->isserver)
         {
             // Lets roll
             if (lastdirectionpressed == LEFT)
@@ -252,6 +252,9 @@ void Mccree::midstep(Gamestate *state, double frametime)
             rollcooldown.reset();
             p->clip = p->getclipsize();
             p->reloadanim.active(0);
+            Peacemaker *w = reinterpret_cast<Peacemaker*>(getweapon(state));
+            w->isfthing = false;
+            w->fthanim.active(false);
         }
         if (held_keys.ABILITY_2 and not flashbangcooldown.active and state->engine->isserver)
         {

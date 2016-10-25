@@ -4,7 +4,7 @@
 
 #include <functional>
 
-Flashbang::Flashbang(uint64_t id_, Gamestate *state, EntityPtr owner_) : Projectile::Projectile(id_, state, owner_), countdown(std::bind(&Flashbang::explode, this, state), 0.3)
+Flashbang::Flashbang(uint64_t id_, Gamestate *state, EntityPtr owner_) : Projectile::Projectile(id_, state, owner_), countdown(std::bind(&Flashbang::explode, this, state), 0.5)
 {
     //ctor
 }
@@ -27,11 +27,10 @@ void Flashbang::render(Renderer *renderer, Gamestate *state)
 {
     std::string mainsprite = getsprite(state, false);
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
-    int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
-    int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
 
+    double direction = std::atan2(vspeed, hspeed);
     al_set_target_bitmap(renderer->background);
-    al_draw_bitmap(sprite, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 0);
+    al_draw_rotated_bitmap(sprite, 0, 0, x - renderer->cam_x, y - renderer->cam_y, direction, 0);
 }
 
 void Flashbang::explode(Gamestate *state)

@@ -114,7 +114,7 @@ void Peacemaker::firesecondary(Gamestate *state)
     {
         EntityPtr newshot = state->make_entity<PeacemakerBullet>(state, owner);
         PeacemakerBullet *shot = state->get<PeacemakerBullet>(newshot);
-        double spread = (2*(rand()/(RAND_MAX+1.0)) - 1)*40*3.1415/180.0;
+        double spread = (2*(rand()/(RAND_MAX+1.0)) - 1)*25*3.1415/180.0;
         shot->x = x+std::cos(aimdirection+spread)*10;
         shot->y = y+std::sin(aimdirection+spread)*10;
         shot->hspeed = std::cos(aimdirection+spread) * bulletspeed;

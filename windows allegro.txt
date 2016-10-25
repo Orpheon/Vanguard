@@ -13,3 +13,6 @@ DXSDK_DIR=/mingw64/x86_64-w64-mingw32 cmake -G"MSYS Makefiles" -DWANT_DEMO=off -
 http://enet.bespin.org/download/enet-1.3.13.tar.gz
 ./configure LDFLAGS="-static" --prefix=/mingw64
 make
+
+
+30 pixels per overwatch meter
