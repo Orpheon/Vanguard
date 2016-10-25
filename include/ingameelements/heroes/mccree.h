@@ -19,7 +19,7 @@ class Mccree : public Character
         Rect getstandingcollisionrect(Gamestate *state) override;
         std::string getsprite(Gamestate *state, bool mask) override;
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Mccree(*this));}
-        CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state) override;
+        CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
         std::string getcharacterfolder() {return "heroes/mccree/";}
         bool cangetinput(Gamestate *state) override {return not rollanim.active();}
         Health getmaxhp() override;

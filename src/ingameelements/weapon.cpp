@@ -33,7 +33,7 @@ void Weapon::midstep(Gamestate *state, double frametime)
 
 void Weapon::endstep(Gamestate *state, double frametime)
 {
-    Character *c = state->get<Character>(owner);
+    Character *c = state->get<Player>(owner)->getcharacter(state);
     x = c->x + c->getweaponpos_x() - 2*c->getweaponpos_x()*c->isflipped;
     y = c->y + c->getweaponpos_y();
 }

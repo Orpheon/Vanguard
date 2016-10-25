@@ -28,7 +28,7 @@ class Character : public MovingEntity
         virtual bool onground(Gamestate *state);
         virtual Rect getcollisionrect(Gamestate *state) = 0;
         virtual Rect getstandingcollisionrect(Gamestate *state) = 0;
-        virtual CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state) = 0;
+        virtual CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) = 0;
         virtual std::string getcharacterfolder() = 0;
         virtual bool cangetinput(Gamestate *state) {return true;}
         virtual void damage(double amount);

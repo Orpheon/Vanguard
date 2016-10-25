@@ -22,7 +22,7 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
 {
     std::string mainsprite;
     double dir = aimdirection;
-    Mccree *c = state->get<Mccree>(owner);
+    Mccree *c = state->get<Mccree>(state->get<Player>(owner)->character);
     if (firinganim.active())
     {
         mainsprite = firinganim.getframe();

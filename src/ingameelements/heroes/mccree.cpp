@@ -10,7 +10,7 @@
 #include <cmath>
 #include <allegro5/allegro_primitives.h>
 
-Mccree::Mccree(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state)),
+Mccree::Mccree(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state, owner_)),
                 rollanim("heroes/mccree/roll/"), flashbanganim("heroes/mccree/flashbang/"), rollcooldown(8), flashbangcooldown(10)
 {
     rollanim.active(false);
@@ -315,11 +315,11 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     return runanim.getframe();
 }
 
-CharacterChildParameters Mccree::constructparameters(uint64_t id_, Gamestate *state)
+CharacterChildParameters Mccree::constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_)
 {
     CharacterChildParameters p;
     p.runpower = 1.8;
-    p.weapon = state->make_entity<Peacemaker>(state, EntityPtr(id_));
+    p.weapon = state->make_entity<Peacemaker>(state, owner_);
     p.maxhp.normal = 200;
     p.maxhp.armor = 100;
     p.maxhp.shields = 50;
