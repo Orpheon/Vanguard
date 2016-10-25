@@ -85,7 +85,7 @@ void Peacemaker::wantfireprimary(Gamestate *state)
     {
         fireprimary(state);
         state->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
-        state->sendbuffer->write<uint8_t>(state->findplayerid(state->get<Character>(owner)->owner));
+        state->sendbuffer->write<uint8_t>(state->findplayerid(owner));
     }
 }
 
@@ -116,7 +116,7 @@ void Peacemaker::wantfiresecondary(Gamestate *state)
         {
             firesecondary(state);
             state->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
-            state->sendbuffer->write<uint8_t>(state->findplayerid(state->get<Character>(owner)->owner));
+            state->sendbuffer->write<uint8_t>(state->findplayerid(owner));
         }
         else if (isfthing and fthanim.getpercent() >= 1)
         {
