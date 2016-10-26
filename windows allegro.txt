@@ -14,5 +14,6 @@ http://enet.bespin.org/download/enet-1.3.13.tar.gz
 ./configure LDFLAGS="-static" --prefix=/mingw64
 make
 
-
 30 pixels per overwatch meter
+
+third step on the right of the point
