@@ -15,7 +15,7 @@
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
             owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), isflipped(false), runanim(parameters.characterfolder+"run/"),
-            crouchanim(parameters.characterfolder+"crouchwalk/"), ultcharge(100), pressed_keys(), held_keys(), lastdirectionpressed(0)
+            crouchanim(parameters.characterfolder+"crouchwalk/"), ultcharge(100), pressed_keys(), held_keys()
 {
     acceleration = 300;
     runpower = parameters.runpower;
@@ -54,28 +54,11 @@ void Character::midstep(Gamestate *state, double frametime)
             maxhspeed = 153.0;
         }
 
-        if (pressed_keys.LEFT)
-        {
-            lastdirectionpressed = LEFT;
-        }
-        else if (lastdirectionpressed == LEFT and not held_keys.LEFT)
-        {
-            lastdirectionpressed = RIGHT*held_keys.RIGHT;
-        }
-        if (pressed_keys.RIGHT)
-        {
-            lastdirectionpressed = RIGHT;
-        }
-        else if (lastdirectionpressed == RIGHT and not held_keys.RIGHT)
-        {
-            lastdirectionpressed = LEFT*held_keys.LEFT;
-        }
-
-        if (lastdirectionpressed == LEFT)
+        if (held_keys.LEFT)
         {
             hspeed = std::max(hspeed - acceleration * runpower * frametime, -maxhspeed);
         }
-        else if (lastdirectionpressed == RIGHT)
+        if (held_keys.RIGHT)
         {
             hspeed = std::min(hspeed + acceleration * runpower * frametime, maxhspeed);
         }

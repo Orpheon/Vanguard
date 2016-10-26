@@ -326,15 +326,15 @@ void Mccree::midstep(Gamestate *state, double frametime)
 
 void Mccree::useability1(Gamestate *state)
 {
-    // Lets roll
-    if (lastdirectionpressed == LEFT)
+    if (held_keys.LEFT and not held_keys.RIGHT)
     {
         isflipped = true;
     }
-    else if (lastdirectionpressed == RIGHT)
+    else if (held_keys.RIGHT and not held_keys.LEFT)
     {
         isflipped = false;
     }
+    // Lets roll
     rollanim.reset();
     rollcooldown.reset();
     Peacemaker *w = reinterpret_cast<Peacemaker*>(getweapon(state));
