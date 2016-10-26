@@ -251,7 +251,7 @@ void Mccree::drawhud(Renderer *renderer, Gamestate *state)
 
         al_draw_filled_polygon(r, 4, al_premul_rgba_f(239/255.0, 179/255.0, 89/255.0, 0.5));
 
-        al_draw_text(renderer->font10, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+4, spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer->font10)/2.0,
+        al_draw_text(renderer->font10, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+2, spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer->font10)/2.0,
                         ALLEGRO_ALIGN_CENTER, std::to_string((int)std::ceil(rollcooldown.duration - rollcooldown.timer)).c_str());
     }
 
@@ -268,8 +268,8 @@ void Mccree::drawhud(Renderer *renderer, Gamestate *state)
     if (flashbangcooldown.active)
     {
         // Draw the fill-in
-        r[0] = spriterect.x+17*rollcooldown.getpercent();
-        r[1] = spriterect.y+2+34*(1-rollcooldown.getpercent());
+        r[0] = spriterect.x+17*flashbangcooldown.getpercent();
+        r[1] = spriterect.y+2+34*(1-flashbangcooldown.getpercent());
 
         r[2] = spriterect.x;
         r[3] = spriterect.y+spriterect.h-2;
@@ -277,12 +277,12 @@ void Mccree::drawhud(Renderer *renderer, Gamestate *state)
         r[4] = spriterect.x+39;
         r[5] = spriterect.y+spriterect.h-2;
 
-        r[6] = spriterect.x+17*rollcooldown.getpercent()+39;
-        r[7] = spriterect.y+2+34*(1-rollcooldown.getpercent());
+        r[6] = spriterect.x+17*flashbangcooldown.getpercent()+39;
+        r[7] = spriterect.y+2+34*(1-flashbangcooldown.getpercent());
 
         al_draw_filled_polygon(r, 4, al_premul_rgba_f(239/255.0, 179/255.0, 89/255.0, 0.5));
 
-        al_draw_text(renderer->font10, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+4, spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer->font10)/2.0,
+        al_draw_text(renderer->font10, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+2, spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer->font10)/2.0,
                         ALLEGRO_ALIGN_CENTER, std::to_string((int)std::ceil(flashbangcooldown.duration - flashbangcooldown.timer)).c_str());
     }
 }
