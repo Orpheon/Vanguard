@@ -7,6 +7,11 @@ ServerNetworker::ServerNetworker() : Networker(true)
     address.host = ENET_HOST_ANY;
     address.port = 3224; // 3223-3230
     host = enet_host_create(&address, PLAYER_LIMIT, 1, 0, 0);
+    if (host == NULL)
+    {
+        fprintf(stderr, "Fatal Error while attempting to create server host!");
+        throw -1;
+    }
 }
 
 ServerNetworker::~ServerNetworker()

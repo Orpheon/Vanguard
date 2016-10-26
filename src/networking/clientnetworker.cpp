@@ -6,6 +6,11 @@ ClientNetworker::ClientNetworker() : Networker(false), connected(false)
     enet_address_set_host(&serveraddress, "127.0.0.1");
     serveraddress.port = 3224;
     host = enet_host_create(NULL, 1, 1, 0, 0);
+    if (host == NULL)
+    {
+        fprintf(stderr, "Fatal Error while attempting to create client host!");
+        throw -1;
+    }
     server = enet_host_connect(host, &serveraddress, 1, 0);
 }
 
