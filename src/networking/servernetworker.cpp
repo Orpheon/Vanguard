@@ -38,11 +38,24 @@ void ServerNetworker::receive(Gamestate *state)
             state->serializefull(&frame);
             ENetPacket *eventpacket = enet_packet_create(frame.getdata(), frame.length(), ENET_PACKET_FLAG_RELIABLE);
             enet_peer_send(event.peer, 0, eventpacket);
-            enet_host_flush(host);
 
             // Set the spawn timer for the new player so that they will spawn at next opportunity
             state->get<Player>(player)->spawntimer.timer = state->get<Player>(player)->spawntimer.duration;
             state->get<Player>(player)->spawntimer.active = true;
+
+            // Tell everyone except the new player that a new player joined
+            WriteBuffer tmpbuffer;
+            tmpbuffer.write<uint8_t>(PLAYER_JOINED);
+            eventpacket = enet_packet_create(tmpbuffer.getdata(), tmpbuffer.length(), ENET_PACKET_FLAG_RELIABLE);
+            for (unsigned int i=0; i<host->connectedPeers; ++i)
+            {
+                if (&(host->peers[i]) != event.peer)
+                {
+                    enet_peer_send(&(host->peers[i]), 0, eventpacket);
+                }
+            }
+
+            enet_host_flush(host);
         }
         else if (event.type == ENET_EVENT_TYPE_DISCONNECT)
         {
