@@ -1,4 +1,4 @@
-#include "corpse.h"
+#include "ingameelements/corpse.h"
 
 #include "gamestate.h"
 #include "engine.h"
