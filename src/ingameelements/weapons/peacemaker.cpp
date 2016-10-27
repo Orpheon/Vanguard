@@ -81,7 +81,7 @@ void Peacemaker::reload(Gamestate *state)
 
 void Peacemaker::wantfireprimary(Gamestate *state)
 {
-    if (state->engine->isserver and clip > 0 and not firinganim.active())
+    if (state->engine->isserver and clip > 0 and not firinganim.active() and not reloadanim.active())
     {
         fireprimary(state);
         state->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
@@ -93,8 +93,8 @@ void Peacemaker::fireprimary(Gamestate *state)
 {
     EntityPtr newshot = state->make_entity<PeacemakerBullet>(state, owner);
     PeacemakerBullet *shot = state->get<PeacemakerBullet>(newshot);
-    shot->x = x+std::cos(aimdirection)*10;
-    shot->y = y+std::sin(aimdirection)*10;
+    shot->x = x+std::cos(aimdirection)*5;
+    shot->y = y+std::sin(aimdirection)*5;
 
     shot->hspeed = std::cos(aimdirection) * bulletspeed;
     shot->vspeed = std::sin(aimdirection) * bulletspeed;
@@ -112,7 +112,7 @@ void Peacemaker::wantfiresecondary(Gamestate *state)
 {
     if (clip > 0)
     {
-        if (not isfthing and state->engine->isserver)
+        if (not isfthing and state->engine->isserver and not reloadanim.active())
         {
             firesecondary(state);
             state->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
@@ -135,8 +135,8 @@ void Peacemaker::firesecondary(Gamestate *state)
     EntityPtr newshot = state->make_entity<PeacemakerBullet>(state, owner);
     PeacemakerBullet *shot = state->get<PeacemakerBullet>(newshot);
     double spread = (2*(rand()/(RAND_MAX+1.0)) - 1)*25*3.1415/180.0;
-    shot->x = x+std::cos(aimdirection+spread)*10;
-    shot->y = y+std::sin(aimdirection+spread)*10;
+    shot->x = x+std::cos(aimdirection+spread)*5;
+    shot->y = y+std::sin(aimdirection+spread)*5;
     shot->hspeed = std::cos(aimdirection+spread) * bulletspeed;
     shot->vspeed = std::sin(aimdirection+spread) * bulletspeed;
 
