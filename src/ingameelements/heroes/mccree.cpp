@@ -367,7 +367,7 @@ void Mccree::useability2(Gamestate *state)
     // Flashbang
     flashbanganim.reset();
     flashbangcooldown.reset();
-    Flashbang *f = state->get<Flashbang>(state->make_entity<Flashbang>(state, EntityPtr(id)));
+    Flashbang *f = state->get<Flashbang>(state->make_entity<Flashbang>(state, owner));
     f->x = x;
     f->y = y;
     double dir = std::atan2(mouse_y-y, mouse_x-x);

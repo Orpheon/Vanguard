@@ -16,10 +16,7 @@ Flashbang::~Flashbang()
 
 void Flashbang::midstep(Gamestate *state, double frametime)
 {
-    if (state->currentmap->collides(getrect(), std::atan2(vspeed, hspeed)))
-    {
-        explode(state);
-    }
+    Projectile::midstep(state, frametime);
     countdown.update(state, frametime);
 }
 

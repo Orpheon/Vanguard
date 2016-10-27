@@ -19,6 +19,8 @@ class Flashbang : public Projectile
         double damage() {return 0;}
         void render(Renderer *renderer, Gamestate *state);
         void explode(Gamestate *state);
+        void oncollision(Gamestate *state) {explode(state);}
+        void oncollision(Gamestate *state, Character *c) {explode(state);}
 
         Timer countdown;
     protected:

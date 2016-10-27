@@ -19,7 +19,7 @@ void Projectile::midstep(Gamestate *state, double frametime)
     {
         if (state->currentmap->collides(getrect(), std::atan2(vspeed, hspeed)))
         {
-            destroy(state);
+            oncollision(state);
         }
         for (auto p : state->playerlist)
         {
@@ -76,6 +76,13 @@ bool Projectile::collides(Gamestate *state, EntityPtr otherentity, double angle)
 
 void Projectile::oncollision(Gamestate *state, Character *c)
 {
+    // Collided with player
     c->damage(state, damage());
+    destroy(state);
+}
+
+void Projectile::oncollision(Gamestate *state)
+{
+    // Collided with wallmask
     destroy(state);
 }

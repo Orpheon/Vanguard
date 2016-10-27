@@ -14,6 +14,7 @@ class Projectile : public MovingEntity
         virtual Rect getrect() = 0;
         virtual double getradius() = 0;
         virtual void oncollision(Gamestate *state, Character *c);
+        virtual void oncollision(Gamestate *state);
         virtual double damage() = 0;
         virtual void midstep(Gamestate *state, double frametime);
         virtual bool collides(Gamestate *state, EntityPtr otherentity, double angle);
