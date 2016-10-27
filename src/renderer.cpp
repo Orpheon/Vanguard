@@ -7,7 +7,7 @@
 #include "global_constants.h"
 #include "entity.h"
 
-Renderer::Renderer() : cam_x(0), cam_y(0), spriteloader(false)
+Renderer::Renderer() : WINDOW_WIDTH(1280), WINDOW_HEIGHT(720), spriteloader(false)
 {
     background = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     midground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -38,6 +38,30 @@ Renderer::~Renderer()
 
 void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myself)
 {
+    if (WINDOW_WIDTH != al_get_display_width(display) or WINDOW_HEIGHT != al_get_display_height(display))
+    {
+        WINDOW_WIDTH = al_get_display_width(display);
+        WINDOW_HEIGHT = al_get_display_height(display);
+
+        al_destroy_bitmap(background);
+        al_destroy_bitmap(midground);
+        al_destroy_bitmap(foreground);
+        al_destroy_bitmap(surfaceground);
+
+        background = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
+        midground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
+        foreground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
+        surfaceground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
+    }
+
+    // Set up transformations
+    ALLEGRO_TRANSFORM *trans = const_cast<ALLEGRO_TRANSFORM*>(al_get_current_transform());
+    al_identity_transform(trans);
+
+    // Calculate zoom
+    double zoom = 1.0*WINDOW_WIDTH / VIEWPORT_WIDTH;
+    al_scale_transform(trans, zoom, zoom);
+
     // Set camera
     Player *p = state->get<Player>(myself);
     Character *c = 0;
@@ -109,15 +133,10 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
     al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 96, ALLEGRO_ALIGN_LEFT, ("#Players: " + std::to_string(state->playerlist.size())).c_str());
 
 
-
-    // ----- HUD -----
-
     if (c != 0)
     {
         c->drawhud(this, state);
     }
-
-    // ----- HUD FINISHED -----
 
     al_flip_display();
 }

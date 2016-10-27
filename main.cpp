@@ -66,8 +66,8 @@ int main(int argc, char **argv)
     // Create a display
     ALLEGRO_DISPLAY *display;
     al_set_new_display_option(ALLEGRO_VSYNC, 2, ALLEGRO_REQUIRE);
-    al_set_new_display_flags(ALLEGRO_OPENGL);
-    display = al_create_display(WINDOW_WIDTH, WINDOW_HEIGHT);
+    al_set_new_display_flags(ALLEGRO_OPENGL | ALLEGRO_RESIZABLE);
+    display = al_create_display(1280, 720);
     if(!display)
     {
         // FIXME: Make the error argument mean anything?

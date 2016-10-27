@@ -298,8 +298,8 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
     int height = 20;
     int space = 20/9.0;
     double slant = 0.3;
-    double tmpy = hudheight() - height;
-    double start_x = WINDOW_WIDTH/9.0;
+    double tmpy = hudheight()*renderer->WINDOW_HEIGHT - height;
+    double start_x = renderer->WINDOW_WIDTH/9.0;
 
     // Draw first normal health, then armor, then shields
     for (int healthtype=0; healthtype<3; ++healthtype)
@@ -426,14 +426,15 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
     // Ammo count
     std::string ammo = std::to_string(getweapon(state)->clip);
     std::string maxammo = "I "+std::to_string(getweapon(state)->getclipsize());
-    tmpx = WINDOW_WIDTH*9/10.0;
-    al_draw_text(renderer->font20, al_map_rgb(255, 255, 255), tmpx, hudheight()-al_get_font_line_height(renderer->font20), ALLEGRO_ALIGN_LEFT, ammo.c_str());
-    al_draw_text(renderer->font10, al_map_rgb(255, 255, 255), tmpx+al_get_text_width(renderer->font20, ammo.c_str()), hudheight()-al_get_font_line_height(renderer->font10), ALLEGRO_ALIGN_LEFT, maxammo.c_str());
+    tmpx = renderer->WINDOW_WIDTH*9/10.0;
+    al_draw_text(renderer->font20, al_map_rgb(255, 255, 255), tmpx, renderer->WINDOW_HEIGHT*hudheight()-al_get_font_line_height(renderer->font20), ALLEGRO_ALIGN_LEFT, ammo.c_str());
+    al_draw_text(renderer->font10, al_map_rgb(255, 255, 255), tmpx+al_get_text_width(renderer->font20, ammo.c_str()),
+                    renderer->WINDOW_HEIGHT*hudheight()-al_get_font_line_height(renderer->font10), ALLEGRO_ALIGN_LEFT, maxammo.c_str());
 
 
     // Ult charge meter
     ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/ultbar.png");
-    Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/ultbar.png").offset(WINDOW_WIDTH/2.0, hudheight());
+    Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/ultbar.png").offset(renderer->WINDOW_WIDTH/2.0, hudheight()*renderer->WINDOW_HEIGHT);
     al_draw_bitmap(ultbar, ultbarrect.x - ultbarrect.w/2.0, ultbarrect.y - ultbarrect.h/2.0, 0);
     al_draw_arc(ultbarrect.x, ultbarrect.y-8, 33, -3.1415/2.0, 2*3.1415*ultcharge.timer/100.0, al_map_rgb(255, 230, 125), 8);
 }

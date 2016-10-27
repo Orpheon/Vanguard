@@ -36,7 +36,7 @@ InputCatcher::~InputCatcher()
     al_destroy_event_queue(event_queue);
 }
 
-void InputCatcher::run(INPUT_CONTAINER *pressed_keys, INPUT_CONTAINER *held_keys, double *mouse_x, double *mouse_y)
+void InputCatcher::run(ALLEGRO_DISPLAY *display, INPUT_CONTAINER *pressed_keys, INPUT_CONTAINER *held_keys, double *mouse_x, double *mouse_y)
 {
     pressed_keys->reset();
     held_keys->reset();
@@ -50,6 +50,10 @@ void InputCatcher::run(INPUT_CONTAINER *pressed_keys, INPUT_CONTAINER *held_keys
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 // Deliberate closing, not an error
                 throw 0;
+
+            case ALLEGRO_EVENT_DISPLAY_RESIZE:
+                al_acknowledge_resize(display);
+                break;
 
             case ALLEGRO_EVENT_KEY_DOWN:
                 //Debug: print the keycode number and name of the key we press

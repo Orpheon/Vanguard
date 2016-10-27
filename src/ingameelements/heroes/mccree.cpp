@@ -231,8 +231,8 @@ void Mccree::drawhud(Renderer *renderer, Gamestate *state)
     {
         sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/rolling.png");
     }
-    spriterect.x = WINDOW_WIDTH*6/7.0 - spriterect.w*2 - space;
-    spriterect.y = hudheight()-spriterect.h;
+    spriterect.x = renderer->WINDOW_WIDTH*6/7.0 - spriterect.w*2 - space;
+    spriterect.y = renderer->WINDOW_HEIGHT*hudheight()-spriterect.h;
     al_draw_bitmap(sprite, spriterect.x, spriterect.y, 0);
     if (rollcooldown.active)
     {

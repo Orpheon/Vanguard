@@ -16,6 +16,8 @@ class Renderer
         void render(ALLEGRO_DISPLAY *display, Gamestate *currentstate, EntityPtr myself);
         double cam_x;
         double cam_y;
+        int WINDOW_WIDTH;
+        int WINDOW_HEIGHT;
         ALLEGRO_BITMAP *background;
         ALLEGRO_BITMAP *midground;
         ALLEGRO_BITMAP *foreground;

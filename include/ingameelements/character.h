@@ -40,7 +40,7 @@ class Character : public MovingEntity
         virtual void useability2(Gamestate *state) = 0;
         virtual void drawhud(Renderer *renderer, Gamestate *state);
         virtual double passiveultcharge() = 0;
-        virtual double hudheight() {return 7.0*WINDOW_HEIGHT/8.0;}
+        virtual double hudheight() {return 7.0/8.0;}
 
         EntityPtr owner;
         EntityPtr weapon;
