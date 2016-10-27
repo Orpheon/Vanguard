@@ -3,6 +3,7 @@
 
 #include "gamestate.h"
 #include "spriteloader.h"
+#include "networker.h"
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
@@ -13,7 +14,7 @@ class Renderer
     public:
         Renderer();
         virtual ~Renderer();
-        void render(ALLEGRO_DISPLAY *display, Gamestate *currentstate, EntityPtr myself_);
+        void render(ALLEGRO_DISPLAY *display, Gamestate *currentstate, EntityPtr myself_, Networker *networker);
         double cam_x;
         double cam_y;
         double zoom;

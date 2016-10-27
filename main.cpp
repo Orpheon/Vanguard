@@ -185,7 +185,7 @@ int main(int argc, char **argv)
                 }
             }
             renderingstate.interpolate(engine.oldstate.get(), engine.currentstate.get(), (al_get_time()-enginetime)/ENGINE_TIMESTEP);
-            renderer.render(display, &renderingstate, myself);
+            renderer.render(display, &renderingstate, myself, networker.get());
         }
         catch (int e)
         {
