@@ -113,6 +113,10 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
     // Draw the final layer on top of even that, for certain things like character healthbars
     al_draw_bitmap(surfaceground, 0, 0, 0);
 
+    // Go back to no scaling
+    al_identity_transform(trans);
+
+
     //fps counter mostly borrowed from pygg2
     double frametime = al_get_time() - lasttime;
     lasttime = al_get_time();
