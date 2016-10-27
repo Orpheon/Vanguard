@@ -158,17 +158,17 @@ int main(int argc, char **argv)
             while (al_get_time() - enginetime >= ENGINE_TIMESTEP)
             {
                 networker->receive(engine.currentstate.get());
-                inputcatcher.run(&pressed_keys, &held_keys, &mouse_x, &mouse_y);
+                inputcatcher.run(display, &pressed_keys, &held_keys, &mouse_x, &mouse_y);
                 if (not isserver)
                 {
                     Character *c = engine.currentstate->get<Player>(myself)->getcharacter(engine.currentstate.get());
                     if (c != 0)
                     {
                         ClientNetworker *n = reinterpret_cast<ClientNetworker*>(networker.get());
-                        n->sendinput(pressed_keys, held_keys, mouse_x+renderer.cam_x, mouse_y+renderer.cam_y);
+                        n->sendinput(pressed_keys, held_keys, mouse_x/renderer.zoom+renderer.cam_x, mouse_y/renderer.zoom+renderer.cam_y);
                     }
                 }
-                engine.setinput(myself, pressed_keys, held_keys, mouse_x+renderer.cam_x, mouse_y+renderer.cam_y);
+                engine.setinput(myself, pressed_keys, held_keys, mouse_x/renderer.zoom+renderer.cam_x, mouse_y/renderer.zoom+renderer.cam_y);
                 engine.update(&(networker->sendbuffer), ENGINE_TIMESTEP);
                 networker->sendeventdata(engine.currentstate.get());
 

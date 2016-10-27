@@ -7,7 +7,7 @@
 #include "global_constants.h"
 #include "entity.h"
 
-Renderer::Renderer() : WINDOW_WIDTH(1280), WINDOW_HEIGHT(720), spriteloader(false)
+Renderer::Renderer() : cam_x(0), cam_y(0), zoom(1), WINDOW_WIDTH(1280), WINDOW_HEIGHT(720), spriteloader(false)
 {
     background = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     midground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -59,7 +59,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
     al_identity_transform(trans);
 
     // Calculate zoom
-    double zoom = 1.0*WINDOW_WIDTH / VIEWPORT_WIDTH;
+    zoom = 1.0*WINDOW_WIDTH / VIEWPORT_WIDTH;
     al_scale_transform(trans, zoom, zoom);
 
     // Set camera
@@ -70,8 +70,8 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
         c = p->getcharacter(state);
         if (c != 0)
         {
-            cam_x = c->x - WINDOW_WIDTH/2.0;
-            cam_y = c->y - WINDOW_HEIGHT/2.0;
+            cam_x = c->x - VIEWPORT_WIDTH/2.0;
+            cam_y = c->y - WINDOW_HEIGHT/zoom/2.0;
         }
     }
 
