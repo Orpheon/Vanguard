@@ -55,7 +55,6 @@ class Character : public MovingEntity
         bool isflipped;
         LoopAnimation runanim;
         LoopAnimation crouchanim;
-        Timer ultcharge;
 
     protected:
         INPUT_CONTAINER pressed_keys;

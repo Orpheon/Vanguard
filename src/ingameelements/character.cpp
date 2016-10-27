@@ -15,7 +15,7 @@
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
             owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), isflipped(false), runanim(parameters.characterfolder+"run/"),
-            crouchanim(parameters.characterfolder+"crouchwalk/"), ultcharge(100), pressed_keys(), held_keys()
+            crouchanim(parameters.characterfolder+"crouchwalk/"), pressed_keys(), held_keys()
 {
     acceleration = 300;
     runpower = parameters.runpower;
@@ -117,7 +117,8 @@ void Character::midstep(Gamestate *state, double frametime)
     hspeed *= std::pow(friction, frametime);
 
     // Passive ult charge
-    ultcharge.update(state, frametime*passiveultcharge());
+    Player *p = state->get<Player>(owner);
+    p->ultcharge.update(state, frametime*passiveultcharge());
 
     getweapon(state)->midstep(state, frametime);
 }
@@ -433,10 +434,11 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
 
 
     // Ult charge meter
+    Player *p = state->get<Player>(owner);
     ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/ultbar.png");
     Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/ultbar.png").offset(renderer->WINDOW_WIDTH/2.0, hudheight()*renderer->WINDOW_HEIGHT);
     al_draw_bitmap(ultbar, ultbarrect.x - ultbarrect.w/2.0, ultbarrect.y - ultbarrect.h/2.0, 0);
-    al_draw_arc(ultbarrect.x, ultbarrect.y-8, 33, -3.1415/2.0, 2*3.1415*ultcharge.timer/100.0, al_map_rgb(255, 230, 125), 8);
+    al_draw_arc(ultbarrect.x, ultbarrect.y-8, 33, -3.1415/2.0, 2*3.1415*p->ultcharge.timer/100.0, al_map_rgb(255, 230, 125), 8);
 }
 
 bool Character::onground(Gamestate *state)
@@ -470,7 +472,6 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
     hp.normal = prev_e->hp.normal + alpha*(next_e->hp.normal - prev_e->hp.normal);
     hp.armor = prev_e->hp.armor + alpha*(next_e->hp.armor - prev_e->hp.armor);
     hp.shields = prev_e->hp.shields + alpha*(next_e->hp.shields - prev_e->hp.shields);
-    ultcharge.timer = prev_e->ultcharge.timer + alpha*(next_e->ultcharge.timer - prev_e->ultcharge.timer);
 }
 
 void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
@@ -485,8 +486,6 @@ void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate
     held_keys.serialize(buffer);
     buffer->write<int16_t>(mouse_x);
     buffer->write<int16_t>(mouse_y);
-
-    buffer->write<uint16_t>(ultcharge.timer*65536/100.0);
 
     getweapon(state)->serialize(state, buffer, fullupdate);
 }
@@ -504,8 +503,6 @@ void Character::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdat
     mouse_x = buffer->read<int16_t>();
     mouse_y = buffer->read<int16_t>();
     getweapon(state)->setaim(mouse_x, mouse_y);
-
-    ultcharge.timer = 100*buffer->read<uint16_t>()/65536.0;
 
     getweapon(state)->deserialize(state, buffer, fullupdate);
 }

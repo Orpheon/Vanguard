@@ -5,7 +5,7 @@
 #include "ingameelements/heroes/mccree.h"
 #include "engine.h"
 
-Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0), spawntimer(std::bind(&Player::spawn, this, state), 4)
+Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0), spawntimer(std::bind(&Player::spawn, this, state), 4), ultcharge(100)
 {
     spawntimer.active = false;
     spawntimer.timer = spawntimer.duration;
@@ -74,6 +74,8 @@ void Player::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
     Player *prev_e = static_cast<Player*>(prev_entity);
     Player *next_e = static_cast<Player*>(next_entity);
 
+    ultcharge.timer = prev_e->ultcharge.timer + alpha*(next_e->ultcharge.timer - prev_e->ultcharge.timer);
+
     if (alpha < 0.5)
     {
         character = prev_e->character;
@@ -90,6 +92,7 @@ void Player::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
     {
         buffer->write<bool>(character != 0);
     }
+    buffer->write<uint16_t>(ultcharge.timer*65536/100.0);
     if (character != 0)
     {
         Character *c = state->get<Character>(character);
@@ -107,6 +110,7 @@ void Player::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate)
             spawn(state);
         }
     }
+    ultcharge.timer = 100*buffer->read<uint16_t>()/65536.0;
     if (character != 0)
     {
         Character *c = state->get<Character>(character);
