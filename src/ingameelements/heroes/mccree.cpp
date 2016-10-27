@@ -31,15 +31,33 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
     int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
 
+    // TODO Replace this with team check
+    std::string outlinesprite;
+    if (state->get<Player>(renderer->myself)->character == EntityPtr(id))
+    {
+        // Draw friendly outline
+        outlinesprite = mainsprite+"_friend";
+    }
+    else
+    {
+        // Draw enemy outline
+        outlinesprite = mainsprite+"_enemy";
+    }
+    ALLEGRO_BITMAP *outline = renderer->spriteloader.requestsprite(outlinesprite);
+    int outlinespriteoffset_x = renderer->spriteloader.get_spriteoffset_x(outlinesprite);
+    int outlinespriteoffset_y = renderer->spriteloader.get_spriteoffset_y(outlinesprite);
+
     al_set_target_bitmap(renderer->midground);
     if (isflipped)
     {
         // Flip horizontally
         al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
+        al_draw_scaled_rotated_bitmap(outline, outlinespriteoffset_x, outlinespriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
     }
     else
     {
         al_draw_bitmap(sprite, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 0);
+        al_draw_bitmap(outline, x-outlinespriteoffset_x - renderer->cam_x, y-outlinespriteoffset_y - renderer->cam_y, 0);
     }
 
     if (flashbanganim.active())
@@ -222,14 +240,14 @@ void Mccree::drawhud(Renderer *renderer, Gamestate *state)
     float r[8];
 
     ALLEGRO_BITMAP *sprite;
-    Rect spriterect = renderer->spriteloader.get_rect("ui/ingame/mccree/rolling.png");
+    Rect spriterect = renderer->spriteloader.get_rect("ui/ingame/mccree/rolling");
     if (rollcooldown.active)
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/rollingcooldown.png");
+        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/rollingcooldown");
     }
     else
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/rolling.png");
+        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/rolling");
     }
     spriterect.x = renderer->WINDOW_WIDTH*6/7.0 - spriterect.w*2 - space;
     spriterect.y = renderer->WINDOW_HEIGHT*hudheight()-spriterect.h;
@@ -257,11 +275,11 @@ void Mccree::drawhud(Renderer *renderer, Gamestate *state)
 
     if (flashbangcooldown.active)
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/flashbangcooldown.png");
+        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/flashbangcooldown");
     }
     else
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/flashbang.png");
+        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/flashbang");
     }
     spriterect.x = spriterect.x + spriterect.w+space;
     al_draw_bitmap(sprite, spriterect.x, spriterect.y, 0);
@@ -383,7 +401,7 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     }
     if (std::fabs(hspeed) < 11.0)
     {
-        return getcharacterfolder()+"idle/1.png";
+        return getcharacterfolder()+"idle/1";
     }
     return runanim.getframe();
 }

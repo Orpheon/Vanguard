@@ -6,24 +6,32 @@
 
 Animation::Animation(std::string path_) : timer(0, 0), path(path_)
 {
-    std::ifstream datafile("spriteoffsets.json");
+    std::ifstream datafile("gamedata.json");
     nlohmann::json data;
     data << datafile;
     datafile.close();
-    nframes = data[path+" number of frames"];
-
     timer.duration = data[path+" duration"];
+
+    std::ifstream datafile2("sprites/spritedata.json");
+    nlohmann::json data2;
+    data2 << datafile2;
+    datafile2.close();
+    nframes = data2[path+" number of frames"];
 }
 
 Animation::Animation(std::string path_, std::function<void(Gamestate *state)> eventfunc_) : timer(eventfunc_, 0), path(path_)
 {
-    std::ifstream datafile("spriteoffsets.json");
+    std::ifstream datafile("gamedata.json");
     nlohmann::json data;
     data << datafile;
     datafile.close();
-    nframes = data[path+" number of frames"];
-
     timer.duration = data[path+" duration"];
+
+    std::ifstream datafile2("sprites/spritedata.json");
+    nlohmann::json data2;
+    data2 << datafile2;
+    datafile2.close();
+    nframes = data2[path+" number of frames"];
 }
 
 Animation::~Animation()
@@ -35,7 +43,7 @@ std::string Animation::getframe()
 {
     int f = static_cast<int>(std::floor(nframes*timer.getpercent()))+1;
     f = std::min(std::max(f, 1), nframes);
-    return path+std::to_string(f)+".png";
+    return path+std::to_string(f);
 }
 
 void Animation::update(Gamestate *state, double dt)

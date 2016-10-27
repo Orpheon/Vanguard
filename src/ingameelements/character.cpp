@@ -435,8 +435,8 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
 
     // Ult charge meter
     Player *p = state->get<Player>(owner);
-    ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/ultbar.png");
-    Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/ultbar.png").offset(renderer->WINDOW_WIDTH/2.0, hudheight()*renderer->WINDOW_HEIGHT);
+    ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/ultbar");
+    Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/ultbar").offset(renderer->WINDOW_WIDTH/2.0, hudheight()*renderer->WINDOW_HEIGHT);
     al_draw_bitmap(ultbar, ultbarrect.x - ultbarrect.w/2.0, ultbarrect.y - ultbarrect.h/2.0, 0);
     al_draw_arc(ultbarrect.x, ultbarrect.y-8, 33, -3.1415/2.0, 2*3.1415*p->ultcharge.timer/100.0, al_map_rgb(255, 230, 125), 8);
 }

@@ -71,7 +71,7 @@ bool MainMenu::run(ALLEGRO_DISPLAY *display)
     // use mousestate.x or .y for position of mouse on screen
 
     // Draw
-//    al_draw_bitmap(spriteloader.requestsprite("mainmenu/background.png"), 0, 0);
+//    al_draw_bitmap(spriteloader.requestsprite("mainmenu/background"), 0, 0);
 
     return not finished;
 }

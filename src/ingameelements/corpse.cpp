@@ -4,7 +4,7 @@
 #include "engine.h"
 #include "renderer.h"
 
-Corpse::Corpse(uint64_t id_, Gamestate *state, std::string characterfolder, bool isflipped_) : MovingEntity(id_, state), spritepath(characterfolder+"corpse/1.png"),
+Corpse::Corpse(uint64_t id_, Gamestate *state, std::string characterfolder, bool isflipped_) : MovingEntity(id_, state), spritepath(characterfolder+"corpse/1"),
                 countdown(std::bind(&Corpse::destroy, this, state), 8), isflipped(isflipped_)
 {
     //ctor

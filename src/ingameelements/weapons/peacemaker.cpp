@@ -38,7 +38,7 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     }
     else
     {
-        mainsprite = c->getcharacterfolder()+"arm/1.png";
+        mainsprite = c->getcharacterfolder()+"arm/1";
     }
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
     int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);

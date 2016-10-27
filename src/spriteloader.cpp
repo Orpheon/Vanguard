@@ -4,9 +4,14 @@
 Spriteloader::Spriteloader(bool memory_only) : bitmapcache()
 {
     // Load the sprite offset data
-    std::ifstream spriteoffsetsfile("spriteoffsets.json");
+    std::ifstream spriteoffsetsfile("sprites/spritedata.json");
     spriteoffsets << spriteoffsetsfile;
     spriteoffsetsfile.close();
+
+    // Load the game data
+    std::ifstream gamedatafile("gamedata.json");
+    gamedata << gamedatafile;
+    gamedatafile.close();
 
     MEMORY_ONLY = memory_only;
 }
@@ -16,6 +21,34 @@ Spriteloader::~Spriteloader()
     for (auto e : bitmapcache)
     {
         al_destroy_bitmap(e.second);
+    }
+}
+
+int Spriteloader::get_spriteoffset_x(std::string s)
+{
+    s += ".png";
+    try
+    {
+        return spriteoffsets[s][0];
+    }
+    catch (std::domain_error)
+    {
+        fprintf(stderr, "\nError: Could not load sprite offset of %s!", s.c_str());
+        throw -1;
+    }
+}
+
+int Spriteloader::get_spriteoffset_y(std::string s)
+{
+    s += ".png";
+    try
+    {
+        return spriteoffsets[s][1];
+    }
+    catch (std::domain_error)
+    {
+        fprintf(stderr, "\nError: Could not load sprite offset %s!\n", s.c_str());
+        throw -1;
     }
 }
 
@@ -37,7 +70,7 @@ ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path)
 //        al_set_target_bitmap(bitmapcache[path]);
 //        al_draw_scaled_rotated_bitmap(tmp, 0, 0, 0, 0, 2, 2, 0, 0);
 //        al_destroy_bitmap(tmp);
-        bitmapcache[path] = al_load_bitmap(("sprites/"+path).c_str());
+        bitmapcache[path] = al_load_bitmap(("sprites/"+path+".png").c_str());
         if (bitmapcache[path] == NULL)
         {
             printf("\nERROR: Could not load %s!", path.c_str());

@@ -10,7 +10,7 @@ class PeacemakerBullet : public Projectile
         PeacemakerBullet(uint64_t id_, Gamestate *state, EntityPtr owner_);
         virtual ~PeacemakerBullet();
         void beginstep(Gamestate *state, double frametime) {}
-        std::string getsprite(Gamestate *state, bool mask) {return "heroes/mccree/projectiles/bullet.png";}
+        std::string getsprite(Gamestate *state, bool mask) {return "heroes/mccree/projectiles/bullet";}
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new PeacemakerBullet(*this));}
         bool isrectangular() {return true;}
         Rect getrect() {return Rect(x, y, 20, 1);}
