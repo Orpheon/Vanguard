@@ -20,6 +20,7 @@ class Character : public MovingEntity
         virtual void beginstep(Gamestate *state, double frametime);
         virtual void midstep(Gamestate *state, double frametime);
         virtual void endstep(Gamestate *state, double frametime);
+        virtual void render(Renderer *renderer, Gamestate *state);
         bool isrootobject() {return false;}
         virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha);
         virtual void serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate);
