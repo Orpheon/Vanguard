@@ -63,7 +63,7 @@ for filepath in filelist:
                             break
                     if isborder:
                         # Make blue
-                        pixels[x, y] = (0, 180, 255)
+                        pixels[x, y] = (0, 145, 181)
                 else:
                     pixels[x, y] = (0, 0, 0, 0)
 
