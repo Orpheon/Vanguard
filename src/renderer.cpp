@@ -56,13 +56,13 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
         surfaceground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     }
 
-    // Set up transformations
-    ALLEGRO_TRANSFORM *trans = const_cast<ALLEGRO_TRANSFORM*>(al_get_current_transform());
-    al_identity_transform(trans);
+    // Clean transformations
+    ALLEGRO_TRANSFORM *rendertransform = const_cast<ALLEGRO_TRANSFORM*>(al_get_current_transform());
+    al_identity_transform(rendertransform);
 
     // Calculate zoom
     zoom = 1.0*WINDOW_WIDTH / VIEWPORT_WIDTH;
-    al_scale_transform(trans, zoom, zoom);
+    al_scale_transform(rendertransform, zoom, zoom);
 
     // Set camera
     Player *p = state->get<Player>(myself);
@@ -112,11 +112,11 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
     // Draw the map wallmask on top of everything, to prevent sprites that go through walls
     state->currentmap->renderwallground(cam_x, cam_y);
 
+    // Go back to no scaling
+    al_identity_transform(rendertransform);
+
     // Draw the final layer on top of even that, for certain things like character healthbars
     al_draw_bitmap(surfaceground, 0, 0, 0);
-
-    // Go back to no scaling
-    al_identity_transform(trans);
 
 
     //fps counter mostly borrowed from pygg2

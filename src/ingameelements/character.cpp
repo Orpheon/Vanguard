@@ -296,16 +296,16 @@ void Character::render(Renderer *renderer, Gamestate *state)
     float r[8]; // Array used to pass the polygon data for the actual drawing
 
     // Parameters
-    double totalwidth = 30;
-    int height = 5;
-    int space = 1;
+    double totalwidth = 60;
+    int height = 6;
+    int space = 2;
     double slant = 0.3;
-    double y_ = y - renderer->spriteloader.get_spriteoffset_y(mainsprite) - renderer->cam_y - 15;
+    double y_ = renderer->zoom*(y - renderer->spriteloader.get_spriteoffset_y(mainsprite) - renderer->cam_y - 15);
 
     int nrects = std::ceil(maxhp.total()/25.0);
     double width = totalwidth/nrects;
     Rect box = renderer->spriteloader.get_rect(mainsprite);
-    double start_x = x - renderer->spriteloader.get_spriteoffset_x(mainsprite) + box.w/2.0 - renderer->cam_x - width*(nrects/2.0) - space*((nrects-1)/2.0);
+    double start_x = renderer->zoom*(x - renderer->spriteloader.get_spriteoffset_x(mainsprite) + box.w/2.0 - renderer->cam_x) - width*(nrects/2.0) - space*((nrects-1)/2.0);
 
     // Draw first normal health, then armor, then shields
     for (int healthtype=0; healthtype<3; ++healthtype)
