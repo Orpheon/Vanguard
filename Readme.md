@@ -4,7 +4,7 @@ We are not affiliated with Blizzard in any way, this is merely a fan project.
 Game releases for windows can be found on the [main thread](http://www.ganggarrison.com/forums/index.php?topic=37227.0), people interested in developping should contact us.
 Please note that this is still very much in alpha and not meant to be playable in its current state.
 
-For modifying the sprites or adding new ones, one must delete the old _sprites_ folder entirely, duplicate the _sprite templates_ folder and rename it to _sprites_, and then run `python prepare_sprites.py` with [Pillow](https://python-pillow.org/) installed.
+For modifying the sprites or adding new ones, one must delete the old _sprites_ folder entirely, duplicate the _sprites template_ folder and rename it to _sprites_, and then run `python prepare_sprites.py` with [Pillow](https://python-pillow.org/) installed. The game does not require recompilation.
 
 For compiling the game, one requires [Allegro](http://liballeg.org/download.html) v5.2 or above and [enet](http://enet.bespin.org/Downloads.html) v1.3.13 or above.
-The game has a codeblocks project file containing build presets for both dynamic and static compilation, and there is also a separate compilation script run by `python configure.py` and `ninja` that will compile statically (tested mostly on windows, though, not yet on any other distribution).
+The game has a codeblocks project file containing build presets for both dynamic and static compilation, and there is also a separate compilation script run by `python configure.py` and `ninja` that will compile statically (tested mostly on windows, though, not yet on any other platform).
