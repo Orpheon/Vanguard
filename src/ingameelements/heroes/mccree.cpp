@@ -370,7 +370,7 @@ void Mccree::useability2(Gamestate *state)
     Flashbang *f = state->get<Flashbang>(state->make_entity<Flashbang>(state, EntityPtr(id)));
     f->x = x;
     f->y = y;
-    double dir = std::atan2(mouse_y, mouse_x);
+    double dir = std::atan2(mouse_y-y, mouse_x-x);
     f->hspeed = std::cos(dir) * 300;
     f->vspeed = std::sin(dir) * 300;
 }

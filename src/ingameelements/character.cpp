@@ -102,11 +102,11 @@ void Character::midstep(Gamestate *state, double frametime)
             getweapon(state)->wantfiresecondary(state);
         }
 
-        if (isflipped != (mouse_x < 0))
+        if (isflipped != (mouse_x < x))
         {
             // Spinjumping (compensate for later gravity)
             vspeed -= 540.0*frametime*3.0/4.0;
-            isflipped = (mouse_x < 0);
+            isflipped = (mouse_x < x);
         }
     }
 
