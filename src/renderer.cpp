@@ -7,7 +7,7 @@
 #include "global_constants.h"
 #include "entity.h"
 
-Renderer::Renderer() : cam_x(0), cam_y(0), zoom(1), WINDOW_WIDTH(1280), WINDOW_HEIGHT(720), spriteloader(false), myself(0)
+Renderer::Renderer() : cam_x(0), cam_y(0), zoom(1), myself(0), WINDOW_WIDTH(1280), WINDOW_HEIGHT(720), spriteloader(false)
 {
     background = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     midground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
