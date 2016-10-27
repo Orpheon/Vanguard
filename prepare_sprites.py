@@ -100,8 +100,6 @@ for filepath in filelist:
                     b = y
 
     output[filepath[8:]] = [w/2-l, h/2-t]
-    if "run" in filepath:
-        print(filepath, [w/2-l, h/2-t])
     im2 = im.crop((l, t, r+1, b+1))
     im2.save(filepath)
 
