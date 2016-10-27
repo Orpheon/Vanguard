@@ -3,7 +3,7 @@
 
 #include "gamestate.h"
 #include "spriteloader.h"
-#include "networker.h"
+#include "networking/networker.h"
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
