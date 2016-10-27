@@ -31,7 +31,7 @@ class Character : public MovingEntity
         virtual Rect getstandingcollisionrect(Gamestate *state) = 0;
         virtual CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) = 0;
         virtual std::string getcharacterfolder() = 0;
-        virtual bool cangetinput(Gamestate *state) {return true;}
+        virtual bool cangetinput(Gamestate *state) {return not stunanim.active();}
         virtual void damage(Gamestate *state, double amount);
         Weapon *getweapon(Gamestate *state);
         virtual double getweaponpos_x() = 0;
@@ -55,6 +55,7 @@ class Character : public MovingEntity
         bool isflipped;
         LoopAnimation runanim;
         LoopAnimation crouchanim;
+        Animation stunanim;
 
     protected:
         INPUT_CONTAINER pressed_keys;

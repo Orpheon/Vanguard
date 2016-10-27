@@ -13,5 +13,6 @@
     "heroes/mccree/crouchwalk/ duration": 40,
     "heroes/mccree/fanthehammerstart/ duration": 0.11,
     "heroes/mccree/fanthehammerloop/ duration": 0.11,
-    "heroes/mccree/projectiletrail/ duration": 0.2
+    "heroes/mccree/projectiletrail/ duration": 0.2,
+    "heroes/mccree/stun/ duration": 0.7
 }

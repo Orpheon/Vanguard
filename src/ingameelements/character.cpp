@@ -15,7 +15,7 @@
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
             owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), isflipped(false), runanim(parameters.characterfolder+"run/"),
-            crouchanim(parameters.characterfolder+"crouchwalk/"), pressed_keys(), held_keys()
+            crouchanim(parameters.characterfolder+"crouchwalk/"), stunanim(parameters.characterfolder+"stun/"), pressed_keys(), held_keys()
 {
     acceleration = 300;
     runpower = parameters.runpower;
@@ -24,6 +24,9 @@ Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, Character
     friction = 0.01510305449388463132584804061124;
 
     entitytype = CHARACTER;
+
+    crouchanim.active(false);
+    stunanim.active(false);
 }
 
 void Character::setinput(Gamestate *state, INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_, double mouse_x_, double mouse_y_)
@@ -259,6 +262,7 @@ void Character::endstep(Gamestate *state, double frametime)
             crouchanim.update(state, hspeed*frametime);
         }
     }
+    stunanim.update(state, frametime);
     if (hspeed == 0.0)
     {
         bool run=runanim.active(), crouch=crouchanim.active();

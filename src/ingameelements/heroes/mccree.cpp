@@ -391,6 +391,10 @@ Rect Mccree::getstandingcollisionrect(Gamestate *state)
 
 std::string Mccree::getsprite(Gamestate *state, bool mask)
 {
+    if (stunanim.active())
+    {
+        return stunanim.getframe();
+    }
     if (rollanim.active())
     {
         return rollanim.getframe();

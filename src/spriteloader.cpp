@@ -73,8 +73,7 @@ ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path)
         bitmapcache[path] = al_load_bitmap(("sprites/"+path+".png").c_str());
         if (bitmapcache[path] == NULL)
         {
-            printf("\nERROR: Could not load %s!", path.c_str());
-            printf("\n");
+            fprintf(stderr, "\nError: Could not load %s!", path.c_str());
             return 0;
         }
     }
@@ -87,4 +86,17 @@ Rect Spriteloader::get_rect(std::string s)
 //    int dx = get_spriteoffset_x(s), dy = get_spriteoffset_y(s);
 //    return Rect(-dx, -dy, al_get_bitmap_width(sprite), al_get_bitmap_height(sprite));
     return Rect(0, 0, al_get_bitmap_width(sprite), al_get_bitmap_height(sprite));
+}
+
+Rect Spriteloader::get_rect_from_json(std::string s)
+{
+    try
+    {
+        return Rect(gamedata[s+" rect"][0], gamedata[s+" rect"][1], gamedata[s+" rect"][2], gamedata[s+" rect"][3]);
+    }
+    catch (std::domain_error)
+    {
+        fprintf(stderr, "\nError: Could not load %s rect data!", s.c_str());
+        throw -1;
+    }
 }
