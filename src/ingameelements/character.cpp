@@ -30,8 +30,8 @@ void Character::setinput(Gamestate *state, INPUT_CONTAINER pressed_keys_, INPUT_
 {
     pressed_keys = pressed_keys_;
     held_keys = held_keys_;
-    mouse_x = mouse_x_ - x;
-    mouse_y = mouse_y_ - y;
+    mouse_x = mouse_x_;
+    mouse_y = mouse_y_;
     getweapon(state)->setaim(mouse_x, mouse_y);
 }
 

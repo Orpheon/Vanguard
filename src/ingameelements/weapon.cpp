@@ -74,7 +74,7 @@ void Weapon::reload(Gamestate *state)
 
 void Weapon::setaim(double x_, double y_)
 {
-    aimdirection = std::atan2(y_, x_);
+    aimdirection = std::atan2(y_-y, x_-x);
 }
 
 void Weapon::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
