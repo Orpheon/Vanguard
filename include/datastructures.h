@@ -51,33 +51,34 @@ enum ENTITYTYPE {   PLAYER,
 
 struct ReducedInputContainer
 {
-    bool LEFT;
-    bool RIGHT;
-    bool CROUCH;
+    public:
+        bool LEFT;
+        bool RIGHT;
+        bool CROUCH;
 
-    void serialize(WriteBuffer *buffer)
-    {
-        uint16_t d = 0;
-        d |= LEFT<<1;
-        d |= RIGHT<<2;
-        d |= CROUCH<<3;
-        buffer->write<uint16_t>(d);
-    }
+        void serialize(WriteBuffer *buffer)
+        {
+            uint16_t d = 0;
+            d |= LEFT<<1;
+            d |= RIGHT<<2;
+            d |= CROUCH<<3;
+            buffer->write<uint16_t>(d);
+        }
 
-    void deserialize(ReadBuffer *buffer)
-    {
-        uint16_t d = buffer->read<uint16_t>();
-        LEFT = d & 1<<1;
-        RIGHT = d & 1<<2;
-        CROUCH = d & 1<<3;
-    }
+        void deserialize(ReadBuffer *buffer)
+        {
+            uint16_t d = buffer->read<uint16_t>();
+            LEFT = d & 1<<1;
+            RIGHT = d & 1<<2;
+            CROUCH = d & 1<<3;
+        }
 
-    void reset()
-    {
-        LEFT = false;
-        RIGHT = false;
-        CROUCH = false;
-    }
+        void reset()
+        {
+            LEFT = false;
+            RIGHT = false;
+            CROUCH = false;
+        }
 };
 
 struct InputContainer : public ReducedInputContainer
@@ -134,6 +135,13 @@ struct InputContainer : public ReducedInputContainer
         InputContainer i;
         i.reset();
         return i;
+    }
+
+    void update(ReducedInputContainer r)
+    {
+        LEFT = r.LEFT;
+        RIGHT = r.RIGHT;
+        CROUCH = r.CROUCH;
     }
 };
 

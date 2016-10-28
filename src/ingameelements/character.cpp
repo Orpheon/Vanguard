@@ -658,8 +658,9 @@ void Character::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdat
     hp.armor = buffer->read<uint16_t>();
     hp.shields = buffer->read<uint16_t>();
 
-    ReducedInputContainer input = held_keys.reduce();
+    ReducedInputContainer input;
     input.deserialize(buffer);
+    held_keys.update(input);
 
     mouse_x = buffer->read<int16_t>();
     mouse_y = buffer->read<int16_t>();
