@@ -36,7 +36,7 @@ InputCatcher::~InputCatcher()
     al_destroy_event_queue(event_queue);
 }
 
-void InputCatcher::run(ALLEGRO_DISPLAY *display, INPUT_CONTAINER *pressed_keys, INPUT_CONTAINER *held_keys, double *mouse_x, double *mouse_y)
+void InputCatcher::run(ALLEGRO_DISPLAY *display, InputContainer *pressed_keys, InputContainer *held_keys, double *mouse_x, double *mouse_y)
 {
     pressed_keys->reset();
     held_keys->reset();

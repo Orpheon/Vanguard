@@ -29,7 +29,7 @@ Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, Character
     stunanim.active(false);
 }
 
-void Character::setinput(Gamestate *state, INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_, double mouse_x_, double mouse_y_)
+void Character::setinput(Gamestate *state, InputContainer pressed_keys_, InputContainer held_keys_, double mouse_x_, double mouse_y_)
 {
     pressed_keys = pressed_keys_;
     held_keys = held_keys_;
@@ -641,8 +641,9 @@ void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate
     buffer->write<uint16_t>(hp.armor);
     buffer->write<uint16_t>(hp.shields);
 
-    pressed_keys.serialize(buffer);
-    held_keys.serialize(buffer);
+    ReducedInputContainer input = held_keys.reduce();
+    input.serialize(buffer);
+
     buffer->write<int16_t>(mouse_x);
     buffer->write<int16_t>(mouse_y);
 
@@ -657,8 +658,9 @@ void Character::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdat
     hp.armor = buffer->read<uint16_t>();
     hp.shields = buffer->read<uint16_t>();
 
-    pressed_keys.deserialize(buffer);
-    held_keys.deserialize(buffer);
+    ReducedInputContainer input = held_keys.reduce();
+    input.deserialize(buffer);
+
     mouse_x = buffer->read<int16_t>();
     mouse_y = buffer->read<int16_t>();
     getweapon(state)->setaim(mouse_x, mouse_y);

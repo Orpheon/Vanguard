@@ -26,7 +26,7 @@ void Engine::update(WriteBuffer *sendbuffer, double frametime)
     currentstate->update(sendbuffer, frametime);
 }
 
-void Engine::setinput(EntityPtr myself, INPUT_CONTAINER pressed_keys, INPUT_CONTAINER held_keys, double mouse_x, double mouse_y)
+void Engine::setinput(EntityPtr myself, InputContainer pressed_keys, InputContainer held_keys, double mouse_x, double mouse_y)
 {
     Player *p = currentstate->get<Player>(myself);
     if (p != 0)

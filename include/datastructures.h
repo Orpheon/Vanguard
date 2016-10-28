@@ -49,26 +49,52 @@ enum ENTITYTYPE {   PLAYER,
                     PROJECTILE,
                     EXPLOSION };
 
-struct INPUT_CONTAINER
+struct ReducedInputContainer
 {
     bool LEFT;
     bool RIGHT;
-    bool JUMP;
     bool CROUCH;
-    bool PRIMARY_FIRE;
-    bool SECONDARY_FIRE;
-    bool RELOAD;
-    bool ABILITY_1;
-    bool ABILITY_2;
-    bool ULTIMATE;
 
     void serialize(WriteBuffer *buffer)
     {
         uint16_t d = 0;
         d |= LEFT<<1;
         d |= RIGHT<<2;
-        d |= JUMP<<3;
-        d |= CROUCH<<4;
+        d |= CROUCH<<3;
+        buffer->write<uint16_t>(d);
+    }
+
+    void deserialize(ReadBuffer *buffer)
+    {
+        uint16_t d = buffer->read<uint16_t>();
+        LEFT = d & 1<<1;
+        RIGHT = d & 1<<2;
+        CROUCH = d & 1<<3;
+    }
+
+    void reset()
+    {
+        LEFT = false;
+        RIGHT = false;
+        CROUCH = false;
+    }
+};
+
+struct InputContainer : public ReducedInputContainer
+{
+    bool JUMP;
+    bool RELOAD;
+    bool PRIMARY_FIRE;
+    bool SECONDARY_FIRE;
+    bool ABILITY_1;
+    bool ABILITY_2;
+    bool ULTIMATE;
+
+    void serialize(WriteBuffer *buffer)
+    {
+        ReducedInputContainer::serialize(buffer);
+        uint16_t d = 0;
+        d |= JUMP<<4;
         d |= PRIMARY_FIRE<<5;
         d |= SECONDARY_FIRE<<6;
         d |= RELOAD<<7;
@@ -80,11 +106,9 @@ struct INPUT_CONTAINER
 
     void deserialize(ReadBuffer *buffer)
     {
+        ReducedInputContainer::deserialize(buffer);
         uint16_t d = buffer->read<uint16_t>();
-        LEFT = d & 1<<1;
-        RIGHT = d & 1<<2;
-        JUMP = d & 1<<3;
-        CROUCH = d & 1<<4;
+        JUMP = d & 1<<4;
         PRIMARY_FIRE = d & 1<<5;
         SECONDARY_FIRE = d & 1<<6;
         RELOAD = d & 1<<7;
@@ -95,16 +119,21 @@ struct INPUT_CONTAINER
 
     void reset()
     {
-        LEFT = false;
-        RIGHT = false;
+        ReducedInputContainer::reset();
         JUMP = false;
-        CROUCH = false;
         PRIMARY_FIRE = false;
         SECONDARY_FIRE = false;
         RELOAD = false;
         ABILITY_1 = false;
         ABILITY_2 = false;
         ULTIMATE = false;
+    }
+
+    InputContainer reduce()
+    {
+        InputContainer i;
+        i.reset();
+        return i;
     }
 };
 

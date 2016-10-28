@@ -144,8 +144,8 @@ int main(int argc, char **argv)
         myself = engine.currentstate->playerlist[engine.currentstate->playerlist.size()-1];
     }
 
-    INPUT_CONTAINER pressed_keys;
-    INPUT_CONTAINER held_keys;
+    InputContainer pressed_keys;
+    InputContainer held_keys;
     double mouse_x;
     double mouse_y;
 
