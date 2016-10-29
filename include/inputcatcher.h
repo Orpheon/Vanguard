@@ -13,7 +13,7 @@ class InputCatcher
     public:
         InputCatcher(ALLEGRO_DISPLAY *display);
         ~InputCatcher();
-        void run(ALLEGRO_DISPLAY *display, InputContainer *pressed_keys, InputContainer *held_keys, double *mouse_x, double *mouse_y);
+        void run(ALLEGRO_DISPLAY *display, InputContainer *held_keys, double *mouse_x, double *mouse_y);
     private:
         ALLEGRO_EVENT_QUEUE *event_queue;
         nlohmann::json config;

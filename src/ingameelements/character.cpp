@@ -15,7 +15,7 @@
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
             owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), isflipped(false), runanim(parameters.characterfolder+"run/"),
-            crouchanim(parameters.characterfolder+"crouchwalk/"), stunanim(parameters.characterfolder+"stun/"), pressed_keys(), held_keys()
+            crouchanim(parameters.characterfolder+"crouchwalk/"), stunanim(parameters.characterfolder+"stun/"), held_keys()
 {
     acceleration = 300;
     runpower = parameters.runpower;
@@ -29,9 +29,8 @@ Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, Character
     stunanim.active(false);
 }
 
-void Character::setinput(Gamestate *state, InputContainer pressed_keys_, InputContainer held_keys_, double mouse_x_, double mouse_y_)
+void Character::setinput(Gamestate *state, InputContainer held_keys_, double mouse_x_, double mouse_y_)
 {
-    pressed_keys = pressed_keys_;
     held_keys = held_keys_;
     mouse_x = mouse_x_;
     mouse_y = mouse_y_;
@@ -66,7 +65,7 @@ void Character::midstep(Gamestate *state, double frametime)
             hspeed = std::min(hspeed + acceleration * runpower * frametime, maxhspeed);
         }
 
-        if (pressed_keys.JUMP)
+        if (held_keys.JUMP)
         {
             if (onground(state))
             {
@@ -616,13 +615,11 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
     if (alpha < 0.5)
     {
         held_keys = prev_e->held_keys;
-        pressed_keys = prev_e->pressed_keys;
         crouchanim.active(prev_e->crouchanim.active());
     }
     else
     {
         held_keys = next_e->held_keys;
-        pressed_keys = next_e->pressed_keys;
         crouchanim.active(prev_e->crouchanim.active());
     }
     mouse_x = prev_e->mouse_x + alpha*(next_e->mouse_x - prev_e->mouse_x);

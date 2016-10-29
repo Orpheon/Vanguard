@@ -109,11 +109,10 @@ void ClientNetworker::sendeventdata(Gamestate *state)
     }
 }
 
-void ClientNetworker::sendinput(InputContainer pressedkeys, InputContainer heldkeys, float mouse_x, float mouse_y)
+void ClientNetworker::sendinput(InputContainer heldkeys, float mouse_x, float mouse_y)
 {
     WriteBuffer input = WriteBuffer();
     input.write<uint8_t>(CLIENT_INPUT);
-    pressedkeys.serialize(&input);
     heldkeys.serialize(&input);
     input.write<int16_t>(mouse_x);
     input.write<int16_t>(mouse_y);

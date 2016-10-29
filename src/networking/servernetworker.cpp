@@ -79,11 +79,10 @@ void ServerNetworker::receive(Gamestate *state)
                     if (p->character != 0)
                     {
                         InputContainer pressedkeys, heldkeys;
-                        pressedkeys.deserialize(&data);
                         heldkeys.deserialize(&data);
                         double mouse_x = data.read<int16_t>();
                         double mouse_y = data.read<int16_t>();
-                        p->getcharacter(state)->setinput(state, pressedkeys, heldkeys, mouse_x, mouse_y);
+                        p->getcharacter(state)->setinput(state, heldkeys, mouse_x, mouse_y);
                     }
                 }
                 else

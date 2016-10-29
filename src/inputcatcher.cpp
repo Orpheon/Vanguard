@@ -36,9 +36,9 @@ InputCatcher::~InputCatcher()
     al_destroy_event_queue(event_queue);
 }
 
-void InputCatcher::run(ALLEGRO_DISPLAY *display, InputContainer *pressed_keys, InputContainer *held_keys, double *mouse_x, double *mouse_y)
+void InputCatcher::run(ALLEGRO_DISPLAY *display, InputContainer *held_keys, double *mouse_x, double *mouse_y)
 {
-    pressed_keys->reset();
+//    pressed_keys->reset();
     held_keys->reset();
 
     ALLEGRO_EVENT event;
@@ -55,64 +55,64 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, InputContainer *pressed_keys, I
                 al_acknowledge_resize(display);
                 break;
 
-            case ALLEGRO_EVENT_KEY_DOWN:
-                //Debug: print the keycode number and name of the key we press
-//                printf("\n%i\t%s", event.keyboard.keycode, al_keycode_to_name(event.keyboard.keycode));
-
-                if (event.keyboard.keycode == config["jump"] or event.keyboard.keycode == config["jump_alt1"] or event.keyboard.keycode == config["jump_alt2"])
-                {
-                    pressed_keys->JUMP = true;
-                }
-                if (event.keyboard.keycode == config["crouch"] or event.keyboard.keycode == config["crouch_alt1"] or event.keyboard.keycode == config["crouch_alt2"])
-                {
-                    pressed_keys->CROUCH = true;
-                }
-                if (event.keyboard.keycode == config["left"] or event.keyboard.keycode == config["left_alt1"] or event.keyboard.keycode == config["left_alt2"])
-                {
-                    pressed_keys->LEFT = true;
-                }
-                if (event.keyboard.keycode == config["right"] or event.keyboard.keycode == config["right_alt1"] or event.keyboard.keycode == config["right_alt2"])
-                {
-                    pressed_keys->RIGHT = true;
-                }
-                if (event.keyboard.keycode == config["right"] or event.keyboard.keycode == config["right_alt1"] or event.keyboard.keycode == config["right_alt2"])
-                {
-                    pressed_keys->RIGHT = true;
-                }
-                if (event.keyboard.keycode == config["ability1"] or event.keyboard.keycode == config["ability1_alt1"] or event.keyboard.keycode == config["ability1_alt2"])
-                {
-                    pressed_keys->ABILITY_1 = true;
-                }
-                if (event.keyboard.keycode == config["ability2"] or event.keyboard.keycode == config["ability2_alt1"] or event.keyboard.keycode == config["ability2_alt2"])
-                {
-                    pressed_keys->ABILITY_2 = true;
-                }
-                if (event.keyboard.keycode == config["ultimate"] or event.keyboard.keycode == config["ultimate_alt1"] or event.keyboard.keycode == config["ultimate_alt2"])
-                {
-                    pressed_keys->ULTIMATE = true;
-                }
-                if (event.keyboard.keycode == config["reload"] or event.keyboard.keycode == config["reload_alt1"] or event.keyboard.keycode == config["reload_alt2"])
-                {
-                    pressed_keys->RELOAD = true;
-                }
-
-                switch (event.keyboard.keycode)
-                {
-                    case ALLEGRO_KEY_ESCAPE:
-                        // Exit game
-                        throw 0;
-                }
-
-            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-                switch (event.mouse.button)
-                {
-                    case LEFT_MOUSE_BUTTON:
-                        pressed_keys->PRIMARY_FIRE = true;
-                        break;
-                    case RIGHT_MOUSE_BUTTON:
-                        pressed_keys->SECONDARY_FIRE = true;
-                        break;
-                }
+//            case ALLEGRO_EVENT_KEY_DOWN:
+//                //Debug: print the keycode number and name of the key we press
+////                printf("\n%i\t%s", event.keyboard.keycode, al_keycode_to_name(event.keyboard.keycode));
+//
+//                if (event.keyboard.keycode == config["jump"] or event.keyboard.keycode == config["jump_alt1"] or event.keyboard.keycode == config["jump_alt2"])
+//                {
+//                    pressed_keys->JUMP = true;
+//                }
+//                if (event.keyboard.keycode == config["crouch"] or event.keyboard.keycode == config["crouch_alt1"] or event.keyboard.keycode == config["crouch_alt2"])
+//                {
+//                    pressed_keys->CROUCH = true;
+//                }
+//                if (event.keyboard.keycode == config["left"] or event.keyboard.keycode == config["left_alt1"] or event.keyboard.keycode == config["left_alt2"])
+//                {
+//                    pressed_keys->LEFT = true;
+//                }
+//                if (event.keyboard.keycode == config["right"] or event.keyboard.keycode == config["right_alt1"] or event.keyboard.keycode == config["right_alt2"])
+//                {
+//                    pressed_keys->RIGHT = true;
+//                }
+//                if (event.keyboard.keycode == config["right"] or event.keyboard.keycode == config["right_alt1"] or event.keyboard.keycode == config["right_alt2"])
+//                {
+//                    pressed_keys->RIGHT = true;
+//                }
+//                if (event.keyboard.keycode == config["ability1"] or event.keyboard.keycode == config["ability1_alt1"] or event.keyboard.keycode == config["ability1_alt2"])
+//                {
+//                    pressed_keys->ABILITY_1 = true;
+//                }
+//                if (event.keyboard.keycode == config["ability2"] or event.keyboard.keycode == config["ability2_alt1"] or event.keyboard.keycode == config["ability2_alt2"])
+//                {
+//                    pressed_keys->ABILITY_2 = true;
+//                }
+//                if (event.keyboard.keycode == config["ultimate"] or event.keyboard.keycode == config["ultimate_alt1"] or event.keyboard.keycode == config["ultimate_alt2"])
+//                {
+//                    pressed_keys->ULTIMATE = true;
+//                }
+//                if (event.keyboard.keycode == config["reload"] or event.keyboard.keycode == config["reload_alt1"] or event.keyboard.keycode == config["reload_alt2"])
+//                {
+//                    pressed_keys->RELOAD = true;
+//                }
+//
+//                switch (event.keyboard.keycode)
+//                {
+//                    case ALLEGRO_KEY_ESCAPE:
+//                        // Exit game
+//                        throw 0;
+//                }
+//
+//            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+//                switch (event.mouse.button)
+//                {
+//                    case LEFT_MOUSE_BUTTON:
+//                        pressed_keys->PRIMARY_FIRE = true;
+//                        break;
+//                    case RIGHT_MOUSE_BUTTON:
+//                        pressed_keys->SECONDARY_FIRE = true;
+//                        break;
+//                }
         }
     }
 
