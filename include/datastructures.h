@@ -59,18 +59,18 @@ struct ReducedInputContainer
         void serialize(WriteBuffer *buffer)
         {
             uint8_t d = 0;
-            d |= LEFT<<1;
-            d |= RIGHT<<2;
-            d |= CROUCH<<3;
+            d |= LEFT<<0;
+            d |= RIGHT<<1;
+            d |= CROUCH<<2;
             buffer->write<uint8_t>(d);
         }
 
         void deserialize(ReadBuffer *buffer)
         {
             uint8_t d = buffer->read<uint8_t>();
-            LEFT = d & 1<<1;
-            RIGHT = d & 1<<2;
-            CROUCH = d & 1<<3;
+            LEFT = d & 1<<0;
+            RIGHT = d & 1<<1;
+            CROUCH = d & 1<<2;
         }
 
         void reset()
@@ -95,13 +95,13 @@ struct InputContainer : public ReducedInputContainer
     {
         ReducedInputContainer::serialize(buffer);
         uint8_t d = 0;
-        d |= JUMP<<4;
-        d |= PRIMARY_FIRE<<5;
-        d |= SECONDARY_FIRE<<6;
-        d |= RELOAD<<7;
-        d |= ABILITY_1<<8;
-        d |= ABILITY_2<<9;
-        d |= ULTIMATE<<10;
+        d |= JUMP<<0;
+        d |= PRIMARY_FIRE<<1;
+        d |= SECONDARY_FIRE<<2;
+        d |= RELOAD<<3;
+        d |= ABILITY_1<<4;
+        d |= ABILITY_2<<5;
+        d |= ULTIMATE<<6;
         buffer->write<uint8_t>(d);
     }
 
@@ -109,13 +109,13 @@ struct InputContainer : public ReducedInputContainer
     {
         ReducedInputContainer::deserialize(buffer);
         uint8_t d = buffer->read<uint8_t>();
-        JUMP = d & 1<<4;
-        PRIMARY_FIRE = d & 1<<5;
-        SECONDARY_FIRE = d & 1<<6;
-        RELOAD = d & 1<<7;
-        ABILITY_1 = d & 1<<8;
-        ABILITY_2 = d & 1<<9;
-        ULTIMATE = d & 1<<10;
+        JUMP = d & 1<<0;
+        PRIMARY_FIRE = d & 1<<2;
+        SECONDARY_FIRE = d & 1<<3;
+        RELOAD = d & 1<<4;
+        ABILITY_1 = d & 1<<5;
+        ABILITY_2 = d & 1<<6;
+        ULTIMATE = d & 1<<7;
     }
 
     void reset()
