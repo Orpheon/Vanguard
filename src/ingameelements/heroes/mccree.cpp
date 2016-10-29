@@ -210,6 +210,7 @@ void Mccree::useability1(Gamestate *state)
     w->reloadanim.active(0);
     w->isfthing = false;
     w->fthanim.active(false);
+    vspeed = 0;
 }
 
 void Mccree::useability2(Gamestate *state)
