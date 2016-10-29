@@ -16,7 +16,7 @@ class Character : public MovingEntity
     public:
         Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters);
         virtual ~Character() = default;
-        virtual void setinput(Gamestate *state, INPUT_CONTAINER pressed_keys_, INPUT_CONTAINER held_keys_, double mouse_x_, double mouse_y_);
+        virtual void setinput(Gamestate *state, InputContainer pressed_keys_, InputContainer held_keys_, double mouse_x_, double mouse_y_);
         virtual void beginstep(Gamestate *state, double frametime);
         virtual void midstep(Gamestate *state, double frametime);
         virtual void endstep(Gamestate *state, double frametime);
@@ -59,8 +59,8 @@ class Character : public MovingEntity
         Animation stunanim;
 
     protected:
-        INPUT_CONTAINER pressed_keys;
-        INPUT_CONTAINER held_keys;
+        InputContainer pressed_keys;
+        InputContainer held_keys;
         double mouse_x;
         double mouse_y;
         const int LEFT = -1;

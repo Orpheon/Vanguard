@@ -11,7 +11,7 @@ class ClientNetworker : public Networker
         virtual ~ClientNetworker();
         void receive(Gamestate *state) override;
         void sendeventdata(Gamestate *state) override;
-        void sendinput(INPUT_CONTAINER pressedkeys, INPUT_CONTAINER heldkeys, float mouse_x, float mouse_y);
+        void sendinput(InputContainer pressedkeys, InputContainer heldkeys, float mouse_x, float mouse_y);
         bool isconnected() {return connected;}
     protected:
     private:

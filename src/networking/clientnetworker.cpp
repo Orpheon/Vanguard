@@ -3,7 +3,7 @@
 ClientNetworker::ClientNetworker() : Networker(false), connected(false)
 {
     ENetAddress serveraddress;
-    enet_address_set_host(&serveraddress, "127.0.0.1");
+    enet_address_set_host(&serveraddress, "129.132.17.38");
     serveraddress.port = 3224;
     host = enet_host_create(NULL, 1, 1, 0, 0);
     if (host == NULL)
@@ -109,7 +109,7 @@ void ClientNetworker::sendeventdata(Gamestate *state)
     }
 }
 
-void ClientNetworker::sendinput(INPUT_CONTAINER pressedkeys, INPUT_CONTAINER heldkeys, float mouse_x, float mouse_y)
+void ClientNetworker::sendinput(InputContainer pressedkeys, InputContainer heldkeys, float mouse_x, float mouse_y)
 {
     WriteBuffer input = WriteBuffer();
     input.write<uint8_t>(CLIENT_INPUT);
