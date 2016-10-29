@@ -55,7 +55,7 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, InputContainer *held_keys, doub
                 al_acknowledge_resize(display);
                 break;
 
-//            case ALLEGRO_EVENT_KEY_DOWN:
+            case ALLEGRO_EVENT_KEY_DOWN:
 //                //Debug: print the keycode number and name of the key we press
 ////                printf("\n%i\t%s", event.keyboard.keycode, al_keycode_to_name(event.keyboard.keycode));
 //
@@ -96,12 +96,12 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, InputContainer *held_keys, doub
 //                    pressed_keys->RELOAD = true;
 //                }
 //
-//                switch (event.keyboard.keycode)
-//                {
-//                    case ALLEGRO_KEY_ESCAPE:
-//                        // Exit game
-//                        throw 0;
-//                }
+                switch (event.keyboard.keycode)
+                {
+                    case ALLEGRO_KEY_ESCAPE:
+                        // Exit game
+                        throw 0;
+                }
 //
 //            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
 //                switch (event.mouse.button)
