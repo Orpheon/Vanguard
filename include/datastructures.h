@@ -130,10 +130,12 @@ struct InputContainer : public ReducedInputContainer
         ULTIMATE = false;
     }
 
-    InputContainer reduce()
+    ReducedInputContainer reduce()
     {
-        InputContainer i;
-        i.reset();
+        ReducedInputContainer i;
+        i.LEFT = LEFT;
+        i.RIGHT = RIGHT;
+        i.CROUCH = CROUCH;
         return i;
     }
 
