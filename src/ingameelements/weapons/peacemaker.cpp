@@ -121,6 +121,8 @@ void Peacemaker::wantfiresecondary(Gamestate *state)
         else if (isfthing and fthanim.getpercent() >= 1)
         {
             firesecondary(state);
+            state->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
+            state->sendbuffer->write<uint8_t>(state->findplayerid(owner));
         }
     }
     else
@@ -146,7 +148,7 @@ void Peacemaker::firesecondary(Gamestate *state)
 
     --clip;
 
-    if (clip > 0)
+    if (clip > 0 and state->engine->isserver)
     {
         if (isfthing)
         {
