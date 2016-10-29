@@ -110,12 +110,12 @@ struct InputContainer : public ReducedInputContainer
         ReducedInputContainer::deserialize(buffer);
         uint8_t d = buffer->read<uint8_t>();
         JUMP = d & 1<<0;
-        PRIMARY_FIRE = d & 1<<2;
-        SECONDARY_FIRE = d & 1<<3;
-        RELOAD = d & 1<<4;
-        ABILITY_1 = d & 1<<5;
-        ABILITY_2 = d & 1<<6;
-        ULTIMATE = d & 1<<7;
+        PRIMARY_FIRE = d & 1<<1;
+        SECONDARY_FIRE = d & 1<<2;
+        RELOAD = d & 1<<3;
+        ABILITY_1 = d & 1<<4;
+        ABILITY_2 = d & 1<<5;
+        ULTIMATE = d & 1<<6;
     }
 
     void reset()
