@@ -281,3 +281,26 @@ Health Mccree::getmaxhp()
     maxhp.shields = 0;
     return maxhp;
 }
+
+double Mccree::getweaponpos_x()
+{
+    if (crouchanim.active())
+    {
+        return 0;
+    }
+    else
+    {
+        return -2;
+    }
+}
+double Mccree::getweaponpos_y()
+{
+    if (crouchanim.active())
+    {
+        return 17;
+    }
+    else
+    {
+        return 7;
+    }
+}

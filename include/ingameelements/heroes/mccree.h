@@ -23,8 +23,8 @@ class Mccree : public Character
         std::string getcharacterfolder() {return "heroes/mccree/";}
         bool cangetinput(Gamestate *state) override {return not rollanim.active();}
         Health getmaxhp() override;
-        double getweaponpos_x() override {return crouchanim.active() ? 0 : -2;}
-        double getweaponpos_y() override {return crouchanim.active() ? 17 : 7;}
+        double getweaponpos_x() override;
+        double getweaponpos_y() override;
         void useability1(Gamestate *state) override;
         void useability2(Gamestate *state) override;
         void drawhud(Renderer *renderer, Gamestate *state) override;
