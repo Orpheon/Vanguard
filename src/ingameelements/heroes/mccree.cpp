@@ -254,6 +254,17 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     {
         return crouchanim.getframe();
     }
+    if (not onground(state))
+    {
+        if (vspeed > 100)
+        {
+            return getcharacterfolder()+"falling/1";
+        }
+        else
+        {
+            return getcharacterfolder()+"jump/1";
+        }
+    }
     if (std::fabs(hspeed) < 11.0)
     {
         return getcharacterfolder()+"idle/1";
