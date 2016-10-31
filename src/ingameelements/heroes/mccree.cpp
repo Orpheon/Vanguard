@@ -27,11 +27,34 @@ Mccree::~Mccree()
 void Mccree::render(Renderer *renderer, Gamestate *state)
 {
     Character::render(renderer, state);
+    al_set_target_bitmap(renderer->midground);
 
-    std::string mainsprite = getsprite(state, false);
-    ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
-    int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
-    int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
+    std::string mainsprite;
+    ALLEGRO_BITMAP *sprite;
+    int spriteoffset_x;
+    int spriteoffset_y;
+
+    if (flashbanganim.active())
+    {
+        std::string armsprite = flashbanganim.getframepath();
+        sprite = renderer->spriteloader.requestsprite(armsprite);
+        spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(armsprite);
+        spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(armsprite);
+        if (isflipped)
+        {
+            // Flip horizontally
+            al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
+        }
+        else
+        {
+            al_draw_bitmap(sprite, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 0);
+        }
+    }
+
+    mainsprite = getsprite(state, false);
+    sprite = renderer->spriteloader.requestsprite(mainsprite);
+    spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
+    spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
 
     std::string outlinesprite = mainsprite+"_outline";
     ALLEGRO_BITMAP *outline = renderer->spriteloader.requestsprite(outlinesprite);
@@ -50,7 +73,6 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
         outlinecolor = al_map_rgb(225, 17, 17);
     }
 
-    al_set_target_bitmap(renderer->midground);
     if (isflipped)
     {
         // Flip horizontally
@@ -61,23 +83,6 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
     {
         al_draw_bitmap(sprite, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 0);
         al_draw_tinted_bitmap(outline, outlinecolor, x-outlinespriteoffset_x - renderer->cam_x, y-outlinespriteoffset_y - renderer->cam_y, 0);
-    }
-
-    if (flashbanganim.active())
-    {
-        std::string armsprite = flashbanganim.getframepath();
-        sprite = renderer->spriteloader.requestsprite(armsprite);
-        spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(armsprite);
-        spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(armsprite);
-        if (isflipped)
-        {
-            // Flip horizontally
-            al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
-        }
-        else
-        {
-            al_draw_bitmap(sprite, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 0);
-        }
     }
 
     state->get<Weapon>(weapon)->render(renderer, state);
