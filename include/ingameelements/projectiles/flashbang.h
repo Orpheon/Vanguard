@@ -25,6 +25,7 @@ class Flashbang : public Projectile
         Timer countdown;
     protected:
     private:
+        double EXPLOSION_RADIUS = 40;
 };
 
 #endif // FLASHBANG_H

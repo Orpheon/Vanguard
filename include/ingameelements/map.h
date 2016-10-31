@@ -19,6 +19,7 @@ class Map
         bool collides(Gamestate *state, Character *entity);
         bool collides(Rect rect);
         bool collides(double rotx, double roty, Rect rect, double angle);
+        bool collideline(double x1, double y1, double x2, double y2);
         bool testpixel(double x, double y) {return al_get_pixel(wallmask, x, y).a != 0;}
     protected:
     private:

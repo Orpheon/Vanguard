@@ -4,7 +4,7 @@
 
 #include <functional>
 
-Flashbang::Flashbang(uint64_t id_, Gamestate *state, EntityPtr owner_) : Projectile::Projectile(id_, state, owner_), countdown(std::bind(&Flashbang::explode, this, state), 0.5)
+Flashbang::Flashbang(uint64_t id_, Gamestate *state, EntityPtr owner_) : Projectile::Projectile(id_, state, owner_), countdown(std::bind(&Flashbang::explode, this, state), 0.3)
 {
     //ctor
 }
@@ -37,6 +37,26 @@ void Flashbang::explode(Gamestate *state)
     Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "heroes/mccree/flashbang_explosion/", 0));
     e->x = x;
     e->y = y;
-    // TODO: Collide with nearby players
+
+    for (auto p : state->playerlist)
+    {
+        // DEBUGTOOL: Replace this check with checking whether p is on enemy team
+        if (p != owner)
+        {
+            Character *c = state->get<Player>(p)->getcharacter(state);
+            if (c != 0)
+            {
+                if (circlecollides(state, state->get<Player>(p)->character, EXPLOSION_RADIUS))
+                {
+                    // Check that they aren't behind a wall or something
+                    if (not state->currentmap->collideline(x, y, c->x, c->y))
+                    {
+                        c->stunanim.reset();
+                    }
+                }
+            }
+        }
+    }
+
     destroy(state);
 }

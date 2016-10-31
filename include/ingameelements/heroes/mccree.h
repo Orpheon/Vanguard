@@ -21,13 +21,13 @@ class Mccree : public Character
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Mccree(*this));}
         CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
         std::string getcharacterfolder() {return "heroes/mccree/";}
-        bool cangetinput(Gamestate *state) override {return not rollanim.active();}
+        bool cangetinput(Gamestate *state) override {return not rollanim.active() and not stunanim.active();}
         Health getmaxhp() override;
         void useability1(Gamestate *state) override;
         void useability2(Gamestate *state) override;
         void drawhud(Renderer *renderer, Gamestate *state) override;
         double passiveultcharge() override {return 0.4166666666666667;}
-        bool weaponvisible(Gamestate *state) override {return (not rollanim.active());}
+        bool weaponvisible(Gamestate *state) override {return (not rollanim.active() and not stunanim.active());}
 
         Animation rollanim;
         Animation flashbanganim;

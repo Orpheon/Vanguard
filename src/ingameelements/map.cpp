@@ -134,3 +134,24 @@ bool Map::collides(double rotx, double roty, Rect r, double angle)
 
     return false;
 }
+
+bool Map::collideline(double x1, double y1, double x2, double y2)
+{
+    int mapw = al_get_bitmap_width(wallmask), maph = al_get_bitmap_height(wallmask);
+    if (x1 < 0 or y1 < 0 or x2 < 0 or y2 < 0 or x1 > mapw or x2 > mapw or y1 > maph or y2 > maph)
+    {
+        return true;
+    }
+
+    int nsteps = std::ceil(std::max(std::abs(x1-x2), std::abs(y1-y2)));
+    double dx = static_cast<double>(x2-x1)/nsteps, dy = static_cast<double>(y2-y1)*1.0/nsteps;
+    for (int i=0; i<nsteps; ++i)
+    {
+        if (al_get_pixel(wallmask, x1, y1).a != 0)
+        {
+            return true;
+        }
+        x1 += dx; y1 += dy;
+    }
+    return false;
+}

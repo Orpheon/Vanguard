@@ -45,7 +45,7 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
 
     al_set_target_bitmap(renderer->midground);
-    if (not c->rollanim.active())
+    if (c->weaponvisible(state))
     {
         if (c->isflipped)
         {
