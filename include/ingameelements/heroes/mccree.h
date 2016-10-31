@@ -21,7 +21,7 @@ class Mccree : public Character
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Mccree(*this));}
         CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
         std::string getcharacterfolder() {return "heroes/mccree/";}
-        bool cangetinput(Gamestate *state) override {return not rollanim.active() and not stunanim.active();}
+        bool cangetinput(Gamestate *state) override {return not rollanim.active() and Character::cangetinput(state);}
         Health getmaxhp() override;
         void useability1(Gamestate *state) override;
         void useability2(Gamestate *state) override;
