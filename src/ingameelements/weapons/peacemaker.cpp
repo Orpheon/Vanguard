@@ -100,8 +100,8 @@ void Peacemaker::fireprimary(Gamestate *state)
     shot->vspeed = std::sin(aimdirection) * bulletspeed;
 
     Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", aimdirection));
-    e->x = x+std::cos(aimdirection-0.1)*24;
-    e->y = y+std::sin(aimdirection-0.1)*24;
+    e->x = x+std::cos(aimdirection)*24;
+    e->y = y+std::sin(aimdirection)*24;
 
     --clip;
     firinganim.reset();

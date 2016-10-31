@@ -107,7 +107,7 @@ bool Map::collides(Rect r)
     return false;
 }
 
-bool Map::collides(Rect r, double angle)
+bool Map::collides(double rotx, double roty, Rect r, double angle)
 {
     if (r.x < 0 or r.y < 0 or r.x+r.w > al_get_bitmap_width(wallmask) or r.y+r.h > al_get_bitmap_height(wallmask))
     {
@@ -117,15 +117,18 @@ bool Map::collides(Rect r, double angle)
     double cosa = std::cos(angle);
     double sina = std::sin(angle);
 
+    double tmpx, tmpy;
+
     for (int i=0; i<r.w; ++i)
     {
         for (int j=0; j<r.h; ++j)
         {
-            if (al_get_pixel(wallmask, r.x + cosa*i - sina*j, r.y+sina*i + cosa*j).a != 0)
+            tmpx = r.x + cosa*(r.x-rotx+i) - sina*(r.y-roty+j);
+            tmpy = r.y + sina*(r.x-rotx+i) + cosa*(r.y-roty+j);
+            if (al_get_pixel(wallmask, tmpx, tmpy).a != 0)
             {
                 return true;
             }
         }
     }
-    return false;
 }

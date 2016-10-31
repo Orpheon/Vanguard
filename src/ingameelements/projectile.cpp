@@ -17,7 +17,7 @@ void Projectile::midstep(Gamestate *state, double frametime)
 {
     if (isrectangular())
     {
-        if (state->currentmap->collides(getrect(), std::atan2(vspeed, hspeed)))
+        if (state->currentmap->collides(x, y, getrect(), std::atan2(vspeed, hspeed)))
         {
             oncollision(state);
         }
@@ -62,8 +62,8 @@ bool Projectile::collides(Gamestate *state, EntityPtr otherentity, double angle)
         {
             for (int j=0; j<self.h; ++j)
             {
-                tmpx = self.x + cosa*i - sina*j;
-                tmpy = self.y + sina*i + cosa*j;
+                tmpx = self.x + cosa*(self.x-x+i) - sina*(self.y-y+j);
+                tmpy = self.y + sina*(self.x-x+i) + cosa*(self.y-y+j);
                 if (al_get_pixel(selfsprite, i, j).a != 0 and al_get_pixel(othersprite, tmpx - other.x, tmpy - other.y).a != 0)
                 {
                     return true;

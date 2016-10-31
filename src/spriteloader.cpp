@@ -83,9 +83,8 @@ ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path)
 Rect Spriteloader::get_rect(std::string s)
 {
     ALLEGRO_BITMAP *sprite = requestsprite(s);
-//    int dx = get_spriteoffset_x(s), dy = get_spriteoffset_y(s);
-//    return Rect(-dx, -dy, al_get_bitmap_width(sprite), al_get_bitmap_height(sprite));
-    return Rect(0, 0, al_get_bitmap_width(sprite), al_get_bitmap_height(sprite));
+    int dx = get_spriteoffset_x(s), dy = get_spriteoffset_y(s);
+    return Rect(-dx, -dy, al_get_bitmap_width(sprite), al_get_bitmap_height(sprite));
 }
 
 Rect Spriteloader::get_rect_from_json(std::string s)
