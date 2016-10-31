@@ -33,33 +33,34 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
     int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
 
+    std::string outlinesprite = mainsprite+"_outline";
+    ALLEGRO_BITMAP *outline = renderer->spriteloader.requestsprite(outlinesprite);
+    int outlinespriteoffset_x = renderer->spriteloader.get_spriteoffset_x(outlinesprite);
+    int outlinespriteoffset_y = renderer->spriteloader.get_spriteoffset_y(outlinesprite);
     // TODO Replace this with team check
-    std::string outlinesprite;
+    ALLEGRO_COLOR outlinecolor;
     if (state->get<Player>(renderer->myself)->character == EntityPtr(id))
     {
         // Draw friendly outline
-        outlinesprite = mainsprite+"_friend";
+        outlinecolor = al_map_rgb(0, 145, 181);
     }
     else
     {
         // Draw enemy outline
-        outlinesprite = mainsprite+"_enemy";
+        outlinecolor = al_map_rgb(225, 17, 17);
     }
-    ALLEGRO_BITMAP *outline = renderer->spriteloader.requestsprite(outlinesprite);
-    int outlinespriteoffset_x = renderer->spriteloader.get_spriteoffset_x(outlinesprite);
-    int outlinespriteoffset_y = renderer->spriteloader.get_spriteoffset_y(outlinesprite);
 
     al_set_target_bitmap(renderer->midground);
     if (isflipped)
     {
         // Flip horizontally
         al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
-        al_draw_scaled_rotated_bitmap(outline, outlinespriteoffset_x, outlinespriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
+        al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, outlinespriteoffset_x, outlinespriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
     }
     else
     {
         al_draw_bitmap(sprite, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 0);
-        al_draw_bitmap(outline, x-outlinespriteoffset_x - renderer->cam_x, y-outlinespriteoffset_y - renderer->cam_y, 0);
+        al_draw_tinted_bitmap(outline, outlinecolor, x-outlinespriteoffset_x - renderer->cam_x, y-outlinespriteoffset_y - renderer->cam_y, 0);
     }
 
     if (flashbanganim.active())

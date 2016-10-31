@@ -35,39 +35,12 @@ for filepath in filelist:
                             isborder = True
                             break
                     if isborder:
-                        # Make red
-                        pixels[x, y] = (225, 17, 17)
+                        # Make white
+                        pixels[x, y] = (255, 255, 255)
                 else:
                     pixels[x, y] = (0, 0, 0, 0)
 
-        im.save(filepath.replace(".", "_enemy."))
-
-        orig_im = Image.open(filepath)
-        orig_im.convert("RGBA")
-        w, h = orig_im.size
-        scaled_im = Image.new("RGBA", (w+2, h+2))
-        scaled_im.paste(orig_im, (1, 1))
-
-        scaled_pixels = scaled_im.load()
-        im = Image.new("RGBA", (w+2, h+2))
-        pixels = im.load()
-
-        for x in range(0, w+2):
-            for y in range(0, h+2):
-                # If pixel is transparent
-                if scaled_pixels[x, y][3] == 0:
-                    isborder = False
-                    for i, j in ([-1, 0], [1, 0], [0, -1], [0, 1]):
-                        if scaled_pixels[max(0, min(w+1, x+i)), max(0, min(h+1, y+j))][3] != 0:
-                            isborder = True
-                            break
-                    if isborder:
-                        # Make blue
-                        pixels[x, y] = (0, 145, 181)
-                else:
-                    pixels[x, y] = (0, 0, 0, 0)
-
-        im.save(filepath.replace(".", "_friend."))
+        im.save(filepath.replace(".", "_outline."))
 
 
 filelist = []
