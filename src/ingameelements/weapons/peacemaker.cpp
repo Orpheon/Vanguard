@@ -25,16 +25,16 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     Mccree *c = state->get<Mccree>(state->get<Player>(owner)->character);
     if (firinganim.active())
     {
-        mainsprite = firinganim.getframe();
+        mainsprite = firinganim.getframepath();
     }
     else if (reloadanim.active())
     {
-        mainsprite = reloadanim.getframe();
+        mainsprite = reloadanim.getframepath();
         dir = 3.1415*c->isflipped;
     }
     else if (fthanim.active())
     {
-        mainsprite = fthanim.getframe();
+        mainsprite = fthanim.getframepath();
     }
     else
     {

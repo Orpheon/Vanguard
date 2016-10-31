@@ -35,13 +35,12 @@ class Character : public MovingEntity
         virtual bool cangetinput(Gamestate *state) {return not stunanim.active();}
         virtual void damage(Gamestate *state, double amount);
         Weapon *getweapon(Gamestate *state);
-        virtual double getweaponpos_x() = 0;
-        virtual double getweaponpos_y() = 0;
         virtual void useability1(Gamestate *state) = 0;
         virtual void useability2(Gamestate *state) = 0;
         virtual void drawhud(Renderer *renderer, Gamestate *state);
         virtual double passiveultcharge() = 0;
         virtual double hudheight() {return 7.0/8.0;}
+        virtual bool weaponvisible(Gamestate *state) {return true;}
 
         EntityPtr owner;
         EntityPtr weapon;

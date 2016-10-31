@@ -50,11 +50,18 @@ void Animation::loaddata()
     }
 }
 
-std::string Animation::getframe()
+int Animation::getframe()
 {
     int f = static_cast<int>(std::floor(nframes*timer.getpercent()))+1;
     f = std::min(std::max(f, 1), nframes);
-    return path+std::to_string(f);
+    return f;
+}
+
+std::string Animation::getframepath()
+{
+    int f = static_cast<int>(std::floor(nframes*timer.getpercent()))+1;
+    f = std::min(std::max(f, 1), nframes);
+    return path+std::to_string(getframe());
 }
 
 void Animation::update(Gamestate *state, double dt)

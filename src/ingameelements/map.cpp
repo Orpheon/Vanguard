@@ -131,4 +131,6 @@ bool Map::collides(double rotx, double roty, Rect r, double angle)
             }
         }
     }
+
+    return false;
 }

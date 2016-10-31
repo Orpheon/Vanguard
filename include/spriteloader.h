@@ -20,6 +20,8 @@ class Spriteloader
         int get_spriteoffset_y(std::string s);
         Rect get_rect(std::string s);
         Rect get_rect_from_json(std::string s);
+        int getweaponoffset_x(std::string s);
+        int getweaponoffset_y(std::string s);
     protected:
     private:
         std::unordered_map<std::string, ALLEGRO_BITMAP*> bitmapcache;

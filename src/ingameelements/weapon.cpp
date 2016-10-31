@@ -1,6 +1,7 @@
 #include "ingameelements/weapon.h"
 #include "ingameelements/character.h"
 #include "gamestate.h"
+#include "engine.h"
 
 #include <cmath>
 
@@ -36,8 +37,14 @@ void Weapon::midstep(Gamestate *state, double frametime)
 void Weapon::endstep(Gamestate *state, double frametime)
 {
     Character *c = state->get<Player>(owner)->getcharacter(state);
-    x = c->x + c->getweaponpos_x() - 2*c->getweaponpos_x()*c->isflipped;
-    y = c->y + c->getweaponpos_y();
+    double xoffset=0, yoffset=0;
+    if (c->weaponvisible(state))
+    {
+        xoffset = state->engine->maskloader.getweaponoffset_x(c->getsprite(state, false));
+        yoffset = state->engine->maskloader.getweaponoffset_y(c->getsprite(state, false));
+    }
+    x = c->x + xoffset*(c->isflipped ? -1:1);
+    y = c->y + yoffset;
 }
 
 void Weapon::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)

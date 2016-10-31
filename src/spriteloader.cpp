@@ -99,3 +99,29 @@ Rect Spriteloader::get_rect_from_json(std::string s)
         throw -1;
     }
 }
+
+int Spriteloader::getweaponoffset_x(std::string s)
+{
+    try
+    {
+        return gamedata[s+" weapon"][0];
+    }
+    catch (std::domain_error)
+    {
+        fprintf(stderr, "\nError: Could not load %s weapon xoffset data!", s.c_str());
+        throw -1;
+    }
+}
+
+int Spriteloader::getweaponoffset_y(std::string s)
+{
+    try
+    {
+        return gamedata[s+" weapon"][1];
+    }
+    catch (std::domain_error)
+    {
+        fprintf(stderr, "\nError: Could not load %s weapon yoffset data!", s.c_str());
+        throw -1;
+    }
+}

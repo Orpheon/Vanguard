@@ -12,7 +12,8 @@ class Animation
         Animation(std::string path_, std::function<void(Gamestate *state)> eventfunc_);
         virtual ~Animation();
         virtual void loaddata();
-        virtual std::string getframe();
+        virtual int getframe();
+        virtual std::string getframepath();
         void update(Gamestate *state, double dt);
         double getpercent() {return timer.getpercent();}
         void interpolate(Animation *prev_anim, Animation *next_anim, double alpha);

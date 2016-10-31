@@ -14,5 +14,18 @@
     "heroes/mccree/fanthehammerstart/ duration": 0.11,
     "heroes/mccree/fanthehammerloop/ duration": 0.11,
     "heroes/mccree/projectiletrail/ duration": 0.2,
-    "heroes/mccree/stun/ duration": 0.7
+    "heroes/mccree/stun/ duration": 0.7,
+
+    "heroes/mccree/idle/1 weapon": [-2, 7],
+    "heroes/mccree/run/1 weapon": [-2, 7],
+    "heroes/mccree/run/2 weapon": [-2, 8],
+    "heroes/mccree/run/3 weapon": [-2, 8],
+    "heroes/mccree/run/4 weapon": [-2, 7],
+    "heroes/mccree/crouch/1 weapon": [0, 17],
+    "heroes/mccree/crouchwalk/1 weapon": [0, 17],
+    "heroes/mccree/crouchwalk/2 weapon": [1, 17],
+    "heroes/mccree/crouchwalk/3 weapon": [0, 17],
+    "heroes/mccree/crouchwalk/4 weapon": [1, 17],
+    "heroes/mccree/jump/1 weapon": [-3, 6],
+    "heroes/mccree/falling/1 weapon": [0, 12]
 }

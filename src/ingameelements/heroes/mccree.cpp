@@ -64,7 +64,7 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
 
     if (flashbanganim.active())
     {
-        std::string armsprite = flashbanganim.getframe();
+        std::string armsprite = flashbanganim.getframepath();
         sprite = renderer->spriteloader.requestsprite(armsprite);
         spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(armsprite);
         spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(armsprite);
@@ -244,15 +244,15 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
 {
     if (stunanim.active())
     {
-        return stunanim.getframe();
+        return stunanim.getframepath();
     }
     if (rollanim.active())
     {
-        return rollanim.getframe();
+        return rollanim.getframepath();
     }
     if (crouchanim.active())
     {
-        return crouchanim.getframe();
+        return crouchanim.getframepath();
     }
     if (not onground(state))
     {
@@ -269,7 +269,7 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     {
         return getcharacterfolder()+"idle/1";
     }
-    return runanim.getframe();
+    return runanim.getframepath();
 }
 
 CharacterChildParameters Mccree::constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_)
@@ -291,27 +291,4 @@ Health Mccree::getmaxhp()
     maxhp.armor = 0;
     maxhp.shields = 0;
     return maxhp;
-}
-
-double Mccree::getweaponpos_x()
-{
-    if (crouchanim.active())
-    {
-        return 0;
-    }
-    else
-    {
-        return -2;
-    }
-}
-double Mccree::getweaponpos_y()
-{
-    if (crouchanim.active())
-    {
-        return 17;
-    }
-    else
-    {
-        return 7;
-    }
 }
