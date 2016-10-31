@@ -32,6 +32,7 @@ void Projectile::midstep(Gamestate *state, double frametime)
                     if (rectcollides(state, state->get<Player>(p)->character, std::atan2(vspeed, hspeed)))
                     {
                         oncollision(state, c);
+                        break;
                     }
                 }
             }
