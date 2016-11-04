@@ -69,7 +69,7 @@ void Character::midstep(Gamestate *state, double frametime)
         {
             if (onground(state))
             {
-                vspeed = -240.0;
+                vspeed = -250.0;
             }
         }
         if (held_keys.CROUCH)
