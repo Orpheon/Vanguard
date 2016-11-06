@@ -20,7 +20,7 @@ class Map
         bool collides(Rect rect);
         bool collides(double rotx, double roty, Rect rect, double angle);
         bool collideline(double x1, double y1, double x2, double y2);
-        bool testpixel(double x, double y) {return al_get_pixel(wallmask, x, y).a != 0;}
+        bool testpixel(double x, double y) {return x < 0 or y < 0 or x > al_get_bitmap_width(wallmask) or y > al_get_bitmap_height(wallmask) or al_get_pixel(wallmask, x, y).a != 0;}
     protected:
     private:
         ALLEGRO_BITMAP *background;
