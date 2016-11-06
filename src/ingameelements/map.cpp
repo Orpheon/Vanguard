@@ -43,7 +43,7 @@ bool Map::collides(Gamestate *state, MovingEntity *entity)
     int y = (int) entity->y - state->engine->maskloader.get_spriteoffset_y(entity->getsprite(state, true));
 
     int w = al_get_bitmap_width(mask), h = al_get_bitmap_height(mask);
-    if (x < 0 or y < 0 or x+w > al_get_bitmap_width(wallmask) or y+h > al_get_bitmap_height(wallmask))
+    if (x < 0 or y < 0 or x+w > width() or y+h > height())
     {
         return true;
     }
@@ -71,7 +71,7 @@ bool Map::collides(Gamestate *state, Character *entity)
     }
 
     int w = al_get_bitmap_width(mask), h = al_get_bitmap_height(mask);
-    if (x < 0 or y < 0 or x+w > al_get_bitmap_width(wallmask) or y+h > al_get_bitmap_height(wallmask))
+    if (x < 0 or y < 0 or x+w > width() or y+h > height())
     {
         return true;
     }
@@ -90,7 +90,7 @@ bool Map::collides(Gamestate *state, Character *entity)
 
 bool Map::collides(Rect r)
 {
-    if (r.x < 0 or r.y < 0 or r.x+r.w > al_get_bitmap_width(wallmask) or r.y+r.h > al_get_bitmap_height(wallmask))
+    if (r.x < 0 or r.y < 0 or r.x+r.w > width() or r.y+r.h > height())
     {
         return true;
     }
@@ -109,7 +109,7 @@ bool Map::collides(Rect r)
 
 bool Map::collides(double rotx, double roty, Rect r, double angle)
 {
-    if (r.x < 0 or r.y < 0 or r.x+r.w > al_get_bitmap_width(wallmask) or r.y+r.h > al_get_bitmap_height(wallmask))
+    if (r.x < 0 or r.y < 0 or r.x+r.w > width() or r.y+r.h > height())
     {
         return true;
     }
@@ -137,7 +137,7 @@ bool Map::collides(double rotx, double roty, Rect r, double angle)
 
 bool Map::collideline(double x1, double y1, double x2, double y2)
 {
-    int mapw = al_get_bitmap_width(wallmask), maph = al_get_bitmap_height(wallmask);
+    int mapw = width(), maph = height();
     if (x1 < 0 or y1 < 0 or x2 < 0 or y2 < 0 or x1 > mapw or x2 > mapw or y1 > maph or y2 > maph)
     {
         return true;

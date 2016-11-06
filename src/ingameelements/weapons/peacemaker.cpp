@@ -94,7 +94,8 @@ void Peacemaker::fireprimary(Gamestate *state)
 {
     double cosa = std::cos(aimdirection), sina = std::sin(aimdirection);
     double collisionptx, collisionpty;
-    EntityPtr target = state->collidelinedamageable(x, y, x+cosa*FALLOFF_END, y+sina*FALLOFF_END, (team==TEAM1 ? TEAM2 : TEAM1), &collisionptx, &collisionpty);
+    double d = std::hypot(state->currentmap->width(), state->currentmap->height());
+    EntityPtr target = state->collidelinedamageable(x, y, x+cosa*d, y+sina*d, (team==TEAM1 ? TEAM2 : TEAM1), &collisionptx, &collisionpty);
     if (target.id != 0)
     {
         double distance = std::hypot(collisionptx-x, collisionpty-y);
