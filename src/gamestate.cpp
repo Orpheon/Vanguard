@@ -186,13 +186,13 @@ EntityPtr Gamestate::collidelinedamageable(double x1, double y1, double x2, doub
 {
     int nsteps = std::ceil(std::max(std::abs(x1-x2), std::abs(y1-y2)));
     double dx = static_cast<double>(x2-x1)/nsteps, dy = static_cast<double>(y2-y1)*1.0/nsteps;
+    *collisionptx = x1;
+    *collisionpty = y1;
     for (int i=0; i<nsteps; ++i)
     {
-        if (currentmap->testpixel(x1, y1))
+        if (currentmap->testpixel(*collisionptx, *collisionpty))
         {
             // We hit wallmask or went out of bounds
-            *collisionptx = x1;
-            *collisionpty = y1;
             return EntityPtr(0);
         }
         for (auto p : playerlist)
@@ -200,17 +200,13 @@ EntityPtr Gamestate::collidelinedamageable(double x1, double y1, double x2, doub
             Character *c = get<Player>(p)->getcharacter(this);
             if (c != 0 and c->team == team)
             {
-                if (c->collides(this, x1, y1))
+                if (c->collides(this, *collisionptx, *collisionpty))
                 {
-                    *collisionptx = x1;
-                    *collisionpty = y1;
                     return get<Player>(p)->character;
                 }
             }
         }
-        x1 += dx; y1 += dy;
+        *collisionptx += dx; *collisionpty += dy;
     }
-    *collisionptx = -1;
-    *collisionpty = -1;
     return EntityPtr(0);
 }
