@@ -5,7 +5,7 @@
 
 #include <cmath>
 
-Weapon::Weapon(uint64_t id_, Gamestate *state, EntityPtr owner_, WeaponChildParameters parameters) : MovingEntity(id_, state), owner(owner_), aimdirection(0),
+Weapon::Weapon(uint64_t id_, Gamestate *state, EntityPtr owner_, WeaponChildParameters parameters) : MovingEntity(id_, state), owner(owner_), aimdirection(0), team(state->get<Player>(owner)->team),
             firinganim(parameters.characterfolder+"firing/"), reloadanim(parameters.characterfolder+"reload/", parameters.reloadfunction), clip(parameters.clipsize)
 {
     reloadanim.active(false);

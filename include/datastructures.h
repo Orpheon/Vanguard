@@ -49,6 +49,10 @@ enum ENTITYTYPE {   PLAYER,
                     PROJECTILE,
                     EXPLOSION };
 
+enum Team { TEAM1,
+            TEAM2,
+            SPECTATOR };
+
 struct ReducedInputContainer
 {
     public:

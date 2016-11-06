@@ -38,15 +38,16 @@ void Flashbang::explode(Gamestate *state)
     e->x = x;
     e->y = y;
 
-    for (auto p : state->playerlist)
+    for (auto pptr : state->playerlist)
     {
+        Player *p = state->get<Player>(pptr);
         // DEBUGTOOL: Replace this check with checking whether p is on enemy team
-        if (p != owner)
+        if (p->team != team)
         {
-            Character *c = state->get<Player>(p)->getcharacter(state);
+            Character *c = p->getcharacter(state);
             if (c != 0)
             {
-                if (circlecollides(state, state->get<Player>(p)->character, EXPLOSION_RADIUS))
+                if (circlecollides(state, p->character, EXPLOSION_RADIUS))
                 {
                     // Check that they aren't behind a wall or something
                     if (not state->currentmap->collideline(x, y, c->x, c->y))

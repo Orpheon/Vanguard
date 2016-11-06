@@ -14,7 +14,7 @@
 
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
-            owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), isflipped(false), runanim(parameters.characterfolder+"run/"),
+            owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), team(state->get<Player>(owner)->team), isflipped(false), runanim(parameters.characterfolder+"run/"),
             crouchanim(parameters.characterfolder+"crouchwalk/"), stunanim(parameters.characterfolder+"stun/"), held_keys()
 {
     acceleration = 300;

@@ -5,11 +5,36 @@
 #include "ingameelements/heroes/mccree.h"
 #include "engine.h"
 
-Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0), spawntimer(std::bind(&Player::spawn, this, state), 4), ultcharge(100)
+Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0), spawntimer(std::bind(&Player::spawn, this, state), 4), ultcharge(100), team(SPECTATOR)
 {
     spawntimer.active = false;
     spawntimer.timer = spawntimer.duration;
     entitytype = PLAYER;
+
+    int teambalance = 0;
+    for (auto pptr : state->playerlist)
+    {
+        if (pptr != EntityPtr(id))
+        {
+            Player *p = state->get<Player>(pptr);
+            if (p->team == TEAM1)
+            {
+                ++teambalance;
+            }
+            else if (p->team == TEAM2)
+            {
+                --teambalance;
+            }
+        }
+    }
+    if (teambalance > 0)
+    {
+        team = TEAM2;
+    }
+    else
+    {
+        team = TEAM1;
+    }
 }
 
 void Player::beginstep(Gamestate *state, double frametime)

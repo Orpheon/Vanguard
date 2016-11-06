@@ -38,6 +38,7 @@ class Player : public Entity
         EntityPtr character;
         Timer spawntimer;
         Timer ultcharge;
+        Team team;
 };
 
 #endif // PLAYER_H

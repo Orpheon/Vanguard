@@ -52,6 +52,8 @@ class Character : public MovingEntity
         Health hp;
         virtual Health getmaxhp() = 0;
 
+        Team team;
+
         bool isflipped;
         LoopAnimation runanim;
         LoopAnimation crouchanim;

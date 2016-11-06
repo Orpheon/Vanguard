@@ -17,6 +17,7 @@ class Weapon : public MovingEntity
 
         EntityPtr owner;
         double aimdirection;
+        Team team;
 
         virtual void beginstep(Gamestate *state, double frametime);
         virtual void midstep(Gamestate *state, double frametime);

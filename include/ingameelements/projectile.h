@@ -20,6 +20,7 @@ class Projectile : public MovingEntity
         virtual bool rectcollides(Gamestate *state, EntityPtr otherentity, double angle);
         virtual bool circlecollides(Gamestate *state, EntityPtr otherentity, double radius);
         EntityPtr owner;
+        Team team;
     protected:
     private:
 };

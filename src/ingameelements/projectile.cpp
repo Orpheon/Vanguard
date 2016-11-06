@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-Projectile::Projectile(double id_, Gamestate *state, EntityPtr owner_) : MovingEntity(id_, state), owner(owner_)
+Projectile::Projectile(double id_, Gamestate *state, EntityPtr owner_) : MovingEntity(id_, state), owner(owner_), team(state->get<Player>(owner)->team)
 {
     entitytype = PROJECTILE;
 }
@@ -21,15 +21,15 @@ void Projectile::midstep(Gamestate *state, double frametime)
         {
             oncollision(state);
         }
-        for (auto p : state->playerlist)
+        for (auto pptr : state->playerlist)
         {
-            // DEBUGTOOL: Replace this check with checking whether p is on enemy team
-            if (p != owner)
+            Player *p = state->get<Player>(pptr);
+            if (p->team != team)
             {
-                Character *c = state->get<Player>(p)->getcharacter(state);
+                Character *c = p->getcharacter(state);
                 if (c != 0)
                 {
-                    if (rectcollides(state, state->get<Player>(p)->character, std::atan2(vspeed, hspeed)))
+                    if (rectcollides(state, p->character, std::atan2(vspeed, hspeed)))
                     {
                         oncollision(state, c);
                         break;
