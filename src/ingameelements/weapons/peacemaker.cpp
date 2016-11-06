@@ -91,14 +91,6 @@ void Peacemaker::wantfireprimary(Gamestate *state)
 
 void Peacemaker::fireprimary(Gamestate *state)
 {
-//    EntityPtr newshot = state->make_entity<PeacemakerBullet>(state, owner);
-//    PeacemakerBullet *shot = state->get<PeacemakerBullet>(newshot);
-//    shot->x = x+std::cos(aimdirection)*5;
-//    shot->y = y+std::sin(aimdirection)*5;
-//
-//    shot->hspeed = std::cos(aimdirection) * bulletspeed;
-//    shot->vspeed = std::sin(aimdirection) * bulletspeed;
-
     double cosa = std::cos(aimdirection), sina = std::sin(aimdirection);
     double collisionptx, collisionpty;
     EntityPtr target = state->collidelinedamageable(x, y, x+cosa*FALLOFF_END, y+sina*FALLOFF_END, (team==TEAM1 ? TEAM2 : TEAM1), &collisionptx, &collisionpty);
@@ -153,17 +145,29 @@ void Peacemaker::wantfiresecondary(Gamestate *state)
 
 void Peacemaker::firesecondary(Gamestate *state)
 {
-    EntityPtr newshot = state->make_entity<PeacemakerBullet>(state, owner);
-    PeacemakerBullet *shot = state->get<PeacemakerBullet>(newshot);
     double spread = (2*(rand()/(RAND_MAX+1.0)) - 1)*25*3.1415/180.0;
-    shot->x = x+std::cos(aimdirection+spread)*5;
-    shot->y = y+std::sin(aimdirection+spread)*5;
-    shot->hspeed = std::cos(aimdirection+spread) * bulletspeed;
-    shot->vspeed = std::sin(aimdirection+spread) * bulletspeed;
+    double cosa = std::cos(aimdirection+spread), sina = std::sin(aimdirection+spread);
+    double collisionptx, collisionpty;
+    EntityPtr target = state->collidelinedamageable(x, y, x+cosa*FALLOFF_END, y+sina*FALLOFF_END, (team==TEAM1 ? TEAM2 : TEAM1), &collisionptx, &collisionpty);
+    if (target.id != 0)
+    {
+        double distance = std::hypot(collisionptx-x, collisionpty-y);
+        double falloff = 1.0;
+        if (distance > FALLOFF_BEGIN)
+        {
+            falloff = std::max(0.0, (distance-FALLOFF_BEGIN) / (FALLOFF_END-FALLOFF_BEGIN));
+        }
+        MovingEntity *m = state->get<MovingEntity>(target);
+        if (m->entitytype == CHARACTER)
+        {
+            Character *c = reinterpret_cast<Character*>(m);
+            c->damage(state, MAX_FTH_DAMAGE*falloff);
+        }
+    }
 
     Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", aimdirection+spread));
-    e->x = x+std::cos(aimdirection+spread)*24;
-    e->y = y+std::sin(aimdirection+spread)*24;
+    e->x = x+cosa*24;
+    e->y = y+sina*24;
 
     --clip;
 

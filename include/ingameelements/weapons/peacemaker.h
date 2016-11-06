@@ -31,6 +31,7 @@ class Peacemaker : public Weapon
     private:
 //        double bulletspeed = 1000.0;
         double MAX_DAMAGE = 70;
+        double MAX_FTH_DAMAGE = 45;
         double FALLOFF_BEGIN = 30*10;
         double FALLOFF_END = 30*15;
 };
