@@ -1,6 +1,7 @@
 #include <unordered_map>
 #include <memory>
 #include <algorithm>
+#include <cmath>
 
 #include "gamestate.h"
 #include "entity.h"
@@ -58,6 +59,7 @@ void Gamestate::update(WriteBuffer *sendbuffer_, double frametime)
     sendbuffer = 0;
 }
 
+
 EntityPtr Gamestate::addplayer()
 {
     EntityPtr r = make_entity<Player>(this);
@@ -95,6 +97,7 @@ int Gamestate::findplayerid(EntityPtr player)
 {
     return std::find(playerlist.begin(), playerlist.end(), player) - playerlist.begin();
 }
+
 
 std::unique_ptr<Gamestate> Gamestate::clone()
 {
@@ -139,6 +142,7 @@ void Gamestate::interpolate(Gamestate *prevstate, Gamestate *nextstate, double a
     }
 }
 
+
 void Gamestate::serializesnapshot(WriteBuffer *buffer)
 {
     for (auto p : playerlist)
@@ -175,4 +179,38 @@ void Gamestate::deserializefull(ReadBuffer *buffer)
     {
         get<Player>(p)->deserialize(this, buffer, true);
     }
+}
+
+
+EntityPtr Gamestate::collidelinedamageable(double x1, double y1, double x2, double y2, Team team, double *collisionptx, double *collisionpty)
+{
+    int nsteps = std::ceil(std::max(std::abs(x1-x2), std::abs(y1-y2)));
+    double dx = static_cast<double>(x2-x1)/nsteps, dy = static_cast<double>(y2-y1)*1.0/nsteps;
+    for (int i=0; i<nsteps; ++i)
+    {
+        if (currentmap->testpixel(x1, y1))
+        {
+            // We hit wallmask or went out of bounds
+            *collisionptx = x1;
+            *collisionpty = y1;
+            return EntityPtr(0);
+        }
+        for (auto p : playerlist)
+        {
+            Character *c = get<Player>(p)->getcharacter(this);
+            if (c != 0 and c->team == team)
+            {
+                if (c->collides(this, x1, y1))
+                {
+                    *collisionptx = x1;
+                    *collisionpty = y1;
+                    return get<Player>(p)->character;
+                }
+            }
+        }
+        x1 += dx; y1 += dy;
+    }
+    *collisionptx = -1;
+    *collisionpty = -1;
+    return EntityPtr(0);
 }

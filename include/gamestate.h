@@ -38,14 +38,18 @@ class Gamestate
         void update(WriteBuffer *sendbuffer_, double frametime);
         std::unique_ptr<Gamestate> clone();
         void interpolate(Gamestate *prevstate, Gamestate *nextstate, double alpha);
+
         EntityPtr addplayer();
         void removeplayer(int playerid);
         Player* findplayer(int playerid);
         int findplayerid(EntityPtr player);
+
         void serializesnapshot(WriteBuffer *buffer);
         void deserializesnapshot(ReadBuffer *buffer);
         void serializefull(WriteBuffer *buffer);
         void deserializefull(ReadBuffer *buffer);
+
+        EntityPtr collidelinedamageable(double x1, double y1, double x2, double y2, Team team, double *collisionptx, double *collisionpty);
 
         std::unordered_map<int, std::unique_ptr<Entity>> entitylist;
         std::vector<EntityPtr> playerlist;

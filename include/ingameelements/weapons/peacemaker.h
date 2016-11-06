@@ -29,7 +29,10 @@ class Peacemaker : public Weapon
         bool isfthing;
     protected:
     private:
-        double bulletspeed = 1000.0;
+//        double bulletspeed = 1000.0;
+        double MAX_DAMAGE = 70;
+        double FALLOFF_BEGIN = 30*10;
+        double FALLOFF_END = 30*15;
 };
 
 #endif // PEACEMAKER_H
