@@ -33,7 +33,7 @@ class Peacemaker : public Weapon
         double MAX_DAMAGE = 70;
         double MAX_FTH_DAMAGE = 45;
         double FALLOFF_BEGIN = 30*10;
-        double FALLOFF_END = 30*15;
+        double FALLOFF_END = 30*20;
 };
 
 #endif // PEACEMAKER_H

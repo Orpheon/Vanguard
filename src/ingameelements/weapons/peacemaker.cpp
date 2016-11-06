@@ -112,7 +112,7 @@ void Peacemaker::fireprimary(Gamestate *state)
         }
     }
 
-    state->make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 100), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
+    state->make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
     Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", aimdirection));
     e->x = x+cosa*24;
     e->y = y+sina*24;
@@ -168,7 +168,7 @@ void Peacemaker::firesecondary(Gamestate *state)
         }
     }
 
-    state->make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 100), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
+    state->make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
     Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", aimdirection+spread));
     e->x = x+cosa*24;
     e->y = y+sina*24;
