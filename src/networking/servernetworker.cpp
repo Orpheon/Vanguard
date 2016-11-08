@@ -78,7 +78,7 @@ void ServerNetworker::receive(Gamestate *state)
                     Player *p = state->get<Player>(reinterpret_cast<int*>(event.peer->data)[0]);
                     if (p->character != 0)
                     {
-                        InputContainer pressedkeys, heldkeys;
+                        InputContainer heldkeys;
                         heldkeys.deserialize(&data);
                         double mouse_x = data.read<int16_t>();
                         double mouse_y = data.read<int16_t>();
