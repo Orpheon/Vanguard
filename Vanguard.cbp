@@ -105,6 +105,7 @@
 		<Unit filename="include/ingameelements/projectile.h" />
 		<Unit filename="include/ingameelements/projectiles/flashbang.h" />
 		<Unit filename="include/ingameelements/projectiles/peacemakerbullet.h" />
+		<Unit filename="include/ingameelements/spawnroom.h" />
 		<Unit filename="include/ingameelements/trail.h" />
 		<Unit filename="include/ingameelements/weapon.h" />
 		<Unit filename="include/ingameelements/weapons/peacemaker.h" />
@@ -132,6 +133,7 @@
 		<Unit filename="src/ingameelements/projectile.cpp" />
 		<Unit filename="src/ingameelements/projectiles/flashbang.cpp" />
 		<Unit filename="src/ingameelements/projectiles/peacemakerbullet.cpp" />
+		<Unit filename="src/ingameelements/spawnroom.cpp" />
 		<Unit filename="src/ingameelements/trail.cpp" />
 		<Unit filename="src/ingameelements/weapon.cpp" />
 		<Unit filename="src/ingameelements/weapons/peacemaker.cpp" />
