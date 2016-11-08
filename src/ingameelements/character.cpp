@@ -15,7 +15,7 @@
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
             owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), team(state->get<Player>(owner)->team), isflipped(false), runanim(parameters.characterfolder+"run/"),
-            crouchanim(parameters.characterfolder+"crouchwalk/"), stunanim(parameters.characterfolder+"stun/"), held_keys()
+            crouchanim(parameters.characterfolder+"crouchwalk/"), stunanim(parameters.characterfolder+"stun/"), ongroundsmooth(0.05), held_keys()
 {
     acceleration = 300;
     runpower = parameters.runpower;
@@ -262,6 +262,7 @@ void Character::endstep(Gamestate *state, double frametime)
         }
     }
     stunanim.update(state, frametime);
+    ongroundsmooth.update(state, frametime);
     if (hspeed == 0.0)
     {
         bool run=runanim.active(), crouch=crouchanim.active();
@@ -602,7 +603,15 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
 bool Character::onground(Gamestate *state)
 {
     Rect r = getcollisionrect(state);
-    return state->currentmap->collides(Rect(r.x, r.y+r.h, r.w, 1));
+    if (state->currentmap->collides(Rect(r.x, r.y+r.h, r.w, 1)))
+    {
+        ongroundsmooth.reset();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
@@ -625,6 +634,9 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
     mouse_x = prev_e->mouse_x + alpha*(next_e->mouse_x - prev_e->mouse_x);
     mouse_y = prev_e->mouse_y + alpha*(next_e->mouse_y - prev_e->mouse_y);
     runanim.interpolate(&(prev_e->runanim), &(next_e->runanim), alpha);
+    crouchanim.interpolate(&(prev_e->crouchanim), &(next_e->crouchanim), alpha);
+    stunanim.interpolate(&(prev_e->stunanim), &(next_e->stunanim), alpha);
+    ongroundsmooth.interpolate(&(prev_e->ongroundsmooth), &(next_e->ongroundsmooth), alpha);
     hp.normal = prev_e->hp.normal + alpha*(next_e->hp.normal - prev_e->hp.normal);
     hp.armor = prev_e->hp.armor + alpha*(next_e->hp.armor - prev_e->hp.armor);
     hp.shields = prev_e->hp.shields + alpha*(next_e->hp.shields - prev_e->hp.shields);

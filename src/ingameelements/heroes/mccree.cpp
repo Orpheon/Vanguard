@@ -260,7 +260,7 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     {
         return crouchanim.getframepath();
     }
-    if (not onground(state))
+    if (not ongroundsmooth.active)
     {
         if (vspeed > 100)
         {
@@ -271,7 +271,7 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
             return getcharacterfolder()+"jump/1";
         }
     }
-    if (std::fabs(hspeed) < 11.0)
+    if (std::fabs(hspeed) < 11.0 and not held_keys.LEFT and not held_keys.RIGHT)
     {
         return getcharacterfolder()+"idle/1";
     }

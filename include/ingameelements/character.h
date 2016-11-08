@@ -58,6 +58,7 @@ class Character : public MovingEntity
         LoopAnimation runanim;
         LoopAnimation crouchanim;
         Animation stunanim;
+        Timer ongroundsmooth;
 
     protected:
         InputContainer held_keys;
