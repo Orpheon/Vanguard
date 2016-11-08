@@ -166,6 +166,7 @@ struct Health
 struct EntityPtr
 {
     EntityPtr(uint64_t id_) : id(id_) {}
+    EntityPtr() : id(0) {}
     operator int() const { return id; }
     uint64_t id;
 };
