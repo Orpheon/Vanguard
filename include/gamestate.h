@@ -59,6 +59,7 @@ class Gamestate
 
         double time;
         std::shared_ptr<Map> currentmap;
+        EntityPtr spawnrooms[2];
         Engine *engine;
         WriteBuffer *sendbuffer;
     protected:

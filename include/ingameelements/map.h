@@ -4,6 +4,7 @@
 #include "datastructures.h"
 #include "ingameelements/movingentity.h"
 #include "ingameelements/character.h"
+#include "json.hpp"
 
 #include <allegro5/allegro.h>
 #include <string>
@@ -11,7 +12,7 @@
 class Map
 {
     public:
-        Map(std::string name);
+        Map(Gamestate *state, std::string name);
         ~Map();
         void renderbackground(double cam_x, double cam_y);
         void renderwallground(double cam_x, double cam_y);
@@ -28,6 +29,7 @@ class Map
         ALLEGRO_BITMAP *background;
         ALLEGRO_BITMAP *wallground;
         ALLEGRO_BITMAP *wallmask;
+        nlohmann::json mapdata;
 };
 
 #endif // MAP_H

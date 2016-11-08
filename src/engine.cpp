@@ -17,7 +17,7 @@ Engine::~Engine()
 
 void Engine::loadmap(std::string mapname)
 {
-    currentstate->currentmap = std::make_shared<Map>(mapname);
+    currentstate->currentmap = std::make_shared<Map>(currentstate.get(), mapname);
 }
 
 void Engine::update(WriteBuffer *sendbuffer, double frametime)

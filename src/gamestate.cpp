@@ -7,6 +7,7 @@
 #include "entity.h"
 #include "ingameelements/player.h"
 #include "ingameelements/projectile.h"
+#include "ingameelements/spawnroom.h"
 
 Gamestate::Gamestate(Engine *engine_) : entitylist(), playerlist(), currentmap(), engine(engine_), sendbuffer(0), entityidcounter(1)
 {
@@ -190,15 +191,15 @@ EntityPtr Gamestate::collidelinedamageable(double x1, double y1, double x2, doub
     *collisionpty = y1;
     for (int i=0; i<nsteps; ++i)
     {
-        if (currentmap->testpixel(*collisionptx, *collisionpty))
+        if (currentmap->testpixel(*collisionptx, *collisionpty) or get<Spawnroom>(spawnrooms[not team])->isinside(*collisionptx, *collisionpty))
         {
-            // We hit wallmask or went out of bounds
+            // We hit wallmask or went out of bounds or hit enemy spawnroom
             return EntityPtr(0);
         }
         for (auto p : playerlist)
         {
             Character *c = get<Player>(p)->getcharacter(this);
-            if (c != 0 and c->team == team)
+            if (c != 0 and c->team != team)
             {
                 if (c->collides(this, *collisionptx, *collisionpty))
                 {

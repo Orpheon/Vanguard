@@ -4,6 +4,7 @@
 #include "ingameelements/character.h"
 #include "ingameelements/heroes/mccree.h"
 #include "engine.h"
+#include "ingameelements/spawnroom.h"
 
 Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0), spawntimer(std::bind(&Player::spawn, this, state), 4), ultcharge(100), team(SPECTATOR)
 {
@@ -80,8 +81,14 @@ void Player::spawn(Gamestate *state)
     }
     character = state->make_entity<Mccree>(state, EntityPtr(id));
     Character *c = state->get<Character>(character);
-    c->x = 443;
-    c->y = 950;
+    Spawnroom *spawn = state->get<Spawnroom>(state->spawnrooms[team]);
+    do
+    {
+        c->x = spawn->area.x + spawn->area.w*(rand()/(RAND_MAX+1.0));
+        c->y = spawn->area.y + spawn->area.h*(rand()/(RAND_MAX+1.0));
+    }
+    while (state->currentmap->collides(c->getcollisionrect(state)));
+
     if (state->engine->isserver)
     {
         state->sendbuffer->write<uint8_t>(PLAYER_SPAWNED);
