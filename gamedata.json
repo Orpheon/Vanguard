@@ -1,6 +1,8 @@
 {
     "heroes/mccree/ rect": [-7, -5, 14, 39],
     "heroes/mccree/crouch/ rect": [-7, 4, 14, 30],
+    "heroes/reinhardt/ rect": [-7, -5, 14, 39],
+    "heroes/reinhardt/crouch/ rect": [-7, 4, 14, 30],
 
     "heroes/mccree/reload/ duration": 1.5,
     "heroes/mccree/run/ duration": 120,
@@ -15,6 +17,12 @@
     "heroes/mccree/fanthehammerloop/ duration": 0.11,
     "heroes/mccree/projectiletrail/ duration": 0.2,
     "heroes/mccree/stun/ duration": 0.7,
+
+    "heroes/reinhardt/run/ duration": 120,
+    "heroes/reinhardt/firing/ duration": 0.5,
+    "heroes/reinhardt/emote/ duration": 3,
+    "heroes/reinhardt/crouchwalk/ duration": 40,
+    "heroes/reinhardt/stun/ duration": 0.7,
 
     "heroes/mccree/idle/1 weapon": [-2, 7],
     "heroes/mccree/run/1 weapon": [-2, 9],
@@ -31,5 +39,22 @@
     "heroes/mccree/crouchwalk/3 weapon": [0, 17],
     "heroes/mccree/crouchwalk/4 weapon": [1, 17],
     "heroes/mccree/jump/1 weapon": [-3, 6],
-    "heroes/mccree/falling/1 weapon": [0, 12]
+    "heroes/mccree/falling/1 weapon": [0, 12],
+
+    "heroes/reinhardt/idle/1 weapon": [-2, 7],
+    "heroes/reinhardt/run/1 weapon": [-2, 9],
+    "heroes/reinhardt/run/2 weapon": [-2, 10],
+    "heroes/reinhardt/run/3 weapon": [-2, 11],
+    "heroes/reinhardt/run/4 weapon": [-2, 10],
+    "heroes/reinhardt/run/5 weapon": [-2, 9],
+    "heroes/reinhardt/run/6 weapon": [-2, 10],
+    "heroes/reinhardt/run/7 weapon": [-2, 11],
+    "heroes/reinhardt/run/8 weapon": [-2, 10],
+    "heroes/reinhardt/crouch/1 weapon": [0, 17],
+    "heroes/reinhardt/crouchwalk/1 weapon": [0, 17],
+    "heroes/reinhardt/crouchwalk/2 weapon": [1, 17],
+    "heroes/reinhardt/crouchwalk/3 weapon": [0, 17],
+    "heroes/reinhardt/crouchwalk/4 weapon": [1, 17],
+    "heroes/reinhardt/jump/1 weapon": [-3, 6],
+    "heroes/reinhardt/falling/1 weapon": [0, 12]
 }

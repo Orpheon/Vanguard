@@ -3,10 +3,11 @@
 #include "datastructures.h"
 #include "ingameelements/character.h"
 #include "ingameelements/heroes/mccree.h"
+#include "ingameelements/heroes/reinhardt.h"
 #include "engine.h"
 #include "ingameelements/spawnroom.h"
 
-Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0), spawntimer(std::bind(&Player::spawn, this, state), 4), ultcharge(100), team(SPECTATOR), heroclass(MCCREE)
+Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0), spawntimer(std::bind(&Player::spawn, this, state), 4), ultcharge(100), team(SPECTATOR), heroclass(REINHARDT)
 {
     spawntimer.active = false;
     spawntimer.timer = spawntimer.duration;
@@ -82,6 +83,10 @@ void Player::spawn(Gamestate *state)
     if (heroclass == MCCREE)
     {
         character = state->make_entity<Mccree>(state, EntityPtr(id));
+    }
+    else if (heroclass == REINHARDT)
+    {
+        character = state->make_entity<Reinhardt>(state, EntityPtr(id));
     }
     else
     {

@@ -99,6 +99,7 @@
 		<Unit filename="include/ingameelements/corpse.h" />
 		<Unit filename="include/ingameelements/explosion.h" />
 		<Unit filename="include/ingameelements/heroes/mccree.h" />
+		<Unit filename="include/ingameelements/heroes/reinhardt.h" />
 		<Unit filename="include/ingameelements/map.h" />
 		<Unit filename="include/ingameelements/movingentity.h" />
 		<Unit filename="include/ingameelements/player.h" />
@@ -127,6 +128,7 @@
 		<Unit filename="src/ingameelements/corpse.cpp" />
 		<Unit filename="src/ingameelements/explosion.cpp" />
 		<Unit filename="src/ingameelements/heroes/mccree.cpp" />
+		<Unit filename="src/ingameelements/heroes/reinhardt.cpp" />
 		<Unit filename="src/ingameelements/map.cpp" />
 		<Unit filename="src/ingameelements/movingentity.cpp" />
 		<Unit filename="src/ingameelements/player.cpp" />
