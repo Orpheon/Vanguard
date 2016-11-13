@@ -102,7 +102,7 @@ void Peacemaker::fireprimary(Gamestate *state)
         double falloff = 1.0;
         if (distance > FALLOFF_BEGIN)
         {
-            falloff = std::max(0.0, (distance-FALLOFF_BEGIN) / (FALLOFF_END-FALLOFF_BEGIN));
+            falloff = std::max(0.0, 1 - (distance-FALLOFF_BEGIN)/(FALLOFF_END-FALLOFF_BEGIN));
         }
         MovingEntity *m = state->get<MovingEntity>(target);
         if (m->entitytype == CHARACTER)

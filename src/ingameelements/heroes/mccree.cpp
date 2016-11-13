@@ -60,9 +60,8 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
     ALLEGRO_BITMAP *outline = renderer->spriteloader.requestsprite(outlinesprite);
     int outlinespriteoffset_x = renderer->spriteloader.get_spriteoffset_x(outlinesprite);
     int outlinespriteoffset_y = renderer->spriteloader.get_spriteoffset_y(outlinesprite);
-    // TODO Replace this with team check
     ALLEGRO_COLOR outlinecolor;
-    if (state->get<Player>(renderer->myself)->character == EntityPtr(id))
+    if (state->get<Player>(renderer->myself)->team == team)
     {
         // Draw friendly outline
         outlinecolor = al_map_rgb(0, 145, 181);
