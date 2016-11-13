@@ -4,7 +4,7 @@
 #include "ingameelements/character.h"
 #include "renderer.h"
 #include "datastructures.h"
-#include "ingameelements/weapons/peacemaker.h"
+#include "ingameelements/weapons/hammer.h"
 
 #include <string>
 

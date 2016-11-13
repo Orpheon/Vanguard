@@ -109,6 +109,7 @@
 		<Unit filename="include/ingameelements/spawnroom.h" />
 		<Unit filename="include/ingameelements/trail.h" />
 		<Unit filename="include/ingameelements/weapon.h" />
+		<Unit filename="include/ingameelements/weapons/hammer.h" />
 		<Unit filename="include/ingameelements/weapons/peacemaker.h" />
 		<Unit filename="include/inputcatcher.h" />
 		<Unit filename="include/json.hpp" />
@@ -138,6 +139,7 @@
 		<Unit filename="src/ingameelements/spawnroom.cpp" />
 		<Unit filename="src/ingameelements/trail.cpp" />
 		<Unit filename="src/ingameelements/weapon.cpp" />
+		<Unit filename="src/ingameelements/weapons/hammer.cpp" />
 		<Unit filename="src/ingameelements/weapons/peacemaker.cpp" />
 		<Unit filename="src/inputcatcher.cpp" />
 		<Unit filename="src/mainmenu.cpp" />

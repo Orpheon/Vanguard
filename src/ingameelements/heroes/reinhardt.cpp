@@ -24,6 +24,9 @@ void Reinhardt::render(Renderer *renderer, Gamestate *state)
     Character::render(renderer, state);
     al_set_target_bitmap(renderer->midground);
 
+    // Render weapon back first
+    state->get<Hammer>(weapon)->renderbehind(renderer, state);
+
     std::string mainsprite;
     ALLEGRO_BITMAP *sprite;
     int spriteoffset_x;
@@ -215,7 +218,7 @@ CharacterChildParameters Reinhardt::constructparameters(uint64_t id_, Gamestate 
 {
     CharacterChildParameters p;
     p.runpower = 1.8;
-    p.weapon = state->make_entity<Peacemaker>(state, owner_);
+    p.weapon = state->make_entity<Hammer>(state, owner_);
     p.maxhp.normal = 300;
     p.maxhp.armor = 200;
     p.maxhp.shields = 0;

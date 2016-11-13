@@ -18,7 +18,8 @@
     "heroes/mccree/projectiletrail/ duration": 0.2,
     "heroes/mccree/stun/ duration": 0.7,
 
-    "heroes/reinhardt/run/ duration": 120,
+    "heroes/reinhardt/reload/ duration": 0,
+    "heroes/reinhardt/run/ duration": 300,
     "heroes/reinhardt/firing/ duration": 0.5,
     "heroes/reinhardt/emote/ duration": 3,
     "heroes/reinhardt/crouchwalk/ duration": 40,

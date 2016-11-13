@@ -36,7 +36,7 @@ class Weapon : public MovingEntity
         virtual double getattachpoint_y() = 0;
         virtual WeaponChildParameters constructparameters(Gamestate *state) = 0;
 
-        void restoreclip(Gamestate *state) {clip = getclipsize();}
+        virtual void restoreclip(Gamestate *state) {clip = getclipsize();}
 
         std::string idlesprite;
         Animation firinganim;
