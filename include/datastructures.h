@@ -7,7 +7,7 @@
 
 class Gamestate;
 
-enum HEROCLASS {ANA,
+enum Heroclass {ANA,
                 BASTION,
                 DVA,
                 GENJI,
@@ -35,6 +35,7 @@ enum EVENTTYPE {SERVER_SNAPSHOTUPDATE,
                 CLIENT_INPUT,
                 PLAYER_JOINED,
                 PLAYER_LEFT,
+                PLAYER_CHANGECLASS,
                 PLAYER_SPAWNED,
                 PLAYER_DIED,
                 PRIMARY_FIRED,

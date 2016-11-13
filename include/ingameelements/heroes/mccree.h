@@ -28,6 +28,7 @@ class Mccree : public Character
         void drawhud(Renderer *renderer, Gamestate *state) override;
         double passiveultcharge() override {return 0.4166666666666667;}
         bool weaponvisible(Gamestate *state) override {return (not rollanim.active() and not stunanim.active());}
+        Heroclass heroclass() override {return MCCREE;}
 
         Animation rollanim;
         Animation flashbanganim;

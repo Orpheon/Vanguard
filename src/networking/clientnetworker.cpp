@@ -59,6 +59,11 @@ void ClientNetworker::receive(Gamestate *state)
                     int playerid = data.read<uint8_t>();
                     state->removeplayer(playerid);
                 }
+                else if (eventtype == PLAYER_CHANGECLASS)
+                {
+                    int playerid = data.read<uint8_t>();
+                    state->findplayer(playerid)->heroclass = (Heroclass)(data.read<uint8_t>());
+                }
                 else if (eventtype == PLAYER_SPAWNED)
                 {
                     int playerid = data.read<uint8_t>();

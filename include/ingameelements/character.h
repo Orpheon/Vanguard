@@ -41,6 +41,7 @@ class Character : public MovingEntity
         virtual double passiveultcharge() = 0;
         virtual double hudheight() {return 7.0/8.0;}
         virtual bool weaponvisible(Gamestate *state) {return true;}
+        virtual Heroclass heroclass() = 0;
 
         EntityPtr owner;
         EntityPtr weapon;

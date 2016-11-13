@@ -6,7 +6,7 @@
 #include "engine.h"
 #include "ingameelements/spawnroom.h"
 
-Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0), spawntimer(std::bind(&Player::spawn, this, state), 4), ultcharge(100), team(SPECTATOR)
+Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0), spawntimer(std::bind(&Player::spawn, this, state), 4), ultcharge(100), team(SPECTATOR), heroclass(MCCREE)
 {
     spawntimer.active = false;
     spawntimer.timer = spawntimer.duration;
@@ -79,7 +79,14 @@ void Player::spawn(Gamestate *state)
         // We already have a character, error and respawn
         fprintf(stderr, "\nERROR: Tried to spawn character that was already alive.");
     }
-    character = state->make_entity<Mccree>(state, EntityPtr(id));
+    if (heroclass == MCCREE)
+    {
+        character = state->make_entity<Mccree>(state, EntityPtr(id));
+    }
+    else
+    {
+        fprintf(stderr, "\nERROR: Tried to spawn character with invalid class %i", heroclass);
+    }
     Character *c = state->get<Character>(character);
     Spawnroom *spawn = state->get<Spawnroom>(state->spawnrooms[team]);
     do
