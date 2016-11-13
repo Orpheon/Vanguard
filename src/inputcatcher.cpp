@@ -5,6 +5,7 @@
 #include "inputcatcher.h"
 #include "datastructures.h"
 #include "renderer.h"
+#include "networking/clientnetworker.h"
 #include "ingameelements/character.h"
 #include "global_constants.h"
 
@@ -36,10 +37,10 @@ InputCatcher::~InputCatcher()
     al_destroy_event_queue(event_queue);
 }
 
-void InputCatcher::run(ALLEGRO_DISPLAY *display, InputContainer *held_keys, double *mouse_x, double *mouse_y)
+void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate *state, Networker *networker, Renderer *renderer, EntityPtr myself)
 {
-//    pressed_keys->reset();
-    held_keys->reset();
+    InputContainer heldkeys;
+    heldkeys.reset();
 
     ALLEGRO_EVENT event;
     // Catch all events that have stacked up this frame. al_get_next_event() returns false when event_queue is empty, and contents of event are undefined
@@ -120,35 +121,35 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, InputContainer *held_keys, doub
     al_get_keyboard_state(&keystate);
     if (al_key_down(&keystate, config["jump"]) or al_key_down(&keystate, config["jump_alt1"]) or al_key_down(&keystate, config["jump_alt2"]))
     {
-        held_keys->JUMP = true;
+        heldkeys.JUMP = true;
     }
     if (al_key_down(&keystate, config["crouch"]) or al_key_down(&keystate, config["crouch_alt1"]) or al_key_down(&keystate, config["crouch_alt2"]))
     {
-        held_keys->CROUCH = true;
+        heldkeys.CROUCH = true;
     }
     if (al_key_down(&keystate, config["left"]) or al_key_down(&keystate, config["left_alt1"]) or al_key_down(&keystate, config["left_alt2"]))
     {
-        held_keys->LEFT = true;
+        heldkeys.LEFT = true;
     }
     if (al_key_down(&keystate, config["right"]) or al_key_down(&keystate, config["right_alt1"]) or al_key_down(&keystate, config["right_alt2"]))
     {
-        held_keys->RIGHT = true;
+        heldkeys.RIGHT = true;
     }
     if (al_key_down(&keystate, config["ability1"]) or al_key_down(&keystate, config["ability1_alt1"]) or al_key_down(&keystate, config["ability1_alt2"]))
     {
-        held_keys->ABILITY_1 = true;
+        heldkeys.ABILITY_1 = true;
     }
     if (al_key_down(&keystate, config["ability2"]) or al_key_down(&keystate, config["ability2_alt1"]) or al_key_down(&keystate, config["ability2_alt2"]))
     {
-        held_keys->ABILITY_2 = true;
+        heldkeys.ABILITY_2 = true;
     }
     if (al_key_down(&keystate, config["ultimate"]) or al_key_down(&keystate, config["ultimate_alt1"]) or al_key_down(&keystate, config["ultimate_alt2"]))
     {
-        held_keys->ULTIMATE = true;
+        heldkeys.ULTIMATE = true;
     }
     if (al_key_down(&keystate, config["reload"]) or al_key_down(&keystate, config["reload_alt1"]) or al_key_down(&keystate, config["reload_alt2"]))
     {
-        held_keys->RELOAD = true;
+        heldkeys.RELOAD = true;
     }
 
     ALLEGRO_MOUSE_STATE mousestate;
@@ -156,13 +157,28 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, InputContainer *held_keys, doub
     // FIXME: I have no idea if these constants are correct, allegro docs don't mention the specifics, just that it starts with 1.
     if (mousestate.buttons & LEFT_MOUSE_BUTTON)
     {
-        held_keys->PRIMARY_FIRE = true;
+        heldkeys.PRIMARY_FIRE = true;
     }
     if (mousestate.buttons & RIGHT_MOUSE_BUTTON)
     {
-        held_keys->SECONDARY_FIRE = true;
+        heldkeys.SECONDARY_FIRE = true;
     }
 
-    *mouse_x = mousestate.x;
-    *mouse_y = mousestate.y;
+    Player *p = state->get<Player>(myself);
+    if (p != 0)
+    {
+        Character *c = p->getcharacter(state);
+        if (c != 0)
+        {
+            // Set the input for our current character
+            c->setinput(state, heldkeys, mousestate.x/renderer->zoom+renderer->cam_x, mousestate.y/renderer->zoom+renderer->cam_y);
+
+            // If this is a client, send the input off to the server
+            if (not state->engine->isserver)
+            {
+                ClientNetworker *n = reinterpret_cast<ClientNetworker*>(networker);
+                n->sendinput(heldkeys, mousestate.x/renderer->zoom+renderer->cam_x, mousestate.y/renderer->zoom+renderer->cam_y);
+            }
+        }
+    }
 }

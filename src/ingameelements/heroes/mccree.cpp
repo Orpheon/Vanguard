@@ -182,13 +182,13 @@ void Mccree::midstep(Gamestate *state, double frametime)
 
     if (cangetinput(state))
     {
-        if (held_keys.ABILITY_1 and not rollcooldown.active and onground(state) and state->engine->isserver)
+        if (heldkeys.ABILITY_1 and not rollcooldown.active and onground(state) and state->engine->isserver)
         {
             useability1(state);
             state->sendbuffer->write<uint8_t>(ABILITY1_USED);
             state->sendbuffer->write<uint8_t>(state->findplayerid(owner));
         }
-        if (held_keys.ABILITY_2 and not flashbangcooldown.active and state->engine->isserver)
+        if (heldkeys.ABILITY_2 and not flashbangcooldown.active and state->engine->isserver)
         {
             useability2(state);
             state->sendbuffer->write<uint8_t>(ABILITY2_USED);
@@ -199,11 +199,11 @@ void Mccree::midstep(Gamestate *state, double frametime)
 
 void Mccree::useability1(Gamestate *state)
 {
-    if (held_keys.LEFT and not held_keys.RIGHT)
+    if (heldkeys.LEFT and not heldkeys.RIGHT)
     {
         isflipped = true;
     }
-    else if (held_keys.RIGHT and not held_keys.LEFT)
+    else if (heldkeys.RIGHT and not heldkeys.LEFT)
     {
         isflipped = false;
     }
@@ -270,7 +270,7 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
             return getcharacterfolder()+"jump/1";
         }
     }
-    if (std::fabs(hspeed) < 11.0 and not held_keys.LEFT and not held_keys.RIGHT)
+    if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
     {
         return getcharacterfolder()+"idle/1";
     }

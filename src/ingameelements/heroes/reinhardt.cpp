@@ -147,13 +147,13 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
 
     if (cangetinput(state))
     {
-        if (held_keys.ABILITY_1 and onground(state) and state->engine->isserver)
+        if (heldkeys.ABILITY_1 and onground(state) and state->engine->isserver)
         {
             useability1(state);
             state->sendbuffer->write<uint8_t>(ABILITY1_USED);
             state->sendbuffer->write<uint8_t>(state->findplayerid(owner));
         }
-        if (held_keys.ABILITY_2 and state->engine->isserver)
+        if (heldkeys.ABILITY_2 and state->engine->isserver)
         {
             useability2(state);
             state->sendbuffer->write<uint8_t>(ABILITY2_USED);
@@ -207,7 +207,7 @@ std::string Reinhardt::getsprite(Gamestate *state, bool mask)
             return getcharacterfolder()+"jump/1";
         }
     }
-    if (std::fabs(hspeed) < 11.0 and not held_keys.LEFT and not held_keys.RIGHT)
+    if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
     {
         return getcharacterfolder()+"idle/1";
     }

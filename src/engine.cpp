@@ -25,16 +25,3 @@ void Engine::update(WriteBuffer *sendbuffer, double frametime)
     oldstate = currentstate->clone();
     currentstate->update(sendbuffer, frametime);
 }
-
-void Engine::setinput(EntityPtr myself, InputContainer held_keys, double mouse_x, double mouse_y)
-{
-    Player *p = currentstate->get<Player>(myself);
-    if (p != 0)
-    {
-        Character *c = p->getcharacter(currentstate.get());
-        if (c != 0)
-        {
-            c->setinput(currentstate.get(), held_keys, mouse_x, mouse_y);
-        }
-    }
-}

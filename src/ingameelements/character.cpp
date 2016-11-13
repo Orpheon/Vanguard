@@ -15,7 +15,7 @@
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
             owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), team(state->get<Player>(owner)->team), isflipped(false), runanim(parameters.characterfolder+"run/"),
-            crouchanim(parameters.characterfolder+"crouchwalk/"), stunanim(parameters.characterfolder+"stun/"), ongroundsmooth(0.05), held_keys()
+            crouchanim(parameters.characterfolder+"crouchwalk/"), stunanim(parameters.characterfolder+"stun/"), ongroundsmooth(0.05), heldkeys()
 {
     acceleration = 300;
     runpower = parameters.runpower;
@@ -29,9 +29,9 @@ Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, Character
     stunanim.active(false);
 }
 
-void Character::setinput(Gamestate *state, InputContainer held_keys_, double mouse_x_, double mouse_y_)
+void Character::setinput(Gamestate *state, InputContainer heldkeys_, double mouse_x_, double mouse_y_)
 {
-    held_keys = held_keys_;
+    heldkeys = heldkeys_;
     mouse_x = mouse_x_;
     mouse_y = mouse_y_;
     getweapon(state)->setaim(mouse_x, mouse_y);
@@ -56,23 +56,23 @@ void Character::midstep(Gamestate *state, double frametime)
             maxhspeed = 153.0;
         }
 
-        if (held_keys.LEFT)
+        if (heldkeys.LEFT)
         {
             hspeed = std::max(hspeed - acceleration * runpower * frametime, -maxhspeed);
         }
-        if (held_keys.RIGHT)
+        if (heldkeys.RIGHT)
         {
             hspeed = std::min(hspeed + acceleration * runpower * frametime, maxhspeed);
         }
 
-        if (held_keys.JUMP)
+        if (heldkeys.JUMP)
         {
             if (onground(state))
             {
                 vspeed = -250.0;
             }
         }
-        if (held_keys.CROUCH)
+        if (heldkeys.CROUCH)
         {
             if (not crouchanim.active())
             {
@@ -90,16 +90,16 @@ void Character::midstep(Gamestate *state, double frametime)
             }
         }
 
-        if (held_keys.RELOAD)
+        if (heldkeys.RELOAD)
         {
             getweapon(state)->reload(state);
         }
         // Shooting
-        if (held_keys.PRIMARY_FIRE)
+        if (heldkeys.PRIMARY_FIRE)
         {
             getweapon(state)->wantfireprimary(state);
         }
-        if (held_keys.SECONDARY_FIRE)
+        if (heldkeys.SECONDARY_FIRE)
         {
             getweapon(state)->wantfiresecondary(state);
         }
@@ -623,12 +623,12 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
 
     if (alpha < 0.5)
     {
-        held_keys = prev_e->held_keys;
+        heldkeys = prev_e->heldkeys;
         crouchanim.active(prev_e->crouchanim.active());
     }
     else
     {
-        held_keys = next_e->held_keys;
+        heldkeys = next_e->heldkeys;
         crouchanim.active(prev_e->crouchanim.active());
     }
     mouse_x = prev_e->mouse_x + alpha*(next_e->mouse_x - prev_e->mouse_x);
@@ -650,7 +650,7 @@ void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate
     buffer->write<uint16_t>(hp.armor);
     buffer->write<uint16_t>(hp.shields);
 
-    ReducedInputContainer input = held_keys.reduce();
+    ReducedInputContainer input = heldkeys.reduce();
     input.serialize(buffer);
 
     buffer->write<int16_t>(mouse_x);
@@ -669,7 +669,7 @@ void Character::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdat
 
     ReducedInputContainer input;
     input.deserialize(buffer);
-    held_keys.update(input);
+    heldkeys.update(input);
 
     mouse_x = buffer->read<int16_t>();
     mouse_y = buffer->read<int16_t>();

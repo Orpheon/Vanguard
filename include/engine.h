@@ -14,7 +14,6 @@ class Engine
         ~Engine();
         void update(WriteBuffer *sendbuffer, double frametime);
         void loadmap(std::string mapname);
-        void setinput(EntityPtr myself, InputContainer held_keys, double mouse_x, double mouse_y);
 
         std::unique_ptr<Gamestate> currentstate;
         std::unique_ptr<Gamestate> oldstate;
