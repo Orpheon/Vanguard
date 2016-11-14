@@ -22,7 +22,7 @@ class Hammer : public Weapon
         void reload(Gamestate *state) override;
 
         int getclipsize() override {return 6;}
-        double getattachpoint_x() override {return -3;}
+        double getattachpoint_x() override {return 0;}
         double getattachpoint_y() override {return 8;}
 
         WeaponChildParameters constructparameters(Gamestate *state);

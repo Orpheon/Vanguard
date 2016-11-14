@@ -50,7 +50,7 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     {
         if (c->isflipped)
         {
-            al_draw_scaled_rotated_bitmap(sprite, -getattachpoint_x()-spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y, 1, -1, dir, 0);
+            al_draw_scaled_rotated_bitmap(sprite, -getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y, 1, -1, dir, 0);
         }
         else
         {
