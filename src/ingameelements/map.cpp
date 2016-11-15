@@ -5,7 +5,7 @@
 #include "ingameelements/map.h"
 #include "gamestate.h"
 #include "engine.h"
-#include "spawnroom.h"
+#include "ingameelements/spawnroom.h"
 
 Map::Map(Gamestate *state, std::string name)
 {
