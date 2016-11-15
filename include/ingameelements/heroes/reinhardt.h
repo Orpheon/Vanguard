@@ -21,7 +21,7 @@ class Reinhardt : public Character
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Reinhardt(*this));}
         CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
         std::string getcharacterfolder() {return "heroes/reinhardt/";}
-        bool cangetinput(Gamestate *state) override {return Character::cangetinput(state);}
+        bool cangetinput(Gamestate *state) override {return not chargeanim.active() and Character::cangetinput(state);}
         Health getmaxhp() override;
         void useability1(Gamestate *state) override;
         void useability2(Gamestate *state) override;
@@ -29,6 +29,8 @@ class Reinhardt : public Character
         double passiveultcharge() override {return 0.4166666666666667;}
         bool weaponvisible(Gamestate *state) override {return not stunanim.active();}
         Heroclass heroclass() override {return REINHARDT;}
+
+        Animation chargeanim;
     protected:
     private:
 };

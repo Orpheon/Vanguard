@@ -9,9 +9,10 @@
 #include <cmath>
 #include <allegro5/allegro_primitives.h>
 
-Reinhardt::Reinhardt(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state, owner_))
+Reinhardt::Reinhardt(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state, owner_)),
+                    chargeanim("heroes/reinhardt/charge/")
 {
-
+    chargeanim.active(false);
 }
 
 Reinhardt::~Reinhardt()
@@ -145,6 +146,19 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
 {
     Character::midstep(state, frametime);
 
+    if (chargeanim.active())
+    {
+        if (isflipped)
+        {
+            hspeed = -500;
+        }
+        else
+        {
+            hspeed = 500;
+        }
+    }
+    chargeanim.update(state, frametime);
+
     if (cangetinput(state))
     {
         if (heldkeys.ABILITY_1 and onground(state) and state->engine->isserver)
@@ -164,7 +178,7 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
 
 void Reinhardt::useability1(Gamestate *state)
 {
-
+    chargeanim.reset();
 }
 
 void Reinhardt::useability2(Gamestate *state)
