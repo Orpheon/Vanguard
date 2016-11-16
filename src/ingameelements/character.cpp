@@ -14,8 +14,9 @@
 
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
-            owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), team(state->get<Player>(owner)->team), isflipped(false), runanim(parameters.characterfolder+"run/"),
-            crouchanim(parameters.characterfolder+"crouchwalk/"), stunanim(parameters.characterfolder+"stun/"), ongroundsmooth(0.05), heldkeys()
+            owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), xblocked(false), yblocked(false), team(state->get<Player>(owner)->team),
+            isflipped(false), runanim(parameters.characterfolder+"run/"), crouchanim(parameters.characterfolder+"crouchwalk/"), stunanim(parameters.characterfolder+"stun/"),
+            ongroundsmooth(0.05), heldkeys()
 {
     acceleration = 300;
     runpower = parameters.runpower;
@@ -150,7 +151,7 @@ void Character::endstep(Gamestate *state, double frametime)
         }
         // We're at the point where the character touched the wallmask for the first time
         // Now keep moving one unit in either direction until all possible movement is exhausted
-        bool xblocked = false, yblocked = false;
+        xblocked = false; yblocked = false;
         bool xfinished = false, yfinished = false;
         double oldxbuffer = xbuffer, oldybuffer = ybuffer;
         while (not xfinished or not yfinished)

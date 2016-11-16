@@ -148,6 +148,10 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
 
     if (chargeanim.active())
     {
+        if (xblocked)
+        {
+            chargeanim.active(false);
+        }
         if (isflipped)
         {
             hspeed = -500;
@@ -161,7 +165,7 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
 
     if (cangetinput(state))
     {
-        if (heldkeys.ABILITY_1 and onground(state) and state->engine->isserver)
+        if (heldkeys.ABILITY_1 and state->engine->isserver)
         {
             useability1(state);
             state->sendbuffer->write<uint8_t>(ABILITY1_USED);
@@ -210,7 +214,7 @@ std::string Reinhardt::getsprite(Gamestate *state, bool mask)
     {
         return crouchanim.getframepath();
     }
-    if (not ongroundsmooth.active)
+    /*if (not ongroundsmooth.active)
     {
         if (vspeed > 100)
         {
@@ -220,7 +224,7 @@ std::string Reinhardt::getsprite(Gamestate *state, bool mask)
         {
             return getcharacterfolder()+"jump/1";
         }
-    }
+    }*/
     if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
     {
         return getcharacterfolder()+"idle/1";

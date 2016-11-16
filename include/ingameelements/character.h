@@ -53,6 +53,9 @@ class Character : public MovingEntity
         Health hp;
         virtual Health getmaxhp() = 0;
 
+        bool xblocked;
+        bool yblocked;
+
         Team team;
 
         bool isflipped;
@@ -61,7 +64,6 @@ class Character : public MovingEntity
         Animation stunanim;
         Timer ongroundsmooth;
 
-    protected:
         InputContainer heldkeys;
         double mouse_x;
         double mouse_y;

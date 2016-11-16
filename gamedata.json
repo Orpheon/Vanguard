@@ -24,7 +24,7 @@
     "heroes/reinhardt/emote/ duration": 3,
     "heroes/reinhardt/crouchwalk/ duration": 40,
     "heroes/reinhardt/stun/ duration": 0.7,
-    "heroes/reinhardt/charge/ duration": 3.3,
+    "heroes/reinhardt/charge/ duration": 2,
 
     "heroes/mccree/idle/1 weapon": [-2, 7],
     "heroes/mccree/run/1 weapon": [-2, 9],
