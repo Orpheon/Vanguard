@@ -60,7 +60,7 @@ def build_rules(n, args):
     n.variable("cflags", cflags + "".join(defines))
     n.variable("clinkflags", "")
     n.variable("cxxflags", cxxflags + "".join(defines) + " -I"+os.path.abspath("include"))
-    n.variable("cxxlinkflags", "-lallegro -lallegro_image -lallegro_primitives -lenet")
+    n.variable("cxxlinkflags", "-lallegro -lallegro_image -lallegro_primitives -lallegro_font -lallegro_ttf -lenet")
 
     n.rule("cc",
            "$cc $xtype -MMD -MF $out.d $optflags $dbgflags $cflags -c $in -o $out",
