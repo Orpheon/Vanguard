@@ -10,9 +10,10 @@
 #include <allegro5/allegro_primitives.h>
 
 Reinhardt::Reinhardt(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state, owner_)),
-                    chargeanim("heroes/reinhardt/charge/")
+                    chargeanim("heroes/reinhardt/charge/"), preparechargeanim("heroes/reinhardt/preparecharge/", std::bind(&Reinhardt::begincharge, this))
 {
     chargeanim.active(false);
+    preparechargeanim.active(false);
 }
 
 Reinhardt::~Reinhardt()
@@ -26,7 +27,10 @@ void Reinhardt::render(Renderer *renderer, Gamestate *state)
     al_set_target_bitmap(renderer->midground);
 
     // Render weapon back first
-    state->get<Hammer>(weapon)->renderbehind(renderer, state);
+    if (not chargeanim.active())
+    {
+        state->get<Hammer>(weapon)->renderbehind(renderer, state);
+    }
 
     std::string mainsprite;
     ALLEGRO_BITMAP *sprite;
@@ -66,7 +70,10 @@ void Reinhardt::render(Renderer *renderer, Gamestate *state)
         al_draw_tinted_bitmap(outline, outlinecolor, x-outlinespriteoffset_x - renderer->cam_x, y-outlinespriteoffset_y - renderer->cam_y, 0);
     }
 
-    state->get<Weapon>(weapon)->render(renderer, state);
+    if (not chargeanim.active())
+    {
+        state->get<Weapon>(weapon)->render(renderer, state);
+    }
 }
 
 void Reinhardt::drawhud(Renderer *renderer, Gamestate *state)
@@ -162,6 +169,7 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
         }
     }
     chargeanim.update(state, frametime);
+    preparechargeanim.update(state, frametime);
 
     if (canuseabilities(state))
     {
@@ -182,7 +190,7 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
 
 void Reinhardt::useability1(Gamestate *state)
 {
-    chargeanim.reset();
+    preparechargeanim.reset();
 }
 
 void Reinhardt::useability2(Gamestate *state)
@@ -220,6 +228,14 @@ std::string Reinhardt::getsprite(Gamestate *state, bool mask)
     if (stunanim.active())
     {
         return stunanim.getframepath();
+    }
+    if (preparechargeanim.active())
+    {
+        return preparechargeanim.getframepath();
+    }
+    if (chargeanim.active())
+    {
+        return chargeanim.getframepath();
     }
     if (crouchanim.active())
     {
