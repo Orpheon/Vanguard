@@ -9,7 +9,7 @@
 #include "ingameelements/projectile.h"
 #include "ingameelements/spawnroom.h"
 
-Gamestate::Gamestate(Engine *engine_) : entitylist(), playerlist(), currentmap(), engine(engine_), sendbuffer(0), entityidcounter(1)
+Gamestate::Gamestate(Engine *engine_) : entitylist(), playerlist(), currentmap(), engine(engine_), entityidcounter(1)
 {
     time = 0;
 }
@@ -19,9 +19,8 @@ Gamestate::~Gamestate()
     ;
 }
 
-void Gamestate::update(WriteBuffer *sendbuffer_, double frametime)
+void Gamestate::update(double frametime)
 {
-    sendbuffer = sendbuffer_;
     time += frametime;
 
     for (auto& e : entitylist)
@@ -56,8 +55,6 @@ void Gamestate::update(WriteBuffer *sendbuffer_, double frametime)
             ++e;
         }
     }
-
-    sendbuffer = 0;
 }
 
 

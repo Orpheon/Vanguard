@@ -125,8 +125,9 @@ int main(int argc, char **argv)
     }
 
     engine.loadmap("lijiang");
+    engine.sendbuffer = &(networker->sendbuffer);
     // FIXME: Hack to make sure the oldstate is properly initialized
-    engine.update(&(networker->sendbuffer), 0);
+    engine.update(0);
 
     EntityPtr myself(0);
     if (isserver)
@@ -154,7 +155,7 @@ int main(int argc, char **argv)
             {
                 networker->receive(engine.currentstate.get());
                 inputcatcher.run(display, engine.currentstate.get(), networker.get(), &renderer, myself);
-                engine.update(&(networker->sendbuffer), ENGINE_TIMESTEP);
+                engine.update(ENGINE_TIMESTEP);
                 networker->sendeventdata(engine.currentstate.get());
 
                 enginetime += ENGINE_TIMESTEP;

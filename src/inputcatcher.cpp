@@ -42,6 +42,8 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate *state, Networker *ne
     InputContainer heldkeys;
     heldkeys.reset();
 
+    Player *player = state->get<Player>(myself);
+
     ALLEGRO_EVENT event;
     // Catch all events that have stacked up this frame. al_get_next_event() returns false when event_queue is empty, and contents of event are undefined
     while (al_get_next_event(event_queue, &event))
@@ -96,13 +98,39 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate *state, Networker *ne
 //                {
 //                    pressed_keys->RELOAD = true;
 //                }
-//
+
+                Heroclass newclass = player->heroclass;
                 switch (event.keyboard.keycode)
                 {
+                    case ALLEGRO_KEY_1:
+                        newclass = MCCREE;
+                        break;
+
+                    case ALLEGRO_KEY_2:
+                        newclass = REINHARDT;
+                        break;
+
                     case ALLEGRO_KEY_ESCAPE:
                         // Exit game
                         throw 0;
                 }
+                if (newclass != player->heroclass)
+                {
+                    // Player desires a class change
+                    if (state->engine->isserver)
+                    {
+                        player->changeclass(state, newclass);
+                        networker->sendbuffer.write<uint8_t>(PLAYER_CHANGECLASS);
+                        networker->sendbuffer.write<uint8_t>(state->findplayerid(player->id));
+                        networker->sendbuffer.write<uint8_t>(static_cast<uint8_t>(newclass));
+                    }
+                    else
+                    {
+                        networker->sendbuffer.write<uint8_t>(PLAYER_CHANGECLASS);
+                        networker->sendbuffer.write<uint8_t>(static_cast<uint8_t>(newclass));
+                    }
+                }
+                break;
 //
 //            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
 //                switch (event.mouse.button)
@@ -164,10 +192,9 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate *state, Networker *ne
         heldkeys.SECONDARY_FIRE = true;
     }
 
-    Player *p = state->get<Player>(myself);
-    if (p != 0)
+    if (player != 0)
     {
-        Character *c = p->getcharacter(state);
+        Character *c = player->getcharacter(state);
         if (c != 0)
         {
             // Set the input for our current character

@@ -36,6 +36,7 @@ class Character : public MovingEntity
         virtual bool canuseweapons(Gamestate *state) {return cangetinput(state);}
         virtual bool canuseabilities(Gamestate *state) {return cangetinput(state);}
         virtual void damage(Gamestate *state, double amount);
+        virtual void die(Gamestate *state);
         virtual void stun(Gamestate *state) {stunanim.reset();}
         Weapon *getweapon(Gamestate *state);
         virtual void useability1(Gamestate *state) = 0;

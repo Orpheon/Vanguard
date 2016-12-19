@@ -696,15 +696,7 @@ void Character::damage(Gamestate *state, double amount)
             if (hp.normal <= 0)
             {
                 // RIP
-                if (state->engine->isserver)
-                {
-                    destroy(state);
-
-                    state->sendbuffer->write<uint8_t>(PLAYER_DIED);
-                    state->sendbuffer->write<uint8_t>(state->findplayerid(owner));
-
-                    state->get<Player>(owner)->spawntimer.reset();
-                }
+                die(state);
             }
         }
         else
@@ -715,6 +707,19 @@ void Character::damage(Gamestate *state, double amount)
     else
     {
         hp.shields -= amount;
+    }
+}
+
+void Character::die(Gamestate *state)
+{
+    if (state->engine->isserver)
+    {
+        destroy(state);
+
+        state->engine->sendbuffer->write<uint8_t>(PLAYER_DIED);
+        state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+
+        state->get<Player>(owner)->spawntimer.reset();
     }
 }
 

@@ -25,6 +25,7 @@ class Player : public Entity
         void endstep(Gamestate *state, double frametime);
         void clone(Gamestate *oldstate, Gamestate *newstate);
         void spawn(Gamestate *state);
+        void changeclass(Gamestate *state, Heroclass newclass);
         bool isrootobject() {return true;}
         void render(Renderer *renderer, Gamestate *state);
         void interpolate(Entity *prev_entity, Entity *next_entity, double alpha);

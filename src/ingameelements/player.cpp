@@ -103,8 +103,17 @@ void Player::spawn(Gamestate *state)
 
     if (state->engine->isserver)
     {
-        state->sendbuffer->write<uint8_t>(PLAYER_SPAWNED);
-        state->sendbuffer->write<uint8_t>(state->findplayerid(EntityPtr(id)));
+        state->engine->sendbuffer->write<uint8_t>(PLAYER_SPAWNED);
+        state->engine->sendbuffer->write<uint8_t>(state->findplayerid(EntityPtr(id)));
+    }
+}
+
+void Player::changeclass(Gamestate *state, Heroclass newclass)
+{
+    heroclass = newclass;
+    if (character != 0)
+    {
+        getcharacter(state)->die(state);
     }
 }
 

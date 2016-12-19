@@ -77,8 +77,8 @@ void Hammer::wantfireprimary(Gamestate *state)
     if (state->engine->isserver and clip > 0 and not firinganim.active())
     {
         fireprimary(state);
-        state->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
-        state->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+        state->engine->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
+        state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
     }
 }
 
@@ -93,8 +93,8 @@ void Hammer::fireprimary(Gamestate *state)
 void Hammer::wantfiresecondary(Gamestate *state)
 {
     firesecondary(state);
-    state->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
-    state->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+    state->engine->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
+    state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
 }
 
 void Hammer::firesecondary(Gamestate *state)

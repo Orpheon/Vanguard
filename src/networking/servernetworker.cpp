@@ -73,17 +73,25 @@ void ServerNetworker::receive(Gamestate *state)
             while (data.length() > 0)
             {
                 int eventtype = data.read<uint8_t>();
+                Player *player = state->get<Player>(reinterpret_cast<int*>(event.peer->data)[0]);
                 if (eventtype == CLIENT_INPUT)
                 {
-                    Player *p = state->get<Player>(reinterpret_cast<int*>(event.peer->data)[0]);
-                    if (p->character != 0)
+                    if (player->character != 0)
                     {
                         InputContainer heldkeys;
                         heldkeys.deserialize(&data);
                         double mouse_x = data.read<int16_t>();
                         double mouse_y = data.read<int16_t>();
-                        p->getcharacter(state)->setinput(state, heldkeys, mouse_x, mouse_y);
+                        player->getcharacter(state)->setinput(state, heldkeys, mouse_x, mouse_y);
                     }
+                }
+                else if (eventtype == PLAYER_CHANGECLASS)
+                {
+                    Heroclass newclass = static_cast<Heroclass>(data.read<uint8_t>());
+                    player->changeclass(state, newclass);
+                    sendbuffer.write<uint8_t>(PLAYER_CHANGECLASS);
+                    sendbuffer.write<uint8_t>(state->findplayerid(player->id));
+                    sendbuffer.write<uint8_t>(static_cast<uint8_t>(newclass));
                 }
                 else
                 {
