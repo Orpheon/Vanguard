@@ -49,23 +49,13 @@ void Character::midstep(Gamestate *state, double frametime)
 
     if (cangetinput(state))
     {
-        double maxhspeed;
-        if (crouchanim.active())
-        {
-            maxhspeed = 60.0;
-        }
-        else
-        {
-            maxhspeed = 153.0;
-        }
-
         if (heldkeys.LEFT)
         {
-            hspeed = std::max(hspeed - acceleration * runpower * frametime, -maxhspeed);
+            hspeed = std::max(hspeed - acceleration * runpower * frametime, -getmaxhspeed());
         }
         if (heldkeys.RIGHT)
         {
-            hspeed = std::min(hspeed + acceleration * runpower * frametime, maxhspeed);
+            hspeed = std::min(hspeed + acceleration * runpower * frametime, getmaxhspeed());
         }
 
         if (heldkeys.JUMP)
@@ -98,17 +88,17 @@ void Character::midstep(Gamestate *state, double frametime)
             getweapon(state)->reload(state);
         }
         // Shooting
-        if (heldkeys.PRIMARY_FIRE)
+        if (heldkeys.PRIMARY_FIRE and canuseweapons(state))
         {
             getweapon(state)->wantfireprimary(state);
         }
-        if (heldkeys.SECONDARY_FIRE)
+        if (heldkeys.SECONDARY_FIRE and canuseweapons(state))
         {
             getweapon(state)->wantfiresecondary(state);
         }
 
         // Ulting
-        if (heldkeys.ULTIMATE and not ownerplayer->ultcharge.active)
+        if (heldkeys.ULTIMATE and not ownerplayer->ultcharge.active and canuseabilities(state))
         {
             ownerplayer->ultcharge.reset();
             ownerplayer->ultcharge.active = false;

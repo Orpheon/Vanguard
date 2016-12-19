@@ -22,6 +22,8 @@ class Mccree : public Character
         CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
         std::string getcharacterfolder() {return "heroes/mccree/";}
         bool cangetinput(Gamestate *state) override {return not rollanim.active() and Character::cangetinput(state);}
+        bool canuseweapons(Gamestate *state) override {return not ulting.active and Character::canuseweapons(state);}
+        bool canuseabilities(Gamestate *state) override {return not ulting.active and Character::canuseabilities(state);}
         Health getmaxhp() override;
         void useability1(Gamestate *state) override;
         void useability2(Gamestate *state) override;
@@ -31,6 +33,7 @@ class Mccree : public Character
         double passiveultcharge() override {return 20;}//0.4166666666666667;}
         bool weaponvisible(Gamestate *state) override {return (not rollanim.active() and not stunanim.active());}
         Heroclass heroclass() override {return MCCREE;}
+        double getmaxhspeed() override {return ulting.active ? 20 : Character::getmaxhspeed();}
 
         Animation rollanim;
         Animation flashbanganim;

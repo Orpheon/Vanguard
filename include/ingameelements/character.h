@@ -33,6 +33,8 @@ class Character : public MovingEntity
         virtual CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) = 0;
         virtual std::string getcharacterfolder() = 0;
         virtual bool cangetinput(Gamestate *state) {return not stunanim.active();}
+        virtual bool canuseweapons(Gamestate *state) {return cangetinput(state);}
+        virtual bool canuseabilities(Gamestate *state) {return cangetinput(state);}
         virtual void damage(Gamestate *state, double amount);
         Weapon *getweapon(Gamestate *state);
         virtual void useability1(Gamestate *state) = 0;
@@ -43,6 +45,7 @@ class Character : public MovingEntity
         virtual double hudheight() {return 7.0/8.0;}
         virtual bool weaponvisible(Gamestate *state) {return true;}
         virtual Heroclass heroclass() = 0;
+        virtual double getmaxhspeed() {return crouchanim.active() ? 60.0 : 153.0;}
 
         EntityPtr owner;
         EntityPtr weapon;

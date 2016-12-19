@@ -195,7 +195,7 @@ void Mccree::midstep(Gamestate *state, double frametime)
         ultwalkanim.update(state, hspeed*frametime);
     }
 
-    if (cangetinput(state))
+    if (canuseabilities(state))
     {
         if (heldkeys.ABILITY_1 and not rollcooldown.active and onground(state) and state->engine->isserver)
         {
