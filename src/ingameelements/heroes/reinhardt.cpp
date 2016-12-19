@@ -163,7 +163,7 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
     }
     chargeanim.update(state, frametime);
 
-    if (cangetinput(state))
+    if (canuseabilities(state))
     {
         if (heldkeys.ABILITY_1 and state->engine->isserver)
         {
@@ -192,7 +192,7 @@ void Reinhardt::useability2(Gamestate *state)
 
 void Reinhardt::useultimate(Gamestate *state)
 {
-    printf("\nUlted");printf("\n");
+    printf("\nReinhardt Ulted");printf("\n");
 }
 
 Rect Reinhardt::getcollisionrect(Gamestate *state)
