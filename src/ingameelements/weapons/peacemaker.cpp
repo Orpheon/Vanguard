@@ -44,13 +44,14 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
     int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
+    Rect spritedimensions = renderer->spriteloader.get_rect(mainsprite);
 
     al_set_target_bitmap(renderer->midground);
     if (c->weaponvisible(state))
     {
         if (c->isflipped)
         {
-            al_draw_scaled_rotated_bitmap(sprite, -getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y, 1, -1, dir, 0);
+            al_draw_scaled_rotated_bitmap(sprite, getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y, 1, -1, dir, 0);
         }
         else
         {
