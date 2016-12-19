@@ -112,12 +112,21 @@ void LoopAnimation::update(Gamestate *state, double dt)
 
 void LoopAnimation::interpolate(Animation *prev_anim, Animation *next_anim, double alpha)
 {
-    if (prev_anim->timer.timer > next_anim->timer.timer)
+    if (std::abs(prev_anim->timer.timer - next_anim->timer.timer) > 0.5*timer.duration)
     {
-        // We've looped over
-        next_anim->timer.timer += next_anim->timer.duration;
-        timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
-        next_anim->timer.timer -= next_anim->timer.duration;
+        // We've probably looped over
+        if (prev_anim->timer.timer < next_anim->timer.timer)
+        {
+            prev_anim->timer.timer += timer.duration;
+            timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
+            prev_anim->timer.timer -= timer.duration;
+        }
+        else
+        {
+            next_anim->timer.timer += timer.duration;
+            timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
+            next_anim->timer.timer -= timer.duration;
+        }
     }
     else
     {
