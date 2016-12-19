@@ -212,6 +212,21 @@ void Mccree::midstep(Gamestate *state, double frametime)
     }
 }
 
+void Mccree::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
+{
+    Character::interpolate(prev_entity, next_entity, alpha);
+
+    Mccree *p = static_cast<Mccree*>(prev_entity);
+    Mccree *n = static_cast<Mccree*>(next_entity);
+
+    rollanim.interpolate(&(p->rollanim), &(n->rollanim), alpha);
+    rollcooldown.interpolate(&(p->rollcooldown), &(n->rollcooldown), alpha);
+    flashbanganim.interpolate(&(p->flashbanganim), &(n->flashbanganim), alpha);
+    flashbangcooldown.interpolate(&(p->flashbangcooldown), &(n->flashbangcooldown), alpha);
+    ulting.interpolate(&(p->ulting), &(n->ulting), alpha);
+    ultwalkanim.interpolate(&(p->ultwalkanim), &(n->ultwalkanim), alpha);
+}
+
 void Mccree::useability1(Gamestate *state)
 {
     if (heldkeys.LEFT and not heldkeys.RIGHT)

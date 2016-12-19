@@ -188,6 +188,17 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
     }
 }
 
+void Reinhardt::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
+{
+    Character::interpolate(prev_entity, next_entity, alpha);
+
+    Reinhardt *p = static_cast<Reinhardt*>(prev_entity);
+    Reinhardt *n = static_cast<Reinhardt*>(next_entity);
+
+    preparechargeanim.interpolate(&(p->preparechargeanim), &(n->preparechargeanim), alpha);
+    chargeanim.interpolate(&(p->chargeanim), &(n->chargeanim), alpha);
+}
+
 void Reinhardt::useability1(Gamestate *state)
 {
     preparechargeanim.reset();

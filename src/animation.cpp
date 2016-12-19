@@ -109,3 +109,18 @@ void LoopAnimation::update(Gamestate *state, double dt)
         timer.timer += timer.duration;
     }
 }
+
+void LoopAnimation::interpolate(Animation *prev_anim, Animation *next_anim, double alpha)
+{
+    if (prev_anim->timer.timer > next_anim->timer.timer)
+    {
+        // We've looped over
+        next_anim->timer.timer += next_anim->timer.duration;
+        timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
+        next_anim->timer.timer -= next_anim->timer.duration;
+    }
+    else
+    {
+        timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
+    }
+}
