@@ -190,6 +190,11 @@ void Reinhardt::useability2(Gamestate *state)
 
 }
 
+void Reinhardt::useultimate(Gamestate *state)
+{
+    printf("\nUlted");printf("\n");
+}
+
 Rect Reinhardt::getcollisionrect(Gamestate *state)
 {
     if (crouchanim.active())

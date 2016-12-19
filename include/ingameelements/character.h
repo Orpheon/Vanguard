@@ -37,6 +37,7 @@ class Character : public MovingEntity
         Weapon *getweapon(Gamestate *state);
         virtual void useability1(Gamestate *state) = 0;
         virtual void useability2(Gamestate *state) = 0;
+        virtual void useultimate(Gamestate *state) = 0;
         virtual void drawhud(Renderer *renderer, Gamestate *state);
         virtual double passiveultcharge() = 0;
         virtual double hudheight() {return 7.0/8.0;}

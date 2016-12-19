@@ -25,8 +25,10 @@ class Mccree : public Character
         Health getmaxhp() override;
         void useability1(Gamestate *state) override;
         void useability2(Gamestate *state) override;
+        void useultimate(Gamestate *state) override;
+        void resetafterult(Gamestate *state);
         void drawhud(Renderer *renderer, Gamestate *state) override;
-        double passiveultcharge() override {return 0.4166666666666667;}
+        double passiveultcharge() override {return 20;}//0.4166666666666667;}
         bool weaponvisible(Gamestate *state) override {return (not rollanim.active() and not stunanim.active());}
         Heroclass heroclass() override {return MCCREE;}
 
@@ -34,6 +36,8 @@ class Mccree : public Character
         Animation flashbanganim;
         Timer rollcooldown;
         Timer flashbangcooldown;
+        LoopAnimation ultwalkanim;
+        Timer ulting;
     protected:
     private:
 };

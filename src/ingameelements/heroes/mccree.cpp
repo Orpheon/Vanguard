@@ -11,12 +11,14 @@
 #include <allegro5/allegro_primitives.h>
 
 Mccree::Mccree(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state, owner_)),
-                rollanim("heroes/mccree/roll/"), flashbanganim("heroes/mccree/flashbang/"), rollcooldown(8), flashbangcooldown(10)
+                rollanim("heroes/mccree/roll/"), flashbanganim("heroes/mccree/flashbang/"), rollcooldown(8), flashbangcooldown(10), ultwalkanim("heroes/mccree/ultwalk/"),
+                ulting(std::bind(&Mccree::resetafterult, this, state), 6)
 {
     rollanim.active(false);
     rollcooldown.active = false;
     flashbanganim.active(false);
     flashbangcooldown.active = false;
+    ulting.active = false;
 }
 
 Mccree::~Mccree()
@@ -84,7 +86,10 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
         al_draw_tinted_bitmap(outline, outlinecolor, x-outlinespriteoffset_x - renderer->cam_x, y-outlinespriteoffset_y - renderer->cam_y, 0);
     }
 
-    state->get<Weapon>(weapon)->render(renderer, state);
+    if (not ulting.active)
+    {
+        state->get<Weapon>(weapon)->render(renderer, state);
+    }
 }
 
 void Mccree::drawhud(Renderer *renderer, Gamestate *state)
@@ -179,6 +184,16 @@ void Mccree::midstep(Gamestate *state, double frametime)
     flashbanganim.update(state, frametime);
     rollcooldown.update(state, frametime);
     flashbangcooldown.update(state, frametime);
+    ulting.update(state, frametime);
+
+    if (isflipped)
+    {
+        ultwalkanim.update(state, -hspeed*frametime);
+    }
+    else
+    {
+        ultwalkanim.update(state, hspeed*frametime);
+    }
 
     if (cangetinput(state))
     {
@@ -231,6 +246,19 @@ void Mccree::useability2(Gamestate *state)
     f->vspeed = std::sin(dir) * 300;
 }
 
+void Mccree::useultimate(Gamestate *state)
+{
+    ulting.reset();
+}
+
+void Mccree::resetafterult(Gamestate *state)
+{
+    ulting.active = false;
+    ultwalkanim.reset();
+    Player *ownerplayer = state->get<Player>(owner);
+    ownerplayer->ultcharge.active = true;
+}
+
 Rect Mccree::getcollisionrect(Gamestate *state)
 {
     if (crouchanim.active())
@@ -250,6 +278,14 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     if (stunanim.active())
     {
         return stunanim.getframepath();
+    }
+    if (ulting.active)
+    {
+        if (std::fabs(hspeed) < 5.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
+        {
+            return getcharacterfolder()+"ult/1";
+        }
+        return ultwalkanim.getframepath();
     }
     if (rollanim.active())
     {

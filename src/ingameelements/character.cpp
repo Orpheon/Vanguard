@@ -45,6 +45,8 @@ void Character::beginstep(Gamestate *state, double frametime)
 
 void Character::midstep(Gamestate *state, double frametime)
 {
+    Player *ownerplayer = state->get<Player>(owner);
+
     if (cangetinput(state))
     {
         double maxhspeed;
@@ -105,6 +107,14 @@ void Character::midstep(Gamestate *state, double frametime)
             getweapon(state)->wantfiresecondary(state);
         }
 
+        // Ulting
+        if (heldkeys.ULTIMATE and not ownerplayer->ultcharge.active)
+        {
+            ownerplayer->ultcharge.reset();
+            ownerplayer->ultcharge.active = false;
+            useultimate(state);
+        }
+
         if (isflipped != (mouse_x < x))
         {
             // Spinjumping (compensate for later gravity)
@@ -120,8 +130,7 @@ void Character::midstep(Gamestate *state, double frametime)
     hspeed *= std::pow(friction, frametime);
 
     // Passive ult charge
-    Player *p = state->get<Player>(owner);
-    p->ultcharge.update(state, frametime*passiveultcharge());
+    ownerplayer->ultcharge.update(state, frametime*passiveultcharge());
 
     getweapon(state)->midstep(state, frametime);
 }
