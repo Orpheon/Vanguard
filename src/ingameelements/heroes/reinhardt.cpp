@@ -197,7 +197,7 @@ void Reinhardt::useultimate(Gamestate *state)
 
 void Reinhardt::stun(Gamestate *state)
 {
-    Character::stun(Gamestate *state);
+    Character::stun(state);
     chargeanim.active(false);
 }
 
