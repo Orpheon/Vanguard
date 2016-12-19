@@ -27,10 +27,7 @@ void Reinhardt::render(Renderer *renderer, Gamestate *state)
     al_set_target_bitmap(renderer->midground);
 
     // Render weapon back first
-    if (not chargeanim.active())
-    {
-        state->get<Hammer>(weapon)->renderbehind(renderer, state);
-    }
+    state->get<Hammer>(weapon)->renderbehind(renderer, state);
 
     std::string mainsprite;
     ALLEGRO_BITMAP *sprite;
@@ -70,10 +67,7 @@ void Reinhardt::render(Renderer *renderer, Gamestate *state)
         al_draw_tinted_bitmap(outline, outlinecolor, x-outlinespriteoffset_x - renderer->cam_x, y-outlinespriteoffset_y - renderer->cam_y, 0);
     }
 
-    if (not chargeanim.active())
-    {
-        state->get<Weapon>(weapon)->render(renderer, state);
-    }
+    state->get<Weapon>(weapon)->render(renderer, state);
 }
 
 void Reinhardt::drawhud(Renderer *renderer, Gamestate *state)

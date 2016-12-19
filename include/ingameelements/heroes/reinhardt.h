@@ -31,7 +31,7 @@ class Reinhardt : public Character
         void begincharge() {chargeanim.reset();}
         void drawhud(Renderer *renderer, Gamestate *state) override;
         double passiveultcharge() override {return 0.4166666666666667;}
-        bool weaponvisible(Gamestate *state) override {return not stunanim.active();}
+        bool weaponvisible(Gamestate *state) override {return not stunanim.active() and not chargeanim.active();}
         Heroclass heroclass() override {return REINHARDT;}
 
         Animation chargeanim;

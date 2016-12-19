@@ -618,28 +618,28 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
 {
     MovingEntity::interpolate(prev_entity, next_entity, alpha);
 
-    Character *prev_e = static_cast<Character*>(prev_entity);
-    Character *next_e = static_cast<Character*>(next_entity);
+    Character *p = static_cast<Character*>(prev_entity);
+    Character *n = static_cast<Character*>(next_entity);
 
     if (alpha < 0.5)
     {
-        heldkeys = prev_e->heldkeys;
-        crouchanim.active(prev_e->crouchanim.active());
+        heldkeys = p->heldkeys;
+        crouchanim.active(p->crouchanim.active());
     }
     else
     {
-        heldkeys = next_e->heldkeys;
-        crouchanim.active(prev_e->crouchanim.active());
+        heldkeys = n->heldkeys;
+        crouchanim.active(p->crouchanim.active());
     }
-    mouse_x = prev_e->mouse_x + alpha*(next_e->mouse_x - prev_e->mouse_x);
-    mouse_y = prev_e->mouse_y + alpha*(next_e->mouse_y - prev_e->mouse_y);
-    runanim.interpolate(&(prev_e->runanim), &(next_e->runanim), alpha);
-    crouchanim.interpolate(&(prev_e->crouchanim), &(next_e->crouchanim), alpha);
-    stunanim.interpolate(&(prev_e->stunanim), &(next_e->stunanim), alpha);
-    ongroundsmooth.interpolate(&(prev_e->ongroundsmooth), &(next_e->ongroundsmooth), alpha);
-    hp.normal = prev_e->hp.normal + alpha*(next_e->hp.normal - prev_e->hp.normal);
-    hp.armor = prev_e->hp.armor + alpha*(next_e->hp.armor - prev_e->hp.armor);
-    hp.shields = prev_e->hp.shields + alpha*(next_e->hp.shields - prev_e->hp.shields);
+    mouse_x = p->mouse_x + alpha*(n->mouse_x - p->mouse_x);
+    mouse_y = p->mouse_y + alpha*(n->mouse_y - p->mouse_y);
+    runanim.interpolate(&(p->runanim), &(n->runanim), alpha);
+    crouchanim.interpolate(&(p->crouchanim), &(n->crouchanim), alpha);
+    stunanim.interpolate(&(p->stunanim), &(n->stunanim), alpha);
+    ongroundsmooth.interpolate(&(p->ongroundsmooth), &(n->ongroundsmooth), alpha);
+    hp.normal = p->hp.normal + alpha*(n->hp.normal - p->hp.normal);
+    hp.armor = p->hp.armor + alpha*(n->hp.armor - p->hp.armor);
+    hp.shields = p->hp.shields + alpha*(n->hp.shields - p->hp.shields);
 }
 
 void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
