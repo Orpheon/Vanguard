@@ -195,6 +195,12 @@ void Reinhardt::useultimate(Gamestate *state)
     printf("\nReinhardt Ulted");printf("\n");
 }
 
+void Reinhardt::stun(Gamestate *state)
+{
+    Character::stun(Gamestate *state);
+    chargeanim.active(false);
+}
+
 Rect Reinhardt::getcollisionrect(Gamestate *state)
 {
     if (crouchanim.active())

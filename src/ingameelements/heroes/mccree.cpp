@@ -259,6 +259,17 @@ void Mccree::resetafterult(Gamestate *state)
     ownerplayer->ultcharge.active = true;
 }
 
+void Mccree::stun(Gamestate *state)
+{
+    Character::stun(state);
+
+    if (ulting.active)
+    {
+        resetafterult(state);
+    }
+    rollanim.active(false);
+}
+
 Rect Mccree::getcollisionrect(Gamestate *state)
 {
     if (crouchanim.active())

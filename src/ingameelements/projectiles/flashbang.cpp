@@ -52,7 +52,7 @@ void Flashbang::explode(Gamestate *state)
                     // Check that they aren't behind a wall or something
                     if (not state->currentmap->collideline(x, y, c->x, c->y))
                     {
-                        c->stunanim.reset();
+                        c->stun(state);
                     }
                 }
             }
