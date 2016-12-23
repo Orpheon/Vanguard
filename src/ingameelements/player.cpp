@@ -7,7 +7,7 @@
 #include "engine.h"
 #include "ingameelements/spawnroom.h"
 
-Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0), spawntimer(std::bind(&Player::spawn, this, state), 4), ultcharge(100), team(SPECTATOR), heroclass(REINHARDT)
+Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0), spawntimer(std::bind(&Player::spawn, this, state), 4), ultcharge(100), team(SPECTATOR), heroclass(MCCREE)
 {
     spawntimer.active = false;
     spawntimer.timer = spawntimer.duration;
