@@ -441,9 +441,10 @@ void Character::render(Renderer *renderer, Gamestate *state)
         if (c != 0 and c->ulting.active)
         {
             double charge = 0;
-            if (c->deadeyetargets.count(owner) > 0)
+            Peacemaker *w = state->get<Peacemaker>(c->weapon);
+            if (w->deadeyetargets.count(owner) > 0)
             {
-                charge = c->deadeyetargets[owner];
+                charge = w->deadeyetargets[owner];
             }
 
             al_set_target_bitmap(renderer->foreground);

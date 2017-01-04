@@ -2,6 +2,7 @@
 #define PEACEMAKER_H
 
 #include "ingameelements/weapon.h"
+#include <unordered_map>
 
 class Peacemaker : public Weapon
 {
@@ -17,6 +18,7 @@ class Peacemaker : public Weapon
         void wantfireprimary(Gamestate *state) override;
         void firesecondary(Gamestate *state) override;
         void wantfiresecondary(Gamestate *state) override;
+        void fireultimate(Gamestate *state);
         void midstep(Gamestate *state, double frametime) override;
         void reload(Gamestate *state) override;
 
@@ -27,6 +29,8 @@ class Peacemaker : public Weapon
         WeaponChildParameters constructparameters(Gamestate *state);
         Animation fthanim;
         bool isfthing;
+
+        std::unordered_map<int, double> deadeyetargets;
     protected:
     private:
 //        double bulletspeed = 1000.0;

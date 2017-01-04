@@ -43,7 +43,6 @@ class Mccree : public Character
         Timer flashbangcooldown;
         LoopAnimation ultwalkanim;
         Timer ulting;
-        std::unordered_map<int, double> deadeyetargets;
     protected:
     private:
 };

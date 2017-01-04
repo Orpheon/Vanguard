@@ -9,7 +9,8 @@
 #include "engine.h"
 
 Peacemaker::Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_, constructparameters(state)),
-                        fthanim("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, state)), isfthing(false)
+                        fthanim("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, state)), isfthing(false),
+                        deadeyetargets()
 {
     fthanim.active(false);
 }
@@ -68,6 +69,31 @@ void Peacemaker::midstep(Gamestate *state, double frametime)
         fthanim.active(true);
     }
     fthanim.update(state, frametime);
+
+    Player *ownerplayer = state->get<Player>(owner);
+    Mccree *ownerchar = state->get<Mccree>(ownerplayer->character);
+    if (ownerchar->ulting.active)
+    {
+        for (auto p : state->playerlist)
+        {
+            Player *player = state->get<Player>(p);
+            if (player->team != SPECTATOR and player->team != team)
+            {
+                Character *c = player->getcharacter(state);
+                if (c != 0)
+                {
+                    if (not state->currentmap->collideline(x, y, c->x, c->y))
+                    {
+                        if (deadeyetargets.count(p) == 0)
+                        {
+                            deadeyetargets[p] = 0;
+                        }
+                        deadeyetargets[p] += frametime*170;
+                    }
+                }
+            }
+        }
+    }
 }
 
 void Peacemaker::reload(Gamestate *state)
