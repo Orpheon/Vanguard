@@ -433,15 +433,15 @@ void Character::render(Renderer *renderer, Gamestate *state)
 
     // Deadeye circle
     Player *player = state->get<Player>(renderer->myself);
-    if (player->heroclass == MCCREE)
+    if (player->heroclass == MCCREE and player->team != team)
     {
         Mccree *c = state->get<Mccree>(player->character);
         if (c != 0 and c->ulting.active)
         {
             double charge = 0;
-            if (c->deadeyetargets.count(renderer->myself) > 0)
+            if (c->deadeyetargets.count(owner) > 0)
             {
-                charge = c->deadeyetargets[renderer->myself];
+                charge = c->deadeyetargets[owner];
             }
 
             al_set_target_bitmap(renderer->foreground);
@@ -454,7 +454,7 @@ void Character::render(Renderer *renderer, Gamestate *state)
                 al_draw_bitmap(skull, x-renderer->cam_x-spriteoffset_x, y-renderer->cam_y-spriteoffset_y, 0);
                 factor = 0;
             }
-            al_draw_circle(x, y, 8+32*factor, al_map_rgb(253, 58, 58), 1);
+            al_draw_circle(x-renderer->cam_x, y-renderer->cam_y, 8+32*factor, al_map_rgb(253, 58, 58), 1);
         }
     }
 }

@@ -218,7 +218,6 @@ void Mccree::midstep(Gamestate *state, double frametime)
                 Character *c = player->getcharacter(state);
                 if (c != 0)
                 {
-                    printf("\n%d %d %d %d", getweapon(state)->x, getweapon(state)->y, c->x, c->y);
                     if (not state->currentmap->collideline(getweapon(state)->x, getweapon(state)->y, c->x, c->y))
                     {
                         if (deadeyetargets.count(p) == 0)
