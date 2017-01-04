@@ -21,7 +21,7 @@ class Reinhardt : public Character
         std::string getsprite(Gamestate *state, bool mask) override;
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Reinhardt(*this));}
         CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
-        std::string getcharacterfolder() {return "heroes/reinhardt/";}
+        std::string getcharacterfolder() {return "reinhardt/";}
         bool cangetinput(Gamestate *state) override {return not chargeanim.active() and not preparechargeanim.active() and not endchargeanim.active() and Character::cangetinput(state);}
         Health getmaxhp() override;
         void useability1(Gamestate *state) override;

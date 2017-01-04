@@ -20,7 +20,7 @@ void Hammer::renderbehind(Renderer *renderer, Gamestate *state)
 {
     std::string mainsprite;
     Reinhardt *c = state->get<Reinhardt>(state->get<Player>(owner)->character);
-    mainsprite = c->getcharacterfolder()+"arm/armback";
+    mainsprite = "heroes/"+c->getcharacterfolder()+"arm/armback";
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
     int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
@@ -43,7 +43,7 @@ void Hammer::render(Renderer *renderer, Gamestate *state)
 {
     std::string mainsprite;
     Reinhardt *c = state->get<Reinhardt>(state->get<Player>(owner)->character);
-    mainsprite = c->getcharacterfolder()+"arm/armfront";
+    mainsprite = "heroes/"+c->getcharacterfolder()+"arm/armfront";
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
     int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);

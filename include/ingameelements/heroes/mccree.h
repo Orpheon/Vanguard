@@ -21,7 +21,7 @@ class Mccree : public Character
         std::string getsprite(Gamestate *state, bool mask) override;
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Mccree(*this));}
         CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
-        std::string getcharacterfolder() {return "heroes/mccree/";}
+        std::string getcharacterfolder() {return "mccree/";}
         bool cangetinput(Gamestate *state) override {return not rollanim.active() and Character::cangetinput(state);}
         bool canuseweapons(Gamestate *state) override {return not ulting.active and Character::canuseweapons(state);}
         bool canuseabilities(Gamestate *state) override {return not ulting.active and Character::canuseabilities(state);}

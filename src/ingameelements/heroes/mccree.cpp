@@ -286,14 +286,14 @@ Rect Mccree::getcollisionrect(Gamestate *state)
 {
     if (crouchanim.active())
     {
-        return state->engine->maskloader.get_rect_from_json(getcharacterfolder()+"crouch/").offset(x, y);
+        return state->engine->maskloader.get_rect_from_json("heroes/"+getcharacterfolder()+"crouch/").offset(x, y);
     }
     return getstandingcollisionrect(state);
 }
 
 Rect Mccree::getstandingcollisionrect(Gamestate *state)
 {
-    return state->engine->maskloader.get_rect_from_json(getcharacterfolder()).offset(x, y);
+    return state->engine->maskloader.get_rect_from_json("heroes/"+getcharacterfolder()).offset(x, y);
 }
 
 std::string Mccree::getsprite(Gamestate *state, bool mask)
@@ -306,7 +306,7 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     {
         if (std::fabs(hspeed) < 5.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
         {
-            return getcharacterfolder()+"ult/1";
+            return "heroes/"+getcharacterfolder()+"ult/1";
         }
         return ultwalkanim.getframepath();
     }
@@ -322,16 +322,16 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     {
         if (vspeed > 100)
         {
-            return getcharacterfolder()+"falling/1";
+            return "heroes/"+getcharacterfolder()+"falling/1";
         }
         else
         {
-            return getcharacterfolder()+"jump/1";
+            return "heroes/"+getcharacterfolder()+"jump/1";
         }
     }
     if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
     {
-        return getcharacterfolder()+"idle/1";
+        return "heroes/"+getcharacterfolder()+"idle/1";
     }
     return runanim.getframepath();
 }
