@@ -99,11 +99,13 @@ void Character::midstep(Gamestate *state, double frametime)
         }
 
         // Ulting
-        if (heldkeys.ULTIMATE and not ownerplayer->ultcharge.active and canuseabilities(state))
+        if (heldkeys.ULTIMATE and not ownerplayer->ultcharge.active and canuseabilities(state) and state->engine->isserver)
         {
             ownerplayer->ultcharge.reset();
             ownerplayer->ultcharge.active = false;
             useultimate(state);
+            state->engine->sendbuffer->write<uint8_t>(ULTIMATE_USED);
+            state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
         }
 
         if (isflipped != (mouse_x < x))

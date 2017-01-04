@@ -95,6 +95,14 @@ void ClientNetworker::receive(Gamestate *state)
                     int playerid = data.read<uint8_t>();
                     state->findplayer(playerid)->getcharacter(state)->useability2(state);
                 }
+                else if (eventtype == ULTIMATE_USED)
+                {
+                    int playerid = data.read<uint8_t>();
+                    Player *p = state->findplayer(playerid);
+                    p->ultcharge.reset();
+                    p->ultcharge.active = false;
+                    p->getcharacter(state)->useultimate(state);
+                }
                 else
                 {
                     fprintf(stderr, "\nInvalid packet received on client: %i!", eventtype);
