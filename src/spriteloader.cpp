@@ -33,7 +33,7 @@ int Spriteloader::get_spriteoffset_x(std::string s)
     }
     catch (std::domain_error)
     {
-        fprintf(stderr, "\nError: Could not load sprite offset of %s!", s.c_str());
+        fprintf(stderr, "\nError: Could not load sprite offset of %s.png!", s.c_str());
         throw -1;
     }
 }
@@ -47,7 +47,7 @@ int Spriteloader::get_spriteoffset_y(std::string s)
     }
     catch (std::domain_error)
     {
-        fprintf(stderr, "\nError: Could not load sprite offset %s!\n", s.c_str());
+        fprintf(stderr, "\nError: Could not load sprite offset %s.png!\n", s.c_str());
         throw -1;
     }
 }
@@ -73,7 +73,7 @@ ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path)
         bitmapcache[path] = al_load_bitmap(("sprites/"+path+".png").c_str());
         if (bitmapcache[path] == NULL)
         {
-            fprintf(stderr, "\nError: Could not load %s!", path.c_str());
+            fprintf(stderr, "\nError: Could not load sprites/%s.png!", path.c_str());
             return 0;
         }
     }
