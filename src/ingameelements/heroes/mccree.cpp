@@ -86,10 +86,7 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
         al_draw_tinted_bitmap(outline, outlinecolor, x-outlinespriteoffset_x - renderer->cam_x, y-outlinespriteoffset_y - renderer->cam_y, 0);
     }
 
-    if (not ulting.active)
-    {
-        state->get<Weapon>(weapon)->render(renderer, state);
-    }
+    state->get<Weapon>(weapon)->render(renderer, state);
 }
 
 void Mccree::drawhud(Renderer *renderer, Gamestate *state)
