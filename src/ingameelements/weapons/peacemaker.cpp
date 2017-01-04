@@ -44,7 +44,6 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
     int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
-    Rect spritedimensions = renderer->spriteloader.get_rect(mainsprite);
 
     al_set_target_bitmap(renderer->midground);
     if (c->weaponvisible(state))
