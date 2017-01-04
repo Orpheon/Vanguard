@@ -83,11 +83,19 @@ void Peacemaker::reload(Gamestate *state)
 
 void Peacemaker::wantfireprimary(Gamestate *state)
 {
-    if (state->engine->isserver and clip > 0 and not firinganim.active() and not reloadanim.active())
+    if (state->engine->isserver)
     {
-        fireprimary(state);
-        state->engine->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
-        state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+        Mccree *c = state->get<Mccree>(state->get<Player>(owner)->character);
+        if (c->ulting.active)
+        {
+            // TODO: Deadeye active
+        }
+        else if (clip > 0 and not firinganim.active() and not reloadanim.active())
+        {
+            fireprimary(state);
+            state->engine->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
+            state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+        }
     }
 }
 

@@ -12,7 +12,7 @@
 
 Mccree::Mccree(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state, owner_)),
                 rollanim("heroes/mccree/roll/"), flashbanganim("heroes/mccree/flashbang/"), rollcooldown(8), flashbangcooldown(10), ultwalkanim("heroes/mccree/ultwalk/"),
-                ulting(std::bind(&Mccree::resetafterult, this, state), 6)
+                ulting(std::bind(&Mccree::resetafterult, this, state), 6), deadeyetargets()
 {
     rollanim.active(false);
     rollcooldown.active = false;
@@ -207,6 +207,29 @@ void Mccree::midstep(Gamestate *state, double frametime)
             state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
         }
     }
+
+    if (ulting.active)
+    {
+        for (auto p : state->playerlist)
+        {
+            Player *player = state->get<Player>(p);
+            if (player->team != SPECTATOR and player->team != team)
+            {
+                Character *c = player->getcharacter(state);
+                if (c != 0)
+                {
+                    if (state->currentmap->collideline(getweapon(state)->x, getweapon(state)->y, c->x, c->y))
+                    {
+                        if (deadeyetargets.count(p) == 0)
+                        {
+                            deadeyetargets[p] = 0;
+                        }
+                        deadeyetargets[p] += frametime*170;
+                    }
+                }
+            }
+        }
+    }
 }
 
 void Mccree::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
@@ -261,6 +284,7 @@ void Mccree::useability2(Gamestate *state)
 void Mccree::useultimate(Gamestate *state)
 {
     ulting.reset();
+    deadeyetargets.clear();
 }
 
 void Mccree::resetafterult(Gamestate *state)

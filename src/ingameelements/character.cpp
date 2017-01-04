@@ -11,6 +11,7 @@
 #include "ingameelements/weapon.h"
 #include "ingameelements/corpse.h"
 #include "renderer.h"
+#include "ingameelements/heroes/mccree.h"
 
 
 Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
@@ -428,6 +429,34 @@ void Character::render(Renderer *renderer, Gamestate *state)
     }
 
     // --------------- /HEALTHBAR ---------------
+
+
+    // Deadeye circle
+    Player *player = state->get<Player>(renderer->myself);
+    if (player->heroclass == MCCREE)
+    {
+        Mccree *c = state->get<Mccree>(player->character);
+        if (c != 0 and c->ulting.active)
+        {
+            double charge = 0;
+            if (c->deadeyetargets.count(renderer->myself) > 0)
+            {
+                charge = c->deadeyetargets[renderer->myself];
+            }
+
+            al_set_target_bitmap(renderer->foreground);
+            double factor = (hp.total()-charge) / maxhp.total();
+            if (factor < 0)
+            {
+                ALLEGRO_BITMAP *skull = renderer->spriteloader.requestsprite("ui/ingame/mccree/lockon");
+                int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x("ui/ingame/mccree/lockon");
+                int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y("ui/ingame/mccree/lockon");
+                al_draw_bitmap(skull, x-renderer->cam_x-spriteoffset_x, y-renderer->cam_y-spriteoffset_y, 0);
+                factor = 0;
+            }
+            al_draw_circle(x, y, 8+32*factor, al_map_rgb(253, 58, 58), 1);
+        }
+    }
 }
 
 void Character::drawhud(Renderer *renderer, Gamestate *state)
@@ -594,10 +623,19 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
 
     // Ult charge meter
     Player *p = state->get<Player>(owner);
-    ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/ultbar");
-    Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/ultbar").offset(renderer->WINDOW_WIDTH/2, hudheight()*renderer->WINDOW_HEIGHT);
-    al_draw_bitmap(ultbar, ultbarrect.x, ultbarrect.y, 0);
-    al_draw_arc(ultbarrect.x+ultbarrect.w/2.0, ultbarrect.y+ultbarrect.h/2.0 - 8, 33, -3.1415/2.0, 2*3.1415*p->ultcharge.timer/100.0, al_map_rgb(255, 230, 125), 8);
+    if (p->ultcharge.active)
+    {
+        ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/ultbar");
+        Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/ultbar").offset(renderer->WINDOW_WIDTH/2, hudheight()*renderer->WINDOW_HEIGHT);
+        al_draw_bitmap(ultbar, ultbarrect.x, ultbarrect.y, 0);
+        al_draw_arc(ultbarrect.x+ultbarrect.w/2.0, ultbarrect.y+ultbarrect.h/2.0 - 8, 33, -3.1415/2.0, 2*3.1415*p->ultcharge.timer/100.0, al_map_rgb(255, 230, 125), 8);
+    }
+    else
+    {
+        ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/"+getcharacterfolder()+"ultready");
+        Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/"+getcharacterfolder()+"ultready").offset(renderer->WINDOW_WIDTH/2, hudheight()*renderer->WINDOW_HEIGHT);
+        al_draw_bitmap(ultbar, ultbarrect.x, ultbarrect.y, 0);
+    }
 }
 
 bool Character::onground(Gamestate *state)
