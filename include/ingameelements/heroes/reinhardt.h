@@ -22,20 +22,22 @@ class Reinhardt : public Character
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Reinhardt(*this));}
         CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
         std::string getcharacterfolder() {return "heroes/reinhardt/";}
-        bool cangetinput(Gamestate *state) override {return not chargeanim.active() and not preparechargeanim.active() and Character::cangetinput(state);}
+        bool cangetinput(Gamestate *state) override {return not chargeanim.active() and not preparechargeanim.active() and not endchargeanim.active() and Character::cangetinput(state);}
         Health getmaxhp() override;
         void useability1(Gamestate *state) override;
         void useability2(Gamestate *state) override;
         void useultimate(Gamestate *state) override;
         void stun(Gamestate *state) override;
         void begincharge() {chargeanim.reset();}
+        void endcharge() {chargeanim.active(false); endchargeanim.reset();}
         void drawhud(Renderer *renderer, Gamestate *state) override;
         double passiveultcharge() override {return 0.4166666666666667;}
-        bool weaponvisible(Gamestate *state) override {return not stunanim.active() and not chargeanim.active();}
+        bool weaponvisible(Gamestate *state) override {return not stunanim.active() and not preparechargeanim.active() and not chargeanim.active() and not endchargeanim.active();}
         Heroclass heroclass() override {return REINHARDT;}
 
         Animation chargeanim;
         Animation preparechargeanim;
+        Animation endchargeanim;
     protected:
     private:
 };

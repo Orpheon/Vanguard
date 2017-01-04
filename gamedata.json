@@ -25,6 +25,7 @@
     "heroes/reinhardt/crouchwalk/ duration": 40,
     "heroes/reinhardt/stun/ duration": 0.7,
     "heroes/reinhardt/preparecharge/ duration": 0.7,
+    "heroes/reinhardt/endcharge/ duration": 0.7,
     "heroes/reinhardt/charge/ duration": 2,
 
     "heroes/mccree/idle/1 weapon": [-2, 7],
@@ -71,5 +72,11 @@
     "heroes/reinhardt/preparecharge/3 weapon": [4, 12],
     "heroes/reinhardt/preparecharge/4 weapon": [3, 15],
     "heroes/reinhardt/preparecharge/5 weapon": [3, 18],
-    "heroes/reinhardt/preparecharge/6 weapon": [2, 20]
+    "heroes/reinhardt/preparecharge/6 weapon": [2, 20],
+    "heroes/reinhardt/endcharge/1 weapon": [1, 10],
+    "heroes/reinhardt/endcharge/2 weapon": [1, 10],
+    "heroes/reinhardt/endcharge/3 weapon": [1, 10],
+    "heroes/reinhardt/endcharge/4 weapon": [1, 10],
+    "heroes/reinhardt/endcharge/5 weapon": [1, 10],
+    "heroes/reinhardt/endcharge/6 weapon": [1, 10]
 }

@@ -10,10 +10,12 @@
 #include <allegro5/allegro_primitives.h>
 
 Reinhardt::Reinhardt(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state, owner_)),
-                    chargeanim("heroes/reinhardt/charge/"), preparechargeanim("heroes/reinhardt/preparecharge/", std::bind(&Reinhardt::begincharge, this))
+                    chargeanim("heroes/reinhardt/charge/", std::bind(&Reinhardt::endcharge, this)), preparechargeanim("heroes/reinhardt/preparecharge/", std::bind(&Reinhardt::begincharge, this)),
+                    endchargeanim("heroes/reinhardt/endcharge/")
 {
     chargeanim.active(false);
     preparechargeanim.active(false);
+    endchargeanim.active(false);
 }
 
 Reinhardt::~Reinhardt()
@@ -151,7 +153,7 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
     {
         if (xblocked)
         {
-            chargeanim.active(false);
+            endcharge();
         }
         if (isflipped)
         {
@@ -164,6 +166,7 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
     }
     chargeanim.update(state, frametime);
     preparechargeanim.update(state, frametime);
+    endchargeanim.update(state, frametime);
 
     if (canuseabilities(state))
     {
@@ -241,6 +244,10 @@ std::string Reinhardt::getsprite(Gamestate *state, bool mask)
     if (chargeanim.active())
     {
         return chargeanim.getframepath();
+    }
+    if (endchargeanim.active())
+    {
+        return endchargeanim.getframepath();
     }
     if (crouchanim.active())
     {
