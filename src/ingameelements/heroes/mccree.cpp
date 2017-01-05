@@ -291,6 +291,7 @@ void Mccree::resetafterult(Gamestate *state)
     Peacemaker *w = state->get<Peacemaker>(weapon);
     w->isfiringult = false;
     w->deadeyeanim.active(false);
+    w->clip = w->getclipsize();
 }
 
 void Mccree::stun(Gamestate *state)

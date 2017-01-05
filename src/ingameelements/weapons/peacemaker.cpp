@@ -109,7 +109,7 @@ void Peacemaker::reload(Gamestate *state)
 
 void Peacemaker::wantfireprimary(Gamestate *state)
 {
-    if (clip > 0 and not firinganim.active() and not reloadanim.active() and state->engine->isserver)
+    if (clip > 0 and not firinganim.active() and not reloadanim.active() and not isfthing and not deadeyeanim.active() and state->engine->isserver)
     {
         fireprimary(state);
         state->engine->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
@@ -153,7 +153,7 @@ void Peacemaker::wantfiresecondary(Gamestate *state)
 {
     if (clip > 0)
     {
-        if (not isfthing and state->engine->isserver and not reloadanim.active())
+        if (not isfthing and state->engine->isserver and not reloadanim.active() and not firinganim.active() and not deadeyeanim.active())
         {
             firesecondary(state);
             state->engine->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
