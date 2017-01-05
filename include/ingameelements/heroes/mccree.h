@@ -22,7 +22,7 @@ class Mccree : public Character
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Mccree(*this));}
         CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
         std::string getcharacterfolder() {return "mccree/";}
-        bool cangetinput(Gamestate *state) override {return not rollanim.active() and Character::cangetinput(state);}
+        bool cangetinput(Gamestate *state) override {return not rollanim.active() and not ultcooldown.active and Character::cangetinput(state);}
         bool canuseweapons(Gamestate *state) override {return not ulting.active and Character::canuseweapons(state);}
         bool canuseabilities(Gamestate *state) override {return not ulting.active and Character::canuseabilities(state);}
         Health getmaxhp() override;
@@ -43,6 +43,7 @@ class Mccree : public Character
         Timer flashbangcooldown;
         LoopAnimation ultwalkanim;
         Timer ulting;
+        Timer ultcooldown;
     protected:
     private:
 };
