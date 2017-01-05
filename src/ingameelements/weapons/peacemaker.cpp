@@ -10,9 +10,10 @@
 
 Peacemaker::Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_, constructparameters(state)),
                         fthanim("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, state)), isfthing(false),
-                        deadeyetargets()
+                        deadeyetargets(), deadeyeanim("heroes/mccree/fanthehammerloop/"), isfiringult(false)
 {
     fthanim.active(false);
+    deadeyeanim.active(false);
 }
 
 Peacemaker::~Peacemaker()
@@ -72,7 +73,7 @@ void Peacemaker::midstep(Gamestate *state, double frametime)
 
     Player *ownerplayer = state->get<Player>(owner);
     Mccree *ownerchar = state->get<Mccree>(ownerplayer->character);
-    if (ownerchar->ulting.active)
+    if (ownerchar->ulting.active and not isfiringult)
     {
         for (auto p : state->playerlist)
         {
@@ -108,19 +109,11 @@ void Peacemaker::reload(Gamestate *state)
 
 void Peacemaker::wantfireprimary(Gamestate *state)
 {
-    if (state->engine->isserver)
+    if (clip > 0 and not firinganim.active() and not reloadanim.active() and state->engine->isserver)
     {
-        Mccree *c = state->get<Mccree>(state->get<Player>(owner)->character);
-        if (c->ulting.active)
-        {
-            // TODO: Deadeye active
-        }
-        else if (clip > 0 and not firinganim.active() and not reloadanim.active())
-        {
-            fireprimary(state);
-            state->engine->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
-            state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
-        }
+        fireprimary(state);
+        state->engine->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
+        state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
     }
 }
 
@@ -220,6 +213,58 @@ void Peacemaker::firesecondary(Gamestate *state)
             fthanim = Animation("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::wantfiresecondary, this, state));
             isfthing = true;
         }
+    }
+}
+
+void Peacemaker::fireultimate(Gamestate *state)
+{
+    isfiringult = true;
+    if (deadeyetargets.size() > 0)
+    {
+        printf("\nDeadeye shot");printf("\n");
+        EntityPtr playerptr = 0;
+        double distance = VIEWPORT_WIDTH*10;
+        Character *c;
+        // Select closest target
+        for (auto p : deadeyetargets)
+        {
+            Player *player = state->get<Player>(p.first);
+            c = player->getcharacter(state);
+            if (c != 0)
+            {
+                double d = std::hypot(c->x-x, c->y-y);
+                if (d < distance)
+                {
+                    distance = d;
+                    playerptr = p.first;
+                }
+            }
+        }
+
+        c = state->get<Player>(playerptr)->getcharacter(state);
+        double collisionptx, collisionpty;
+        EntityPtr target = state->collidelinedamageable(x, y, c->x, c->y, team, &collisionptx, &collisionpty);
+        double angle = std::atan2(c->y-y, c->x-x), cosa = std::cos(angle), sina = std::sin(angle);
+        MovingEntity *m = state->get<MovingEntity>(target);
+        if (m != 0 and m->entitytype == CHARACTER)
+        {
+            c = reinterpret_cast<Character*>(m);
+            c->damage(state, deadeyetargets[playerptr]);
+        }
+        state->make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
+        Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", angle));
+        e->x = x+cosa*24;
+        e->y = y+sina*24;
+
+        deadeyetargets.erase(playerptr);
+
+        deadeyeanim = Animation("heroes/mccree/fanthehammerloop/", std::bind(&Peacemaker::fireultimate, this, state));
+    }
+    else
+    {
+        printf("\nC");printf("\n");
+        Mccree *ownerchar = state->get<Mccree>(state->get<Player>(owner)->character);
+        ownerchar->resetafterult(state);
     }
 }
 

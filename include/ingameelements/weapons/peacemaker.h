@@ -31,6 +31,8 @@ class Peacemaker : public Weapon
         bool isfthing;
 
         std::unordered_map<int, double> deadeyetargets;
+        Animation deadeyeanim;
+        bool isfiringult;
     protected:
     private:
 //        double bulletspeed = 1000.0;

@@ -207,6 +207,14 @@ void Mccree::midstep(Gamestate *state, double frametime)
             state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
         }
     }
+
+    if (heldkeys.PRIMARY_FIRE and ulting.active and state->engine->isserver)
+    {
+        Peacemaker *w = state->get<Peacemaker>(weapon);
+        w->fireultimate(state);
+        state->engine->sendbuffer->write<uint8_t>(ULTIMATE_USED);
+        state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+    }
 }
 
 void Mccree::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
@@ -260,8 +268,18 @@ void Mccree::useability2(Gamestate *state)
 
 void Mccree::useultimate(Gamestate *state)
 {
-    ulting.reset();
-    state->get<Peacemaker>(weapon)->deadeyetargets.clear();
+    if (ulting.active)
+    {
+        // We are already ulting and now want to fire
+        Peacemaker *p = state->get<Peacemaker>(weapon);
+        p->fireultimate(state);
+    }
+    else
+    {
+        // Start charging
+        ulting.reset();
+        state->get<Peacemaker>(weapon)->deadeyetargets.clear();
+    }
 }
 
 void Mccree::resetafterult(Gamestate *state)
@@ -270,6 +288,9 @@ void Mccree::resetafterult(Gamestate *state)
     ultwalkanim.reset();
     Player *ownerplayer = state->get<Player>(owner);
     ownerplayer->ultcharge.active = true;
+    Peacemaker *w = state->get<Peacemaker>(weapon);
+    w->isfiringult = false;
+    w->deadeyeanim.active(false);
 }
 
 void Mccree::stun(Gamestate *state)
@@ -335,6 +356,11 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
         return "heroes/"+getcharacterfolder()+"idle/1";
     }
     return runanim.getframepath();
+}
+
+bool Mccree::weaponvisible(Gamestate *state)
+{
+    return not rollanim.active() and not stunanim.active() and (not ulting.active or state->get<Peacemaker>(weapon)->isfiringult);
 }
 
 CharacterChildParameters Mccree::constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_)
