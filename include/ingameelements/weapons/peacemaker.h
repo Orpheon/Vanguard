@@ -35,7 +35,6 @@ class Peacemaker : public Weapon
         bool isfiringult;
     protected:
     private:
-//        double bulletspeed = 1000.0;
         double MAX_DAMAGE = 70;
         double MAX_FTH_DAMAGE = 45;
         double FALLOFF_BEGIN = 30*10;
