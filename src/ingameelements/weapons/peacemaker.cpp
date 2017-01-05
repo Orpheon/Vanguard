@@ -221,7 +221,6 @@ void Peacemaker::fireultimate(Gamestate *state)
     isfiringult = true;
     if (deadeyetargets.size() > 0)
     {
-        printf("\nDeadeye shot");printf("\n");
         EntityPtr playerptr = 0;
         double distance = VIEWPORT_WIDTH*10;
         Character *c;
@@ -262,7 +261,6 @@ void Peacemaker::fireultimate(Gamestate *state)
     }
     else
     {
-        printf("\nC");printf("\n");
         Mccree *ownerchar = state->get<Mccree>(state->get<Player>(owner)->character);
         ownerchar->resetafterult(state);
     }

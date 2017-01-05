@@ -210,10 +210,10 @@ void Mccree::midstep(Gamestate *state, double frametime)
 
     if (heldkeys.PRIMARY_FIRE and ulting.active and state->engine->isserver)
     {
-        Peacemaker *w = state->get<Peacemaker>(weapon);
-        w->fireultimate(state);
         state->engine->sendbuffer->write<uint8_t>(ULTIMATE_USED);
         state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+        Peacemaker *w = state->get<Peacemaker>(weapon);
+        w->fireultimate(state);
     }
 }
 
