@@ -3,8 +3,9 @@
 ClientNetworker::ClientNetworker() : Networker(false), connected(false)
 {
     ENetAddress serveraddress;
-    enet_address_set_host(&serveraddress, "129.132.17.38");// Zurich server
-//    enet_address_set_host(&serveraddress, "45.72.131.197");// washy server
+//    enet_address_set_host(&serveraddress, "127.0.0.1");
+//    enet_address_set_host(&serveraddress, "129.132.17.38");// Zurich server
+    enet_address_set_host(&serveraddress, "76.10.161.121");// washy server
     serveraddress.port = 3224;
     host = enet_host_create(NULL, 1, 1, 0, 0);
     if (host == NULL)
@@ -48,7 +49,7 @@ void ClientNetworker::receive(Gamestate *state)
                 else if (eventtype == SERVER_SNAPSHOTUPDATE)
                 {
                     state->deserializesnapshot(&data);
-                    // FIXME: What happens if this is removed
+                    // Resets gun arm position and a bunch of similar things to be up to date
                     state->update(0);
                 }
                 else if (eventtype == PLAYER_JOINED)
