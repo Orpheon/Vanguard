@@ -27,9 +27,9 @@ class Reinhardt : public Character
         void useability1(Gamestate *state) override;
         void useability2(Gamestate *state) override;
         void useultimate(Gamestate *state) override;
-        void stun(Gamestate *state) override;
         void begincharge() {chargeanim.reset();}
         void endcharge() {chargeanim.active(false); endchargeanim.reset();}
+        void interrupt(Gamestate *state) override;
         void drawhud(Renderer *renderer, Gamestate *state) override;
         double passiveultcharge() override {return 0.4166666666666667;}
         bool weaponvisible(Gamestate *state) override {return not stunanim.active() and not preparechargeanim.active() and not chargeanim.active() and not endchargeanim.active();}

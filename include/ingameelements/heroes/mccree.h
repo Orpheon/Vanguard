@@ -29,8 +29,8 @@ class Mccree : public Character
         void useability1(Gamestate *state) override;
         void useability2(Gamestate *state) override;
         void useultimate(Gamestate *state) override;
+        void interrupt(Gamestate *state) override;
         void resetafterult(Gamestate *state);
-        void stun(Gamestate *state) override;
         void drawhud(Renderer *renderer, Gamestate *state) override;
         double passiveultcharge() override {return 20;}//0.4166666666666667;}
         bool weaponvisible(Gamestate *state) override;

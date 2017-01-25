@@ -211,9 +211,8 @@ void Reinhardt::useultimate(Gamestate *state)
     printf("\nReinhardt Ulted");printf("\n");
 }
 
-void Reinhardt::stun(Gamestate *state)
+void Reinhardt::interrupt(Gamestate *state)
 {
-    Character::stun(state);
     chargeanim.active(false);
 }
 

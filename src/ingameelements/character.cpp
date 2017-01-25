@@ -764,6 +764,12 @@ void Character::die(Gamestate *state)
     }
 }
 
+void Character::stun(Gamestate *state)
+{
+    stunanim.reset();
+    interrupt(state);
+}
+
 void Character::destroy(Gamestate *state)
 {
     state->get<Player>(owner)->character = 0;
