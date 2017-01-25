@@ -115,6 +115,8 @@ void Player::changeclass(Gamestate *state, Heroclass newclass)
     {
         getcharacter(state)->die(state);
     }
+
+    ultcharge.reset();
 }
 
 Character* Player::getcharacter(Gamestate *state)

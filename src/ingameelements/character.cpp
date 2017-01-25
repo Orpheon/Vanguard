@@ -767,6 +767,7 @@ void Character::die(Gamestate *state)
 void Character::destroy(Gamestate *state)
 {
     state->get<Player>(owner)->character = 0;
+    state->get<Player>(owner)->ultcharge.active = true;
     getweapon(state)->destroy(state);
     Corpse *c = state->get<Corpse>(state->make_entity<Corpse>(state, "heroes/"+getcharacterfolder(), isflipped));
     c->x = x;

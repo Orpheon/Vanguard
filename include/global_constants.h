@@ -3,7 +3,7 @@
 
 const double ENGINE_TIMESTEP = 1.0/60.0;
 const double MENU_TIMESTEP = 1.0/60.0;
-const double NETWORKING_TIMESTEP = 1/20.0;
+const double NETWORKING_TIMESTEP = 1/60.0;
 
 const unsigned int VIEWPORT_WIDTH = 1000;
 

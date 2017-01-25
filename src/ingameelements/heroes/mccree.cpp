@@ -12,13 +12,14 @@
 
 Mccree::Mccree(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state, owner_)),
                 rollanim("heroes/mccree/roll/"), flashbanganim("heroes/mccree/flashbang/"), rollcooldown(8), flashbangcooldown(10), ultwalkanim("heroes/mccree/ultwalk/"),
-                ulting(std::bind(&Mccree::resetafterult, this, state), 6)
+                ulting(std::bind(&Mccree::resetafterult, this, state), 6), ultcooldown(0.5)
 {
     rollanim.active(false);
     rollcooldown.active = false;
     flashbanganim.active(false);
     flashbangcooldown.active = false;
     ulting.active = false;
+    ultcooldown.active = false;
 }
 
 Mccree::~Mccree()
@@ -182,6 +183,7 @@ void Mccree::midstep(Gamestate *state, double frametime)
     rollcooldown.update(state, frametime);
     flashbangcooldown.update(state, frametime);
     ulting.update(state, frametime);
+    ultcooldown.update(state, frametime);
 
     if (isflipped)
     {
@@ -230,6 +232,7 @@ void Mccree::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
     flashbangcooldown.interpolate(&(p->flashbangcooldown), &(n->flashbangcooldown), alpha);
     ulting.interpolate(&(p->ulting), &(n->ulting), alpha);
     ultwalkanim.interpolate(&(p->ultwalkanim), &(n->ultwalkanim), alpha);
+    ultcooldown.interpolate(&(p->ultcooldown), &(n->ultcooldown), alpha);
 }
 
 void Mccree::useability1(Gamestate *state)
@@ -286,6 +289,7 @@ void Mccree::resetafterult(Gamestate *state)
 {
     ulting.active = false;
     ultwalkanim.reset();
+    ultcooldown.reset();
     Player *ownerplayer = state->get<Player>(owner);
     ownerplayer->ultcharge.active = true;
     Peacemaker *w = state->get<Peacemaker>(weapon);
