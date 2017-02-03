@@ -108,8 +108,7 @@ int Spriteloader::getweaponoffset_x(std::string s)
     }
     catch (std::domain_error)
     {
-        fprintf(stderr, "\nError: Could not load %s weapon xoffset data!", s.c_str());
-        throw -1;
+        return 0;
     }
 }
 
@@ -121,7 +120,6 @@ int Spriteloader::getweaponoffset_y(std::string s)
     }
     catch (std::domain_error)
     {
-        fprintf(stderr, "\nError: Could not load %s weapon yoffset data!", s.c_str());
-        throw -1;
+        return 0;
     }
 }
