@@ -7,7 +7,7 @@ import json
 filelist = []
 output = {}
 for (dirpath, dirnames, filenames) in os.walk("sprites"):
-    if dirnames == []:
+    if filenames != []:
         output[dirpath[8:]+"/ number of frames"] = len(filenames)
     for filename in filenames:
         if filename.endswith('.png'):
