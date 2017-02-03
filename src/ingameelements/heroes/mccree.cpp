@@ -298,10 +298,8 @@ void Mccree::resetafterult(Gamestate *state)
     w->clip = w->getclipsize();
 }
 
-void Mccree::stun(Gamestate *state)
+void Mccree::interrupt(Gamestate *state)
 {
-    Character::stun(state);
-
     if (ulting.active)
     {
         resetafterult(state);
