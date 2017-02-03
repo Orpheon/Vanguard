@@ -33,7 +33,7 @@ int Spriteloader::get_spriteoffset_x(std::string s)
     }
     catch (std::domain_error)
     {
-        fprintf(stderr, "\nError: Could not load sprite offset of %s.png!", s.c_str());
+        fprintf(stderr, "\nError: Could not load sprite offset of %s!", s.c_str());
         throw -1;
     }
 }
@@ -47,7 +47,7 @@ int Spriteloader::get_spriteoffset_y(std::string s)
     }
     catch (std::domain_error)
     {
-        fprintf(stderr, "\nError: Could not load sprite offset %s.png!\n", s.c_str());
+        fprintf(stderr, "\nError: Could not load sprite offset %s!\n", s.c_str());
         throw -1;
     }
 }
