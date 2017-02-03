@@ -11,11 +11,12 @@
 
 Reinhardt::Reinhardt(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state, owner_)),
                     chargeanim("heroes/reinhardt/charge/", std::bind(&Reinhardt::endcharge, this)), preparechargeanim("heroes/reinhardt/preparecharge/", std::bind(&Reinhardt::begincharge, this)),
-                    endchargeanim("heroes/reinhardt/endcharge/")
+                    endchargeanim("heroes/reinhardt/endcharge/"), earthshatteranim("heroes/reinhardt/ult/")
 {
     chargeanim.active(false);
     preparechargeanim.active(false);
     endchargeanim.active(false);
+    earthshatteranim.active(false);
 }
 
 Reinhardt::~Reinhardt()
@@ -167,6 +168,7 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
     chargeanim.update(state, frametime);
     preparechargeanim.update(state, frametime);
     endchargeanim.update(state, frametime);
+    earthshatteranim.update(state, frametime);
 
     if (canuseabilities(state))
     {
@@ -196,6 +198,18 @@ void Reinhardt::interpolate(Entity *prev_entity, Entity *next_entity, double alp
     chargeanim.interpolate(&(p->chargeanim), &(n->chargeanim), alpha);
 }
 
+bool Reinhardt::cangetinput(Gamestate *state)
+{
+    return  not chargeanim.active() and not preparechargeanim.active() and not endchargeanim.active()
+        and not earthshatteranim.active() and Character::cangetinput(state);
+}
+
+bool Reinhardt::weaponvisible(Gamestate *state)
+{
+    return  not stunanim.active() and not preparechargeanim.active() and not chargeanim.active()
+        and not endchargeanim.active() and not earthshatteranim.active();
+}
+
 void Reinhardt::useability1(Gamestate *state)
 {
     preparechargeanim.reset();
@@ -208,12 +222,15 @@ void Reinhardt::useability2(Gamestate *state)
 
 void Reinhardt::useultimate(Gamestate *state)
 {
-    printf("\nReinhardt Ulted");printf("\n");
+    earthshatteranim.reset();
+    Player *ownerplayer = state->get<Player>(owner);
+    ownerplayer->ultcharge.reset();
 }
 
 void Reinhardt::interrupt(Gamestate *state)
 {
     chargeanim.active(false);
+    earthshatteranim.active(false);
 }
 
 Rect Reinhardt::getcollisionrect(Gamestate *state)
@@ -235,6 +252,10 @@ std::string Reinhardt::getsprite(Gamestate *state, bool mask)
     if (stunanim.active())
     {
         return stunanim.getframepath();
+    }
+    if (earthshatteranim.active())
+    {
+        return earthshatteranim.getframepath();
     }
     if (preparechargeanim.active())
     {
