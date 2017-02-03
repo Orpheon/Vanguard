@@ -1,12 +1,10 @@
-from __future__ import print_function
-
 from PIL import Image
 import os
-import json
+import sys
 
 filelist = []
 output = {}
-for (dirpath, dirnames, filenames) in os.walk("sprites"):
+for (dirpath, dirnames, filenames) in os.walk(sys.argv[1]):
     if filenames != []:
         output[dirpath[8:]+"/ number of frames"] = len(filenames)
     for filename in filenames:
@@ -14,7 +12,7 @@ for (dirpath, dirnames, filenames) in os.walk("sprites"):
             filelist.append(os.sep.join([dirpath, filename]))
 
 for filepath in filelist:
-    if not "/ui/" in filepath:
+    if not "/ui/" in filepath and not "_outline." in filepath:
         orig_im = Image.open(filepath)
         orig_im.convert("RGBA")
         w, h = orig_im.size
@@ -41,40 +39,3 @@ for filepath in filelist:
                     pixels[x, y] = (0, 0, 0, 0)
 
         im.save(filepath.replace(".", "_outline."))
-
-
-filelist = []
-for (dirpath, dirnames, filenames) in os.walk("sprites"):
-    for filename in filenames:
-        if filename.endswith('.png'):
-            filelist.append(os.sep.join([dirpath, filename]))
-
-
-for filepath in filelist:
-    im = Image.open(filepath)
-    im.convert("RGBA")
-    w, h = im.size
-    r = 0
-    l = w
-    t = h
-    b = 0
-
-    pix = im.load()
-    for x in range(w):
-        for y in range(h):
-            if pix[x, y][3] != 0:
-                if l > x:
-                    l = x
-                if r < x:
-                    r = x
-                if t > y:
-                    t = y
-                if b < y:
-                    b = y
-
-    output[filepath[8:]] = [w/2-l, h/2-t]
-    im2 = im.crop((l, t, r+1, b+1))
-    im2.save(filepath)
-
-with open("sprites/spritedata.json", "w") as f:
-    json.dump(output, f)
