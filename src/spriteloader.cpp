@@ -102,7 +102,7 @@ ALLEGRO_BITMAP* Spriteloader::requestspriteoutline(std::string path)
         {
             al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
         }
-        bitmapcache[path] = al_load_bitmap(("sprites/"+path+"_outline.png").c_str());
+        bitmapcache[path] = al_load_bitmap(("sprites/"+path+".png").c_str());
         if (bitmapcache[path] == NULL)
         {
             fprintf(stderr, "\nError: Could not load sprites/%s.png!", path.c_str());
