@@ -27,7 +27,7 @@ class Spriteloader
         std::unordered_map<std::string, ALLEGRO_BITMAP*> bitmapcache;
         nlohmann::json spriteoffsets;
         nlohmann::json gamedata;
-        bool MEMORY_ONLY;
+        bool masksonly;
 };
 
 #endif // SPRITELOADER_H

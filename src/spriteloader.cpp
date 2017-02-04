@@ -1,7 +1,7 @@
 #include "spriteloader.h"
 #include <fstream>
 
-Spriteloader::Spriteloader(bool memory_only) : bitmapcache()
+Spriteloader::Spriteloader(bool masksonly_) : bitmapcache(), masksonly(masksonly_)
 {
     // Load the sprite offset data
     std::ifstream spriteoffsetsfile("sprites/spritedata.json");
@@ -12,8 +12,6 @@ Spriteloader::Spriteloader(bool memory_only) : bitmapcache()
     std::ifstream gamedatafile("gamedata.json");
     gamedata << gamedatafile;
     gamedatafile.close();
-
-    MEMORY_ONLY = memory_only;
 }
 
 Spriteloader::~Spriteloader()
@@ -26,7 +24,15 @@ Spriteloader::~Spriteloader()
 
 int Spriteloader::get_spriteoffset_x(std::string s)
 {
-    s += ".png";
+    if (masksonly)
+    {
+        if (spriteoffsets.find(s+"_hitmask.png") != spriteoffsets.end())
+        {
+            return spriteoffsets[s+"_hitmask.png"][0];
+        }
+    }
+
+    s += "_sprite.png";
     try
     {
         return spriteoffsets[s][0];
@@ -40,14 +46,22 @@ int Spriteloader::get_spriteoffset_x(std::string s)
 
 int Spriteloader::get_spriteoffset_y(std::string s)
 {
-    s += ".png";
+    if (masksonly)
+    {
+        if (spriteoffsets.find(s+"_hitmask.png") != spriteoffsets.end())
+        {
+            return spriteoffsets[s+"_hitmask.png"][1];
+        }
+    }
+
+    s += "_sprite.png";
     try
     {
         return spriteoffsets[s][1];
     }
     catch (std::domain_error)
     {
-        fprintf(stderr, "\nError: Could not load sprite offset %s!\n", s.c_str());
+        fprintf(stderr, "\nError: Could not load sprite offset of %s!", s.c_str());
         throw -1;
     }
 }
@@ -56,24 +70,19 @@ ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path)
 {
     if (bitmapcache.count(path) == 0)
     {
-        if (MEMORY_ONLY)
+        if (masksonly)
         {
             al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
+            bitmapcache[path] = al_load_bitmap(("sprites/"+path+"_hitmask.png").c_str());
         }
-        else
+        if (not masksonly or bitmapcache[path] == NULL)
         {
             al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
+            bitmapcache[path] = al_load_bitmap(("sprites/"+path+"_sprite.png").c_str());
         }
-//        ALLEGRO_BITMAP *tmp = al_load_bitmap(("sprites/"+path).c_str());
-//        int w = al_get_bitmap_width(tmp), h = al_get_bitmap_height(tmp);
-//        bitmapcache[path] = al_create_bitmap(w*2, h*2);
-//        al_set_target_bitmap(bitmapcache[path]);
-//        al_draw_scaled_rotated_bitmap(tmp, 0, 0, 0, 0, 2, 2, 0, 0);
-//        al_destroy_bitmap(tmp);
-        bitmapcache[path] = al_load_bitmap(("sprites/"+path+".png").c_str());
         if (bitmapcache[path] == NULL)
         {
-            fprintf(stderr, "\nError: Could not load sprites/%s.png!", path.c_str());
+            fprintf(stderr, "\nError: Could not load sprites/%s_sprite.png!", path.c_str());
             return 0;
         }
     }
