@@ -89,6 +89,29 @@ ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path)
     return bitmapcache[path];
 }
 
+ALLEGRO_BITMAP* Spriteloader::requestspriteoutline(std::string path)
+{
+    path += "_outline";
+    if (bitmapcache.count(path) == 0)
+    {
+        if (masksonly)
+        {
+            al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
+        }
+        else
+        {
+            al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
+        }
+        bitmapcache[path] = al_load_bitmap(("sprites/"+path+"_outline.png").c_str());
+        if (bitmapcache[path] == NULL)
+        {
+            fprintf(stderr, "\nError: Could not load sprites/%s.png!", path.c_str());
+            return 0;
+        }
+    }
+    return bitmapcache[path];
+}
+
 Rect Spriteloader::get_rect(std::string s)
 {
     ALLEGRO_BITMAP *sprite = requestsprite(s);

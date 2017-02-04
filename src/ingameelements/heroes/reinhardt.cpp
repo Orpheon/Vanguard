@@ -42,10 +42,7 @@ void Reinhardt::render(Renderer *renderer, Gamestate *state)
     spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
     spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
 
-    std::string outlinesprite = mainsprite+"_outline";
-    ALLEGRO_BITMAP *outline = renderer->spriteloader.requestsprite(outlinesprite);
-    int outlinespriteoffset_x = renderer->spriteloader.get_spriteoffset_x(outlinesprite);
-    int outlinespriteoffset_y = renderer->spriteloader.get_spriteoffset_y(outlinesprite);
+    ALLEGRO_BITMAP *outline = renderer->spriteloader.requestspriteoutline(mainsprite);
     ALLEGRO_COLOR outlinecolor;
     if (state->get<Player>(renderer->myself)->team == team)
     {
@@ -62,12 +59,12 @@ void Reinhardt::render(Renderer *renderer, Gamestate *state)
     {
         // Flip horizontally
         al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
-        al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, outlinespriteoffset_x, outlinespriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
+        al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
     }
     else
     {
         al_draw_bitmap(sprite, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 0);
-        al_draw_tinted_bitmap(outline, outlinecolor, x-outlinespriteoffset_x - renderer->cam_x, y-outlinespriteoffset_y - renderer->cam_y, 0);
+        al_draw_tinted_bitmap(outline, outlinecolor, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 0);
     }
 
     state->get<Weapon>(weapon)->render(renderer, state);
