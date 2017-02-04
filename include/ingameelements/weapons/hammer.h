@@ -18,6 +18,7 @@ class Hammer : public Weapon
         void wantfireprimary(Gamestate *state) override;
         void firesecondary(Gamestate *state) override;
         void wantfiresecondary(Gamestate *state) override;
+        void beginstep(Gamestate *state, double frametime) override;
         void midstep(Gamestate *state, double frametime) override;
 
         double getattachpoint_x() override {return 0;}
@@ -25,9 +26,16 @@ class Hammer : public Weapon
 
         WeaponChildParameters constructparameters(Gamestate *state);
 
+        Timer barrierrecharge;
+        Timer barrierbreak;
+        bool barrieractive;
+        double barrierhealth;
+
     protected:
     private:
         double DAMAGE = 70;
+        double MAX_BARRIER_HEALTH = 2000;
+        double BARRIER_RECHARGE = 195;
 };
 
 #endif // HAMMER_H
