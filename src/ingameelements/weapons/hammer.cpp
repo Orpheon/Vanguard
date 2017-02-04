@@ -25,16 +25,29 @@ void Hammer::renderbehind(Renderer *renderer, Gamestate *state)
     int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
 
+    ALLEGRO_BITMAP *outline = renderer->spriteloader.requestspriteoutline(mainsprite);
+    ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
+
     al_set_target_bitmap(renderer->midground);
     if (c->weaponvisible(state))
     {
         if (c->isflipped)
         {
             al_draw_scaled_rotated_bitmap(sprite, getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y, -1, 1, 0, 0);
+            if (state->get<Player>(renderer->myself)->team != team)
+            {
+                // Draw enemy outline
+                al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y, -1, 1, 0, 0);
+            }
         }
         else
         {
             al_draw_bitmap(sprite, x - (getattachpoint_x()+spriteoffset_x) - renderer->cam_x, y - (getattachpoint_y()+spriteoffset_y) - renderer->cam_y, 0);
+            if (state->get<Player>(renderer->myself)->team != team)
+            {
+                // Draw enemy outline
+                al_draw_tinted_bitmap(outline, outlinecolor, x - (getattachpoint_x()+spriteoffset_x) - renderer->cam_x, y - (getattachpoint_y()+spriteoffset_y) - renderer->cam_y, 0);
+            }
         }
     }
 }
@@ -48,16 +61,29 @@ void Hammer::render(Renderer *renderer, Gamestate *state)
     int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
     int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
 
+    ALLEGRO_BITMAP *outline = renderer->spriteloader.requestspriteoutline(mainsprite);
+    ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
+
     al_set_target_bitmap(renderer->midground);
     if (c->weaponvisible(state))
     {
         if (c->isflipped)
         {
             al_draw_scaled_rotated_bitmap(sprite, -getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y, -1, 1, 0, 0);
+            if (state->get<Player>(renderer->myself)->team != team)
+            {
+                // Draw enemy outline
+                al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y, -1, 1, 0, 0);
+            }
         }
         else
         {
             al_draw_bitmap(sprite, x - (getattachpoint_x()+spriteoffset_x) - renderer->cam_x, y - (getattachpoint_y()+spriteoffset_y) - renderer->cam_y, 0);
+            if (state->get<Player>(renderer->myself)->team != team)
+            {
+                // Draw enemy outline
+                al_draw_tinted_bitmap(outline, outlinecolor, x - (getattachpoint_x()+spriteoffset_x) - renderer->cam_x, y - (getattachpoint_y()+spriteoffset_y) - renderer->cam_y, 0);
+            }
         }
     }
 }
