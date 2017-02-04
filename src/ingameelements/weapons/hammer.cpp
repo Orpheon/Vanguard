@@ -6,10 +6,11 @@
 
 #include "engine.h"
 
-Hammer::Hammer(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_, constructparameters(state)), barrierrecharge(2), barrierbreak(5), barrieractive(false)
+Hammer::Hammer(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_, constructparameters(state)), barrierrecharge(2), barrierbreak(5), barrier(0.1)
 {
     barrierrecharge.active = false;
     barrierbreak.active = false;
+    barrier.active = false;
     barrierhealth = MAX_BARRIER_HEALTH;
 }
 
@@ -22,7 +23,7 @@ void Hammer::renderbehind(Renderer *renderer, Gamestate *state)
 {
     std::string mainsprite;
     Reinhardt *c = state->get<Reinhardt>(state->get<Player>(owner)->character);
-    if (barrieractive)
+    if (barrier.active)
     {
         mainsprite = "heroes/reinhardt/shield/back";
 
@@ -44,22 +45,22 @@ void Hammer::renderbehind(Renderer *renderer, Gamestate *state)
         if (c->isflipped)
         {
             al_draw_scaled_rotated_bitmap(sprite, getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y,
-                                            -1, 1, (aimdirection+3.1415)*barrieractive, 0);
+                                            -1, 1, (aimdirection+3.1415)*barrier.active, 0);
             if (state->get<Player>(renderer->myself)->team != team)
             {
                 // Draw enemy outline
                 al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y,
-                                                    -1, 1, (aimdirection+3.1415)*barrieractive, 0);
+                                                    -1, 1, (aimdirection+3.1415)*barrier.active, 0);
             }
         }
         else
         {
-            al_draw_rotated_bitmap(sprite, getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y, aimdirection*barrieractive, 0);
+            al_draw_rotated_bitmap(sprite, getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y, aimdirection*barrier.active, 0);
             if (state->get<Player>(renderer->myself)->team != team)
             {
                 // Draw enemy outline
                 al_draw_tinted_rotated_bitmap(outline, outlinecolor, getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y,
-                                                aimdirection*barrieractive, 0);
+                                                aimdirection*barrier.active, 0);
             }
         }
     }
@@ -69,7 +70,7 @@ void Hammer::render(Renderer *renderer, Gamestate *state)
 {
     std::string mainsprite;
     Reinhardt *c = state->get<Reinhardt>(state->get<Player>(owner)->character);
-    if (barrieractive)
+    if (barrier.active)
     {
         mainsprite = "heroes/reinhardt/shield/front";
 
@@ -108,7 +109,7 @@ void Hammer::render(Renderer *renderer, Gamestate *state)
         }
     }
 
-    if (barrieractive)
+    if (barrier.active)
     {
         if (barrierhealth/MAX_BARRIER_HEALTH >= 0.6)
         {
@@ -131,11 +132,11 @@ void Hammer::render(Renderer *renderer, Gamestate *state)
             if (c->isflipped)
             {
                 al_draw_scaled_rotated_bitmap(sprite, getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y,
-                                                -1, 1, (aimdirection+3.1415)*barrieractive, 0);
+                                                -1, 1, (aimdirection+3.1415)*barrier.active, 0);
             }
             else
             {
-                al_draw_rotated_bitmap(sprite, getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y, aimdirection*barrieractive, 0);
+                al_draw_rotated_bitmap(sprite, getattachpoint_x()+spriteoffset_x, getattachpoint_y()+spriteoffset_y, x - renderer->cam_x, y - renderer->cam_y, aimdirection*barrier.active, 0);
             }
         }
     }
@@ -144,7 +145,6 @@ void Hammer::render(Renderer *renderer, Gamestate *state)
 void Hammer::beginstep(Gamestate *state, double frametime)
 {
     Weapon::beginstep(state, frametime);
-    barrieractive = false;
 }
 
 void Hammer::midstep(Gamestate *state, double frametime)
@@ -152,6 +152,7 @@ void Hammer::midstep(Gamestate *state, double frametime)
     Weapon::midstep(state, frametime);
     barrierrecharge.update(state, frametime);
     barrierbreak.update(state, frametime);
+    barrier.update(state, frametime);
 }
 
 void Hammer::wantfireprimary(Gamestate *state)
@@ -179,7 +180,7 @@ void Hammer::wantfiresecondary(Gamestate *state)
 
 void Hammer::firesecondary(Gamestate *state)
 {
-    barrieractive = true;
+    barrier.reset();
     barrierrecharge.reset();
     barrierrecharge.active = false;
 }

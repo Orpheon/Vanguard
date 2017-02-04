@@ -28,7 +28,7 @@ class Hammer : public Weapon
 
         Timer barrierrecharge;
         Timer barrierbreak;
-        bool barrieractive;
+        Timer barrier;
         double barrierhealth;
 
     protected:

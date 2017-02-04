@@ -48,7 +48,7 @@ class Character : public MovingEntity
         virtual double hudheight() {return 7.0/8.0;}
         virtual bool weaponvisible(Gamestate *state) {return true;}
         virtual Heroclass heroclass() = 0;
-        virtual double getmaxhspeed() {return crouchanim.active() ? 60.0 : 153.0;}
+        virtual double getmaxhspeed(Gamestate *state) {return crouchanim.active() ? 60.0 : 153.0;}
 
         EntityPtr owner;
         EntityPtr weapon;

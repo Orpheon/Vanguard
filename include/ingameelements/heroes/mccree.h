@@ -35,7 +35,7 @@ class Mccree : public Character
         double passiveultcharge() override {return 20;}//0.4166666666666667;}
         bool weaponvisible(Gamestate *state) override;
         Heroclass heroclass() override {return MCCREE;}
-        double getmaxhspeed() override {return ulting.active ? 20 : Character::getmaxhspeed();}
+        double getmaxhspeed(Gamestate *state) override {return ulting.active ? 20 : Character::getmaxhspeed(state);}
 
         Animation rollanim;
         Animation flashbanganim;

@@ -52,11 +52,11 @@ void Character::midstep(Gamestate *state, double frametime)
     {
         if (heldkeys.LEFT)
         {
-            hspeed = std::max(hspeed - acceleration * runpower * frametime, -getmaxhspeed());
+            hspeed = std::max(hspeed - acceleration * runpower * frametime, -getmaxhspeed(state));
         }
         if (heldkeys.RIGHT)
         {
-            hspeed = std::min(hspeed + acceleration * runpower * frametime, getmaxhspeed());
+            hspeed = std::min(hspeed + acceleration * runpower * frametime, getmaxhspeed(state));
         }
 
         if (heldkeys.JUMP)

@@ -34,6 +34,7 @@ class Reinhardt : public Character
         double passiveultcharge() override {return 100*0.4166666666666667;}
         bool weaponvisible(Gamestate *state) override;
         Heroclass heroclass() override {return REINHARDT;}
+        double getmaxhspeed(Gamestate *state) override {return state->get<Hammer>(weapon)->barrier.active ? 60.0 : Character::getmaxhspeed(state);}
 
         Animation chargeanim;
         Animation preparechargeanim;
