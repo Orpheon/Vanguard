@@ -15,7 +15,7 @@ spritedata = {}
 for (dirpath, dirnames, filenames) in os.walk("sprites template"):
     nframes = 0
     for filename in filenames:
-        if filename.endswith('_sprite.png'):
+        if filename.endswith('.png'):
             filelist.append(os.sep.join([dirpath, filename]))
             nframes += 1
     spritedata[dirpath.partition(os.path.sep)[2]+"/ number of frames"] = nframes
@@ -52,8 +52,8 @@ for filepath in filelist:
         os.makedirs(os.path.dirname(outputfile))
     im2.save(outputfile)
 
-    # Generate outline file if we're not in the ui folder
-    if os.path.sep+"ui"+os.path.sep not in filepath:
+    # Generate outline file if we're not in the ui folder and it's an actual sprite
+    if os.path.sep+"ui"+os.path.sep not in filepath and "_sprite.png" in filepath:
         # Outlines are preferably generated from hitmask sprites if one exists
         if os.path.exists(filepath.replace("_sprite.png", "_hitmask.png")):
             im = Image.open(filepath.replace("_sprite.png", "_hitmask.png"))
