@@ -67,14 +67,9 @@ void Hammer::midstep(Gamestate *state, double frametime)
     Weapon::midstep(state, frametime);
 }
 
-void Hammer::reload(Gamestate *state)
-{
-
-}
-
 void Hammer::wantfireprimary(Gamestate *state)
 {
-    if (state->engine->isserver and clip > 0 and not firinganim.active())
+    if (state->engine->isserver and not firinganim.active())
     {
         fireprimary(state);
         state->engine->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
@@ -84,8 +79,6 @@ void Hammer::wantfireprimary(Gamestate *state)
 
 void Hammer::fireprimary(Gamestate *state)
 {
-
-
     firinganim.reset();
     firinganim.active(true);
 }
@@ -105,8 +98,8 @@ void Hammer::firesecondary(Gamestate *state)
 WeaponChildParameters Hammer::constructparameters(Gamestate *state)
 {
     WeaponChildParameters p;
-    p.clipsize = 1;
+    p.clipsize = 0;
     p.characterfolder = "heroes/reinhardt/";
-    p.reloadfunction = std::bind(&Hammer::restoreclip, this, state);
+    p.reloadfunction = 0;
     return p;
 }

@@ -8,7 +8,7 @@
 #include "ingameelements/trail.h"
 #include "engine.h"
 
-Peacemaker::Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_, constructparameters(state)),
+Peacemaker::Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_) : Clipweapon(id_, state, owner_, constructparameters(state)),
                         fthanim("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, state)), isfthing(false),
                         deadeyetargets(), deadeyeanim("heroes/mccree/fanthehammerloop/"), isfiringult(false)
 {

@@ -2,9 +2,10 @@
 #define PEACEMAKER_H
 
 #include "ingameelements/weapon.h"
+#include "ingameelements/clipweapon.h"
 #include <unordered_map>
 
-class Peacemaker : public Weapon
+class Peacemaker : public Clipweapon
 {
     public:
         Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_);

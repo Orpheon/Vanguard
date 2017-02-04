@@ -126,6 +126,7 @@
 		<Unit filename="src/engine.cpp" />
 		<Unit filename="src/gamestate.cpp" />
 		<Unit filename="src/ingameelements/character.cpp" />
+		<Unit filename="src/ingameelements/clipweapon.cpp" />
 		<Unit filename="src/ingameelements/corpse.cpp" />
 		<Unit filename="src/ingameelements/explosion.cpp" />
 		<Unit filename="src/ingameelements/heroes/mccree.cpp" />

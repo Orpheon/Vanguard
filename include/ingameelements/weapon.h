@@ -30,18 +30,13 @@ class Weapon : public MovingEntity
         virtual void wantfireprimary(Gamestate *state) = 0;
         virtual void firesecondary(Gamestate *state) = 0;
         virtual void wantfiresecondary(Gamestate *state) = 0;
-        virtual void reload(Gamestate *state);
-        virtual int getclipsize() = 0;
+        virtual bool hasclip() {return false;}
         virtual double getattachpoint_x() = 0;
         virtual double getattachpoint_y() = 0;
         virtual WeaponChildParameters constructparameters(Gamestate *state) = 0;
 
-        virtual void restoreclip(Gamestate *state) {clip = getclipsize();}
-
         std::string idlesprite;
         Animation firinganim;
-        Animation reloadanim;
-        int clip;
     protected:
     private:
 };

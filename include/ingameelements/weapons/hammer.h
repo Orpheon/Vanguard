@@ -19,9 +19,7 @@ class Hammer : public Weapon
         void firesecondary(Gamestate *state) override;
         void wantfiresecondary(Gamestate *state) override;
         void midstep(Gamestate *state, double frametime) override;
-        void reload(Gamestate *state) override;
 
-        int getclipsize() override {return 6;}
         double getattachpoint_x() override {return 0;}
         double getattachpoint_y() override {return 8;}
 
