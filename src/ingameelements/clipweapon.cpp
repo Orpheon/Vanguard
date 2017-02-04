@@ -13,6 +13,8 @@ Clipweapon::~Clipweapon()
 
 void Clipweapon::midstep(Gamestate *state, double frametime)
 {
+    Weapon::midstep(state, frametime);
+
     if (clip == 0)
     {
         reload(state);

@@ -63,7 +63,7 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
 
 void Peacemaker::midstep(Gamestate *state, double frametime)
 {
-    Weapon::midstep(state, frametime);
+    Clipweapon::midstep(state, frametime);
 
     if (isfthing)
     {
