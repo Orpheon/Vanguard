@@ -11,7 +11,7 @@
 
 Reinhardt::Reinhardt(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state, owner_)),
                     chargeanim("heroes/reinhardt/charge/", std::bind(&Reinhardt::endcharge, this)), preparechargeanim("heroes/reinhardt/preparecharge/", std::bind(&Reinhardt::begincharge, this)),
-                    endchargeanim("heroes/reinhardt/endcharge/"), earthshatteranim("heroes/reinhardt/ult/")
+                    endchargeanim("heroes/reinhardt/endcharge/"), earthshatteranim("heroes/reinhardt/ult/"), shieldrunanim("heroes/reinhardt/shieldrun/")
 {
     chargeanim.active(false);
     preparechargeanim.active(false);
@@ -164,6 +164,7 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
     preparechargeanim.update(state, frametime);
     endchargeanim.update(state, frametime);
     earthshatteranim.update(state, frametime);
+    shieldrunanim.update(state, hspeed*frametime);
 
     if (canuseabilities(state))
     {
@@ -282,6 +283,11 @@ std::string Reinhardt::getsprite(Gamestate *state, bool mask)
     if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
     {
         return "heroes/"+getcharacterfolder()+"idle/1";
+    }
+    Hammer *hammer = state->get<Hammer>(weapon);
+    if (hammer->barrier.active)
+    {
+        return shieldrunanim.getframepath();
     }
     return runanim.getframepath();
 }

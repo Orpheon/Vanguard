@@ -40,6 +40,7 @@ class Reinhardt : public Character
         Animation preparechargeanim;
         Animation endchargeanim;
         Animation earthshatteranim;
+        LoopAnimation shieldrunanim;
     protected:
     private:
 };
