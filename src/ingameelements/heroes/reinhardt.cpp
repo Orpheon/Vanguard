@@ -164,7 +164,17 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
     preparechargeanim.update(state, frametime);
     endchargeanim.update(state, frametime);
     earthshatteranim.update(state, frametime);
-    shieldrunanim.update(state, hspeed*frametime);
+    if (onground(state))
+    {
+        if (isflipped)
+        {
+            shieldrunanim.update(state, -hspeed*frametime);
+        }
+        else
+        {
+            shieldrunanim.update(state, hspeed*frametime);
+        }
+    }
 
     if (canuseabilities(state))
     {
@@ -192,6 +202,9 @@ void Reinhardt::interpolate(Entity *prev_entity, Entity *next_entity, double alp
 
     preparechargeanim.interpolate(&(p->preparechargeanim), &(n->preparechargeanim), alpha);
     chargeanim.interpolate(&(p->chargeanim), &(n->chargeanim), alpha);
+    endchargeanim.interpolate(&(p->endchargeanim), &(n->endchargeanim), alpha);
+    earthshatteranim.interpolate(&(p->earthshatteranim), &(n->earthshatteranim), alpha);
+    shieldrunanim.interpolate(&(p->shieldrunanim), &(n->shieldrunanim), alpha);
 }
 
 bool Reinhardt::cangetinput(Gamestate *state)
