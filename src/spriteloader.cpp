@@ -155,3 +155,12 @@ int Spriteloader::getweaponoffset_y(std::string s)
         return 0;
     }
 }
+
+void Spriteloader::clearcache()
+{
+    for (auto e : bitmapcache)
+    {
+        al_destroy_bitmap(e.second);
+    }
+    bitmapcache.clear();
+}
