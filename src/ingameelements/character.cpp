@@ -310,8 +310,7 @@ void Character::render(Renderer *renderer, Gamestate *state)
 
     int nrects = std::ceil(maxhp.total()/25.0);
     double width = totalwidth/nrects;
-    Rect box = renderer->spriteloader.get_rect(mainsprite);
-    double start_x = renderer->zoom*(x - renderer->spriteloader.get_spriteoffset_x(mainsprite) + box.w/2.0 - renderer->cam_x) - width*(nrects/2.0) - space*((nrects-1)/2.0);
+    double start_x = renderer->zoom*(x - renderer->cam_x) - width*(nrects/2.0) - space*((nrects-1)/2.0);
 
     // Draw first normal health, then armor, then shields
     for (int healthtype=0; healthtype<3; ++healthtype)
