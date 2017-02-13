@@ -21,7 +21,7 @@ void Trail::midstep(Gamestate *state, double frametime)
 void Trail::render(Renderer *renderer, Gamestate *state)
 {
     al_set_target_bitmap(renderer->background);
-    al_draw_line(x1-renderer->cam_x, y1-renderer->cam_y, x2-renderer->cam_x, y2-renderer->cam_y, color, 1);
+    al_draw_line(renderer->zoom*(x1-renderer->cam_x), renderer->zoom*(y1-renderer->cam_y), renderer->zoom*(x2-renderer->cam_x), renderer->zoom*(y2-renderer->cam_y), color, 1);
 }
 
 void Trail::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)

@@ -6,6 +6,7 @@
 #include "gamestate.h"
 #include "engine.h"
 #include "ingameelements/spawnroom.h"
+#include "renderer.h"
 
 Map::Map(Gamestate *state, std::string name)
 {
@@ -41,14 +42,14 @@ Map::~Map()
     al_destroy_bitmap(wallmask);
 }
 
-void Map::renderbackground(double cam_x, double cam_y)
+void Map::renderbackground(Renderer *renderer)
 {
-    al_draw_bitmap(background, -cam_x, -cam_y, 0);
+    al_draw_scaled_bitmap(background, renderer->cam_x, renderer->cam_y, VIEWPORT_WIDTH, renderer->WINDOW_HEIGHT/renderer->zoom, 0, 0, renderer->WINDOW_WIDTH, renderer->WINDOW_HEIGHT, 0);
 }
 
-void Map::renderwallground(double cam_x, double cam_y)
+void Map::renderwallground(Renderer *renderer)
 {
-    al_draw_bitmap(wallground, -cam_x, -cam_y, 0);
+    al_draw_scaled_bitmap(wallground, renderer->cam_x, renderer->cam_y, VIEWPORT_WIDTH, renderer->WINDOW_HEIGHT/renderer->zoom, 0, 0, renderer->WINDOW_WIDTH, renderer->WINDOW_HEIGHT, 0);
 }
 
 bool Map::collides(Gamestate *state, MovingEntity *entity)

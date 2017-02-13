@@ -633,14 +633,14 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
     Player *p = state->get<Player>(owner);
     if (p->ultcharge.active)
     {
-        ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/ultbar");
+        ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/ultbar", 1.0);
         Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/ultbar").offset(renderer->WINDOW_WIDTH/2, hudheight()*renderer->WINDOW_HEIGHT);
         al_draw_bitmap(ultbar, ultbarrect.x, ultbarrect.y, 0);
         al_draw_arc(ultbarrect.x+ultbarrect.w/2.0, ultbarrect.y+ultbarrect.h/2.0 - 8, 33, -3.1415/2.0, 2*3.1415*p->ultcharge.timer/100.0, al_map_rgb(255, 230, 125), 8);
     }
     else
     {
-        ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/"+getcharacterfolder()+"ultready");
+        ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/"+getcharacterfolder()+"ultready", 1.0);
         Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/"+getcharacterfolder()+"ultready").offset(renderer->WINDOW_WIDTH/2, hudheight()*renderer->WINDOW_HEIGHT);
         al_draw_bitmap(ultbar, ultbarrect.x, ultbarrect.y, 0);
     }

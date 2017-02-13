@@ -14,7 +14,9 @@ class Spriteloader
         virtual ~Spriteloader();
 
         ALLEGRO_BITMAP* requestsprite(std::string path);
+        ALLEGRO_BITMAP* requestsprite(std::string path, double zoom_);
         ALLEGRO_BITMAP* requestspriteoutline(std::string path);
+        ALLEGRO_BITMAP* requestspriteoutline(std::string path, double zoom_);
 
         Spriteloader & operator=(Spriteloader &&)=default;
         int get_spriteoffset_x(std::string s);
@@ -31,6 +33,7 @@ class Spriteloader
         nlohmann::json spriteoffsets;
         nlohmann::json gamedata;
         bool masksonly;
+        double defaultzoom;
 };
 
 #endif // SPRITELOADER_H

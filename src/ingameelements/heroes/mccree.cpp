@@ -34,30 +34,32 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
 
     std::string mainsprite;
     ALLEGRO_BITMAP *sprite;
-    int spriteoffset_x;
-    int spriteoffset_y;
+    double spriteoffset_x, spriteoffset_y;
+    double rel_x, rel_y;
+    rel_x = (x-renderer->cam_x)*renderer->zoom;
+    rel_y = (y-renderer->cam_y)*renderer->zoom;
 
     if (flashbanganim.active())
     {
         std::string armsprite = flashbanganim.getframepath();
         sprite = renderer->spriteloader.requestsprite(armsprite);
-        spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(armsprite);
-        spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(armsprite);
+        spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(armsprite)*renderer->zoom;
+        spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(armsprite)*renderer->zoom;
         if (isflipped)
         {
             // Flip horizontally
-            al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
+            al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
         }
         else
         {
-            al_draw_bitmap(sprite, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 0);
+            al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
         }
     }
 
     mainsprite = getsprite(state, false);
     sprite = renderer->spriteloader.requestsprite(mainsprite);
-    spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite);
-    spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite);
+    spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;
+    spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite)*renderer->zoom;
 
     ALLEGRO_BITMAP *outline = renderer->spriteloader.requestspriteoutline(mainsprite);
     ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
@@ -65,20 +67,20 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
     if (isflipped)
     {
         // Flip horizontally
-        al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
+        al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
         if (state->get<Player>(renderer->myself)->team != team)
         {
             // Draw enemy outline
-            al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, x-renderer->cam_x, y-renderer->cam_y, -1, 1, 0, 0);
+            al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
         }
     }
     else
     {
-        al_draw_bitmap(sprite, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 0);
+        al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
         if (state->get<Player>(renderer->myself)->team != team)
         {
             // Draw enemy outline
-            al_draw_tinted_bitmap(outline, outlinecolor, x-spriteoffset_x - renderer->cam_x, y-spriteoffset_y - renderer->cam_y, 0);
+            al_draw_tinted_bitmap(outline, outlinecolor, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
         }
     }
 
@@ -96,11 +98,11 @@ void Mccree::drawhud(Renderer *renderer, Gamestate *state)
     Rect spriterect = renderer->spriteloader.get_rect("ui/ingame/mccree/rolling");
     if (rollcooldown.active)
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/rollingcooldown");
+        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/rollingcooldown", 1.0);
     }
     else
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/rolling");
+        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/rolling", 1.0);
     }
     spriterect.x = renderer->WINDOW_WIDTH*6/7.0 - spriterect.w*2 - space;
     spriterect.y = renderer->WINDOW_HEIGHT*hudheight()-spriterect.h;
@@ -128,11 +130,11 @@ void Mccree::drawhud(Renderer *renderer, Gamestate *state)
 
     if (flashbangcooldown.active)
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/flashbangcooldown");
+        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/flashbangcooldown", 1.0);
     }
     else
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/flashbang");
+        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/flashbang", 1.0);
     }
     spriterect.x = spriterect.x + spriterect.w+space;
     al_draw_bitmap(sprite, spriterect.x, spriterect.y, 0);
@@ -157,6 +159,7 @@ void Mccree::drawhud(Renderer *renderer, Gamestate *state)
                         ALLEGRO_ALIGN_CENTER, std::to_string((int)std::ceil(flashbangcooldown.duration - flashbangcooldown.timer)).c_str());
     }
 }
+
 
 void Mccree::midstep(Gamestate *state, double frametime)
 {

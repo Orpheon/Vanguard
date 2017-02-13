@@ -14,8 +14,8 @@ class Map
     public:
         Map(Gamestate *state, std::string name);
         ~Map();
-        void renderbackground(double cam_x, double cam_y);
-        void renderwallground(double cam_x, double cam_y);
+        void renderbackground(Renderer *renderer);
+        void renderwallground(Renderer *renderer);
         bool collides(Gamestate *state, MovingEntity *entity);
         bool collides(Gamestate *state, Character *entity);
         bool collides(Rect rect);
