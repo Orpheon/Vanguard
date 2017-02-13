@@ -7,8 +7,9 @@
 #include "global_constants.h"
 #include "entity.h"
 
-Renderer::Renderer() : cam_x(0), cam_y(0), zoom(1), myself(0), WINDOW_WIDTH(1280), WINDOW_HEIGHT(720), spriteloader(false)
+Renderer::Renderer() : cam_x(0), cam_y(0), zoom(1), myself(0), WINDOW_WIDTH(0), WINDOW_HEIGHT(0), spriteloader(false)
 {
+    al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
     background = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     midground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
     foreground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -42,6 +43,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
 
     if (WINDOW_WIDTH != al_get_display_width(display) or WINDOW_HEIGHT != al_get_display_height(display))
     {
+        al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
         WINDOW_WIDTH = al_get_display_width(display);
         WINDOW_HEIGHT = al_get_display_height(display);
 
@@ -54,15 +56,10 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
         midground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
         foreground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
         surfaceground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+        spriteloader.clearcache();
+        zoom = WINDOW_WIDTH / VIEWPORT_WIDTH;
     }
-
-    // Clean transformations
-    ALLEGRO_TRANSFORM *rendertransform = const_cast<ALLEGRO_TRANSFORM*>(al_get_current_transform());
-    al_identity_transform(rendertransform);
-
-    // Calculate zoom
-    zoom = 1.0*WINDOW_WIDTH / VIEWPORT_WIDTH;
-    al_scale_transform(rendertransform, zoom, zoom);
 
     // Set camera
     Player *p = state->get<Player>(myself);
@@ -111,9 +108,6 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
 
     // Draw the map wallmask on top of everything, to prevent sprites that go through walls
     state->currentmap->renderwallground(cam_x, cam_y);
-
-    // Go back to no scaling
-    al_identity_transform(rendertransform);
 
     // Draw the final layer on top of even that, for certain things like character healthbars
     al_draw_bitmap(surfaceground, 0, 0, 0);

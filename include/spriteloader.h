@@ -24,6 +24,7 @@ class Spriteloader
         int getweaponoffset_x(std::string s);
         int getweaponoffset_y(std::string s);
         void clearcache();
+        void setzoom(double zoom);
     protected:
     private:
         std::unordered_map<std::string, ALLEGRO_BITMAP*> bitmapcache;
