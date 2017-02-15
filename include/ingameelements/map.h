@@ -13,7 +13,7 @@ class Map
 {
     public:
         Map(Gamestate *state, std::string name);
-        ~Map();
+        virtual ~Map();
         void renderbackground(Renderer *renderer);
         void renderwallground(Renderer *renderer);
         bool collides(Gamestate *state, MovingEntity *entity);

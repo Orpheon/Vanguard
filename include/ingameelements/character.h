@@ -74,8 +74,8 @@ class Character : public MovingEntity
         InputContainer heldkeys;
         double mouse_x;
         double mouse_y;
-        constexpr int LEFT = -1;
-        constexpr int RIGHT = 1;
+        constexpr static int LEFT = -1;
+        constexpr static int RIGHT = 1;
 };
 
 #endif // CHARACTER_H
