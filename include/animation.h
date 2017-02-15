@@ -8,10 +8,9 @@
 class Animation
 {
     public:
-        Animation(std::string path_);
-        Animation(std::string path_, std::function<void(Gamestate *state)> eventfunc_);
+        virtual void init(std::string path_);
+        virtual void init(std::string path_, std::function<void(Gamestate *state)> eventfunc_);
         virtual ~Animation();
-        virtual void loaddata();
         virtual int getframe();
         virtual std::string getframepath();
         virtual void update(Gamestate *state, double dt);
@@ -23,14 +22,13 @@ class Animation
         Timer timer;
         int nframes;
         std::string path;
+        bool inited = false;
 };
 
 
 class LoopAnimation : public Animation
 {
     public:
-        LoopAnimation(std::string path_);
-        LoopAnimation(std::string path_, std::function<void(Gamestate *state)> eventfunc_);
         virtual ~LoopAnimation() override;
         void update(Gamestate *state, double dt) override;
         void interpolate(Animation *prev_anim, Animation *next_anim, double alpha) override;

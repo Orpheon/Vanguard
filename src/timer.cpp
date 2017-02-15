@@ -2,7 +2,7 @@
 
 #include "timer.h"
 
-void Timer::init(std::function<void(Gamestate *state)> eventfunc_, double duration_)
+void Timer::init(double duration_, std::function<void(Gamestate *state)> eventfunc_)
 {
     Timer::init(duration_);
     eventfunc = eventfunc_;

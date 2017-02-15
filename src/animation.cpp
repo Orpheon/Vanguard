@@ -4,30 +4,18 @@
 #include <fstream>
 #include <cmath>
 
-Animation::Animation(std::string path_) : timer(0, 0), path(path_)
+void Animation::init(std::string path_, std::function<void(Gamestate *state)> eventfunc_)
 {
-    loaddata();
-}
+    path = path_;
 
-Animation::Animation(std::string path_, std::function<void(Gamestate *state)> eventfunc_) : timer(eventfunc_, 0), path(path_)
-{
-    loaddata();
-}
-
-Animation::~Animation()
-{
-    //dtor
-}
-
-void Animation::loaddata()
-{
     std::ifstream datafile("gamedata.json");
     nlohmann::json data;
     data << datafile;
     datafile.close();
+    double duration = 0;
     try
     {
-        timer.duration = data[path+" duration"];
+        duration = data[path+" duration"];
     }
     catch (std::domain_error)
     {
@@ -48,6 +36,13 @@ void Animation::loaddata()
         fprintf(stderr, "Error: Could not load %s animation number of frames!", path.c_str());
         throw -1;
     }
+
+    timer.init(eventfunc_, duration);
+}
+
+void Animation::init(std::string path_)
+{
+    Animation::init(path_, nullptr);
 }
 
 int Animation::getframe()
@@ -80,21 +75,7 @@ void Animation::Animation::reset()
 }
 
 
-
-LoopAnimation::LoopAnimation(std::string path_) : Animation::Animation(path_)
-{
-    ;
-}
-
-LoopAnimation::LoopAnimation(std::string path_, std::function<void(Gamestate *state)> eventfunc_) : Animation::Animation(path_, eventfunc_)
-{
-    ;
-}
-
-LoopAnimation::~LoopAnimation()
-{
-    // dtor
-}
+// ######### LOOP ANIMATION #########
 
 void LoopAnimation::update(Gamestate *state, double dt)
 {

@@ -11,7 +11,7 @@ class Timer
 {
     public:
         virtual ~Timer();
-        virtual void init(std::function<void(Gamestate *state)> eventfunc_, double duration_);
+        virtual void init(double duration_, std::function<void(Gamestate *state)> eventfunc_);
         virtual void init(double duration_);
         void update(Gamestate *state, double dt);
         double getpercent();
