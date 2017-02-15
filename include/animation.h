@@ -31,7 +31,7 @@ class LoopAnimation : public Animation
     public:
         LoopAnimation(std::string path_);
         LoopAnimation(std::string path_, std::function<void(Gamestate *state)> eventfunc_);
-        virtual ~LoopAnimation();
+        virtual ~LoopAnimation() override;
         void update(Gamestate *state, double dt) override;
         void interpolate(Animation *prev_anim, Animation *next_anim, double alpha) override;
 };

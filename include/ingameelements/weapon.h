@@ -10,21 +10,21 @@ class Weapon : public MovingEntity
 {
     public:
         Weapon(uint64_t id_, Gamestate *state, EntityPtr owner_, WeaponChildParameters parameters);
-        virtual ~Weapon();
+        virtual ~Weapon() override;
         virtual void setaim(double x_, double y_);
 
-        bool isrootobject() {return false;}
+        bool isrootobject() override {return false;}
 
         EntityPtr owner;
         double aimdirection;
         Team team;
 
-        virtual void beginstep(Gamestate *state, double frametime);
-        virtual void midstep(Gamestate *state, double frametime);
-        virtual void endstep(Gamestate *state, double frametime);
-        virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha);
-        virtual void serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate);
-        virtual void deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate);
+        virtual void beginstep(Gamestate *state, double frametime) override;
+        virtual void midstep(Gamestate *state, double frametime) override;
+        virtual void endstep(Gamestate *state, double frametime) override;
+        virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha) override;
+        virtual void serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate) override;
+        virtual void deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate) override;
 
         virtual void fireprimary(Gamestate *state) = 0;
         virtual void wantfireprimary(Gamestate *state) = 0;

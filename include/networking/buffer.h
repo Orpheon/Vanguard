@@ -25,7 +25,7 @@ class ReadBuffer : public Buffer
 {
     public:
         ReadBuffer(void *data_, uint64_t datalen_);
-        virtual ~ReadBuffer();
+        virtual ~ReadBuffer() override;
         template<class T> T read()
         {
             if (datalen-pos < sizeof(T))
@@ -38,7 +38,7 @@ class ReadBuffer : public Buffer
             pos += sizeof(T);
             return r;
         }
-        uint64_t length() {return datalen-pos;}
+        uint64_t length() override {return datalen-pos;}
     protected:
     private:
 };
@@ -47,7 +47,7 @@ class WriteBuffer : public Buffer
 {
     public:
         WriteBuffer();
-        virtual ~WriteBuffer();
+        virtual ~WriteBuffer() override;
         void enlarge(uint64_t newsize);
         template<class T> void write(T input)
         {
@@ -59,7 +59,7 @@ class WriteBuffer : public Buffer
             std::memcpy(reinterpret_cast<char*>(data)+pos, &input, sizeof(T));
             pos += sizeof(T);
         }
-        uint64_t length() {return pos;}
+        uint64_t length() override {return pos;}
     protected:
     private:
 };

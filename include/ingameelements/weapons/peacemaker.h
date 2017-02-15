@@ -9,11 +9,11 @@ class Peacemaker : public Clipweapon
 {
     public:
         Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_);
-        virtual ~Peacemaker();
+        virtual ~Peacemaker() override;
 
-        void render(Renderer *renderer, Gamestate *state);
-        std::string getsprite(Gamestate *state, bool mask) {return "";}
-        std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Peacemaker(*this));}
+        void render(Renderer *renderer, Gamestate *state) override;
+        std::string getsprite(Gamestate *state, bool mask) override {return "";}
+        std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Peacemaker(*this));}
 
         void fireprimary(Gamestate *state) override;
         void wantfireprimary(Gamestate *state) override;
