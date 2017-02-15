@@ -10,16 +10,17 @@ class Gamestate;
 class Timer
 {
     public:
-        Timer(std::function<void(Gamestate *state)> eventfunc_, double duration_);
-        Timer(double duration_);
         virtual ~Timer();
+        virtual void init(std::function<void(Gamestate *state)> eventfunc_, double duration_);
+        virtual void init(double duration_);
         void update(Gamestate *state, double dt);
         double getpercent();
         void interpolate(Timer *prev_timer, Timer *next_timer, double alpha);
         void reset();
-        double timer;
-        double duration;
-        bool active;
+        double timer = 0;
+        double duration = 0;
+        bool active = false;
+        bool inited = false;
         std::function<void(Gamestate *state)> eventfunc;
 };
 
