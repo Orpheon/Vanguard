@@ -5,8 +5,9 @@
 
 #include <cmath>
 
-MovingEntity::MovingEntity(uint64_t id_, Gamestate *state) : Entity(id_)
+void MovingEntity::init(uint64_t id_, Gamestate *state)
 {
+    Entity::init(id_);
     x = 0;
     y = 0;
     hspeed = 0;
