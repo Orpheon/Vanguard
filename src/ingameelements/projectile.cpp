@@ -5,7 +5,7 @@
 
 Projectile::Projectile(double id_, Gamestate *state, EntityPtr owner_) : MovingEntity(id_, state), owner(owner_), team(state->get<Player>(owner)->team)
 {
-    entitytype = PROJECTILE;
+    entitytype = ENTITYTYPE::PROJECTILE;
 }
 
 Projectile::~Projectile()

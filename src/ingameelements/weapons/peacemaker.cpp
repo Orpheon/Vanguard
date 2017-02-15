@@ -136,7 +136,7 @@ void Peacemaker::fireprimary(Gamestate *state)
             falloff = std::max(0.0, 1 - (distance-FALLOFF_BEGIN)/(FALLOFF_END-FALLOFF_BEGIN));
         }
         MovingEntity *m = state->get<MovingEntity>(target);
-        if (m->entitytype == CHARACTER)
+        if (m->entitytype == ENTITYTYPE::CHARACTER)
         {
             Character *c = reinterpret_cast<Character*>(m);
             c->damage(state, MAX_DAMAGE*falloff);
@@ -192,7 +192,7 @@ void Peacemaker::firesecondary(Gamestate *state)
             falloff = std::max(0.0, (distance-FALLOFF_BEGIN) / (FALLOFF_END-FALLOFF_BEGIN));
         }
         MovingEntity *m = state->get<MovingEntity>(target);
-        if (m->entitytype == CHARACTER)
+        if (m->entitytype == ENTITYTYPE::CHARACTER)
         {
             Character *c = reinterpret_cast<Character*>(m);
             c->damage(state, MAX_FTH_DAMAGE*falloff);
@@ -249,7 +249,7 @@ void Peacemaker::fireultimate(Gamestate *state)
         EntityPtr target = state->collidelinedamageable(x, y, c->x, c->y, team, &collisionptx, &collisionpty);
         double angle = std::atan2(c->y-y, c->x-x), cosa = std::cos(angle), sina = std::sin(angle);
         MovingEntity *m = state->get<MovingEntity>(target);
-        if (m != 0 and m->entitytype == CHARACTER)
+        if (m != 0 and m->entitytype == ENTITYTYPE::CHARACTER)
         {
             c = reinterpret_cast<Character*>(m);
             c->damage(state, deadeyetargets[playerptr]);

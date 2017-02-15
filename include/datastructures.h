@@ -45,11 +45,11 @@ enum EVENTTYPE {SERVER_SNAPSHOTUPDATE,
                 ABILITY2_USED,
                 ULTIMATE_USED };
 
-enum ENTITYTYPE {   PLAYER,
-                    CHARACTER,
-                    WEAPON,
-                    PROJECTILE,
-                    EXPLOSION };
+enum class ENTITYTYPE { PLAYER,
+                        CHARACTER,
+                        WEAPON,
+                        PROJECTILE,
+                        EXPLOSION };
 
 enum Team { TEAM1,
             TEAM2,

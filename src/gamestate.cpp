@@ -72,7 +72,7 @@ void Gamestate::removeplayer(int playerid)
     {
         if (e.second->isrootobject())
         {
-            if (e.second->entitytype == PROJECTILE)
+            if (e.second->entitytype == ENTITYTYPE::PROJECTILE)
             {
                 Projectile *p = reinterpret_cast<Projectile*>(e.second.get());
                 if (p->owner.id == player->id)

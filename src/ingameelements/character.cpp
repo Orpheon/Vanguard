@@ -25,7 +25,7 @@ Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, Character
     // from pygg2
     friction = 0.01510305449388463132584804061124;
 
-    entitytype = CHARACTER;
+    entitytype = ENTITYTYPE::CHARACTER;
 
     crouchanim.active(false);
     stunanim.active(false);

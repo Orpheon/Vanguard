@@ -11,7 +11,7 @@ Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0), spaw
 {
     spawntimer.active = false;
     spawntimer.timer = spawntimer.duration;
-    entitytype = PLAYER;
+    entitytype = ENTITYTYPE::PLAYER;
 
     int teambalance = 0;
     for (auto pptr : state->playerlist)
