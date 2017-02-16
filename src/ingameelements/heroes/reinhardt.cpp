@@ -22,7 +22,6 @@ void Reinhardt::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
     earthshatteranim.init(herofolder()+"ult/");
     earthshatteranim.active(false);
     shieldrunanim.init(herofolder()+"shieldrun/");
-    shieldrunanim.active(false);
 }
 
 void Reinhardt::render(Renderer *renderer, Gamestate *state)
