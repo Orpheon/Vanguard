@@ -27,6 +27,7 @@ void Character::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
     crouchanim.active(false);
     stunanim.init(herofolder()+"stun/");
     stunanim.active(false);
+    ongroundsmooth.init(0.05);
 
     xblocked = false;
     yblocked = false;
@@ -783,7 +784,7 @@ void Character::destroy(Gamestate *state)
     state->get<Player>(owner)->character = 0;
     state->get<Player>(owner)->ultcharge.active = true;
     getweapon(state)->destroy(state);
-    Corpse *c = state->get<Corpse>(state->make_entity<Corpse>(state, "heroes/"+herofolder(), isflipped));
+    Corpse *c = state->get<Corpse>(state->make_entity<Corpse>(state, herofolder(), isflipped));
     c->x = x;
     c->y = y;
 

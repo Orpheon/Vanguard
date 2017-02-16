@@ -37,7 +37,6 @@ class Character : public MovingEntity
         virtual void die(Gamestate *state);
         virtual void interrupt(Gamestate *state) = 0;
         virtual void stun(Gamestate *state);
-        Weapon *getweapon(Gamestate *state);
         virtual void useability1(Gamestate *state) = 0;
         virtual void useability2(Gamestate *state) = 0;
         virtual void useultimate(Gamestate *state) = 0;
@@ -51,8 +50,8 @@ class Character : public MovingEntity
         virtual Heroclass heroclass() = 0;
         virtual std::string herofolder() = 0;
         virtual EntityPtr constructweapon(Gamestate *state) = 0;
+        Weapon *getweapon(Gamestate *state);
         virtual double passiveultcharge() = 0;
-
 
         EntityPtr owner;
         EntityPtr weapon;

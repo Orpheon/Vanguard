@@ -35,7 +35,7 @@ class Mccree : public Character
         double passiveultcharge() override {return 20;}//0.4166666666666667;}
         Heroclass heroclass() override {return MCCREE;}
         std::string herofolder() override {return "heroes/mccree/";}
-        double runpower() override {return 1.0;}
+        double runpower() override {return 1.8;}
         EntityPtr constructweapon(Gamestate *state) {return state->make_entity<Peacemaker>(state, owner);}
         double maxhspeed(Gamestate *state) override {return ulting.active ? 20 : Character::maxhspeed(state);}
 

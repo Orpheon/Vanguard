@@ -38,6 +38,7 @@ void Animation::init(std::string path_, std::function<void(Gamestate *state)> ev
     }
 
     timer.init(duration, eventfunc_);
+    inited = true;
 }
 
 void Animation::init(std::string path_)
