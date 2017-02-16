@@ -124,6 +124,7 @@
 		<Unit filename="main.cpp" />
 		<Unit filename="src/animation.cpp" />
 		<Unit filename="src/engine.cpp" />
+		<Unit filename="src/entity.cpp" />
 		<Unit filename="src/gamestate.cpp" />
 		<Unit filename="src/ingameelements/character.cpp" />
 		<Unit filename="src/ingameelements/clipweapon.cpp" />
