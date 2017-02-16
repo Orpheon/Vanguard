@@ -6,7 +6,7 @@
 class Trail : public Entity
 {
     public:
-        Trail(uint64_t id_, Gamestate *state, ALLEGRO_COLOR color_, double x1_, double y1_, double x2_, double y2_, double duration);
+        virtual void init(uint64_t id_, Gamestate *state, ALLEGRO_COLOR color_, double x1_, double y1_, double x2_, double y2_, double duration);
         virtual ~Trail() override;
         void beginstep(Gamestate *state, double frametime) override {}
         void midstep(Gamestate *state, double frametime) override;

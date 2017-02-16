@@ -4,15 +4,13 @@
 #include "engine.h"
 #include "renderer.h"
 
-Corpse::Corpse(uint64_t id_, Gamestate *state, std::string characterfolder, bool isflipped_) : MovingEntity(id_, state), spritepath(characterfolder+"corpse/1"),
-                countdown(std::bind(&Corpse::destroy, this, state), 8), isflipped(isflipped_)
+void Corpse::init(uint64_t id_, Gamestate *state, std::string herofolder, bool isflipped_)
 {
-    //ctor
-}
+    MovingEntity::init(id_, state);
 
-Corpse::~Corpse()
-{
-    //dtor
+    spritepath = herofolder+"corpse/1";
+    countdown.init(8, std::bind(&Corpse::destroy, this, state));
+    isflipped = isflipped_;
 }
 
 void Corpse::midstep(Gamestate *state, double frametime)

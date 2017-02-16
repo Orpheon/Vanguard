@@ -1,15 +1,13 @@
 #include "ingameelements/explosion.h"
 #include "renderer.h"
 
-Explosion::Explosion(uint64_t id_, Gamestate *state, std::string animationpath, double direction_) : MovingEntity(id_, state),
-                        explosionanim(animationpath, std::bind(&Explosion::destroy, this, state)), direction(direction_)
+void Explosion::init(uint64_t id_, Gamestate *state, std::string animationpath, double direction_)
 {
-    entitytype = ENTITYTYPE::EXPLOSION;
-}
+    MovingEntity::init(id_, state);
 
-Explosion::~Explosion()
-{
-    //dtor
+    entitytype = ENTITYTYPE::EXPLOSION;
+    explosionanim.init(animationpath, std::bind(&Explosion::destroy, this, state));
+    direction = direction_;
 }
 
 void Explosion::midstep(Gamestate *state, double frametime)

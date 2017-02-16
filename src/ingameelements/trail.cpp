@@ -2,15 +2,16 @@
 
 #include <allegro5/allegro_primitives.h>
 
-Trail::Trail(uint64_t id_, Gamestate *state, ALLEGRO_COLOR color_, double x1_, double y1_, double x2_, double y2_, double duration) : Entity(id_),
-                color(color_), x1(x1_), y1(y1_), x2(x2_), y2(y2_), countdown(std::bind(&Trail::destroy, this, state), duration)
+void Trail::init(uint64_t id_, Gamestate *state, ALLEGRO_COLOR color_, double x1_, double y1_, double x2_, double y2_, double duration)
 {
-    //ctor
-}
+    Entity::init(id_);
 
-Trail::~Trail()
-{
-    //dtor
+    color = color_;
+    x1 = x1_;
+    y1 = y1_;
+    x2 = x2_;
+    y2 = y2_;
+    countdown.init(duration, std::bind(&Trail::destroy, this, state)):
 }
 
 void Trail::midstep(Gamestate *state, double frametime)
