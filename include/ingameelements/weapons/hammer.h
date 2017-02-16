@@ -6,11 +6,11 @@
 class Hammer : public Weapon
 {
     public:
-        constexpr double DAMAGE = 70;
-        constexpr double MAX_BARRIER_HEALTH = 2000;
-        constexpr double BARRIER_RECHARGE = 195;
+        constexpr static double DAMAGE = 70;
+        constexpr static double MAX_BARRIER_HEALTH = 2000;
+        constexpr static double BARRIER_RECHARGE = 195;
 
-        virtual init(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
+        virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
         virtual ~Hammer() override;
 
         void renderbehind(Renderer *renderer, Gamestate *state);

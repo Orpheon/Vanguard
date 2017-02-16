@@ -6,7 +6,7 @@
 class Spawnroom : public Entity
 {
     public:
-        Spawnroom(uint64_t id_, Rect area_, Team team_);
+        virtual void init(uint64_t id_, Rect area_, Team team_);
         virtual ~Spawnroom() override;
         void beginstep(Gamestate *state, double frametime) override;
         void render(Renderer *renderer, Gamestate *state) override;

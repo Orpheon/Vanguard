@@ -181,14 +181,14 @@ Rect Reinhardt::getcollisionrect(Gamestate *state)
 {
     if (crouchanim.active())
     {
-        return state->engine->maskloader.get_rect_from_json("heroes/"+getcharacterfolder()+"crouch/").offset(x, y);
+        return state->engine->maskloader.get_rect_from_json("heroes/"+herofolder()+"crouch/").offset(x, y);
     }
     return getstandingcollisionrect(state);
 }
 
 Rect Reinhardt::getstandingcollisionrect(Gamestate *state)
 {
-    return state->engine->maskloader.get_rect_from_json("heroes/"+getcharacterfolder()).offset(x, y);
+    return state->engine->maskloader.get_rect_from_json("heroes/"+herofolder()).offset(x, y);
 }
 
 std::string Reinhardt::getsprite(Gamestate *state, bool mask)
@@ -221,16 +221,16 @@ std::string Reinhardt::getsprite(Gamestate *state, bool mask)
     {
         if (vspeed > 100)
         {
-            return "heroes/"+getcharacterfolder()+"falling/1";
+            return "heroes/"+herofolder()+"falling/1";
         }
         else
         {
-            return "heroes/"+getcharacterfolder()+"jump/1";
+            return "heroes/"+herofolder()+"jump/1";
         }
     }*/
     if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
     {
-        return "heroes/"+getcharacterfolder()+"idle/1";
+        return "heroes/"+herofolder()+"idle/1";
     }
     Hammer *hammer = state->get<Hammer>(weapon);
     if (hammer->barrier.active)

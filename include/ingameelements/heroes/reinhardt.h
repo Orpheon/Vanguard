@@ -29,7 +29,6 @@ class Reinhardt : public Character
         void interrupt(Gamestate *state) override;
         void drawhud(Renderer *renderer, Gamestate *state) override;
         bool weaponvisible(Gamestate *state) override;
-        double getmaxhspeed(Gamestate *state) override {return state->get<Hammer>(weapon)->barrier.active ? 60.0 : Character::getmaxhspeed(state);}
 
         double passiveultcharge() override {return 100*0.4166666666666667;}
         Heroclass heroclass() override {return REINHARDT;}
@@ -37,6 +36,7 @@ class Reinhardt : public Character
         Health maxhp() override {return Health(300, 200, 0);}
         std::string herofolder() override {return "heroes/reinhardt/";}
         EntityPtr constructweapon(Gamestate *state) override {return state->make_entity<Hammer>(state, owner);}
+        double maxhspeed(Gamestate *state) override {return state->get<Hammer>(weapon)->barrier.active ? 60.0 : Character::maxhspeed(state);}
 
         Animation chargeanim;
         Animation preparechargeanim;

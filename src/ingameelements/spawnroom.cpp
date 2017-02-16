@@ -4,14 +4,11 @@
 
 #include "allegro5/allegro_primitives.h"
 
-Spawnroom::Spawnroom(uint64_t id_, Rect area_, Team team_) : Entity(id_), area(area_), team(team_)
+void Spawnroom::init(uint64_t id_, Rect area_, Team team_)
 {
-    //ctor
-}
-
-Spawnroom::~Spawnroom()
-{
-    //dtor
+    Entity::init(id_);
+    area = area_;
+    team = team_;
 }
 
 void Spawnroom::beginstep(Gamestate *state, double frametime)

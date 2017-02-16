@@ -322,30 +322,30 @@ void Character::render(Renderer *renderer, Gamestate *state)
         double hppercent = 1.0;
         if (healthtype == 0)
         {
-            nrects = std::ceil(maxhp.normal/25.0);
+            nrects = std::ceil(maxhp().normal/25.0);
             if (nrects == 0)
             {
                 continue;
             }
-            hppercent = hp.normal/maxhp.normal;
+            hppercent = hp.normal/maxhp().normal;
         }
         else if (healthtype == 1)
         {
-            nrects = std::ceil(maxhp.armor/25.0);
+            nrects = std::ceil(maxhp().armor/25.0);
             if (nrects == 0)
             {
                 continue;
             }
-            hppercent = hp.armor/maxhp.armor;
+            hppercent = hp.armor/maxhp().armor;
         }
         else if (healthtype == 2)
         {
-            nrects = std::ceil(maxhp.shields/25.0);
+            nrects = std::ceil(maxhp().shields/25.0);
             if (nrects == 0)
             {
                 continue;
             }
-            hppercent = hp.shields/maxhp.shields;
+            hppercent = hp.shields/maxhp().shields;
         }
 
         // Full existing health boxes
@@ -454,7 +454,7 @@ void Character::render(Renderer *renderer, Gamestate *state)
             }
 
             al_set_target_bitmap(renderer->foreground);
-            double factor = (hp.total()-charge) / maxhp.total();
+            double factor = (hp.total()-charge) / maxhp().total();
             if (factor < 0)
             {
                 ALLEGRO_BITMAP *skull = renderer->spriteloader.requestsprite("ui/ingame/mccree/lockon");
@@ -491,8 +491,7 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
 
     // Parameters
     int totalwidth = 250;
-    Health maxhp = getmaxhp();
-    double width = totalwidth/std::ceil(maxhp.total()/25.0);
+    double width = totalwidth/std::ceil(maxhp().total()/25.0);
     int height = 20;
     int space = 20/9.0;
     double slant = 0.3;
@@ -506,30 +505,30 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
         double hppercent = 1.0;
         if (healthtype == 0)
         {
-            nrects = std::ceil(maxhp.normal/25.0);
+            nrects = std::ceil(maxhp().normal/25.0);
             if (nrects == 0)
             {
                 continue;
             }
-            hppercent = hp.normal/maxhp.normal;
+            hppercent = hp.normal/maxhp().normal;
         }
         else if (healthtype == 1)
         {
-            nrects = std::ceil(maxhp.armor/25.0);
+            nrects = std::ceil(maxhp().armor/25.0);
             if (nrects == 0)
             {
                 continue;
             }
-            hppercent = hp.armor/maxhp.armor;
+            hppercent = hp.armor/maxhp().armor;
         }
         else if (healthtype == 2)
         {
-            nrects = std::ceil(maxhp.shields/25.0);
+            nrects = std::ceil(maxhp().shields/25.0);
             if (nrects == 0)
             {
                 continue;
             }
-            hppercent = hp.shields/maxhp.shields;
+            hppercent = hp.shields/maxhp().shields;
         }
 
         // Full existing health boxes
@@ -644,8 +643,8 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
     }
     else
     {
-        ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/"+getcharacterfolder()+"ultready", 1.0);
-        Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/"+getcharacterfolder()+"ultready").offset(renderer->WINDOW_WIDTH/2, hudheight()*renderer->WINDOW_HEIGHT);
+        ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/"+herofolder()+"ultready", 1.0);
+        Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/"+herofolder()+"ultready").offset(renderer->WINDOW_WIDTH/2, hudheight()*renderer->WINDOW_HEIGHT);
         al_draw_bitmap(ultbar, ultbarrect.x, ultbarrect.y, 0);
     }
 }
@@ -784,7 +783,7 @@ void Character::destroy(Gamestate *state)
     state->get<Player>(owner)->character = 0;
     state->get<Player>(owner)->ultcharge.active = true;
     getweapon(state)->destroy(state);
-    Corpse *c = state->get<Corpse>(state->make_entity<Corpse>(state, "heroes/"+getcharacterfolder(), isflipped));
+    Corpse *c = state->get<Corpse>(state->make_entity<Corpse>(state, "heroes/"+herofolder(), isflipped));
     c->x = x;
     c->y = y;
 
