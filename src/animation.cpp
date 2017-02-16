@@ -37,7 +37,7 @@ void Animation::init(std::string path_, std::function<void(Gamestate *state)> ev
         throw -1;
     }
 
-    timer.init(eventfunc_, duration);
+    timer.init(duration, eventfunc_);
 }
 
 void Animation::init(std::string path_)

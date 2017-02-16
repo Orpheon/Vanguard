@@ -6,7 +6,11 @@
 class Hammer : public Weapon
 {
     public:
-        Hammer(uint64_t id_, Gamestate *state, EntityPtr owner_);
+        constexpr double DAMAGE = 70;
+        constexpr double MAX_BARRIER_HEALTH = 2000;
+        constexpr double BARRIER_RECHARGE = 195;
+
+        virtual init(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
         virtual ~Hammer() override;
 
         void renderbehind(Renderer *renderer, Gamestate *state);
@@ -23,19 +27,15 @@ class Hammer : public Weapon
 
         double getattachpoint_x() override {return 0;}
         double getattachpoint_y() override {return 8;}
+        std::string herofolder() {return "heroes/reinhardt/";}
 
-        WeaponChildParameters constructparameters(Gamestate *state);
-
+        Timer barrier;
         Timer barrierrecharge;
         Timer barrierbreak;
-        Timer barrier;
-        double barrierhealth;
+        double barrierhealth = MAX_BARRIER_HEALTH;
 
     protected:
     private:
-        double DAMAGE = 70;
-        double MAX_BARRIER_HEALTH = 2000;
-        double BARRIER_RECHARGE = 195;
 };
 
 #endif // HAMMER_H

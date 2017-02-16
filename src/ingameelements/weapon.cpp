@@ -5,21 +5,21 @@
 
 #include <cmath>
 
-Weapon::Weapon(uint64_t id_, Gamestate *state, EntityPtr owner_, WeaponChildParameters parameters) : MovingEntity(id_, state), owner(owner_), aimdirection(0), team(state->get<Player>(owner)->team),
-            firinganim(parameters.characterfolder+"firing/")
+void Weapon::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
 {
-    firinganim.active(false);
+    MovingEntity::init(id_, state);
 
     entitytype = ENTITYTYPE::WEAPON;
-}
-
-Weapon::~Weapon()
-{
-    //dtor
+    owner = owner_;
+    aimdirection = 0;
+    team = state->get<Player>(owner)->team;
+    firinganim.init(herofolder()+"firing/");
+    firinganim.active(false);
 }
 
 void Weapon::beginstep(Gamestate *state, double frametime)
 {
+    // FIXME: Why is this method here
     ;
 }
 

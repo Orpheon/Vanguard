@@ -96,6 +96,7 @@
 		<Unit filename="include/gamestate.h" />
 		<Unit filename="include/global_constants.h" />
 		<Unit filename="include/ingameelements/character.h" />
+		<Unit filename="include/ingameelements/clipweapon.h" />
 		<Unit filename="include/ingameelements/corpse.h" />
 		<Unit filename="include/ingameelements/explosion.h" />
 		<Unit filename="include/ingameelements/heroes/mccree.h" />

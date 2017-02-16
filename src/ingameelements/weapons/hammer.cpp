@@ -6,17 +6,16 @@
 
 #include "engine.h"
 
-Hammer::Hammer(uint64_t id_, Gamestate *state, EntityPtr owner_) : Weapon(id_, state, owner_, constructparameters(state)), barrierrecharge(2), barrierbreak(5), barrier(0.1)
+void Hammer::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
 {
-    barrierrecharge.active = false;
-    barrierbreak.active = false;
-    barrier.active = false;
-    barrierhealth = MAX_BARRIER_HEALTH;
-}
+    Weapon::init(id_, state, owner_);
 
-Hammer::~Hammer()
-{
-    //dtor
+    barrier.init(0.1);
+    barrier.active = false;
+    barrierrecharge.init(2);
+    barrierrecharge.active = false;
+    barrierbreak.init(5);
+    barrierbreak.active = false;
 }
 
 void Hammer::renderbehind(Renderer *renderer, Gamestate *state)
@@ -192,13 +191,4 @@ void Hammer::firesecondary(Gamestate *state)
     barrier.reset();
     barrierrecharge.reset();
     barrierrecharge.active = false;
-}
-
-WeaponChildParameters Hammer::constructparameters(Gamestate *state)
-{
-    WeaponChildParameters p;
-    p.clipsize = 0;
-    p.characterfolder = "heroes/reinhardt/";
-    p.reloadfunction = 0;
-    return p;
 }

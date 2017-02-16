@@ -1,14 +1,11 @@
 #include "ingameelements/clipweapon.h"
 
-Clipweapon::Clipweapon(uint64_t id_, Gamestate *state, EntityPtr owner_, WeaponChildParameters parameters) : Weapon(id_, state, owner_, parameters),
-            reloadanim(parameters.characterfolder+"reload/", parameters.reloadfunction), clip(parameters.clipsize)
+void Clipweapon::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
 {
+    Weapon::init(id_, state, owner_);
+    reloadanim.init(herofolder()+"reload/", getreloadfunction(state));
     reloadanim.active(false);
-}
-
-Clipweapon::~Clipweapon()
-{
-    //dtor
+    clip = getclipsize();
 }
 
 void Clipweapon::midstep(Gamestate *state, double frametime)

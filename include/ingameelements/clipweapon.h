@@ -7,7 +7,7 @@
 class Clipweapon : public Weapon
 {
     public:
-        Clipweapon(uint64_t id_, Gamestate *state, EntityPtr owner_, WeaponChildParameters parameters);
+        virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
         virtual ~Clipweapon();
 
         virtual void midstep(Gamestate *state, double frametime) override;
@@ -18,6 +18,7 @@ class Clipweapon : public Weapon
 
         virtual void reload(Gamestate *state);
         virtual int getclipsize() = 0;
+        virtual std::function<void(Gamestate *state)> getreloadfunction(Gamestate *state) = 0;
         virtual void restoreclip(Gamestate *state) {clip = getclipsize();}
 
         Animation reloadanim;

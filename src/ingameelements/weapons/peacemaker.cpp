@@ -8,17 +8,16 @@
 #include "ingameelements/trail.h"
 #include "engine.h"
 
-Peacemaker::Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_) : Clipweapon(id_, state, owner_, constructparameters(state)),
-                        fthanim("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, state)), isfthing(false),
-                        deadeyetargets(), deadeyeanim("heroes/mccree/fanthehammerloop/"), isfiringult(false)
+Peacemaker::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
 {
-    fthanim.active(false);
-    deadeyeanim.active(false);
-}
+    Clipweapon::init(id_, state, owner_);
 
-Peacemaker::~Peacemaker()
-{
-    //dtor
+    fthanim.init(herofolder()+"fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, state));
+    fthanim.active(false);
+    deadeyeanim.init(herofolder()+"fanthehammerloop/");
+    deadeyeanim.active(false);
+    isfthing = false;
+    isfiringult = false;
 }
 
 void Peacemaker::render(Renderer *renderer, Gamestate *state)
@@ -268,13 +267,4 @@ void Peacemaker::fireultimate(Gamestate *state)
         Mccree *ownerchar = state->get<Mccree>(state->get<Player>(owner)->character);
         ownerchar->resetafterult(state);
     }
-}
-
-WeaponChildParameters Peacemaker::constructparameters(Gamestate *state)
-{
-    WeaponChildParameters p;
-    p.clipsize = 6;
-    p.characterfolder = "heroes/mccree/";
-    p.reloadfunction = std::bind(&Peacemaker::restoreclip, this, state);
-    return p;
 }

@@ -8,7 +8,7 @@
 class Peacemaker : public Clipweapon
 {
     public:
-        Peacemaker(uint64_t id_, Gamestate *state, EntityPtr owner_);
+        virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
         virtual ~Peacemaker() override;
 
         void render(Renderer *renderer, Gamestate *state) override;
@@ -23,7 +23,9 @@ class Peacemaker : public Clipweapon
         void midstep(Gamestate *state, double frametime) override;
         void reload(Gamestate *state) override;
 
+        std::string herofolder() override {return "heroes/mccree/";}
         int getclipsize() override {return 6;}
+        std::function<void(Gamestate *state)> getreloadfunction(Gamestate *state) override {return std::bind(&Peacemaker::restoreclip, this, state);}
         double getattachpoint_x() override {return -3;}
         double getattachpoint_y() override {return 8;}
 

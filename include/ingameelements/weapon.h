@@ -9,7 +9,7 @@
 class Weapon : public MovingEntity
 {
     public:
-        Weapon(uint64_t id_, Gamestate *state, EntityPtr owner_, WeaponChildParameters parameters);
+        virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_);
         virtual ~Weapon() override;
         virtual void setaim(double x_, double y_);
 
@@ -33,7 +33,7 @@ class Weapon : public MovingEntity
         virtual bool hasclip() {return false;}
         virtual double getattachpoint_x() = 0;
         virtual double getattachpoint_y() = 0;
-        virtual WeaponChildParameters constructparameters(Gamestate *state) = 0;
+        virtual std::string herofolder() = 0;
 
         std::string idlesprite;
         Animation firinganim;
