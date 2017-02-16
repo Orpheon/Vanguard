@@ -7,7 +7,7 @@
 class Flashbang : public Projectile
 {
     public:
-        Flashbang(uint64_t id_, Gamestate *state, EntityPtr owner_);
+        virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
         virtual ~Flashbang() override;
         void beginstep(Gamestate *state, double frametime) override {}
         void midstep(Gamestate *state, double frametime) override;

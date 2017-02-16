@@ -7,7 +7,6 @@
 class PeacemakerBullet : public Projectile
 {
     public:
-        PeacemakerBullet(uint64_t id_, Gamestate *state, EntityPtr owner_);
         virtual ~PeacemakerBullet() override;
         void beginstep(Gamestate *state, double frametime) override {}
         std::string getsprite(Gamestate *state, bool mask) override {return "heroes/mccree/projectiles/bullet";}

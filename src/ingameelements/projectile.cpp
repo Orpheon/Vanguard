@@ -3,14 +3,13 @@
 
 #include <cmath>
 
-Projectile::Projectile(double id_, Gamestate *state, EntityPtr owner_) : MovingEntity(id_, state), owner(owner_), team(state->get<Player>(owner)->team)
+void Projectile::init(double id_, Gamestate *state, EntityPtr owner_)
 {
-    entitytype = ENTITYTYPE::PROJECTILE;
-}
+    MovingEntity::init(id_, state);
 
-Projectile::~Projectile()
-{
-    //dtor
+    entitytype = ENTITYTYPE::PROJECTILE;
+    owner = owner_;
+    team = state->get<Player>(owner)->team;
 }
 
 void Projectile::midstep(Gamestate *state, double frametime)

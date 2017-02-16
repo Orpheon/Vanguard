@@ -4,14 +4,11 @@
 
 #include <functional>
 
-Flashbang::Flashbang(uint64_t id_, Gamestate *state, EntityPtr owner_) : Projectile::Projectile(id_, state, owner_), countdown(std::bind(&Flashbang::explode, this, state), 0.3)
+void Flashbang::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
 {
-    //ctor
-}
+    Projectile::init(id_, state, owner_);
 
-Flashbang::~Flashbang()
-{
-    //dtor
+    countdown.init(0.3, std::bind(&Flashbang::explode, this, state));
 }
 
 void Flashbang::midstep(Gamestate *state, double frametime)

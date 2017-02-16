@@ -7,7 +7,7 @@
 class Projectile : public MovingEntity
 {
     public:
-        Projectile(double id_, Gamestate *state, EntityPtr owner_);
+        virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_);
         virtual ~Projectile() override;
         virtual bool isrootobject() override {return true;}
         virtual bool isrectangular() = 0;

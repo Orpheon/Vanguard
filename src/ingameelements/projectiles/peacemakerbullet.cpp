@@ -3,16 +3,6 @@
 #include "ingameelements/projectiles/peacemakerbullet.h"
 #include "renderer.h"
 
-PeacemakerBullet::PeacemakerBullet(uint64_t id_, Gamestate *state, EntityPtr owner_) : Projectile::Projectile(id_, state, owner_)
-{
-    //ctor
-}
-
-PeacemakerBullet::~PeacemakerBullet()
-{
-    //dtor
-}
-
 void PeacemakerBullet::render(Renderer *renderer, Gamestate *state)
 {
     std::string mainsprite = getsprite(state, false);
