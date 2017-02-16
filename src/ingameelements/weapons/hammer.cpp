@@ -128,13 +128,13 @@ void Hammer::render(Renderer *renderer, Gamestate *state)
         {
             mainsprite = "heroes/reinhardt/shield/80%";
         }
-        ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
-        double spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;
-        double spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite)*renderer->zoom;
-        double rel_x = (x - renderer->cam_x)*renderer->zoom;
-        double rel_y = (y - renderer->cam_y)*renderer->zoom;
-        double attachpt_x = getattachpoint_x()*renderer->zoom;
-        double attachpt_y = getattachpoint_y()*renderer->zoom;
+        sprite = renderer->spriteloader.requestsprite(mainsprite);
+        spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;
+        spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite)*renderer->zoom;
+        rel_x = (x - renderer->cam_x)*renderer->zoom;
+        rel_y = (y - renderer->cam_y)*renderer->zoom;
+        attachpt_x = getattachpoint_x()*renderer->zoom;
+        attachpt_y = getattachpoint_y()*renderer->zoom;
 
         if (c->weaponvisible(state))
         {

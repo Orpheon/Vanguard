@@ -12,7 +12,7 @@ class Reinhardt : public Character
 {
     public:
         virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
-        virtual ~Reinhardt() override;
+        virtual ~Reinhardt() override = default;
         void midstep(Gamestate *state, double frametime) override;
         void render(Renderer *renderer, Gamestate *state) override;
         void interpolate(Entity *prev_entity, Entity *next_entity, double alpha) override;

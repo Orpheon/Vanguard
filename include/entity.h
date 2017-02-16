@@ -15,7 +15,7 @@ class Renderer;
 class Entity
 {
     public:
-        virtual ~Entity();
+        virtual ~Entity() = default;
         virtual void init(uint64_t id_);
         virtual void beginstep(Gamestate *state, double frametime) = 0;
         virtual void midstep(Gamestate *state, double frametime) = 0;

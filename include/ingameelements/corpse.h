@@ -8,7 +8,7 @@ class Corpse : public MovingEntity
 {
     public:
         virtual void init(uint64_t id_, Gamestate *state, std::string herofolder, bool isflipped_);
-        virtual ~Corpse() override;
+        virtual ~Corpse() override = default;
         void beginstep(Gamestate *state, double frametime) override {}
         void midstep(Gamestate *state, double frametime) override;
         void endstep(Gamestate *state, double frametime) override {}

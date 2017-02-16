@@ -9,7 +9,7 @@ class Peacemaker : public Clipweapon
 {
     public:
         virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
-        virtual ~Peacemaker() override;
+        virtual ~Peacemaker() override = default;
 
         void render(Renderer *renderer, Gamestate *state) override;
         std::string getsprite(Gamestate *state, bool mask) override {return "";}
@@ -29,7 +29,6 @@ class Peacemaker : public Clipweapon
         double getattachpoint_x() override {return -3;}
         double getattachpoint_y() override {return 8;}
 
-        WeaponChildParameters constructparameters(Gamestate *state);
         Animation fthanim;
         bool isfthing;
 

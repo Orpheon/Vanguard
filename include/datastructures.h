@@ -176,21 +176,6 @@ struct EntityPtr
     uint64_t id;
 };
 
-struct CharacterChildParameters
-{
-    double runpower = 0;
-    EntityPtr weapon = 0;
-    Health maxhp;
-    std::string characterfolder;
-};
-
-struct WeaponChildParameters
-{
-    int clipsize = 0;
-    std::string characterfolder;
-    std::function<void(Gamestate *state)> reloadfunction;
-};
-
 struct Rect
 {
     double x;

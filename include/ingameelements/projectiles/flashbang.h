@@ -8,7 +8,7 @@ class Flashbang : public Projectile
 {
     public:
         virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
-        virtual ~Flashbang() override;
+        virtual ~Flashbang() override = default;
         void beginstep(Gamestate *state, double frametime) override {}
         void midstep(Gamestate *state, double frametime) override;
         std::string getsprite(Gamestate *state, bool mask) override {return "heroes/mccree/projectiles/flashbang";}

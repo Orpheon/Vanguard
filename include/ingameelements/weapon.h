@@ -10,7 +10,7 @@ class Weapon : public MovingEntity
 {
     public:
         virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_);
-        virtual ~Weapon() override;
+        virtual ~Weapon() override = default;
         virtual void setaim(double x_, double y_);
 
         bool isrootobject() override {return false;}

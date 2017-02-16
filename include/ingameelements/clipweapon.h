@@ -8,7 +8,7 @@ class Clipweapon : public Weapon
 {
     public:
         virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
-        virtual ~Clipweapon();
+        virtual ~Clipweapon() = default;
 
         virtual void midstep(Gamestate *state, double frametime) override;
         virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha) override;

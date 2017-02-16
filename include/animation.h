@@ -10,7 +10,7 @@ class Animation
     public:
         virtual void init(std::string path_);
         virtual void init(std::string path_, std::function<void(Gamestate *state)> eventfunc_);
-        virtual ~Animation();
+        virtual ~Animation() = default;
         virtual int getframe();
         virtual std::string getframepath();
         virtual void update(Gamestate *state, double dt);
@@ -29,7 +29,7 @@ class Animation
 class LoopAnimation : public Animation
 {
     public:
-        virtual ~LoopAnimation() override;
+        virtual ~LoopAnimation() override = default;
         void update(Gamestate *state, double dt) override;
         void interpolate(Animation *prev_anim, Animation *next_anim, double alpha) override;
 };

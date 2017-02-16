@@ -11,7 +11,7 @@ class Hammer : public Weapon
         constexpr static double BARRIER_RECHARGE = 195;
 
         virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
-        virtual ~Hammer() override;
+        virtual ~Hammer() override = default;
 
         void renderbehind(Renderer *renderer, Gamestate *state);
         void render(Renderer *renderer, Gamestate *state) override;

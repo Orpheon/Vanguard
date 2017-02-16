@@ -19,7 +19,7 @@ class Player : public Entity
 {
     public:
         virtual void init(uint64_t id_, Gamestate *state);
-        virtual ~Player() override;
+        virtual ~Player() override = default;
         void beginstep(Gamestate *state, double frametime) override;
         void midstep(Gamestate *state, double frametime) override;
         void endstep(Gamestate *state, double frametime) override;

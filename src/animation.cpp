@@ -47,6 +47,12 @@ void Animation::init(std::string path_)
 
 int Animation::getframe()
 {
+    if (not inited)
+    {
+        std::cout << "Fatal Error: Animation used before initialized!";
+        throw -1;
+    }
+
     int f = static_cast<int>(std::floor(nframes*timer.getpercent()))+1;
     f = std::min(std::max(f, 1), nframes);
     return f;
@@ -54,6 +60,12 @@ int Animation::getframe()
 
 std::string Animation::getframepath()
 {
+    if (not inited)
+    {
+        std::cout << "Fatal Error: Animation used before initialized!";
+        throw -1;
+    }
+
     int f = static_cast<int>(std::floor(nframes*timer.getpercent()))+1;
     f = std::min(std::max(f, 1), nframes);
     return path+std::to_string(getframe());
@@ -61,16 +73,34 @@ std::string Animation::getframepath()
 
 void Animation::update(Gamestate *state, double dt)
 {
+    if (not inited)
+    {
+        std::cout << "Fatal Error: Animation used before initialized!";
+        throw -1;
+    }
+
     timer.update(state, dt);
 }
 
 void Animation::interpolate(Animation *prev_anim, Animation *next_anim, double alpha)
 {
+    if (not inited)
+    {
+        std::cout << "Fatal Error: Animation used before initialized!";
+        throw -1;
+    }
+
     timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
 }
 
 void Animation::Animation::reset()
 {
+    if (not inited)
+    {
+        std::cout << "Fatal Error: Animation used before initialized!";
+        throw -1;
+    }
+
     timer.reset();
 }
 
@@ -79,6 +109,12 @@ void Animation::Animation::reset()
 
 void LoopAnimation::update(Gamestate *state, double dt)
 {
+    if (not inited)
+    {
+        std::cout << "Fatal Error: LoopAnimation used before initialized!";
+        throw -1;
+    }
+
     timer.update(state, dt);
     if (not timer.active and timer.timer >= timer.duration)
     {
@@ -93,6 +129,12 @@ void LoopAnimation::update(Gamestate *state, double dt)
 
 void LoopAnimation::interpolate(Animation *prev_anim, Animation *next_anim, double alpha)
 {
+    if (not inited)
+    {
+        std::cout << "Fatal Error: LoopAnimation used before initialized!";
+        throw -1;
+    }
+
     if (std::abs(prev_anim->timer.timer - next_anim->timer.timer) > 0.5*timer.duration)
     {
         // We've probably looped over

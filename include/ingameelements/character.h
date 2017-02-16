@@ -15,7 +15,7 @@ class Character : public MovingEntity
 {
     public:
         virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_);
-        virtual ~Character() override;
+        virtual ~Character() override = default;
         virtual void setinput(Gamestate *state, InputContainer heldkeys_, double mouse_x_, double mouse_y_);
         virtual void beginstep(Gamestate *state, double frametime) override;
         virtual void midstep(Gamestate *state, double frametime) override;

@@ -10,7 +10,7 @@ class Gamestate;
 class Timer
 {
     public:
-        virtual ~Timer();
+        virtual ~Timer() = default;
         virtual void init(double duration_, std::function<void(Gamestate *state)> eventfunc_);
         virtual void init(double duration_);
         void update(Gamestate *state, double dt);

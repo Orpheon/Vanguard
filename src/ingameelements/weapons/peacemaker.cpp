@@ -209,11 +209,11 @@ void Peacemaker::firesecondary(Gamestate *state)
     {
         if (isfthing)
         {
-            fthanim = Animation("heroes/mccree/fanthehammerloop/", std::bind(&Peacemaker::wantfiresecondary, this, state));
+            fthanim.init("heroes/mccree/fanthehammerloop/", std::bind(&Peacemaker::wantfiresecondary, this, state));
         }
         else
         {
-            fthanim = Animation("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::wantfiresecondary, this, state));
+            fthanim.init("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::wantfiresecondary, this, state));
             isfthing = true;
         }
     }
@@ -260,7 +260,7 @@ void Peacemaker::fireultimate(Gamestate *state)
 
         deadeyetargets.erase(playerptr);
 
-        deadeyeanim = Animation("heroes/mccree/fanthehammerloop/", std::bind(&Peacemaker::fireultimate, this, state));
+        deadeyeanim.init("heroes/mccree/fanthehammerloop/", std::bind(&Peacemaker::fireultimate, this, state));
     }
     else
     {

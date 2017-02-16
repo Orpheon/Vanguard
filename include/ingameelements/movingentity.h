@@ -12,6 +12,7 @@ class MovingEntity : public Entity
 {
     public:
         virtual void init(uint64_t id_, Gamestate *state);
+        virtual ~MovingEntity() override = default;
         virtual void endstep(Gamestate *state, double frametime) override;
         virtual std::string getsprite(Gamestate *state, bool mask) = 0;
         virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha);

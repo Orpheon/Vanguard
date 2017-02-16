@@ -362,3 +362,8 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     }
     return runanim.getframepath();
 }
+
+bool Mccree::weaponvisible(Gamestate *state)
+{
+    return not rollanim.active() and not stunanim.active() and (not ulting.active or state->get<Peacemaker>(weapon)->isfiringult);
+}
