@@ -14,8 +14,8 @@
 class Character : public MovingEntity
 {
     public:
-        Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters);
-        virtual ~Character() override = default;
+        virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_);
+        virtual ~Character() override;
         virtual void setinput(Gamestate *state, InputContainer heldkeys_, double mouse_x_, double mouse_y_);
         virtual void beginstep(Gamestate *state, double frametime) override;
         virtual void midstep(Gamestate *state, double frametime) override;
@@ -30,8 +30,6 @@ class Character : public MovingEntity
         virtual bool onground(Gamestate *state);
         virtual Rect getcollisionrect(Gamestate *state) = 0;
         virtual Rect getstandingcollisionrect(Gamestate *state) = 0;
-        virtual CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) = 0;
-        virtual std::string getcharacterfolder() = 0;
         virtual bool cangetinput(Gamestate *state) {return not stunanim.active();}
         virtual bool canuseweapons(Gamestate *state) {return cangetinput(state);}
         virtual bool canuseabilities(Gamestate *state) {return cangetinput(state);}
@@ -44,24 +42,27 @@ class Character : public MovingEntity
         virtual void useability2(Gamestate *state) = 0;
         virtual void useultimate(Gamestate *state) = 0;
         virtual void drawhud(Renderer *renderer, Gamestate *state);
-        virtual double passiveultcharge() = 0;
         virtual double hudheight() {return 7.0/8.0;}
         virtual bool weaponvisible(Gamestate *state) {return true;}
+        virtual double maxhspeed(Gamestate *state) {return crouchanim.active() ? 60.0 : 153.0;}
+
+        virtual double runpower() = 0;
+        virtual Health maxhp() = 0;
         virtual Heroclass heroclass() = 0;
-        virtual double getmaxhspeed(Gamestate *state) {return crouchanim.active() ? 60.0 : 153.0;}
+        virtual std::string herofolder() = 0;
+        virtual EntityPtr constructweapon(Gamestate *state) = 0;
+        virtual double passiveultcharge() = 0;
+
 
         EntityPtr owner;
         EntityPtr weapon;
 
-        double friction;
-        double acceleration;
-        double runpower;
-
         Health hp;
-        virtual Health getmaxhp() = 0;
 
         bool xblocked;
         bool yblocked;
+        double friction;
+        double acceleration;
 
         Team team;
 

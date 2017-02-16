@@ -7,11 +7,16 @@
 #include "engine.h"
 #include "ingameelements/spawnroom.h"
 
-Player::Player(uint64_t id_, Gamestate *state) : Entity(id_), character(0), spawntimer(std::bind(&Player::spawn, this, state), 4), ultcharge(100), team(SPECTATOR), heroclass(REINHARDT)
+void Player::init(uint64_t id_, Gamestate *state)
 {
-    spawntimer.active = false;
-    spawntimer.timer = spawntimer.duration;
+    Entity::init(id_);
+
     entitytype = ENTITYTYPE::PLAYER;
+    character = 0;
+    heroclass == REINHARDT;
+    spawntimer.init(4, std::bind(&Player::spawn, this, state));
+    spawntimer.active(false);
+    ultcharge.init(100);
 
     int teambalance = 0;
     for (auto pptr : state->playerlist)

@@ -13,22 +13,28 @@
 #include "renderer.h"
 #include "ingameelements/heroes/mccree.h"
 
-
-Character::Character(uint64_t id_, Gamestate *state, EntityPtr owner_, CharacterChildParameters parameters) : MovingEntity(id_, state),
-            owner(owner_), weapon(parameters.weapon), hp(parameters.maxhp), xblocked(false), yblocked(false), team(state->get<Player>(owner)->team),
-            isflipped(false), runanim(parameters.characterfolder+"run/"), crouchanim(parameters.characterfolder+"crouchwalk/"), stunanim(parameters.characterfolder+"stun/"),
-            ongroundsmooth(0.05), heldkeys()
+void Character::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
 {
+    MovingEntity::init(id_, state);
+
+    entitytype = ENTITYTYPE::CHARACTER;
+    owner = owner_;
+    weapon = constructweapon(state);
+    hp = maxhp();
+    team = state->get<Player>(owner)->team;
+    runanim.init(herofolder()+"run/");
+    crouchanim.init(herofolder()+"crouchwalk/");
+    crouchanim.active(false);
+    stunanim.init(herofolder()+"stun/");
+    stunanim.active(false);
+
+    xblocked = false;
+    yblocked = false;
+    isflipped = false;
     acceleration = 300;
-    runpower = parameters.runpower;
     // friction factor per second of null movement; calculated directly from Gang Garrison 2
     // from pygg2
     friction = 0.01510305449388463132584804061124;
-
-    entitytype = ENTITYTYPE::CHARACTER;
-
-    crouchanim.active(false);
-    stunanim.active(false);
 }
 
 void Character::setinput(Gamestate *state, InputContainer heldkeys_, double mouse_x_, double mouse_y_)
@@ -52,11 +58,11 @@ void Character::midstep(Gamestate *state, double frametime)
     {
         if (heldkeys.LEFT)
         {
-            hspeed = std::max(hspeed - acceleration * runpower * frametime, -getmaxhspeed(state));
+            hspeed = std::max(hspeed - acceleration * runpower() * frametime, -maxhspeed(state));
         }
         if (heldkeys.RIGHT)
         {
-            hspeed = std::min(hspeed + acceleration * runpower * frametime, getmaxhspeed(state));
+            hspeed = std::min(hspeed + acceleration * runpower() * frametime, maxhspeed(state));
         }
 
         if (heldkeys.JUMP)
@@ -296,8 +302,6 @@ void Character::render(Renderer *renderer, Gamestate *state)
     ALLEGRO_COLOR LACKING_HEALTH[] = {  al_premul_rgba_f(225/255.0, 225/255.0, 225/255.0, lack_healthalpha),
                                         al_premul_rgba_f(237/255.0, 223/255.0, 132/255.0, lack_healthalpha),
                                         al_premul_rgba_f(101/255.0, 206/255.0, 240/255.0, lack_healthalpha)};
-
-    Health maxhp = getmaxhp();
     double x_;
     float r[8]; // Array used to pass the polygon data for the actual drawing
 
@@ -308,7 +312,7 @@ void Character::render(Renderer *renderer, Gamestate *state)
     double slant = 0.3;
     double y_ = renderer->zoom*(y - renderer->spriteloader.get_spriteoffset_y(mainsprite) - renderer->cam_y - 15);
 
-    int nrects = std::ceil(maxhp.total()/25.0);
+    int nrects = std::ceil(maxhp().total()/25.0);
     double width = totalwidth/nrects;
     double start_x = renderer->zoom*(x - renderer->cam_x) - width*(nrects/2.0) - space*((nrects-1)/2.0);
 

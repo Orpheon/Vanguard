@@ -9,19 +9,20 @@
 #include <cmath>
 #include <allegro5/allegro_primitives.h>
 
-Reinhardt::Reinhardt(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state, owner_)),
-                    chargeanim("heroes/reinhardt/charge/", std::bind(&Reinhardt::endcharge, this)), preparechargeanim("heroes/reinhardt/preparecharge/", std::bind(&Reinhardt::begincharge, this)),
-                    endchargeanim("heroes/reinhardt/endcharge/"), earthshatteranim("heroes/reinhardt/ult/"), shieldrunanim("heroes/reinhardt/shieldrun/")
+void Reinhardt::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
 {
-    chargeanim.active(false);
-    preparechargeanim.active(false);
-    endchargeanim.active(false);
-    earthshatteranim.active(false);
-}
+    Character::init(id_, state, owner_);
 
-Reinhardt::~Reinhardt()
-{
-    //dtor
+    chargeanim.init(herofolder()+"charge/", std::bind(&Reinhardt::endcharge, this));
+    chargeanim.active(false);
+    preparechargeanim.init(herofolder()+"preparecharge/", std::bind(&Reinhardt::begincharge, this));
+    preparechargeanim.active(false);
+    endchargeanim.init(herofolder()+"endcharge/");
+    endchargeanim.active(false);
+    earthshatteranim.init(herofolder()+"ult/");
+    earthshatteranim.active(false);
+    shieldrunanim.init(herofolder()+"shieldrun/");
+    shieldrunanim.active(false);
 }
 
 void Reinhardt::render(Renderer *renderer, Gamestate *state)
@@ -237,25 +238,4 @@ std::string Reinhardt::getsprite(Gamestate *state, bool mask)
         return shieldrunanim.getframepath();
     }
     return runanim.getframepath();
-}
-
-CharacterChildParameters Reinhardt::constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_)
-{
-    CharacterChildParameters p;
-    p.runpower = 1.8;
-    p.weapon = state->make_entity<Hammer>(state, owner_);
-    p.maxhp.normal = 300;
-    p.maxhp.armor = 200;
-    p.maxhp.shields = 0;
-    p.characterfolder = "heroes/reinhardt/";
-    return p;
-}
-
-Health Reinhardt::getmaxhp()
-{
-    Health maxhp;
-    maxhp.normal = 300;
-    maxhp.armor = 200;
-    maxhp.shields = 0;
-    return maxhp;
 }

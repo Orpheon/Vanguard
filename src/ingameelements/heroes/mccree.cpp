@@ -10,21 +10,25 @@
 #include <cmath>
 #include <allegro5/allegro_primitives.h>
 
-Mccree::Mccree(uint64_t id_, Gamestate *state, EntityPtr owner_) : Character(id_, state, owner_, constructparameters(id_, state, owner_)),
-                rollanim("heroes/mccree/roll/"), flashbanganim("heroes/mccree/flashbang/"), rollcooldown(8), flashbangcooldown(10), ultwalkanim("heroes/mccree/ultwalk/"),
-                ulting(std::bind(&Mccree::resetafterult, this, state), 6), ultcooldown(0.5)
+void Mccree::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
 {
-    rollanim.active(false);
-    rollcooldown.active = false;
-    flashbanganim.active(false);
-    flashbangcooldown.active = false;
-    ulting.active = false;
-    ultcooldown.active = false;
-}
+    Character::init(uint64_t id_, Gamestate *state, EntityPtr owner_);
 
-Mccree::~Mccree()
-{
-    //dtor
+    rollanim.init(herofolder()+"roll/");
+    rollanim.active(false);
+    flashbanganim.init(herofolder()+"flashbang/");
+    flashbanganim.active(false);
+    ultwalkanim.init(herofolder()+"ultwalk/");
+    ultwalkanim.active(false);
+
+    rollcooldown.init(8);
+    rollcooldown.active = false;
+    flashbangcooldown.init(10);
+    flashbangcooldown.active = false;
+    ulting.init(6, std::bind(&Mccree::resetafterult, this, state));
+    ulting.active = false;
+    ultcooldown.init(0.5);
+    ultcooldown.active = false;
 }
 
 void Mccree::render(Renderer *renderer, Gamestate *state)
@@ -357,30 +361,4 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
         return "heroes/"+getcharacterfolder()+"idle/1";
     }
     return runanim.getframepath();
-}
-
-bool Mccree::weaponvisible(Gamestate *state)
-{
-    return not rollanim.active() and not stunanim.active() and (not ulting.active or state->get<Peacemaker>(weapon)->isfiringult);
-}
-
-CharacterChildParameters Mccree::constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_)
-{
-    CharacterChildParameters p;
-    p.runpower = 1.8;
-    p.weapon = state->make_entity<Peacemaker>(state, owner_);
-    p.maxhp.normal = 200;
-    p.maxhp.armor = 0;
-    p.maxhp.shields = 0;
-    p.characterfolder = "heroes/mccree/";
-    return p;
-}
-
-Health Mccree::getmaxhp()
-{
-    Health maxhp;
-    maxhp.normal = 200;
-    maxhp.armor = 0;
-    maxhp.shields = 0;
-    return maxhp;
 }

@@ -11,7 +11,7 @@
 class Reinhardt : public Character
 {
     public:
-        Reinhardt(uint64_t id_, Gamestate *state, EntityPtr owner_);
+        virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
         virtual ~Reinhardt() override;
         void midstep(Gamestate *state, double frametime) override;
         void render(Renderer *renderer, Gamestate *state) override;
@@ -20,10 +20,7 @@ class Reinhardt : public Character
         Rect getstandingcollisionrect(Gamestate *state) override;
         std::string getsprite(Gamestate *state, bool mask) override;
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Reinhardt(*this));}
-        CharacterChildParameters constructparameters(uint64_t id_, Gamestate *state, EntityPtr owner_) override;
-        std::string getcharacterfolder() {return "reinhardt/";}
         bool cangetinput(Gamestate *state) override;
-        Health getmaxhp() override;
         void useability1(Gamestate *state) override;
         void useability2(Gamestate *state) override;
         void useultimate(Gamestate *state) override;
@@ -31,10 +28,15 @@ class Reinhardt : public Character
         void endcharge() {chargeanim.active(false); endchargeanim.reset();}
         void interrupt(Gamestate *state) override;
         void drawhud(Renderer *renderer, Gamestate *state) override;
-        double passiveultcharge() override {return 100*0.4166666666666667;}
         bool weaponvisible(Gamestate *state) override;
-        Heroclass heroclass() override {return REINHARDT;}
         double getmaxhspeed(Gamestate *state) override {return state->get<Hammer>(weapon)->barrier.active ? 60.0 : Character::getmaxhspeed(state);}
+
+        double passiveultcharge() override {return 100*0.4166666666666667;}
+        Heroclass heroclass() override {return REINHARDT;}
+        double runpower() override {return 1.8;}
+        Health maxhp() override {return Health(300, 200, 0);}
+        std::string herofolder() override {return "heroes/reinhardt/";}
+        EntityPtr constructweapon(Gamestate *state) override {return state->make_entity<Hammer>(state, owner);}
 
         Animation chargeanim;
         Animation preparechargeanim;

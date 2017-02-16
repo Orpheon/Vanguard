@@ -155,6 +155,13 @@ struct InputContainer : public ReducedInputContainer
 
 struct Health
 {
+    Health(double n, double a, double s)
+    {
+        normal = n;
+        armor = a;
+        shields = s;
+    }
+
     double normal;
     double armor;
     double shields;
