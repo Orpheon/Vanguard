@@ -8,7 +8,7 @@
 #include "ingameelements/trail.h"
 #include "engine.h"
 
-Peacemaker::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
+void Peacemaker::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
 {
     Clipweapon::init(id_, state, owner_);
 
@@ -40,7 +40,7 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     }
     else
     {
-        mainsprite = "heroes/"+c->getcharacterfolder()+"arm/1";
+        mainsprite = c->herofolder()+"arm/1";
     }
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
     double spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;

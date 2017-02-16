@@ -155,12 +155,8 @@ struct InputContainer : public ReducedInputContainer
 
 struct Health
 {
-    Health(double n, double a, double s)
-    {
-        normal = n;
-        armor = a;
-        shields = s;
-    }
+    Health() : normal(0), armor(0), shields(0) {}
+    Health(double n, double a, double s) : normal(n), armor(a), shields(s) {}
 
     double normal;
     double armor;

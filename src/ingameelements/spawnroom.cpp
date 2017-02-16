@@ -21,7 +21,7 @@ void Spawnroom::beginstep(Gamestate *state, double frametime)
             Character *c = p->getcharacter(state);
             if (c != 0 and isinside(c->x, c->y))
             {
-                c->hp = c->getmaxhp();
+                c->hp = c->maxhp();
             }
         }
     }

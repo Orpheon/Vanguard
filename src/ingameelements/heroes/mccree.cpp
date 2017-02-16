@@ -12,7 +12,7 @@
 
 void Mccree::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
 {
-    Character::init(uint64_t id_, Gamestate *state, EntityPtr owner_);
+    Character::init(id_, state, owner_);
 
     rollanim.init(herofolder()+"roll/");
     rollanim.active(false);
@@ -99,14 +99,14 @@ void Mccree::drawhud(Renderer *renderer, Gamestate *state)
     float r[8];
 
     ALLEGRO_BITMAP *sprite;
-    Rect spriterect = renderer->spriteloader.get_rect("ui/ingame/mccree/rolling");
+    Rect spriterect = renderer->spriteloader.get_rect("ui/ingame/"+herofolder()+"rolling");
     if (rollcooldown.active)
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/rollingcooldown", 1.0);
+        sprite = renderer->spriteloader.requestsprite("ui/ingame/"+herofolder()+"rollingcooldown", 1.0);
     }
     else
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/rolling", 1.0);
+        sprite = renderer->spriteloader.requestsprite("ui/ingame/"+herofolder()+"rolling", 1.0);
     }
     spriterect.x = renderer->WINDOW_WIDTH*6/7.0 - spriterect.w*2 - space;
     spriterect.y = renderer->WINDOW_HEIGHT*hudheight()-spriterect.h;
@@ -134,11 +134,11 @@ void Mccree::drawhud(Renderer *renderer, Gamestate *state)
 
     if (flashbangcooldown.active)
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/flashbangcooldown", 1.0);
+        sprite = renderer->spriteloader.requestsprite("ui/ingame/"+herofolder()+"flashbangcooldown", 1.0);
     }
     else
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/mccree/flashbang", 1.0);
+        sprite = renderer->spriteloader.requestsprite("ui/ingame/"+herofolder()+"flashbang", 1.0);
     }
     spriterect.x = spriterect.x + spriterect.w+space;
     al_draw_bitmap(sprite, spriterect.x, spriterect.y, 0);
@@ -313,14 +313,14 @@ Rect Mccree::getcollisionrect(Gamestate *state)
 {
     if (crouchanim.active())
     {
-        return state->engine->maskloader.get_rect_from_json("heroes/"+getcharacterfolder()+"crouch/").offset(x, y);
+        return state->engine->maskloader.get_rect_from_json(herofolder()+"crouch/").offset(x, y);
     }
     return getstandingcollisionrect(state);
 }
 
 Rect Mccree::getstandingcollisionrect(Gamestate *state)
 {
-    return state->engine->maskloader.get_rect_from_json("heroes/"+getcharacterfolder()).offset(x, y);
+    return state->engine->maskloader.get_rect_from_json(herofolder()).offset(x, y);
 }
 
 std::string Mccree::getsprite(Gamestate *state, bool mask)
@@ -333,7 +333,7 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     {
         if (std::fabs(hspeed) < 5.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
         {
-            return "heroes/"+getcharacterfolder()+"ult/1";
+            return herofolder()+"ult/1";
         }
         return ultwalkanim.getframepath();
     }
@@ -349,16 +349,16 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     {
         if (vspeed > 100)
         {
-            return "heroes/"+getcharacterfolder()+"falling/1";
+            return herofolder()+"falling/1";
         }
         else
         {
-            return "heroes/"+getcharacterfolder()+"jump/1";
+            return herofolder()+"jump/1";
         }
     }
     if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
     {
-        return "heroes/"+getcharacterfolder()+"idle/1";
+        return herofolder()+"idle/1";
     }
     return runanim.getframepath();
 }

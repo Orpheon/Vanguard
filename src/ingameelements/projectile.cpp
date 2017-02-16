@@ -3,7 +3,7 @@
 
 #include <cmath>
 
-void Projectile::init(double id_, Gamestate *state, EntityPtr owner_)
+void Projectile::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
 {
     MovingEntity::init(id_, state);
 

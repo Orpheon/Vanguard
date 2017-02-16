@@ -13,9 +13,8 @@ void Player::init(uint64_t id_, Gamestate *state)
 
     entitytype = ENTITYTYPE::PLAYER;
     character = 0;
-    heroclass == REINHARDT;
     spawntimer.init(4, std::bind(&Player::spawn, this, state));
-    spawntimer.active(false);
+    spawntimer.active = false;
     ultcharge.init(100);
 
     int teambalance = 0;
