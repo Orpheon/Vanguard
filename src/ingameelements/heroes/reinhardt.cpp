@@ -97,7 +97,10 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
     chargeanim.update(state, frametime);
     preparechargeanim.update(state, frametime);
     endchargeanim.update(state, frametime);
-    earthshatteranim.update(state, frametime);
+    if (earthshatteranim.active() and not (earthshatteranim.getframe() == 9 and not onground(state)))
+    {
+        earthshatteranim.update(state, frametime);
+    }
     if (onground(state))
     {
         if (isflipped)
