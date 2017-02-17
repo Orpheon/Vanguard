@@ -19,7 +19,6 @@ void Mccree::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
     flashbanganim.init(herofolder()+"flashbang/");
     flashbanganim.active(false);
     ultwalkanim.init(herofolder()+"ultwalk/");
-    ultwalkanim.active(false);
 
     rollcooldown.init(8);
     rollcooldown.active = false;
