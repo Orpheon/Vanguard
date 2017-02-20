@@ -1,5 +1,4 @@
-#ifndef CORPSE_H
-#define CORPSE_H
+#pragma once
 
 #include <ingameelements/movingentity.h>
 #include "timer.h"
@@ -24,4 +23,3 @@ class Corpse : public MovingEntity
         bool isflipped;
 };
 
-#endif // CORPSE_H

@@ -1,5 +1,4 @@
-#ifndef REINHARDT_H
-#define REINHARDT_H
+#pragma once
 
 #include "ingameelements/character.h"
 #include "renderer.h"
@@ -47,4 +46,3 @@ class Reinhardt : public Character
     private:
 };
 
-#endif // REINHARDT_H

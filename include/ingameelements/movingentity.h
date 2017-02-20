@@ -1,5 +1,4 @@
-#ifndef MOVINGENTITY_H
-#define MOVINGENTITY_H
+#pragma once
 
 #include "entity.h"
 #include "datastructures.h"
@@ -24,4 +23,3 @@ class MovingEntity : public Entity
         double hspeed, vspeed;
 };
 
-#endif // MOVINGENTITY_H

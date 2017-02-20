@@ -1,5 +1,4 @@
-#ifndef CLIENTNETWORKER_H
-#define CLIENTNETWORKER_H
+#pragma once
 
 #include "networking/networker.h"
 
@@ -19,4 +18,3 @@ class ClientNetworker : public Networker
         bool connected;
 };
 
-#endif // CLIENTNETWORKER_H

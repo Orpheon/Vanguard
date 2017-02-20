@@ -1,5 +1,4 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#pragma once
 
 #include <memory>
 #include <string>
@@ -78,4 +77,3 @@ class Character : public MovingEntity
         constexpr static int RIGHT = 1;
 };
 
-#endif // CHARACTER_H

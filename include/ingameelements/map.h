@@ -1,5 +1,4 @@
-#ifndef MAP_H
-#define MAP_H
+#pragma once
 
 #include "datastructures.h"
 #include "ingameelements/movingentity.h"
@@ -32,4 +31,3 @@ class Map
         nlohmann::json mapdata;
 };
 
-#endif // MAP_H

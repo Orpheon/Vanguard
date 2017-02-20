@@ -1,5 +1,4 @@
-#ifndef PEACEMAKER_H
-#define PEACEMAKER_H
+#pragma once
 
 #include "ingameelements/weapon.h"
 #include "ingameelements/clipweapon.h"
@@ -43,4 +42,3 @@ class Peacemaker : public Clipweapon
         double FALLOFF_END = 30*20;
 };
 
-#endif // PEACEMAKER_H

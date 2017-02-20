@@ -1,5 +1,4 @@
-#ifndef SPRITELOADER_H
-#define SPRITELOADER_H
+#pragma once
 
 #include <unordered_map>
 #include <allegro5/allegro.h>
@@ -36,4 +35,3 @@ class Spriteloader
         double defaultzoom;
 };
 
-#endif // SPRITELOADER_H

@@ -1,5 +1,4 @@
-#ifndef EXPLOSION_H
-#define EXPLOSION_H
+#pragma once
 
 #include <ingameelements/movingentity.h>
 #include "animation.h"
@@ -24,4 +23,3 @@ class Explosion : public MovingEntity
     private:
 };
 
-#endif // EXPLOSION_H

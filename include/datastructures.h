@@ -1,5 +1,4 @@
-#ifndef DATASTRUCTURES_H_INCLUDED
-#define DATASTRUCTURES_H_INCLUDED
+#pragma once
 
 #include <string>
 #include <functional>
@@ -188,4 +187,3 @@ struct Rect
     Rect offset(double x_, double y_) {return Rect(x+x_, y+y_, w, h);}
 };
 
-#endif // DATASTRUCTURES_H_INCLUDED

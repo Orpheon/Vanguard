@@ -1,5 +1,4 @@
-#ifndef CLIPWEAPON_H
-#define CLIPWEAPON_H
+#pragma once
 
 #include "ingameelements/weapon.h"
 
@@ -28,4 +27,3 @@ class Clipweapon : public Weapon
     private:
 };
 
-#endif // CLIPWEAPON_H

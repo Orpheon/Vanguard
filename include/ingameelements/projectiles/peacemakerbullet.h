@@ -1,5 +1,4 @@
-#ifndef PEACEMAKERBULLET_H
-#define PEACEMAKERBULLET_H
+#pragma once
 
 #include "ingameelements/projectile.h"
 #include <string>
@@ -20,4 +19,3 @@ class PeacemakerBullet : public Projectile
     private:
 };
 
-#endif // PEACEMAKERBULLET_H

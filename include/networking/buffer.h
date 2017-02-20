@@ -1,5 +1,4 @@
-#ifndef BUFFER_H
-#define BUFFER_H
+#pragma once
 
 #include <cstdio>
 #include <cstdint>
@@ -63,4 +62,3 @@ class WriteBuffer : public Buffer
     protected:
     private:
 };
-#endif // BUFFER_H

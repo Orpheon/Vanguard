@@ -1,5 +1,4 @@
-#ifndef INPUTCATCHER_H
-#define INPUTCATCHER_H
+#pragma once
 
 #include <allegro5/allegro.h>
 
@@ -19,4 +18,3 @@ class InputCatcher
         nlohmann::json config;
 };
 
-#endif // INPUTCATCHER_H

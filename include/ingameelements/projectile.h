@@ -1,5 +1,4 @@
-#ifndef PROJECTILE_H
-#define PROJECTILE_H
+#pragma once
 
 #include "datastructures.h"
 #include "gamestate.h"
@@ -25,4 +24,3 @@ class Projectile : public MovingEntity
     private:
 };
 
-#endif // PROJECTILE_H

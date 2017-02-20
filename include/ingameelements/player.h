@@ -1,5 +1,4 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#pragma once
 
 #include <memory>
 
@@ -43,4 +42,3 @@ class Player : public Entity
         Heroclass heroclass;
 };
 
-#endif // PLAYER_H

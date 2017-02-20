@@ -1,5 +1,4 @@
-#ifndef WEAPON_H
-#define WEAPON_H
+#pragma once
 
 #include "ingameelements/movingentity.h"
 #include "datastructures.h"
@@ -41,4 +40,3 @@ class Weapon : public MovingEntity
     private:
 };
 
-#endif // WEAPON_H

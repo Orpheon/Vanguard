@@ -1,5 +1,4 @@
-#ifndef GAMESTATE_H
-#define GAMESTATE_H
+#pragma once
 
 #include <list>
 #include <unordered_map>
@@ -67,4 +66,3 @@ class Gamestate
         uint64_t entityidcounter;
 };
 
-#endif // GAMESTATE_H

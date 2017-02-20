@@ -1,5 +1,4 @@
-#ifndef TRAIL_H
-#define TRAIL_H
+#pragma once
 
 #include "renderer.h"
 
@@ -26,4 +25,3 @@ class Trail : public Entity
     private:
 };
 
-#endif // TRAIL_H

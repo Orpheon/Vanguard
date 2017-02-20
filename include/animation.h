@@ -1,5 +1,4 @@
-#ifndef ANIMATION_H
-#define ANIMATION_H
+#pragma once
 
 #include <allegro5/allegro.h>
 #include <string>
@@ -34,4 +33,3 @@ class LoopAnimation : public Animation
         void interpolate(Animation *prev_anim, Animation *next_anim, double alpha) override;
 };
 
-#endif // ANIMATION_H

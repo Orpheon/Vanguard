@@ -1,5 +1,4 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#pragma once
 
 #include <string.h>
 
@@ -25,4 +24,3 @@ class Engine
         Engine & operator=(Engine &&)=default;
 };
 
-#endif // ENGINE_H

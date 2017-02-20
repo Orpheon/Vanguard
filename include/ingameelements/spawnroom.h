@@ -1,5 +1,4 @@
-#ifndef SPAWNROOM_H
-#define SPAWNROOM_H
+#pragma once
 
 #include "entity.h"
 
@@ -24,4 +23,3 @@ class Spawnroom : public Entity
     private:
 };
 
-#endif // SPAWNROOM_H

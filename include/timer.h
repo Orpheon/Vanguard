@@ -1,5 +1,4 @@
-#ifndef TIMER_H
-#define TIMER_H
+#pragma once
 
 #include "entity.h"
 #include <functional>
@@ -24,4 +23,3 @@ class Timer
         std::function<void(Gamestate *state)> eventfunc;
 };
 
-#endif // TIMER_H

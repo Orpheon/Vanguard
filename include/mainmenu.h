@@ -1,5 +1,4 @@
-#ifndef MAINMENU_H
-#define MAINMENU_H
+#pragma once
 
 #include "spriteloader.h"
 #include "allegro5/allegro5.h"
@@ -16,4 +15,3 @@ class MainMenu
     private:
 };
 
-#endif // MAINMENU_H

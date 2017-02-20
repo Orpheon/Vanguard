@@ -1,5 +1,4 @@
-#ifndef HAMMER_H
-#define HAMMER_H
+#pragma once
 
 #include "ingameelements/weapon.h"
 
@@ -38,4 +37,3 @@ class Hammer : public Weapon
     private:
 };
 
-#endif // HAMMER_H

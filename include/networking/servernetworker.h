@@ -1,5 +1,4 @@
-#ifndef SERVERNETWORKER_H
-#define SERVERNETWORKER_H
+#pragma once
 
 #include "networking/networker.h"
 #include <vector>
@@ -17,4 +16,3 @@ class ServerNetworker : public Networker
     private:
 };
 
-#endif // SERVERNETWORKER_H

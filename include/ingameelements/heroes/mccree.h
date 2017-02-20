@@ -1,5 +1,4 @@
-#ifndef MCCREE_H
-#define MCCREE_H
+#pragma once
 
 #include "ingameelements/character.h"
 #include "renderer.h"
@@ -50,4 +49,3 @@ class Mccree : public Character
     private:
 };
 
-#endif // MCCREE_H

@@ -1,5 +1,4 @@
-#ifndef FLASHBANG_H
-#define FLASHBANG_H
+#pragma once
 
 #include <ingameelements/projectile.h>
 
@@ -28,4 +27,3 @@ class Flashbang : public Projectile
         double EXPLOSION_RADIUS = 40;
 };
 
-#endif // FLASHBANG_H

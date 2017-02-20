@@ -1,5 +1,4 @@
-#ifndef NETWORKER_H
-#define NETWORKER_H
+#pragma once
 
 #include "gamestate.h"
 #define boolean enet_boolean
@@ -18,4 +17,3 @@ class Networker
     private:
 };
 
-#endif // NETWORKER_H

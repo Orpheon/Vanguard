@@ -1,5 +1,4 @@
-#ifndef RENDERER_H
-#define RENDERER_H
+#pragma once
 
 #include "gamestate.h"
 #include "spriteloader.h"
@@ -35,4 +34,3 @@ class Renderer
         double lasttime;
 };
 
-#endif // RENDERER_H

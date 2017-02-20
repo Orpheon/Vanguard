@@ -26,8 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE  OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#ifndef NLOHMANN_JSON_HPP
-#define NLOHMANN_JSON_HPP
+#pragma once
 
 #include <algorithm>
 #include <array>
@@ -10623,4 +10622,3 @@ inline nlohmann::json::json_pointer operator "" _json_pointer(const char* s, std
     #pragma GCC diagnostic pop
 #endif
 
-#endif
