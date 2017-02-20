@@ -132,6 +132,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
         al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 84, ALLEGRO_ALIGN_LEFT, "vspeed: 0.000000");
     }
     al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 96, ALLEGRO_ALIGN_LEFT, ("#Players: " + std::to_string(state->playerlist.size())).c_str());
+    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 108, ALLEGRO_ALIGN_LEFT, ("Zoom: " + std::to_string(zoom)).c_str());
 
 
     if (c != 0)
