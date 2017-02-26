@@ -1,6 +1,7 @@
 #include "ingameelements/projectiles/flashbang.h"
 #include "renderer.h"
 #include "ingameelements/explosion.h"
+#include "engine.h"
 
 #include <functional>
 
@@ -31,6 +32,32 @@ void Flashbang::render(Renderer *renderer, Gamestate *state)
     al_draw_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, direction, 0);
 }
 
+bool Flashbang::collides(Gamestate *state, EntityPtr otherentity, double radius)
+{
+    MovingEntity *m = state->get<MovingEntity>(otherentity);
+    Rect other = state->engine->maskloader.get_rect(m->getsprite(state, true)).offset(m->x, m->y);
+
+    if (std::hypot(x - other.x, y - other.y) <= radius + std::hypot(other.w, other.h))
+    {
+        // We're close enough that an actual collision might happen
+        // Check the sprites
+        double r2 = radius*radius;
+        ALLEGRO_BITMAP *othersprite = state->engine->maskloader.requestsprite(m->getsprite(state, true));
+
+        for (int i=-radius; i<radius; ++i)
+        {
+            for (int j=-radius; j<radius; ++j)
+            {
+                if (i*i+j*j <= r2 and al_get_pixel(othersprite, x+i - other.x, y+j - other.y).a != 0)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
 void Flashbang::explode(Gamestate *state)
 {
     Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "heroes/mccree/flashbang_explosion/", 0));
@@ -40,13 +67,13 @@ void Flashbang::explode(Gamestate *state)
     for (auto pptr : state->playerlist)
     {
         Player *p = state->get<Player>(pptr);
-        // DEBUGTOOL: Replace this check with checking whether p is on enemy team
         if (p->team != team)
         {
             Character *c = p->getcharacter(state);
             if (c != 0)
             {
-                if (circlecollides(state, p->character, EXPLOSION_RADIUS))
+                // TODO: Make flashbang collision circular
+                if (collides(state, p->character, EXPLOSION_RADIUS))
                 {
                     // Check that they aren't behind a wall or something
                     if (not state->currentmap->collideline(x, y, c->x, c->y))

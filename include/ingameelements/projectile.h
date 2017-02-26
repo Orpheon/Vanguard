@@ -9,15 +9,12 @@ class Projectile : public MovingEntity
         virtual void init(uint64_t id_, Gamestate *state, EntityPtr owner_);
         virtual ~Projectile() override = default;
         virtual bool isrootobject() override {return true;}
-        virtual bool isrectangular() = 0;
         virtual Rect getrect() = 0;
-        virtual double getradius() = 0;
         virtual void oncollision(Gamestate *state, Character *c);
         virtual void oncollision(Gamestate *state);
         virtual double damage() = 0;
         virtual void midstep(Gamestate *state, double frametime) override;
-        virtual bool rectcollides(Gamestate *state, EntityPtr otherentity, double angle);
-        virtual bool circlecollides(Gamestate *state, EntityPtr otherentity, double radius);
+        virtual bool collides(Gamestate *state, EntityPtr otherentity, double angle);
         EntityPtr owner;
         Team team;
     protected:
