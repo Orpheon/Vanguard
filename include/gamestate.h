@@ -32,7 +32,7 @@ class Gamestate
             {
                 return 0;
             }
-            return static_cast<EntityT*>(entitylist[e.id].get());
+            return static_cast<EntityT*>(entitylist.at(e.id).get());
         }
 
         void update(double frametime);
