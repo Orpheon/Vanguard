@@ -251,7 +251,7 @@ void Peacemaker::fireultimate(Gamestate *state)
         if (m != 0 and m->entitytype == ENTITYTYPE::CHARACTER)
         {
             c = reinterpret_cast<Character*>(m);
-            c->damage(state, deadeyetargets[playerptr]);
+            c->damage(state, deadeyetargets.at(playerptr));
         }
         state->make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
         Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", angle));

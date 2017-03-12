@@ -22,13 +22,13 @@ class Gamestate
         {
             uint64_t id = entityidcounter++;
             entitylist[id] = std::unique_ptr<Entity>(new EntityT());
-            static_cast<EntityT*>(entitylist[id].get())->init(id, std::forward<Args>(args)...);
+            static_cast<EntityT*>(entitylist.at(id).get())->init(id, std::forward<Args>(args)...);
             return EntityPtr(id);
         }
 
         template<class EntityT> EntityT* get(EntityPtr e)
         {
-            if (e == 0 or entitylist.count(e.id) == 0 or entitylist[e.id]->destroyentity)
+            if (e == 0 or entitylist.count(e.id) == 0 or entitylist.at(e.id)->destroyentity)
             {
                 return 0;
             }
