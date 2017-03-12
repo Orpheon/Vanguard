@@ -19,6 +19,7 @@ void Mccree::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
     flashbanganim.init(herofolder()+"flashbang/");
     flashbanganim.active(false);
     ultwalkanim.init(herofolder()+"ultwalk/");
+    fallanim.init(herofolder()+"falling/");
 
     rollcooldown.init(8);
     rollcooldown.active = false;
@@ -186,6 +187,8 @@ void Mccree::midstep(Gamestate *state, double frametime)
     ulting.update(state, frametime);
     ultcooldown.update(state, frametime);
 
+    fallanim.update(state, vspeed*vspeed*frametime);
+
     if (isflipped)
     {
         ultwalkanim.update(state, -hspeed*frametime);
@@ -234,6 +237,7 @@ void Mccree::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
     ulting.interpolate(&(p->ulting), &(n->ulting), alpha);
     ultwalkanim.interpolate(&(p->ultwalkanim), &(n->ultwalkanim), alpha);
     ultcooldown.interpolate(&(p->ultcooldown), &(n->ultcooldown), alpha);
+    fallanim.interpolate(&(p->fallanim), &(n->fallanim), alpha);
 }
 
 void Mccree::useability1(Gamestate *state)
@@ -348,7 +352,7 @@ std::string Mccree::getsprite(Gamestate *state, bool mask)
     {
         if (vspeed > 100)
         {
-            return herofolder()+"falling/1";
+            return fallanim.getframepath();
         }
         else
         {

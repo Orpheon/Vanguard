@@ -43,6 +43,7 @@ class Mccree : public Character
         Timer rollcooldown;
         Timer flashbangcooldown;
         LoopAnimation ultwalkanim;
+        LoopAnimation fallanim;
         Timer ulting;
         Timer ultcooldown;
     protected:
