@@ -1,11 +1,12 @@
-#include <allegro5/allegro.h>
 #include <cstdio>
 #include <vector>
 #include <string>
+#include <allegro5/allegro.h>
 
 #include "renderer.h"
 #include "global_constants.h"
 #include "entity.h"
+#include "configloader.h"
 
 Renderer::Renderer() : cam_x(0), cam_y(0), zoom(1), myself(0), WINDOW_WIDTH(0), WINDOW_HEIGHT(0), spriteloader(false)
 {
@@ -141,4 +142,91 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
     }
 
     al_flip_display();
+}
+
+ALLEGRO_DISPLAY* Renderer::createnewdisplay()
+{
+    ConfigLoader configloader;
+    nlohmann::json config = configloader.requestconfig();
+    return createnewdisplay(config);
+}
+
+ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
+{
+    //default display values are set on header file
+    int display_width, display_height, display_type;
+
+    if (config.find("display_resolution") == config.end())
+    {
+        display_width = DISPLAY_DEFAULT_WIDTH;
+        display_height = DISPLAY_DEFAULT_HEIGHT;
+    }
+    else
+    {
+        try
+        {
+            display_width = config["display_resolution"][0];
+            display_height = config["display_resolution"][1];
+            if (display_width < DISPLAY_DEFAULT_WIDTH)
+            {
+                display_width = DISPLAY_DEFAULT_WIDTH;
+            }
+            if (display_height < DISPLAY_DEFAULT_HEIGHT)
+            {
+                display_height = DISPLAY_DEFAULT_HEIGHT;
+            }
+        }
+        catch (std::domain_error)
+        {
+            fprintf(stderr, "\nError: Could not load display resolution data!");
+            display_width = DISPLAY_DEFAULT_WIDTH;
+            display_height = DISPLAY_DEFAULT_HEIGHT;
+        }
+    }
+
+    if (config.find("display_type") == config.end())
+    {
+        display_type = DISPLAY_DEFAULT_TYPE;
+    }
+    else
+    {
+        try
+        {
+            display_type = config["display_type"];
+            //check whether display type is validate
+            if (display_type != ALLEGRO_RESIZABLE && display_type != ALLEGRO_FULLSCREEN && display_type != (ALLEGRO_FRAMELESS | ALLEGRO_MAXIMIZED))
+            {
+                display_type = DISPLAY_DEFAULT_TYPE;
+            }
+        }
+        catch (std::domain_error)
+        {
+            fprintf(stderr, "\nError: Could not load display type data!");
+            display_type = DISPLAY_DEFAULT_TYPE;
+        }
+    }
+    /* TODO: ADD ANOTHER OPTIONS LIKE VSYNC */
+
+    ALLEGRO_DISPLAY *display;
+    al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_SUGGEST);
+    al_set_new_display_flags(ALLEGRO_OPENGL | display_type);
+    display = al_create_display(display_width, display_height);
+
+    if(!display)
+    {
+        // FIXME: Make the error argument mean anything?
+        fprintf(stderr, "Fatal Error: Could not create display\n");
+        throw -1;
+    }
+
+    /*
+    ConfigLoader configloader;
+    nlohmann::json config_fixed = configloader.requestconfig();
+    config_fixed["display_resolution"][0] = display_width;
+    config_fixed["display_resolution"][1] = display_height;
+    config_fixed["display_type"] = display_type;
+    configloader.saveconfig(config_fixed);
+    */
+    
+    return display;
 }
