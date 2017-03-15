@@ -14,6 +14,8 @@ class Renderer
         Renderer();
         virtual ~Renderer();
         void render(ALLEGRO_DISPLAY *display, Gamestate *currentstate, EntityPtr myself_, Networker *networker);
+        ALLEGRO_DISPLAY* createnewdisplay();
+        ALLEGRO_DISPLAY* createnewdisplay(const nlohmann::json &config);
         double cam_x;
         double cam_y;
         double zoom;
@@ -32,5 +34,7 @@ class Renderer
     protected:
     private:
         double lasttime;
+        const int DISPLAY_DEFAULT_WIDTH = 640;
+        const int DISPLAY_DEFAULT_HEIGHT = 480;
+        const int DISPLAY_DEFAULT_TYPE = ALLEGRO_RESIZABLE;
 };
-
