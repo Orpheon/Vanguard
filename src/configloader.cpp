@@ -6,7 +6,12 @@
 
 nlohmann::json ConfigLoader::requestconfig()
 {
-    std::ifstream configfile(CONFIG_DIR);
+    return requestconfig(CONFIG_PATH);
+}
+
+nlohmann::json ConfigLoader::requestconfig(const std::string &path)
+{
+    std::ifstream configfile(path);
     nlohmann::json config;
     config << configfile;
     configfile.close();
@@ -15,7 +20,7 @@ nlohmann::json ConfigLoader::requestconfig()
 
 void ConfigLoader::saveconfig(nlohmann::json& config)
 {
-    std::ofstream configfile(CONFIG_DIR);
+    std::ofstream configfile(CONFIG_PATH);
     configfile << config.dump(4) << std::endl;
     configfile.close();
 }

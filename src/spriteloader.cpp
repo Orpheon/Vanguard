@@ -1,17 +1,14 @@
 #include "spriteloader.h"
+#include "configloader.h"
+
 #include <fstream>
 
 Spriteloader::Spriteloader(bool masksonly_) : bitmapcache(), masksonly(masksonly_), defaultzoom(1.0)
 {
-    // Load the sprite offset data
-    std::ifstream spriteoffsetsfile("sprites/spritedata.json");
-    spriteoffsets << spriteoffsetsfile;
-    spriteoffsetsfile.close();
+    ConfigLoader cfgloader;
 
-    // Load the game data
-    std::ifstream gamedatafile("gamedata.json");
-    gamedata << gamedatafile;
-    gamedatafile.close();
+    spriteoffsets = cfgloader.requestconfig("sprites/spritedata.json");
+    gamedata = cfgloader.requestconfig("gamedata.json");
 }
 
 Spriteloader::~Spriteloader()
