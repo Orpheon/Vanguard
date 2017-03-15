@@ -90,6 +90,7 @@
 			<Add library="enet" />
 		</Linker>
 		<Unit filename="include/animation.h" />
+		<Unit filename="include/configloader.h" />
 		<Unit filename="include/datastructures.h" />
 		<Unit filename="include/engine.h" />
 		<Unit filename="include/entity.h" />
@@ -124,6 +125,7 @@
 		<Unit filename="include/timer.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/animation.cpp" />
+		<Unit filename="src/configloader.cpp" />
 		<Unit filename="src/engine.cpp" />
 		<Unit filename="src/entity.cpp" />
 		<Unit filename="src/gamestate.cpp" />
