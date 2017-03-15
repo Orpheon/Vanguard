@@ -219,12 +219,14 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
         throw -1;
     }
 
+    /*
     ConfigLoader configloader;
     nlohmann::json config_fixed = configloader.requestconfig();
     config_fixed["display_resolution"][0] = display_width;
     config_fixed["display_resolution"][1] = display_height;
     config_fixed["display_type"] = display_type;
     configloader.saveconfig(config_fixed);
-
+    */
+    
     return display;
 }
