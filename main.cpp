@@ -6,6 +6,7 @@
 #include <allegro5/allegro_primitives.h>
 #define boolean enet_boolean
 #include <enet/enet.h>
+
 #undef boolean
 
 #include "inputcatcher.h"
@@ -63,18 +64,6 @@ int main(int argc, char **argv)
         throw -1;
     }
 
-    // Create a display
-    ALLEGRO_DISPLAY *display;
-    al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_SUGGEST);
-    al_set_new_display_flags(ALLEGRO_OPENGL | ALLEGRO_FULLSCREEN_WINDOW);
-    display = al_create_display(1280, 720);
-    if(!display)
-    {
-        // FIXME: Make the error argument mean anything?
-        fprintf(stderr, "Fatal Error: Could not create display\n");
-        throw -1;
-    }
-
     //load font
     //gg2 font as placeholder for now i guess
     al_init_font_addon();
@@ -97,6 +86,7 @@ int main(int argc, char **argv)
     {
         isserver = true;
     }
+
 //    double lasttimeupdated = al_get_time();
 //    bool run = true;
 //    while (run)
@@ -109,8 +99,10 @@ int main(int argc, char **argv)
 //    }
 //    delete mainmenu;
 
-    Engine engine(isserver);
     Renderer renderer;
+    ALLEGRO_DISPLAY* display = renderer.createnewdisplay();
+
+    Engine engine(isserver);
     InputCatcher inputcatcher(display);
     Gamestate renderingstate(&engine);
 
@@ -142,7 +134,7 @@ int main(int argc, char **argv)
         {
             n->receive(engine.currentstate.get());
         }
-        myself = engine.currentstate->playerlist[engine.currentstate->playerlist.size()-1];
+        myself = engine.currentstate->playerlist.at(engine.currentstate->playerlist.size()-1);
     }
 
     double enginetime = al_get_time();
