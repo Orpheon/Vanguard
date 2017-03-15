@@ -227,6 +227,6 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
     config_fixed["display_type"] = display_type;
     configloader.saveconfig(config_fixed);
     */
-    
+
     return display;
 }
