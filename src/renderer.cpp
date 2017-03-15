@@ -193,7 +193,7 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
         try
         {
             display_type = config["display_type"];
-            //check whether display type is validate
+            // Check whether display type is valid
             if (display_type != ALLEGRO_RESIZABLE && display_type != ALLEGRO_FULLSCREEN && display_type != (ALLEGRO_FRAMELESS | ALLEGRO_MAXIMIZED))
             {
                 display_type = DISPLAY_DEFAULT_TYPE;
@@ -205,7 +205,7 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
             display_type = DISPLAY_DEFAULT_TYPE;
         }
     }
-    /* TODO: ADD ANOTHER OPTIONS LIKE VSYNC */
+    // TODO: ADD ANOTHER OPTIONS LIKE VSYNC
 
     ALLEGRO_DISPLAY *display;
     al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_SUGGEST);
