@@ -34,7 +34,7 @@ class Renderer
     protected:
     private:
         double lasttime;
-        const int DISPLAY_DEFAULT_WIDTH = 640;
-        const int DISPLAY_DEFAULT_HEIGHT = 480;
+        const int DISPLAY_DEFAULT_WIDTH = 1280;
+        const int DISPLAY_DEFAULT_HEIGHT = 1024;
         const int DISPLAY_DEFAULT_TYPE = ALLEGRO_RESIZABLE;
 };

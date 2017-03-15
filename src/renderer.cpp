@@ -167,13 +167,13 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
         {
             display_width = config["display_resolution"][0];
             display_height = config["display_resolution"][1];
-            if (display_width < DISPLAY_DEFAULT_WIDTH)
+            if (display_width < 640)
             {
-                display_width = DISPLAY_DEFAULT_WIDTH;
+                display_width = 640;
             }
-            if (display_height < DISPLAY_DEFAULT_HEIGHT)
+            if (display_height < 480)
             {
-                display_height = DISPLAY_DEFAULT_HEIGHT;
+                display_height = 480;
             }
         }
         catch (std::domain_error)
