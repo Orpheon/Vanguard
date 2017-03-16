@@ -115,7 +115,7 @@ int Animation::getframe()
 {
     if (not inited)
     {
-        std::cout << "Fatal Error: Animation used before initialized!";
+        std::cerr << "Fatal Error: Animation getframe() called before initialized!";
         throw -1;
     }
 
@@ -126,14 +126,6 @@ int Animation::getframe()
 
 std::string Animation::getframepath()
 {
-    if (not inited)
-    {
-        std::cout << "Fatal Error: Animation used before initialized!";
-        throw -1;
-    }
-
-    int f = static_cast<int>(std::floor(nframes*timer.getpercent()))+1;
-    f = std::min(std::max(f, 1), nframes);
     return path+std::to_string(getframe());
 }
 
@@ -141,7 +133,7 @@ void Animation::update(Gamestate *state, double dt)
 {
     if (not inited)
     {
-        std::cout << "Fatal Error: Animation used before initialized!";
+        std::cerr << "Fatal Error: Animation update() called before initialized!";
         throw -1;
     }
 
@@ -152,18 +144,18 @@ void Animation::interpolate(Animation *prev_anim, Animation *next_anim, double a
 {
     if (not inited)
     {
-        std::cout << "Fatal Error: Animation used before initialized!";
+        std::cerr << "Fatal Error: Animation interpolate() called before initialized!";
         throw -1;
     }
 
     timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
 }
 
-void Animation::Animation::reset()
+void Animation::reset()
 {
     if (not inited)
     {
-        std::cout << "Fatal Error: Animation used before initialized!";
+        std::cerr << "Fatal Error: Animation reset() called before initialized!";
         throw -1;
     }
 
@@ -177,7 +169,7 @@ void LoopAnimation::update(Gamestate *state, double dt)
 {
     if (not inited)
     {
-        std::cout << "Fatal Error: LoopAnimation used before initialized!";
+        std::cerr << "Fatal Error: LoopAnimation update() called before initialized!";
         throw -1;
     }
 
@@ -197,7 +189,7 @@ void LoopAnimation::interpolate(Animation *prev_anim, Animation *next_anim, doub
 {
     if (not inited)
     {
-        std::cout << "Fatal Error: LoopAnimation used before initialized!";
+        std::cerr << "Fatal Error: LoopAnimation interpolate() called before initialized!";
         throw -1;
     }
 
