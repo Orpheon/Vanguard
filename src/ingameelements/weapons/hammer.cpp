@@ -114,40 +114,42 @@ void Hammer::render(Renderer *renderer, Gamestate *state)
         }
     }
 
-    if (barrier.active)
-    {
-        if (barrierhealth/MAX_BARRIER_HEALTH >= 0.6)
-        {
-            mainsprite = "heroes/reinhardt/shield/0%";
-        }
-        else if (barrierhealth/MAX_BARRIER_HEALTH >= 0.2)
-        {
-            mainsprite = "heroes/reinhardt/shield/40%";
-        }
-        else
-        {
-            mainsprite = "heroes/reinhardt/shield/80%";
-        }
-        sprite = renderer->spriteloader.requestsprite(mainsprite);
-        spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;
-        spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite)*renderer->zoom;
-        rel_x = (x - renderer->cam_x)*renderer->zoom;
-        rel_y = (y - renderer->cam_y)*renderer->zoom;
-        attachpt_x = getattachpoint_x()*renderer->zoom;
-        attachpt_y = getattachpoint_y()*renderer->zoom;
+    // Barrier drawing code, move into its own entity once it exists
 
-        if (c->weaponvisible(state))
-        {
-            if (c->isflipped)
-            {
-                al_draw_scaled_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, (aimdirection+3.1415)*barrier.active, 0);
-            }
-            else
-            {
-                al_draw_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, aimdirection*barrier.active, 0);
-            }
-        }
-    }
+//    if (barrier.active)
+//    {
+//        if (barrierhealth/MAX_BARRIER_HEALTH >= 0.6)
+//        {
+//            mainsprite = "heroes/reinhardt/shield/0%";
+//        }
+//        else if (barrierhealth/MAX_BARRIER_HEALTH >= 0.2)
+//        {
+//            mainsprite = "heroes/reinhardt/shield/40%";
+//        }
+//        else
+//        {
+//            mainsprite = "heroes/reinhardt/shield/80%";
+//        }
+//        sprite = renderer->spriteloader.requestsprite(mainsprite);
+//        spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;
+//        spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite)*renderer->zoom;
+//        rel_x = (x - renderer->cam_x)*renderer->zoom;
+//        rel_y = (y - renderer->cam_y)*renderer->zoom;
+//        attachpt_x = getattachpoint_x()*renderer->zoom;
+//        attachpt_y = getattachpoint_y()*renderer->zoom;
+//
+//        if (c->weaponvisible(state))
+//        {
+//            if (c->isflipped)
+//            {
+//                al_draw_scaled_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, (aimdirection+3.1415)*barrier.active, 0);
+//            }
+//            else
+//            {
+//                al_draw_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, aimdirection*barrier.active, 0);
+//            }
+//        }
+//    }
 }
 
 void Hammer::beginstep(Gamestate *state, double frametime)
