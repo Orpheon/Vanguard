@@ -1,17 +1,14 @@
 #include "spriteloader.h"
+#include "configloader.h"
+
 #include <fstream>
 
 Spriteloader::Spriteloader(bool masksonly_) : bitmapcache(), masksonly(masksonly_), defaultzoom(1.0)
 {
-    // Load the sprite offset data
-    std::ifstream spriteoffsetsfile("sprites/spritedata.json");
-    spriteoffsets << spriteoffsetsfile;
-    spriteoffsetsfile.close();
+    ConfigLoader cfgloader;
 
-    // Load the game data
-    std::ifstream gamedatafile("gamedata.json");
-    gamedata << gamedatafile;
-    gamedatafile.close();
+    spriteoffsets = cfgloader.requestconfig("sprites/spritedata.json");
+    gamedata = cfgloader.requestconfig("gamedata.json");
 }
 
 Spriteloader::~Spriteloader()
@@ -110,7 +107,7 @@ ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path, double zoom)
             al_set_target_bitmap(oldtarget);
         }
     }
-    return bitmapcache[path];
+    return bitmapcache.at(path);
 }
 
 ALLEGRO_BITMAP* Spriteloader::requestspriteoutline(std::string path)
@@ -148,12 +145,12 @@ ALLEGRO_BITMAP* Spriteloader::requestspriteoutline(std::string path, double zoom
             int w=al_get_bitmap_width(tmpbitmap), h=al_get_bitmap_height(tmpbitmap);
             bitmapcache[path] = al_create_bitmap(w*zoom, h*zoom);
             ALLEGRO_BITMAP *oldtarget = al_get_target_bitmap();
-            al_set_target_bitmap(bitmapcache[path]);
+            al_set_target_bitmap(bitmapcache.at(path));
             al_draw_scaled_bitmap(tmpbitmap, 0, 0, w, h, 0, 0, w*zoom, h*zoom, 0);
             al_set_target_bitmap(oldtarget);
         }
     }
-    return bitmapcache[path];
+    return bitmapcache.at(path);
 }
 
 Rect Spriteloader::get_rect(std::string s)

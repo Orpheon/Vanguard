@@ -81,4 +81,4 @@ for filepath in filelist:
 
 # Export the cropping data and the animation lengths
 with open("sprites/spritedata.json", "w") as f:
-    json.dump(spritedata, f)
+    json.dump(spritedata, f, sort_keys=True, indent=4)

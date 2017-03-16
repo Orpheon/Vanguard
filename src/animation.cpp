@@ -1,6 +1,7 @@
 #include "animation.h"
-
 #include "json.hpp"
+#include "configloader.h"
+
 #include <fstream>
 #include <cmath>
 
@@ -8,10 +9,9 @@ void Animation::init(std::string path_, std::function<void(Gamestate *state)> ev
 {
     path = path_;
 
-    std::ifstream datafile("gamedata.json");
-    nlohmann::json data;
-    data << datafile;
-    datafile.close();
+    ConfigLoader cfgloader;
+
+    nlohmann::json data = cfgloader.requestconfig("gamedata.json");
     double duration = 0;
     try
     {
@@ -23,10 +23,7 @@ void Animation::init(std::string path_, std::function<void(Gamestate *state)> ev
         throw -1;
     }
 
-    std::ifstream datafile2("sprites/spritedata.json");
-    nlohmann::json data2;
-    data2 << datafile2;
-    datafile2.close();
+    nlohmann::json data2 = cfgloader.requestconfig("sprites/spritedata.json");
     try
     {
         nframes = data2[path+" number of frames"];

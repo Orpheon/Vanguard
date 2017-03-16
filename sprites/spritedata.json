@@ -1,1 +1,875 @@
-{"download/sleep - Copy (2)/11.png": [70.0, 70.0], "heroes/mccree/flashbang/4_sprite.png": [-4.0, -2.0], "heroes/reinhardt/firing/ number of frames": 4, "heroes/reinhardt/preparecharge/ number of frames": 6, "heroes/reinhardt/shieldrun/ number of frames": 8, "heroes/reinhardt/preparecharge/5_sprite.png": [25.0, 7.0], "heroes/mccree/corpse/ number of frames": 1, "heroes/mccree/reload/7_sprite.png": [2.0, 4.0], "heroes/reinhardt/emote/3_sprite.png": [8.0, 8.0], "heroes/reinhardt/shieldrun/1_sprite.png": [18.0, 17.0], "heroes/mccree/projectiles/bullet_sprite.png": [0.0, 1.0], "ui/ingame/ultbar_sprite.png": [51.0, 58.5], "heroes/mccree/sleep/ number of frames": 1, "heroes/reinhardt/shieldrun/5_sprite.png": [15.0, 17.0], "heroes/mccree/flashbang/ number of frames": 4, "heroes/reinhardt/endcharge/5_sprite.png": [25.0, 18.0], "heroes/reinhardt/ number of frames": 0, "heroes/reinhardt/ult/10_sprite.png": [20.0, 40.0], "heroes/mccree/crouchwalk/2_sprite.png": [10.0, -4.0], "heroes/reinhardt/ult/2_sprite.png": [50.0, 18.0], "download/walk - Copy/shieldup idle 3.png": [16.0, 16.0], "/ number of frames": 0, "heroes/mccree/reload/3_sprite.png": [3.0, -1.0], "heroes/mccree/flashbang_explosion/6_sprite.png": [19.0, 7.0], "heroes/mccree/flashbang_explosion/1_sprite.png": [19.0, 21.0], "heroes/mccree/ number of frames": 0, "heroes/mccree/emote/1_sprite.png": [8.0, 7.0], "heroes/mccree/falling/1_sprite.png": [9.0, 9.0], "heroes/mccree/ultwalk/3_sprite.png": [20.0, 11.0], "heroes/reinhardt/idle/ number of frames": 1, "heroes/mccree/run/8_sprite.png": [15.0, 4.0], "heroes/reinhardt/crouchwalk/3_sprite.png": [14.0, 9.0], "heroes/reinhardt/ult/effects/9.png": [19.0, 41.0], "download/walk - Copy/ number of frames": 1, "heroes/mccree/firing/3_sprite.png": [3.0, -3.0], "heroes/reinhardt/shieldrun/3_sprite.png": [13.0, 17.0], "heroes/reinhardt/sleep/ number of frames": 1, "heroes/mccree/reload/5_sprite.png": [3.0, 6.0], "heroes/mccree/reload/8_sprite.png": [2.0, 5.0], "heroes/mccree/reload/4_sprite.png": [3.0, 1.0], "heroes/mccree/reload/10_sprite.png": [2.0, 5.0], "heroes/mccree/fanthehammerloop/2_sprite.png": [3.0, -3.0], "heroes/mccree/reload/1_sprite.png": [3.0, -5.0], "heroes/reinhardt/emote/7_sprite.png": [35.0, 35.0], "heroes/reinhardt/crouch/ number of frames": 3, "download/sleep - Copy (2)/8.png": [70.0, 70.0], "heroes/reinhardt/falling/ number of frames": 1, "heroes/mccree/flashbang_explosion/2_sprite.png": [11.0, 12.0], "heroes/mccree/reload/6_sprite.png": [3.0, 4.0], "heroes/reinhardt/preparecharge/6_sprite.png": [26.0, 5.0], "heroes/reinhardt/firing/1_sprite.png": [5.0, -3.0], "heroes/mccree/projectiletrail/2_sprite.png": [0.0, 9.0], "heroes/reinhardt/firing/2_sprite.png": [4.0, 0.0], "heroes/mccree/flashbang_explosion/5_sprite.png": [15.0, 5.0], "heroes/reinhardt/falling/1_sprite.png": [14.0, -1.0], "heroes/mccree/ultwalk/2_sprite.png": [20.0, 11.0], "ui/ingame/heroes/mccree/ number of frames": 6, "ui/ingame/heroes/mccree/rollingcooldown_sprite.png": [28.0, 19.0], "heroes/mccree/projectiletrail/1_sprite.png": [0.0, 5.0], "heroes/reinhardt/crouchwalk/2_sprite.png": [17.0, 9.0], "heroes/reinhardt/preparecharge/3_sprite.png": [25.0, 16.0], "heroes/reinhardt/arm/front_sprite.png": [21.0, 14.0], "heroes/mccree/jump/ number of frames": 1, "heroes/reinhardt/crouchwalk/4_sprite.png": [16.0, 9.0], "heroes/reinhardt/ult/5_sprite.png": [53.0, 22.0], "heroes/mccree/run/4_sprite.png": [18.0, 4.0], "download/sleep - Copy (2)/7.png": [70.0, 70.0], "heroes/mccree/emote/4_sprite.png": [8.0, 8.0], "heroes/mccree/corpse/1_sprite.png": [23.0, -26.0], "heroes/reinhardt/shield/40%_sprite.png": [-11.0, 39.0], "heroes/reinhardt/idle/1_sprite.png": [14.0, 20.0], "heroes/reinhardt/ult/4_sprite.png": [55.0, 21.0], "ui/ingame/heroes/reinhardt/ number of frames": 2, "heroes/reinhardt/ult/effects/7.png": [48.0, 64.0], "heroes/mccree/arm/ number of frames": 1, "heroes/reinhardt/run/4_sprite.png": [13.0, 20.0], "heroes/reinhardt/endcharge/ number of frames": 6, "heroes/reinhardt/charge/ number of frames": 1, "heroes/mccree/crouchwalk/3_sprite.png": [10.0, -4.0], "heroes/reinhardt/ult/7_sprite.png": [59.0, 64.0], "heroes/reinhardt/crouchwalk/1_sprite.png": [14.0, 9.0], "heroes/mccree/fanthehammerstart/2_sprite.png": [3.0, -4.0], "heroes/mccree/falling/2_sprite.png": [12.0, 9.0], "heroes/reinhardt/shieldrun/6_sprite.png": [13.0, 18.0], "heroes/mccree/stun/1_sprite.png": [11.0, 11.0], "heroes/mccree/fanthehammerstart/1_sprite.png": [3.0, -3.0], "heroes/mccree/ultwalk/1_sprite.png": [20.0, 11.0], "heroes/mccree/ult/1_sprite.png": [20.0, 11.0], "heroes/reinhardt/shieldrun/4_sprite.png": [16.0, 16.0], "heroes/mccree/emote/2_sprite.png": [8.0, 8.0], "ui/ingame/heroes/mccree/lockon_sprite.png": [4.0, 4.5], "heroes/mccree/flashbang/1_sprite.png": [-3.0, 6.0], "download/sleep - Copy (2)/2.png": [70.0, 70.0], "heroes/mccree/reload/2_sprite.png": [3.0, -6.0], "heroes/reinhardt/ult/3_sprite.png": [51.0, 20.0], "heroes/reinhardt/emote/5_sprite.png": [8.0, 7.0], "heroes/mccree/run/1_sprite.png": [11.0, 5.0], "heroes/mccree/ultwalk/4_sprite.png": [20.0, 11.0], "ui/ingame/polygon_sprite.png": [28.0, 17.0], "heroes/reinhardt/shieldrun/8_sprite.png": [17.0, 16.0], "ui/ingame/heroes/mccree/rolling_sprite.png": [28.0, 19.0], "heroes/reinhardt/ult/effects/8.png": [39.0, 54.0], "heroes/reinhardt/run/5_sprite.png": [16.0, 20.0], "heroes/reinhardt/endcharge/4_sprite.png": [25.0, 16.0], "heroes/mccree/run/2_sprite.png": [11.0, 4.0], "download/sleep - Copy (2)/ number of frames": 11, "heroes/reinhardt/shield/front_sprite.png": [21.0, 14.0], "heroes/mccree/firing/1_sprite.png": [5.0, -3.0], "ui/ingame/heroes/mccree/flashbang_sprite.png": [28.0, 19.0], "heroes/mccree/ult/ number of frames": 1, "heroes/mccree/projectiletrail/ number of frames": 3, "ui/ingame/ number of frames": 2, "heroes/mccree/stun/ number of frames": 1, "download/ number of frames": 0, "heroes/reinhardt/firing/3_sprite.png": [3.0, -3.0], "heroes/mccree/idle/ number of frames": 1, "heroes/reinhardt/crouch/frontarm_sprite.png": [21.0, 5.0], "heroes/reinhardt/corpse/1_sprite.png": [23.0, -26.0], "heroes/mccree/idle/1_sprite.png": [9.0, 6.0], "heroes/mccree/flashbang/2_sprite.png": [-4.0, -2.0], "heroes/reinhardt/ult/ number of frames": 12, "heroes/reinhardt/corpse/ number of frames": 1, "heroes/mccree/roll/4_sprite.png": [13.0, 3.0], "heroes/reinhardt/ult/8_sprite.png": [39.0, 54.0], "heroes/reinhardt/preparecharge/4_sprite.png": [25.0, 14.0], "heroes/reinhardt/endcharge/3_sprite.png": [25.0, 14.0], "heroes/mccree/ultwalk/ number of frames": 4, "heroes/mccree/emote/7_sprite.png": [8.0, 6.0], "heroes/mccree/sleep/1_sprite.png": [23.0, -25.0], "download/sleep - Copy (2)/4.png": [70.0, 70.0], "heroes/mccree/roll/3_sprite.png": [15.0, -8.0], "ui/ingame/heroes/mccree/flashbangcooldown_sprite.png": [28.0, 19.0], "heroes/mccree/emote/ number of frames": 7, "heroes/mccree/crouch/ number of frames": 1, "heroes/reinhardt/shield/80%_sprite.png": [-11.0, 39.0], "heroes/mccree/run/ number of frames": 8, "download/sleep - Copy (2)/1.png": [70.0, 70.0], "heroes/reinhardt/run/8_sprite.png": [13.0, 18.0], "heroes/mccree/run/5_sprite.png": [16.0, 5.0], "ui/ingame/heroes/ number of frames": 0, "heroes/mccree/falling/ number of frames": 2, "heroes/reinhardt/shieldrun/2_sprite.png": [13.0, 18.0], "ui/ingame/heroes/mccree/ultready_sprite.png": [64.0, 70.5], "heroes/mccree/reload/12_sprite.png": [3.0, -4.0], "heroes/reinhardt/emote/ number of frames": 7, "heroes/mccree/run/7_sprite.png": [12.0, 3.0], "heroes/mccree/roll/2_sprite.png": [12.0, -1.0], "heroes/reinhardt/arm/back_sprite.png": [0.0, 14.0], "heroes/mccree/projectiles/ number of frames": 2, "heroes/mccree/projectiletrail/3_sprite.png": [0.0, 8.0], "heroes/mccree/roll/ number of frames": 4, "download/sleep - Copy (2)/9.png": [70.0, 70.0], "heroes/reinhardt/ult/effects/10.png": [19.0, 40.0], "heroes/mccree/fanthehammerstart/ number of frames": 2, "download/sleep - Copy (2)/10.png": [70.0, 70.0], "heroes/reinhardt/endcharge/6_sprite.png": [21.0, 15.0], "download/sleep - Copy (2)/3.png": [70.0, 70.0], "heroes/reinhardt/run/1_sprite.png": [13.0, 19.0], "heroes/mccree/fanthehammerloop/ number of frames": 2, "heroes/mccree/run/3_sprite.png": [13.0, 3.0], "heroes/mccree/reload/11_sprite.png": [2.0, -1.0], "ui/ number of frames": 0, "heroes/mccree/flashbang_explosion/4_sprite.png": [17.0, 21.0], "heroes/reinhardt/run/7_sprite.png": [22.0, 19.0], "heroes/reinhardt/ult/12_sprite.png": [20.0, 10.0], "heroes/mccree/jump/1_sprite.png": [10.0, 7.0], "heroes/mccree/emote/5_sprite.png": [8.0, 7.0], "heroes/reinhardt/emote/4_sprite.png": [8.0, 8.0], "heroes/reinhardt/ult/1_sprite.png": [36.0, 18.0], "heroes/mccree/run/6_sprite.png": [11.0, 4.0], "heroes/reinhardt/run/2_sprite.png": [16.0, 18.0], "heroes/reinhardt/emote/2_sprite.png": [8.0, 8.0], "heroes/reinhardt/run/3_sprite.png": [18.0, 19.0], "heroes/reinhardt/emote/6_sprite.png": [4.0, 6.0], "heroes/mccree/firing/ number of frames": 4, "ui/ingame/heroes/reinhardt/ultready_sprite.png": [64.0, 70.5], "heroes/mccree/flashbang/3_sprite.png": [-4.0, -2.0], "heroes/reinhardt/shieldrun/7_sprite.png": [14.0, 17.0], "heroes/reinhardt/firing/4_sprite.png": [3.0, -5.0], "heroes/mccree/flashbang_explosion/ number of frames": 6, "heroes/mccree/crouchwalk/1_sprite.png": [10.0, -4.0], "heroes/mccree/firing/2_sprite.png": [4.0, 0.0], "heroes/reinhardt/run/6_sprite.png": [26.0, 21.0], "heroes/reinhardt/endcharge/2_sprite.png": [25.0, 7.0], "heroes/reinhardt/ult/6_sprite.png": [54.0, 19.0], "heroes/reinhardt/shield/0%_sprite.png": [-11.0, 39.0], "heroes/mccree/emote/3_sprite.png": [8.0, 8.0], "heroes/reinhardt/stun/1_sprite.png": [11.0, 11.0], "heroes/mccree/crouch/1_sprite.png": [12.0, -4.0], "heroes/reinhardt/arm/ number of frames": 2, "heroes/reinhardt/endcharge/1_sprite.png": [26.0, 5.0], "heroes/mccree/arm/1_sprite.png": [3.0, -5.0], "heroes/reinhardt/crouch/1_sprite.png": [14.0, 9.0], "download/sleep - Copy (2)/5.png": [70.0, 70.0], "heroes/mccree/reload/ number of frames": 12, "heroes/reinhardt/run/ number of frames": 8, "heroes/mccree/crouchwalk/4_sprite.png": [10.0, -4.0], "heroes/reinhardt/sleep/1_sprite.png": [23.0, -25.0], "ui/ingame/heroes/reinhardt/ultready.png": [64.0, 70.5], "heroes/reinhardt/preparecharge/1_sprite.png": [21.0, 15.0], "heroes/reinhardt/emote/1_sprite.png": [7.0, 8.0], "heroes/reinhardt/charge/1_sprite.png": [29.0, 3.0], "heroes/mccree/fanthehammerloop/1_sprite.png": [3.0, -2.0], "heroes/reinhardt/ult/effects/ number of frames": 4, "download/sleep - Copy (2)/6.png": [70.0, 70.0], "heroes/reinhardt/shield/back_sprite.png": [0.0, 14.0], "heroes/mccree/flashbang_explosion/3_sprite.png": [7.0, 13.0], "heroes/reinhardt/shield/ number of frames": 5, "heroes/mccree/reload/9_sprite.png": [2.0, 5.0], "heroes/reinhardt/crouch/backarm_sprite.png": [0.0, 5.0], "heroes/mccree/firing/4_sprite.png": [3.0, -5.0], "heroes/ number of frames": 0, "heroes/reinhardt/ult/9_sprite.png": [19.0, 41.0], "heroes/reinhardt/stun/ number of frames": 1, "heroes/mccree/projectiles/flashbang_sprite.png": [4.0, 2.0], "heroes/mccree/roll/1_sprite.png": [19.0, -3.0], "heroes/reinhardt/preparecharge/2_sprite.png": [25.0, 18.0], "heroes/mccree/crouchwalk/ number of frames": 4, "heroes/reinhardt/ult/11_sprite.png": [20.0, 13.0], "heroes/reinhardt/crouchwalk/ number of frames": 4, "heroes/mccree/emote/6_sprite.png": [10.0, 6.0]}
+{
+    "/ number of frames": 0,
+    "download/ number of frames": 0,
+    "download/sleep - Copy (2)/ number of frames": 11,
+    "download/sleep - Copy (2)/1.png": [
+        70.0,
+        70.0
+    ],
+    "download/sleep - Copy (2)/10.png": [
+        70.0,
+        70.0
+    ],
+    "download/sleep - Copy (2)/11.png": [
+        70.0,
+        70.0
+    ],
+    "download/sleep - Copy (2)/2.png": [
+        70.0,
+        70.0
+    ],
+    "download/sleep - Copy (2)/3.png": [
+        70.0,
+        70.0
+    ],
+    "download/sleep - Copy (2)/4.png": [
+        70.0,
+        70.0
+    ],
+    "download/sleep - Copy (2)/5.png": [
+        70.0,
+        70.0
+    ],
+    "download/sleep - Copy (2)/6.png": [
+        70.0,
+        70.0
+    ],
+    "download/sleep - Copy (2)/7.png": [
+        70.0,
+        70.0
+    ],
+    "download/sleep - Copy (2)/8.png": [
+        70.0,
+        70.0
+    ],
+    "download/sleep - Copy (2)/9.png": [
+        70.0,
+        70.0
+    ],
+    "download/walk - Copy/ number of frames": 1,
+    "download/walk - Copy/shieldup idle 3.png": [
+        16.0,
+        16.0
+    ],
+    "heroes/ number of frames": 0,
+    "heroes/mccree/ number of frames": 0,
+    "heroes/mccree/arm/ number of frames": 1,
+    "heroes/mccree/arm/1_sprite.png": [
+        3.0,
+        -5.0
+    ],
+    "heroes/mccree/corpse/ number of frames": 1,
+    "heroes/mccree/corpse/1_sprite.png": [
+        23.0,
+        -26.0
+    ],
+    "heroes/mccree/crouch/ number of frames": 1,
+    "heroes/mccree/crouch/1_sprite.png": [
+        12.0,
+        -4.0
+    ],
+    "heroes/mccree/crouchwalk/ number of frames": 4,
+    "heroes/mccree/crouchwalk/1_sprite.png": [
+        10.0,
+        -4.0
+    ],
+    "heroes/mccree/crouchwalk/2_sprite.png": [
+        10.0,
+        -4.0
+    ],
+    "heroes/mccree/crouchwalk/3_sprite.png": [
+        10.0,
+        -4.0
+    ],
+    "heroes/mccree/crouchwalk/4_sprite.png": [
+        10.0,
+        -4.0
+    ],
+    "heroes/mccree/emote/ number of frames": 7,
+    "heroes/mccree/emote/1_sprite.png": [
+        8.0,
+        7.0
+    ],
+    "heroes/mccree/emote/2_sprite.png": [
+        8.0,
+        8.0
+    ],
+    "heroes/mccree/emote/3_sprite.png": [
+        8.0,
+        8.0
+    ],
+    "heroes/mccree/emote/4_sprite.png": [
+        8.0,
+        8.0
+    ],
+    "heroes/mccree/emote/5_sprite.png": [
+        8.0,
+        7.0
+    ],
+    "heroes/mccree/emote/6_sprite.png": [
+        10.0,
+        6.0
+    ],
+    "heroes/mccree/emote/7_sprite.png": [
+        8.0,
+        6.0
+    ],
+    "heroes/mccree/falling/ number of frames": 2,
+    "heroes/mccree/falling/1_sprite.png": [
+        9.0,
+        9.0
+    ],
+    "heroes/mccree/falling/2_sprite.png": [
+        12.0,
+        9.0
+    ],
+    "heroes/mccree/fanthehammerloop/ number of frames": 2,
+    "heroes/mccree/fanthehammerloop/1_sprite.png": [
+        3.0,
+        -2.0
+    ],
+    "heroes/mccree/fanthehammerloop/2_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "heroes/mccree/fanthehammerstart/ number of frames": 2,
+    "heroes/mccree/fanthehammerstart/1_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "heroes/mccree/fanthehammerstart/2_sprite.png": [
+        3.0,
+        -4.0
+    ],
+    "heroes/mccree/firing/ number of frames": 4,
+    "heroes/mccree/firing/1_sprite.png": [
+        5.0,
+        -3.0
+    ],
+    "heroes/mccree/firing/2_sprite.png": [
+        4.0,
+        0.0
+    ],
+    "heroes/mccree/firing/3_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "heroes/mccree/firing/4_sprite.png": [
+        3.0,
+        -5.0
+    ],
+    "heroes/mccree/flashbang/ number of frames": 4,
+    "heroes/mccree/flashbang/1_sprite.png": [
+        -3.0,
+        6.0
+    ],
+    "heroes/mccree/flashbang/2_sprite.png": [
+        -4.0,
+        -2.0
+    ],
+    "heroes/mccree/flashbang/3_sprite.png": [
+        -4.0,
+        -2.0
+    ],
+    "heroes/mccree/flashbang/4_sprite.png": [
+        -4.0,
+        -2.0
+    ],
+    "heroes/mccree/flashbang_explosion/ number of frames": 6,
+    "heroes/mccree/flashbang_explosion/1_sprite.png": [
+        19.0,
+        21.0
+    ],
+    "heroes/mccree/flashbang_explosion/2_sprite.png": [
+        11.0,
+        12.0
+    ],
+    "heroes/mccree/flashbang_explosion/3_sprite.png": [
+        7.0,
+        13.0
+    ],
+    "heroes/mccree/flashbang_explosion/4_sprite.png": [
+        17.0,
+        21.0
+    ],
+    "heroes/mccree/flashbang_explosion/5_sprite.png": [
+        15.0,
+        5.0
+    ],
+    "heroes/mccree/flashbang_explosion/6_sprite.png": [
+        19.0,
+        7.0
+    ],
+    "heroes/mccree/idle/ number of frames": 1,
+    "heroes/mccree/idle/1_sprite.png": [
+        9.0,
+        6.0
+    ],
+    "heroes/mccree/jump/ number of frames": 1,
+    "heroes/mccree/jump/1_sprite.png": [
+        10.0,
+        7.0
+    ],
+    "heroes/mccree/projectiles/ number of frames": 2,
+    "heroes/mccree/projectiles/bullet_sprite.png": [
+        0.0,
+        1.0
+    ],
+    "heroes/mccree/projectiles/flashbang_sprite.png": [
+        4.0,
+        2.0
+    ],
+    "heroes/mccree/projectiletrail/ number of frames": 3,
+    "heroes/mccree/projectiletrail/1_sprite.png": [
+        0.0,
+        5.0
+    ],
+    "heroes/mccree/projectiletrail/2_sprite.png": [
+        0.0,
+        9.0
+    ],
+    "heroes/mccree/projectiletrail/3_sprite.png": [
+        0.0,
+        8.0
+    ],
+    "heroes/mccree/reload/ number of frames": 12,
+    "heroes/mccree/reload/10_sprite.png": [
+        2.0,
+        5.0
+    ],
+    "heroes/mccree/reload/11_sprite.png": [
+        2.0,
+        -1.0
+    ],
+    "heroes/mccree/reload/12_sprite.png": [
+        3.0,
+        -4.0
+    ],
+    "heroes/mccree/reload/1_sprite.png": [
+        3.0,
+        -5.0
+    ],
+    "heroes/mccree/reload/2_sprite.png": [
+        3.0,
+        -6.0
+    ],
+    "heroes/mccree/reload/3_sprite.png": [
+        3.0,
+        -1.0
+    ],
+    "heroes/mccree/reload/4_sprite.png": [
+        3.0,
+        1.0
+    ],
+    "heroes/mccree/reload/5_sprite.png": [
+        3.0,
+        6.0
+    ],
+    "heroes/mccree/reload/6_sprite.png": [
+        3.0,
+        4.0
+    ],
+    "heroes/mccree/reload/7_sprite.png": [
+        2.0,
+        4.0
+    ],
+    "heroes/mccree/reload/8_sprite.png": [
+        2.0,
+        5.0
+    ],
+    "heroes/mccree/reload/9_sprite.png": [
+        2.0,
+        5.0
+    ],
+    "heroes/mccree/roll/ number of frames": 4,
+    "heroes/mccree/roll/1_sprite.png": [
+        19.0,
+        -3.0
+    ],
+    "heroes/mccree/roll/2_sprite.png": [
+        12.0,
+        -1.0
+    ],
+    "heroes/mccree/roll/3_sprite.png": [
+        15.0,
+        -8.0
+    ],
+    "heroes/mccree/roll/4_sprite.png": [
+        13.0,
+        3.0
+    ],
+    "heroes/mccree/run/ number of frames": 8,
+    "heroes/mccree/run/1_sprite.png": [
+        11.0,
+        5.0
+    ],
+    "heroes/mccree/run/2_sprite.png": [
+        11.0,
+        4.0
+    ],
+    "heroes/mccree/run/3_sprite.png": [
+        13.0,
+        3.0
+    ],
+    "heroes/mccree/run/4_sprite.png": [
+        18.0,
+        4.0
+    ],
+    "heroes/mccree/run/5_sprite.png": [
+        16.0,
+        5.0
+    ],
+    "heroes/mccree/run/6_sprite.png": [
+        11.0,
+        4.0
+    ],
+    "heroes/mccree/run/7_sprite.png": [
+        12.0,
+        3.0
+    ],
+    "heroes/mccree/run/8_sprite.png": [
+        15.0,
+        4.0
+    ],
+    "heroes/mccree/sleep/ number of frames": 1,
+    "heroes/mccree/sleep/1_sprite.png": [
+        23.0,
+        -25.0
+    ],
+    "heroes/mccree/stun/ number of frames": 1,
+    "heroes/mccree/stun/1_sprite.png": [
+        11.0,
+        11.0
+    ],
+    "heroes/mccree/ult/ number of frames": 1,
+    "heroes/mccree/ult/1_sprite.png": [
+        20.0,
+        11.0
+    ],
+    "heroes/mccree/ultwalk/ number of frames": 4,
+    "heroes/mccree/ultwalk/1_sprite.png": [
+        20.0,
+        11.0
+    ],
+    "heroes/mccree/ultwalk/2_sprite.png": [
+        20.0,
+        11.0
+    ],
+    "heroes/mccree/ultwalk/3_sprite.png": [
+        20.0,
+        11.0
+    ],
+    "heroes/mccree/ultwalk/4_sprite.png": [
+        20.0,
+        11.0
+    ],
+    "heroes/reinhardt/ number of frames": 0,
+    "heroes/reinhardt/arm/ number of frames": 2,
+    "heroes/reinhardt/arm/back_sprite.png": [
+        0.0,
+        14.0
+    ],
+    "heroes/reinhardt/arm/front_sprite.png": [
+        21.0,
+        14.0
+    ],
+    "heroes/reinhardt/charge/ number of frames": 1,
+    "heroes/reinhardt/charge/1_sprite.png": [
+        29.0,
+        3.0
+    ],
+    "heroes/reinhardt/corpse/ number of frames": 1,
+    "heroes/reinhardt/corpse/1_sprite.png": [
+        23.0,
+        -26.0
+    ],
+    "heroes/reinhardt/crouch/ number of frames": 3,
+    "heroes/reinhardt/crouch/1_sprite.png": [
+        14.0,
+        9.0
+    ],
+    "heroes/reinhardt/crouch/backarm_sprite.png": [
+        0.0,
+        5.0
+    ],
+    "heroes/reinhardt/crouch/frontarm_sprite.png": [
+        21.0,
+        5.0
+    ],
+    "heroes/reinhardt/crouchlegs/ number of frames": 3,
+    "heroes/reinhardt/crouchlegs/1_sprite.png": [
+        13.0,
+        -15.0
+    ],
+    "heroes/reinhardt/crouchlegs/backarm_sprite.png": [
+        0.0,
+        5.0
+    ],
+    "heroes/reinhardt/crouchlegs/frontarm_sprite.png": [
+        21.0,
+        5.0
+    ],
+    "heroes/reinhardt/crouchtorso/ number of frames": 3,
+    "heroes/reinhardt/crouchtorso/1_sprite.png": [
+        14.0,
+        9.0
+    ],
+    "heroes/reinhardt/crouchtorso/backarm_sprite.png": [
+        0.0,
+        5.0
+    ],
+    "heroes/reinhardt/crouchtorso/frontarm_sprite.png": [
+        21.0,
+        5.0
+    ],
+    "heroes/reinhardt/crouchwalk/ number of frames": 4,
+    "heroes/reinhardt/crouchwalk/1_sprite.png": [
+        14.0,
+        9.0
+    ],
+    "heroes/reinhardt/crouchwalk/2_sprite.png": [
+        17.0,
+        9.0
+    ],
+    "heroes/reinhardt/crouchwalk/3_sprite.png": [
+        14.0,
+        9.0
+    ],
+    "heroes/reinhardt/crouchwalk/4_sprite.png": [
+        16.0,
+        9.0
+    ],
+    "heroes/reinhardt/crouchwalklegs/ number of frames": 4,
+    "heroes/reinhardt/crouchwalklegs/1_sprite.png": [
+        13.0,
+        -14.0
+    ],
+    "heroes/reinhardt/crouchwalklegs/2_sprite.png": [
+        17.0,
+        -15.0
+    ],
+    "heroes/reinhardt/crouchwalklegs/3_sprite.png": [
+        13.0,
+        -15.0
+    ],
+    "heroes/reinhardt/crouchwalklegs/4_sprite.png": [
+        16.0,
+        -15.0
+    ],
+    "heroes/reinhardt/crouchwalktorso/ number of frames": 4,
+    "heroes/reinhardt/crouchwalktorso/1_sprite.png": [
+        14.0,
+        9.0
+    ],
+    "heroes/reinhardt/crouchwalktorso/2_sprite.png": [
+        14.0,
+        9.0
+    ],
+    "heroes/reinhardt/crouchwalktorso/3_sprite.png": [
+        14.0,
+        9.0
+    ],
+    "heroes/reinhardt/crouchwalktorso/4_sprite.png": [
+        14.0,
+        9.0
+    ],
+    "heroes/reinhardt/emote/ number of frames": 7,
+    "heroes/reinhardt/emote/1_sprite.png": [
+        7.0,
+        8.0
+    ],
+    "heroes/reinhardt/emote/2_sprite.png": [
+        8.0,
+        8.0
+    ],
+    "heroes/reinhardt/emote/3_sprite.png": [
+        8.0,
+        8.0
+    ],
+    "heroes/reinhardt/emote/4_sprite.png": [
+        8.0,
+        8.0
+    ],
+    "heroes/reinhardt/emote/5_sprite.png": [
+        8.0,
+        7.0
+    ],
+    "heroes/reinhardt/emote/6_sprite.png": [
+        4.0,
+        6.0
+    ],
+    "heroes/reinhardt/emote/7_sprite.png": [
+        35.0,
+        35.0
+    ],
+    "heroes/reinhardt/endcharge/ number of frames": 6,
+    "heroes/reinhardt/endcharge/1_sprite.png": [
+        26.0,
+        5.0
+    ],
+    "heroes/reinhardt/endcharge/2_sprite.png": [
+        25.0,
+        7.0
+    ],
+    "heroes/reinhardt/endcharge/3_sprite.png": [
+        25.0,
+        14.0
+    ],
+    "heroes/reinhardt/endcharge/4_sprite.png": [
+        25.0,
+        16.0
+    ],
+    "heroes/reinhardt/endcharge/5_sprite.png": [
+        25.0,
+        18.0
+    ],
+    "heroes/reinhardt/endcharge/6_sprite.png": [
+        21.0,
+        15.0
+    ],
+    "heroes/reinhardt/falling/ number of frames": 1,
+    "heroes/reinhardt/falling/1_sprite.png": [
+        12.0,
+        33.0
+    ],
+    "heroes/reinhardt/firing/ number of frames": 4,
+    "heroes/reinhardt/firing/1_sprite.png": [
+        5.0,
+        -3.0
+    ],
+    "heroes/reinhardt/firing/2_sprite.png": [
+        4.0,
+        0.0
+    ],
+    "heroes/reinhardt/firing/3_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "heroes/reinhardt/firing/4_sprite.png": [
+        3.0,
+        -5.0
+    ],
+    "heroes/reinhardt/idle/ number of frames": 1,
+    "heroes/reinhardt/idle/1_sprite.png": [
+        14.0,
+        20.0
+    ],
+    "heroes/reinhardt/idlelegs/ number of frames": 1,
+    "heroes/reinhardt/idlelegs/1_sprite.png": [
+        14.0,
+        20.0
+    ],
+    "heroes/reinhardt/idletorso/ number of frames": 1,
+    "heroes/reinhardt/idletorso/1_sprite.png": [
+        13.0,
+        20.0
+    ],
+    "heroes/reinhardt/jump/ number of frames": 1,
+    "heroes/reinhardt/jump/1_sprite.png": [
+        12.0,
+        43.0
+    ],
+    "heroes/reinhardt/preparecharge/ number of frames": 6,
+    "heroes/reinhardt/preparecharge/1_sprite.png": [
+        21.0,
+        15.0
+    ],
+    "heroes/reinhardt/preparecharge/2_sprite.png": [
+        25.0,
+        18.0
+    ],
+    "heroes/reinhardt/preparecharge/3_sprite.png": [
+        25.0,
+        16.0
+    ],
+    "heroes/reinhardt/preparecharge/4_sprite.png": [
+        25.0,
+        14.0
+    ],
+    "heroes/reinhardt/preparecharge/5_sprite.png": [
+        25.0,
+        7.0
+    ],
+    "heroes/reinhardt/preparecharge/6_sprite.png": [
+        26.0,
+        5.0
+    ],
+    "heroes/reinhardt/run/ number of frames": 8,
+    "heroes/reinhardt/run/1_sprite.png": [
+        13.0,
+        19.0
+    ],
+    "heroes/reinhardt/run/2_sprite.png": [
+        16.0,
+        18.0
+    ],
+    "heroes/reinhardt/run/3_sprite.png": [
+        18.0,
+        19.0
+    ],
+    "heroes/reinhardt/run/4_sprite.png": [
+        13.0,
+        20.0
+    ],
+    "heroes/reinhardt/run/5_sprite.png": [
+        16.0,
+        20.0
+    ],
+    "heroes/reinhardt/run/6_sprite.png": [
+        26.0,
+        21.0
+    ],
+    "heroes/reinhardt/run/7_sprite.png": [
+        22.0,
+        19.0
+    ],
+    "heroes/reinhardt/run/8_sprite.png": [
+        13.0,
+        18.0
+    ],
+    "heroes/reinhardt/runlegs/ number of frames": 8,
+    "heroes/reinhardt/runlegs/1_sprite.png": [
+        11.0,
+        19.0
+    ],
+    "heroes/reinhardt/runlegs/2_sprite.png": [
+        16.0,
+        18.0
+    ],
+    "heroes/reinhardt/runlegs/3_sprite.png": [
+        18.0,
+        19.0
+    ],
+    "heroes/reinhardt/runlegs/4_sprite.png": [
+        11.0,
+        20.0
+    ],
+    "heroes/reinhardt/runlegs/5_sprite.png": [
+        16.0,
+        20.0
+    ],
+    "heroes/reinhardt/runlegs/6_sprite.png": [
+        26.0,
+        21.0
+    ],
+    "heroes/reinhardt/runlegs/7_sprite.png": [
+        22.0,
+        19.0
+    ],
+    "heroes/reinhardt/runlegs/8_sprite.png": [
+        13.0,
+        18.0
+    ],
+    "heroes/reinhardt/runtorso/ number of frames": 8,
+    "heroes/reinhardt/runtorso/1_sprite.png": [
+        13.0,
+        19.0
+    ],
+    "heroes/reinhardt/runtorso/2_sprite.png": [
+        13.0,
+        18.0
+    ],
+    "heroes/reinhardt/runtorso/3_sprite.png": [
+        13.0,
+        19.0
+    ],
+    "heroes/reinhardt/runtorso/4_sprite.png": [
+        13.0,
+        20.0
+    ],
+    "heroes/reinhardt/runtorso/5_sprite.png": [
+        13.0,
+        20.0
+    ],
+    "heroes/reinhardt/runtorso/6_sprite.png": [
+        13.0,
+        21.0
+    ],
+    "heroes/reinhardt/runtorso/7_sprite.png": [
+        13.0,
+        19.0
+    ],
+    "heroes/reinhardt/runtorso/8_sprite.png": [
+        13.0,
+        18.0
+    ],
+    "heroes/reinhardt/shield/ number of frames": 6,
+    "heroes/reinhardt/shield/0%_sprite.png": [
+        -28.0,
+        36.0
+    ],
+    "heroes/reinhardt/shield/1_sprite.png": [
+        17.0,
+        16.0
+    ],
+    "heroes/reinhardt/shield/40%_sprite.png": [
+        -28.0,
+        36.0
+    ],
+    "heroes/reinhardt/shield/80%_sprite.png": [
+        -28.0,
+        36.0
+    ],
+    "heroes/reinhardt/shield/back_sprite.png": [
+        43.0,
+        46.0
+    ],
+    "heroes/reinhardt/shield/front_sprite.png": [
+        18.0,
+        13.0
+    ],
+    "heroes/reinhardt/shieldrun/ number of frames": 8,
+    "heroes/reinhardt/shieldrun/1_sprite.png": [
+        18.0,
+        17.0
+    ],
+    "heroes/reinhardt/shieldrun/2_sprite.png": [
+        13.0,
+        18.0
+    ],
+    "heroes/reinhardt/shieldrun/3_sprite.png": [
+        13.0,
+        17.0
+    ],
+    "heroes/reinhardt/shieldrun/4_sprite.png": [
+        16.0,
+        16.0
+    ],
+    "heroes/reinhardt/shieldrun/5_sprite.png": [
+        15.0,
+        17.0
+    ],
+    "heroes/reinhardt/shieldrun/6_sprite.png": [
+        13.0,
+        18.0
+    ],
+    "heroes/reinhardt/shieldrun/7_sprite.png": [
+        14.0,
+        17.0
+    ],
+    "heroes/reinhardt/shieldrun/8_sprite.png": [
+        17.0,
+        16.0
+    ],
+    "heroes/reinhardt/sleep/ number of frames": 1,
+    "heroes/reinhardt/sleep/1_sprite.png": [
+        23.0,
+        -25.0
+    ],
+    "heroes/reinhardt/stun/ number of frames": 1,
+    "heroes/reinhardt/stun/1_sprite.png": [
+        33.0,
+        20.0
+    ],
+    "heroes/reinhardt/ult/ number of frames": 10,
+    "heroes/reinhardt/ult/10_sprite.png": [
+        21.0,
+        40.0
+    ],
+    "heroes/reinhardt/ult/1_sprite.png": [
+        37.0,
+        18.0
+    ],
+    "heroes/reinhardt/ult/2_sprite.png": [
+        51.0,
+        18.0
+    ],
+    "heroes/reinhardt/ult/3_sprite.png": [
+        52.0,
+        20.0
+    ],
+    "heroes/reinhardt/ult/4_sprite.png": [
+        56.0,
+        21.0
+    ],
+    "heroes/reinhardt/ult/5_sprite.png": [
+        54.0,
+        22.0
+    ],
+    "heroes/reinhardt/ult/6_sprite.png": [
+        55.0,
+        19.0
+    ],
+    "heroes/reinhardt/ult/7_sprite.png": [
+        60.0,
+        64.0
+    ],
+    "heroes/reinhardt/ult/8_sprite.png": [
+        40.0,
+        54.0
+    ],
+    "heroes/reinhardt/ult/9_sprite.png": [
+        19.0,
+        12.0
+    ],
+    "heroes/reinhardt/ult/retract/ number of frames": 6,
+    "heroes/reinhardt/ult/retract/11_sprite.png": [
+        20.0,
+        10.0
+    ],
+    "heroes/reinhardt/ult/retract/12_sprite.png": [
+        19.0,
+        12.0
+    ],
+    "heroes/reinhardt/ult/retract/13_sprite.png": [
+        17.0,
+        10.0
+    ],
+    "heroes/reinhardt/ult/retract/14_sprite.png": [
+        18.0,
+        10.0
+    ],
+    "heroes/reinhardt/ult/retract/15_sprite.png": [
+        24.0,
+        9.0
+    ],
+    "heroes/reinhardt/ult/retract/16_sprite.png": [
+        37.0,
+        12.0
+    ],
+    "ui/ number of frames": 0,
+    "ui/ingame/ number of frames": 2,
+    "ui/ingame/heroes/ number of frames": 0,
+    "ui/ingame/heroes/mccree/ number of frames": 6,
+    "ui/ingame/heroes/mccree/flashbang_sprite.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ingame/heroes/mccree/flashbangcooldown_sprite.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ingame/heroes/mccree/lockon_sprite.png": [
+        4.0,
+        4.5
+    ],
+    "ui/ingame/heroes/mccree/rolling_sprite.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ingame/heroes/mccree/rollingcooldown_sprite.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ingame/heroes/mccree/ultready_sprite.png": [
+        64.0,
+        70.5
+    ],
+    "ui/ingame/heroes/reinhardt/ number of frames": 2,
+    "ui/ingame/heroes/reinhardt/ultready.png": [
+        64.0,
+        70.5
+    ],
+    "ui/ingame/heroes/reinhardt/ultready_sprite.png": [
+        64.0,
+        70.5
+    ],
+    "ui/ingame/polygon_sprite.png": [
+        28.0,
+        17.0
+    ],
+    "ui/ingame/ultbar_sprite.png": [
+        51.0,
+        58.5
+    ]
+}

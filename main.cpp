@@ -134,7 +134,7 @@ int main(int argc, char **argv)
         {
             n->receive(engine.currentstate.get());
         }
-        myself = engine.currentstate->playerlist[engine.currentstate->playerlist.size()-1];
+        myself = engine.currentstate->playerlist.at(engine.currentstate->playerlist.size()-1);
     }
 
     double enginetime = al_get_time();

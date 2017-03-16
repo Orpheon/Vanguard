@@ -59,46 +59,6 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate *state, Networker *ne
                 break;
 
             case ALLEGRO_EVENT_KEY_DOWN:
-//                //Debug: print the keycode number and name of the key we press
-////                printf("\n%i\t%s", event.keyboard.keycode, al_keycode_to_name(event.keyboard.keycode));
-//
-//                if (event.keyboard.keycode == config["jump"] or event.keyboard.keycode == config["jump_alt1"] or event.keyboard.keycode == config["jump_alt2"])
-//                {
-//                    pressed_keys->JUMP = true;
-//                }
-//                if (event.keyboard.keycode == config["crouch"] or event.keyboard.keycode == config["crouch_alt1"] or event.keyboard.keycode == config["crouch_alt2"])
-//                {
-//                    pressed_keys->CROUCH = true;
-//                }
-//                if (event.keyboard.keycode == config["left"] or event.keyboard.keycode == config["left_alt1"] or event.keyboard.keycode == config["left_alt2"])
-//                {
-//                    pressed_keys->LEFT = true;
-//                }
-//                if (event.keyboard.keycode == config["right"] or event.keyboard.keycode == config["right_alt1"] or event.keyboard.keycode == config["right_alt2"])
-//                {
-//                    pressed_keys->RIGHT = true;
-//                }
-//                if (event.keyboard.keycode == config["right"] or event.keyboard.keycode == config["right_alt1"] or event.keyboard.keycode == config["right_alt2"])
-//                {
-//                    pressed_keys->RIGHT = true;
-//                }
-//                if (event.keyboard.keycode == config["ability1"] or event.keyboard.keycode == config["ability1_alt1"] or event.keyboard.keycode == config["ability1_alt2"])
-//                {
-//                    pressed_keys->ABILITY_1 = true;
-//                }
-//                if (event.keyboard.keycode == config["ability2"] or event.keyboard.keycode == config["ability2_alt1"] or event.keyboard.keycode == config["ability2_alt2"])
-//                {
-//                    pressed_keys->ABILITY_2 = true;
-//                }
-//                if (event.keyboard.keycode == config["ultimate"] or event.keyboard.keycode == config["ultimate_alt1"] or event.keyboard.keycode == config["ultimate_alt2"])
-//                {
-//                    pressed_keys->ULTIMATE = true;
-//                }
-//                if (event.keyboard.keycode == config["reload"] or event.keyboard.keycode == config["reload_alt1"] or event.keyboard.keycode == config["reload_alt2"])
-//                {
-//                    pressed_keys->RELOAD = true;
-//                }
-
                 Heroclass newclass = player->heroclass;
                 switch (event.keyboard.keycode)
                 {
@@ -131,17 +91,6 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate *state, Networker *ne
                     }
                 }
                 break;
-//
-//            case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-//                switch (event.mouse.button)
-//                {
-//                    case LEFT_MOUSE_BUTTON:
-//                        pressed_keys->PRIMARY_FIRE = true;
-//                        break;
-//                    case RIGHT_MOUSE_BUTTON:
-//                        pressed_keys->SECONDARY_FIRE = true;
-//                        break;
-//                }
         }
     }
 

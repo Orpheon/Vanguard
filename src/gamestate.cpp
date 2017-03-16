@@ -88,7 +88,7 @@ void Gamestate::removeplayer(int playerid)
 
 Player* Gamestate::findplayer(int playerid)
 {
-    return get<Player>(playerlist[playerid]);
+    return get<Player>(playerlist.at(playerid));
 }
 
 int Gamestate::findplayerid(EntityPtr player)
@@ -135,7 +135,7 @@ void Gamestate::interpolate(Gamestate *prevstate, Gamestate *nextstate, double a
         if (prevstate->entitylist.count(e.second->id) != 0 && nextstate->entitylist.count(e.second->id) != 0)
         {
             // If the instance exists in both states, we need to actually interpolate values
-            entitylist[e.second->id]->interpolate(prevstate->entitylist[e.second->id].get(), nextstate->entitylist[e.second->id].get(), alpha);
+            entitylist[e.second->id]->interpolate(prevstate->entitylist.at(e.second->id).get(), nextstate->entitylist.at(e.second->id).get(), alpha);
         }
     }
 }

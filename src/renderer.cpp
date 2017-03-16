@@ -167,13 +167,13 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
         {
             display_width = config["display_resolution"][0];
             display_height = config["display_resolution"][1];
-            if (display_width < DISPLAY_DEFAULT_WIDTH)
+            if (display_width < 640)
             {
-                display_width = DISPLAY_DEFAULT_WIDTH;
+                display_width = 640;
             }
-            if (display_height < DISPLAY_DEFAULT_HEIGHT)
+            if (display_height < 480)
             {
-                display_height = DISPLAY_DEFAULT_HEIGHT;
+                display_height = 480;
             }
         }
         catch (std::domain_error)
@@ -193,7 +193,7 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
         try
         {
             display_type = config["display_type"];
-            //check whether display type is validate
+            // Check whether display type is valid
             if (display_type != ALLEGRO_RESIZABLE && display_type != ALLEGRO_FULLSCREEN && display_type != (ALLEGRO_FRAMELESS | ALLEGRO_MAXIMIZED))
             {
                 display_type = DISPLAY_DEFAULT_TYPE;
@@ -205,7 +205,7 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
             display_type = DISPLAY_DEFAULT_TYPE;
         }
     }
-    /* TODO: ADD ANOTHER OPTIONS LIKE VSYNC */
+    // TODO: ADD ANOTHER OPTIONS LIKE VSYNC
 
     ALLEGRO_DISPLAY *display;
     al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_SUGGEST);
@@ -227,6 +227,6 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
     config_fixed["display_type"] = display_type;
     configloader.saveconfig(config_fixed);
     */
-    
+
     return display;
 }

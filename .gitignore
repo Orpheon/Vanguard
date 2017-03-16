@@ -53,3 +53,9 @@ Vanguard
 main
 Release*
 client/*
+
+# CMake stuff
+CMakeFiles/*
+CMakeCache.txt
+Makefile
+cmake_install.cmake
