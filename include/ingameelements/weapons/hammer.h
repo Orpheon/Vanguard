@@ -14,7 +14,6 @@ class Hammer : public Weapon
 
         void renderbehind(Renderer *renderer, Gamestate *state);
         void render(Renderer *renderer, Gamestate *state) override;
-        std::string getsprite(Gamestate *state, bool mask) override {return "";}
         std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Hammer(*this));}
 
         void fireprimary(Gamestate *state) override;

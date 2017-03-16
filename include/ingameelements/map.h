@@ -15,8 +15,6 @@ class Map
         virtual ~Map();
         void renderbackground(Renderer *renderer);
         void renderwallground(Renderer *renderer);
-        bool collides(Gamestate *state, MovingEntity *entity);
-        bool collides(Gamestate *state, Character *entity);
         bool collides(Rect rect);
         bool collides(double rotx, double roty, Rect rect, double angle);
         bool collideline(double x1, double y1, double x2, double y2);

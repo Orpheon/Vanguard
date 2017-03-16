@@ -46,20 +46,3 @@ void MovingEntity::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullup
     hspeed = buffer->read<float>();
     vspeed = buffer->read<float>();
 }
-
-bool MovingEntity::collides(Gamestate *state, double testx, double testy)
-{
-    Rect self = state->engine->maskloader.get_rect(getsprite(state, true)).offset(x, y);
-
-    if (testx > self.x and testx < self.x+self.w and testy > self.y and testy < self.y+self.h)
-    {
-        // We're close enough that an actual collision might happen
-        // Check the sprite
-        ALLEGRO_BITMAP *selfsprite = state->engine->maskloader.requestsprite(getsprite(state, true));
-        return al_get_pixel(selfsprite, testx-self.x, testy-self.y).a != 0;
-    }
-    else
-    {
-        return false;
-    }
-}

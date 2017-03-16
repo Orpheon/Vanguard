@@ -5,7 +5,7 @@
 
 void PeacemakerBullet::render(Renderer *renderer, Gamestate *state)
 {
-    std::string mainsprite = getsprite(state, false);
+    std::string mainsprite = spritepath;
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
     double spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;
     double spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite)*renderer->zoom;

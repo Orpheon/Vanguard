@@ -17,7 +17,7 @@ class Mccree : public Character
         void interpolate(Entity *prev_entity, Entity *next_entity, double alpha) override;
         Rect getcollisionrect(Gamestate *state) override;
         Rect getstandingcollisionrect(Gamestate *state) override;
-        std::string getsprite(Gamestate *state, bool mask) override;
+        std::string currentsprite(Gamestate *state, bool mask) override;
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Mccree(*this));}
         bool cangetinput(Gamestate *state) override {return not rollanim.active() and not ultcooldown.active and Character::cangetinput(state);}
         bool canuseweapons(Gamestate *state) override {return not ulting.active and Character::canuseweapons(state);}

@@ -60,7 +60,7 @@ void Mccree::render(Renderer *renderer, Gamestate *state)
         }
     }
 
-    mainsprite = getsprite(state, false);
+    mainsprite = currentsprite(state, false);
     sprite = renderer->spriteloader.requestsprite(mainsprite);
     spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;
     spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite)*renderer->zoom;
@@ -326,7 +326,7 @@ Rect Mccree::getstandingcollisionrect(Gamestate *state)
     return state->engine->maskloader.get_rect_from_json(herofolder()).offset(x, y);
 }
 
-std::string Mccree::getsprite(Gamestate *state, bool mask)
+std::string Mccree::currentsprite(Gamestate *state, bool mask)
 {
     if (stunanim.active())
     {

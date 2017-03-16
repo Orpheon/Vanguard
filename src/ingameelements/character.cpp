@@ -292,7 +292,7 @@ void Character::render(Renderer *renderer, Gamestate *state)
 {
     // --------------- HEALTHBAR ---------------
     al_set_target_bitmap(renderer->surfaceground);
-    std::string mainsprite = getsprite(state, false);
+    std::string mainsprite = currentsprite(state, false);
     double healthalpha = 1.0;
     double lack_healthalpha = 0.2;
 
@@ -726,6 +726,23 @@ void Character::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdat
     getweapon(state)->setaim(mouse_x, mouse_y);
 
     getweapon(state)->deserialize(state, buffer, fullupdate);
+}
+
+bool Character::collides(Gamestate *state, double testx, double testy)
+{
+    Rect self = state->engine->maskloader.get_rect(currentsprite(state, true)).offset(x, y);
+
+    if (testx > self.x and testx < self.x+self.w and testy > self.y and testy < self.y+self.h)
+    {
+        // We're close enough that an actual collision might happen
+        // Check the sprite
+        ALLEGRO_BITMAP *selfsprite = state->engine->maskloader.requestsprite(currentsprite(state, true));
+        return al_get_pixel(selfsprite, testx-self.x, testy-self.y).a != 0;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void Character::damage(Gamestate *state, double amount)

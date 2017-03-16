@@ -37,7 +37,7 @@ void Reinhardt::render(Renderer *renderer, Gamestate *state)
     double spriteoffset_x, spriteoffset_y;
     double rel_x, rel_y;
 
-    mainsprite = getsprite(state, false);
+    mainsprite = currentsprite(state, false);
     sprite = renderer->spriteloader.requestsprite(mainsprite);
     spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;
     spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite)*renderer->zoom;
@@ -193,7 +193,7 @@ Rect Reinhardt::getstandingcollisionrect(Gamestate *state)
     return state->engine->maskloader.get_rect_from_json(herofolder()).offset(x, y);
 }
 
-std::string Reinhardt::getsprite(Gamestate *state, bool mask)
+std::string Reinhardt::currentsprite(Gamestate *state, bool mask)
 {
     if (stunanim.active())
     {

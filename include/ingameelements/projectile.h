@@ -14,7 +14,7 @@ class Projectile : public MovingEntity
         virtual void oncollision(Gamestate *state);
         virtual double damage() = 0;
         virtual void midstep(Gamestate *state, double frametime) override;
-        virtual bool collides(Gamestate *state, EntityPtr otherentity, double angle);
+//        virtual bool collides(Gamestate *state, EntityPtr otherentity, double angle);
         EntityPtr owner;
         Team team;
     protected:

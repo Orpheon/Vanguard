@@ -20,7 +20,7 @@ void Flashbang::midstep(Gamestate *state, double frametime)
 
 void Flashbang::render(Renderer *renderer, Gamestate *state)
 {
-    std::string mainsprite = getsprite(state, false);
+    std::string mainsprite = spritepath;
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
     double spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;
     double spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite)*renderer->zoom;
@@ -32,31 +32,31 @@ void Flashbang::render(Renderer *renderer, Gamestate *state)
     al_draw_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, direction, 0);
 }
 
-bool Flashbang::collides(Gamestate *state, EntityPtr otherentity, double radius)
-{
-    MovingEntity *m = state->get<MovingEntity>(otherentity);
-    Rect other = state->engine->maskloader.get_rect(m->getsprite(state, true)).offset(m->x, m->y);
-
-    if (std::hypot(x - other.x, y - other.y) <= radius + std::hypot(other.w, other.h))
-    {
-        // We're close enough that an actual collision might happen
-        // Check the sprites
-        double r2 = radius*radius;
-        ALLEGRO_BITMAP *othersprite = state->engine->maskloader.requestsprite(m->getsprite(state, true));
-
-        for (int i=-radius; i<radius; ++i)
-        {
-            for (int j=-radius; j<radius; ++j)
-            {
-                if (i*i+j*j <= r2 and al_get_pixel(othersprite, x+i - other.x, y+j - other.y).a != 0)
-                {
-                    return true;
-                }
-            }
-        }
-    }
-    return false;
-}
+//bool Flashbang::collides(Gamestate *state, EntityPtr otherentity, double radius)
+//{
+//    MovingEntity *m = state->get<MovingEntity>(otherentity);
+//    Rect other = state->engine->maskloader.get_rect(m->getsprite(state, true)).offset(m->x, m->y);
+//
+//    if (std::hypot(x - other.x, y - other.y) <= radius + std::hypot(other.w, other.h))
+//    {
+//        // We're close enough that an actual collision might happen
+//        // Check the sprites
+//        double r2 = radius*radius;
+//        ALLEGRO_BITMAP *othersprite = state->engine->maskloader.requestsprite(m->getsprite(state, true));
+//
+//        for (int i=-radius; i<radius; ++i)
+//        {
+//            for (int j=-radius; j<radius; ++j)
+//            {
+//                if (i*i+j*j <= r2 and al_get_pixel(othersprite, x+i - other.x, y+j - other.y).a != 0)
+//                {
+//                    return true;
+//                }
+//            }
+//        }
+//    }
+//    return false;
+//}
 
 void Flashbang::explode(Gamestate *state)
 {
@@ -72,15 +72,14 @@ void Flashbang::explode(Gamestate *state)
             Character *c = p->getcharacter(state);
             if (c != 0)
             {
-                // TODO: Make flashbang collision circular
-                if (collides(state, p->character, EXPLOSION_RADIUS))
-                {
-                    // Check that they aren't behind a wall or something
-                    if (not state->currentmap->collideline(x, y, c->x, c->y))
-                    {
-                        c->stun(state);
-                    }
-                }
+//                if (collides(state, p->character, EXPLOSION_RADIUS))
+//                {
+//                    // Check that they aren't behind a wall or something
+//                    if (not state->currentmap->collideline(x, y, c->x, c->y))
+//                    {
+//                        c->stun(state);
+//                    }
+//                }
             }
         }
     }

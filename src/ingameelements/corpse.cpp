@@ -21,7 +21,7 @@ void Corpse::midstep(Gamestate *state, double frametime)
     vspeed += 540.0*frametime;
 
     // Collision with wallmask
-    if (state->currentmap->collides(state->engine->maskloader.get_rect(getsprite(state, true))))
+    if (state->currentmap->collides(state->engine->maskloader.get_rect(spritepath)))
     {
         vspeed = 0;
     }
@@ -29,7 +29,7 @@ void Corpse::midstep(Gamestate *state, double frametime)
 
 void Corpse::render(Renderer *renderer, Gamestate *state)
 {
-    std::string mainsprite = getsprite(state, false);
+    std::string mainsprite = spritepath;
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
     double spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;
     double spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite)*renderer->zoom;

@@ -17,7 +17,7 @@ void Explosion::midstep(Gamestate *state, double frametime)
 
 void Explosion::render(Renderer *renderer, Gamestate *state)
 {
-    std::string mainsprite = getsprite(state, false);
+    std::string mainsprite = explosionanim.getframepath();
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
     double spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;
     double spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite)*renderer->zoom;

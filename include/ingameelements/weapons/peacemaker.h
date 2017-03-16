@@ -11,7 +11,6 @@ class Peacemaker : public Clipweapon
         virtual ~Peacemaker() override = default;
 
         void render(Renderer *renderer, Gamestate *state) override;
-        std::string getsprite(Gamestate *state, bool mask) override {return "";}
         std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Peacemaker(*this));}
 
         void fireprimary(Gamestate *state) override;
