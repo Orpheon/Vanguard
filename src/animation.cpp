@@ -5,6 +5,74 @@
 #include <fstream>
 #include <cmath>
 
+// ######### VALUE ANIMATION #########
+
+void ValueAnimation::init(std::vector<int> sequence_, double duration, std::function<void(Gamestate *state)> eventfunc_)
+{
+    sequence = sequence_;
+    timer.init(duration, eventfunc_);
+    inited = true;
+}
+
+void ValueAnimation::init(std::vector<int> sequence_, double duration)
+{
+    init(sequence_, duration, nullptr);
+}
+
+unsigned int ValueAnimation::getframe()
+{
+    if (not inited)
+    {
+        std::cerr << "Fatal Error: Value Animation getframe() called before initialized!";
+        throw -1;
+    }
+
+    size_t f = static_cast<size_t>(std::floor(sequence.size()*timer.getpercent()))+1;
+    f = std::min(std::max(f, 1lu), sequence.size());
+    return f;
+}
+
+int ValueAnimation::getvalue()
+{
+    return sequence.at(getframe());
+}
+
+void ValueAnimation::update(Gamestate *state, double dt)
+{
+    if (not inited)
+    {
+        std::cerr << "Fatal Error: Value Animation update() called before initialized!";
+        throw -1;
+    }
+
+    timer.update(state, dt);
+}
+
+void ValueAnimation::interpolate(ValueAnimation *prev_anim, ValueAnimation *next_anim, double alpha)
+{
+    if (not inited)
+    {
+        std::cerr << "Fatal Error: Value Animation interpolate() called before initialized!";
+        throw -1;
+    }
+
+    timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
+}
+
+void ValueAnimation::reset()
+{
+    if (not inited)
+    {
+        std::cerr << "Fatal Error: Value Animation reset() called before initialized!";
+        throw -1;
+    }
+
+    timer.reset();
+}
+
+
+// ######### ANIMATION #########
+
 void Animation::init(std::string path_, std::function<void(Gamestate *state)> eventfunc_)
 {
     path = path_;
