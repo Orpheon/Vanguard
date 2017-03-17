@@ -176,7 +176,7 @@ void LoopAnimation::update(Gamestate *state, double dt)
     timer.update(state, dt);
     if (not timer.active and timer.timer >= timer.duration)
     {
-        timer.timer -= timer.duration;
+        timer.timer -= static_cast<int>(timer.timer / timer.duration)*timer.duration;
         timer.active = true;
     }
     if (timer.timer < 0)

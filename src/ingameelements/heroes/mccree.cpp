@@ -187,7 +187,7 @@ void Mccree::midstep(Gamestate *state, double frametime)
     ulting.update(state, frametime);
     ultcooldown.update(state, frametime);
 
-    fallanim.update(state, vspeed*vspeed*frametime);
+    fallanim.update(state, vspeed*frametime);
 
     if (isflipped)
     {
