@@ -28,7 +28,8 @@ unsigned int ValueAnimation::getframe()
     }
 
     size_t f = static_cast<size_t>(std::floor(sequence.size()*timer.getpercent()))+1;
-    f = std::min(std::max(f, 1lu), sequence.size());
+    // This can't be necessary....
+    f = std::min(std::max(f, static_cast<size_t>(1)), sequence.size());
     return f;
 }
 
