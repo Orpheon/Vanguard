@@ -17,6 +17,7 @@
 #include "mainmenu.h"
 #include "networking/servernetworker.h"
 #include "networking/clientnetworker.h"
+#include "global.h"
 
 long int getmillisec();
 

@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 
 option(COMPILE_STATIC "Compile statically instead of dynamically" OFF)
 
-set (Vanguardcompileflags "-std=c++11 -Wall -pedantic -fwrapv")
+set (Vanguardcompileflags "-std=c++11 -Wall -pedantic -fwrapv -Wno-format-security")
 if (COMPILE_STATIC)
     set (Vanguardlib allegro_monolith-static jpeg vorbis ogg glu32 opengl32 freetype png16 z kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid winmm dsound wsock32 psapi shlwapi enet ws2_32)
     set (Vanguardlinkflags "-static-libstdc++ -static-libgcc -static")
@@ -48,7 +48,7 @@ set (SRC_FILES
         "src/ingameelements/weapons/hammer.cpp"
         "src/ingameelements/weapons/peacemaker.cpp"
         "src/ingameelements/projectiles/flashbang.cpp"
-        "src/ingameelements/projectiles/peacemakerbullet.cpp" src/ingameelements/shield.cpp include/ingameelements/shield.h)
+        "src/ingameelements/projectiles/peacemakerbullet.cpp" src/ingameelements/shield.cpp include/ingameelements/shield.h include/global.h include/logging.h src/global.cpp)
 
 SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${Vanguardcompileflags}" )
 SET( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${Vanguardlinkflags}" )
