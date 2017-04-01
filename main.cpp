@@ -21,7 +21,7 @@
 
 long int getmillisec();
 
-int main(int argc, char **argv)
+int main_impl(int argc, char **argv)
 {
     // Initialize Allegro
     if (!al_init())
@@ -185,4 +185,16 @@ int main(int argc, char **argv)
     al_destroy_display(display);
     enet_deinitialize();
     return 0;
+}
+
+int main(int argc, char **argv)
+{
+    try
+    {
+        return main_impl(argc, argv);
+    }
+    catch (...)
+    {
+        return -1;
+    }
 }
