@@ -76,6 +76,9 @@ int main(int argc, char **argv)
       throw -1;
     }
 
+    std::unique_ptr<PrintLogger> default_logger(new PrintLogger());
+    Global::provide_logging(default_logger.get());
+
 //    MainMenu *mainmenu = new MainMenu(display);
     bool isserver;
     if (argc >= 2)
