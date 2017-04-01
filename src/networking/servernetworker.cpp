@@ -1,5 +1,6 @@
 #include "networking/servernetworker.h"
 #include "global_constants.h"
+#include "global.h"
 
 ServerNetworker::ServerNetworker() : Networker(true)
 {
@@ -9,7 +10,7 @@ ServerNetworker::ServerNetworker() : Networker(true)
     host = enet_host_create(&address, PLAYER_LIMIT, 1, 0, 0);
     if (host == NULL)
     {
-        fprintf(stderr, "Fatal Error while attempting to create server host!");
+        Global::logging().panic(__FILE__, __LINE__, "Failed to create server host");
         throw -1;
     }
 }
@@ -95,7 +96,7 @@ void ServerNetworker::receive(Gamestate *state)
                 }
                 else
                 {
-                    fprintf(stderr, "Invalid packet received on server: %i!", eventtype);
+                    Global::logging().print(__FILE__, __LINE__, "Invalid packet received on server from player %i: %i", player->id, eventtype);
                 }
             }
             enet_packet_destroy(event.packet);

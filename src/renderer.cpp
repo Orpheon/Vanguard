@@ -7,6 +7,7 @@
 #include "global_constants.h"
 #include "entity.h"
 #include "configloader.h"
+#include "global.h"
 
 Renderer::Renderer() : cam_x(0), cam_y(0), zoom(1), myself(0), WINDOW_WIDTH(0), WINDOW_HEIGHT(0), spriteloader(false)
 {
@@ -178,7 +179,7 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
         }
         catch (std::domain_error)
         {
-            fprintf(stderr, "\nError: Could not load display resolution data!");
+            Global::logging().print(__FILE__, __LINE__, "Could not load display resolution data, using default values instead");
             display_width = DISPLAY_DEFAULT_WIDTH;
             display_height = DISPLAY_DEFAULT_HEIGHT;
         }
@@ -201,8 +202,7 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
         }
         catch (std::domain_error)
         {
-            fprintf(stderr, "\nError: Could not load display type data!");
-            display_type = DISPLAY_DEFAULT_TYPE;
+            Global::logging().print(__FILE__, __LINE__, "Could not load display type data, using default instead");
         }
     }
     // TODO: ADD ANOTHER OPTIONS LIKE VSYNC
@@ -214,9 +214,7 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
 
     if(!display)
     {
-        // FIXME: Make the error argument mean anything?
-        fprintf(stderr, "Fatal Error: Could not create display\n");
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "Could not create display");
     }
 
     /*

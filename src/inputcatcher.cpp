@@ -8,6 +8,7 @@
 #include "networking/clientnetworker.h"
 #include "ingameelements/character.h"
 #include "global_constants.h"
+#include "global.h"
 
 #define LEFT_MOUSE_BUTTON 1
 #define RIGHT_MOUSE_BUTTON 2
@@ -18,8 +19,7 @@ InputCatcher::InputCatcher(ALLEGRO_DISPLAY *display)
     event_queue = al_create_event_queue();
     if (!event_queue)
     {
-        fprintf(stderr, "Fatal Error: Could not create event queue!");
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "Could not create event queue");
     }
 
     // Connect the window, keyboard and mouse events to this event queue

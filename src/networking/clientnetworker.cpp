@@ -1,5 +1,7 @@
 #include "networking/clientnetworker.h"
 
+#include "global.h"
+
 ClientNetworker::ClientNetworker() : Networker(false), connected(false)
 {
     ENetAddress serveraddress;
@@ -10,8 +12,7 @@ ClientNetworker::ClientNetworker() : Networker(false), connected(false)
     host = enet_host_create(NULL, 1, 1, 0, 0);
     if (host == NULL)
     {
-        fprintf(stderr, "Fatal Error while attempting to create client host!");
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "Failed to create client host");
     }
     server = enet_host_connect(host, &serveraddress, 1, 0);
 }
@@ -32,8 +33,7 @@ void ClientNetworker::receive(Gamestate *state)
         }
         else if (event.type == ENET_EVENT_TYPE_DISCONNECT)
         {
-            printf("\nDisconnected.");
-            throw 0;
+            Global::logging().panic(__FILE__, __LINE__, "Disconnected from server");
         }
         else if (event.type == ENET_EVENT_TYPE_RECEIVE)
         {
@@ -106,7 +106,7 @@ void ClientNetworker::receive(Gamestate *state)
                 }
                 else
                 {
-                    fprintf(stderr, "\nInvalid packet received on client: %i!", eventtype);
+                    Global::logging().panic(__FILE__, __LINE__, "Invalid packet received on client: %i", eventtype);
                 }
             }
             enet_packet_destroy(event.packet);

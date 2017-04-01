@@ -6,6 +6,7 @@
 #include "ingameelements/heroes/reinhardt.h"
 #include "engine.h"
 #include "ingameelements/spawnroom.h"
+#include "global.h"
 
 void Player::init(uint64_t id_, Gamestate *state)
 {
@@ -85,7 +86,7 @@ void Player::spawn(Gamestate *state)
     if (character != 0)
     {
         // We already have a character, error and respawn
-        fprintf(stderr, "\nERROR: Tried to spawn character that was already alive.");
+        Global::logging().panic(__FILE__, __LINE__, "Player tried to spawn character that was already alive");
     }
     if (heroclass == MCCREE)
     {
@@ -97,7 +98,7 @@ void Player::spawn(Gamestate *state)
     }
     else
     {
-        fprintf(stderr, "\nERROR: Tried to spawn character with invalid class %i", heroclass);
+        Global::logging().panic(__FILE__, __LINE__, "Player tried to spawn character with invalid class %i", heroclass);
     }
     Character *c = state->get<Character>(character);
     Spawnroom *spawn = state->get<Spawnroom>(state->spawnrooms[team]);

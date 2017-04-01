@@ -1,5 +1,6 @@
 #include "spriteloader.h"
 #include "configloader.h"
+#include "global.h"
 
 #include <fstream>
 
@@ -37,8 +38,7 @@ int Spriteloader::get_spriteoffset_x(std::string s)
     }
     catch (std::domain_error)
     {
-        fprintf(stderr, "\nError: Could not load sprite offset of %s!", s.c_str());
-        throw -1;
+        Global::logging().print(__FILE__, __LINE__, "Could not load sprite offset of %s", s.c_str());
     }
     return offset;
 }
@@ -61,8 +61,7 @@ int Spriteloader::get_spriteoffset_y(std::string s)
     }
     catch (std::domain_error)
     {
-        fprintf(stderr, "\nError: Could not load sprite offset of %s!", s.c_str());
-        throw -1;
+        Global::logging().print(__FILE__, __LINE__, "Could not load sprite offset of %s", s.c_str());
     }
     return offset;
 }
@@ -89,8 +88,7 @@ ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path, double zoom)
         }
         if (tmpbitmap == NULL)
         {
-            fprintf(stderr, "\nError: Could not load sprites/%s_sprite.png!", path.c_str());
-            return 0;
+            Global::logging().print(__FILE__, __LINE__, " Could not load sprites/%s_sprite.png", path.c_str());
         }
         if (zoom == 1.0)
         {
@@ -132,8 +130,8 @@ ALLEGRO_BITMAP* Spriteloader::requestspriteoutline(std::string path, double zoom
         tmpbitmap = al_load_bitmap(("sprites/"+path+".png").c_str());
         if (tmpbitmap == NULL)
         {
-            fprintf(stderr, "\nError: Could not load sprites/%s.png!", path.c_str());
-            return 0;
+            Global::logging().print(__FILE__, __LINE__, " Could not load sprites/%s.png", path.c_str());
+
         }
         if (zoom == 1.0)
         {
@@ -168,8 +166,8 @@ Rect Spriteloader::get_rect_from_json(std::string s)
     }
     catch (std::domain_error)
     {
-        fprintf(stderr, "\nError: Could not load %s rect data!", s.c_str());
-        throw -1;
+        Global::logging().print(__FILE__, __LINE__, " Could not load %s rect data", s.c_str());
+        return Rect();
     }
 }
 

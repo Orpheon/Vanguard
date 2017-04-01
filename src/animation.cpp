@@ -1,6 +1,7 @@
 #include "animation.h"
 #include "json.hpp"
 #include "configloader.h"
+#include "global.h"
 
 #include <fstream>
 #include <cmath>
@@ -23,8 +24,7 @@ unsigned int ValueAnimation::getframe()
 {
     if (not inited)
     {
-        std::cerr << "Fatal Error: Value Animation getframe() called before initialized!";
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "Value Animation getframe() called before initialized");
     }
 
     size_t f = static_cast<size_t>(std::floor(sequence.size()*timer.getpercent()))+1;
@@ -42,8 +42,7 @@ void ValueAnimation::update(Gamestate *state, double dt)
 {
     if (not inited)
     {
-        std::cerr << "Fatal Error: Value Animation update() called before initialized!";
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "Value Animation update() called before initialized!");
     }
 
     timer.update(state, dt);
@@ -53,8 +52,7 @@ void ValueAnimation::interpolate(ValueAnimation *prev_anim, ValueAnimation *next
 {
     if (not inited)
     {
-        std::cerr << "Fatal Error: Value Animation interpolate() called before initialized!";
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "Value Animation interpolate() called before initialized!");
     }
 
     timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
@@ -64,8 +62,7 @@ void ValueAnimation::reset()
 {
     if (not inited)
     {
-        std::cerr << "Fatal Error: Value Animation reset() called before initialized!";
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "Value Animation reset() called before initialized!");
     }
 
     timer.reset();
@@ -88,8 +85,7 @@ void Animation::init(std::string path_, std::function<void(Gamestate *state)> ev
     }
     catch (std::domain_error)
     {
-        fprintf(stderr, "Error: Could not load %s animation duration!", path.c_str());
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "Could not load %s animation duration", path.c_str());
     }
 
     nlohmann::json data2 = cfgloader.requestconfig("sprites/spritedata.json");
@@ -99,8 +95,7 @@ void Animation::init(std::string path_, std::function<void(Gamestate *state)> ev
     }
     catch (std::domain_error)
     {
-        fprintf(stderr, "Error: Could not load %s animation number of frames!", path.c_str());
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "Could not load %s animation number of frames", path.c_str());
     }
 
     timer.init(duration, eventfunc_);
@@ -116,8 +111,8 @@ int Animation::getframe()
 {
     if (not inited)
     {
-        std::cerr << "Fatal Error: Animation getframe() called before initialized!";
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "Animation getframe() called before initialized!");
+        
     }
 
     int f = static_cast<int>(std::floor(nframes*timer.getpercent()))+1;
@@ -134,8 +129,7 @@ void Animation::update(Gamestate *state, double dt)
 {
     if (not inited)
     {
-        std::cerr << "Fatal Error: Animation update() called before initialized!";
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "Animation update() called before initialized!");
     }
 
     timer.update(state, dt);
@@ -145,8 +139,7 @@ void Animation::interpolate(Animation *prev_anim, Animation *next_anim, double a
 {
     if (not inited)
     {
-        std::cerr << "Fatal Error: Animation interpolate() called before initialized!";
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "Animation interpolate() called before initialized!");
     }
 
     timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
@@ -156,8 +149,7 @@ void Animation::reset()
 {
     if (not inited)
     {
-        std::cerr << "Fatal Error: Animation reset() called before initialized!";
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "Animation reset() called before initialized!");
     }
 
     timer.reset();
@@ -170,8 +162,7 @@ void LoopAnimation::update(Gamestate *state, double dt)
 {
     if (not inited)
     {
-        std::cerr << "Fatal Error: LoopAnimation update() called before initialized!";
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "LoopAnimation update() called before initialized!");
     }
 
     timer.update(state, dt);
@@ -190,8 +181,7 @@ void LoopAnimation::interpolate(Animation *prev_anim, Animation *next_anim, doub
 {
     if (not inited)
     {
-        std::cerr << "Fatal Error: LoopAnimation interpolate() called before initialized!";
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "LoopAnimation interpolate() called before initialized!");
     }
 
     if (std::abs(prev_anim->timer.timer - next_anim->timer.timer) > 0.5*timer.duration)
