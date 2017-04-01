@@ -1,14 +1,14 @@
 project(Vanguard)
 cmake_minimum_required(VERSION 2.8)
 
-option(COMPILE_STATIC "Compile statically instead of dynamically" OFF)
+option(COMPILE_STATIC "Compile statically instead of dynamically" ON)
 
 set (Vanguardcompileflags "-std=c++11 -Wall -pedantic -fwrapv -Wno-format-security")
 if (COMPILE_STATIC)
-    set (Vanguardlib allegro_monolith-static jpeg vorbis ogg glu32 opengl32 freetype png16 z kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid winmm dsound wsock32 psapi shlwapi enet ws2_32)
-    set (Vanguardlinkflags "-static-libstdc++ -static-libgcc -static")
+    set (Vanguardlib allegro_monolith-static jpeg vorbis ogg glu32 opengl32 freetype png16 z kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid dsound wsock32 psapi shlwapi enet ws2_32 winmm)
+    set (Vanguardlinkflags "-static-libstdc++ -static-libgcc -static ")
 else (COMPILE_STATIC)
-    set (Vanguardlib allegro allegro_image allegro_primitives allegro_font allegro_ttf enet)
+    set (Vanguardlib allegro allegro_image allegro_primitives allegro_font allegro_ttf enet ws2_32 winmm)
     set (Vanguardlinkflags "")
 endif (COMPILE_STATIC)
 
