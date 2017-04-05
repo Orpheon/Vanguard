@@ -20,7 +20,7 @@ void Peacemaker::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     isfiringult = false;
 }
 
-void Peacemaker::render(Renderer *renderer, Gamestate &state)
+void Peacemaker::render(Renderer &renderer, Gamestate &state)
 {
     std::string mainsprite;
     double dir = aimdirection;
@@ -42,15 +42,15 @@ void Peacemaker::render(Renderer *renderer, Gamestate &state)
     {
         mainsprite = c->herofolder()+"arm/1";
     }
-    ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
-    double spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;
-    double spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite)*renderer->zoom;
-    double rel_x = (x - renderer->cam_x)*renderer->zoom;
-    double rel_y = (y - renderer->cam_y)*renderer->zoom;
-    double attachpt_x = getattachpoint_x()*renderer->zoom;
-    double attachpt_y = getattachpoint_y()*renderer->zoom;
+    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
+    double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
+    double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
+    double rel_x = (x - renderer.cam_x)*renderer.zoom;
+    double rel_y = (y - renderer.cam_y)*renderer.zoom;
+    double attachpt_x = getattachpoint_x()*renderer.zoom;
+    double attachpt_y = getattachpoint_y()*renderer.zoom;
 
-    al_set_target_bitmap(renderer->midground);
+    al_set_target_bitmap(renderer.midground);
     if (c->weaponvisible(state))
     {
         if (c->isflipped)

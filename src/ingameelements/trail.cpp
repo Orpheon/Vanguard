@@ -19,10 +19,10 @@ void Trail::midstep(Gamestate &state, double frametime)
     countdown.update(state, frametime);
 }
 
-void Trail::render(Renderer *renderer, Gamestate &state)
+void Trail::render(Renderer &renderer, Gamestate &state)
 {
-    al_set_target_bitmap(renderer->background);
-    al_draw_line(renderer->zoom*(x1-renderer->cam_x), renderer->zoom*(y1-renderer->cam_y), renderer->zoom*(x2-renderer->cam_x), renderer->zoom*(y2-renderer->cam_y), color, 1);
+    al_set_target_bitmap(renderer.background);
+    al_draw_line(renderer.zoom*(x1-renderer.cam_x), renderer.zoom*(y1-renderer.cam_y), renderer.zoom*(x2-renderer.cam_x), renderer.zoom*(y2-renderer.cam_y), color, 1);
 }
 
 void Trail::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)

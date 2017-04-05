@@ -43,14 +43,14 @@ Map::~Map()
     al_destroy_bitmap(wallmask);
 }
 
-void Map::renderbackground(Renderer *renderer)
+void Map::renderbackground(Renderer &renderer)
 {
-    al_draw_scaled_bitmap(background, renderer->cam_x, renderer->cam_y, VIEWPORT_WIDTH, renderer->WINDOW_HEIGHT/renderer->zoom, 0, 0, renderer->WINDOW_WIDTH, renderer->WINDOW_HEIGHT, 0);
+    al_draw_scaled_bitmap(background, renderer.cam_x, renderer.cam_y, VIEWPORT_WIDTH, renderer.WINDOW_HEIGHT/renderer.zoom, 0, 0, renderer.WINDOW_WIDTH, renderer.WINDOW_HEIGHT, 0);
 }
 
-void Map::renderwallground(Renderer *renderer)
+void Map::renderwallground(Renderer &renderer)
 {
-    al_draw_scaled_bitmap(wallground, renderer->cam_x, renderer->cam_y, VIEWPORT_WIDTH, renderer->WINDOW_HEIGHT/renderer->zoom, 0, 0, renderer->WINDOW_WIDTH, renderer->WINDOW_HEIGHT, 0);
+    al_draw_scaled_bitmap(wallground, renderer.cam_x, renderer.cam_y, VIEWPORT_WIDTH, renderer.WINDOW_HEIGHT/renderer.zoom, 0, 0, renderer.WINDOW_WIDTH, renderer.WINDOW_HEIGHT, 0);
 }
 
 bool Map::collides(Rect r)

@@ -26,7 +26,7 @@ class Player : public Entity
         void spawn(Gamestate &state);
         void changeclass(Gamestate &state, Heroclass newclass);
         bool isrootobject() override {return true;}
-        void render(Renderer *renderer, Gamestate &state) override;
+        void render(Renderer &renderer, Gamestate &state) override;
         void interpolate(Entity *prev_entity, Entity *next_entity, double alpha) override;
         std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Player(*this));}
         void serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate);

@@ -13,7 +13,7 @@ class Reinhardt : public Character
         virtual void init(uint64_t id_, Gamestate &state, EntityPtr owner_) override;
         virtual ~Reinhardt() override = default;
         void midstep(Gamestate &state, double frametime) override;
-        void render(Renderer *renderer, Gamestate &state) override;
+        void render(Renderer &renderer, Gamestate &state) override;
         void interpolate(Entity *prev_entity, Entity *next_entity, double alpha) override;
         Rect getcollisionrect(Gamestate &state) override;
         Rect getstandingcollisionrect(Gamestate &state) override;
@@ -26,7 +26,7 @@ class Reinhardt : public Character
         void begincharge() {chargeanim.reset();}
         void endcharge() {chargeanim.active(false); endchargeanim.reset();}
         void interrupt(Gamestate &state) override;
-        void drawhud(Renderer *renderer, Gamestate &state) override;
+        void drawhud(Renderer &renderer, Gamestate &state) override;
         bool weaponvisible(Gamestate &state) override;
 
         double passiveultcharge() override {return 100*0.4166666666666667;}

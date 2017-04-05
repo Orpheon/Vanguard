@@ -72,7 +72,7 @@ void Player::endstep(Gamestate &state, double frametime)
     }
 }
 
-void Player::render(Renderer *renderer, Gamestate &state)
+void Player::render(Renderer &renderer, Gamestate &state)
 {
     if (character != 0)
     {

@@ -141,7 +141,7 @@ int main_impl(int argc, char **argv)
         while (al_get_time() - enginetime >= ENGINE_TIMESTEP)
         {
             networker->receive(*(engine.currentstate));
-            inputcatcher.run(display, *(engine.currentstate), networker.get(), &renderer, myself);
+            inputcatcher.run(display, *(engine.currentstate), networker.get(), renderer, myself);
             engine.update(ENGINE_TIMESTEP);
             networker->sendeventdata(*(engine.currentstate));
 

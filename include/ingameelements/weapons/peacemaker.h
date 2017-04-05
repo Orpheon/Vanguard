@@ -10,7 +10,7 @@ class Peacemaker : public Clipweapon
         virtual void init(uint64_t id_, Gamestate &state, EntityPtr owner_) override;
         virtual ~Peacemaker() override = default;
 
-        void render(Renderer *renderer, Gamestate &state) override;
+        void render(Renderer &renderer, Gamestate &state) override;
         std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Peacemaker(*this));}
 
         void fireprimary(Gamestate &state) override;

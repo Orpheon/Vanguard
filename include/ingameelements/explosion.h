@@ -13,7 +13,7 @@ class Explosion : public MovingEntity
         void midstep(Gamestate &state, double frametime) override;
         void endstep(Gamestate &state, double frametime) override {}
         std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Explosion(*this));}
-        void render(Renderer *renderer, Gamestate &state) override;
+        void render(Renderer &renderer, Gamestate &state) override;
         bool isrootobject() override {return true;}
 
         Animation explosionanim;

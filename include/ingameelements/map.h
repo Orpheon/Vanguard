@@ -13,8 +13,8 @@ class Map
     public:
         Map(Gamestate &state, std::string name);
         virtual ~Map();
-        void renderbackground(Renderer *renderer);
-        void renderwallground(Renderer *renderer);
+        void renderbackground(Renderer &renderer);
+        void renderwallground(Renderer &renderer);
         bool collides(Rect rect);
         bool collides(double rotx, double roty, Rect rect, double angle);
         bool collideline(double x1, double y1, double x2, double y2);

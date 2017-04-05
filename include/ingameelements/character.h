@@ -19,7 +19,7 @@ class Character : public MovingEntity
         virtual void beginstep(Gamestate &state, double frametime) override;
         virtual void midstep(Gamestate &state, double frametime) override;
         virtual void endstep(Gamestate &state, double frametime) override;
-        virtual void render(Renderer *renderer, Gamestate &state) override;
+        virtual void render(Renderer &renderer, Gamestate &state) override;
         virtual std::string currentsprite(Gamestate &state, bool mask) = 0;
         virtual bool collides(Gamestate &state, double testx, double testy) override;
         bool isrootobject() override {return false;}
@@ -41,7 +41,7 @@ class Character : public MovingEntity
         virtual void useability1(Gamestate &state) = 0;
         virtual void useability2(Gamestate &state) = 0;
         virtual void useultimate(Gamestate &state) = 0;
-        virtual void drawhud(Renderer *renderer, Gamestate &state);
+        virtual void drawhud(Renderer &renderer, Gamestate &state);
         virtual double hudheight() {return 7.0/8.0;}
         virtual bool weaponvisible(Gamestate &state) {return true;}
         virtual double maxhspeed(Gamestate &state) {return crouchanim.active() ? 60.0 : 153.0;}

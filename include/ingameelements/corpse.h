@@ -10,7 +10,7 @@ class Corpse : public MovingEntity
         virtual ~Corpse() override = default;
         void beginstep(Gamestate &state, double frametime) override {}
         void midstep(Gamestate &state, double frametime) override;
-        void render(Renderer *renderer, Gamestate &state) override;
+        void render(Renderer &renderer, Gamestate &state) override;
         bool isrootobject() override {return true;};
         std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Corpse(*this));}
         void interpolate(Entity *prev_entity, Entity *next_entity, double alpha) override;

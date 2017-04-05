@@ -37,7 +37,7 @@ InputCatcher::~InputCatcher()
     al_destroy_event_queue(event_queue);
 }
 
-void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate &state, Networker *networker, Renderer *renderer, EntityPtr myself)
+void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate &state, Networker *networker, Renderer &renderer, EntityPtr myself)
 {
     InputContainer heldkeys;
     heldkeys.reset();
@@ -147,13 +147,13 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate &state, Networker *ne
         if (c != 0)
         {
             // Set the input for our current character
-            c->setinput(state, heldkeys, mousestate.x/renderer->zoom+renderer->cam_x, mousestate.y/renderer->zoom+renderer->cam_y);
+            c->setinput(state, heldkeys, mousestate.x/renderer.zoom+renderer.cam_x, mousestate.y/renderer.zoom+renderer.cam_y);
 
             // If this is a client, send the input off to the server
             if (not state.engine->isserver)
             {
                 ClientNetworker *n = reinterpret_cast<ClientNetworker*>(networker);
-                n->sendinput(heldkeys, mousestate.x/renderer->zoom+renderer->cam_x, mousestate.y/renderer->zoom+renderer->cam_y);
+                n->sendinput(heldkeys, mousestate.x/renderer.zoom+renderer.cam_x, mousestate.y/renderer.zoom+renderer.cam_y);
             }
         }
     }

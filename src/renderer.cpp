@@ -90,7 +90,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
     {
         if (e.second->isrootobject() and not e.second->destroyentity)
         {
-            e.second->render(this, state);
+            e.second->render(*this, state);
         }
     }
 
@@ -101,7 +101,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
     al_clear_to_color(al_map_rgba(0, 0, 0, 1));
 
     // Draw the map background first
-    state.currentmap->renderbackground(this);
+    state.currentmap->renderbackground(*this);
 
     // Then draw each layer
     al_draw_bitmap(background, 0, 0, 0);
@@ -109,7 +109,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
     al_draw_bitmap(foreground, 0, 0, 0);
 
     // Draw the map wallmask on top of everything, to prevent sprites that go through walls
-    state.currentmap->renderwallground(this);
+    state.currentmap->renderwallground(*this);
 
     // Draw the final layer on top of even that, for certain things like character healthbars
     al_draw_bitmap(surfaceground, 0, 0, 0);
@@ -139,7 +139,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
 
     if (c != 0)
     {
-        c->drawhud(this, state);
+        c->drawhud(*this, state);
     }
 
     al_flip_display();

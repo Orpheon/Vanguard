@@ -24,10 +24,10 @@ void Reinhardt::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     shieldrunanim.init(herofolder()+"shieldrun/");
 }
 
-void Reinhardt::render(Renderer *renderer, Gamestate &state)
+void Reinhardt::render(Renderer &renderer, Gamestate &state)
 {
     Character::render(renderer, state);
-    al_set_target_bitmap(renderer->midground);
+    al_set_target_bitmap(renderer.midground);
 
     // Render weapon back first
     state.get<Hammer>(weapon)->renderbehind(renderer, state);
@@ -38,20 +38,20 @@ void Reinhardt::render(Renderer *renderer, Gamestate &state)
     double rel_x, rel_y;
 
     mainsprite = currentsprite(state, false);
-    sprite = renderer->spriteloader.requestsprite(mainsprite);
-    spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;
-    spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite)*renderer->zoom;
-    rel_x = (x-renderer->cam_x)*renderer->zoom;
-    rel_y = (y-renderer->cam_y)*renderer->zoom;
+    sprite = renderer.spriteloader.requestsprite(mainsprite);
+    spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
+    spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
+    rel_x = (x-renderer.cam_x)*renderer.zoom;
+    rel_y = (y-renderer.cam_y)*renderer.zoom;
 
-    ALLEGRO_BITMAP *outline = renderer->spriteloader.requestspriteoutline(mainsprite);
+    ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(mainsprite);
     ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
 
     if (isflipped)
     {
         // Flip horizontally
         al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-        if (state.get<Player>(renderer->myself)->team != team)
+        if (state.get<Player>(renderer.myself)->team != team)
         {
             // Draw enemy outline
             al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
@@ -60,7 +60,7 @@ void Reinhardt::render(Renderer *renderer, Gamestate &state)
     else
     {
         al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-        if (state.get<Player>(renderer->myself)->team != team)
+        if (state.get<Player>(renderer.myself)->team != team)
         {
             // Draw enemy outline
             al_draw_tinted_bitmap(outline, outlinecolor, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
@@ -70,7 +70,7 @@ void Reinhardt::render(Renderer *renderer, Gamestate &state)
     state.get<Weapon>(weapon)->render(renderer, state);
 }
 
-void Reinhardt::drawhud(Renderer *renderer, Gamestate &state)
+void Reinhardt::drawhud(Renderer &renderer, Gamestate &state)
 {
     Character::drawhud(renderer, state);
 }

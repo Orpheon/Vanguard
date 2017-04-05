@@ -31,24 +31,24 @@ void Mccree::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     ultcooldown.active = false;
 }
 
-void Mccree::render(Renderer *renderer, Gamestate &state)
+void Mccree::render(Renderer &renderer, Gamestate &state)
 {
     Character::render(renderer, state);
-    al_set_target_bitmap(renderer->midground);
+    al_set_target_bitmap(renderer.midground);
 
     std::string mainsprite;
     ALLEGRO_BITMAP *sprite;
     double spriteoffset_x, spriteoffset_y;
     double rel_x, rel_y;
-    rel_x = (x-renderer->cam_x)*renderer->zoom;
-    rel_y = (y-renderer->cam_y)*renderer->zoom;
+    rel_x = (x-renderer.cam_x)*renderer.zoom;
+    rel_y = (y-renderer.cam_y)*renderer.zoom;
 
     if (flashbanganim.active())
     {
         std::string armsprite = flashbanganim.getframepath();
-        sprite = renderer->spriteloader.requestsprite(armsprite);
-        spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(armsprite)*renderer->zoom;
-        spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(armsprite)*renderer->zoom;
+        sprite = renderer.spriteloader.requestsprite(armsprite);
+        spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(armsprite)*renderer.zoom;
+        spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(armsprite)*renderer.zoom;
         if (isflipped)
         {
             // Flip horizontally
@@ -61,18 +61,18 @@ void Mccree::render(Renderer *renderer, Gamestate &state)
     }
 
     mainsprite = currentsprite(state, false);
-    sprite = renderer->spriteloader.requestsprite(mainsprite);
-    spriteoffset_x = renderer->spriteloader.get_spriteoffset_x(mainsprite)*renderer->zoom;
-    spriteoffset_y = renderer->spriteloader.get_spriteoffset_y(mainsprite)*renderer->zoom;
+    sprite = renderer.spriteloader.requestsprite(mainsprite);
+    spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
+    spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
 
-    ALLEGRO_BITMAP *outline = renderer->spriteloader.requestspriteoutline(mainsprite);
+    ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(mainsprite);
     ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
 
     if (isflipped)
     {
         // Flip horizontally
         al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-        if (state.get<Player>(renderer->myself)->team != team)
+        if (state.get<Player>(renderer.myself)->team != team)
         {
             // Draw enemy outline
             al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
@@ -81,7 +81,7 @@ void Mccree::render(Renderer *renderer, Gamestate &state)
     else
     {
         al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-        if (state.get<Player>(renderer->myself)->team != team)
+        if (state.get<Player>(renderer.myself)->team != team)
         {
             // Draw enemy outline
             al_draw_tinted_bitmap(outline, outlinecolor, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
@@ -91,7 +91,7 @@ void Mccree::render(Renderer *renderer, Gamestate &state)
     state.get<Weapon>(weapon)->render(renderer, state);
 }
 
-void Mccree::drawhud(Renderer *renderer, Gamestate &state)
+void Mccree::drawhud(Renderer &renderer, Gamestate &state)
 {
     Character::drawhud(renderer, state);
 
@@ -99,17 +99,17 @@ void Mccree::drawhud(Renderer *renderer, Gamestate &state)
     float r[8];
 
     ALLEGRO_BITMAP *sprite;
-    Rect spriterect = renderer->spriteloader.get_rect("ui/ingame/"+herofolder()+"rolling");
+    Rect spriterect = renderer.spriteloader.get_rect("ui/ingame/"+herofolder()+"rolling");
     if (rollcooldown.active)
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/"+herofolder()+"rollingcooldown", 1.0);
+        sprite = renderer.spriteloader.requestsprite("ui/ingame/"+herofolder()+"rollingcooldown", 1.0);
     }
     else
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/"+herofolder()+"rolling", 1.0);
+        sprite = renderer.spriteloader.requestsprite("ui/ingame/"+herofolder()+"rolling", 1.0);
     }
-    spriterect.x = renderer->WINDOW_WIDTH*6/7.0 - spriterect.w*2 - space;
-    spriterect.y = renderer->WINDOW_HEIGHT*hudheight()-spriterect.h;
+    spriterect.x = renderer.WINDOW_WIDTH*6/7.0 - spriterect.w*2 - space;
+    spriterect.y = renderer.WINDOW_HEIGHT*hudheight()-spriterect.h;
     al_draw_bitmap(sprite, spriterect.x, spriterect.y, 0);
     if (rollcooldown.active)
     {
@@ -128,17 +128,17 @@ void Mccree::drawhud(Renderer *renderer, Gamestate &state)
 
         al_draw_filled_polygon(r, 4, al_premul_rgba_f(239/255.0, 179/255.0, 89/255.0, 0.5));
 
-        al_draw_text(renderer->font10, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+2, spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer->font10)/2.0,
+        al_draw_text(renderer.font10, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+2, spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer.font10)/2.0,
                         ALLEGRO_ALIGN_CENTER, std::to_string((int)std::ceil(rollcooldown.duration - rollcooldown.timer)).c_str());
     }
 
     if (flashbangcooldown.active)
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/"+herofolder()+"flashbangcooldown", 1.0);
+        sprite = renderer.spriteloader.requestsprite("ui/ingame/"+herofolder()+"flashbangcooldown", 1.0);
     }
     else
     {
-        sprite = renderer->spriteloader.requestsprite("ui/ingame/"+herofolder()+"flashbang", 1.0);
+        sprite = renderer.spriteloader.requestsprite("ui/ingame/"+herofolder()+"flashbang", 1.0);
     }
     spriterect.x = spriterect.x + spriterect.w+space;
     al_draw_bitmap(sprite, spriterect.x, spriterect.y, 0);
@@ -159,7 +159,7 @@ void Mccree::drawhud(Renderer *renderer, Gamestate &state)
 
         al_draw_filled_polygon(r, 4, al_premul_rgba_f(239/255.0, 179/255.0, 89/255.0, 0.5));
 
-        al_draw_text(renderer->font10, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+2, spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer->font10)/2.0,
+        al_draw_text(renderer.font10, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+2, spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer.font10)/2.0,
                         ALLEGRO_ALIGN_CENTER, std::to_string((int)std::ceil(flashbangcooldown.duration - flashbangcooldown.timer)).c_str());
     }
 }

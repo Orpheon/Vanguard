@@ -288,10 +288,10 @@ void Character::endstep(Gamestate &state, double frametime)
     getweapon(state)->endstep(state, frametime);
 }
 
-void Character::render(Renderer *renderer, Gamestate &state)
+void Character::render(Renderer &renderer, Gamestate &state)
 {
     // --------------- HEALTHBAR ---------------
-    al_set_target_bitmap(renderer->surfaceground);
+    al_set_target_bitmap(renderer.surfaceground);
     std::string mainsprite = currentsprite(state, false);
     double healthalpha = 1.0;
     double lack_healthalpha = 0.2;
@@ -311,11 +311,11 @@ void Character::render(Renderer *renderer, Gamestate &state)
     int height = 6;
     int space = 2;
     double slant = 0.3;
-    double y_ = renderer->zoom*(y - renderer->spriteloader.get_spriteoffset_y(mainsprite) - renderer->cam_y - 15);
+    double y_ = renderer.zoom*(y - renderer.spriteloader.get_spriteoffset_y(mainsprite) - renderer.cam_y - 15);
 
     int nrects = std::ceil(maxhp().total()/25.0);
     double width = totalwidth/nrects;
-    double start_x = renderer->zoom*(x - renderer->cam_x) - width*(nrects/2.0) - space*((nrects-1)/2.0);
+    double start_x = renderer.zoom*(x - renderer.cam_x) - width*(nrects/2.0) - space*((nrects-1)/2.0);
 
     // Draw first normal health, then armor, then shields
     for (int healthtype=0; healthtype<3; ++healthtype)
@@ -441,7 +441,7 @@ void Character::render(Renderer *renderer, Gamestate &state)
 
 
     // Deadeye circle
-    Player *player = state.get<Player>(renderer->myself);
+    Player *player = state.get<Player>(renderer.myself);
     if (player->heroclass == MCCREE and player->team != team)
     {
         Mccree *c = state.get<Mccree>(player->character);
@@ -454,22 +454,22 @@ void Character::render(Renderer *renderer, Gamestate &state)
                 charge = w->deadeyetargets.at(owner);
             }
 
-            al_set_target_bitmap(renderer->foreground);
+            al_set_target_bitmap(renderer.foreground);
             double factor = (hp.total()-charge) / maxhp().total();
             if (factor < 0)
             {
-                ALLEGRO_BITMAP *skull = renderer->spriteloader.requestsprite("ui/ingame/mccree/lockon");
-                int spriteoffset_x = renderer->spriteloader.get_spriteoffset_x("ui/ingame/mccree/lockon");
-                int spriteoffset_y = renderer->spriteloader.get_spriteoffset_y("ui/ingame/mccree/lockon");
-                al_draw_bitmap(skull, x-renderer->cam_x-spriteoffset_x, y-renderer->cam_y-spriteoffset_y, 0);
+                ALLEGRO_BITMAP *skull = renderer.spriteloader.requestsprite("ui/ingame/mccree/lockon");
+                int spriteoffset_x = renderer.spriteloader.get_spriteoffset_x("ui/ingame/mccree/lockon");
+                int spriteoffset_y = renderer.spriteloader.get_spriteoffset_y("ui/ingame/mccree/lockon");
+                al_draw_bitmap(skull, x-renderer.cam_x-spriteoffset_x, y-renderer.cam_y-spriteoffset_y, 0);
                 factor = 0;
             }
-            al_draw_circle(x-renderer->cam_x, y-renderer->cam_y, 8+32*factor, al_map_rgb(253, 58, 58), 1);
+            al_draw_circle(x-renderer.cam_x, y-renderer.cam_y, 8+32*factor, al_map_rgb(253, 58, 58), 1);
         }
     }
 }
 
-void Character::drawhud(Renderer *renderer, Gamestate &state)
+void Character::drawhud(Renderer &renderer, Gamestate &state)
 {
     // Experimental healthbar
     double healthalpha = 1.0;
@@ -496,8 +496,8 @@ void Character::drawhud(Renderer *renderer, Gamestate &state)
     int height = 20;
     int space = 20/9.0;
     double slant = 0.3;
-    double tmpy = hudheight()*renderer->WINDOW_HEIGHT - height;
-    double start_x = renderer->WINDOW_WIDTH/9.0;
+    double tmpy = hudheight()*renderer.WINDOW_HEIGHT - height;
+    double start_x = renderer.WINDOW_WIDTH/9.0;
 
     // Draw first normal health, then armor, then shields
     for (int healthtype=0; healthtype<3; ++healthtype)
@@ -627,25 +627,25 @@ void Character::drawhud(Renderer *renderer, Gamestate &state)
         Clipweapon *w = state.get<Clipweapon>(weapon);
         std::string ammo = std::to_string(w->clip);
         std::string maxammo = "I "+std::to_string(w->getclipsize());
-        tmpx = renderer->WINDOW_WIDTH*9/10.0;
-        al_draw_text(renderer->font20, al_map_rgb(255, 255, 255), tmpx, renderer->WINDOW_HEIGHT*hudheight()-al_get_font_line_height(renderer->font20), ALLEGRO_ALIGN_LEFT, ammo.c_str());
-        al_draw_text(renderer->font10, al_map_rgb(255, 255, 255), tmpx+al_get_text_width(renderer->font20, ammo.c_str()),
-                        renderer->WINDOW_HEIGHT*hudheight()-al_get_font_line_height(renderer->font10), ALLEGRO_ALIGN_LEFT, maxammo.c_str());
+        tmpx = renderer.WINDOW_WIDTH*9/10.0;
+        al_draw_text(renderer.font20, al_map_rgb(255, 255, 255), tmpx, renderer.WINDOW_HEIGHT*hudheight()-al_get_font_line_height(renderer.font20), ALLEGRO_ALIGN_LEFT, ammo.c_str());
+        al_draw_text(renderer.font10, al_map_rgb(255, 255, 255), tmpx+al_get_text_width(renderer.font20, ammo.c_str()),
+                        renderer.WINDOW_HEIGHT*hudheight()-al_get_font_line_height(renderer.font10), ALLEGRO_ALIGN_LEFT, maxammo.c_str());
     }
 
     // Ult charge meter
     Player *p = state.get<Player>(owner);
     if (p->ultcharge.active)
     {
-        ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/ultbar", 1.0);
-        Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/ultbar").offset(renderer->WINDOW_WIDTH/2, hudheight()*renderer->WINDOW_HEIGHT);
+        ALLEGRO_BITMAP *ultbar = renderer.spriteloader.requestsprite("ui/ingame/ultbar", 1.0);
+        Rect ultbarrect = renderer.spriteloader.get_rect("ui/ingame/ultbar").offset(renderer.WINDOW_WIDTH/2, hudheight()*renderer.WINDOW_HEIGHT);
         al_draw_bitmap(ultbar, ultbarrect.x, ultbarrect.y, 0);
         al_draw_arc(ultbarrect.x+ultbarrect.w/2.0, ultbarrect.y+ultbarrect.h/2.0 - 8, 33, -3.1415/2.0, 2*3.1415*p->ultcharge.timer/100.0, al_map_rgb(255, 230, 125), 8);
     }
     else
     {
-        ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/"+herofolder()+"ultready", 1.0);
-        Rect ultbarrect = renderer->spriteloader.get_rect("ui/ingame/"+herofolder()+"ultready").offset(renderer->WINDOW_WIDTH/2, hudheight()*renderer->WINDOW_HEIGHT);
+        ALLEGRO_BITMAP *ultbar = renderer.spriteloader.requestsprite("ui/ingame/"+herofolder()+"ultready", 1.0);
+        Rect ultbarrect = renderer.spriteloader.get_rect("ui/ingame/"+herofolder()+"ultready").offset(renderer.WINDOW_WIDTH/2, hudheight()*renderer.WINDOW_HEIGHT);
         al_draw_bitmap(ultbar, ultbarrect.x, ultbarrect.y, 0);
     }
 }

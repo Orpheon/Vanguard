@@ -12,8 +12,8 @@ class Hammer : public Weapon
         virtual void init(uint64_t id_, Gamestate &state, EntityPtr owner_) override;
         virtual ~Hammer() override = default;
 
-        void renderbehind(Renderer *renderer, Gamestate &state);
-        void render(Renderer *renderer, Gamestate &state) override;
+        void renderbehind(Renderer &renderer, Gamestate &state);
+        void render(Renderer &renderer, Gamestate &state) override;
         std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Hammer(*this));}
 
         void fireprimary(Gamestate &state) override;

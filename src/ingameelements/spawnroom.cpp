@@ -27,13 +27,13 @@ void Spawnroom::beginstep(Gamestate &state, double frametime)
     }
 }
 
-void Spawnroom::render(Renderer *renderer, Gamestate &state)
+void Spawnroom::render(Renderer &renderer, Gamestate &state)
 {
-    al_set_target_bitmap(renderer->background);
+    al_set_target_bitmap(renderer.background);
     int border = 3;
-    double rel_x = (area.x - renderer->cam_x)*renderer->zoom;
-    double rel_y = (area.y - renderer->cam_y)*renderer->zoom;
-    al_draw_rectangle(rel_x+border/2.0, rel_y+border/2.0, rel_x+renderer->zoom*area.w-border/2.0, rel_y+renderer->zoom*area.h-border/2.0, al_premul_rgba(248, 222, 0, 200), border);
+    double rel_x = (area.x - renderer.cam_x)*renderer.zoom;
+    double rel_y = (area.y - renderer.cam_y)*renderer.zoom;
+    al_draw_rectangle(rel_x+border/2.0, rel_y+border/2.0, rel_x+renderer.zoom*area.w-border/2.0, rel_y+renderer.zoom*area.h-border/2.0, al_premul_rgba(248, 222, 0, 200), border);
     border = 10;
-    al_draw_rectangle(rel_x+border/2.0, rel_y+border/2.0, rel_x+renderer->zoom*area.w-border/2.0, rel_y+renderer->zoom*area.h-border/2.0, al_premul_rgba(248, 222, 0, 200), border);
+    al_draw_rectangle(rel_x+border/2.0, rel_y+border/2.0, rel_x+renderer.zoom*area.w-border/2.0, rel_y+renderer.zoom*area.h-border/2.0, al_premul_rgba(248, 222, 0, 200), border);
 }
