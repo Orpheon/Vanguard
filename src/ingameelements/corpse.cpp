@@ -4,16 +4,16 @@
 #include "engine.h"
 #include "renderer.h"
 
-void Corpse::init(uint64_t id_, Gamestate *state, std::string herofolder, bool isflipped_)
+void Corpse::init(uint64_t id_, Gamestate &state, std::string herofolder, bool isflipped_)
 {
     MovingEntity::init(id_, state);
 
     spritepath = herofolder+"corpse/1";
-    countdown.init(8, std::bind(&Corpse::destroy, this, state));
+    countdown.init(8, std::bind(&Corpse::destroy, this, std::placeholders::_1));
     isflipped = isflipped_;
 }
 
-void Corpse::midstep(Gamestate *state, double frametime)
+void Corpse::midstep(Gamestate &state, double frametime)
 {
     countdown.update(state, frametime);
 
@@ -21,13 +21,13 @@ void Corpse::midstep(Gamestate *state, double frametime)
     vspeed += 540.0*frametime;
 
     // Collision with wallmask
-    if (state->currentmap->collides(state->engine->maskloader.get_rect(spritepath).offset(x, y)))
+    if (state.currentmap->collides(state.engine->maskloader.get_rect(spritepath).offset(x, y)))
     {
         vspeed = 0;
     }
 }
 
-void Corpse::render(Renderer *renderer, Gamestate *state)
+void Corpse::render(Renderer *renderer, Gamestate &state)
 {
     std::string mainsprite = spritepath;
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);

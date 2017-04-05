@@ -8,11 +8,11 @@
 #include "ingameelements/trail.h"
 #include "engine.h"
 
-void Peacemaker::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
+void Peacemaker::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Clipweapon::init(id_, state, owner_);
 
-    fthanim.init(herofolder()+"fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, state));
+    fthanim.init(herofolder()+"fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, std::placeholders::_1));
     fthanim.active(false);
     deadeyeanim.init(herofolder()+"fanthehammerloop/");
     deadeyeanim.active(false);
@@ -20,11 +20,11 @@ void Peacemaker::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
     isfiringult = false;
 }
 
-void Peacemaker::render(Renderer *renderer, Gamestate *state)
+void Peacemaker::render(Renderer *renderer, Gamestate &state)
 {
     std::string mainsprite;
     double dir = aimdirection;
-    Mccree *c = state->get<Mccree>(state->get<Player>(owner)->character);
+    Mccree *c = state.get<Mccree>(state.get<Player>(owner)->character);
     if (firinganim.active())
     {
         mainsprite = firinganim.getframepath();
@@ -64,7 +64,7 @@ void Peacemaker::render(Renderer *renderer, Gamestate *state)
     }
 }
 
-void Peacemaker::midstep(Gamestate *state, double frametime)
+void Peacemaker::midstep(Gamestate &state, double frametime)
 {
     Clipweapon::midstep(state, frametime);
 
@@ -74,19 +74,19 @@ void Peacemaker::midstep(Gamestate *state, double frametime)
     }
     fthanim.update(state, frametime);
 
-    Player *ownerplayer = state->get<Player>(owner);
-    Mccree *ownerchar = state->get<Mccree>(ownerplayer->character);
+    Player *ownerplayer = state.get<Player>(owner);
+    Mccree *ownerchar = state.get<Mccree>(ownerplayer->character);
     if (ownerchar->ulting.active and not isfiringult)
     {
-        for (auto p : state->playerlist)
+        for (auto p : state.playerlist)
         {
-            Player *player = state->get<Player>(p);
+            Player *player = state.get<Player>(p);
             if (player->team != SPECTATOR and player->team != team)
             {
                 Character *c = player->getcharacter(state);
                 if (c != 0)
                 {
-                    if (not state->currentmap->collideline(x, y, c->x, c->y))
+                    if (not state.currentmap->collideline(x, y, c->x, c->y))
                     {
                         if (deadeyetargets.count(p) == 0)
                         {
@@ -100,7 +100,7 @@ void Peacemaker::midstep(Gamestate *state, double frametime)
     }
 }
 
-void Peacemaker::reload(Gamestate *state)
+void Peacemaker::reload(Gamestate &state)
 {
     if (clip < getclipsize() and not firinganim.active() and not reloadanim.active() and not isfthing)
     {
@@ -110,22 +110,22 @@ void Peacemaker::reload(Gamestate *state)
     }
 }
 
-void Peacemaker::wantfireprimary(Gamestate *state)
+void Peacemaker::wantfireprimary(Gamestate &state)
 {
-    if (clip > 0 and not firinganim.active() and not reloadanim.active() and not isfthing and not isfiringult and state->engine->isserver)
+    if (clip > 0 and not firinganim.active() and not reloadanim.active() and not isfthing and not isfiringult and state.engine->isserver)
     {
         fireprimary(state);
-        state->engine->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
-        state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+        state.engine->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
+        state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
     }
 }
 
-void Peacemaker::fireprimary(Gamestate *state)
+void Peacemaker::fireprimary(Gamestate &state)
 {
     double cosa = std::cos(aimdirection), sina = std::sin(aimdirection);
     double collisionptx, collisionpty;
-    double d = std::hypot(state->currentmap->width(), state->currentmap->height());
-    EntityPtr target = state->collidelinedamageable(x, y, x+cosa*d, y+sina*d, team, &collisionptx, &collisionpty);
+    double d = std::hypot(state.currentmap->width(), state.currentmap->height());
+    EntityPtr target = state.collidelinedamageable(x, y, x+cosa*d, y+sina*d, team, &collisionptx, &collisionpty);
     if (target.id != 0)
     {
         double distance = std::hypot(collisionptx-x, collisionpty-y);
@@ -134,7 +134,7 @@ void Peacemaker::fireprimary(Gamestate *state)
         {
             falloff = std::max(0.0, 1 - (distance-FALLOFF_BEGIN)/(FALLOFF_END-FALLOFF_BEGIN));
         }
-        MovingEntity *m = state->get<MovingEntity>(target);
+        MovingEntity *m = state.get<MovingEntity>(target);
         if (m->entitytype == ENTITYTYPE::CHARACTER)
         {
             Character *c = reinterpret_cast<Character*>(m);
@@ -142,8 +142,8 @@ void Peacemaker::fireprimary(Gamestate *state)
         }
     }
 
-    state->make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
-    Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", aimdirection));
+    state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
+    Explosion *e = state.get<Explosion>(state.make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", aimdirection));
     e->x = x+cosa*24;
     e->y = y+sina*24;
 
@@ -152,21 +152,21 @@ void Peacemaker::fireprimary(Gamestate *state)
     firinganim.active(true);
 }
 
-void Peacemaker::wantfiresecondary(Gamestate *state)
+void Peacemaker::wantfiresecondary(Gamestate &state)
 {
     if (clip > 0)
     {
-        if (not isfthing and state->engine->isserver and not reloadanim.active() and not firinganim.active() and not isfiringult)
+        if (not isfthing and state.engine->isserver and not reloadanim.active() and not firinganim.active() and not isfiringult)
         {
             firesecondary(state);
-            state->engine->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
-            state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+            state.engine->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
+            state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
         }
         else if (isfthing and fthanim.getpercent() >= 1)
         {
             firesecondary(state);
-            state->engine->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
-            state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+            state.engine->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
+            state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
         }
     }
     else
@@ -176,12 +176,12 @@ void Peacemaker::wantfiresecondary(Gamestate *state)
     }
 }
 
-void Peacemaker::firesecondary(Gamestate *state)
+void Peacemaker::firesecondary(Gamestate &state)
 {
     double spread = (2*(rand()/(RAND_MAX+1.0)) - 1)*25*3.1415/180.0;
     double cosa = std::cos(aimdirection+spread), sina = std::sin(aimdirection+spread);
     double collisionptx, collisionpty;
-    EntityPtr target = state->collidelinedamageable(x, y, x+cosa*FALLOFF_END, y+sina*FALLOFF_END, team, &collisionptx, &collisionpty);
+    EntityPtr target = state.collidelinedamageable(x, y, x+cosa*FALLOFF_END, y+sina*FALLOFF_END, team, &collisionptx, &collisionpty);
     if (target.id != 0)
     {
         double distance = std::hypot(collisionptx-x, collisionpty-y);
@@ -190,7 +190,7 @@ void Peacemaker::firesecondary(Gamestate *state)
         {
             falloff = std::max(0.0, (distance-FALLOFF_BEGIN) / (FALLOFF_END-FALLOFF_BEGIN));
         }
-        MovingEntity *m = state->get<MovingEntity>(target);
+        MovingEntity *m = state.get<MovingEntity>(target);
         if (m->entitytype == ENTITYTYPE::CHARACTER)
         {
             Character *c = reinterpret_cast<Character*>(m);
@@ -198,28 +198,28 @@ void Peacemaker::firesecondary(Gamestate *state)
         }
     }
 
-    state->make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
-    Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", aimdirection+spread));
+    state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
+    Explosion *e = state.get<Explosion>(state.make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", aimdirection+spread));
     e->x = x+cosa*24;
     e->y = y+sina*24;
 
     --clip;
 
-    if (clip > 0 and state->engine->isserver)
+    if (clip > 0 and state.engine->isserver)
     {
         if (isfthing)
         {
-            fthanim.init("heroes/mccree/fanthehammerloop/", std::bind(&Peacemaker::wantfiresecondary, this, state));
+            fthanim.init("heroes/mccree/fanthehammerloop/", std::bind(&Peacemaker::wantfiresecondary, this, std::placeholders::_1));
         }
         else
         {
-            fthanim.init("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::wantfiresecondary, this, state));
+            fthanim.init("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::wantfiresecondary, this, std::placeholders::_1));
             isfthing = true;
         }
     }
 }
 
-void Peacemaker::fireultimate(Gamestate *state)
+void Peacemaker::fireultimate(Gamestate &state)
 {
     isfiringult = true;
     if (deadeyetargets.size() > 0)
@@ -230,7 +230,7 @@ void Peacemaker::fireultimate(Gamestate *state)
         // Select closest target
         for (auto p : deadeyetargets)
         {
-            Player *player = state->get<Player>(p.first);
+            Player *player = state.get<Player>(p.first);
             c = player->getcharacter(state);
             if (c != 0)
             {
@@ -243,28 +243,28 @@ void Peacemaker::fireultimate(Gamestate *state)
             }
         }
 
-        c = state->get<Player>(playerptr)->getcharacter(state);
+        c = state.get<Player>(playerptr)->getcharacter(state);
         double collisionptx, collisionpty;
-        EntityPtr target = state->collidelinedamageable(x, y, c->x, c->y, team, &collisionptx, &collisionpty);
+        EntityPtr target = state.collidelinedamageable(x, y, c->x, c->y, team, &collisionptx, &collisionpty);
         double angle = std::atan2(c->y-y, c->x-x), cosa = std::cos(angle), sina = std::sin(angle);
-        MovingEntity *m = state->get<MovingEntity>(target);
+        MovingEntity *m = state.get<MovingEntity>(target);
         if (m != 0 and m->entitytype == ENTITYTYPE::CHARACTER)
         {
             c = reinterpret_cast<Character*>(m);
             c->damage(state, deadeyetargets.at(playerptr));
         }
-        state->make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
-        Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", angle));
+        state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
+        Explosion *e = state.get<Explosion>(state.make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", angle));
         e->x = x+cosa*24;
         e->y = y+sina*24;
 
         deadeyetargets.erase(playerptr);
 
-        deadeyeanim.init("heroes/mccree/fanthehammerloop/", std::bind(&Peacemaker::fireultimate, this, state));
+        deadeyeanim.init("heroes/mccree/fanthehammerloop/", std::bind(&Peacemaker::fireultimate, this, std::placeholders::_1));
     }
     else
     {
-        Mccree *ownerchar = state->get<Mccree>(state->get<Player>(owner)->character);
+        Mccree *ownerchar = state.get<Mccree>(state.get<Player>(owner)->character);
         ownerchar->resetafterult(state);
     }
 }

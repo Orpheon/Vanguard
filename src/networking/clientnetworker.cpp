@@ -22,7 +22,7 @@ ClientNetworker::~ClientNetworker()
     //dtor
 }
 
-void ClientNetworker::receive(Gamestate *state)
+void ClientNetworker::receive(Gamestate &state)
 {
     ENetEvent event;
     while (enet_host_service(host, &event, 0))
@@ -43,63 +43,63 @@ void ClientNetworker::receive(Gamestate *state)
                 int eventtype = data.read<uint8_t>();
                 if (eventtype == SERVER_FULLUPDATE)
                 {
-                    state->deserializefull(&data);
+                    state.deserializefull(&data);
                     connected = true;
                 }
                 else if (eventtype == SERVER_SNAPSHOTUPDATE)
                 {
-                    state->deserializesnapshot(&data);
+                    state.deserializesnapshot(&data);
                     // Resets gun arm position and a bunch of similar things to be up to date
-                    state->update(0);
+                    state.update(0);
                 }
                 else if (eventtype == PLAYER_JOINED)
                 {
-                    state->addplayer();
+                    state.addplayer();
                 }
                 else if (eventtype == PLAYER_LEFT)
                 {
                     int playerid = data.read<uint8_t>();
-                    state->removeplayer(playerid);
+                    state.removeplayer(playerid);
                 }
                 else if (eventtype == PLAYER_CHANGECLASS)
                 {
                     int playerid = data.read<uint8_t>();
-                    state->findplayer(playerid)->heroclass = (Heroclass)(data.read<uint8_t>());
+                    state.findplayer(playerid)->heroclass = (Heroclass)(data.read<uint8_t>());
                 }
                 else if (eventtype == PLAYER_SPAWNED)
                 {
                     int playerid = data.read<uint8_t>();
-                    state->findplayer(playerid)->spawn(state);
+                    state.findplayer(playerid)->spawn(state);
                 }
                 else if (eventtype == PLAYER_DIED)
                 {
                     int playerid = data.read<uint8_t>();
-                    state->findplayer(playerid)->getcharacter(state)->destroy(state);
+                    state.findplayer(playerid)->getcharacter(state)->destroy(state);
                 }
                 else if (eventtype == PRIMARY_FIRED)
                 {
                     int playerid = data.read<uint8_t>();
-                    state->findplayer(playerid)->getcharacter(state)->getweapon(state)->fireprimary(state);
+                    state.findplayer(playerid)->getcharacter(state)->getweapon(state)->fireprimary(state);
                 }
                 else if (eventtype == SECONDARY_FIRED)
                 {
                     int playerid = data.read<uint8_t>();
-                    state->findplayer(playerid)->getcharacter(state)->getweapon(state)->firesecondary(state);
+                    state.findplayer(playerid)->getcharacter(state)->getweapon(state)->firesecondary(state);
                 }
                 else if (eventtype == ABILITY1_USED)
                 {
                     int playerid = data.read<uint8_t>();
-                    state->findplayer(playerid)->getcharacter(state)->useability1(state);
+                    state.findplayer(playerid)->getcharacter(state)->useability1(state);
                 }
                 else if (eventtype == ABILITY2_USED)
                 {
                     int playerid = data.read<uint8_t>();
-                    state->findplayer(playerid)->getcharacter(state)->useability2(state);
+                    state.findplayer(playerid)->getcharacter(state)->useability2(state);
                 }
                 else if (eventtype == ULTIMATE_USED)
                 {
                     int playerid = data.read<uint8_t>();
-                    Player *p = state->findplayer(playerid);
+                    Player *p = state.findplayer(playerid);
                     p->ultcharge.reset();
                     p->ultcharge.active = false;
                     p->getcharacter(state)->useultimate(state);
@@ -114,7 +114,7 @@ void ClientNetworker::receive(Gamestate *state)
     }
 }
 
-void ClientNetworker::sendeventdata(Gamestate *state)
+void ClientNetworker::sendeventdata(Gamestate &state)
 {
     if (sendbuffer.length() > 0)
     {

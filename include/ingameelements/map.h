@@ -11,7 +11,7 @@
 class Map
 {
     public:
-        Map(Gamestate *state, std::string name);
+        Map(Gamestate &state, std::string name);
         virtual ~Map();
         void renderbackground(Renderer *renderer);
         void renderwallground(Renderer *renderer);

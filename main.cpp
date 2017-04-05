@@ -129,7 +129,7 @@ int main_impl(int argc, char **argv)
         ClientNetworker *n = reinterpret_cast<ClientNetworker*>(networker.get());
         while (not n->isconnected())
         {
-            n->receive(engine.currentstate.get());
+            n->receive(*(engine.currentstate));
         }
         myself = engine.currentstate->playerlist.at(engine.currentstate->playerlist.size()-1);
     }
@@ -140,10 +140,10 @@ int main_impl(int argc, char **argv)
     {
         while (al_get_time() - enginetime >= ENGINE_TIMESTEP)
         {
-            networker->receive(engine.currentstate.get());
-            inputcatcher.run(display, engine.currentstate.get(), networker.get(), &renderer, myself);
+            networker->receive(*(engine.currentstate));
+            inputcatcher.run(display, *(engine.currentstate), networker.get(), &renderer, myself);
             engine.update(ENGINE_TIMESTEP);
-            networker->sendeventdata(engine.currentstate.get());
+            networker->sendeventdata(*(engine.currentstate));
 
             enginetime += ENGINE_TIMESTEP;
         }
@@ -152,13 +152,13 @@ int main_impl(int argc, char **argv)
             if (al_get_time() - networkertime >= NETWORKING_TIMESTEP)
             {
                 ServerNetworker *n = reinterpret_cast<ServerNetworker*>(networker.get());
-                n->sendframedata(engine.currentstate.get());
+                n->sendframedata(*(engine.currentstate));
 
                 networkertime = al_get_time();
             }
         }
-        renderingstate.interpolate(engine.oldstate.get(), engine.currentstate.get(), (al_get_time()-enginetime)/ENGINE_TIMESTEP);
-        renderer.render(display, &renderingstate, myself, networker.get());
+        renderingstate.interpolate(*(engine.oldstate), *(engine.currentstate), (al_get_time()-enginetime)/ENGINE_TIMESTEP);
+        renderer.render(display, renderingstate, myself, networker.get());
     }
     return 0;
 }

@@ -1,6 +1,6 @@
 #include "ingameelements/clipweapon.h"
 
-void Clipweapon::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
+void Clipweapon::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Weapon::init(id_, state, owner_);
     reloadanim.init(herofolder()+"reload/", getreloadfunction(state));
@@ -8,7 +8,7 @@ void Clipweapon::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
     clip = getclipsize();
 }
 
-void Clipweapon::midstep(Gamestate *state, double frametime)
+void Clipweapon::midstep(Gamestate &state, double frametime)
 {
     Weapon::midstep(state, frametime);
 
@@ -38,7 +38,7 @@ void Clipweapon::interpolate(Entity *prev_entity, Entity *next_entity, double al
     reloadanim.interpolate(&(prev_e->reloadanim), &(next_e->reloadanim), alpha);
 }
 
-void Clipweapon::reload(Gamestate *state)
+void Clipweapon::reload(Gamestate &state)
 {
     if (clip < getclipsize() and not firinganim.active() and not reloadanim.active())
     {
@@ -48,7 +48,7 @@ void Clipweapon::reload(Gamestate *state)
     }
 }
 
-void Clipweapon::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
+void Clipweapon::serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate)
 {
     Weapon::serialize(state, buffer, fullupdate);
 
@@ -56,7 +56,7 @@ void Clipweapon::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdat
     buffer->write<uint8_t>(clip);
 }
 
-void Clipweapon::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate)
+void Clipweapon::deserialize(Gamestate &state, ReadBuffer *buffer, bool fullupdate)
 {
     Weapon::deserialize(state, buffer, fullupdate);
 

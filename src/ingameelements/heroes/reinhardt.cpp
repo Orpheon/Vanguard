@@ -9,7 +9,7 @@
 #include <cmath>
 #include <allegro5/allegro_primitives.h>
 
-void Reinhardt::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
+void Reinhardt::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Character::init(id_, state, owner_);
 
@@ -24,13 +24,13 @@ void Reinhardt::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
     shieldrunanim.init(herofolder()+"shieldrun/");
 }
 
-void Reinhardt::render(Renderer *renderer, Gamestate *state)
+void Reinhardt::render(Renderer *renderer, Gamestate &state)
 {
     Character::render(renderer, state);
     al_set_target_bitmap(renderer->midground);
 
     // Render weapon back first
-    state->get<Hammer>(weapon)->renderbehind(renderer, state);
+    state.get<Hammer>(weapon)->renderbehind(renderer, state);
 
     std::string mainsprite;
     ALLEGRO_BITMAP *sprite;
@@ -51,7 +51,7 @@ void Reinhardt::render(Renderer *renderer, Gamestate *state)
     {
         // Flip horizontally
         al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-        if (state->get<Player>(renderer->myself)->team != team)
+        if (state.get<Player>(renderer->myself)->team != team)
         {
             // Draw enemy outline
             al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
@@ -60,22 +60,22 @@ void Reinhardt::render(Renderer *renderer, Gamestate *state)
     else
     {
         al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-        if (state->get<Player>(renderer->myself)->team != team)
+        if (state.get<Player>(renderer->myself)->team != team)
         {
             // Draw enemy outline
             al_draw_tinted_bitmap(outline, outlinecolor, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
         }
     }
 
-    state->get<Weapon>(weapon)->render(renderer, state);
+    state.get<Weapon>(weapon)->render(renderer, state);
 }
 
-void Reinhardt::drawhud(Renderer *renderer, Gamestate *state)
+void Reinhardt::drawhud(Renderer *renderer, Gamestate &state)
 {
     Character::drawhud(renderer, state);
 }
 
-void Reinhardt::midstep(Gamestate *state, double frametime)
+void Reinhardt::midstep(Gamestate &state, double frametime)
 {
     Character::midstep(state, frametime);
 
@@ -115,17 +115,17 @@ void Reinhardt::midstep(Gamestate *state, double frametime)
 
     if (canuseabilities(state))
     {
-        if (heldkeys.ABILITY_1 and state->engine->isserver)
+        if (heldkeys.ABILITY_1 and state.engine->isserver)
         {
             useability1(state);
-            state->engine->sendbuffer->write<uint8_t>(ABILITY1_USED);
-            state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+            state.engine->sendbuffer->write<uint8_t>(ABILITY1_USED);
+            state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
         }
-        if (heldkeys.ABILITY_2 and state->engine->isserver)
+        if (heldkeys.ABILITY_2 and state.engine->isserver)
         {
             useability2(state);
-            state->engine->sendbuffer->write<uint8_t>(ABILITY2_USED);
-            state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+            state.engine->sendbuffer->write<uint8_t>(ABILITY2_USED);
+            state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
         }
     }
 }
@@ -144,56 +144,56 @@ void Reinhardt::interpolate(Entity *prev_entity, Entity *next_entity, double alp
     shieldrunanim.interpolate(&(p->shieldrunanim), &(n->shieldrunanim), alpha);
 }
 
-bool Reinhardt::cangetinput(Gamestate *state)
+bool Reinhardt::cangetinput(Gamestate &state)
 {
     return  not chargeanim.active() and not preparechargeanim.active() and not endchargeanim.active()
         and not earthshatteranim.active() and Character::cangetinput(state);
 }
 
-bool Reinhardt::weaponvisible(Gamestate *state)
+bool Reinhardt::weaponvisible(Gamestate &state)
 {
     return  not stunanim.active() and not preparechargeanim.active() and not chargeanim.active()
         and not endchargeanim.active() and not earthshatteranim.active();
 }
 
-void Reinhardt::useability1(Gamestate *state)
+void Reinhardt::useability1(Gamestate &state)
 {
     preparechargeanim.reset();
 }
 
-void Reinhardt::useability2(Gamestate *state)
+void Reinhardt::useability2(Gamestate &state)
 {
 
 }
 
-void Reinhardt::useultimate(Gamestate *state)
+void Reinhardt::useultimate(Gamestate &state)
 {
     earthshatteranim.reset();
-    Player *ownerplayer = state->get<Player>(owner);
+    Player *ownerplayer = state.get<Player>(owner);
     ownerplayer->ultcharge.reset();
 }
 
-void Reinhardt::interrupt(Gamestate *state)
+void Reinhardt::interrupt(Gamestate &state)
 {
     chargeanim.active(false);
     earthshatteranim.active(false);
 }
 
-Rect Reinhardt::getcollisionrect(Gamestate *state)
+Rect Reinhardt::getcollisionrect(Gamestate &state)
 {
     if (crouchanim.active())
     {
-        return state->engine->maskloader.get_rect_from_json(herofolder()+"crouch/").offset(x, y);
+        return state.engine->maskloader.get_rect_from_json(herofolder()+"crouch/").offset(x, y);
     }
     return getstandingcollisionrect(state);
 }
 
-Rect Reinhardt::getstandingcollisionrect(Gamestate *state)
+Rect Reinhardt::getstandingcollisionrect(Gamestate &state)
 {
-    return state->engine->maskloader.get_rect_from_json(herofolder()).offset(x, y);
+    return state.engine->maskloader.get_rect_from_json(herofolder()).offset(x, y);
 }
 
-std::string Reinhardt::currentsprite(Gamestate *state, bool mask)
+std::string Reinhardt::currentsprite(Gamestate &state, bool mask)
 {
     if (stunanim.active())
     {
@@ -234,7 +234,7 @@ std::string Reinhardt::currentsprite(Gamestate *state, bool mask)
     {
         return herofolder()+"idle/1";
     }
-    Hammer *hammer = state->get<Hammer>(weapon);
+    Hammer *hammer = state.get<Hammer>(weapon);
     if (hammer->barrier.active)
     {
         return shieldrunanim.getframepath();

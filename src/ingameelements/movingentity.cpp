@@ -5,7 +5,7 @@
 
 #include <cmath>
 
-void MovingEntity::init(uint64_t id_, Gamestate *state)
+void MovingEntity::init(uint64_t id_, Gamestate &state)
 {
     Entity::init(id_);
     x = 0;
@@ -14,7 +14,7 @@ void MovingEntity::init(uint64_t id_, Gamestate *state)
     vspeed = 0;
 }
 
-void MovingEntity::endstep(Gamestate *state, double frametime)
+void MovingEntity::endstep(Gamestate &state, double frametime)
 {
     x += hspeed*frametime;
     y += vspeed*frametime;
@@ -31,7 +31,7 @@ void MovingEntity::interpolate(Entity *prev_entity, Entity *next_entity, double 
     vspeed = prev_e->vspeed + alpha*(next_e->vspeed - prev_e->vspeed);
 }
 
-void MovingEntity::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
+void MovingEntity::serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate)
 {
     buffer->write<double>(x);
     buffer->write<double>(y);
@@ -39,7 +39,7 @@ void MovingEntity::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupd
     buffer->write<float>(vspeed);
 }
 
-void MovingEntity::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate)
+void MovingEntity::deserialize(Gamestate &state, ReadBuffer *buffer, bool fullupdate)
 {
     x = buffer->read<double>();
     y = buffer->read<double>();

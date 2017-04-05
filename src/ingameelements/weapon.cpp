@@ -5,37 +5,37 @@
 
 #include <cmath>
 
-void Weapon::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
+void Weapon::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     MovingEntity::init(id_, state);
 
     entitytype = ENTITYTYPE::WEAPON;
     owner = owner_;
     aimdirection = 0;
-    team = state->get<Player>(owner)->team;
+    team = state.get<Player>(owner)->team;
     firinganim.init(herofolder()+"firing/");
     firinganim.active(false);
 }
 
-void Weapon::beginstep(Gamestate *state, double frametime)
+void Weapon::beginstep(Gamestate &state, double frametime)
 {
     // FIXME: Why is this method here
     ;
 }
 
-void Weapon::midstep(Gamestate *state, double frametime)
+void Weapon::midstep(Gamestate &state, double frametime)
 {
     firinganim.update(state, frametime);
 }
 
-void Weapon::endstep(Gamestate *state, double frametime)
+void Weapon::endstep(Gamestate &state, double frametime)
 {
-    Character *c = state->get<Player>(owner)->getcharacter(state);
+    Character *c = state.get<Player>(owner)->getcharacter(state);
     double xoffset=0, yoffset=0;
     if (c->weaponvisible(state))
     {
-        xoffset = state->engine->maskloader.getweaponoffset_x(c->currentsprite(state, false));
-        yoffset = state->engine->maskloader.getweaponoffset_y(c->currentsprite(state, false));
+        xoffset = state.engine->maskloader.getweaponoffset_x(c->currentsprite(state, false));
+        yoffset = state.engine->maskloader.getweaponoffset_y(c->currentsprite(state, false));
     }
     x = c->x + xoffset*(c->isflipped ? -1:1);
     y = c->y + yoffset;
@@ -53,12 +53,12 @@ void Weapon::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
     aimdirection = prev_e->aimdirection + alpha*(next_e->aimdirection - prev_e->aimdirection);
 }
 
-void Weapon::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
+void Weapon::serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate)
 {
 
 }
 
-void Weapon::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate)
+void Weapon::deserialize(Gamestate &state, ReadBuffer *buffer, bool fullupdate)
 {
 
 }

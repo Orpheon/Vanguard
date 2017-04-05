@@ -8,7 +8,7 @@
 
 // ######### VALUE ANIMATION #########
 
-void ValueAnimation::init(std::vector<int> sequence_, double duration, std::function<void(Gamestate *state)> eventfunc_)
+void ValueAnimation::init(std::vector<int> sequence_, double duration, std::function<void(Gamestate &state)> eventfunc_)
 {
     sequence = sequence_;
     timer.init(duration, eventfunc_);
@@ -38,7 +38,7 @@ int ValueAnimation::getvalue()
     return sequence.at(getframe());
 }
 
-void ValueAnimation::update(Gamestate *state, double dt)
+void ValueAnimation::update(Gamestate &state, double dt)
 {
     if (not inited)
     {
@@ -71,7 +71,7 @@ void ValueAnimation::reset()
 
 // ######### ANIMATION #########
 
-void Animation::init(std::string path_, std::function<void(Gamestate *state)> eventfunc_)
+void Animation::init(std::string path_, std::function<void(Gamestate &state)> eventfunc_)
 {
     path = path_;
 
@@ -125,7 +125,7 @@ std::string Animation::getframepath()
     return path+std::to_string(getframe());
 }
 
-void Animation::update(Gamestate *state, double dt)
+void Animation::update(Gamestate &state, double dt)
 {
     if (not inited)
     {
@@ -158,7 +158,7 @@ void Animation::reset()
 
 // ######### LOOP ANIMATION #########
 
-void LoopAnimation::update(Gamestate *state, double dt)
+void LoopAnimation::update(Gamestate &state, double dt)
 {
     if (not inited)
     {

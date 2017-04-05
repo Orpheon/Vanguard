@@ -27,21 +27,21 @@ void Gamestate::update(double frametime)
     {
         if (e.second->isrootobject() and not e.second->destroyentity)
         {
-            e.second->beginstep(this, frametime);
+            e.second->beginstep(*this, frametime);
         }
     }
     for (auto& e : entitylist)
     {
         if (e.second->isrootobject() and not e.second->destroyentity)
         {
-            e.second->midstep(this, frametime);
+            e.second->midstep(*this, frametime);
         }
     }
     for (auto& e : entitylist)
     {
         if (e.second->isrootobject() and not e.second->destroyentity)
         {
-            e.second->endstep(this, frametime);
+            e.second->endstep(*this, frametime);
         }
     }
     for (auto e = entitylist.begin(); e != entitylist.end();)
@@ -60,7 +60,7 @@ void Gamestate::update(double frametime)
 
 EntityPtr Gamestate::addplayer()
 {
-    EntityPtr r = make_entity<Player>(this);
+    EntityPtr r = make_entity<Player>(*this);
     playerlist.push_back(r);
     return r;
 }
@@ -77,12 +77,12 @@ void Gamestate::removeplayer(int playerid)
                 Projectile *p = reinterpret_cast<Projectile*>(e.second.get());
                 if (p->owner.id == player->id)
                 {
-                    p->destroy(this);
+                    p->destroy(*this);
                 }
             }
         }
     }
-    player->destroy(this);
+    player->destroy(*this);
     playerlist.erase(playerlist.begin()+playerid);
 }
 
@@ -111,31 +111,31 @@ std::unique_ptr<Gamestate> Gamestate::clone()
     return g;
 }
 
-void Gamestate::interpolate(Gamestate *prevstate, Gamestate *nextstate, double alpha)
+void Gamestate::interpolate(Gamestate &prevstate, Gamestate &nextstate, double alpha)
 {
     // Use threshold of alpha=0.5 to decide binary choices like entity existence
     Gamestate *preferredstate;
     if (alpha < 0.5)
     {
-        preferredstate = prevstate;
+        preferredstate = &prevstate;
     }
     else
     {
-        preferredstate = nextstate;
+        preferredstate = &nextstate;
     }
     currentmap = preferredstate->currentmap;
     entityidcounter = preferredstate->entityidcounter;
     playerlist = preferredstate->playerlist;
-    time = prevstate->time + alpha*(nextstate->time - prevstate->time);
+    time = prevstate.time + alpha*(nextstate.time - prevstate.time);
 
     entitylist.clear();
     for (auto& e : preferredstate->entitylist)
     {
         entitylist[e.second->id] = e.second->clone();
-        if (prevstate->entitylist.count(e.second->id) != 0 && nextstate->entitylist.count(e.second->id) != 0)
+        if (prevstate.entitylist.count(e.second->id) != 0 && nextstate.entitylist.count(e.second->id) != 0)
         {
             // If the instance exists in both states, we need to actually interpolate values
-            entitylist[e.second->id]->interpolate(prevstate->entitylist.at(e.second->id).get(), nextstate->entitylist.at(e.second->id).get(), alpha);
+            entitylist[e.second->id]->interpolate(prevstate.entitylist.at(e.second->id).get(), nextstate.entitylist.at(e.second->id).get(), alpha);
         }
     }
 }
@@ -145,7 +145,7 @@ void Gamestate::serializesnapshot(WriteBuffer *buffer)
 {
     for (auto p : playerlist)
     {
-        get<Player>(p)->serialize(this, buffer, false);
+        get<Player>(p)->serialize(*this, buffer, false);
     }
 }
 
@@ -153,7 +153,7 @@ void Gamestate::deserializesnapshot(ReadBuffer *buffer)
 {
     for (auto p : playerlist)
     {
-        get<Player>(p)->deserialize(this, buffer, false);
+        get<Player>(p)->deserialize(*this, buffer, false);
     }
 }
 
@@ -162,7 +162,7 @@ void Gamestate::serializefull(WriteBuffer *buffer)
     buffer->write<uint32_t>(playerlist.size());
     for (auto p : playerlist)
     {
-        get<Player>(p)->serialize(this, buffer, true);
+        get<Player>(p)->serialize(*this, buffer, true);
     }
 }
 
@@ -175,7 +175,7 @@ void Gamestate::deserializefull(ReadBuffer *buffer)
     }
     for (auto p : playerlist)
     {
-        get<Player>(p)->deserialize(this, buffer, true);
+        get<Player>(p)->deserialize(*this, buffer, true);
     }
 }
 
@@ -195,10 +195,10 @@ EntityPtr Gamestate::collidelinedamageable(double x1, double y1, double x2, doub
         }
         for (auto p : playerlist)
         {
-            Character *c = get<Player>(p)->getcharacter(this);
+            Character *c = get<Player>(p)->getcharacter(*this);
             if (c != 0 and c->team != team)
             {
-                if (c->collides(this, *collisionptx, *collisionpty))
+                if (c->collides(*this, *collisionptx, *collisionpty))
                 {
                     return get<Player>(p)->character;
                 }

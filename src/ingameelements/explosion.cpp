@@ -1,21 +1,21 @@
 #include "ingameelements/explosion.h"
 #include "renderer.h"
 
-void Explosion::init(uint64_t id_, Gamestate *state, std::string animationpath, double direction_)
+void Explosion::init(uint64_t id_, Gamestate &state, std::string animationpath, double direction_)
 {
     MovingEntity::init(id_, state);
 
     entitytype = ENTITYTYPE::EXPLOSION;
-    explosionanim.init(animationpath, std::bind(&Explosion::destroy, this, state));
+    explosionanim.init(animationpath, std::bind(&Explosion::destroy, this, std::placeholders::_1));
     direction = direction_;
 }
 
-void Explosion::midstep(Gamestate *state, double frametime)
+void Explosion::midstep(Gamestate &state, double frametime)
 {
     explosionanim.update(state, frametime);
 }
 
-void Explosion::render(Renderer *renderer, Gamestate *state)
+void Explosion::render(Renderer *renderer, Gamestate &state)
 {
     std::string mainsprite = explosionanim.getframepath();
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);

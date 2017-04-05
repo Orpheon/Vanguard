@@ -13,7 +13,7 @@
 #include "renderer.h"
 #include "ingameelements/heroes/mccree.h"
 
-void Character::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
+void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     MovingEntity::init(id_, state);
 
@@ -21,7 +21,7 @@ void Character::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
     owner = owner_;
     weapon = constructweapon(state);
     hp = maxhp();
-    team = state->get<Player>(owner)->team;
+    team = state.get<Player>(owner)->team;
     runanim.init(herofolder()+"run/");
     crouchanim.init(herofolder()+"crouchwalk/");
     crouchanim.active(false);
@@ -38,7 +38,7 @@ void Character::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
     friction = 0.01510305449388463132584804061124;
 }
 
-void Character::setinput(Gamestate *state, InputContainer heldkeys_, double mouse_x_, double mouse_y_)
+void Character::setinput(Gamestate &state, InputContainer heldkeys_, double mouse_x_, double mouse_y_)
 {
     heldkeys = heldkeys_;
     mouse_x = mouse_x_;
@@ -46,14 +46,14 @@ void Character::setinput(Gamestate *state, InputContainer heldkeys_, double mous
     getweapon(state)->setaim(mouse_x, mouse_y);
 }
 
-void Character::beginstep(Gamestate *state, double frametime)
+void Character::beginstep(Gamestate &state, double frametime)
 {
     getweapon(state)->beginstep(state, frametime);
 }
 
-void Character::midstep(Gamestate *state, double frametime)
+void Character::midstep(Gamestate &state, double frametime)
 {
-    Player *ownerplayer = state->get<Player>(owner);
+    Player *ownerplayer = state.get<Player>(owner);
 
     if (cangetinput(state))
     {
@@ -85,7 +85,7 @@ void Character::midstep(Gamestate *state, double frametime)
         {
             // We're crouched and we'd like to uncrouch
             // Do so only if we have the room
-            if (not state->currentmap->collides(getstandingcollisionrect(state)))
+            if (not state.currentmap->collides(getstandingcollisionrect(state)))
             {
                 crouchanim.active(false);
             }
@@ -95,7 +95,7 @@ void Character::midstep(Gamestate *state, double frametime)
         {
             if (getweapon(state)->hasclip())
             {
-                state->get<Clipweapon>(weapon)->reload(state);
+                state.get<Clipweapon>(weapon)->reload(state);
             }
         }
         // Shooting
@@ -109,13 +109,13 @@ void Character::midstep(Gamestate *state, double frametime)
         }
 
         // Ulting
-        if (heldkeys.ULTIMATE and not ownerplayer->ultcharge.active and canuseabilities(state) and state->engine->isserver)
+        if (heldkeys.ULTIMATE and not ownerplayer->ultcharge.active and canuseabilities(state) and state.engine->isserver)
         {
             ownerplayer->ultcharge.reset();
             ownerplayer->ultcharge.active = false;
             useultimate(state);
-            state->engine->sendbuffer->write<uint8_t>(ULTIMATE_USED);
-            state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+            state.engine->sendbuffer->write<uint8_t>(ULTIMATE_USED);
+            state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
         }
 
         if (isflipped != (mouse_x < x))
@@ -138,12 +138,12 @@ void Character::midstep(Gamestate *state, double frametime)
     getweapon(state)->midstep(state, frametime);
 }
 
-void Character::endstep(Gamestate *state, double frametime)
+void Character::endstep(Gamestate &state, double frametime)
 {
     MovingEntity::endstep(state, frametime);
 
     // Collision with wallmask
-    if (state->currentmap->collides(getcollisionrect(state)))
+    if (state.currentmap->collides(getcollisionrect(state)))
     {
         // We collide, do collision handling
         double hs = hspeed*frametime, vs = vspeed*frametime;
@@ -156,7 +156,7 @@ void Character::endstep(Gamestate *state, double frametime)
         {
             x -= xstep; y -= ystep;
             xbuffer += xstep; ybuffer += ystep;
-            if (not state->currentmap->collides(getcollisionrect(state)))
+            if (not state.currentmap->collides(getcollisionrect(state)))
             {
                 break;
             }
@@ -172,7 +172,7 @@ void Character::endstep(Gamestate *state, double frametime)
             // Try first moving horizontally
             if (not xfinished)
             {
-                if (not state->currentmap->collides(getcollisionrect(state).offset(xstep, 0)))
+                if (not state.currentmap->collides(getcollisionrect(state).offset(xstep, 0)))
                 {
                     x += xstep;
                     xbuffer -= xstep;
@@ -185,7 +185,7 @@ void Character::endstep(Gamestate *state, double frametime)
                 else
                 {
                     // There's the possibility we might have walked into a staircase
-                    if (not state->currentmap->collides(getcollisionrect(state).offset(xstep, STAIRCASE_STEPSIZE)))
+                    if (not state.currentmap->collides(getcollisionrect(state).offset(xstep, STAIRCASE_STEPSIZE)))
                     {
                         // Indeed we did. Move up
                         x += xstep;
@@ -208,7 +208,7 @@ void Character::endstep(Gamestate *state, double frametime)
             // Do the same vertically, but without stair code
             if (not yfinished)
             {
-                if (not state->currentmap->collides(getcollisionrect(state).offset(0, ystep)))
+                if (not state.currentmap->collides(getcollisionrect(state).offset(0, ystep)))
                 {
                     // We cam move through
                     y += ystep;
@@ -236,7 +236,7 @@ void Character::endstep(Gamestate *state, double frametime)
         {
             vspeed = 0;
         }
-        if (state->currentmap->collides(getcollisionrect(state)))
+        if (state.currentmap->collides(getcollisionrect(state)))
         {
             printf("\nError: Still in wallmask after collision handling.");
         }
@@ -247,7 +247,7 @@ void Character::endstep(Gamestate *state, double frametime)
     {
         Rect r = getcollisionrect(state);
         int stepsize = (-STAIRCASE_STEPSIZE)*std::ceil(std::fabs(hspeed)*frametime/(-STAIRCASE_STEPSIZE));
-        if (state->currentmap->collides(Rect(r.x, r.y+r.h+stepsize, r.w, 1)))
+        if (state.currentmap->collides(Rect(r.x, r.y+r.h+stepsize, r.w, 1)))
         {
             for (int i=0; i<stepsize; ++i)
             {
@@ -288,7 +288,7 @@ void Character::endstep(Gamestate *state, double frametime)
     getweapon(state)->endstep(state, frametime);
 }
 
-void Character::render(Renderer *renderer, Gamestate *state)
+void Character::render(Renderer *renderer, Gamestate &state)
 {
     // --------------- HEALTHBAR ---------------
     al_set_target_bitmap(renderer->surfaceground);
@@ -441,14 +441,14 @@ void Character::render(Renderer *renderer, Gamestate *state)
 
 
     // Deadeye circle
-    Player *player = state->get<Player>(renderer->myself);
+    Player *player = state.get<Player>(renderer->myself);
     if (player->heroclass == MCCREE and player->team != team)
     {
-        Mccree *c = state->get<Mccree>(player->character);
+        Mccree *c = state.get<Mccree>(player->character);
         if (c != 0 and c->ulting.active)
         {
             double charge = 0;
-            Peacemaker *w = state->get<Peacemaker>(c->weapon);
+            Peacemaker *w = state.get<Peacemaker>(c->weapon);
             if (w->deadeyetargets.count(owner) > 0)
             {
                 charge = w->deadeyetargets.at(owner);
@@ -469,7 +469,7 @@ void Character::render(Renderer *renderer, Gamestate *state)
     }
 }
 
-void Character::drawhud(Renderer *renderer, Gamestate *state)
+void Character::drawhud(Renderer *renderer, Gamestate &state)
 {
     // Experimental healthbar
     double healthalpha = 1.0;
@@ -624,7 +624,7 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
     // Ammo count
     if (getweapon(state)->hasclip())
     {
-        Clipweapon *w = state->get<Clipweapon>(weapon);
+        Clipweapon *w = state.get<Clipweapon>(weapon);
         std::string ammo = std::to_string(w->clip);
         std::string maxammo = "I "+std::to_string(w->getclipsize());
         tmpx = renderer->WINDOW_WIDTH*9/10.0;
@@ -634,7 +634,7 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
     }
 
     // Ult charge meter
-    Player *p = state->get<Player>(owner);
+    Player *p = state.get<Player>(owner);
     if (p->ultcharge.active)
     {
         ALLEGRO_BITMAP *ultbar = renderer->spriteloader.requestsprite("ui/ingame/ultbar", 1.0);
@@ -650,10 +650,10 @@ void Character::drawhud(Renderer *renderer, Gamestate *state)
     }
 }
 
-bool Character::onground(Gamestate *state)
+bool Character::onground(Gamestate &state)
 {
     Rect r = getcollisionrect(state);
-    if (state->currentmap->collides(Rect(r.x, r.y+r.h, r.w, 1)))
+    if (state.currentmap->collides(Rect(r.x, r.y+r.h, r.w, 1)))
     {
         ongroundsmooth.reset();
         return true;
@@ -692,7 +692,7 @@ void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alp
     hp.shields = p->hp.shields + alpha*(n->hp.shields - p->hp.shields);
 }
 
-void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate)
+void Character::serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate)
 {
     MovingEntity::serialize(state, buffer, fullupdate);
 
@@ -709,7 +709,7 @@ void Character::serialize(Gamestate *state, WriteBuffer *buffer, bool fullupdate
     getweapon(state)->serialize(state, buffer, fullupdate);
 }
 
-void Character::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdate)
+void Character::deserialize(Gamestate &state, ReadBuffer *buffer, bool fullupdate)
 {
     MovingEntity::deserialize(state, buffer, fullupdate);
 
@@ -728,15 +728,15 @@ void Character::deserialize(Gamestate *state, ReadBuffer *buffer, bool fullupdat
     getweapon(state)->deserialize(state, buffer, fullupdate);
 }
 
-bool Character::collides(Gamestate *state, double testx, double testy)
+bool Character::collides(Gamestate &state, double testx, double testy)
 {
-    Rect self = state->engine->maskloader.get_rect(currentsprite(state, true)).offset(x, y);
+    Rect self = state.engine->maskloader.get_rect(currentsprite(state, true)).offset(x, y);
 
     if (testx > self.x and testx < self.x+self.w and testy > self.y and testy < self.y+self.h)
     {
         // We're close enough that an actual collision might happen
         // Check the sprite
-        ALLEGRO_BITMAP *selfsprite = state->engine->maskloader.requestsprite(currentsprite(state, true));
+        ALLEGRO_BITMAP *selfsprite = state.engine->maskloader.requestsprite(currentsprite(state, true));
         return al_get_pixel(selfsprite, testx-self.x, testy-self.y).a != 0;
     }
     else
@@ -745,7 +745,7 @@ bool Character::collides(Gamestate *state, double testx, double testy)
     }
 }
 
-void Character::damage(Gamestate *state, double amount)
+void Character::damage(Gamestate &state, double amount)
 {
     if (hp.shields < amount)
     {
@@ -777,38 +777,38 @@ void Character::damage(Gamestate *state, double amount)
     }
 }
 
-void Character::die(Gamestate *state)
+void Character::die(Gamestate &state)
 {
-    if (state->engine->isserver)
+    if (state.engine->isserver)
     {
         destroy(state);
 
-        state->engine->sendbuffer->write<uint8_t>(PLAYER_DIED);
-        state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+        state.engine->sendbuffer->write<uint8_t>(PLAYER_DIED);
+        state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
 
-        state->get<Player>(owner)->spawntimer.reset();
+        state.get<Player>(owner)->spawntimer.reset();
     }
 }
 
-void Character::stun(Gamestate *state)
+void Character::stun(Gamestate &state)
 {
     stunanim.reset();
     interrupt(state);
 }
 
-void Character::destroy(Gamestate *state)
+void Character::destroy(Gamestate &state)
 {
-    state->get<Player>(owner)->character = 0;
-    state->get<Player>(owner)->ultcharge.active = true;
+    state.get<Player>(owner)->character = 0;
+    state.get<Player>(owner)->ultcharge.active = true;
     getweapon(state)->destroy(state);
-    Corpse *c = state->get<Corpse>(state->make_entity<Corpse>(state, herofolder(), isflipped));
+    Corpse *c = state.get<Corpse>(state.make_entity<Corpse>(state, herofolder(), isflipped));
     c->x = x;
     c->y = y;
 
     MovingEntity::destroy(state);
 }
 
-Weapon* Character::getweapon(Gamestate *state)
+Weapon* Character::getweapon(Gamestate &state)
 {
-    return state->get<Weapon>(weapon);
+    return state.get<Weapon>(weapon);
 }

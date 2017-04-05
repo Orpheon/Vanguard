@@ -11,11 +11,11 @@ void Spawnroom::init(uint64_t id_, Rect area_, Team team_)
     team = team_;
 }
 
-void Spawnroom::beginstep(Gamestate *state, double frametime)
+void Spawnroom::beginstep(Gamestate &state, double frametime)
 {
-    for (auto pptr : state->playerlist)
+    for (auto pptr : state.playerlist)
     {
-        Player *p = state->get<Player>(pptr);
+        Player *p = state.get<Player>(pptr);
         if (p->team == team)
         {
             Character *c = p->getcharacter(state);
@@ -27,7 +27,7 @@ void Spawnroom::beginstep(Gamestate *state, double frametime)
     }
 }
 
-void Spawnroom::render(Renderer *renderer, Gamestate *state)
+void Spawnroom::render(Renderer *renderer, Gamestate &state)
 {
     al_set_target_bitmap(renderer->background);
     int border = 3;

@@ -3,7 +3,7 @@
 
 #include "timer.h"
 
-void Timer::init(double duration_, std::function<void(Gamestate *state)> eventfunc_)
+void Timer::init(double duration_, std::function<void(Gamestate &state)> eventfunc_)
 {
     Timer::init(duration_);
     eventfunc = eventfunc_;
@@ -24,7 +24,7 @@ void Timer::reset()
     active=true;
 }
 
-void Timer::update(Gamestate *state, double dt)
+void Timer::update(Gamestate &state, double dt)
 {
     if (not inited)
     {

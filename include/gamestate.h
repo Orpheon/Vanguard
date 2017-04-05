@@ -37,7 +37,7 @@ class Gamestate
 
         void update(double frametime);
         std::unique_ptr<Gamestate> clone();
-        void interpolate(Gamestate *prevstate, Gamestate *nextstate, double alpha);
+        void interpolate(Gamestate &prevstate, Gamestate &nextstate, double alpha);
 
         EntityPtr addplayer();
         void removeplayer(int playerid);

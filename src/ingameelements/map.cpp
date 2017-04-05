@@ -8,21 +8,22 @@
 #include "ingameelements/spawnroom.h"
 #include "renderer.h"
 
-Map::Map(Gamestate *state, std::string name)
+Map::Map(Gamestate &state, std::string name)
 {
     // Load the map data first
-    std::ifstream mapdatafile("maps/"+name+".json");
+    std::string mapfolder = "maps/" + name + "/";
+    std::ifstream mapdatafile(mapfolder + name+".json");
     mapdata << mapdatafile;
     mapdatafile.close();
 
     // Load all the images
     std::string bg = mapdata["background"], wg = mapdata["wallmask foreground"], wm = mapdata["wallmask"];
     al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-    background = al_load_bitmap(("maps/"+bg).c_str());
-    wallground = al_load_bitmap(("maps/"+wg).c_str());
+    background = al_load_bitmap((mapfolder + bg).c_str());
+    wallground = al_load_bitmap((mapfolder + wg).c_str());
 
     al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
-    wallmask = al_load_bitmap(("maps/"+wm).c_str());
+    wallmask = al_load_bitmap((mapfolder + wm).c_str());
     al_lock_bitmap(wallmask, al_get_bitmap_format(wallmask), ALLEGRO_LOCK_READONLY);
 
     // Load spawnroom
@@ -30,8 +31,8 @@ Map::Map(Gamestate *state, std::string name)
               mapdata["spawnroom team 1"][2], mapdata["spawnroom team 1"][3]);
     Rect area2(mapdata["spawnroom team 2"][0], mapdata["spawnroom team 2"][1],
               mapdata["spawnroom team 2"][2], mapdata["spawnroom team 2"][3]);
-    state->spawnrooms[TEAM1] = state->make_entity<Spawnroom>(area1, TEAM1);
-    state->spawnrooms[TEAM2] = state->make_entity<Spawnroom>(area2, TEAM2);
+    state.spawnrooms[TEAM1] = state.make_entity<Spawnroom>(area1, TEAM1);
+    state.spawnrooms[TEAM2] = state.make_entity<Spawnroom>(area2, TEAM2);
 }
 
 Map::~Map()

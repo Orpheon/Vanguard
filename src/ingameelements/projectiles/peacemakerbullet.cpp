@@ -3,7 +3,7 @@
 #include "ingameelements/projectiles/peacemakerbullet.h"
 #include "renderer.h"
 
-void PeacemakerBullet::render(Renderer *renderer, Gamestate *state)
+void PeacemakerBullet::render(Renderer *renderer, Gamestate &state)
 {
     std::string mainsprite = spritepath;
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);

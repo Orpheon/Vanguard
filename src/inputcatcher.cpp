@@ -37,12 +37,12 @@ InputCatcher::~InputCatcher()
     al_destroy_event_queue(event_queue);
 }
 
-void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate *state, Networker *networker, Renderer *renderer, EntityPtr myself)
+void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate &state, Networker *networker, Renderer *renderer, EntityPtr myself)
 {
     InputContainer heldkeys;
     heldkeys.reset();
 
-    Player *player = state->get<Player>(myself);
+    Player *player = state.get<Player>(myself);
 
     ALLEGRO_EVENT event;
     // Catch all events that have stacked up this frame. al_get_next_event() returns false when event_queue is empty, and contents of event are undefined
@@ -77,11 +77,11 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate *state, Networker *ne
                 if (newclass != player->heroclass)
                 {
                     // Player desires a class change
-                    if (state->engine->isserver)
+                    if (state.engine->isserver)
                     {
                         player->changeclass(state, newclass);
                         networker->sendbuffer.write<uint8_t>(PLAYER_CHANGECLASS);
-                        networker->sendbuffer.write<uint8_t>(state->findplayerid(player->id));
+                        networker->sendbuffer.write<uint8_t>(state.findplayerid(player->id));
                         networker->sendbuffer.write<uint8_t>(static_cast<uint8_t>(newclass));
                     }
                     else
@@ -150,7 +150,7 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate *state, Networker *ne
             c->setinput(state, heldkeys, mousestate.x/renderer->zoom+renderer->cam_x, mousestate.y/renderer->zoom+renderer->cam_y);
 
             // If this is a client, send the input off to the server
-            if (not state->engine->isserver)
+            if (not state.engine->isserver)
             {
                 ClientNetworker *n = reinterpret_cast<ClientNetworker*>(networker);
                 n->sendinput(heldkeys, mousestate.x/renderer->zoom+renderer->cam_x, mousestate.y/renderer->zoom+renderer->cam_y);

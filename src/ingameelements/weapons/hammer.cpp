@@ -6,7 +6,7 @@
 
 #include "engine.h"
 
-void Hammer::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
+void Hammer::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Weapon::init(id_, state, owner_);
 
@@ -18,10 +18,10 @@ void Hammer::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
     barrierbreak.active = false;
 }
 
-void Hammer::renderbehind(Renderer *renderer, Gamestate *state)
+void Hammer::renderbehind(Renderer *renderer, Gamestate &state)
 {
     std::string mainsprite;
-    Reinhardt *c = state->get<Reinhardt>(state->get<Player>(owner)->character);
+    Reinhardt *c = state.get<Reinhardt>(state.get<Player>(owner)->character);
     if (barrier.active)
     {
         mainsprite = "heroes/reinhardt/shield/back";
@@ -48,7 +48,7 @@ void Hammer::renderbehind(Renderer *renderer, Gamestate *state)
         if (c->isflipped)
         {
             al_draw_scaled_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, (aimdirection+3.1415)*barrier.active, 0);
-            if (state->get<Player>(renderer->myself)->team != team)
+            if (state.get<Player>(renderer->myself)->team != team)
             {
                 // Draw enemy outline
                 al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y,
@@ -58,7 +58,7 @@ void Hammer::renderbehind(Renderer *renderer, Gamestate *state)
         else
         {
             al_draw_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, aimdirection*barrier.active, 0);
-            if (state->get<Player>(renderer->myself)->team != team)
+            if (state.get<Player>(renderer->myself)->team != team)
             {
                 // Draw enemy outline
                 al_draw_tinted_rotated_bitmap(outline, outlinecolor, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, aimdirection*barrier.active, 0);
@@ -67,10 +67,10 @@ void Hammer::renderbehind(Renderer *renderer, Gamestate *state)
     }
 }
 
-void Hammer::render(Renderer *renderer, Gamestate *state)
+void Hammer::render(Renderer *renderer, Gamestate &state)
 {
     std::string mainsprite;
-    Reinhardt *c = state->get<Reinhardt>(state->get<Player>(owner)->character);
+    Reinhardt *c = state.get<Reinhardt>(state.get<Player>(owner)->character);
     if (barrier.active)
     {
         mainsprite = "heroes/reinhardt/shield/front";
@@ -97,7 +97,7 @@ void Hammer::render(Renderer *renderer, Gamestate *state)
         if (c->isflipped)
         {
             al_draw_scaled_rotated_bitmap(sprite, -attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-            if (state->get<Player>(renderer->myself)->team != team)
+            if (state.get<Player>(renderer->myself)->team != team)
             {
                 // Draw enemy outline
                 al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
@@ -106,7 +106,7 @@ void Hammer::render(Renderer *renderer, Gamestate *state)
         else
         {
             al_draw_bitmap(sprite, rel_x - (attachpt_x+spriteoffset_x), rel_y - (attachpt_y+spriteoffset_y), 0);
-            if (state->get<Player>(renderer->myself)->team != team)
+            if (state.get<Player>(renderer->myself)->team != team)
             {
                 // Draw enemy outline
                 al_draw_tinted_bitmap(outline, outlinecolor, rel_x - (attachpt_x+spriteoffset_x), rel_y - (attachpt_y+spriteoffset_y), 0);
@@ -152,12 +152,12 @@ void Hammer::render(Renderer *renderer, Gamestate *state)
 //    }
 }
 
-void Hammer::beginstep(Gamestate *state, double frametime)
+void Hammer::beginstep(Gamestate &state, double frametime)
 {
     Weapon::beginstep(state, frametime);
 }
 
-void Hammer::midstep(Gamestate *state, double frametime)
+void Hammer::midstep(Gamestate &state, double frametime)
 {
     Weapon::midstep(state, frametime);
     barrierrecharge.update(state, frametime);
@@ -165,30 +165,30 @@ void Hammer::midstep(Gamestate *state, double frametime)
     barrier.update(state, frametime);
 }
 
-void Hammer::wantfireprimary(Gamestate *state)
+void Hammer::wantfireprimary(Gamestate &state)
 {
-    if (state->engine->isserver and not firinganim.active())
+    if (state.engine->isserver and not firinganim.active())
     {
         fireprimary(state);
-        state->engine->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
-        state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+        state.engine->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
+        state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
     }
 }
 
-void Hammer::fireprimary(Gamestate *state)
+void Hammer::fireprimary(Gamestate &state)
 {
     firinganim.reset();
     firinganim.active(true);
 }
 
-void Hammer::wantfiresecondary(Gamestate *state)
+void Hammer::wantfiresecondary(Gamestate &state)
 {
     firesecondary(state);
-    state->engine->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
-    state->engine->sendbuffer->write<uint8_t>(state->findplayerid(owner));
+    state.engine->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
+    state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
 }
 
-void Hammer::firesecondary(Gamestate *state)
+void Hammer::firesecondary(Gamestate &state)
 {
     barrier.reset();
     barrierrecharge.reset();

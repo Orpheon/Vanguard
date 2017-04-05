@@ -39,7 +39,7 @@ Renderer::~Renderer()
     al_destroy_bitmap(surfaceground);
 }
 
-void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myself_, Networker *networker)
+void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myself_, Networker *networker)
 {
     myself = myself_;
 
@@ -64,7 +64,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
     }
 
     // Set camera
-    Player *p = state->get<Player>(myself);
+    Player *p = state.get<Player>(myself);
     Character *c = 0;
     if (p != 0)
     {
@@ -86,7 +86,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
     al_clear_to_color(al_map_rgba(0, 0, 0, 0));
 
     // Go through all objects and let them render themselves on the layers
-    for (auto& e : state->entitylist)
+    for (auto& e : state.entitylist)
     {
         if (e.second->isrootobject() and not e.second->destroyentity)
         {
@@ -101,7 +101,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
     al_clear_to_color(al_map_rgba(0, 0, 0, 1));
 
     // Draw the map background first
-    state->currentmap->renderbackground(this);
+    state.currentmap->renderbackground(this);
 
     // Then draw each layer
     al_draw_bitmap(background, 0, 0, 0);
@@ -109,7 +109,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
     al_draw_bitmap(foreground, 0, 0, 0);
 
     // Draw the map wallmask on top of everything, to prevent sprites that go through walls
-    state->currentmap->renderwallground(this);
+    state.currentmap->renderwallground(this);
 
     // Draw the final layer on top of even that, for certain things like character healthbars
     al_draw_bitmap(surfaceground, 0, 0, 0);
@@ -133,7 +133,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate *state, EntityPtr myse
         al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 72, ALLEGRO_ALIGN_LEFT, "hspeed: 0.000000");
         al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 84, ALLEGRO_ALIGN_LEFT, "vspeed: 0.000000");
     }
-    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 96, ALLEGRO_ALIGN_LEFT, ("#Players: " + std::to_string(state->playerlist.size())).c_str());
+    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 96, ALLEGRO_ALIGN_LEFT, ("#Players: " + std::to_string(state.playerlist.size())).c_str());
     al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 108, ALLEGRO_ALIGN_LEFT, ("Zoom: " + std::to_string(zoom)).c_str());
 
 

@@ -5,20 +5,20 @@
 
 #include <functional>
 
-void Flashbang::init(uint64_t id_, Gamestate *state, EntityPtr owner_)
+void Flashbang::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Projectile::init(id_, state, owner_);
 
-    countdown.init(0.3, std::bind(&Flashbang::explode, this, state));
+    countdown.init(0.3, std::bind(&Flashbang::explode, this, std::placeholders::_1));
 }
 
-void Flashbang::midstep(Gamestate *state, double frametime)
+void Flashbang::midstep(Gamestate &state, double frametime)
 {
     Projectile::midstep(state, frametime);
     countdown.update(state, frametime);
 }
 
-void Flashbang::render(Renderer *renderer, Gamestate *state)
+void Flashbang::render(Renderer *renderer, Gamestate &state)
 {
     std::string mainsprite = spritepath;
     ALLEGRO_BITMAP *sprite = renderer->spriteloader.requestsprite(mainsprite);
@@ -32,17 +32,17 @@ void Flashbang::render(Renderer *renderer, Gamestate *state)
     al_draw_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, direction, 0);
 }
 
-//bool Flashbang::collides(Gamestate *state, EntityPtr otherentity, double radius)
+//bool Flashbang::collides(Gamestate &state, EntityPtr otherentity, double radius)
 //{
-//    MovingEntity *m = state->get<MovingEntity>(otherentity);
-//    Rect other = state->engine->maskloader.get_rect(m->getsprite(state, true)).offset(m->x, m->y);
+//    MovingEntity *m = state.get<MovingEntity>(otherentity);
+//    Rect other = state.engine->maskloader.get_rect(m->getsprite(state, true)).offset(m->x, m->y);
 //
 //    if (std::hypot(x - other.x, y - other.y) <= radius + std::hypot(other.w, other.h))
 //    {
 //        // We're close enough that an actual collision might happen
 //        // Check the sprites
 //        double r2 = radius*radius;
-//        ALLEGRO_BITMAP *othersprite = state->engine->maskloader.requestsprite(m->getsprite(state, true));
+//        ALLEGRO_BITMAP *othersprite = state.engine->maskloader.requestsprite(m->getsprite(state, true));
 //
 //        for (int i=-radius; i<radius; ++i)
 //        {
@@ -58,15 +58,15 @@ void Flashbang::render(Renderer *renderer, Gamestate *state)
 //    return false;
 //}
 
-void Flashbang::explode(Gamestate *state)
+void Flashbang::explode(Gamestate &state)
 {
-    Explosion *e = state->get<Explosion>(state->make_entity<Explosion>(state, "heroes/mccree/flashbang_explosion/", 0));
+    Explosion *e = state.get<Explosion>(state.make_entity<Explosion>(state, "heroes/mccree/flashbang_explosion/", 0));
     e->x = x;
     e->y = y;
 
-    for (auto pptr : state->playerlist)
+    for (auto pptr : state.playerlist)
     {
-        Player *p = state->get<Player>(pptr);
+        Player *p = state.get<Player>(pptr);
         if (p->team != team)
         {
             Character *c = p->getcharacter(state);
@@ -75,7 +75,7 @@ void Flashbang::explode(Gamestate *state)
 //                if (collides(state, p->character, EXPLOSION_RADIUS))
 //                {
 //                    // Check that they aren't behind a wall or something
-//                    if (not state->currentmap->collideline(x, y, c->x, c->y))
+//                    if (not state.currentmap->collideline(x, y, c->x, c->y))
 //                    {
 //                        c->stun(state);
 //                    }
