@@ -48,18 +48,18 @@ void Clipweapon::reload(Gamestate &state)
     }
 }
 
-void Clipweapon::serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate)
+void Clipweapon::serialize(Gamestate &state, WriteBuffer &buffer, bool fullupdate)
 {
     Weapon::serialize(state, buffer, fullupdate);
 
     // Hopefully no clip size goes above 255
-    buffer->write<uint8_t>(clip);
+    buffer.write<uint8_t>(clip);
 }
 
-void Clipweapon::deserialize(Gamestate &state, ReadBuffer *buffer, bool fullupdate)
+void Clipweapon::deserialize(Gamestate &state, ReadBuffer &buffer, bool fullupdate)
 {
     Weapon::deserialize(state, buffer, fullupdate);
 
     // Hopefully no clip size goes above 255
-    clip = buffer->read<uint8_t>();
+    clip = buffer.read<uint8_t>();
 }

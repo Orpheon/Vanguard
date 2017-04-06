@@ -111,8 +111,8 @@ void Player::spawn(Gamestate &state)
 
     if (state.engine->isserver)
     {
-        state.engine->sendbuffer->write<uint8_t>(PLAYER_SPAWNED);
-        state.engine->sendbuffer->write<uint8_t>(state.findplayerid(EntityPtr(id)));
+        state.engine->sendbuffer.write<uint8_t>(PLAYER_SPAWNED);
+        state.engine->sendbuffer.write<uint8_t>(state.findplayerid(EntityPtr(id)));
     }
 }
 
@@ -149,13 +149,13 @@ void Player::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
     }
 }
 
-void Player::serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate)
+void Player::serialize(Gamestate &state, WriteBuffer &buffer, bool fullupdate)
 {
     if (fullupdate)
     {
-        buffer->write<bool>(state.exists(character));
+        buffer.write<bool>(state.exists(character));
     }
-    buffer->write<uint16_t>(ultcharge.timer*65536/100.0);
+    buffer.write<uint16_t>(ultcharge.timer*65536/100.0);
     if (state.exists(character))
     {
         Character &c = state.get<Character>(character);
@@ -163,17 +163,17 @@ void Player::serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate)
     }
 }
 
-void Player::deserialize(Gamestate &state, ReadBuffer *buffer, bool fullupdate)
+void Player::deserialize(Gamestate &state, ReadBuffer &buffer, bool fullupdate)
 {
     if (fullupdate)
     {
-        bool hascharacter = buffer->read<bool>();
+        bool hascharacter = buffer.read<bool>();
         if (hascharacter)
         {
             spawn(state);
         }
     }
-    ultcharge.timer = 100*buffer->read<uint16_t>()/65536.0;
+    ultcharge.timer = 100*buffer.read<uint16_t>()/65536.0;
     if (state.exists(character))
     {
         Character &c = state.get<Character>(character);

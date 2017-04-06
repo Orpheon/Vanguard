@@ -24,8 +24,8 @@ class Character : public MovingEntity
         virtual bool collides(Gamestate &state, double testx, double testy) override;
         bool isrootobject() override {return false;}
         virtual void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
-        virtual void serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate) override;
-        virtual void deserialize(Gamestate &state, ReadBuffer *buffer, bool fullupdate) override;
+        virtual void serialize(Gamestate &state, WriteBuffer &buffer, bool fullupdate) override;
+        virtual void deserialize(Gamestate &state, ReadBuffer &buffer, bool fullupdate) override;
         virtual void destroy(Gamestate &state) override;
 
         virtual bool onground(Gamestate &state);

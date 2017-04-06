@@ -5,7 +5,8 @@
 #include "gamestate.h"
 #include "global_constants.h"
 
-Engine::Engine(bool isserver_) : currentstate(new Gamestate(this)), oldstate(new Gamestate(this)), maskloader(true), isserver(isserver_), sendbuffer(0)
+Engine::Engine(bool isserver_) : currentstate(new Gamestate(this)), oldstate(new Gamestate(this)), maskloader(true),
+                                 isserver(isserver_)
 {
     ;// constructor
 }

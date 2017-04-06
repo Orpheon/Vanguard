@@ -2,7 +2,7 @@
 
 #include "global.h"
 
-ClientNetworker::ClientNetworker() : Networker(false), connected(false)
+ClientNetworker::ClientNetworker(WriteBuffer &sendbuffer_) : Networker(false, sendbuffer_), connected(false)
 {
     ENetAddress serveraddress;
     enet_address_set_host(&serveraddress, "127.0.0.1");
@@ -43,12 +43,12 @@ void ClientNetworker::receive(Gamestate &state)
                 int eventtype = data.read<uint8_t>();
                 if (eventtype == SERVER_FULLUPDATE)
                 {
-                    state.deserializefull(&data);
+                    state.deserializefull(data);
                     connected = true;
                 }
                 else if (eventtype == SERVER_SNAPSHOTUPDATE)
                 {
-                    state.deserializesnapshot(&data);
+                    state.deserializesnapshot(data);
                     // Resets gun arm position and a bunch of similar things to be up to date
                     state.update(0);
                 }
@@ -129,7 +129,7 @@ void ClientNetworker::sendinput(InputContainer heldkeys, float mouse_x, float mo
 {
     WriteBuffer input = WriteBuffer();
     input.write<uint8_t>(CLIENT_INPUT);
-    heldkeys.serialize(&input);
+    heldkeys.serialize(input);
     input.write<int16_t>(mouse_x);
     input.write<int16_t>(mouse_y);
     ENetPacket *inputpacket = enet_packet_create(input.getdata(), input.length(), 0);

@@ -53,12 +53,12 @@ void Weapon::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
     aimdirection = prev_e.aimdirection + alpha*(next_e.aimdirection - prev_e.aimdirection);
 }
 
-void Weapon::serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate)
+void Weapon::serialize(Gamestate &state, WriteBuffer &buffer, bool fullupdate)
 {
 
 }
 
-void Weapon::deserialize(Gamestate &state, ReadBuffer *buffer, bool fullupdate)
+void Weapon::deserialize(Gamestate &state, ReadBuffer &buffer, bool fullupdate)
 {
 
 }

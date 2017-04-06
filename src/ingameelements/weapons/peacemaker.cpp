@@ -115,8 +115,8 @@ void Peacemaker::wantfireprimary(Gamestate &state)
     if (clip > 0 and not firinganim.active() and not reloadanim.active() and not isfthing and not isfiringult and state.engine->isserver)
     {
         fireprimary(state);
-        state.engine->sendbuffer->write<uint8_t>(PRIMARY_FIRED);
-        state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
+        state.engine->sendbuffer.write<uint8_t>(PRIMARY_FIRED);
+        state.engine->sendbuffer.write<uint8_t>(state.findplayerid(owner));
     }
 }
 
@@ -159,14 +159,14 @@ void Peacemaker::wantfiresecondary(Gamestate &state)
         if (not isfthing and state.engine->isserver and not reloadanim.active() and not firinganim.active() and not isfiringult)
         {
             firesecondary(state);
-            state.engine->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
-            state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
+            state.engine->sendbuffer.write<uint8_t>(SECONDARY_FIRED);
+            state.engine->sendbuffer.write<uint8_t>(state.findplayerid(owner));
         }
         else if (isfthing and fthanim.getpercent() >= 1)
         {
             firesecondary(state);
-            state.engine->sendbuffer->write<uint8_t>(SECONDARY_FIRED);
-            state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
+            state.engine->sendbuffer.write<uint8_t>(SECONDARY_FIRED);
+            state.engine->sendbuffer.write<uint8_t>(state.findplayerid(owner));
         }
     }
     else

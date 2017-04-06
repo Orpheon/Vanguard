@@ -106,15 +106,14 @@ int main_impl(int argc, char **argv)
     std::unique_ptr<Networker> networker;
     if (isserver)
     {
-        networker = std::unique_ptr<Networker>(new ServerNetworker());
+        networker = std::unique_ptr<Networker>(new ServerNetworker(engine.sendbuffer));
     }
     else
     {
-        networker = std::unique_ptr<Networker>(new ClientNetworker());
+        networker = std::unique_ptr<Networker>(new ClientNetworker(engine.sendbuffer));
     }
 
     engine.loadmap("lijiang");
-    engine.sendbuffer = &(networker->sendbuffer);
     // FIXME: Hack to make sure the oldstate is properly initialized
     engine.update(0);
 

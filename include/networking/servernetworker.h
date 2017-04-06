@@ -7,7 +7,7 @@
 class ServerNetworker : public Networker
 {
     public:
-        ServerNetworker();
+        ServerNetworker(WriteBuffer &sendbuffer_);
         virtual ~ServerNetworker() override;
         void receive(Gamestate &state) override;
         void sendeventdata(Gamestate &state) override;

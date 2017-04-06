@@ -203,21 +203,21 @@ void Mccree::midstep(Gamestate &state, double frametime)
         if (heldkeys.ABILITY_1 and not rollcooldown.active and onground(state) and state.engine->isserver)
         {
             useability1(state);
-            state.engine->sendbuffer->write<uint8_t>(ABILITY1_USED);
-            state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
+            state.engine->sendbuffer.write<uint8_t>(ABILITY1_USED);
+            state.engine->sendbuffer.write<uint8_t>(state.findplayerid(owner));
         }
         if (heldkeys.ABILITY_2 and not flashbangcooldown.active and state.engine->isserver)
         {
             useability2(state);
-            state.engine->sendbuffer->write<uint8_t>(ABILITY2_USED);
-            state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
+            state.engine->sendbuffer.write<uint8_t>(ABILITY2_USED);
+            state.engine->sendbuffer.write<uint8_t>(state.findplayerid(owner));
         }
     }
 
     if (heldkeys.PRIMARY_FIRE and ulting.active and state.engine->isserver)
     {
-        state.engine->sendbuffer->write<uint8_t>(ULTIMATE_USED);
-        state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
+        state.engine->sendbuffer.write<uint8_t>(ULTIMATE_USED);
+        state.engine->sendbuffer.write<uint8_t>(state.findplayerid(owner));
         Peacemaker &w = state.get<Peacemaker>(weapon);
         w.fireultimate(state);
     }

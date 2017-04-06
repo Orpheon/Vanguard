@@ -114,8 +114,8 @@ void Character::midstep(Gamestate &state, double frametime)
             ownerplayer.ultcharge.reset();
             ownerplayer.ultcharge.active = false;
             useultimate(state);
-            state.engine->sendbuffer->write<uint8_t>(ULTIMATE_USED);
-            state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
+            state.engine->sendbuffer.write<uint8_t>(ULTIMATE_USED);
+            state.engine->sendbuffer.write<uint8_t>(state.findplayerid(owner));
         }
 
         if (isflipped != (mouse_x < x))
@@ -695,37 +695,37 @@ void Character::interpolate(Entity &prev_entity, Entity &next_entity, double alp
     hp.shields = p.hp.shields + alpha*(n.hp.shields - p.hp.shields);
 }
 
-void Character::serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate)
+void Character::serialize(Gamestate &state, WriteBuffer &buffer, bool fullupdate)
 {
     MovingEntity::serialize(state, buffer, fullupdate);
 
-    buffer->write<uint16_t>(hp.normal);
-    buffer->write<uint16_t>(hp.armor);
-    buffer->write<uint16_t>(hp.shields);
+    buffer.write<uint16_t>(hp.normal);
+    buffer.write<uint16_t>(hp.armor);
+    buffer.write<uint16_t>(hp.shields);
 
     ReducedInputContainer input = heldkeys.reduce();
     input.serialize(buffer);
 
-    buffer->write<int16_t>(mouse_x);
-    buffer->write<int16_t>(mouse_y);
+    buffer.write<int16_t>(mouse_x);
+    buffer.write<int16_t>(mouse_y);
 
     getweapon(state).serialize(state, buffer, fullupdate);
 }
 
-void Character::deserialize(Gamestate &state, ReadBuffer *buffer, bool fullupdate)
+void Character::deserialize(Gamestate &state, ReadBuffer &buffer, bool fullupdate)
 {
     MovingEntity::deserialize(state, buffer, fullupdate);
 
-    hp.normal = buffer->read<uint16_t>();
-    hp.armor = buffer->read<uint16_t>();
-    hp.shields = buffer->read<uint16_t>();
+    hp.normal = buffer.read<uint16_t>();
+    hp.armor = buffer.read<uint16_t>();
+    hp.shields = buffer.read<uint16_t>();
 
     ReducedInputContainer input;
     input.deserialize(buffer);
     heldkeys.update(input);
 
-    mouse_x = buffer->read<int16_t>();
-    mouse_y = buffer->read<int16_t>();
+    mouse_x = buffer.read<int16_t>();
+    mouse_y = buffer.read<int16_t>();
     getweapon(state).setaim(mouse_x, mouse_y);
 
     getweapon(state).deserialize(state, buffer, fullupdate);
@@ -786,8 +786,8 @@ void Character::die(Gamestate &state)
     {
         destroy(state);
 
-        state.engine->sendbuffer->write<uint8_t>(PLAYER_DIED);
-        state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
+        state.engine->sendbuffer.write<uint8_t>(PLAYER_DIED);
+        state.engine->sendbuffer.write<uint8_t>(state.findplayerid(owner));
 
         state.get<Player>(owner).spawntimer.reset();
     }

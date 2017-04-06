@@ -52,10 +52,10 @@ class Gamestate
         Player& findplayer(int playerid);
         int findplayerid(EntityPtr player);
 
-        void serializesnapshot(WriteBuffer *buffer);
-        void deserializesnapshot(ReadBuffer *buffer);
-        void serializefull(WriteBuffer *buffer);
-        void deserializefull(ReadBuffer *buffer);
+        void serializesnapshot(WriteBuffer &buffer);
+        void deserializesnapshot(ReadBuffer &buffer);
+        void serializefull(WriteBuffer &buffer);
+        void deserializefull(ReadBuffer &buffer);
 
         EntityPtr collidelinedamageable(double x1, double y1, double x2, double y2, Team team, double *collisionptx, double *collisionpty);
 

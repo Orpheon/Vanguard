@@ -2,7 +2,7 @@
 #include "global_constants.h"
 #include "global.h"
 
-ServerNetworker::ServerNetworker() : Networker(true)
+ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sendbuffer_)
 {
     ENetAddress address;
     address.host = ENET_HOST_ANY;
@@ -36,7 +36,7 @@ void ServerNetworker::receive(Gamestate &state)
             // Send full update
             WriteBuffer frame = WriteBuffer();
             frame.write<uint8_t>(SERVER_FULLUPDATE);
-            state.serializefull(&frame);
+            state.serializefull(frame);
             ENetPacket *eventpacket = enet_packet_create(frame.getdata(), frame.length(), ENET_PACKET_FLAG_RELIABLE);
             enet_peer_send(event.peer, 0, eventpacket);
 
@@ -80,7 +80,7 @@ void ServerNetworker::receive(Gamestate &state)
                     if (player.character != 0)
                     {
                         InputContainer heldkeys;
-                        heldkeys.deserialize(&data);
+                        heldkeys.deserialize(data);
                         double mouse_x = data.read<int16_t>();
                         double mouse_y = data.read<int16_t>();
                         player.getcharacter(state).setinput(state, heldkeys, mouse_x, mouse_y);
@@ -119,7 +119,7 @@ void ServerNetworker::sendframedata(Gamestate &state)
 {
     WriteBuffer frame = WriteBuffer();
     frame.write<uint8_t>(SERVER_SNAPSHOTUPDATE);
-    state.serializesnapshot(&frame);
+    state.serializesnapshot(frame);
     ENetPacket *framepacket = enet_packet_create(frame.getdata(), frame.length(), 0);
     enet_host_broadcast(host, 0, framepacket);
     enet_host_flush(host);
