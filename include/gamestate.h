@@ -18,11 +18,11 @@ class Gamestate
         Gamestate(Engine &engine_);
         ~Gamestate();
 
-        template<class EntityT, class ...Args>EntityPtr make_entity(Args&& ...args)
+        template<class EntityT, class ...Args> EntityPtr make_entity(Args&& ...args)
         {
             uint64_t id = entityidcounter++;
             entitylist[id] = std::unique_ptr<Entity>(new EntityT());
-            static_cast<EntityT*>(entitylist.at(id).get())->init(id, std::forward<Args>(args)...);
+            static_cast<EntityT&>(*entitylist.at(id)).init(id, std::forward<Args>(args)...);
             return EntityPtr(id);
         }
 
