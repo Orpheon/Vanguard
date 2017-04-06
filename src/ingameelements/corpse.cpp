@@ -21,7 +21,7 @@ void Corpse::midstep(Gamestate &state, double frametime)
     vspeed += 540.0*frametime;
 
     // Collision with wallmask
-    if (state.currentmap->collides(state.engine->maskloader.get_rect(spritepath).offset(x, y)))
+    if (state.currentmap->collides(state.engine.maskloader.get_rect(spritepath).offset(x, y)))
     {
         vspeed = 0;
     }

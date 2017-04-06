@@ -15,7 +15,7 @@ class Engine;
 class Gamestate
 {
     public:
-        Gamestate(Engine *engine_);
+        Gamestate(Engine &engine_);
         ~Gamestate();
 
         template<class EntityT, class ...Args>EntityPtr make_entity(Args&& ...args)
@@ -68,7 +68,7 @@ class Gamestate
         double time;
         std::shared_ptr<Map> currentmap;
         EntityPtr spawnrooms[2];
-        Engine *engine;
+        Engine &engine;
     protected:
     private:
         uint64_t entityidcounter;

@@ -34,8 +34,8 @@ void Weapon::endstep(Gamestate &state, double frametime)
     double xoffset=0, yoffset=0;
     if (c.weaponvisible(state))
     {
-        xoffset = state.engine->maskloader.getweaponoffset_x(c.currentsprite(state, false));
-        yoffset = state.engine->maskloader.getweaponoffset_y(c.currentsprite(state, false));
+        xoffset = state.engine.maskloader.getweaponoffset_x(c.currentsprite(state, false));
+        yoffset = state.engine.maskloader.getweaponoffset_y(c.currentsprite(state, false));
     }
     x = c.x + xoffset*(c.isflipped ? -1:1);
     y = c.y + yoffset;

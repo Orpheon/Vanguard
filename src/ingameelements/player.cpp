@@ -109,10 +109,10 @@ void Player::spawn(Gamestate &state)
     }
     while (state.currentmap->collides(c.getcollisionrect(state)));
 
-    if (state.engine->isserver)
+    if (state.engine.isserver)
     {
-        state.engine->sendbuffer.write<uint8_t>(PLAYER_SPAWNED);
-        state.engine->sendbuffer.write<uint8_t>(state.findplayerid(EntityPtr(id)));
+        state.engine.sendbuffer.write<uint8_t>(PLAYER_SPAWNED);
+        state.engine.sendbuffer.write<uint8_t>(state.findplayerid(EntityPtr(id)));
     }
 }
 

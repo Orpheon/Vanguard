@@ -40,16 +40,16 @@ void Projectile::midstep(Gamestate &state, double frametime)
 //bool Projectile::collides(Gamestate &state, EntityPtr otherentity, double angle)
 //{
 //    MovingEntity *m = state.get<MovingEntity>(otherentity);
-//    Rect self = state.engine->maskloader.get_rect(getsprite(state, true)).offset(x, y);
-//    Rect other = state.engine->maskloader.get_rect(m->getsprite(state, true)).offset(m->x, m->y);
+//    Rect self = state.engine.maskloader.get_rect(getsprite(state, true)).offset(x, y);
+//    Rect other = state.engine.maskloader.get_rect(m->getsprite(state, true)).offset(m->x, m->y);
 //
 //    double maxdist = std::max(std::hypot(self.w, self.h), std::hypot(other.w, other.h));
 //    if (std::hypot(self.x - other.x, self.y - other.y) <= maxdist)
 //    {
 //        // We're close enough that an actual collision might happen
 //        // Check the sprites
-//        ALLEGRO_BITMAP *selfsprite = state.engine->maskloader.requestsprite(getsprite(state, true));
-//        ALLEGRO_BITMAP *othersprite = state.engine->maskloader.requestsprite(m->getsprite(state, true));
+//        ALLEGRO_BITMAP *selfsprite = state.engine.maskloader.requestsprite(getsprite(state, true));
+//        ALLEGRO_BITMAP *othersprite = state.engine.maskloader.requestsprite(m->getsprite(state, true));
 //
 //        double cosa = std::cos(angle);
 //        double sina = std::sin(angle);

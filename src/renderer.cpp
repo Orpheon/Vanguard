@@ -39,7 +39,7 @@ Renderer::~Renderer()
     al_destroy_bitmap(surfaceground);
 }
 
-void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myself_, Networker *networker)
+void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myself_, Networker &networker)
 {
     myself = myself_;
 
@@ -120,7 +120,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
 
     al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, ("Frametime: " + std::to_string(frametime * 1000) + "ms").c_str());
     al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 12, ALLEGRO_ALIGN_LEFT, ("FPS: " + std::to_string((int)(1/frametime))).c_str());
-    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 24, ALLEGRO_ALIGN_LEFT, ("Ping: " + std::to_string(networker->host->peers[0].roundTripTime)).c_str());
+    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 24, ALLEGRO_ALIGN_LEFT, ("Ping: " + std::to_string(networker.host->peers[0].roundTripTime)).c_str());
     al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 60, ALLEGRO_ALIGN_LEFT, ("pos: " + std::to_string(cam_x+WINDOW_WIDTH/2.0) + " " + std::to_string(cam_y+WINDOW_HEIGHT/2.0)).c_str());
     if (state.exists(myself) and state.exists(state.get<Player>(myself).character))
     {

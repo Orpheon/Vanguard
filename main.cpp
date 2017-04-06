@@ -101,7 +101,7 @@ int main_impl(int argc, char **argv)
 
     Engine engine(isserver);
     InputCatcher inputcatcher(display);
-    Gamestate renderingstate(&engine);
+    Gamestate renderingstate(engine);
 
     std::unique_ptr<Networker> networker;
     if (isserver)
@@ -125,10 +125,10 @@ int main_impl(int argc, char **argv)
     }
     else
     {
-        ClientNetworker *n = reinterpret_cast<ClientNetworker*>(networker.get());
-        while (not n->isconnected())
+        ClientNetworker &n = reinterpret_cast<ClientNetworker&>(*networker);
+        while (not n.isconnected())
         {
-            n->receive(*(engine.currentstate));
+            n.receive(*(engine.currentstate));
         }
         myself = engine.currentstate->playerlist.at(engine.currentstate->playerlist.size()-1);
     }
@@ -140,7 +140,7 @@ int main_impl(int argc, char **argv)
         while (al_get_time() - enginetime >= ENGINE_TIMESTEP)
         {
             networker->receive(*(engine.currentstate));
-            inputcatcher.run(display, *(engine.currentstate), networker.get(), renderer, myself);
+            inputcatcher.run(display, *(engine.currentstate), *networker, renderer, myself);
             engine.update(ENGINE_TIMESTEP);
             networker->sendeventdata(*(engine.currentstate));
 
@@ -150,14 +150,14 @@ int main_impl(int argc, char **argv)
         {
             if (al_get_time() - networkertime >= NETWORKING_TIMESTEP)
             {
-                ServerNetworker *n = reinterpret_cast<ServerNetworker*>(networker.get());
-                n->sendframedata(*(engine.currentstate));
+                ServerNetworker &n = reinterpret_cast<ServerNetworker&>(*networker);
+                n.sendframedata(*(engine.currentstate));
 
                 networkertime = al_get_time();
             }
         }
         renderingstate.interpolate(*(engine.oldstate), *(engine.currentstate), (al_get_time()-enginetime)/ENGINE_TIMESTEP);
-        renderer.render(display, renderingstate, myself, networker.get());
+        renderer.render(display, renderingstate, myself, *networker);
     }
     return 0;
 }

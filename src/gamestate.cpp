@@ -9,7 +9,7 @@
 #include "ingameelements/projectile.h"
 #include "ingameelements/spawnroom.h"
 
-Gamestate::Gamestate(Engine *engine_) : entitylist(), playerlist(), currentmap(), engine(engine_), entityidcounter(1)
+Gamestate::Gamestate(Engine &engine_) : entitylist(), playerlist(), currentmap(), engine(engine_), entityidcounter(1)
 {
     time = 0;
 }
@@ -114,22 +114,14 @@ std::unique_ptr<Gamestate> Gamestate::clone()
 void Gamestate::interpolate(Gamestate &prevstate, Gamestate &nextstate, double alpha)
 {
     // Use threshold of alpha=0.5 to decide binary choices like entity existence
-    Gamestate *preferredstate;
-    if (alpha < 0.5)
-    {
-        preferredstate = &prevstate;
-    }
-    else
-    {
-        preferredstate = &nextstate;
-    }
-    currentmap = preferredstate->currentmap;
-    entityidcounter = preferredstate->entityidcounter;
-    playerlist = preferredstate->playerlist;
+    Gamestate &preferredstate = alpha < 0.5 ? prevstate : nextstate;
+    currentmap = preferredstate.currentmap;
+    entityidcounter = preferredstate.entityidcounter;
+    playerlist = preferredstate.playerlist;
     time = prevstate.time + alpha*(nextstate.time - prevstate.time);
 
     entitylist.clear();
-    for (auto& e : preferredstate->entitylist)
+    for (auto& e : preferredstate.entitylist)
     {
         Entity &entity = *(e.second);
         entitylist[entity.id] = entity.clone();

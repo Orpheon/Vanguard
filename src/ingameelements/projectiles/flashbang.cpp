@@ -35,14 +35,14 @@ void Flashbang::render(Renderer &renderer, Gamestate &state)
 //bool Flashbang::collides(Gamestate &state, EntityPtr otherentity, double radius)
 //{
 //    MovingEntity *m = state.get<MovingEntity>(otherentity);
-//    Rect other = state.engine->maskloader.get_rect(m->getsprite(state, true)).offset(m->x, m->y);
+//    Rect other = state.engine.maskloader.get_rect(m->getsprite(state, true)).offset(m->x, m->y);
 //
 //    if (std::hypot(x - other.x, y - other.y) <= radius + std::hypot(other.w, other.h))
 //    {
 //        // We're close enough that an actual collision might happen
 //        // Check the sprites
 //        double r2 = radius*radius;
-//        ALLEGRO_BITMAP *othersprite = state.engine->maskloader.requestsprite(m->getsprite(state, true));
+//        ALLEGRO_BITMAP *othersprite = state.engine.maskloader.requestsprite(m->getsprite(state, true));
 //
 //        for (int i=-radius; i<radius; ++i)
 //        {

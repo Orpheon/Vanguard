@@ -109,13 +109,13 @@ void Character::midstep(Gamestate &state, double frametime)
         }
 
         // Ulting
-        if (heldkeys.ULTIMATE and not ownerplayer.ultcharge.active and canuseabilities(state) and state.engine->isserver)
+        if (heldkeys.ULTIMATE and not ownerplayer.ultcharge.active and canuseabilities(state) and state.engine.isserver)
         {
             ownerplayer.ultcharge.reset();
             ownerplayer.ultcharge.active = false;
             useultimate(state);
-            state.engine->sendbuffer.write<uint8_t>(ULTIMATE_USED);
-            state.engine->sendbuffer.write<uint8_t>(state.findplayerid(owner));
+            state.engine.sendbuffer.write<uint8_t>(ULTIMATE_USED);
+            state.engine.sendbuffer.write<uint8_t>(state.findplayerid(owner));
         }
 
         if (isflipped != (mouse_x < x))
@@ -733,13 +733,13 @@ void Character::deserialize(Gamestate &state, ReadBuffer &buffer, bool fullupdat
 
 bool Character::collides(Gamestate &state, double testx, double testy)
 {
-    Rect self = state.engine->maskloader.get_rect(currentsprite(state, true)).offset(x, y);
+    Rect self = state.engine.maskloader.get_rect(currentsprite(state, true)).offset(x, y);
 
     if (testx > self.x and testx < self.x+self.w and testy > self.y and testy < self.y+self.h)
     {
         // We're close enough that an actual collision might happen
         // Check the sprite
-        ALLEGRO_BITMAP *selfsprite = state.engine->maskloader.requestsprite(currentsprite(state, true));
+        ALLEGRO_BITMAP *selfsprite = state.engine.maskloader.requestsprite(currentsprite(state, true));
         return al_get_pixel(selfsprite, testx-self.x, testy-self.y).a != 0;
     }
     else
@@ -782,12 +782,12 @@ void Character::damage(Gamestate &state, double amount)
 
 void Character::die(Gamestate &state)
 {
-    if (state.engine->isserver)
+    if (state.engine.isserver)
     {
         destroy(state);
 
-        state.engine->sendbuffer.write<uint8_t>(PLAYER_DIED);
-        state.engine->sendbuffer.write<uint8_t>(state.findplayerid(owner));
+        state.engine.sendbuffer.write<uint8_t>(PLAYER_DIED);
+        state.engine.sendbuffer.write<uint8_t>(state.findplayerid(owner));
 
         state.get<Player>(owner).spawntimer.reset();
     }
