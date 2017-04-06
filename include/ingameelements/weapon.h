@@ -21,7 +21,7 @@ class Weapon : public MovingEntity
         virtual void beginstep(Gamestate &state, double frametime) override;
         virtual void midstep(Gamestate &state, double frametime) override;
         virtual void endstep(Gamestate &state, double frametime) override;
-        virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha) override;
+        virtual void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         virtual void serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate) override;
         virtual void deserialize(Gamestate &state, ReadBuffer *buffer, bool fullupdate) override;
 

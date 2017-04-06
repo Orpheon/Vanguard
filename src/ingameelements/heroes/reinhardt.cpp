@@ -30,7 +30,7 @@ void Reinhardt::render(Renderer &renderer, Gamestate &state)
     al_set_target_bitmap(renderer.midground);
 
     // Render weapon back first
-    state.get<Hammer>(weapon)->renderbehind(renderer, state);
+    state.get<Hammer>(weapon).renderbehind(renderer, state);
 
     std::string mainsprite;
     ALLEGRO_BITMAP *sprite;
@@ -51,7 +51,7 @@ void Reinhardt::render(Renderer &renderer, Gamestate &state)
     {
         // Flip horizontally
         al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-        if (state.get<Player>(renderer.myself)->team != team)
+        if (state.get<Player>(renderer.myself).team != team)
         {
             // Draw enemy outline
             al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
@@ -60,14 +60,14 @@ void Reinhardt::render(Renderer &renderer, Gamestate &state)
     else
     {
         al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-        if (state.get<Player>(renderer.myself)->team != team)
+        if (state.get<Player>(renderer.myself).team != team)
         {
             // Draw enemy outline
             al_draw_tinted_bitmap(outline, outlinecolor, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
         }
     }
 
-    state.get<Weapon>(weapon)->render(renderer, state);
+    state.get<Weapon>(weapon).render(renderer, state);
 }
 
 void Reinhardt::drawhud(Renderer &renderer, Gamestate &state)
@@ -130,18 +130,18 @@ void Reinhardt::midstep(Gamestate &state, double frametime)
     }
 }
 
-void Reinhardt::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
+void Reinhardt::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
 {
     Character::interpolate(prev_entity, next_entity, alpha);
 
-    Reinhardt *p = static_cast<Reinhardt*>(prev_entity);
-    Reinhardt *n = static_cast<Reinhardt*>(next_entity);
+    Reinhardt &p = static_cast<Reinhardt&>(prev_entity);
+    Reinhardt &n = static_cast<Reinhardt&>(next_entity);
 
-    preparechargeanim.interpolate(&(p->preparechargeanim), &(n->preparechargeanim), alpha);
-    chargeanim.interpolate(&(p->chargeanim), &(n->chargeanim), alpha);
-    endchargeanim.interpolate(&(p->endchargeanim), &(n->endchargeanim), alpha);
-    earthshatteranim.interpolate(&(p->earthshatteranim), &(n->earthshatteranim), alpha);
-    shieldrunanim.interpolate(&(p->shieldrunanim), &(n->shieldrunanim), alpha);
+    preparechargeanim.interpolate(p.preparechargeanim, n.preparechargeanim, alpha);
+    chargeanim.interpolate(p.chargeanim, n.chargeanim, alpha);
+    endchargeanim.interpolate(p.endchargeanim, n.endchargeanim, alpha);
+    earthshatteranim.interpolate(p.earthshatteranim, n.earthshatteranim, alpha);
+    shieldrunanim.interpolate(p.shieldrunanim, n.shieldrunanim, alpha);
 }
 
 bool Reinhardt::cangetinput(Gamestate &state)
@@ -169,8 +169,8 @@ void Reinhardt::useability2(Gamestate &state)
 void Reinhardt::useultimate(Gamestate &state)
 {
     earthshatteranim.reset();
-    Player *ownerplayer = state.get<Player>(owner);
-    ownerplayer->ultcharge.reset();
+    Player &ownerplayer = state.get<Player>(owner);
+    ownerplayer.ultcharge.reset();
 }
 
 void Reinhardt::interrupt(Gamestate &state)
@@ -234,8 +234,8 @@ std::string Reinhardt::currentsprite(Gamestate &state, bool mask)
     {
         return herofolder()+"idle/1";
     }
-    Hammer *hammer = state.get<Hammer>(weapon);
-    if (hammer->barrier.active)
+    Hammer &hammer = state.get<Hammer>(weapon);
+    if (hammer.barrier.active)
     {
         return shieldrunanim.getframepath();
     }

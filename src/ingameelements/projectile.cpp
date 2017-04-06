@@ -9,7 +9,7 @@ void Projectile::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
     entitytype = ENTITYTYPE::PROJECTILE;
     owner = owner_;
-    team = state.get<Player>(owner)->team;
+    team = state.get<Player>(owner).team;
 }
 
 void Projectile::midstep(Gamestate &state, double frametime)
@@ -20,13 +20,13 @@ void Projectile::midstep(Gamestate &state, double frametime)
     }
     for (auto pptr : state.playerlist)
     {
-        Player *p = state.get<Player>(pptr);
-        if (p->team != team)
+        Player &p = state.get<Player>(pptr);
+        if (p.team != team)
         {
-            Character *c = p->getcharacter(state);
-            if (c != 0)
+            if (state.exists(p.character))
             {
-                if (collides(state, p->character, std::atan2(vspeed, hspeed)))
+                Character &c = p.getcharacter(state);
+                if (collides(state, p.character, std::atan2(vspeed, hspeed)))
                 {
                     oncollision(state, c);
                     break;
@@ -72,10 +72,10 @@ void Projectile::midstep(Gamestate &state, double frametime)
 //    return false;
 //}
 
-void Projectile::oncollision(Gamestate &state, Character *c)
+void Projectile::oncollision(Gamestate &state, Character &c)
 {
     // Collided with player
-    c->damage(state, damage());
+    c.damage(state, damage());
     destroy(state);
 }
 

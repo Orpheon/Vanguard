@@ -48,14 +48,14 @@ void ValueAnimation::update(Gamestate &state, double dt)
     timer.update(state, dt);
 }
 
-void ValueAnimation::interpolate(ValueAnimation *prev_anim, ValueAnimation *next_anim, double alpha)
+void ValueAnimation::interpolate(ValueAnimation &prev_anim, ValueAnimation &next_anim, double alpha)
 {
     if (not inited)
     {
         Global::logging().panic(__FILE__, __LINE__, "Value Animation interpolate() called before initialized!");
     }
 
-    timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
+    timer.interpolate(prev_anim.timer, next_anim.timer, alpha);
 }
 
 void ValueAnimation::reset()
@@ -135,14 +135,14 @@ void Animation::update(Gamestate &state, double dt)
     timer.update(state, dt);
 }
 
-void Animation::interpolate(Animation *prev_anim, Animation *next_anim, double alpha)
+void Animation::interpolate(Animation &prev_anim, Animation &next_anim, double alpha)
 {
     if (not inited)
     {
         Global::logging().panic(__FILE__, __LINE__, "Animation interpolate() called before initialized!");
     }
 
-    timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
+    timer.interpolate(prev_anim.timer, next_anim.timer, alpha);
 }
 
 void Animation::reset()
@@ -177,31 +177,31 @@ void LoopAnimation::update(Gamestate &state, double dt)
     }
 }
 
-void LoopAnimation::interpolate(Animation *prev_anim, Animation *next_anim, double alpha)
+void LoopAnimation::interpolate(Animation &prev_anim, Animation &next_anim, double alpha)
 {
     if (not inited)
     {
         Global::logging().panic(__FILE__, __LINE__, "LoopAnimation interpolate() called before initialized!");
     }
 
-    if (std::abs(prev_anim->timer.timer - next_anim->timer.timer) > 0.5*timer.duration)
+    if (std::abs(prev_anim.timer.timer - next_anim.timer.timer) > 0.5*timer.duration)
     {
         // We've probably looped over
-        if (prev_anim->timer.timer < next_anim->timer.timer)
+        if (prev_anim.timer.timer < next_anim.timer.timer)
         {
-            prev_anim->timer.timer += timer.duration;
-            timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
-            prev_anim->timer.timer -= timer.duration;
+            prev_anim.timer.timer += timer.duration;
+            timer.interpolate(prev_anim.timer, next_anim.timer, alpha);
+            prev_anim.timer.timer -= timer.duration;
         }
         else
         {
-            next_anim->timer.timer += timer.duration;
-            timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
-            next_anim->timer.timer -= timer.duration;
+            next_anim.timer.timer += timer.duration;
+            timer.interpolate(prev_anim.timer, next_anim.timer, alpha);
+            next_anim.timer.timer -= timer.duration;
         }
     }
     else
     {
-        timer.interpolate(&(prev_anim->timer), &(next_anim->timer), alpha);
+        timer.interpolate(prev_anim.timer, next_anim.timer, alpha);
     }
 }

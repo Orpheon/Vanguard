@@ -26,13 +26,21 @@ class Gamestate
             return EntityPtr(id);
         }
 
-        template<class EntityT> EntityT* get(EntityPtr e)
+        template<class EntityT> EntityT& get(EntityPtr e)
         {
-            if (e == 0 or entitylist.count(e.id) == 0 or entitylist.at(e.id)->destroyentity)
+            return static_cast<EntityT&>(*(entitylist.at(e.id)));
+        }
+
+        bool exists(EntityPtr e)
+        {
+            if (entitylist.count(e.id) == 0 or entitylist.at(e.id)->destroyentity)
             {
-                return 0;
+                return false;
             }
-            return static_cast<EntityT*>(entitylist.at(e.id).get());
+            else
+            {
+                return true;
+            }
         }
 
         void update(double frametime);
@@ -41,7 +49,7 @@ class Gamestate
 
         EntityPtr addplayer();
         void removeplayer(int playerid);
-        Player* findplayer(int playerid);
+        Player& findplayer(int playerid);
         int findplayerid(EntityPtr player);
 
         void serializesnapshot(WriteBuffer *buffer);

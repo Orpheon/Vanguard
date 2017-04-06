@@ -14,7 +14,7 @@ class Mccree : public Character
         virtual ~Mccree() override = default;
         void midstep(Gamestate &state, double frametime) override;
         void render(Renderer &renderer, Gamestate &state) override;
-        void interpolate(Entity *prev_entity, Entity *next_entity, double alpha) override;
+        void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         Rect getcollisionrect(Gamestate &state) override;
         Rect getstandingcollisionrect(Gamestate &state) override;
         std::string currentsprite(Gamestate &state, bool mask) override;

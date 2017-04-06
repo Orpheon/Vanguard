@@ -58,7 +58,7 @@ double Timer::getpercent()
     return std::fmax(std::fmin(timer/duration, 1.0), 0.0);
 }
 
-void Timer::interpolate(Timer *prev_timer, Timer *next_timer, double alpha)
+void Timer::interpolate(Timer &prev_timer, Timer &next_timer, double alpha)
 {
     if (not inited)
     {
@@ -66,8 +66,8 @@ void Timer::interpolate(Timer *prev_timer, Timer *next_timer, double alpha)
         throw -1;
     }
 
-    if (prev_timer->active and next_timer->active)
+    if (prev_timer.active and next_timer.active)
     {
-        timer = prev_timer->timer + alpha*(next_timer->timer - prev_timer->timer);
+        timer = prev_timer.timer + alpha*(next_timer.timer - prev_timer.timer);
     }
 }

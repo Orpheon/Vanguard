@@ -15,7 +15,7 @@ class Spawnroom : public Entity
         bool isrootobject() override {return true;}
         void midstep(Gamestate &state, double frametime) override {}
         void endstep(Gamestate &state, double frametime) override {}
-        void interpolate(Entity *prev_entity, Entity *next_entity, double alpha) override {}
+        void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override {}
 
         Rect area;
         Team team;

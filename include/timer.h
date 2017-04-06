@@ -14,7 +14,7 @@ class Timer
         virtual void init(double duration_);
         void update(Gamestate &state, double dt);
         double getpercent();
-        void interpolate(Timer *prev_timer, Timer *next_timer, double alpha);
+        void interpolate(Timer &prev_timer, Timer &next_timer, double alpha);
         void reset();
         double timer = 0;
         double duration = 0;

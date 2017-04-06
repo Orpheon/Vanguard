@@ -64,45 +64,45 @@ void ClientNetworker::receive(Gamestate &state)
                 else if (eventtype == PLAYER_CHANGECLASS)
                 {
                     int playerid = data.read<uint8_t>();
-                    state.findplayer(playerid)->heroclass = (Heroclass)(data.read<uint8_t>());
+                    state.findplayer(playerid).heroclass = (Heroclass)(data.read<uint8_t>());
                 }
                 else if (eventtype == PLAYER_SPAWNED)
                 {
                     int playerid = data.read<uint8_t>();
-                    state.findplayer(playerid)->spawn(state);
+                    state.findplayer(playerid).spawn(state);
                 }
                 else if (eventtype == PLAYER_DIED)
                 {
                     int playerid = data.read<uint8_t>();
-                    state.findplayer(playerid)->getcharacter(state)->destroy(state);
+                    state.findplayer(playerid).getcharacter(state).destroy(state);
                 }
                 else if (eventtype == PRIMARY_FIRED)
                 {
                     int playerid = data.read<uint8_t>();
-                    state.findplayer(playerid)->getcharacter(state)->getweapon(state)->fireprimary(state);
+                    state.findplayer(playerid).getcharacter(state).getweapon(state).fireprimary(state);
                 }
                 else if (eventtype == SECONDARY_FIRED)
                 {
                     int playerid = data.read<uint8_t>();
-                    state.findplayer(playerid)->getcharacter(state)->getweapon(state)->firesecondary(state);
+                    state.findplayer(playerid).getcharacter(state).getweapon(state).firesecondary(state);
                 }
                 else if (eventtype == ABILITY1_USED)
                 {
                     int playerid = data.read<uint8_t>();
-                    state.findplayer(playerid)->getcharacter(state)->useability1(state);
+                    state.findplayer(playerid).getcharacter(state).useability1(state);
                 }
                 else if (eventtype == ABILITY2_USED)
                 {
                     int playerid = data.read<uint8_t>();
-                    state.findplayer(playerid)->getcharacter(state)->useability2(state);
+                    state.findplayer(playerid).getcharacter(state).useability2(state);
                 }
                 else if (eventtype == ULTIMATE_USED)
                 {
                     int playerid = data.read<uint8_t>();
-                    Player *p = state.findplayer(playerid);
-                    p->ultcharge.reset();
-                    p->ultcharge.active = false;
-                    p->getcharacter(state)->useultimate(state);
+                    Player &p = state.findplayer(playerid);
+                    p.ultcharge.reset();
+                    p.ultcharge.active = false;
+                    p.getcharacter(state).useultimate(state);
                 }
                 else
                 {

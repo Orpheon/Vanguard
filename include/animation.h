@@ -14,7 +14,7 @@ class ValueAnimation
         virtual int getvalue();
         virtual void update(Gamestate &state, double dt);
         virtual double getpercent() {return timer.getpercent();}
-        virtual void interpolate(ValueAnimation *prev_anim, ValueAnimation *next_anim, double alpha);
+        virtual void interpolate(ValueAnimation &prev_anim, ValueAnimation &next_anim, double alpha);
         virtual bool active() {return timer.active;}
         virtual void active(bool active_) {timer.active = active_;}
         virtual void reset();
@@ -33,7 +33,7 @@ class Animation
         virtual std::string getframepath();
         virtual void update(Gamestate &state, double dt);
         virtual double getpercent() {return timer.getpercent();}
-        virtual void interpolate(Animation *prev_anim, Animation *next_anim, double alpha);
+        virtual void interpolate(Animation &prev_anim, Animation &next_anim, double alpha);
         virtual bool active() {return timer.active;}
         virtual void active(bool active_) {timer.active = active_;}
         virtual void reset();
@@ -49,6 +49,6 @@ class LoopAnimation : public Animation
     public:
         virtual ~LoopAnimation() override = default;
         void update(Gamestate &state, double dt) override;
-        void interpolate(Animation *prev_anim, Animation *next_anim, double alpha) override;
+        void interpolate(Animation &prev_anim, Animation &next_anim, double alpha) override;
 };
 

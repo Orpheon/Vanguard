@@ -64,15 +64,14 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
     }
 
     // Set camera
-    Player *p = state.get<Player>(myself);
-    Character *c = 0;
-    if (p != 0)
+    if (state.exists(myself))
     {
-        c = p->getcharacter(state);
-        if (c != 0)
+        Player &p = state.get<Player>(myself);
+        if (state.exists(p.character))
         {
-            cam_x = c->x - VIEWPORT_WIDTH/2.0;
-            cam_y = c->y - WINDOW_HEIGHT/zoom/2.0;
+            Character &c = p.getcharacter(state);
+            cam_x = c.x - VIEWPORT_WIDTH/2.0;
+            cam_y = c.y - WINDOW_HEIGHT/zoom/2.0;
         }
     }
 
@@ -123,10 +122,12 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
     al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 12, ALLEGRO_ALIGN_LEFT, ("FPS: " + std::to_string((int)(1/frametime))).c_str());
     al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 24, ALLEGRO_ALIGN_LEFT, ("Ping: " + std::to_string(networker->host->peers[0].roundTripTime)).c_str());
     al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 60, ALLEGRO_ALIGN_LEFT, ("pos: " + std::to_string(cam_x+WINDOW_WIDTH/2.0) + " " + std::to_string(cam_y+WINDOW_HEIGHT/2.0)).c_str());
-    if (c != 0)
+    if (state.exists(myself) and state.exists(state.get<Player>(myself).character))
     {
-        al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 72, ALLEGRO_ALIGN_LEFT, ("hspeed: " + std::to_string(c->hspeed)).c_str());
-        al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 84, ALLEGRO_ALIGN_LEFT, ("vspeed: " + std::to_string(c->vspeed)).c_str());
+        Player &p = state.get<Player>(myself);
+        Character &c = p.getcharacter(state);
+        al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 72, ALLEGRO_ALIGN_LEFT, ("hspeed: " + std::to_string(c.hspeed)).c_str());
+        al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 84, ALLEGRO_ALIGN_LEFT, ("vspeed: " + std::to_string(c.vspeed)).c_str());
     }
     else
     {
@@ -137,9 +138,10 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
     al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 108, ALLEGRO_ALIGN_LEFT, ("Zoom: " + std::to_string(zoom)).c_str());
 
 
-    if (c != 0)
+    if (state.exists(myself) and state.exists(state.get<Player>(myself).character))
     {
-        c->drawhud(*this, state);
+        Player &p = state.get<Player>(myself);
+        p.getcharacter(state).drawhud(*this, state);
     }
 
     al_flip_display();

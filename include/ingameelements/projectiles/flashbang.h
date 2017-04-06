@@ -17,7 +17,7 @@ class Flashbang : public Projectile
         void explode(Gamestate &state);
 //        bool collides(Gamestate &state, EntityPtr otherentity, double angle) override;
         void oncollision(Gamestate &state) override {explode(state);}
-        void oncollision(Gamestate &state, Character *c) override {explode(state);}
+        void oncollision(Gamestate &state, Character &c) override {explode(state);}
 
         Timer countdown;
         std::string spritepath = "heroes/mccree/projectiles/flashbang";

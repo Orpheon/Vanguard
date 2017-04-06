@@ -13,7 +13,7 @@ class Corpse : public MovingEntity
         void render(Renderer &renderer, Gamestate &state) override;
         bool isrootobject() override {return true;};
         std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Corpse(*this));}
-        void interpolate(Entity *prev_entity, Entity *next_entity, double alpha) override;
+        void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
     protected:
     private:
         std::string spritepath;

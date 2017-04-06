@@ -21,7 +21,7 @@ void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     owner = owner_;
     weapon = constructweapon(state);
     hp = maxhp();
-    team = state.get<Player>(owner)->team;
+    team = state.get<Player>(owner).team;
     runanim.init(herofolder()+"run/");
     crouchanim.init(herofolder()+"crouchwalk/");
     crouchanim.active(false);
@@ -43,17 +43,17 @@ void Character::setinput(Gamestate &state, InputContainer heldkeys_, double mous
     heldkeys = heldkeys_;
     mouse_x = mouse_x_;
     mouse_y = mouse_y_;
-    getweapon(state)->setaim(mouse_x, mouse_y);
+    getweapon(state).setaim(mouse_x, mouse_y);
 }
 
 void Character::beginstep(Gamestate &state, double frametime)
 {
-    getweapon(state)->beginstep(state, frametime);
+    getweapon(state).beginstep(state, frametime);
 }
 
 void Character::midstep(Gamestate &state, double frametime)
 {
-    Player *ownerplayer = state.get<Player>(owner);
+    Player &ownerplayer = state.get<Player>(owner);
 
     if (cangetinput(state))
     {
@@ -93,26 +93,26 @@ void Character::midstep(Gamestate &state, double frametime)
 
         if (heldkeys.RELOAD)
         {
-            if (getweapon(state)->hasclip())
+            if (getweapon(state).hasclip())
             {
-                state.get<Clipweapon>(weapon)->reload(state);
+                state.get<Clipweapon>(weapon).reload(state);
             }
         }
         // Shooting
         if (heldkeys.PRIMARY_FIRE and canuseweapons(state))
         {
-            getweapon(state)->wantfireprimary(state);
+            getweapon(state).wantfireprimary(state);
         }
         if (heldkeys.SECONDARY_FIRE and canuseweapons(state))
         {
-            getweapon(state)->wantfiresecondary(state);
+            getweapon(state).wantfiresecondary(state);
         }
 
         // Ulting
-        if (heldkeys.ULTIMATE and not ownerplayer->ultcharge.active and canuseabilities(state) and state.engine->isserver)
+        if (heldkeys.ULTIMATE and not ownerplayer.ultcharge.active and canuseabilities(state) and state.engine->isserver)
         {
-            ownerplayer->ultcharge.reset();
-            ownerplayer->ultcharge.active = false;
+            ownerplayer.ultcharge.reset();
+            ownerplayer.ultcharge.active = false;
             useultimate(state);
             state.engine->sendbuffer->write<uint8_t>(ULTIMATE_USED);
             state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
@@ -133,9 +133,9 @@ void Character::midstep(Gamestate &state, double frametime)
     hspeed *= std::pow(friction, frametime);
 
     // Passive ult charge
-    ownerplayer->ultcharge.update(state, frametime*passiveultcharge());
+    ownerplayer.ultcharge.update(state, frametime*passiveultcharge());
 
-    getweapon(state)->midstep(state, frametime);
+    getweapon(state).midstep(state, frametime);
 }
 
 void Character::endstep(Gamestate &state, double frametime)
@@ -285,7 +285,7 @@ void Character::endstep(Gamestate &state, double frametime)
         crouchanim.active(crouch);
     }
 
-    getweapon(state)->endstep(state, frametime);
+    getweapon(state).endstep(state, frametime);
 }
 
 void Character::render(Renderer &renderer, Gamestate &state)
@@ -441,30 +441,33 @@ void Character::render(Renderer &renderer, Gamestate &state)
 
 
     // Deadeye circle
-    Player *player = state.get<Player>(renderer.myself);
-    if (player->heroclass == MCCREE and player->team != team)
+    Player &player = state.get<Player>(renderer.myself);
+    if (player.heroclass == MCCREE and player.team != team)
     {
-        Mccree *c = state.get<Mccree>(player->character);
-        if (c != 0 and c->ulting.active)
+        if (state.exists(player.character))
         {
-            double charge = 0;
-            Peacemaker *w = state.get<Peacemaker>(c->weapon);
-            if (w->deadeyetargets.count(owner) > 0)
+            Mccree &c = state.get<Mccree>(player.character);
+            if (c.ulting.active)
             {
-                charge = w->deadeyetargets.at(owner);
-            }
+                double charge = 0;
+                Peacemaker &w = state.get<Peacemaker>(c.weapon);
+                if (w.deadeyetargets.count(owner.id) > 0)
+                {
+                    charge = w.deadeyetargets.at(owner.id);
+                }
 
-            al_set_target_bitmap(renderer.foreground);
-            double factor = (hp.total()-charge) / maxhp().total();
-            if (factor < 0)
-            {
-                ALLEGRO_BITMAP *skull = renderer.spriteloader.requestsprite("ui/ingame/mccree/lockon");
-                int spriteoffset_x = renderer.spriteloader.get_spriteoffset_x("ui/ingame/mccree/lockon");
-                int spriteoffset_y = renderer.spriteloader.get_spriteoffset_y("ui/ingame/mccree/lockon");
-                al_draw_bitmap(skull, x-renderer.cam_x-spriteoffset_x, y-renderer.cam_y-spriteoffset_y, 0);
-                factor = 0;
+                al_set_target_bitmap(renderer.foreground);
+                double factor = (hp.total()-charge) / maxhp().total();
+                if (factor < 0)
+                {
+                    ALLEGRO_BITMAP *skull = renderer.spriteloader.requestsprite("ui/ingame/mccree/lockon");
+                    int spriteoffset_x = renderer.spriteloader.get_spriteoffset_x("ui/ingame/mccree/lockon");
+                    int spriteoffset_y = renderer.spriteloader.get_spriteoffset_y("ui/ingame/mccree/lockon");
+                    al_draw_bitmap(skull, x-renderer.cam_x-spriteoffset_x, y-renderer.cam_y-spriteoffset_y, 0);
+                    factor = 0;
+                }
+                al_draw_circle(x-renderer.cam_x, y-renderer.cam_y, 8+32*factor, al_map_rgb(253, 58, 58), 1);
             }
-            al_draw_circle(x-renderer.cam_x, y-renderer.cam_y, 8+32*factor, al_map_rgb(253, 58, 58), 1);
         }
     }
 }
@@ -622,11 +625,11 @@ void Character::drawhud(Renderer &renderer, Gamestate &state)
 
 
     // Ammo count
-    if (getweapon(state)->hasclip())
+    if (getweapon(state).hasclip())
     {
-        Clipweapon *w = state.get<Clipweapon>(weapon);
-        std::string ammo = std::to_string(w->clip);
-        std::string maxammo = "I "+std::to_string(w->getclipsize());
+        Clipweapon &w = state.get<Clipweapon>(weapon);
+        std::string ammo = std::to_string(w.clip);
+        std::string maxammo = "I "+std::to_string(w.getclipsize());
         tmpx = renderer.WINDOW_WIDTH*9/10.0;
         al_draw_text(renderer.font20, al_map_rgb(255, 255, 255), tmpx, renderer.WINDOW_HEIGHT*hudheight()-al_get_font_line_height(renderer.font20), ALLEGRO_ALIGN_LEFT, ammo.c_str());
         al_draw_text(renderer.font10, al_map_rgb(255, 255, 255), tmpx+al_get_text_width(renderer.font20, ammo.c_str()),
@@ -634,13 +637,13 @@ void Character::drawhud(Renderer &renderer, Gamestate &state)
     }
 
     // Ult charge meter
-    Player *p = state.get<Player>(owner);
-    if (p->ultcharge.active)
+    Player &p = state.get<Player>(owner);
+    if (p.ultcharge.active)
     {
         ALLEGRO_BITMAP *ultbar = renderer.spriteloader.requestsprite("ui/ingame/ultbar", 1.0);
         Rect ultbarrect = renderer.spriteloader.get_rect("ui/ingame/ultbar").offset(renderer.WINDOW_WIDTH/2, hudheight()*renderer.WINDOW_HEIGHT);
         al_draw_bitmap(ultbar, ultbarrect.x, ultbarrect.y, 0);
-        al_draw_arc(ultbarrect.x+ultbarrect.w/2.0, ultbarrect.y+ultbarrect.h/2.0 - 8, 33, -3.1415/2.0, 2*3.1415*p->ultcharge.timer/100.0, al_map_rgb(255, 230, 125), 8);
+        al_draw_arc(ultbarrect.x+ultbarrect.w/2.0, ultbarrect.y+ultbarrect.h/2.0 - 8, 33, -3.1415/2.0, 2*3.1415*p.ultcharge.timer/100.0, al_map_rgb(255, 230, 125), 8);
     }
     else
     {
@@ -664,32 +667,32 @@ bool Character::onground(Gamestate &state)
     }
 }
 
-void Character::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
+void Character::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
 {
     MovingEntity::interpolate(prev_entity, next_entity, alpha);
 
-    Character *p = static_cast<Character*>(prev_entity);
-    Character *n = static_cast<Character*>(next_entity);
+    Character &p = static_cast<Character&>(prev_entity);
+    Character &n = static_cast<Character&>(next_entity);
 
     if (alpha < 0.5)
     {
-        heldkeys = p->heldkeys;
-        crouchanim.active(p->crouchanim.active());
+        heldkeys = p.heldkeys;
+        crouchanim.active(p.crouchanim.active());
     }
     else
     {
-        heldkeys = n->heldkeys;
-        crouchanim.active(p->crouchanim.active());
+        heldkeys = n.heldkeys;
+        crouchanim.active(p.crouchanim.active());
     }
-    mouse_x = p->mouse_x + alpha*(n->mouse_x - p->mouse_x);
-    mouse_y = p->mouse_y + alpha*(n->mouse_y - p->mouse_y);
-    runanim.interpolate(&(p->runanim), &(n->runanim), alpha);
-    crouchanim.interpolate(&(p->crouchanim), &(n->crouchanim), alpha);
-    stunanim.interpolate(&(p->stunanim), &(n->stunanim), alpha);
-    ongroundsmooth.interpolate(&(p->ongroundsmooth), &(n->ongroundsmooth), alpha);
-    hp.normal = p->hp.normal + alpha*(n->hp.normal - p->hp.normal);
-    hp.armor = p->hp.armor + alpha*(n->hp.armor - p->hp.armor);
-    hp.shields = p->hp.shields + alpha*(n->hp.shields - p->hp.shields);
+    mouse_x = p.mouse_x + alpha*(n.mouse_x - p.mouse_x);
+    mouse_y = p.mouse_y + alpha*(n.mouse_y - p.mouse_y);
+    runanim.interpolate(p.runanim, n.runanim, alpha);
+    crouchanim.interpolate(p.crouchanim, n.crouchanim, alpha);
+    stunanim.interpolate(p.stunanim, n.stunanim, alpha);
+    ongroundsmooth.interpolate(p.ongroundsmooth, n.ongroundsmooth, alpha);
+    hp.normal = p.hp.normal + alpha*(n.hp.normal - p.hp.normal);
+    hp.armor = p.hp.armor + alpha*(n.hp.armor - p.hp.armor);
+    hp.shields = p.hp.shields + alpha*(n.hp.shields - p.hp.shields);
 }
 
 void Character::serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate)
@@ -706,7 +709,7 @@ void Character::serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate
     buffer->write<int16_t>(mouse_x);
     buffer->write<int16_t>(mouse_y);
 
-    getweapon(state)->serialize(state, buffer, fullupdate);
+    getweapon(state).serialize(state, buffer, fullupdate);
 }
 
 void Character::deserialize(Gamestate &state, ReadBuffer *buffer, bool fullupdate)
@@ -723,9 +726,9 @@ void Character::deserialize(Gamestate &state, ReadBuffer *buffer, bool fullupdat
 
     mouse_x = buffer->read<int16_t>();
     mouse_y = buffer->read<int16_t>();
-    getweapon(state)->setaim(mouse_x, mouse_y);
+    getweapon(state).setaim(mouse_x, mouse_y);
 
-    getweapon(state)->deserialize(state, buffer, fullupdate);
+    getweapon(state).deserialize(state, buffer, fullupdate);
 }
 
 bool Character::collides(Gamestate &state, double testx, double testy)
@@ -786,7 +789,7 @@ void Character::die(Gamestate &state)
         state.engine->sendbuffer->write<uint8_t>(PLAYER_DIED);
         state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
 
-        state.get<Player>(owner)->spawntimer.reset();
+        state.get<Player>(owner).spawntimer.reset();
     }
 }
 
@@ -798,17 +801,17 @@ void Character::stun(Gamestate &state)
 
 void Character::destroy(Gamestate &state)
 {
-    state.get<Player>(owner)->character = 0;
-    state.get<Player>(owner)->ultcharge.active = true;
-    getweapon(state)->destroy(state);
-    Corpse *c = state.get<Corpse>(state.make_entity<Corpse>(state, herofolder(), isflipped));
-    c->x = x;
-    c->y = y;
+    state.get<Player>(owner).character = 0;
+    state.get<Player>(owner).ultcharge.active = true;
+    getweapon(state).destroy(state);
+    Corpse &c = state.get<Corpse>(state.make_entity<Corpse>(state, herofolder(), isflipped));
+    c.x = x;
+    c.y = y;
 
     MovingEntity::destroy(state);
 }
 
-Weapon* Character::getweapon(Gamestate &state)
+Weapon& Character::getweapon(Gamestate &state)
 {
     return state.get<Weapon>(weapon);
 }

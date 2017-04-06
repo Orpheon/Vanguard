@@ -42,7 +42,7 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate &state, Networker *ne
     InputContainer heldkeys;
     heldkeys.reset();
 
-    Player *player = state.get<Player>(myself);
+    Player &player = state.get<Player>(myself);
 
     ALLEGRO_EVENT event;
     // Catch all events that have stacked up this frame. al_get_next_event() returns false when event_queue is empty, and contents of event are undefined
@@ -59,7 +59,7 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate &state, Networker *ne
                 break;
 
             case ALLEGRO_EVENT_KEY_DOWN:
-                Heroclass newclass = player->heroclass;
+                Heroclass newclass = player.heroclass;
                 switch (event.keyboard.keycode)
                 {
                     case ALLEGRO_KEY_1:
@@ -74,14 +74,14 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate &state, Networker *ne
                         // Exit game
                         throw 0;
                 }
-                if (newclass != player->heroclass)
+                if (newclass != player.heroclass)
                 {
                     // Player desires a class change
                     if (state.engine->isserver)
                     {
-                        player->changeclass(state, newclass);
+                        player.changeclass(state, newclass);
                         networker->sendbuffer.write<uint8_t>(PLAYER_CHANGECLASS);
-                        networker->sendbuffer.write<uint8_t>(state.findplayerid(player->id));
+                        networker->sendbuffer.write<uint8_t>(state.findplayerid(player.id));
                         networker->sendbuffer.write<uint8_t>(static_cast<uint8_t>(newclass));
                     }
                     else
@@ -141,20 +141,17 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate &state, Networker *ne
         heldkeys.SECONDARY_FIRE = true;
     }
 
-    if (player != 0)
+    if (state.exists(player.character))
     {
-        Character *c = player->getcharacter(state);
-        if (c != 0)
-        {
-            // Set the input for our current character
-            c->setinput(state, heldkeys, mousestate.x/renderer.zoom+renderer.cam_x, mousestate.y/renderer.zoom+renderer.cam_y);
+        Character &c = player.getcharacter(state);
+        // Set the input for our current character
+        c.setinput(state, heldkeys, mousestate.x/renderer.zoom+renderer.cam_x, mousestate.y/renderer.zoom+renderer.cam_y);
 
-            // If this is a client, send the input off to the server
-            if (not state.engine->isserver)
-            {
-                ClientNetworker *n = reinterpret_cast<ClientNetworker*>(networker);
-                n->sendinput(heldkeys, mousestate.x/renderer.zoom+renderer.cam_x, mousestate.y/renderer.zoom+renderer.cam_y);
-            }
+        // If this is a client, send the input off to the server
+        if (not state.engine->isserver)
+        {
+            ClientNetworker *n = reinterpret_cast<ClientNetworker*>(networker);
+            n->sendinput(heldkeys, mousestate.x/renderer.zoom+renderer.cam_x, mousestate.y/renderer.zoom+renderer.cam_y);
         }
     }
 }

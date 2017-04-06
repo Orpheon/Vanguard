@@ -23,7 +23,7 @@ class Character : public MovingEntity
         virtual std::string currentsprite(Gamestate &state, bool mask) = 0;
         virtual bool collides(Gamestate &state, double testx, double testy) override;
         bool isrootobject() override {return false;}
-        virtual void interpolate(Entity *prev_entity, Entity *next_entity, double alpha) override;
+        virtual void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         virtual void serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate) override;
         virtual void deserialize(Gamestate &state, ReadBuffer *buffer, bool fullupdate) override;
         virtual void destroy(Gamestate &state) override;
@@ -51,7 +51,7 @@ class Character : public MovingEntity
         virtual Heroclass heroclass() = 0;
         virtual std::string herofolder() = 0;
         virtual EntityPtr constructweapon(Gamestate &state) = 0;
-        Weapon *getweapon(Gamestate &state);
+        Weapon& getweapon(Gamestate &state);
         virtual double passiveultcharge() = 0;
 
         EntityPtr owner;

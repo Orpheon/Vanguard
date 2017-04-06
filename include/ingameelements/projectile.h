@@ -10,7 +10,7 @@ class Projectile : public MovingEntity
         virtual ~Projectile() override = default;
         virtual bool isrootobject() override {return true;}
         virtual Rect getrect() = 0;
-        virtual void oncollision(Gamestate &state, Character *c);
+        virtual void oncollision(Gamestate &state, Character &c);
         virtual void oncollision(Gamestate &state);
         virtual double damage() = 0;
         virtual void midstep(Gamestate &state, double frametime) override;

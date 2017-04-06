@@ -15,13 +15,13 @@ void Spawnroom::beginstep(Gamestate &state, double frametime)
 {
     for (auto pptr : state.playerlist)
     {
-        Player *p = state.get<Player>(pptr);
-        if (p->team == team)
+        Player &p = state.get<Player>(pptr);
+        if (p.team == team and state.exists(p.character))
         {
-            Character *c = p->getcharacter(state);
-            if (c != 0 and isinside(c->x, c->y))
+            Character &c = p.getcharacter(state);
+            if (isinside(c.x, c.y))
             {
-                c->hp = c->maxhp();
+                c.hp = c.maxhp();
             }
         }
     }

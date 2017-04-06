@@ -122,7 +122,7 @@ int main_impl(int argc, char **argv)
     if (isserver)
     {
         myself = engine.currentstate->addplayer();
-        engine.currentstate->get<Player>(myself)->spawntimer.active = true;
+        engine.currentstate->get<Player>(myself).spawntimer.active = true;
     }
     else
     {

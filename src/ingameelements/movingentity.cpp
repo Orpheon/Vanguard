@@ -20,15 +20,15 @@ void MovingEntity::endstep(Gamestate &state, double frametime)
     y += vspeed*frametime;
 }
 
-void MovingEntity::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
+void MovingEntity::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
 {
-    MovingEntity *prev_e = static_cast<MovingEntity*>(prev_entity);
-    MovingEntity *next_e = static_cast<MovingEntity*>(next_entity);
+    MovingEntity &prev_e = static_cast<MovingEntity&>(prev_entity);
+    MovingEntity &next_e = static_cast<MovingEntity&>(next_entity);
 
-    x = prev_e->x + alpha*(next_e->x - prev_e->x);
-    y = prev_e->y + alpha*(next_e->y - prev_e->y);
-    hspeed = prev_e->hspeed + alpha*(next_e->hspeed - prev_e->hspeed);
-    vspeed = prev_e->vspeed + alpha*(next_e->vspeed - prev_e->vspeed);
+    x = prev_e.x + alpha*(next_e.x - prev_e.x);
+    y = prev_e.y + alpha*(next_e.y - prev_e.y);
+    hspeed = prev_e.hspeed + alpha*(next_e.hspeed - prev_e.hspeed);
+    vspeed = prev_e.vspeed + alpha*(next_e.vspeed - prev_e.vspeed);
 }
 
 void MovingEntity::serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate)

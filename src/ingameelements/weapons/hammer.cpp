@@ -21,7 +21,7 @@ void Hammer::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
 {
     std::string mainsprite;
-    Reinhardt *c = state.get<Reinhardt>(state.get<Player>(owner)->character);
+    Reinhardt &c = state.get<Reinhardt>(state.get<Player>(owner).character);
     if (barrier.active)
     {
         mainsprite = "heroes/reinhardt/shield/back";
@@ -43,12 +43,12 @@ void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
     ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
 
     al_set_target_bitmap(renderer.midground);
-    if (c->weaponvisible(state))
+    if (c.weaponvisible(state))
     {
-        if (c->isflipped)
+        if (c.isflipped)
         {
             al_draw_scaled_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, (aimdirection+3.1415)*barrier.active, 0);
-            if (state.get<Player>(renderer.myself)->team != team)
+            if (state.get<Player>(renderer.myself).team != team)
             {
                 // Draw enemy outline
                 al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y,
@@ -58,7 +58,7 @@ void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
         else
         {
             al_draw_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, aimdirection*barrier.active, 0);
-            if (state.get<Player>(renderer.myself)->team != team)
+            if (state.get<Player>(renderer.myself).team != team)
             {
                 // Draw enemy outline
                 al_draw_tinted_rotated_bitmap(outline, outlinecolor, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, aimdirection*barrier.active, 0);
@@ -70,7 +70,7 @@ void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
 void Hammer::render(Renderer &renderer, Gamestate &state)
 {
     std::string mainsprite;
-    Reinhardt *c = state.get<Reinhardt>(state.get<Player>(owner)->character);
+    Reinhardt &c = state.get<Reinhardt>(state.get<Player>(owner).character);
     if (barrier.active)
     {
         mainsprite = "heroes/reinhardt/shield/front";
@@ -92,12 +92,12 @@ void Hammer::render(Renderer &renderer, Gamestate &state)
     ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
 
     al_set_target_bitmap(renderer.midground);
-    if (c->weaponvisible(state))
+    if (c.weaponvisible(state))
     {
-        if (c->isflipped)
+        if (c.isflipped)
         {
             al_draw_scaled_rotated_bitmap(sprite, -attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-            if (state.get<Player>(renderer.myself)->team != team)
+            if (state.get<Player>(renderer.myself).team != team)
             {
                 // Draw enemy outline
                 al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
@@ -106,7 +106,7 @@ void Hammer::render(Renderer &renderer, Gamestate &state)
         else
         {
             al_draw_bitmap(sprite, rel_x - (attachpt_x+spriteoffset_x), rel_y - (attachpt_y+spriteoffset_y), 0);
-            if (state.get<Player>(renderer.myself)->team != team)
+            if (state.get<Player>(renderer.myself).team != team)
             {
                 // Draw enemy outline
                 al_draw_tinted_bitmap(outline, outlinecolor, rel_x - (attachpt_x+spriteoffset_x), rel_y - (attachpt_y+spriteoffset_y), 0);
@@ -138,9 +138,9 @@ void Hammer::render(Renderer &renderer, Gamestate &state)
 //        attachpt_x = getattachpoint_x()*renderer.zoom;
 //        attachpt_y = getattachpoint_y()*renderer.zoom;
 //
-//        if (c->weaponvisible(state))
+//        if (c.weaponvisible(state))
 //        {
-//            if (c->isflipped)
+//            if (c.isflipped)
 //            {
 //                al_draw_scaled_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, (aimdirection+3.1415)*barrier.active, 0);
 //            }

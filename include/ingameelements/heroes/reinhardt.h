@@ -14,7 +14,7 @@ class Reinhardt : public Character
         virtual ~Reinhardt() override = default;
         void midstep(Gamestate &state, double frametime) override;
         void render(Renderer &renderer, Gamestate &state) override;
-        void interpolate(Entity *prev_entity, Entity *next_entity, double alpha) override;
+        void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         Rect getcollisionrect(Gamestate &state) override;
         Rect getstandingcollisionrect(Gamestate &state) override;
         std::string currentsprite(Gamestate &state, bool mask) override;
@@ -35,7 +35,7 @@ class Reinhardt : public Character
         Health maxhp() override {return Health(300, 200, 0);}
         std::string herofolder() override {return "heroes/reinhardt/";}
         EntityPtr constructweapon(Gamestate &state) override {return state.make_entity<Hammer>(state, owner);}
-        double maxhspeed(Gamestate &state) override {return state.get<Hammer>(weapon)->barrier.active ? 60.0 : Character::maxhspeed(state);}
+        double maxhspeed(Gamestate &state) override {return state.get<Hammer>(weapon).barrier.active ? 60.0 : Character::maxhspeed(state);}
 
         Animation chargeanim;
         Animation preparechargeanim;

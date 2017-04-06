@@ -60,29 +60,29 @@ void Flashbang::render(Renderer &renderer, Gamestate &state)
 
 void Flashbang::explode(Gamestate &state)
 {
-    Explosion *e = state.get<Explosion>(state.make_entity<Explosion>(state, "heroes/mccree/flashbang_explosion/", 0));
-    e->x = x;
-    e->y = y;
+    Explosion &e = state.get<Explosion>(state.make_entity<Explosion>(state, "heroes/mccree/flashbang_explosion/", 0));
+    e.x = x;
+    e.y = y;
 
-    for (auto pptr : state.playerlist)
-    {
-        Player *p = state.get<Player>(pptr);
-        if (p->team != team)
-        {
-            Character *c = p->getcharacter(state);
-            if (c != 0)
-            {
-//                if (collides(state, p->character, EXPLOSION_RADIUS))
+//    for (auto pptr : state.playerlist)
+//    {
+//        Player &p = state.get<Player>(pptr);
+//        if (p.team != team)
+//        {
+//            if (state.exists(p.character))
+//            {
+//                Character &c = p.getcharacter(state);
+//                if (collides(state, p.character, EXPLOSION_RADIUS))
 //                {
 //                    // Check that they aren't behind a wall or something
-//                    if (not state.currentmap->collideline(x, y, c->x, c->y))
+//                    if (not state.currentmap.collideline(x, y, c.x, c.y))
 //                    {
-//                        c->stun(state);
+//                        c.stun(state);
 //                    }
 //                }
-            }
-        }
-    }
+//            }
+//        }
+//    }
 
     destroy(state);
 }

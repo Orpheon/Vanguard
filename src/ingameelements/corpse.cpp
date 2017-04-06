@@ -48,10 +48,10 @@ void Corpse::render(Renderer &renderer, Gamestate &state)
     }
 }
 
-void Corpse::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
+void Corpse::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
 {
-    Corpse *prev_e = static_cast<Corpse*>(prev_entity);
-    Corpse *next_e = static_cast<Corpse*>(next_entity);
+    Corpse &prev_e = static_cast<Corpse&>(prev_entity);
+    Corpse &next_e = static_cast<Corpse&>(next_entity);
 
-    countdown.timer = prev_e->countdown.timer + alpha*(next_e->countdown.timer - prev_e->countdown.timer);
+    countdown.timer = prev_e.countdown.timer + alpha*(next_e.countdown.timer - prev_e.countdown.timer);
 }

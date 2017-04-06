@@ -72,7 +72,7 @@ void Mccree::render(Renderer &renderer, Gamestate &state)
     {
         // Flip horizontally
         al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-        if (state.get<Player>(renderer.myself)->team != team)
+        if (state.get<Player>(renderer.myself).team != team)
         {
             // Draw enemy outline
             al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
@@ -81,14 +81,14 @@ void Mccree::render(Renderer &renderer, Gamestate &state)
     else
     {
         al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-        if (state.get<Player>(renderer.myself)->team != team)
+        if (state.get<Player>(renderer.myself).team != team)
         {
             // Draw enemy outline
             al_draw_tinted_bitmap(outline, outlinecolor, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
         }
     }
 
-    state.get<Weapon>(weapon)->render(renderer, state);
+    state.get<Weapon>(weapon).render(renderer, state);
 }
 
 void Mccree::drawhud(Renderer &renderer, Gamestate &state)
@@ -218,26 +218,26 @@ void Mccree::midstep(Gamestate &state, double frametime)
     {
         state.engine->sendbuffer->write<uint8_t>(ULTIMATE_USED);
         state.engine->sendbuffer->write<uint8_t>(state.findplayerid(owner));
-        Peacemaker *w = state.get<Peacemaker>(weapon);
-        w->fireultimate(state);
+        Peacemaker &w = state.get<Peacemaker>(weapon);
+        w.fireultimate(state);
     }
 }
 
-void Mccree::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
+void Mccree::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
 {
     Character::interpolate(prev_entity, next_entity, alpha);
 
-    Mccree *p = static_cast<Mccree*>(prev_entity);
-    Mccree *n = static_cast<Mccree*>(next_entity);
+    Mccree &p = static_cast<Mccree&>(prev_entity);
+    Mccree &n = static_cast<Mccree&>(next_entity);
 
-    rollanim.interpolate(&(p->rollanim), &(n->rollanim), alpha);
-    rollcooldown.interpolate(&(p->rollcooldown), &(n->rollcooldown), alpha);
-    flashbanganim.interpolate(&(p->flashbanganim), &(n->flashbanganim), alpha);
-    flashbangcooldown.interpolate(&(p->flashbangcooldown), &(n->flashbangcooldown), alpha);
-    ulting.interpolate(&(p->ulting), &(n->ulting), alpha);
-    ultwalkanim.interpolate(&(p->ultwalkanim), &(n->ultwalkanim), alpha);
-    ultcooldown.interpolate(&(p->ultcooldown), &(n->ultcooldown), alpha);
-    fallanim.interpolate(&(p->fallanim), &(n->fallanim), alpha);
+    rollanim.interpolate(p.rollanim, n.rollanim, alpha);
+    rollcooldown.interpolate(p.rollcooldown, n.rollcooldown, alpha);
+    flashbanganim.interpolate(p.flashbanganim, n.flashbanganim, alpha);
+    flashbangcooldown.interpolate(p.flashbangcooldown, n.flashbangcooldown, alpha);
+    ulting.interpolate(p.ulting, n.ulting, alpha);
+    ultwalkanim.interpolate(p.ultwalkanim, n.ultwalkanim, alpha);
+    ultcooldown.interpolate(p.ultcooldown, n.ultcooldown, alpha);
+    fallanim.interpolate(p.fallanim, n.fallanim, alpha);
 }
 
 void Mccree::useability1(Gamestate &state)
@@ -253,11 +253,11 @@ void Mccree::useability1(Gamestate &state)
     // Lets roll
     rollanim.reset();
     rollcooldown.reset();
-    Peacemaker *w = reinterpret_cast<Peacemaker*>(getweapon(state));
-    w->clip = w->getclipsize();
-    w->reloadanim.active(0);
-    w->isfthing = false;
-    w->fthanim.active(false);
+    Peacemaker &w = reinterpret_cast<Peacemaker&>(getweapon(state));
+    w.clip = w.getclipsize();
+    w.reloadanim.active(0);
+    w.isfthing = false;
+    w.fthanim.active(false);
     vspeed = 0;
 }
 
@@ -266,12 +266,12 @@ void Mccree::useability2(Gamestate &state)
     // Flashbang
     flashbanganim.reset();
     flashbangcooldown.reset();
-    Flashbang *f = state.get<Flashbang>(state.make_entity<Flashbang>(state, owner));
-    f->x = x;
-    f->y = y;
+    Flashbang &f = state.get<Flashbang>(state.make_entity<Flashbang>(state, owner));
+    f.x = x;
+    f.y = y;
     double dir = std::atan2(mouse_y-y, mouse_x-x);
-    f->hspeed = std::cos(dir) * 300;
-    f->vspeed = std::sin(dir) * 300;
+    f.hspeed = std::cos(dir) * 300;
+    f.vspeed = std::sin(dir) * 300;
 }
 
 void Mccree::useultimate(Gamestate &state)
@@ -279,14 +279,14 @@ void Mccree::useultimate(Gamestate &state)
     if (ulting.active)
     {
         // We are already ulting and now want to fire
-        Peacemaker *p = state.get<Peacemaker>(weapon);
-        p->fireultimate(state);
+        Peacemaker &p = state.get<Peacemaker>(weapon);
+        p.fireultimate(state);
     }
     else
     {
         // Start charging
         ulting.reset();
-        state.get<Peacemaker>(weapon)->deadeyetargets.clear();
+        state.get<Peacemaker>(weapon).deadeyetargets.clear();
     }
 }
 
@@ -295,12 +295,12 @@ void Mccree::resetafterult(Gamestate &state)
     ulting.active = false;
     ultwalkanim.reset();
     ultcooldown.reset();
-    Player *ownerplayer = state.get<Player>(owner);
-    ownerplayer->ultcharge.active = true;
-    Peacemaker *w = state.get<Peacemaker>(weapon);
-    w->isfiringult = false;
-    w->deadeyeanim.active(false);
-    w->clip = w->getclipsize();
+    Player &ownerplayer = state.get<Player>(owner);
+    ownerplayer.ultcharge.active = true;
+    Peacemaker &w = state.get<Peacemaker>(weapon);
+    w.isfiringult = false;
+    w.deadeyeanim.active(false);
+    w.clip = w.getclipsize();
 }
 
 void Mccree::interrupt(Gamestate &state)
@@ -368,5 +368,5 @@ std::string Mccree::currentsprite(Gamestate &state, bool mask)
 
 bool Mccree::weaponvisible(Gamestate &state)
 {
-    return not rollanim.active() and not stunanim.active() and (not ulting.active or state.get<Peacemaker>(weapon)->isfiringult);
+    return not rollanim.active() and not stunanim.active() and (not ulting.active or state.get<Peacemaker>(weapon).isfiringult);
 }

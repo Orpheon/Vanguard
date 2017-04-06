@@ -26,12 +26,12 @@ void Player::init(uint64_t id_, Gamestate &state)
     {
         if (pptr != EntityPtr(id))
         {
-            Player *p = state.get<Player>(pptr);
-            if (p->team == TEAM1)
+            Player &p = state.get<Player>(pptr);
+            if (p.team == TEAM1)
             {
                 ++teambalance;
             }
-            else if (p->team == TEAM2)
+            else if (p.team == TEAM2)
             {
                 --teambalance;
             }
@@ -49,41 +49,41 @@ void Player::init(uint64_t id_, Gamestate &state)
 
 void Player::beginstep(Gamestate &state, double frametime)
 {
-    if (character != 0)
+    if (state.exists(character))
     {
-        state.get<Character>(character)->beginstep(state, frametime);
+        state.get<Character>(character).beginstep(state, frametime);
     }
 }
 
 void Player::midstep(Gamestate &state, double frametime)
 {
     spawntimer.update(state, frametime);
-    if (character != 0)
+    if (state.exists(character))
     {
-        state.get<Character>(character)->midstep(state, frametime);
+        state.get<Character>(character).midstep(state, frametime);
     }
 }
 
 void Player::endstep(Gamestate &state, double frametime)
 {
-    if (character != 0)
+    if (state.exists(character))
     {
-        state.get<Character>(character)->endstep(state, frametime);
+        state.get<Character>(character).endstep(state, frametime);
     }
 }
 
 void Player::render(Renderer &renderer, Gamestate &state)
 {
-    if (character != 0)
+    if (state.exists(character))
     {
-        state.get<Character>(character)->render(renderer, state);
+        state.get<Character>(character).render(renderer, state);
     }
 }
 
 void Player::spawn(Gamestate &state)
 {
     spawntimer.active = false;
-    if (character != 0)
+    if (state.exists(character))
     {
         // We already have a character, error and respawn
         Global::logging().panic(__FILE__, __LINE__, "Player tried to spawn character that was already alive");
@@ -100,14 +100,14 @@ void Player::spawn(Gamestate &state)
     {
         Global::logging().panic(__FILE__, __LINE__, "Player tried to spawn character with invalid class %i", heroclass);
     }
-    Character *c = state.get<Character>(character);
-    Spawnroom *spawn = state.get<Spawnroom>(state.spawnrooms[team]);
+    Character &c = state.get<Character>(character);
+    Spawnroom &spawn = state.get<Spawnroom>(state.spawnrooms[team]);
     do
     {
-        c->x = spawn->area.x + spawn->area.w*(rand()/(RAND_MAX+1.0));
-        c->y = spawn->area.y + spawn->area.h*(rand()/(RAND_MAX+1.0));
+        c.x = spawn.area.x + spawn.area.w*(rand()/(RAND_MAX+1.0));
+        c.y = spawn.area.y + spawn.area.h*(rand()/(RAND_MAX+1.0));
     }
-    while (state.currentmap->collides(c->getcollisionrect(state)));
+    while (state.currentmap->collides(c.getcollisionrect(state)));
 
     if (state.engine->isserver)
     {
@@ -119,33 +119,33 @@ void Player::spawn(Gamestate &state)
 void Player::changeclass(Gamestate &state, Heroclass newclass)
 {
     heroclass = newclass;
-    if (character != 0)
+    if (state.exists(character))
     {
-        getcharacter(state)->die(state);
+        getcharacter(state).die(state);
     }
 
     ultcharge.reset();
 }
 
-Character* Player::getcharacter(Gamestate &state)
+Character& Player::getcharacter(Gamestate &state)
 {
     return state.get<Character>(character);
 }
 
-void Player::interpolate(Entity *prev_entity, Entity *next_entity, double alpha)
+void Player::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
 {
-    Player *prev_e = static_cast<Player*>(prev_entity);
-    Player *next_e = static_cast<Player*>(next_entity);
+    Player &prev_e = static_cast<Player&>(prev_entity);
+    Player &next_e = static_cast<Player&>(next_entity);
 
-    ultcharge.timer = prev_e->ultcharge.timer + alpha*(next_e->ultcharge.timer - prev_e->ultcharge.timer);
+    ultcharge.timer = prev_e.ultcharge.timer + alpha*(next_e.ultcharge.timer - prev_e.ultcharge.timer);
 
     if (alpha < 0.5)
     {
-        character = prev_e->character;
+        character = prev_e.character;
     }
     else
     {
-        character = next_e->character;
+        character = next_e.character;
     }
 }
 
@@ -153,13 +153,13 @@ void Player::serialize(Gamestate &state, WriteBuffer *buffer, bool fullupdate)
 {
     if (fullupdate)
     {
-        buffer->write<bool>(character != 0);
+        buffer->write<bool>(state.exists(character));
     }
     buffer->write<uint16_t>(ultcharge.timer*65536/100.0);
-    if (character != 0)
+    if (state.exists(character))
     {
-        Character *c = state.get<Character>(character);
-        c->serialize(state, buffer, fullupdate);
+        Character &c = state.get<Character>(character);
+        c.serialize(state, buffer, fullupdate);
     }
 }
 
@@ -174,18 +174,18 @@ void Player::deserialize(Gamestate &state, ReadBuffer *buffer, bool fullupdate)
         }
     }
     ultcharge.timer = 100*buffer->read<uint16_t>()/65536.0;
-    if (character != 0)
+    if (state.exists(character))
     {
-        Character *c = state.get<Character>(character);
-        c->deserialize(state, buffer, fullupdate);
+        Character &c = state.get<Character>(character);
+        c.deserialize(state, buffer, fullupdate);
     }
 }
 
 void Player::destroy(Gamestate &state)
 {
-    if (character != 0)
+    if (state.exists(character))
     {
-        state.get<Character>(character)->destroy(state);
+        state.get<Character>(character).destroy(state);
     }
     destroyentity = true;
 }
