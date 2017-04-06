@@ -28,6 +28,10 @@ class Gamestate
 
         template<class EntityT> EntityT& get(EntityPtr e)
         {
+            if (not exists(e))
+            {
+                Global::logging().panic(__FILE__, __LINE__, "EntityPtr %i requested, but no such entity exists.", e.id);
+            }
             return static_cast<EntityT&>(*(entitylist.at(e.id)));
         }
 
