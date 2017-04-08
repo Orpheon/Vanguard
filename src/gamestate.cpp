@@ -67,21 +67,16 @@ EntityPtr Gamestate::addplayer()
 
 void Gamestate::removeplayer(int playerid)
 {
-    Player &player = findplayer(playerid);
     for (auto& e : entitylist)
     {
-        if (e.second->isrootobject())
+        auto &entity = *(e.second);
+        if (entity.isowner(EntityPtr(playerid)))
         {
-            if (e.second->entitytype == ENTITYTYPE::PROJECTILE)
-            {
-                Projectile &p = reinterpret_cast<Projectile&>(e.second);
-                if (p.owner.id == player.id)
-                {
-                    p.destroy(*this);
-                }
-            }
+            entity.destroy(*this);
         }
     }
+
+    Player &player = findplayer(playerid);
     player.destroy(*this);
     playerlist.erase(playerlist.begin()+playerid);
 }

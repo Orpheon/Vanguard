@@ -26,6 +26,7 @@ class Entity
         virtual void destroy(Gamestate &state) {destroyentity = true;}
         virtual bool collides(Gamestate &state, double testx, double testy) {return false;}
         virtual bool damageableby(Team projectile_team) {return false;}
+        virtual bool isowner(EntityPtr potential_owner) {return false;}
         ENTITYTYPE entitytype;
         uint64_t id = 0;
         bool destroyentity = false;

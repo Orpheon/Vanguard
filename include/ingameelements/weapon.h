@@ -12,7 +12,8 @@ class Weapon : public MovingEntity
         virtual ~Weapon() override = default;
         virtual void setaim(double x_, double y_);
 
-        bool isrootobject() override {return false;}
+        virtual bool isrootobject() override {return false;}
+        virtual bool isowner(EntityPtr potential_owner) override {return potential_owner == owner;}
 
         EntityPtr owner;
         double aimdirection;
