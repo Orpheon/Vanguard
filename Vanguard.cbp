@@ -149,9 +149,6 @@
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/projectiles/flashbang.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
-		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/projectiles/peacemakerbullet.cpp">
-			<Option target="Vanguard"/>
-		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/shield.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
