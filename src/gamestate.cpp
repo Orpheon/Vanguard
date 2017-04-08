@@ -173,7 +173,8 @@ void Gamestate::deserializefull(ReadBuffer &buffer)
 }
 
 
-EntityPtr Gamestate::collidelinedamageable(double x1, double y1, double x2, double y2, Team team, double *collisionptx, double *collisionpty)
+EntityPtr Gamestate::collidelinedamageable(Gamestate &state, double x1, double y1, double x2, double y2,
+                                           Team team, double *collisionptx, double *collisionpty)
 {
     int nsteps = std::ceil(std::max(std::abs(x1-x2), std::abs(y1-y2)));
     double dx = static_cast<double>(x2-x1)/nsteps, dy = static_cast<double>(y2-y1)*1.0/nsteps;
@@ -186,15 +187,12 @@ EntityPtr Gamestate::collidelinedamageable(double x1, double y1, double x2, doub
             // We hit wallmask or went out of bounds or hit enemy spawnroom
             return EntityPtr(0);
         }
-        for (auto p : playerlist)
+        for (auto &e : entitylist)
         {
-            if (exists(get<Player>(p).character))
+            auto &entity = *(e.second);
+            if (entity.damageableby(team) and entity.collides(state, *collisionptx, *collisionpty))
             {
-                Character &c = get<Player>(p).getcharacter(*this);
-                if (c.team != team and c.collides(*this, *collisionptx, *collisionpty))
-                {
-                    return get<Player>(p).character;
-                }
+                return EntityPtr(entity.id);
             }
         }
         *collisionptx += dx; *collisionpty += dy;

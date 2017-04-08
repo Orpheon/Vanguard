@@ -22,6 +22,7 @@ class Character : public MovingEntity
         virtual void render(Renderer &renderer, Gamestate &state) override;
         virtual std::string currentsprite(Gamestate &state, bool mask) = 0;
         virtual bool collides(Gamestate &state, double testx, double testy) override;
+        virtual bool damageableby(Team projectile_team) override { return team != projectile_team;}
         bool isrootobject() override {return false;}
         virtual void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         virtual void serialize(Gamestate &state, WriteBuffer &buffer, bool fullupdate) override;

@@ -24,9 +24,10 @@ class Entity
         virtual std::unique_ptr<Entity> clone() = 0;
         virtual void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) = 0;
         virtual void destroy(Gamestate &state) {destroyentity = true;}
+        virtual bool collides(Gamestate &state, double testx, double testy) {return false;}
+        virtual bool damageableby(Team projectile_team) {return false;}
         ENTITYTYPE entitytype;
         uint64_t id = 0;
         bool destroyentity = false;
         bool inited = false;
 };
-

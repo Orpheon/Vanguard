@@ -61,7 +61,8 @@ class Gamestate
         void serializefull(WriteBuffer &buffer);
         void deserializefull(ReadBuffer &buffer);
 
-        EntityPtr collidelinedamageable(double x1, double y1, double x2, double y2, Team team, double *collisionptx, double *collisionpty);
+        EntityPtr collidelinedamageable(Gamestate &state, double x1, double y1, double x2, double y2,
+                                        Team team, double *collisionptx, double *collisionpty);
 
         std::unordered_map<int, std::unique_ptr<Entity>> entitylist;
         std::vector<EntityPtr> playerlist;

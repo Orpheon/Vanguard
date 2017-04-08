@@ -125,7 +125,7 @@ void Peacemaker::fireprimary(Gamestate &state)
     double cosa = std::cos(aimdirection), sina = std::sin(aimdirection);
     double collisionptx, collisionpty;
     double d = std::hypot(state.currentmap->width(), state.currentmap->height());
-    EntityPtr target = state.collidelinedamageable(x, y, x+cosa*d, y+sina*d, team, &collisionptx, &collisionpty);
+    EntityPtr target = state.collidelinedamageable(state, x, y, x+cosa*d, y+sina*d, team, &collisionptx, &collisionpty);
     if (target.id != 0)
     {
         double distance = std::hypot(collisionptx-x, collisionpty-y);
@@ -181,7 +181,8 @@ void Peacemaker::firesecondary(Gamestate &state)
     double spread = (2*(rand()/(RAND_MAX+1.0)) - 1)*25*3.1415/180.0;
     double cosa = std::cos(aimdirection+spread), sina = std::sin(aimdirection+spread);
     double collisionptx, collisionpty;
-    EntityPtr target = state.collidelinedamageable(x, y, x+cosa*FALLOFF_END, y+sina*FALLOFF_END, team, &collisionptx, &collisionpty);
+    EntityPtr target = state.collidelinedamageable(state, x, y, x+cosa*FALLOFF_END, y+sina*FALLOFF_END, team,
+                                                   &collisionptx, &collisionpty);
     if (target.id != 0)
     {
         double distance = std::hypot(collisionptx-x, collisionpty-y);
@@ -244,7 +245,7 @@ void Peacemaker::fireultimate(Gamestate &state)
 
         Character &c = state.get<Player>(playerptr).getcharacter(state);
         double collisionptx, collisionpty;
-        EntityPtr target = state.collidelinedamageable(x, y, c.x, c.y, team, &collisionptx, &collisionpty);
+        EntityPtr target = state.collidelinedamageable(state, x, y, c.x, c.y, team, &collisionptx, &collisionpty);
         double angle = std::atan2(c.y-y, c.x-x), cosa = std::cos(angle), sina = std::sin(angle);
         if (state.exists(target))
         {
