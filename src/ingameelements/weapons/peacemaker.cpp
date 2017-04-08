@@ -2,7 +2,6 @@
 
 #include "ingameelements/weapons/peacemaker.h"
 #include "renderer.h"
-#include "ingameelements/projectiles/peacemakerbullet.h"
 #include "ingameelements/heroes/mccree.h"
 #include "ingameelements/explosion.h"
 #include "ingameelements/trail.h"

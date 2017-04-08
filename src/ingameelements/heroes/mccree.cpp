@@ -266,12 +266,12 @@ void Mccree::useability2(Gamestate &state)
     // Flashbang
     flashbanganim.reset();
     flashbangcooldown.reset();
-    Flashbang &f = state.get<Flashbang>(state.make_entity<Flashbang>(state, owner));
-    f.x = x;
-    f.y = y;
-    double dir = std::atan2(mouse_y-y, mouse_x-x);
-    f.hspeed = std::cos(dir) * 300;
-    f.vspeed = std::sin(dir) * 300;
+//    Flashbang &f = state.get<Flashbang>(state.make_entity<Flashbang>(state, owner));
+//    f.x = x;
+//    f.y = y;
+//    double dir = std::atan2(mouse_y-y, mouse_x-x);
+//    f.hspeed = std::cos(dir) * 300;
+//    f.vspeed = std::sin(dir) * 300;
 }
 
 void Mccree::useultimate(Gamestate &state)
