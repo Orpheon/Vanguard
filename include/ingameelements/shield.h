@@ -5,13 +5,17 @@
 class Shield : MovingEntity
 {
     public:
-        virtual void init(uint64_t id_, Gamestate &state, std::string herofolder, bool isflipped_);
+        virtual void init(uint64_t id_, Gamestate &state, double maxhp, Team team_);
         virtual ~Shield() override = default;
-        virtual void beginstep(Gamestate &state, double frametime) override;
-        virtual void midstep(Gamestate &state, double frametime) override;
-        virtual void endstep(Gamestate &state, double frametime) override;
-        virtual void render(Renderer &renderer, Gamestate &state) override;
-        virtual bool isrootobject() override {return false;};
+        virtual bool isrootobject() override {return true;}
+        virtual bool collides(Gamestate &state, double testx, double testy) override = 0;
+        virtual double damage(Gamestate &state, double amount) override;
+        virtual bool damageableby(Team projectile_team) override {return projectile_team != team;}
+        virtual double maxdamageabledist(Gamestate &state, double *centerx, double *centery) override = 0;
+        virtual bool blocks(PenetrationLevel penlevel) {return penlevel & PENETRATE_SHIELD;}
+        virtual bool isowner(EntityPtr potential_owner) {return false;}
         virtual void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
-        virtual bool collides(Gamestate &state, double x_, double y_) override;
+
+        double hp;
+        Team team;
 };
