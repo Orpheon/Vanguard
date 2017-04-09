@@ -670,6 +670,14 @@ bool Character::onground(Gamestate &state)
     }
 }
 
+double Character::maxdamageabledist(Gamestate &state, double *centerx, double *centery)
+{
+    *centerx = x;
+    *centery = y;
+    Rect bbox = state.engine.maskloader.get_rect(currentsprite(state, true));
+    return std::hypot(bbox.w, bbox.h) / 2.0;
+}
+
 void Character::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
 {
     MovingEntity::interpolate(prev_entity, next_entity, alpha);
