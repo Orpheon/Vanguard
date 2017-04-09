@@ -52,9 +52,9 @@ class Gamestate
         void interpolate(Gamestate &prevstate, Gamestate &nextstate, double alpha);
 
         EntityPtr addplayer();
-        void removeplayer(uint64_t playerid);
-        Player& findplayer(uint64_t playerid);
-        uint64_t findplayerid(EntityPtr player);
+        void removeplayer(int playerid);
+        Player& findplayer(int playerid);
+        int findplayerid(EntityPtr player);
 
         void serializesnapshot(WriteBuffer &buffer);
         void deserializesnapshot(ReadBuffer &buffer);
