@@ -2,7 +2,7 @@
 
 #include "ingameelements/movingentity.h"
 
-class Shield : MovingEntity
+class Shield : public MovingEntity
 {
     public:
         virtual void init(uint64_t id_, Gamestate &state, double maxhp, Team team_);

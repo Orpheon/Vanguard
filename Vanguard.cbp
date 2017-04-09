@@ -92,6 +92,9 @@
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/include/ingameelements/shield.h">
 			<Option target="Vanguard"/>
 		</Unit>
+		<Unit filename="/home/orpheon/Programming/C++/Vanguard/include/ingameelements/weapons/reinhardtshield.h">
+			<Option target="Vanguard"/>
+		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/include/logging.h">
 			<Option target="Vanguard"/>
 		</Unit>
@@ -165,6 +168,9 @@
 			<Option target="Vanguard"/>
 		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/weapons/peacemaker.cpp">
+			<Option target="Vanguard"/>
+		</Unit>
+		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/weapons/reinhardtshield.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/inputcatcher.cpp">

@@ -52,7 +52,7 @@ set (SRC_FILES
         "src/ingameelements/weapons/hammer.cpp"
         "src/ingameelements/weapons/peacemaker.cpp"
         "src/ingameelements/projectiles/flashbang.cpp"
-        src/ingameelements/shield.cpp include/ingameelements/shield.h include/global.h include/logging.h src/global.cpp)
+        src/ingameelements/shield.cpp include/ingameelements/shield.h include/global.h include/logging.h src/global.cpp src/ingameelements/weapons/reinhardtshield.cpp include/ingameelements/weapons/reinhardtshield.h)
 
 SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${Vanguardcompileflags}" )
 SET( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${Vanguardlinkflags}" )
