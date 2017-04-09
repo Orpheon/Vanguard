@@ -44,10 +44,10 @@ enum EVENTTYPE {SERVER_SNAPSHOTUPDATE,
                 ABILITY2_USED,
                 ULTIMATE_USED };
 
-enum PenetrationLevel { NO_PENETRATION = 0,
-                        NO_PEN_SHIELDS = 1,
-                        NO_PEN_WALLMASK = 2,
-                        PEN_EVERYTHING = 4};
+enum PenetrationLevel { PENETRATE_NOTHING = 0,
+                        PENETRATE_CHARACTER = 1,
+                        PENETRATE_SHIELD = 2,
+                        PENETRATE_WALLMASK = 4};
 
 enum class ENTITYTYPE { PLAYER,
                         CHARACTER,

@@ -23,8 +23,9 @@ class Character : public MovingEntity
         virtual std::string currentsprite(Gamestate &state, bool mask) = 0;
         virtual bool collides(Gamestate &state, double testx, double testy) override;
         virtual bool damageableby(Team projectile_team) override {return team != projectile_team;}
+        virtual double maxdamageabledist(Gamestate &state, double *centerx, double *centery);
         virtual bool isowner(EntityPtr potential_owner) override {return potential_owner == owner;}
-        virtual bool blocks(PenetrationLevel penlevel) override {return penlevel == NO_PENETRATION;}
+        virtual bool blocks(PenetrationLevel penlevel) override {return not (penlevel & PENETRATE_CHARACTER);}
         bool isrootobject() override {return false;}
         virtual void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         virtual void serialize(Gamestate &state, WriteBuffer &buffer, bool fullupdate) override;
