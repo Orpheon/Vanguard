@@ -52,9 +52,9 @@ class Gamestate
         void interpolate(Gamestate &prevstate, Gamestate &nextstate, double alpha);
 
         EntityPtr addplayer();
-        void removeplayer(int playerid);
-        Player& findplayer(int playerid);
-        int findplayerid(EntityPtr player);
+        void removeplayer(uint64_t playerid);
+        Player& findplayer(uint64_t playerid);
+        uint64_t findplayerid(EntityPtr player);
 
         void serializesnapshot(WriteBuffer &buffer);
         void deserializesnapshot(ReadBuffer &buffer);
@@ -67,7 +67,7 @@ class Gamestate
         EntityPtr collidelinedamageable(Gamestate &state, double x1, double y1, double x2, double y2, Team team,
                                         double *collisionptx, double *collisionpty);
 
-        std::unordered_map<int, std::unique_ptr<Entity>> entitylist;
+        std::unordered_map<uint64_t, std::unique_ptr<Entity>> entitylist;
         std::vector<EntityPtr> playerlist;
 
         // Make gamestate move-assigneable, so that " = " doesn't copy but move.

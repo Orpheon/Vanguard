@@ -65,7 +65,7 @@ EntityPtr Gamestate::addplayer()
     return r;
 }
 
-void Gamestate::removeplayer(int playerid)
+void Gamestate::removeplayer(uint64_t playerid)
 {
     for (auto &e : entitylist)
     {
@@ -81,12 +81,12 @@ void Gamestate::removeplayer(int playerid)
     playerlist.erase(playerlist.begin()+playerid);
 }
 
-Player& Gamestate::findplayer(int playerid)
+Player& Gamestate::findplayer(uint64_t playerid)
 {
     return get<Player>(playerlist.at(playerid));
 }
 
-int Gamestate::findplayerid(EntityPtr player)
+uint64_t Gamestate::findplayerid(EntityPtr player)
 {
     return std::find(playerlist.begin(), playerlist.end(), player) - playerlist.begin();
 }
