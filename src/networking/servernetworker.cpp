@@ -77,12 +77,12 @@ void ServerNetworker::receive(Gamestate &state)
                 Player &player = state.get<Player>(reinterpret_cast<int*>(event.peer->data)[0]);
                 if (eventtype == CLIENT_INPUT)
                 {
-                    if (player.character != 0)
+                    InputContainer heldkeys;
+                    heldkeys.deserialize(data);
+                    double mouse_x = data.read<int16_t>();
+                    double mouse_y = data.read<int16_t>();
+                    if (state.exists(player.character))
                     {
-                        InputContainer heldkeys;
-                        heldkeys.deserialize(data);
-                        double mouse_x = data.read<int16_t>();
-                        double mouse_y = data.read<int16_t>();
                         player.getcharacter(state).setinput(state, heldkeys, mouse_x, mouse_y);
                     }
                 }
