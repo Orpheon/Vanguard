@@ -125,7 +125,7 @@ void Peacemaker::fireprimary(Gamestate &state)
     double collisionptx, collisionpty;
     double d = std::hypot(state.currentmap->width(), state.currentmap->height());
     EntityPtr target = state.collidelinedamageable(state, x, y, x+cosa*d, y+sina*d, team, &collisionptx, &collisionpty);
-    if (target.id != 0)
+    if (state.exists(target))
     {
         double distance = std::hypot(collisionptx-x, collisionpty-y);
         double falloff = 1.0;
@@ -133,12 +133,8 @@ void Peacemaker::fireprimary(Gamestate &state)
         {
             falloff = std::max(0.0, 1 - (distance-FALLOFF_BEGIN)/(FALLOFF_END-FALLOFF_BEGIN));
         }
-        MovingEntity &m = state.get<MovingEntity>(target);
-        if (m.entitytype == ENTITYTYPE::CHARACTER)
-        {
-            Character &c = reinterpret_cast<Character&>(m);
-            c.damage(state, MAX_DAMAGE*falloff);
-        }
+        Entity &e = state.get<Entity>(target);
+        e.damage(state, MAX_DAMAGE*falloff);
     }
 
     state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
@@ -182,7 +178,7 @@ void Peacemaker::firesecondary(Gamestate &state)
     double collisionptx, collisionpty;
     EntityPtr target = state.collidelinedamageable(state, x, y, x+cosa*FALLOFF_END, y+sina*FALLOFF_END, team,
                                                    &collisionptx, &collisionpty);
-    if (target.id != 0)
+    if (state.exists(target))
     {
         double distance = std::hypot(collisionptx-x, collisionpty-y);
         double falloff = 1.0;
@@ -190,12 +186,8 @@ void Peacemaker::firesecondary(Gamestate &state)
         {
             falloff = std::max(0.0, (distance-FALLOFF_BEGIN) / (FALLOFF_END-FALLOFF_BEGIN));
         }
-        MovingEntity &m = state.get<MovingEntity>(target);
-        if (m.entitytype == ENTITYTYPE::CHARACTER)
-        {
-            Character &c = reinterpret_cast<Character&>(m);
-            c.damage(state, MAX_FTH_DAMAGE*falloff);
-        }
+        Entity &e = state.get<Entity>(target);
+        e.damage(state, MAX_DAMAGE*falloff);
     }
 
     state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
@@ -248,12 +240,8 @@ void Peacemaker::fireultimate(Gamestate &state)
         double angle = std::atan2(c.y-y, c.x-x), cosa = std::cos(angle), sina = std::sin(angle);
         if (state.exists(target))
         {
-            MovingEntity &m = state.get<MovingEntity>(target);
-            if (m.entitytype == ENTITYTYPE::CHARACTER)
-            {
-                c = reinterpret_cast<Character&>(m);
-                c.damage(state, deadeyetargets.at(playerptr.id));
-            }
+            Entity &e = state.get<Entity>(target);
+            e.damage(state, deadeyetargets.at(playerptr.id));
         }
 
         state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
