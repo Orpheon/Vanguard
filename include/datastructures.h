@@ -57,7 +57,8 @@ enum class ENTITYTYPE { PLAYER,
 
 enum Team { TEAM1,
             TEAM2,
-            SPECTATOR };
+            SPECTATOR,
+            NO_TEAM };
 
 struct ReducedInputContainer
 {
