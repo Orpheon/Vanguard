@@ -77,7 +77,7 @@ void Peacemaker::midstep(Gamestate &state, double frametime)
     Mccree &ownerchar = state.get<Mccree>(ownerplayer.character);
     if (ownerchar.ulting.active and not isfiringult)
     {
-        for (auto p : state.playerlist)
+        for (auto &p : state.playerlist)
         {
             Player &player = state.get<Player>(p);
             if (player.team != SPECTATOR and player.team != team)
@@ -219,7 +219,7 @@ void Peacemaker::fireultimate(Gamestate &state)
         EntityPtr playerptr = 0;
         double distance = VIEWPORT_WIDTH*10;
         // Select closest target
-        for (auto p : deadeyetargets)
+        for (auto &p : deadeyetargets)
         {
             Player &player = state.get<Player>(p.first);
             if (state.exists(player.character))

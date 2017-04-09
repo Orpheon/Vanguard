@@ -85,7 +85,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
     al_clear_to_color(al_map_rgba(0, 0, 0, 0));
 
     // Go through all objects and let them render themselves on the layers
-    for (auto& e : state.entitylist)
+    for (auto &e : state.entitylist)
     {
         if (e.second->isrootobject() and not e.second->destroyentity)
         {

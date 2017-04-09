@@ -13,7 +13,7 @@ void Spawnroom::init(uint64_t id_, Rect area_, Team team_)
 
 void Spawnroom::beginstep(Gamestate &state, double frametime)
 {
-    for (auto pptr : state.playerlist)
+    for (auto &pptr : state.playerlist)
     {
         Player &p = state.get<Player>(pptr);
         if (p.team == team and state.exists(p.character))

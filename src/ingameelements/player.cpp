@@ -22,7 +22,7 @@ void Player::init(uint64_t id_, Gamestate &state)
     ultcharge.init(100);
 
     int teambalance = 0;
-    for (auto pptr : state.playerlist)
+    for (auto &pptr : state.playerlist)
     {
         if (pptr != EntityPtr(id))
         {

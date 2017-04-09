@@ -14,7 +14,7 @@ Spriteloader::Spriteloader(bool masksonly_) : bitmapcache(), masksonly(masksonly
 
 Spriteloader::~Spriteloader()
 {
-    for (auto e : bitmapcache)
+    for (auto &e : bitmapcache)
     {
         al_destroy_bitmap(e.second);
     }
@@ -197,7 +197,7 @@ int Spriteloader::getweaponoffset_y(std::string s)
 
 void Spriteloader::clearcache()
 {
-    for (auto e : bitmapcache)
+    for (auto &e : bitmapcache)
     {
         al_destroy_bitmap(e.second);
     }

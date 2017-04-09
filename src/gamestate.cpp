@@ -23,21 +23,21 @@ void Gamestate::update(double frametime)
 {
     time += frametime;
 
-    for (auto& e : entitylist)
+    for (auto &e : entitylist)
     {
         if (e.second->isrootobject() and not e.second->destroyentity)
         {
             e.second->beginstep(*this, frametime);
         }
     }
-    for (auto& e : entitylist)
+    for (auto &e : entitylist)
     {
         if (e.second->isrootobject() and not e.second->destroyentity)
         {
             e.second->midstep(*this, frametime);
         }
     }
-    for (auto& e : entitylist)
+    for (auto &e : entitylist)
     {
         if (e.second->isrootobject() and not e.second->destroyentity)
         {
@@ -67,7 +67,7 @@ EntityPtr Gamestate::addplayer()
 
 void Gamestate::removeplayer(int playerid)
 {
-    for (auto& e : entitylist)
+    for (auto &e : entitylist)
     {
         auto &entity = *(e.second);
         if (entity.isowner(EntityPtr(playerid)))
@@ -95,7 +95,7 @@ int Gamestate::findplayerid(EntityPtr player)
 std::unique_ptr<Gamestate> Gamestate::clone()
 {
     std::unique_ptr<Gamestate> g = std::unique_ptr<Gamestate>(new Gamestate(engine));
-    for (auto& e : entitylist)
+    for (auto &e : entitylist)
     {
         g->entitylist[e.second->id] = e.second->clone();
     }
@@ -116,7 +116,7 @@ void Gamestate::interpolate(Gamestate &prevstate, Gamestate &nextstate, double a
     time = prevstate.time + alpha*(nextstate.time - prevstate.time);
 
     entitylist.clear();
-    for (auto& e : preferredstate.entitylist)
+    for (auto &e : preferredstate.entitylist)
     {
         Entity &entity = *(e.second);
         entitylist[entity.id] = entity.clone();
@@ -131,7 +131,7 @@ void Gamestate::interpolate(Gamestate &prevstate, Gamestate &nextstate, double a
 
 void Gamestate::serializesnapshot(WriteBuffer &buffer)
 {
-    for (auto p : playerlist)
+    for (auto &p : playerlist)
     {
         get<Player>(p).serialize(*this, buffer, false);
     }
@@ -139,7 +139,7 @@ void Gamestate::serializesnapshot(WriteBuffer &buffer)
 
 void Gamestate::deserializesnapshot(ReadBuffer &buffer)
 {
-    for (auto p : playerlist)
+    for (auto &p : playerlist)
     {
         get<Player>(p).deserialize(*this, buffer, false);
     }
@@ -148,7 +148,7 @@ void Gamestate::deserializesnapshot(ReadBuffer &buffer)
 void Gamestate::serializefull(WriteBuffer &buffer)
 {
     buffer.write<uint32_t>(playerlist.size());
-    for (auto p : playerlist)
+    for (auto &p : playerlist)
     {
         get<Player>(p).serialize(*this, buffer, true);
     }
