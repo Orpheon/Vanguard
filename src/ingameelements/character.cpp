@@ -457,16 +457,19 @@ void Character::render(Renderer &renderer, Gamestate &state)
                 }
 
                 al_set_target_bitmap(renderer.foreground);
+                std::string mainsprite = "ui/ingame/heroes/mccree/lockon";
+                ALLEGRO_BITMAP *skull = renderer.spriteloader.requestsprite(mainsprite);
+                double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
+                double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
+                double rel_x = (x - renderer.cam_x)*renderer.zoom;
+                double rel_y = (y - renderer.cam_y)*renderer.zoom;
                 double factor = (hp.total()-charge) / maxhp().total();
                 if (factor < 0)
                 {
-                    ALLEGRO_BITMAP *skull = renderer.spriteloader.requestsprite("ui/ingame/mccree/lockon");
-                    int spriteoffset_x = renderer.spriteloader.get_spriteoffset_x("ui/ingame/mccree/lockon");
-                    int spriteoffset_y = renderer.spriteloader.get_spriteoffset_y("ui/ingame/mccree/lockon");
-                    al_draw_bitmap(skull, x-renderer.cam_x-spriteoffset_x, y-renderer.cam_y-spriteoffset_y, 0);
+                    al_draw_bitmap(skull, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
                     factor = 0;
                 }
-                al_draw_circle(x-renderer.cam_x, y-renderer.cam_y, 8+32*factor, al_map_rgb(253, 58, 58), 1);
+                al_draw_circle(rel_x, rel_y, 8+32*factor, al_map_rgb(253, 58, 58), 1);
             }
         }
     }
