@@ -167,6 +167,36 @@ void Gamestate::deserializefull(ReadBuffer &buffer)
     }
 }
 
+EntityPtr Gamestate::collidelinetarget(Gamestate &state, double x1, double y1, MovingEntity &target, Team team,
+                                       PenetrationLevel penlevel, double *collisionptx, double *collisionpty)
+{
+    int nsteps = std::ceil(std::max(std::abs(x1-target.x), std::abs(y1-target.y)));
+    double dx = static_cast<double>(target.x-x1)/nsteps, dy = static_cast<double>(target.y-y1)*1.0/nsteps;
+    *collisionptx = x1;
+    *collisionpty = y1;
+    for (int i=0; i<nsteps; ++i)
+    {
+        if (penlevel & NO_PEN_WALLMASK and (currentmap->testpixel(*collisionptx, *collisionpty) or
+                                               get<Spawnroom>(spawnrooms[team]).isinside(*collisionptx, *collisionpty)))
+        {
+            // We hit wallmask or went out of bounds or hit enemy spawnroom
+            return EntityPtr(0);
+        }
+        for (auto &e : entitylist)
+        {
+            auto &entity = *(e.second);
+            if ((entity.id == target.id or entity.blocks(penlevel)) and entity.damageableby(team) and
+                entity.collides(state, *collisionptx, *collisionpty))
+            {
+                return EntityPtr(entity.id);
+            }
+        }
+        *collisionptx += dx; *collisionpty += dy;
+    }
+    Global::logging().panic(__FILE__, __LINE__, "Entity %i could not be reached at pt %f|%f", target.id, collisionptx, collisionpty);
+    return EntityPtr(0);
+}
+
 
 EntityPtr Gamestate::collidelinedamageable(Gamestate &state, double x1, double y1, double x2, double y2,
                                            Team team, double *collisionptx, double *collisionpty)

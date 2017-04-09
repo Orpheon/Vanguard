@@ -748,8 +748,9 @@ bool Character::collides(Gamestate &state, double testx, double testy)
     }
 }
 
-void Character::damage(Gamestate &state, double amount)
+double Character::damage(Gamestate &state, double amount)
 {
+    double prev_health = hp.total();
     if (hp.shields < amount)
     {
         amount -= hp.shields;
@@ -778,6 +779,7 @@ void Character::damage(Gamestate &state, double amount)
     {
         hp.shields -= amount;
     }
+    return prev_health - hp.total();
 }
 
 void Character::die(Gamestate &state)

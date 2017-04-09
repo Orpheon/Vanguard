@@ -44,6 +44,11 @@ enum EVENTTYPE {SERVER_SNAPSHOTUPDATE,
                 ABILITY2_USED,
                 ULTIMATE_USED };
 
+enum PenetrationLevel { NO_PENETRATION = 0,
+                        NO_PEN_SHIELDS = 1,
+                        NO_PEN_WALLMASK = 2,
+                        PEN_EVERYTHING = 4};
+
 enum class ENTITYTYPE { PLAYER,
                         CHARACTER,
                         WEAPON,
@@ -186,4 +191,3 @@ struct Rect
     Rect(double x_, double y_, double w_, double h_) : x(x_), y(y_), w(w_), h(h_) {}
     Rect offset(double x_, double y_) {return Rect(x+x_, y+y_, w, h);}
 };
-
