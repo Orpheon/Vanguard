@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <allegro5/allegro.h>
+#include <engine.h>
 
 #include "renderer.h"
 #include "global_constants.h"
@@ -136,6 +137,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
     }
     al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 96, ALLEGRO_ALIGN_LEFT, ("#Players: " + std::to_string(state.playerlist.size())).c_str());
     al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 108, ALLEGRO_ALIGN_LEFT, ("Zoom: " + std::to_string(zoom)).c_str());
+    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 120, ALLEGRO_ALIGN_LEFT, state.engine.isserver ? "Server" : "Client");
 
 
     if (state.exists(myself) and state.exists(state.get<Player>(myself).character))

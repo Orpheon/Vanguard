@@ -96,7 +96,8 @@ void ServerNetworker::receive(Gamestate &state)
                 }
                 else
                 {
-                    Global::logging().print(__FILE__, __LINE__, "Invalid packet received on server from player %i: %i", player.id, eventtype);
+                    Global::logging().print(__FILE__, __LINE__, "Invalid packet received on server from player %i: %i",
+                                            state.findplayerid(player.id), eventtype);
                 }
             }
             enet_packet_destroy(event.packet);
