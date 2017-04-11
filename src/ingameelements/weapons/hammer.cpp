@@ -150,3 +150,9 @@ ReinhardtShield& Hammer::barrier(Gamestate &state)
 {
     return state.get<ReinhardtShield>(barrierptr);
 }
+
+void Hammer::destroy(Gamestate &state)
+{
+    barrier(state).destroy(state);
+    Weapon::destroy(state);
+}
