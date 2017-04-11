@@ -35,7 +35,7 @@ class Reinhardt : public Character
         Health maxhp() override {return Health(300, 200, 0);}
         std::string herofolder() override {return "heroes/reinhardt/";}
         EntityPtr constructweapon(Gamestate &state) override {return state.make_entity<Hammer>(state, owner);}
-        double maxhspeed(Gamestate &state) override {return state.get<Hammer>(weapon).barrier.active ? 60.0 : Character::maxhspeed(state);}
+        double maxhspeed(Gamestate &state) override {return state.get<Hammer>(weapon).barrier(state).active ? 60.0 : Character::maxhspeed(state);}
 
         Animation chargeanim;
         Animation preparechargeanim;

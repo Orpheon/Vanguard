@@ -235,7 +235,7 @@ std::string Reinhardt::currentsprite(Gamestate &state, bool mask)
         return herofolder()+"idle/1";
     }
     Hammer &hammer = state.get<Hammer>(weapon);
-    if (hammer.barrier.active)
+    if (hammer.barrier(state).active)
     {
         return shieldrunanim.getframepath();
     }

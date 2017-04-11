@@ -1,13 +1,12 @@
 #pragma once
 
 #include "ingameelements/weapon.h"
+#include "ingameelements/weapons/reinhardtshield.h"
 
 class Hammer : public Weapon
 {
     public:
         constexpr static double DAMAGE = 70;
-        constexpr static double MAX_BARRIER_HEALTH = 2000;
-        constexpr static double BARRIER_RECHARGE = 195;
 
         virtual void init(uint64_t id_, Gamestate &state, EntityPtr owner_) override;
         virtual ~Hammer() override = default;
@@ -27,10 +26,9 @@ class Hammer : public Weapon
         double getattachpoint_y() override {return 8;}
         std::string herofolder() {return "heroes/reinhardt/";}
 
-        Timer barrier;
-        Timer barrierrecharge;
-        Timer barrierbreak;
-        double barrierhealth = MAX_BARRIER_HEALTH;
+        ReinhardtShield& barrier(Gamestate &state);
+
+        EntityPtr barrierptr;
 
     protected:
     private:
