@@ -66,6 +66,10 @@ struct ReducedInputContainer
         bool LEFT;
         bool RIGHT;
         bool CROUCH;
+        bool PRIMARY_FIRE;
+        bool SECONDARY_FIRE;
+        bool ABILITY_1;
+        bool ABILITY_2;
 
         void serialize(WriteBuffer &buffer)
         {
@@ -73,6 +77,10 @@ struct ReducedInputContainer
             d |= LEFT<<0;
             d |= RIGHT<<1;
             d |= CROUCH<<2;
+            d |= PRIMARY_FIRE<<3;
+            d |= SECONDARY_FIRE<<4;
+            d |= ABILITY_1<<5;
+            d |= ABILITY_2<<6;
             buffer.write<uint8_t>(d);
         }
 
@@ -82,6 +90,10 @@ struct ReducedInputContainer
             LEFT = d & 1<<0;
             RIGHT = d & 1<<1;
             CROUCH = d & 1<<2;
+            PRIMARY_FIRE = d & 1<<3;
+            SECONDARY_FIRE = d & 1<<4;
+            ABILITY_1 = d & 1<<5;
+            ABILITY_2 = d & 1<<6;
         }
 
         void reset()
@@ -89,6 +101,10 @@ struct ReducedInputContainer
             LEFT = false;
             RIGHT = false;
             CROUCH = false;
+            PRIMARY_FIRE = false;
+            SECONDARY_FIRE = false;
+            ABILITY_1 = false;
+            ABILITY_2 = false;
         }
 };
 
@@ -96,10 +112,6 @@ struct InputContainer : public ReducedInputContainer
 {
     bool JUMP;
     bool RELOAD;
-    bool PRIMARY_FIRE;
-    bool SECONDARY_FIRE;
-    bool ABILITY_1;
-    bool ABILITY_2;
     bool ULTIMATE;
 
     void serialize(WriteBuffer &buffer)
@@ -107,12 +119,8 @@ struct InputContainer : public ReducedInputContainer
         ReducedInputContainer::serialize(buffer);
         uint8_t d = 0;
         d |= JUMP<<0;
-        d |= PRIMARY_FIRE<<1;
-        d |= SECONDARY_FIRE<<2;
-        d |= RELOAD<<3;
-        d |= ABILITY_1<<4;
-        d |= ABILITY_2<<5;
-        d |= ULTIMATE<<6;
+        d |= RELOAD<<1;
+        d |= ULTIMATE<<2;
         buffer.write<uint8_t>(d);
     }
 
@@ -121,23 +129,15 @@ struct InputContainer : public ReducedInputContainer
         ReducedInputContainer::deserialize(buffer);
         uint8_t d = buffer.read<uint8_t>();
         JUMP = d & 1<<0;
-        PRIMARY_FIRE = d & 1<<1;
-        SECONDARY_FIRE = d & 1<<2;
-        RELOAD = d & 1<<3;
-        ABILITY_1 = d & 1<<4;
-        ABILITY_2 = d & 1<<5;
-        ULTIMATE = d & 1<<6;
+        RELOAD = d & 1<<1;
+        ULTIMATE = d & 1<<2;
     }
 
     void reset()
     {
         ReducedInputContainer::reset();
         JUMP = false;
-        PRIMARY_FIRE = false;
-        SECONDARY_FIRE = false;
         RELOAD = false;
-        ABILITY_1 = false;
-        ABILITY_2 = false;
         ULTIMATE = false;
     }
 
@@ -147,6 +147,10 @@ struct InputContainer : public ReducedInputContainer
         i.LEFT = LEFT;
         i.RIGHT = RIGHT;
         i.CROUCH = CROUCH;
+        i.PRIMARY_FIRE = PRIMARY_FIRE;
+        i.SECONDARY_FIRE = SECONDARY_FIRE;
+        i.ABILITY_1 = ABILITY_1;
+        i.ABILITY_2 = ABILITY_2;
         return i;
     }
 
@@ -155,6 +159,10 @@ struct InputContainer : public ReducedInputContainer
         LEFT = r.LEFT;
         RIGHT = r.RIGHT;
         CROUCH = r.CROUCH;
+        PRIMARY_FIRE = r.PRIMARY_FIRE;
+        SECONDARY_FIRE = r.SECONDARY_FIRE;
+        ABILITY_1 = r.ABILITY_1;
+        ABILITY_2 = r.ABILITY_2;
     }
 };
 
