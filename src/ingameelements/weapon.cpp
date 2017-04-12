@@ -50,7 +50,16 @@ void Weapon::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
 
     firinganim.interpolate(prev_e.firinganim, next_e.firinganim, alpha);
 
-    aimdirection = prev_e.aimdirection + alpha*(next_e.aimdirection - prev_e.aimdirection);
+    // Angles need some care when interpolating
+    if (std::abs(prev_e.aimdirection - next_e.aimdirection) > M_PI)
+    {
+        double offset = next_e.aimdirection < prev_e.aimdirection ? 2*M_PI : -2*M_PI;
+        aimdirection = prev_e.aimdirection + alpha * (next_e.aimdirection - prev_e.aimdirection + offset);
+    }
+    else
+    {
+        aimdirection = prev_e.aimdirection + alpha * (next_e.aimdirection - prev_e.aimdirection);
+    }
 }
 
 void Weapon::serialize(Gamestate &state, WriteBuffer &buffer, bool fullupdate)

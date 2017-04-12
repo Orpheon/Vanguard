@@ -10,11 +10,13 @@ class ReinhardtShield : public Shield
         virtual ~ReinhardtShield() override = default;
         void beginstep(Gamestate &state, double frametime) override {};
         void midstep(Gamestate &state, double frametime) override;
+        void endstep(Gamestate &state, double frametime) override;
         void render(Renderer &renderer, Gamestate &state) override;
         std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new ReinhardtShield(*this));}
         void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
-        bool collides(Gamestate &state, double testx, double testy) override {return false;};
-        double maxdamageabledist(Gamestate &state, double *centerx, double *centery) override {return 0;};
+        bool collides(Gamestate &state, double testx, double testy) override;
+        double maxdamageabledist(Gamestate &state, double *centerx, double *centery) override;
+        std::string spritestr();
 
         double attachpoint_x() {return 0;}
         double attachpoint_y() {return 0;}

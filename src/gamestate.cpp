@@ -176,7 +176,7 @@ EntityPtr Gamestate::collidelinetarget(Gamestate &state, double x1, double y1, M
     *collisionpty = y1;
     for (int i=0; i<nsteps; ++i)
     {
-        if (not (penlevel & PENETRATE_WALLMASK) and (currentmap->testpixel(*collisionptx, *collisionpty) or
+        if ((not (penlevel & PENETRATE_WALLMASK)) and (currentmap->testpixel(*collisionptx, *collisionpty) or
             get<Spawnroom>(spawnrooms[team]).isinside(*collisionptx, *collisionpty)))
         {
             // We hit wallmask or went out of bounds or hit enemy spawnroom
@@ -185,10 +185,17 @@ EntityPtr Gamestate::collidelinetarget(Gamestate &state, double x1, double y1, M
         for (auto &e : entitylist)
         {
             auto &entity = *(e.second);
-            if ((entity.id == target.id or entity.blocks(penlevel)) and entity.damageableby(team) and
-                entity.collides(state, *collisionptx, *collisionpty))
+            if ((entity.id == target.id or entity.blocks(penlevel)) and entity.damageableby(team))
             {
-                return EntityPtr(entity.id);
+                double enemycenterx=0, enemycentery=0;
+                double dist = entity.maxdamageabledist(state, &enemycenterx, &enemycentery);
+                if (std::hypot(enemycenterx-*collisionptx, enemycentery-*collisionpty) <= dist)
+                {
+                    if (entity.collides(state, *collisionptx, *collisionpty))
+                    {
+                        return EntityPtr(entity.id);
+                    }
+                }
             }
         }
         *collisionptx += dx; *collisionpty += dy;
@@ -215,9 +222,17 @@ EntityPtr Gamestate::collidelinedamageable(Gamestate &state, double x1, double y
         for (auto &e : entitylist)
         {
             auto &entity = *(e.second);
-            if (entity.damageableby(team) and entity.collides(state, *collisionptx, *collisionpty))
+            if (entity.damageableby(team))
             {
-                return EntityPtr(entity.id);
+                double enemycenterx=0, enemycentery=0;
+                double dist = entity.maxdamageabledist(state, &enemycenterx, &enemycentery);
+                if (std::hypot(enemycenterx-*collisionptx, enemycentery-*collisionpty) <= dist)
+                {
+                    if (entity.collides(state, *collisionptx, *collisionpty))
+                    {
+                        return EntityPtr(entity.id);
+                    }
+                }
             }
         }
         *collisionptx += dx; *collisionpty += dy;
