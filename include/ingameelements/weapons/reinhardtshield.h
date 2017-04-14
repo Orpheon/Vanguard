@@ -16,6 +16,7 @@ class ReinhardtShield : public Shield
         void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         bool collides(Gamestate &state, double testx, double testy) override;
         double maxdamageabledist(Gamestate &state, double *centerx, double *centery) override;
+        virtual bool damageableby(Team projectile_team) override {return team != projectile_team and active;}
         std::string spritestr();
 
         double attachpoint_x() {return 0;}

@@ -136,22 +136,20 @@ double ReinhardtShield::maxdamageabledist(Gamestate &state, double *centerx, dou
 
 bool ReinhardtShield::collides(Gamestate &state, double testx, double testy)
 {
-    return true;
-//    testx -= x;
-//    testy -= y;
-//    double cosa = std::cos(-aimdirection);
-//    double sina = std::sin(-aimdirection);
-//    double rotx = testx * cosa - testy * sina;
-//    double roty = testx * sina + testy * cosa;
-//
-//    std::string mainsprite = spritestr();
-//    double spriteoffset_x = state.engine.maskloader.get_spriteoffset_x(mainsprite);
-//    double spriteoffset_y = state.engine.maskloader.get_spriteoffset_y(mainsprite);
-//
-//    Global::logging().print(__FILE__, __LINE__, "Testing (%f|%f)", rotx-spriteoffset_x, roty-spriteoffset_y);
-//    if (al_get_pixel(state.engine.maskloader.requestsprite(mainsprite), rotx-spriteoffset_x, roty-spriteoffset_y).a != 0)
-//    {
-//        return true;
-//    }
-//    return false;
+    testx -= x;
+    testy -= y;
+    double cosa = std::cos(-aimdirection);
+    double sina = std::sin(-aimdirection);
+    double rotx = testx * cosa - testy * sina;
+    double roty = testx * sina + testy * cosa;
+
+    std::string mainsprite = spritestr();
+    double spriteoffset_x = state.engine.maskloader.get_spriteoffset_x(mainsprite);
+    double spriteoffset_y = state.engine.maskloader.get_spriteoffset_y(mainsprite);
+
+    if (al_get_pixel(state.engine.maskloader.requestsprite(mainsprite), rotx+spriteoffset_x, roty+spriteoffset_y).a != 0)
+    {
+        return true;
+    }
+    return false;
 }
