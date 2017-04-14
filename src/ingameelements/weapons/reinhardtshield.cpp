@@ -69,6 +69,7 @@ void ReinhardtShield::render(Renderer &renderer, Gamestate &state)
 
         if (reinhardt.weaponvisible(state))
         {
+            al_set_target_bitmap(renderer.midground);
             if (reinhardt.isflipped)
             {
                 al_draw_scaled_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, (aimdirection+3.1415)*active, 0);
