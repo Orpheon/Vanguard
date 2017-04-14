@@ -13,12 +13,22 @@ void ReinhardtShield::init(uint64_t id_, Gamestate &state, Team team_, EntityPtr
     aimdirection = 0;
     rechargecooldown.init(2);
     rechargecooldown.active = false;
+    brokencooldown.init(5);
+    brokencooldown.active = false;
 }
 
 void ReinhardtShield::midstep(Gamestate &state, double frametime)
 {
     Character &reinhardt = state.get<Player>(owner).getcharacter(state);
-    active = reinhardt.heldkeys.SECONDARY_FIRE;
+    if (not brokencooldown.active)
+    {
+        active = reinhardt.heldkeys.SECONDARY_FIRE;
+    }
+    else
+    {
+        active = false;
+    }
+    brokencooldown.update(state, frametime);
     rechargecooldown.update(state, frametime);
     if (active)
     {
@@ -26,10 +36,11 @@ void ReinhardtShield::midstep(Gamestate &state, double frametime)
         aimdirection = hammer.aimdirection;
         x = reinhardt.x + attachpoint_x() + DIST_TO_REINHARDT * std::cos(aimdirection);
         y = reinhardt.y + attachpoint_y() + DIST_TO_REINHARDT * std::sin(aimdirection);
+        rechargecooldown.reset();
     }
     else if (not rechargecooldown.active)
     {
-        hp = std::max(SHIELD_MAX_HP, hp+frametime*SHIELD_RECHARGE);
+        hp = std::min(SHIELD_MAX_HP, hp+frametime*SHIELD_RECHARGE);
     }
 }
 
@@ -113,6 +124,7 @@ void ReinhardtShield::interpolate(Entity &prev_entity, Entity &next_entity, doub
     {
         active = next_e.active;
     }
+    brokencooldown.interpolate(prev_e.brokencooldown, next_e.brokencooldown, alpha);
     rechargecooldown.interpolate(prev_e.rechargecooldown, next_e.rechargecooldown, alpha);
 
     // Angles need some care when interpolating

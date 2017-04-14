@@ -16,7 +16,8 @@ class ReinhardtShield : public Shield
         void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         bool collides(Gamestate &state, double testx, double testy) override;
         double maxdamageabledist(Gamestate &state, double *centerx, double *centery) override;
-        virtual bool damageableby(Team projectile_team) override {return team != projectile_team and active;}
+        bool damageableby(Team projectile_team) override {return team != projectile_team and active;}
+        void shieldbreak(Gamestate &state) override {brokencooldown.reset();}
         std::string spritestr();
 
         double attachpoint_x() {return 0;}
@@ -25,6 +26,7 @@ class ReinhardtShield : public Shield
         EntityPtr owner;
         bool active;
         Timer rechargecooldown;
+        Timer brokencooldown;
         double aimdirection;
         double SHIELD_RECHARGE = 195;
         double SHIELD_MAX_HP = 2000;

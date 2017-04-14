@@ -15,7 +15,7 @@ double Shield::damage(Gamestate &state, double amount)
     hp -= amount;
     if (hp <= 0)
     {
-        destroy(state);
+        shieldbreak(state);
     }
     return std::min(amount, oldhp);
 }

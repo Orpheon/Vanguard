@@ -3,3 +3,4 @@
 -Dieing is broken in multiplayer
 -src/renderer.cpp:    // TODO: ADD ANOTHER OPTIONS LIKE VSYNC
 -src/ingameelements/map.cpp:    // TODO this thing
+-Reinhardt shield position syncing needs to be done twice, once in step and once in endstep. This probably means something is broken if reinhardt is later than the shield.
