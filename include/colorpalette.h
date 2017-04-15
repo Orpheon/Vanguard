@@ -31,49 +31,37 @@ class ColorPalette {
 public:
     static ALLEGRO_COLOR get (Color color) {
         unsigned char colorindex = static_cast<unsigned char>(color);
-        if (colorindex < static_cast<unsigned char>(Color::COLOR_MAX))
+        if (colorindex >= static_cast<unsigned char>(Color::COLOR_MAX))
         {
-            return al_map_rgb(colorlist.at(colorindex).r,
-                              colorlist.at(colorindex).g,
-                              colorlist.at(colorindex).b );
+            Global::logging().panic(__FILE__, __LINE__, "Prefixed color index is not in range: Received index %d", colorindex);
         }
-        else
-        {
-            fprintf(stderr, "Prefixed color index is not in range! Received index: %d\n", colorindex);
-            throw -1;
-        }
+        return al_map_rgb(colorlist.at(colorindex).r,
+                          colorlist.at(colorindex).g,
+                          colorlist.at(colorindex).b );
     };
 
     static ALLEGRO_COLOR get (Color color, unsigned char alpha) {
         unsigned char colorindex = static_cast<unsigned char>(color);
-        if (colorindex < static_cast<unsigned char>(Color::COLOR_MAX))
+        if (colorindex >= static_cast<unsigned char>(Color::COLOR_MAX))
         {
-            return al_map_rgba(colorlist.at(colorindex).r,
-                               colorlist.at(colorindex).g,
-                               colorlist.at(colorindex).b,
-                               alpha);
+            Global::logging().panic(__FILE__, __LINE__, "Prefixed color index is not in range: Received index %d", colorindex);
         }
-        else
-        {
-            fprintf(stderr, "Prefixed color index is not in range!");
-            throw - 1;
-        }
+        return al_map_rgba(colorlist.at(colorindex).r,
+                           colorlist.at(colorindex).g,
+                           colorlist.at(colorindex).b,
+                           alpha);
     };
 
     static ALLEGRO_COLOR premul(Color color, unsigned char alpha) {
         unsigned char colorindex = static_cast<unsigned char>(color);
-        if (colorindex < static_cast<unsigned char>(Color::COLOR_MAX))
+        if (colorindex >= static_cast<unsigned char>(Color::COLOR_MAX))
         {
-            return al_premul_rgba(colorlist.at(colorindex).r,
-                                  colorlist.at(colorindex).g,
-                                  colorlist.at(colorindex).b,
-                                  alpha);
+            Global::logging().panic(__FILE__, __LINE__, "Prefixed color index is not in range: Received index %d", colorindex);
         }
-        else
-        {
-            fprintf(stderr, "Prefixed color index is not in range!");
-            throw - 1;
-        }
+        return al_premul_rgba(colorlist.at(colorindex).r,
+                              colorlist.at(colorindex).g,
+                              colorlist.at(colorindex).b,
+                              alpha);
     };
 
 private:

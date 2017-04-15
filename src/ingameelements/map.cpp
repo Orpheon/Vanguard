@@ -45,14 +45,13 @@ Map::Map(Gamestate &state, std::string name)
         }
         else
         {
-            fprintf(stderr, "Error: Gamemode is not in index!\n");
-            throw - 1;
+            // Be very careful with using %s here - if we ever allow server-sent maps this is a security vulnerability
+            Global::logging().panic(__FILE__, __LINE__, "Gamemode string in map json file is unknown.");
         }
     }
     else
     {
-        fprintf(stderr, "Error: Gamemode is not specified!\n");
-        throw -1;
+        Global::logging().panic(__FILE__, __LINE__, "Gamemode is not specified in map json file.");
     }
 
     if (state.gamemodemanager)
