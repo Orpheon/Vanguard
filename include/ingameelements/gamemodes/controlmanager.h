@@ -6,11 +6,11 @@
 class ControlManager : public GameModeManager
 {
 public:
-	virtual void serialize(WriteBuffer &buffer, Gamestate &state) override;
-	virtual void deserialize(ReadBuffer &buffer, Gamestate &state) override;
+    virtual void serialize(WriteBuffer &buffer, Gamestate &state) override;
+    virtual void deserialize(ReadBuffer &buffer, Gamestate &state) override;
 
-	Gamemode gamemode = Gamemode::CONTROL;
-	uint8_t teamscore[2] = { 0, 0 };
-	double teamcappingrate[2] = { 0, 0 };
-	EntityPtr controlpoint;
+    Gamemode gamemode = Gamemode::CONTROL;
+    uint8_t teamscore[2] = { 0, 0 };
+    double teamcappingrate[2] = { 0, 0 };
+    EntityPtr controlpoint;
 };

@@ -61,11 +61,11 @@ enum Team { TEAM1,
             NO_TEAM };
 
 enum class Gamemode {ASSAULT,
-					 ESCORT,
- 					 HYBRID,
-					 CONTROL,
-					 ARCADE,
-					 EVENT };
+                     ESCORT,
+                     HYBRID,
+                     CONTROL,
+                     ARCADE,
+                     EVENT };
 
 struct ReducedInputContainer
 {

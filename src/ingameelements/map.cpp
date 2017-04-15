@@ -29,42 +29,42 @@ Map::Map(Gamestate &state, std::string name)
     wallmask = al_load_bitmap((mapfolder + wm).c_str());
     al_lock_bitmap(wallmask, al_get_bitmap_format(wallmask), ALLEGRO_LOCK_READONLY);
     
-	// Load which game mode this map is
-	if (mapdata.find("gamemode") != mapdata.end())
-	{
-		std::string gamemodeString = mapdata["gamemode"]; // Gamemode is saved in string format
-		for (auto &c : gamemodeString) c = toupper(c);
+    // Load which game mode this map is
+    if (mapdata.find("gamemode") != mapdata.end())
+    {
+        std::string gamemodeString = mapdata["gamemode"]; // Gamemode is saved in string format
+        for (auto &c : gamemodeString) c = toupper(c);
 
-		if (gamemodeString == "CONTROL")
-		{
-			auto _gamemodemanager = std::make_shared<ControlManager>();
-			Rect cparea(mapdata["controlpoint"][0], mapdata["controlpoint"][1],
-						mapdata["controlpoint"][2], mapdata["controlpoint"][3]);
-			_gamemodemanager->controlpoint = state.make_entity<ControlPoint>(cparea, 0);
-			state.gamemodemanager = _gamemodemanager;
-		}
-		else
-		{
-			fprintf(stderr, "Error: Gamemode is not in index!\n");
-			throw - 1;
-		}
-	}
-	else
-	{
-		fprintf(stderr, "Error: Gamemode is not specified!\n");
-		throw -1;
-	}
+        if (gamemodeString == "CONTROL")
+        {
+            auto _gamemodemanager = std::make_shared<ControlManager>();
+            Rect cparea(mapdata["controlpoint"][0], mapdata["controlpoint"][1],
+                        mapdata["controlpoint"][2], mapdata["controlpoint"][3]);
+            _gamemodemanager->controlpoint = state.make_entity<ControlPoint>(cparea, 0);
+            state.gamemodemanager = _gamemodemanager;
+        }
+        else
+        {
+            fprintf(stderr, "Error: Gamemode is not in index!\n");
+            throw - 1;
+        }
+    }
+    else
+    {
+        fprintf(stderr, "Error: Gamemode is not specified!\n");
+        throw -1;
+    }
 
-	if (state.gamemodemanager)
-	{
-		// Load spawnroom
-		Rect area1(mapdata["spawnroom team 1"][0], mapdata["spawnroom team 1"][1],
-			mapdata["spawnroom team 1"][2], mapdata["spawnroom team 1"][3]);
-		Rect area2(mapdata["spawnroom team 2"][0], mapdata["spawnroom team 2"][1],
-			mapdata["spawnroom team 2"][2], mapdata["spawnroom team 2"][3]);
-		state.gamemodemanager->spawnrooms[TEAM1] = state.make_entity<Spawnroom>(area1, TEAM1);
-		state.gamemodemanager->spawnrooms[TEAM2] = state.make_entity<Spawnroom>(area2, TEAM2);
-	}
+    if (state.gamemodemanager)
+    {
+        // Load spawnroom
+        Rect area1(mapdata["spawnroom team 1"][0], mapdata["spawnroom team 1"][1],
+            mapdata["spawnroom team 1"][2], mapdata["spawnroom team 1"][3]);
+        Rect area2(mapdata["spawnroom team 2"][0], mapdata["spawnroom team 2"][1],
+            mapdata["spawnroom team 2"][2], mapdata["spawnroom team 2"][3]);
+        state.gamemodemanager->spawnrooms[TEAM1] = state.make_entity<Spawnroom>(area1, TEAM1);
+        state.gamemodemanager->spawnrooms[TEAM2] = state.make_entity<Spawnroom>(area2, TEAM2);
+    }
 }
 
 Map::~Map()
