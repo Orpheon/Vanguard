@@ -82,11 +82,7 @@ void Map::renderbackground(Renderer &renderer)
 
 void Map::renderwallground(Renderer &renderer)
 {
-<<<<<<< HEAD
     al_draw_scaled_bitmap(wallground, renderer.cam_x, renderer.cam_y, VIEWPORT_WIDTH, renderer.WINDOW_HEIGHT/renderer.zoom, 0, 0, renderer.WINDOW_WIDTH, renderer.WINDOW_HEIGHT, 0);
-=======
-    al_draw_scaled_bitmap(wallground, renderer->cam_x, renderer->cam_y, VIEWPORT_WIDTH, renderer->WINDOW_HEIGHT/renderer->zoom, 0, 0, renderer->WINDOW_WIDTH, renderer->WINDOW_HEIGHT, 0);
->>>>>>> a25a697d6b5b0f9dc5906b28a4369ff5482d3534
 }
 
 bool Map::collides(Rect r)
