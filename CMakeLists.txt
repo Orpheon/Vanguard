@@ -32,6 +32,7 @@ set (SRC_FILES
         "src/renderer.cpp"
         "src/entity.cpp"
         "src/configloader.cpp"
+	    "src/colorpalette.cpp"
         "src/networking/networker.cpp"
         "src/networking/buffer.cpp"
         "src/networking/servernetworker.cpp"
@@ -43,16 +44,22 @@ set (SRC_FILES
         "src/ingameelements/map.cpp"
         "src/ingameelements/character.cpp"
         "src/ingameelements/movingentity.cpp"
-        "src/ingameelements/spawnroom.cpp"
         "src/ingameelements/weapon.cpp"
         "src/ingameelements/clipweapon.cpp"
         "src/ingameelements/trail.cpp"
+        "src/ingameelements/weapon.cpp"
+        "src/ingameelements/clipweapon.cpp"
+        "src/ingameelements/trail.cpp"
+	    "src/ingameelements/gamemodes/controlmanager.cpp"
         "src/ingameelements/heroes/reinhardt.cpp"
         "src/ingameelements/heroes/mccree.cpp"
         "src/ingameelements/weapons/hammer.cpp"
         "src/ingameelements/weapons/peacemaker.cpp"
+        "src/ingameelements/weapons/reinhardtshield.cpp"
         "src/ingameelements/projectiles/flashbang.cpp"
-        src/ingameelements/shield.cpp include/ingameelements/shield.h include/global.h include/logging.h src/global.cpp src/ingameelements/weapons/reinhardtshield.cpp include/ingameelements/weapons/reinhardtshield.h)
+        "src/ingameelements/shield.cpp"
+        "src/mapelements/spawnroom.cpp"
+        "src/mapelements/controlpoint.cpp")
 
 SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${Vanguardcompileflags}" )
 SET( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${Vanguardlinkflags}" )

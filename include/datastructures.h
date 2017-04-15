@@ -60,6 +60,13 @@ enum Team { TEAM1,
             SPECTATOR,
             NO_TEAM };
 
+enum class Gamemode {ASSAULT,
+					 ESCORT,
+ 					 HYBRID,
+					 CONTROL,
+					 ARCADE,
+					 EVENT };
+
 struct ReducedInputContainer
 {
     public:

@@ -22,4 +22,3 @@ class Spawnroom : public Entity
     protected:
     private:
 };
-

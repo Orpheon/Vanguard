@@ -5,7 +5,7 @@
 #include "ingameelements/heroes/mccree.h"
 #include "ingameelements/heroes/reinhardt.h"
 #include "engine.h"
-#include "ingameelements/spawnroom.h"
+#include "mapelements/spawnroom.h"
 #include "global.h"
 
 void Player::init(uint64_t id_, Gamestate &state)
@@ -101,7 +101,7 @@ void Player::spawn(Gamestate &state)
         Global::logging().panic(__FILE__, __LINE__, "Player tried to spawn character with invalid class %i", heroclass);
     }
     Character &c = state.get<Character>(character);
-    Spawnroom &spawn = state.get<Spawnroom>(state.spawnrooms[team]);
+    Spawnroom &spawn = state.get<Spawnroom>(state.gamemodemanager->spawnrooms[team]);
     do
     {
         c.x = spawn.area.x + spawn.area.w*(rand()/(RAND_MAX+1.0));
