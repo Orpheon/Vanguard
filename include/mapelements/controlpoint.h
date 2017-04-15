@@ -30,7 +30,7 @@ public:
 	bool locked = true;
 	const int maxcap = 100;
 	double cpidletimer = 0;
-	double cappedamount = 0;
+	double cappedamount[2] = {0, 0};
 	Timer timer;
 private:
 };
