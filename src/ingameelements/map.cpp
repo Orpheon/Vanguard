@@ -17,7 +17,7 @@ Map::Map(Gamestate &state, std::string name)
     // Load the map data first
     std::string mapfolder = "maps/" + name + "/";
     ConfigLoader configloader;
-    mapdata = configloader.requestconfig("maps/" + name + ".json");
+    mapdata = configloader.requestconfig(mapfolder + ".json");
 
     // Load all the images
     std::string bg = mapdata["background"], wg = mapdata["wallmask foreground"], wm = mapdata["wallmask"];
