@@ -68,8 +68,15 @@ void ControlPoint::beginstep(Gamestate *state, double frametime)
 			if (presenceteam != cappingteam and presenceteam != SPECTATOR)
 			{
 				cpidletimer = 0;
-				cappedamount += 5 * frametime * teampresence[presenceteam];
-				if (cappedamount >= maxcap)
+				if (cappedamount[1 - presenceteam] > 0)
+				{
+					cappedamount[1 - presenceteam] -= 5 * frametime * teampresence[presenceteam];
+				}
+				else
+				{
+					cappedamount[presenceteam] += 5 * frametime * teampresence[presenceteam];
+				}
+				if (cappedamount[presenceteam] >= maxcap)
 				{
 					capture(presenceteam, state->gamemodemanager);
 				}
@@ -79,7 +86,18 @@ void ControlPoint::beginstep(Gamestate *state, double frametime)
 				// If no enemy is on point, decrease the capped rate
 				if (cpidletimer >= 5.0)
 				{
-					cappedamount = std::max(cappedamount - 5 * frametime, std::floor(3.0*cappedamount / maxcap)*maxcap / 3.0);
+					if (cappingteam != SPECTATOR)
+					{
+						cappedamount[TEAM1] = std::max(cappedamount[TEAM1] - 5 * frametime,
+															std::floor(3.0*cappedamount[TEAM1] / maxcap)*maxcap / 3.0);
+						cappedamount[TEAM2] = std::max(cappedamount[TEAM2] - 5 * frametime,
+															std::floor(3.0*cappedamount[TEAM2] / maxcap)*maxcap / 3.0);
+					}
+					else
+					{
+						cappedamount[TEAM1] = std::max(cappedamount[TEAM1] - 5 * frametime, 0.0);
+						cappedamount[TEAM2] = std::max(cappedamount[TEAM2] - 5 * frametime, 0.0);
+					}
 				}
 				else
 				{
@@ -144,14 +162,17 @@ void ControlPoint::render(Renderer *renderer, Gamestate *state)
 	al_draw_filled_circle(rel_x, rel_y, 30.0, cpColor_front);
 	al_draw_circle(rel_x, rel_y, 30.0, cpColor_front, 5);
 	al_draw_text(renderer->font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y - 20, ALLEGRO_ALIGN_CENTER, "A");
-	al_draw_text(renderer->font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y + 20, ALLEGRO_ALIGN_CENTER, std::to_string(cappedamount).c_str());
+	al_draw_text(renderer->font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y + 20, ALLEGRO_ALIGN_CENTER, std::to_string(cappedamount[TEAM1]).c_str());
+	al_draw_text(renderer->font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y + 40, ALLEGRO_ALIGN_CENTER, std::to_string(cappedamount[TEAM2]).c_str());
 }
 
 void ControlPoint::capture(Team cappedteam, std::shared_ptr<GameModeManager> gamemanager)
 {
 	cappingteam = cappedteam;
-	cappedamount = 0;
+	cappedamount[cappedteam] = 0;
+	cappedamount[1 - cappedteam] = 0;
 
+	/*
 	if (gamemanager->gamemode == Gamemode::CONTROL)
 	{
 		//
@@ -168,6 +189,7 @@ void ControlPoint::capture(Team cappedteam, std::shared_ptr<GameModeManager> gam
 		// Change things from Control to Escort
 
 	}
+	*/
 
 	// Send client about capture event if server
 }
