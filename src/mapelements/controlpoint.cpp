@@ -15,7 +15,7 @@ void ControlPoint::init(uint64_t id_, Rect area_, uint8_t cpindex_)
 	timer.init(5, std::bind(&ControlPoint::unlock, this));
 }
 
-void ControlPoint::beginstep(Gamestate *state, double frametime)
+void ControlPoint::beginstep(Gamestate &state, double frametime)
 {
 	if (!locked)
 	{
@@ -24,14 +24,17 @@ void ControlPoint::beginstep(Gamestate *state, double frametime)
 		teampresence[TEAM1] = 0;
 		teampresence[TEAM2] = 0;
 
-		for (auto pptr : state->playerlist)
+		for (auto pptr : state.playerlist)
 		{
-			Player *p = state->get<Player>(pptr);
-			Character *c = p->getcharacter(state);
-			if (c != 0 and isinside(c->x, c->y))
-			{
-				teampresence[p->team] += 1;
-			}
+			Player &p = state.get<Player>(pptr);
+			if (not state.exists(p.character))
+            {
+                Character &c = p.getcharacter(state);
+                if (isinside(c.x, c.y))
+                {
+                    teampresence[p.team] += 1;
+                }
+            }
 		}
 
 		if (teampresence[TEAM1] and teampresence[TEAM2])
@@ -78,7 +81,7 @@ void ControlPoint::beginstep(Gamestate *state, double frametime)
 				}
 				if (cappedamount[presenceteam] >= maxcap)
 				{
-					capture(presenceteam, state->gamemodemanager);
+					capture(presenceteam, state.gamemodemanager);
 				}
 			}
 			else
@@ -108,23 +111,23 @@ void ControlPoint::beginstep(Gamestate *state, double frametime)
 	}
 }
 
-void ControlPoint::midstep(Gamestate *state, double frametime)
+void ControlPoint::midstep(Gamestate &state, double frametime)
 {
 	timer.update(state, frametime);
 }
 
-void ControlPoint::render(Renderer *renderer, Gamestate *state)
+void ControlPoint::render(Renderer &renderer, Gamestate &state)
 {
 	// Find the center of CP area
-	double rel_x = (area.x + area.w/2 - renderer->cam_x)*renderer->zoom;
-	double rel_y = (area.y + area.h/2 - renderer->cam_y)*renderer->zoom;
+	double rel_x = (area.x + area.w/2 - renderer.cam_x)*renderer.zoom;
+	double rel_y = (area.y + area.h/2 - renderer.cam_y)*renderer.zoom;
 	Color cpcolor;
 	
 	if (cappingteam == SPECTATOR)
 	{
 		cpcolor = Color::CP;
 	}
-	else if (state->get<Player>(renderer->myself)->team != cappingteam)
+	else if (state.get<Player>(renderer.myself).team != cappingteam)
 	{
 		cpcolor = Color::ENEMY;
 	}
@@ -138,32 +141,32 @@ void ControlPoint::render(Renderer *renderer, Gamestate *state)
 	ALLEGRO_COLOR cpColor_back = ColorPalette::premul(cpcolor, 80);
 
 	// Draw CP Area
-	al_set_target_bitmap(renderer->surfaceground);
-	al_draw_line(rel_x - (area.w / 2)*renderer->zoom, rel_y + ((area.h / 2) - 10)*renderer->zoom,
-		rel_x + (area.w / 2)*renderer->zoom, rel_y + ((area.h / 2) - 10)*renderer->zoom,
+	al_set_target_bitmap(renderer.surfaceground);
+	al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
+		rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
 		cpColor_front, 5);
-	al_draw_line(rel_x - (area.w / 2)*renderer->zoom, rel_y + ((area.h / 2) - 10)*renderer->zoom,
-		rel_x + (area.w / 2)*renderer->zoom, rel_y + ((area.h / 2) - 10)*renderer->zoom,
+	al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
+		rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
 		cpColor_middle, 3);
 
-	al_set_target_bitmap(renderer->background);
-	al_draw_line(rel_x - (area.w / 2)*renderer->zoom, rel_y + ((area.h / 2) - 10)*renderer->zoom,
-		rel_x - (area.w / 2)*renderer->zoom, rel_y + ((area.h / 2) - 20)*renderer->zoom,
+	al_set_target_bitmap(renderer.background);
+	al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
+		rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
 		cpColor_middle, 3);
-	al_draw_line(rel_x + (area.w / 2)*renderer->zoom, rel_y + ((area.h / 2) - 10)*renderer->zoom,
-		rel_x + (area.w / 2)*renderer->zoom, rel_y + ((area.h / 2) - 20)*renderer->zoom,
+	al_draw_line(rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
+		rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
 		cpColor_middle, 3);
 
-	al_draw_line(rel_x - (area.w / 2)*renderer->zoom, rel_y + ((area.h / 2) - 20)*renderer->zoom,
-		rel_x + (area.w / 2)*renderer->zoom, rel_y + ((area.h / 2) - 20)*renderer->zoom,
+	al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
+		rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
 		cpColor_back, 3);
 
 	// Draw CP Bubble 
 	al_draw_filled_circle(rel_x, rel_y, 30.0, cpColor_front);
 	al_draw_circle(rel_x, rel_y, 30.0, cpColor_front, 5);
-	al_draw_text(renderer->font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y - 20, ALLEGRO_ALIGN_CENTER, "A");
-	al_draw_text(renderer->font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y + 20, ALLEGRO_ALIGN_CENTER, std::to_string(cappedamount[TEAM1]).c_str());
-	al_draw_text(renderer->font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y + 40, ALLEGRO_ALIGN_CENTER, std::to_string(cappedamount[TEAM2]).c_str());
+	al_draw_text(renderer.font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y - 20, ALLEGRO_ALIGN_CENTER, "A");
+	al_draw_text(renderer.font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y + 20, ALLEGRO_ALIGN_CENTER, std::to_string(cappedamount[TEAM1]).c_str());
+	al_draw_text(renderer.font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y + 40, ALLEGRO_ALIGN_CENTER, std::to_string(cappedamount[TEAM2]).c_str());
 }
 
 void ControlPoint::capture(Team cappedteam, std::shared_ptr<GameModeManager> gamemanager)
