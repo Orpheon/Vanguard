@@ -7,7 +7,7 @@
 #include "entity.h"
 #include "ingameelements/player.h"
 #include "ingameelements/projectile.h"
-#include "ingameelements/spawnroom.h"
+#include "mapelements/spawnroom.h"
 
 Gamestate::Gamestate(Engine &engine_) : entitylist(), playerlist(), currentmap(), engine(engine_), entityidcounter(1)
 {
@@ -56,7 +56,6 @@ void Gamestate::update(double frametime)
         }
     }
 }
-
 
 EntityPtr Gamestate::addplayer()
 {
@@ -177,7 +176,7 @@ EntityPtr Gamestate::collidelinetarget(Gamestate &state, double x1, double y1, M
     for (int i=0; i<nsteps; ++i)
     {
         if ((not (penlevel & PENETRATE_WALLMASK)) and (currentmap->testpixel(*collisionptx, *collisionpty) or
-            get<Spawnroom>(spawnrooms[team]).isinside(*collisionptx, *collisionpty)))
+            get<Spawnroom>(gamemodemanager->spawnrooms[team]).isinside(*collisionptx, *collisionpty)))
         {
             // We hit wallmask or went out of bounds or hit enemy spawnroom
             return EntityPtr(0);
@@ -214,7 +213,7 @@ EntityPtr Gamestate::collidelinedamageable(Gamestate &state, double x1, double y
     *collisionpty = y1;
     for (int i=0; i<nsteps; ++i)
     {
-        if (currentmap->testpixel(*collisionptx, *collisionpty) or get<Spawnroom>(spawnrooms[not team]).isinside(*collisionptx, *collisionpty))
+        if (currentmap->testpixel(*collisionptx, *collisionpty) or get<Spawnroom>(gamemodemanager->spawnrooms[not team]).isinside(*collisionptx, *collisionpty))
         {
             // We hit wallmask or went out of bounds or hit enemy spawnroom
             return EntityPtr(0);
