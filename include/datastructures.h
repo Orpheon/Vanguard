@@ -54,6 +54,13 @@ enum Team { TEAM1,
             TEAM2,
             SPECTATOR };
 
+enum class Gamemode {ASSAULT,
+					 ESCORT,
+ 					 HYBRID,
+					 CONTROL,
+					 ARCADE,
+					 EVENT };
+
 struct ReducedInputContainer
 {
     public:
@@ -186,4 +193,3 @@ struct Rect
     Rect(double x_, double y_, double w_, double h_) : x(x_), y(y_), w(w_), h(h_) {}
     Rect offset(double x_, double y_) {return Rect(x+x_, y+y_, w, h);}
 };
-
