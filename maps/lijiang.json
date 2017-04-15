@@ -1,7 +1,9 @@
 {
+	"gamemode": "CONTROL",
     "background": "lijiang.png",
     "wallmask": "lijiang_wm.png",
     "wallmask foreground": "lijiang_wm.png",
     "spawnroom team 1": [165, 752, 339, 295],
-    "spawnroom team 2": [3342, 752, 339, 295]
+    "spawnroom team 2": [3342, 752, 339, 295],
+	"controlpoint": [1788, 942, 270, 198]
 }
