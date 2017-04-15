@@ -8,6 +8,7 @@
 #include "datastructures.h"
 #include "ingameelements/player.h"
 #include "ingameelements/character.h"
+#include "ingameelements/gamemodes/gamemodemanager.h"
 
 // Circular reference
 class Engine;
@@ -58,9 +59,9 @@ class Gamestate
         Gamestate & operator=(Gamestate &&)=default;
 
         double time;
-        std::shared_ptr<Map> currentmap;
-        EntityPtr spawnrooms[2];
-        Engine *engine;
+		std::shared_ptr<Map> currentmap;
+		Engine *engine;
+		std::shared_ptr<GameModeManager> gamemodemanager;
     protected:
     private:
         uint64_t entityidcounter;
