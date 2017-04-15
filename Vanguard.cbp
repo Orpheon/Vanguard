@@ -107,6 +107,9 @@
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/gamestate.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
+		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/global.cpp">
+			<Option target="Vanguard"/>
+		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/character.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
