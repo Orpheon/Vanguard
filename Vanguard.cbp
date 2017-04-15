@@ -86,22 +86,13 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/orpheon/Programming/C++/Vanguard/include/global.h">
-			<Option target="Vanguard"/>
-		</Unit>
-		<Unit filename="/home/orpheon/Programming/C++/Vanguard/include/ingameelements/shield.h">
-			<Option target="Vanguard"/>
-		</Unit>
-		<Unit filename="/home/orpheon/Programming/C++/Vanguard/include/ingameelements/weapons/reinhardtshield.h">
-			<Option target="Vanguard"/>
-		</Unit>
-		<Unit filename="/home/orpheon/Programming/C++/Vanguard/include/logging.h">
-			<Option target="Vanguard"/>
-		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/main.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/animation.cpp">
+			<Option target="Vanguard"/>
+		</Unit>
+		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/colorpalette.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/configloader.cpp">
@@ -116,9 +107,6 @@
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/gamestate.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
-		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/global.cpp">
-			<Option target="Vanguard"/>
-		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/character.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
@@ -129,6 +117,9 @@
 			<Option target="Vanguard"/>
 		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/explosion.cpp">
+			<Option target="Vanguard"/>
+		</Unit>
+		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/gamemodes/controlmanager.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/heroes/mccree.cpp">
@@ -155,9 +146,6 @@
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/shield.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
-		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/spawnroom.cpp">
-			<Option target="Vanguard"/>
-		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/trail.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
@@ -177,6 +165,12 @@
 			<Option target="Vanguard"/>
 		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/mainmenu.cpp">
+			<Option target="Vanguard"/>
+		</Unit>
+		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/mapelements/controlpoint.cpp">
+			<Option target="Vanguard"/>
+		</Unit>
+		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/mapelements/spawnroom.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/networking/buffer.cpp">
