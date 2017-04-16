@@ -101,7 +101,7 @@ void Player::spawn(Gamestate &state)
         Global::logging().panic(__FILE__, __LINE__, "Player tried to spawn character with invalid class %i", heroclass);
     }
     Character &c = state.get<Character>(character);
-    Spawnroom &spawn = state.get<Spawnroom>(state.gamemodemanager->spawnrooms[team]);
+    Spawnroom &spawn = state.currentmap->spawnroom(state, team);
     do
     {
         c.x = spawn.area.x + spawn.area.w*(rand()/(RAND_MAX+1.0));

@@ -176,7 +176,7 @@ EntityPtr Gamestate::collidelinetarget(Gamestate &state, double x1, double y1, M
     for (int i=0; i<nsteps; ++i)
     {
         if ((not (penlevel & PENETRATE_WALLMASK)) and (currentmap->testpixel(*collisionptx, *collisionpty) or
-            get<Spawnroom>(gamemodemanager->spawnrooms[team]).isinside(*collisionptx, *collisionpty)))
+            currentmap->spawnroom(state, team).isinside(*collisionptx, *collisionpty)))
         {
             // We hit wallmask or went out of bounds or hit enemy spawnroom
             return EntityPtr(0);
@@ -211,9 +211,10 @@ EntityPtr Gamestate::collidelinedamageable(Gamestate &state, double x1, double y
     double dx = static_cast<double>(x2-x1)/nsteps, dy = static_cast<double>(y2-y1)*1.0/nsteps;
     *collisionptx = x1;
     *collisionpty = y1;
+    Team enemyteam = team == TEAM1 ? TEAM2 : TEAM1;
     for (int i=0; i<nsteps; ++i)
     {
-        if (currentmap->testpixel(*collisionptx, *collisionpty) or get<Spawnroom>(gamemodemanager->spawnrooms[not team]).isinside(*collisionptx, *collisionpty))
+        if (currentmap->testpixel(*collisionptx, *collisionpty) or currentmap->spawnroom(state, enemyteam).isinside(*collisionptx, *collisionpty))
         {
             // We hit wallmask or went out of bounds or hit enemy spawnroom
             return EntityPtr(0);

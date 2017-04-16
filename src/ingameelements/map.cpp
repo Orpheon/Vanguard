@@ -34,9 +34,8 @@ Map::Map(Gamestate &state, std::string name)
         Global::logging().panic(__FILE__, __LINE__, "%s does not have proper gamemode data", mapfolder+"mapdata.json");
     }
 
-    for (int i=0; i<mapdata["gamemodes"].size(); ++i)
+    for (nlohmann::json gamemode : mapdata["gamemodes"])
     {
-        nlohmann::json gamemode = mapdata["gamemodes"][i];
         if (gamemode["type"] == "KOTH")
         {
             Rect cparea(gamemode["cp"][0], gamemode["cp"][1], gamemode["cp"][2], gamemode["cp"][3]);
@@ -44,14 +43,14 @@ Map::Map(Gamestate &state, std::string name)
                             gamemode["spawn 1"][2], gamemode["spawn 1"][3]);
             Rect spawnarea2(gamemode["spawn 2"][0], gamemode["spawn 2"][1],
                             gamemode["spawn 2"][2], gamemode["spawn 2"][3]);
-            gamemodes[i] = KothManager();
-            static_cast<KothManager&>(gamemodes[i]).init(spawnarea1, spawnarea2, cparea);
+            gamemodes.push_back(state.make_entity<KothManager>(spawnarea1, spawnarea2, cparea));
         }
         else
         {
             Global::logging().panic(__FILE__, __LINE__, "Unknown gamemode %s", gamemode["type"]);
         }
     }
+    currentgamemode(state).activate(state, std::bind(&Map::gotonextgamemode, this, std::placeholders::_1, std::placeholders::_2));
 }
 
 Map::~Map()
@@ -116,4 +115,28 @@ bool Map::collideline(double x1, double y1, double x2, double y2)
         x1 += dx; y1 += dy;
     }
     return false;
+}
+
+Spawnroom& Map::spawnroom(Gamestate &state, Team team)
+{
+    return state.get<Spawnroom>(currentgamemode(state).spawnrooms.at(team));
+}
+
+GamemodeManager& Map::currentgamemode(Gamestate &state)
+{
+    return state.get<GamemodeManager>(gamemodes.front());
+}
+
+void Map::gotonextgamemode(Gamestate &state, Team winners)
+{
+    currentgamemode(state).destroy(state);
+    gamemodes.pop_front();
+    if (gamemodes.size() == 0)
+    {
+        Global::logging().print(__FILE__, __LINE__, "Map is over, won by %i", winners);
+    }
+    else
+    {
+        currentgamemode(state).activate(state, std::bind(&Map::gotonextgamemode, this, std::placeholders::_1, std::placeholders::_2));
+    }
 }
