@@ -110,7 +110,7 @@ bool Map::collides(double rotx, double roty, std::string spriteid, double angle)
 
 bool Map::collideline(double x1, double y1, double x2, double y2)
 {
-    int mapw = width(), maph = height();
+    double mapw = width(), maph = height();
     if (x1 < 0 or y1 < 0 or x2 < 0 or y2 < 0 or x1 > mapw or x2 > mapw or y1 > maph or y2 > maph)
     {
         return true;

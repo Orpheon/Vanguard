@@ -32,10 +32,11 @@ void ControlPoint::beginstep(Gamestate &state, double frametime)
             Character &c = p.getcharacter(state);
             if (isinside(c.x, c.y))
             {
-                if (p.team == cappingteam or capamount.getpercent() == 0)
+                if (p.team == cappingteam or (capamount.getpercent() == 0 and p.team != owningteam))
                 {
                     capping = true;
                     ++nplayerscapping;
+                    cappingteam = p.team;
                 }
                 else
                 {
