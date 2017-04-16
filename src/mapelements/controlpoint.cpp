@@ -141,7 +141,7 @@ void ControlPoint::render(Renderer &renderer, Gamestate &state)
     ALLEGRO_COLOR cpColor_back = ColorPalette::premul(cpcolor, 80);
 
     // Draw CP Area
-    al_set_target_bitmap(renderer.surfaceground);
+    al_set_target_bitmap(renderer.foreground);
     al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
         rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
         cpColor_front, 5);
@@ -165,8 +165,6 @@ void ControlPoint::render(Renderer &renderer, Gamestate &state)
     al_draw_filled_circle(rel_x, rel_y, 30.0, cpColor_front);
     al_draw_circle(rel_x, rel_y, 30.0, cpColor_front, 5);
     al_draw_text(renderer.font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y - 20, ALLEGRO_ALIGN_CENTER, "A");
-    al_draw_text(renderer.font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y + 20, ALLEGRO_ALIGN_CENTER, std::to_string(cappedamount[TEAM1]).c_str());
-    al_draw_text(renderer.font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y + 40, ALLEGRO_ALIGN_CENTER, std::to_string(cappedamount[TEAM2]).c_str());
 }
 
 void ControlPoint::capture(Team cappedteam, std::shared_ptr<GameModeManager> gamemanager)
