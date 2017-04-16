@@ -4,6 +4,7 @@
 #include "ingameelements/movingentity.h"
 #include "ingameelements/character.h"
 #include "json.hpp"
+#include "ingameelements/gamemodes/gamemodemanager.h"
 
 #include <allegro5/allegro.h>
 #include <string>
@@ -27,5 +28,6 @@ class Map
         ALLEGRO_BITMAP *wallground;
         ALLEGRO_BITMAP *wallmask;
         nlohmann::json mapdata;
+        std::vector<GamemodeManager> gamemodes;
 };
 

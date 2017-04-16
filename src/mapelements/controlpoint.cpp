@@ -3,117 +3,69 @@
 #include "renderer.h"
 #include "colorpalette.h"
 
-#include "ingameelements/gamemodes/controlmanager.h"
+#include "ingameelements/gamemodes/kothmanager.h"
 
 #include <allegro5/allegro_primitives.h>
 
-void ControlPoint::init(uint64_t id_, Rect area_, uint8_t cpindex_)
+void ControlPoint::init(uint64_t id_, Rect area_, Team owningteam_, std::function<void(Gamestate &state, Team winningteam)> capturefunc_)
 {
     Entity::init(id_);
     area = area_;
-    cpindex = cpindex_;
-    timer.init(5, std::bind(&ControlPoint::unlock, this));
+    capturefunc = capturefunc_;
+    capamount.init(MAXCAP, std::bind(&ControlPoint::capture, this, std::placeholders::_1));
+    capfalloff.init(5);
+    owningteam = owningteam_;
+    cappingteam = NO_TEAM;
 }
 
 void ControlPoint::beginstep(Gamestate &state, double frametime)
 {
-    if (!locked)
+    bool capping = false;
+    int nplayerscapping = 0;
+    bool capblocked = false;
+
+    for (auto &pptr : state.playerlist)
     {
-        bool bothteamonpoint = false;
-        uint8_t teampresence[2];
-        teampresence[TEAM1] = 0;
-        teampresence[TEAM2] = 0;
-
-        for (auto pptr : state.playerlist)
+        Player &p = state.get<Player>(pptr);
+        if (state.exists(p.character))
         {
-            Player &p = state.get<Player>(pptr);
-            if (not state.exists(p.character))
+            Character &c = p.getcharacter(state);
+            if (isinside(c.x, c.y))
             {
-                Character &c = p.getcharacter(state);
-                if (isinside(c.x, c.y))
+                if (p.team == cappingteam or capamount.getpercent() == 0)
                 {
-                    teampresence[p.team] += 1;
-                }
-            }
-        }
-
-        if (teampresence[TEAM1] and teampresence[TEAM2])
-        {
-            bothteamonpoint = true;
-        }
-
-        Team presenceteam;
-        if (teampresence[TEAM1] or teampresence[TEAM2])
-        {
-            if (bothteamonpoint)
-            {
-                presenceteam = SPECTATOR;
-            }
-            else
-            {
-                if      (teampresence[TEAM1] > 0) { presenceteam = TEAM1; }
-                else if (teampresence[TEAM2] > 0) { presenceteam = TEAM2; }
-                else                              { presenceteam = SPECTATOR; }
-            }
-        }
-        else
-        {
-            presenceteam = SPECTATOR;
-        }
-
-        if (bothteamonpoint)
-        {
-            cpidletimer = 0;
-            // TODO: Make HUD to show "Contesting"
-        }
-        else
-        {
-            if (presenceteam != cappingteam and presenceteam != SPECTATOR)
-            {
-                cpidletimer = 0;
-                if (cappedamount[1 - presenceteam] > 0)
-                {
-                    cappedamount[1 - presenceteam] -= 5 * frametime * teampresence[presenceteam];
+                    capping = true;
+                    ++nplayerscapping;
                 }
                 else
                 {
-                    cappedamount[presenceteam] += 5 * frametime * teampresence[presenceteam];
-                }
-                if (cappedamount[presenceteam] >= maxcap)
-                {
-                    capture(presenceteam, state.gamemodemanager);
-                }
-            }
-            else
-            {
-                // If no enemy is on point, decrease the capped rate
-                if (cpidletimer >= 5.0)
-                {
-                    if (cappingteam != SPECTATOR)
-                    {
-                        cappedamount[TEAM1] = std::max(cappedamount[TEAM1] - 5 * frametime,
-                                                            std::floor(3.0*cappedamount[TEAM1] / maxcap)*maxcap / 3.0);
-                        cappedamount[TEAM2] = std::max(cappedamount[TEAM2] - 5 * frametime,
-                                                            std::floor(3.0*cappedamount[TEAM2] / maxcap)*maxcap / 3.0);
-                    }
-                    else
-                    {
-                        cappedamount[TEAM1] = std::max(cappedamount[TEAM1] - 5 * frametime, 0.0);
-                        cappedamount[TEAM2] = std::max(cappedamount[TEAM2] - 5 * frametime, 0.0);
-                    }
-                }
-                else
-                {
-                    cpidletimer += frametime;
+                    capblocked = true;
                 }
             }
         }
     }
-}
 
-void ControlPoint::midstep(Gamestate &state, double frametime)
-{
-    timer.update(state, frametime);
+    capfalloff.update(state, frametime);
+
+    if (capping)
+    {
+        if (capblocked)
+        {
+            // TODO: "Contesting" HUD
+        }
+        else
+        {
+            capamount.update(state, CAPRATE * frametime * std::min(nplayerscapping, 3));
+        }
+        capfalloff.reset();
+    }
+
+    if (not capfalloff.active)
+    {
+        // No-one of the capping team has touched the point in a while,
+        // point capture should degenerate to the latest third
+        capamount.timer = std::max(capamount.timer - CAPDEGEN*frametime, std::floor(capamount.timer * 3.0/MAXCAP) * MAXCAP/3.0);
+    }
 }
 
 void ControlPoint::render(Renderer &renderer, Gamestate &state)
@@ -123,17 +75,17 @@ void ControlPoint::render(Renderer &renderer, Gamestate &state)
     double rel_y = (area.y + area.h/2 - renderer.cam_y)*renderer.zoom;
     Color cpcolor;
     
-    if (cappingteam == SPECTATOR)
+    if (owningteam == NO_TEAM)
     {
         cpcolor = Color::CP;
     }
-    else if (state.get<Player>(renderer.myself).team != cappingteam)
+    else if (state.get<Player>(renderer.myself).team == owningteam)
     {
-        cpcolor = Color::ENEMY;
+        cpcolor = Color::ALLY;
     }
     else
     {
-        cpcolor = Color::ALLY;
+        cpcolor = Color::ENEMY;
     }
 
     ALLEGRO_COLOR cpColor_front = ColorPalette::premul(cpcolor, 200);
@@ -165,42 +117,4 @@ void ControlPoint::render(Renderer &renderer, Gamestate &state)
     al_draw_filled_circle(rel_x, rel_y, 30.0, cpColor_front);
     al_draw_circle(rel_x, rel_y, 30.0, cpColor_front, 5);
     al_draw_text(renderer.font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y - 20, ALLEGRO_ALIGN_CENTER, "A");
-}
-
-void ControlPoint::capture(Team cappedteam, std::shared_ptr<GameModeManager> gamemanager)
-{
-    cappingteam = cappedteam;
-    cappedamount[cappedteam] = 0;
-    cappedamount[1 - cappedteam] = 0;
-
-    /*
-    if (gamemanager->gamemode == Gamemode::CONTROL)
-    {
-        //
-    }
-    else if (gamemanager->gamemode == Gamemode::ASSAULT)
-    {
-        lock();
-        // Unlock next CP
-        // gameManager->controlPoints.next().unlock();
-    }
-    else if (gamemanager->gamemode == Gamemode::HYBRID)
-    {
-        lock();
-        // Change things from Control to Escort
-
-    }
-    */
-
-    // Send client about capture event if server
-}
-
-void ControlPoint::lock()
-{
-    locked = true;
-}
-
-void ControlPoint::unlock()
-{
-    locked = false;
 }

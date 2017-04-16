@@ -50,7 +50,6 @@ set (SRC_FILES
         "src/ingameelements/clipweapon.cpp"
         "src/ingameelements/trail.cpp"
         "src/ingameelements/shield.cpp"
-        "src/ingameelements/gamemodes/controlmanager.cpp"
         "src/ingameelements/heroes/reinhardt.cpp"
         "src/ingameelements/heroes/mccree.cpp"
         "src/ingameelements/weapons/hammer.cpp"
@@ -58,7 +57,9 @@ set (SRC_FILES
         "src/ingameelements/weapons/reinhardtshield.cpp"
         "src/ingameelements/projectiles/flashbang.cpp"
         "src/mapelements/spawnroom.cpp"
-        "src/mapelements/controlpoint.cpp")
+        "src/mapelements/controlpoint.cpp"
+        "src/ingameelements/gamemodes/kothmanager.cpp"
+        "src/ingameelements/gamemodes/gamemodemanager.cpp")
 
 SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${Vanguardcompileflags}" )
 SET( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${Vanguardlinkflags}" )

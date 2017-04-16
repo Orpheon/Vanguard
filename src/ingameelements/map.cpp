@@ -10,7 +10,7 @@
 #include "renderer.h"
 #include "configloader.h"
 #include "ingameelements/gamemodes/gamemodemanager.h"
-#include "ingameelements/gamemodes/controlmanager.h"
+#include "ingameelements/gamemodes/kothmanager.h"
 
 Map::Map(Gamestate &state, std::string name)
 {
@@ -28,41 +28,29 @@ Map::Map(Gamestate &state, std::string name)
     al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
     wallmask = al_load_bitmap((mapfolder + wm).c_str());
     al_lock_bitmap(wallmask, al_get_bitmap_format(wallmask), ALLEGRO_LOCK_READONLY);
-    
-    // Load which game mode this map is
-    if (mapdata.find("gamemode") != mapdata.end())
-    {
-        std::string gamemodeString = mapdata["gamemode"]; // Gamemode is saved in string format
-        for (auto &c : gamemodeString) c = toupper(c);
 
-        if (gamemodeString == "CONTROL")
+    if (mapdata.find("gamemodes") == mapdata.end())
+    {
+        Global::logging().panic(__FILE__, __LINE__, "%s does not have proper gamemode data", mapfolder+"mapdata.json");
+    }
+
+    for (int i=0; i<mapdata["gamemodes"].size(); ++i)
+    {
+        nlohmann::json gamemode = mapdata["gamemodes"][i];
+        if (gamemode["type"] == "KOTH")
         {
-            auto _gamemodemanager = std::make_shared<ControlManager>();
-            Rect cparea(mapdata["controlpoint"][0], mapdata["controlpoint"][1],
-                        mapdata["controlpoint"][2], mapdata["controlpoint"][3]);
-            _gamemodemanager->controlpoint = state.make_entity<ControlPoint>(cparea, 0);
-            state.gamemodemanager = _gamemodemanager;
+            Rect cparea(gamemode["cp"][0], gamemode["cp"][1], gamemode["cp"][2], gamemode["cp"][3]);
+            Rect spawnarea1(gamemode["spawn 1"][0], gamemode["spawn 1"][1],
+                            gamemode["spawn 1"][2], gamemode["spawn 1"][3]);
+            Rect spawnarea2(gamemode["spawn 2"][0], gamemode["spawn 2"][1],
+                            gamemode["spawn 2"][2], gamemode["spawn 2"][3]);
+            gamemodes[i] = KothManager();
+            static_cast<KothManager&>(gamemodes[i]).init(spawnarea1, spawnarea2, cparea);
         }
         else
         {
-            // Be very careful with using %s here - if we ever allow server-sent maps this is a security vulnerability
-            Global::logging().panic(__FILE__, __LINE__, "Gamemode string in map json file is unknown.");
+            Global::logging().panic(__FILE__, __LINE__, "Unknown gamemode %s", gamemode["type"]);
         }
-    }
-    else
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Gamemode is not specified in map json file.");
-    }
-
-    if (state.gamemodemanager)
-    {
-        // Load spawnroom
-        Rect area1(mapdata["spawnroom team 1"][0], mapdata["spawnroom team 1"][1],
-            mapdata["spawnroom team 1"][2], mapdata["spawnroom team 1"][3]);
-        Rect area2(mapdata["spawnroom team 2"][0], mapdata["spawnroom team 2"][1],
-            mapdata["spawnroom team 2"][2], mapdata["spawnroom team 2"][3]);
-        state.gamemodemanager->spawnrooms[TEAM1] = state.make_entity<Spawnroom>(area1, TEAM1);
-        state.gamemodemanager->spawnrooms[TEAM2] = state.make_entity<Spawnroom>(area2, TEAM2);
     }
 }
 

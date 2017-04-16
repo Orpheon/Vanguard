@@ -77,7 +77,7 @@ class Gamestate
         double time;
         std::shared_ptr<Map> currentmap;
         Engine &engine;
-        std::shared_ptr<GameModeManager> gamemodemanager;
+        std::shared_ptr<GamemodeManager> gamemodemanager;
     protected:
     private:
         uint64_t entityidcounter;
