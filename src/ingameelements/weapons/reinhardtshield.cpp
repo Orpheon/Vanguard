@@ -32,10 +32,6 @@ void ReinhardtShield::midstep(Gamestate &state, double frametime)
     rechargecooldown.update(state, frametime);
     if (active)
     {
-        Weapon &hammer = reinhardt.getweapon(state);
-        aimdirection = hammer.aimdirection;
-        x = reinhardt.x + attachpoint_x() + DIST_TO_REINHARDT * std::cos(aimdirection);
-        y = reinhardt.y + attachpoint_y() + DIST_TO_REINHARDT * std::sin(aimdirection);
         rechargecooldown.reset();
     }
     else if (not rechargecooldown.active)
@@ -49,13 +45,10 @@ void ReinhardtShield::endstep(Gamestate &state, double frametime)
     Shield::endstep(state, frametime);
 
     Character &reinhardt = state.get<Player>(owner).getcharacter(state);
-    if (active)
-    {
-        Weapon &hammer = reinhardt.getweapon(state);
-        aimdirection = hammer.aimdirection;
-        x = reinhardt.x + attachpoint_x() + DIST_TO_REINHARDT * std::cos(aimdirection);
-        y = reinhardt.y + attachpoint_y() + DIST_TO_REINHARDT * std::sin(aimdirection);
-    }
+    Weapon &hammer = reinhardt.getweapon(state);
+    aimdirection = hammer.aimdirection;
+    x = reinhardt.x + attachpoint_x() + DIST_TO_REINHARDT * std::cos(aimdirection);
+    y = reinhardt.y + attachpoint_y() + DIST_TO_REINHARDT * std::sin(aimdirection);
 }
 
 void ReinhardtShield::render(Renderer &renderer, Gamestate &state)
@@ -83,11 +76,11 @@ void ReinhardtShield::render(Renderer &renderer, Gamestate &state)
             al_set_target_bitmap(renderer.midground);
             if (reinhardt.isflipped)
             {
-                al_draw_scaled_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, (aimdirection+3.1415)*active, 0);
+                al_draw_scaled_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, aimdirection+3.1415, 0);
             }
             else
             {
-                al_draw_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, aimdirection*active, 0);
+                al_draw_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, aimdirection, 0);
             }
         }
     }
