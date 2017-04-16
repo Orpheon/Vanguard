@@ -31,13 +31,25 @@ Map::Map(Gamestate &state, std::string name)
 
     if (mapdata.find("gamemodes") == mapdata.end())
     {
-        Global::logging().panic(__FILE__, __LINE__, "%s does not have proper gamemode data", mapfolder+"mapdata.json");
+        Global::logging().panic(__FILE__, __LINE__, "%s does not have proper gamemode data", (mapfolder+"mapdata.json").c_str());
     }
 
     for (nlohmann::json gamemode : mapdata["gamemodes"])
     {
         if (gamemode["type"] == "KOTH")
         {
+            if (gamemode.find("cp") == gamemode.end())
+            {
+                Global::logging().panic(__FILE__, __LINE__, "%s koth gamemode does not have a cp field.", (mapfolder+"mapdata.json").c_str());
+            }
+            if (gamemode.find("spawn 1") == gamemode.end())
+            {
+                Global::logging().panic(__FILE__, __LINE__, "%s koth gamemode does not have a spawn 1 field.", (mapfolder+"mapdata.json").c_str());
+            }
+            if (gamemode.find("spawn 2") == gamemode.end())
+            {
+                Global::logging().panic(__FILE__, __LINE__, "%s koth gamemode does not have a spawn 2 field.", (mapfolder+"mapdata.json").c_str());
+            }
             Rect cparea(gamemode["cp"][0], gamemode["cp"][1], gamemode["cp"][2], gamemode["cp"][3]);
             Rect spawnarea1(gamemode["spawn 1"][0], gamemode["spawn 1"][1],
                             gamemode["spawn 1"][2], gamemode["spawn 1"][3]);

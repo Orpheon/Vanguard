@@ -118,3 +118,23 @@ void ControlPoint::render(Renderer &renderer, Gamestate &state)
     al_draw_circle(rel_x, rel_y, 30.0, cpColor_front, 5);
     al_draw_text(renderer.font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y - 20, ALLEGRO_ALIGN_CENTER, "A");
 }
+
+void ControlPoint::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
+{
+    ControlPoint &prev_e = static_cast<ControlPoint&>(prev_entity);
+    ControlPoint &next_e = static_cast<ControlPoint&>(next_entity);
+
+    if (alpha < 0.5)
+    {
+        owningteam = prev_e.owningteam;
+        cappingteam = prev_e.cappingteam;
+    }
+    else
+    {
+        owningteam = next_e.owningteam;
+        cappingteam = next_e.cappingteam;
+    }
+
+    capamount.interpolate(prev_e.capamount, next_e.capamount, alpha);
+    capfalloff.interpolate(prev_e.capfalloff, next_e.capfalloff, alpha);
+}

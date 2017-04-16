@@ -5,3 +5,4 @@
 -src/ingameelements/map.cpp:    // TODO this thing
 -Reinhardt shield position syncing needs to be done twice, once in step and once in endstep. This probably means something is broken if reinhardt is later than the shield.
 -if configloader is given a nonexistent json path, it just hangs without error message. This needs to be fixed.
+-controlpoint networking

@@ -20,8 +20,8 @@ class ControlPoint : public Entity
         virtual void endstep(Gamestate &state, double frametime) override {}
         virtual void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         virtual void capture(Gamestate &state) {capturefunc(state, cappingteam);}
-        virtual void serialize(WriteBuffer &buffer, Gamestate &state);
-        virtual void deserialize(ReadBuffer &buffer, Gamestate &state);
+        virtual void serialize(WriteBuffer &buffer, Gamestate &state) {};
+        virtual void deserialize(ReadBuffer &buffer, Gamestate &state) {};
 
         std::function<void(Gamestate &state, Team winningteam)> capturefunc;
         Rect area;
