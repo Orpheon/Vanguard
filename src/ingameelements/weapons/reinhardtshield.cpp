@@ -128,9 +128,9 @@ void ReinhardtShield::interpolate(Entity &prev_entity, Entity &next_entity, doub
     rechargecooldown.interpolate(prev_e.rechargecooldown, next_e.rechargecooldown, alpha);
 
     // Angles need some care when interpolating
-    if (std::abs(prev_e.aimdirection - next_e.aimdirection) > M_PI)
+    if (std::abs(prev_e.aimdirection - next_e.aimdirection) > PI)
     {
-        double offset = next_e.aimdirection < prev_e.aimdirection ? 2*M_PI : -2*M_PI;
+        double offset = next_e.aimdirection < prev_e.aimdirection ? 2*PI : -2*PI;
         aimdirection = prev_e.aimdirection + alpha * (next_e.aimdirection - prev_e.aimdirection + offset);
     }
     else
