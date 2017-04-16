@@ -18,6 +18,7 @@ class ReinhardtShield : public Shield
         double maxdamageabledist(Gamestate &state, double *centerx, double *centery) override;
         bool damageableby(Team projectile_team) override {return team != projectile_team and active;}
         void shieldbreak(Gamestate &state) override {brokencooldown.reset();}
+        bool isrootobject() {return false;}
         std::string spritestr();
 
         double attachpoint_x() {return 0;}

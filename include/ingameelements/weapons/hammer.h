@@ -21,6 +21,7 @@ class Hammer : public Weapon
         void wantfiresecondary(Gamestate &state) override;
         void beginstep(Gamestate &state, double frametime) override;
         void midstep(Gamestate &state, double frametime) override;
+        void endstep(Gamestate &state, double frametime) override;
         void destroy(Gamestate &state) override;
 
         double getattachpoint_x() override {return 0;}

@@ -108,16 +108,26 @@ void Hammer::render(Renderer &renderer, Gamestate &state)
             }
         }
     }
+
+    barrier(state).render(renderer, state);
 }
 
 void Hammer::beginstep(Gamestate &state, double frametime)
 {
     Weapon::beginstep(state, frametime);
+    barrier(state).beginstep(state, frametime);
 }
 
 void Hammer::midstep(Gamestate &state, double frametime)
 {
     Weapon::midstep(state, frametime);
+    barrier(state).midstep(state, frametime);
+}
+
+void Hammer::endstep(Gamestate &state, double frametime)
+{
+    Weapon::endstep(state, frametime);
+    barrier(state).endstep(state, frametime);
 }
 
 void Hammer::wantfireprimary(Gamestate &state)
