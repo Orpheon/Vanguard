@@ -13,7 +13,7 @@ else (COMPILE_STATIC)
 endif (COMPILE_STATIC)
 
 if (WIN32)
-    set (Vanguardlib "${Vanguardlib} ws2_32 winmm")
+    set (Vanguardlib ${Vanguardlib} ws2_32 winmm)
 endif (WIN32)
 
 include_directories("${PROJECT_SOURCE_DIR}/include")
