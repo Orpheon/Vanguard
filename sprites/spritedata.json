@@ -996,7 +996,31 @@
         12.0
     ],
     "ui/ number of frames": 0,
+    "ui/Logo/ number of frames": 1,
+    "ui/Logo/vanguard.png": [
+        69.5,
+        41.5
+    ],
+    "ui/Menu/ number of frames": 1,
+    "ui/Menu/menu.png": [
+        606.0,
+        330.0
+    ],
     "ui/ingame/ number of frames": 2,
+    "ui/ingame/Gamemode/ number of frames": 3,
+    "ui/ingame/Gamemode/BlueCaptured.png": [
+        118.0,
+        30.5
+    ],
+    "ui/ingame/Gamemode/PointLocked.png": [
+        118.0,
+        44.0
+    ],
+    "ui/ingame/Gamemode/RedCaptured.png": [
+        118.0,
+        30.5
+    ],
+    "ui/ingame/Gamemode/ref/ number of frames": 0,
     "ui/ingame/heroes/ number of frames": 0,
     "ui/ingame/heroes/mccree/ number of frames": 6,
     "ui/ingame/heroes/mccree/flashbang_sprite.png": [
@@ -1031,6 +1055,47 @@
     "ui/ingame/heroes/reinhardt/ultready_sprite.png": [
         64.0,
         70.5
+    ],
+    "ui/ingame/mccree/ number of frames": 10,
+    "ui/ingame/mccree/LockON.png": [
+        4.0,
+        4.5
+    ],
+    "ui/ingame/mccree/deadeye.png": [
+        64.0,
+        70.5
+    ],
+    "ui/ingame/mccree/flashbang.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ingame/mccree/flashbangcooldown.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ingame/mccree/fullscreen.png": [
+        51.0,
+        -199.0
+    ],
+    "ui/ingame/mccree/polygon.png": [
+        28.0,
+        17.0
+    ],
+    "ui/ingame/mccree/rolling.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ingame/mccree/rollingcooldown.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ingame/mccree/tint.png": [
+        640.0,
+        360.0
+    ],
+    "ui/ingame/mccree/ultbar.png": [
+        51.0,
+        58.5
     ],
     "ui/ingame/polygon_sprite.png": [
         28.0,

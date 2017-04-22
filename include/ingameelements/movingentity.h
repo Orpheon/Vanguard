@@ -16,6 +16,7 @@ class MovingEntity : public Entity
         virtual void interpolate(Entity &prev_entity, Entity &next_entity, double alpha);
         virtual void serialize(Gamestate &state, WriteBuffer &buffer, bool fullupdate);
         virtual void deserialize(Gamestate &state, ReadBuffer &buffer, bool fullupdate);
+        virtual bool hasposition() override {return true;}
 
         double x, y;
         double hspeed, vspeed;

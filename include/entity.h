@@ -29,7 +29,9 @@ class Entity
         virtual bool damageableby(Team projectile_team) {return false;}
         virtual double maxdamageabledist(Gamestate &state, double *centerx, double *centery) {return 0;}
         virtual bool blocks(PenetrationLevel penlevel) {return false;}
+        virtual void stun(Gamestate &state) {}
         virtual bool isowner(EntityPtr potential_owner) {return false;}
+        virtual bool hasposition() {return false;}
         ENTITYTYPE entitytype;
         uint64_t id = 0;
         bool destroyentity = false;
