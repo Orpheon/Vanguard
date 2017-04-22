@@ -41,7 +41,7 @@ class Character : public MovingEntity
         virtual double damage(Gamestate &state, double amount) override;
         virtual void die(Gamestate &state);
         virtual void interrupt(Gamestate &state) = 0;
-        virtual void stun(Gamestate &state);
+        virtual void stun(Gamestate &state) override;
         virtual void useability1(Gamestate &state) = 0;
         virtual void useability2(Gamestate &state) = 0;
         virtual void useultimate(Gamestate &state) = 0;
