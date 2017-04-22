@@ -81,49 +81,68 @@ void ControlPoint::render(Renderer &renderer, Gamestate &state)
     // Find the center of CP area
     double rel_x = (area.x + area.w/2 - renderer.cam_x)*renderer.zoom;
     double rel_y = (area.y + area.h/2 - renderer.cam_y)*renderer.zoom;
-    Color cpcolor;
+    Color owningcolor;
+    Color cappingcolor;
     
     if (owningteam == NO_TEAM)
     {
-        cpcolor = Color::CP;
+        owningcolor = Color::CP;
     }
     else if (state.get<Player>(renderer.myself).team == owningteam)
     {
-        cpcolor = Color::ALLY;
+        owningcolor = Color::ALLY;
     }
     else
     {
-        cpcolor = Color::ENEMY;
+        owningcolor = Color::ENEMY;
     }
 
-    ALLEGRO_COLOR cpColor_front = ColorPalette::premul(cpcolor, 200);
-    ALLEGRO_COLOR cpColor_middle = ColorPalette::premul(cpcolor, 160);
-    ALLEGRO_COLOR cpColor_back = ColorPalette::premul(cpcolor, 80);
+    if (cappingteam == NO_TEAM)
+    {
+        cappingcolor = Color::CP;
+    }
+    else if (state.get<Player>(renderer.myself).team == cappingteam)
+    {
+        cappingcolor = Color::ALLY;
+    }
+    else
+    {
+        cappingcolor = Color::ENEMY;
+    }
+
+    ALLEGRO_COLOR owningcolorfront = ColorPalette::premul(owningcolor, 200);
+    ALLEGRO_COLOR owningcolormid = ColorPalette::premul(owningcolor, 160);
+    ALLEGRO_COLOR owningcolorback = ColorPalette::premul(owningcolor, 80);
 
     // Draw CP Area
     al_set_target_bitmap(renderer.foreground);
     al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
         rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
-        cpColor_front, 5);
+        owningcolorfront, 5);
     al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
         rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
-        cpColor_middle, 3);
+        owningcolormid, 3);
 
     al_set_target_bitmap(renderer.background);
     al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
         rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
-        cpColor_middle, 3);
+        owningcolormid, 3);
     al_draw_line(rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
         rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
-        cpColor_middle, 3);
+        owningcolormid, 3);
 
     al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
         rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
-        cpColor_back, 3);
+        owningcolorback, 3);
 
     // Draw CP Bubble 
-    al_draw_filled_circle(rel_x, rel_y, 30.0, cpColor_front);
-    al_draw_circle(rel_x, rel_y, 30.0, cpColor_front, 5);
+    al_draw_filled_circle(rel_x, rel_y, 30.0, owningcolorfront);
+    al_draw_circle(rel_x, rel_y, 30.0, owningcolorfront, 5);
+    if (capamount.getpercent() > 0)
+    {
+        ALLEGRO_COLOR cc = ColorPalette::get(cappingcolor);
+        al_draw_arc(rel_x, rel_y, 31.0, -M_PI/2.0, 2*M_PI*capamount.getpercent(), cc, 5);
+    }
     al_draw_text(renderer.font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y - 20, ALLEGRO_ALIGN_CENTER, "A");
 }
 
