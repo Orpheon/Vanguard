@@ -13,7 +13,7 @@ class Shield : public MovingEntity
         virtual void shieldbreak(Gamestate &state) {destroy(state);}
         virtual bool damageableby(Team projectile_team) override {return projectile_team != team;}
         virtual double maxdamageabledist(Gamestate &state, double *centerx, double *centery) override = 0;
-        virtual bool blocks(PenetrationLevel penlevel) {return penlevel & PENETRATE_SHIELD;}
+        virtual bool blocks(PenetrationLevel penlevel) {return not (penlevel & PENETRATE_SHIELD);}
         virtual bool isowner(EntityPtr potential_owner) {return false;}
         virtual void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
 
