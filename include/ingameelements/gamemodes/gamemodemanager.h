@@ -9,8 +9,8 @@ class GamemodeManager : public Entity
         virtual void activate(Gamestate &state, std::function<void(Gamestate &state, Team winners)> winfunc);
         virtual void beginstep(Gamestate &state, double frametime) override {};
         virtual void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override {};
-        virtual void serialize(WriteBuffer &buffer, Gamestate &state) = 0;
-        virtual void deserialize(ReadBuffer &buffer, Gamestate &state) = 0;
+        virtual void serializefull(WriteBuffer &buffer, Gamestate &state) = 0;
+        virtual void deserializefull(ReadBuffer &buffer, Gamestate &state) = 0;
         virtual void destroy(Gamestate &state) override;
         std::vector<Rect> spawnareas;
         std::vector<EntityPtr> spawnrooms;

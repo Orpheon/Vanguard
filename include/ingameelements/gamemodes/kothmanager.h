@@ -8,8 +8,8 @@ class KothManager : public GamemodeManager
     public:
         virtual void init(uint64_t id_, Rect spawnarea1, Rect spawnarea2, Rect cparea);
         virtual void activate(Gamestate &state, std::function<void(Gamestate &state, Team winners)> winfunc_) override;
-        virtual void serialize(WriteBuffer &buffer, Gamestate &state) override {}
-        virtual void deserialize(ReadBuffer &buffer, Gamestate &state) override {}
+        virtual void serializefull(WriteBuffer &buffer, Gamestate &state) override;
+        virtual void deserializefull(ReadBuffer &buffer, Gamestate &state) override;
         virtual void beginstep(Gamestate &state, double frametime) override;
         virtual void midstep(Gamestate &state, double frametime) override {};
         virtual void endstep(Gamestate &state, double frametime) override {};

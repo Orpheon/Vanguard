@@ -139,3 +139,20 @@ void ControlPoint::interpolate(Entity &prev_entity, Entity &next_entity, double 
     capamount.interpolate(prev_e.capamount, next_e.capamount, alpha);
     capfalloff.interpolate(prev_e.capfalloff, next_e.capfalloff, alpha);
 }
+
+void ControlPoint::serializefull(WriteBuffer &buffer, Gamestate &state)
+{
+    buffer.write<double>(capamount.timer);
+    buffer.write<double>(capfalloff.timer);
+    buffer.write<char>(owningteam);
+    buffer.write<char>(cappingteam);
+}
+
+void ControlPoint::deserializefull(ReadBuffer &buffer, Gamestate &state)
+{
+    capamount.timer = buffer.read<double>();
+    Global::logging().print(__FILE__, __LINE__, "Client received capamount %f", capamount.timer);
+    capfalloff.timer = buffer.read<double>();
+    owningteam = static_cast<Team>(buffer.read<char>());
+    cappingteam = static_cast<Team>(buffer.read<char>());
+}

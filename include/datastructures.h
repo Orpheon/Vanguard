@@ -42,7 +42,8 @@ enum EVENTTYPE {SERVER_SNAPSHOTUPDATE,
                 SECONDARY_FIRED,
                 ABILITY1_USED,
                 ABILITY2_USED,
-                ULTIMATE_USED };
+                ULTIMATE_USED,
+                KOTH_CP_CREATED};
 
 enum PenetrationLevel { PENETRATE_NOTHING = 0,
                         PENETRATE_CHARACTER = 1,
@@ -59,13 +60,6 @@ enum Team { TEAM1,
             TEAM2,
             SPECTATOR,
             NO_TEAM };
-
-enum class Gamemode {ASSAULT,
-                     ESCORT,
-                     HYBRID,
-                     CONTROL,
-                     ARCADE,
-                     EVENT };
 
 struct ReducedInputContainer
 {

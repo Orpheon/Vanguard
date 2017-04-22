@@ -1,4 +1,5 @@
 
+#include <engine.h>
 #include "mapelements/controlpoint.h"
 #include "ingameelements/gamemodes/kothmanager.h"
 #include "gamestate.h"
@@ -49,6 +50,13 @@ void KothManager::createpoint(Gamestate &state, Team owningteam)
     }
     controlpoint = state.make_entity<ControlPoint>(area, owningteam, std::bind(&KothManager::createpoint, this,
                                                                                std::placeholders::_1, std::placeholders::_2));
+    unlocktimer.active = false;
+
+    if (state.engine.isserver)
+    {
+        state.engine.sendbuffer.write<uint8_t>(KOTH_CP_CREATED);
+        state.engine.sendbuffer.write<uint8_t>(owningteam);
+    }
 }
 
 void KothManager::destroy(Gamestate &state)
@@ -90,5 +98,30 @@ void KothManager::win(Gamestate &state)
     {
         ControlPoint &cp = state.get<ControlPoint>(controlpoint);
         winfunc(state, cp.owningteam);
+    }
+}
+
+void KothManager::serializefull(WriteBuffer &buffer, Gamestate &state)
+{
+    buffer.write<double>(teamcounters.at(TEAM1).timer);
+    buffer.write<double>(teamcounters.at(TEAM2).timer);
+    buffer.write<bool>(state.exists(controlpoint));
+    if (state.exists(controlpoint))
+    {
+        ControlPoint &cp = state.get<ControlPoint>(controlpoint);
+        cp.serializefull(buffer, state);
+    }
+}
+
+void KothManager::deserializefull(ReadBuffer &buffer, Gamestate &state)
+{
+    teamcounters.at(TEAM1).timer = buffer.read<double>();
+    teamcounters.at(TEAM2).timer = buffer.read<double>();
+    bool cpexists = buffer.read<bool>();
+    if (cpexists)
+    {
+        createpoint(state, NO_TEAM);
+        ControlPoint &cp = state.get<ControlPoint>(controlpoint);
+        cp.deserializefull(buffer, state);
     }
 }

@@ -151,6 +151,7 @@ void Gamestate::serializefull(WriteBuffer &buffer)
     {
         get<Player>(p).serialize(*this, buffer, true);
     }
+    currentmap->currentgamemode(*this).serializefull(buffer, *this);
 }
 
 void Gamestate::deserializefull(ReadBuffer &buffer)
@@ -164,6 +165,7 @@ void Gamestate::deserializefull(ReadBuffer &buffer)
     {
         get<Player>(p).deserialize(*this, buffer, true);
     }
+    currentmap->currentgamemode(*this).deserializefull(buffer, *this);
 }
 
 EntityPtr Gamestate::collidelinetarget(Gamestate &state, double x1, double y1, MovingEntity &target, Team team,

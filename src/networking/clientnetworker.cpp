@@ -1,6 +1,7 @@
 #include "networking/clientnetworker.h"
 
 #include "global.h"
+#include "ingameelements/gamemodes/kothmanager.h"
 
 ClientNetworker::ClientNetworker(WriteBuffer &sendbuffer_) : Networker(false, sendbuffer_), connected(false)
 {
@@ -103,6 +104,12 @@ void ClientNetworker::receive(Gamestate &state)
                     p.ultcharge.reset();
                     p.ultcharge.active = false;
                     p.getcharacter(state).useultimate(state);
+                }
+                else if (eventtype == KOTH_CP_CREATED)
+                {
+                    Team team = static_cast<Team>(data.read<uint8_t>());
+                    KothManager &km = static_cast<KothManager&>(state.currentmap->currentgamemode(state));
+                    km.createpoint(state, team);
                 }
                 else
                 {
