@@ -210,6 +210,11 @@
         10.0,
         7.0
     ],
+    "heroes/mccree/pinned/ number of frames": 1,
+    "heroes/mccree/pinned/1_sprite.png": [
+        17.0,
+        -2.0
+    ],
     "heroes/mccree/projectiles/ number of frames": 2,
     "heroes/mccree/projectiles/bullet_sprite.png": [
         0.0,
@@ -375,8 +380,8 @@
     ],
     "heroes/reinhardt/charge/ number of frames": 1,
     "heroes/reinhardt/charge/1_sprite.png": [
-        29.0,
-        3.0
+        32.0,
+        2.0
     ],
     "heroes/reinhardt/corpse/ number of frames": 1,
     "heroes/reinhardt/corpse/1_sprite.png": [
@@ -502,35 +507,194 @@
         35.0,
         35.0
     ],
-    "heroes/reinhardt/endcharge/ number of frames": 6,
+    "heroes/reinhardt/endcharge/ number of frames": 3,
     "heroes/reinhardt/endcharge/1_sprite.png": [
         26.0,
-        5.0
+        17.0
     ],
     "heroes/reinhardt/endcharge/2_sprite.png": [
-        25.0,
-        7.0
-    ],
-    "heroes/reinhardt/endcharge/3_sprite.png": [
-        25.0,
-        14.0
-    ],
-    "heroes/reinhardt/endcharge/4_sprite.png": [
-        25.0,
-        16.0
-    ],
-    "heroes/reinhardt/endcharge/5_sprite.png": [
-        25.0,
+        28.0,
         18.0
     ],
-    "heroes/reinhardt/endcharge/6_sprite.png": [
-        21.0,
+    "heroes/reinhardt/endcharge/3_sprite.png": [
+        22.0,
         15.0
     ],
     "heroes/reinhardt/falling/ number of frames": 1,
     "heroes/reinhardt/falling/1_sprite.png": [
         12.0,
         33.0
+    ],
+    "heroes/reinhardt/firestrikebackarm/ number of frames": 14,
+    "heroes/reinhardt/firestrikebackarm/10_sprite.png": [
+        17.0,
+        12.0
+    ],
+    "heroes/reinhardt/firestrikebackarm/11_sprite.png": [
+        14.0,
+        11.0
+    ],
+    "heroes/reinhardt/firestrikebackarm/12_sprite.png": [
+        10.0,
+        12.0
+    ],
+    "heroes/reinhardt/firestrikebackarm/13_sprite.png": [
+        -2.0,
+        11.0
+    ],
+    "heroes/reinhardt/firestrikebackarm/14_sprite.png": [
+        -1.0,
+        11.0
+    ],
+    "heroes/reinhardt/firestrikebackarm/1_sprite.png": [
+        -2.0,
+        11.0
+    ],
+    "heroes/reinhardt/firestrikebackarm/2_sprite.png": [
+        1.0,
+        11.0
+    ],
+    "heroes/reinhardt/firestrikebackarm/3_sprite.png": [
+        5.0,
+        10.0
+    ],
+    "heroes/reinhardt/firestrikebackarm/4_sprite.png": [
+        7.0,
+        9.0
+    ],
+    "heroes/reinhardt/firestrikebackarm/5_sprite.png": [
+        9.0,
+        8.0
+    ],
+    "heroes/reinhardt/firestrikebackarm/6_sprite.png": [
+        3.0,
+        11.0
+    ],
+    "heroes/reinhardt/firestrikebackarm/7_sprite.png": [
+        18.0,
+        17.0
+    ],
+    "heroes/reinhardt/firestrikebackarm/8_sprite.png": [
+        17.0,
+        13.0
+    ],
+    "heroes/reinhardt/firestrikebackarm/9_sprite.png": [
+        17.0,
+        14.0
+    ],
+    "heroes/reinhardt/firestrikefrontarm/ number of frames": 14,
+    "heroes/reinhardt/firestrikefrontarm/10_sprite.png": [
+        2.0,
+        43.0
+    ],
+    "heroes/reinhardt/firestrikefrontarm/11_sprite.png": [
+        5.0,
+        30.0
+    ],
+    "heroes/reinhardt/firestrikefrontarm/12_sprite.png": [
+        8.0,
+        13.0
+    ],
+    "heroes/reinhardt/firestrikefrontarm/13_sprite.png": [
+        13.0,
+        11.0
+    ],
+    "heroes/reinhardt/firestrikefrontarm/14_sprite.png": [
+        22.0,
+        14.0
+    ],
+    "heroes/reinhardt/firestrikefrontarm/1_sprite.png": [
+        30.0,
+        14.0
+    ],
+    "heroes/reinhardt/firestrikefrontarm/2_sprite.png": [
+        45.0,
+        13.0
+    ],
+    "heroes/reinhardt/firestrikefrontarm/3_sprite.png": [
+        53.0,
+        13.0
+    ],
+    "heroes/reinhardt/firestrikefrontarm/4_sprite.png": [
+        52.0,
+        14.0
+    ],
+    "heroes/reinhardt/firestrikefrontarm/5_sprite.png": [
+        52.0,
+        14.0
+    ],
+    "heroes/reinhardt/firestrikefrontarm/6_sprite.png": [
+        43.0,
+        12.0
+    ],
+    "heroes/reinhardt/firestrikefrontarm/7_sprite.png": [
+        40.0,
+        23.0
+    ],
+    "heroes/reinhardt/firestrikefrontarm/8_sprite.png": [
+        2.0,
+        43.0
+    ],
+    "heroes/reinhardt/firestrikefrontarm/9_sprite.png": [
+        1.0,
+        43.0
+    ],
+    "heroes/reinhardt/firestriketorso2/ number of frames": 14,
+    "heroes/reinhardt/firestriketorso2/10_sprite.png": [
+        13.0,
+        17.0
+    ],
+    "heroes/reinhardt/firestriketorso2/11_sprite.png": [
+        13.0,
+        17.0
+    ],
+    "heroes/reinhardt/firestriketorso2/12_sprite.png": [
+        13.0,
+        18.0
+    ],
+    "heroes/reinhardt/firestriketorso2/13_sprite.png": [
+        13.0,
+        18.0
+    ],
+    "heroes/reinhardt/firestriketorso2/14_sprite.png": [
+        14.0,
+        18.0
+    ],
+    "heroes/reinhardt/firestriketorso2/1_sprite.png": [
+        15.0,
+        17.0
+    ],
+    "heroes/reinhardt/firestriketorso2/2_sprite.png": [
+        15.0,
+        16.0
+    ],
+    "heroes/reinhardt/firestriketorso2/3_sprite.png": [
+        15.0,
+        15.0
+    ],
+    "heroes/reinhardt/firestriketorso2/4_sprite.png": [
+        15.0,
+        15.0
+    ],
+    "heroes/reinhardt/firestriketorso2/5_sprite.png": [
+        15.0,
+        15.0
+    ],
+    "heroes/reinhardt/firestriketorso2/6_sprite.png": [
+        13.0,
+        17.0
+    ],
+    "heroes/reinhardt/firestriketorso2/7_sprite.png": [
+        13.0,
+        17.0
+    ],
+    "heroes/reinhardt/firestriketorso2/8_sprite.png": [
+        13.0,
+        17.0
+    ],
+    "heroes/reinhardt/firestriketorso2/9_sprite.png": [
+        13.0,
+        17.0
     ],
     "heroes/reinhardt/firing/ number of frames": 4,
     "heroes/reinhardt/firing/1_sprite.png": [
@@ -569,30 +733,34 @@
         12.0,
         43.0
     ],
-    "heroes/reinhardt/preparecharge/ number of frames": 6,
+    "heroes/reinhardt/preparecharge/ number of frames": 7,
     "heroes/reinhardt/preparecharge/1_sprite.png": [
-        21.0,
+        22.0,
         15.0
     ],
     "heroes/reinhardt/preparecharge/2_sprite.png": [
-        25.0,
+        28.0,
         18.0
     ],
     "heroes/reinhardt/preparecharge/3_sprite.png": [
-        25.0,
-        16.0
+        26.0,
+        17.0
     ],
     "heroes/reinhardt/preparecharge/4_sprite.png": [
-        25.0,
+        28.0,
         14.0
     ],
     "heroes/reinhardt/preparecharge/5_sprite.png": [
-        25.0,
+        32.0,
         7.0
     ],
     "heroes/reinhardt/preparecharge/6_sprite.png": [
-        26.0,
-        5.0
+        27.0,
+        4.0
+    ],
+    "heroes/reinhardt/preparecharge/7_sprite.png": [
+        31.0,
+        2.0
     ],
     "heroes/reinhardt/run/ number of frames": 8,
     "heroes/reinhardt/run/1_sprite.png": [
