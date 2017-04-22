@@ -13,8 +13,9 @@ class Flashbang : public Projectile
         std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Flashbang(*this));}
         void render(Renderer &renderer, Gamestate &state) override;
         double explode(Gamestate &state);
-        void hitwall(Gamestate &state);
-        double dealdamage(Gamestate &state, Entity &target) override {return explode(state);}
+        // Flashbang deals all its damage in explode() which is called in destroy() which registers ult charge itself
+        double dealdamage(Gamestate &state, Entity &target) override {return 0;}
+        void destroy(Gamestate &state) override;
         PenetrationLevel penetration() override {return PENETRATE_NOTHING;}
         std::string spriteid() override {return "heroes/mccree/projectiles/flashbang";}
 

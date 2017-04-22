@@ -9,7 +9,7 @@ void Flashbang::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Projectile::init(id_, state, owner_);
 
-    countdown.init(0.3, std::bind(&Flashbang::hitwall, this, std::placeholders::_1));
+    countdown.init(0.3, std::bind(&Flashbang::destroy, this, std::placeholders::_1));
 }
 
 void Flashbang::midstep(Gamestate &state, double frametime)
@@ -58,10 +58,10 @@ double Flashbang::explode(Gamestate &state)
     return dmgdealt;
 }
 
-void Flashbang::hitwall(Gamestate &state)
+void Flashbang::destroy(Gamestate &state)
 {
     double dmgdealt = explode(state);
     // TODO: Register ult damage
-    Global::logging().print(__FILE__, __LINE__, "Flashbang hit wall and dealt %f damage", dmgdealt);
-    destroy(state);
+    Global::logging().print(__FILE__, __LINE__, "Flashbang destroyed, dealt %f damage", dmgdealt);
+    Projectile::destroy(state);
 }
