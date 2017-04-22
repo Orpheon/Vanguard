@@ -65,7 +65,14 @@ void ControlPoint::beginstep(Gamestate &state, double frametime)
     {
         // No-one of the capping team has touched the point in a while,
         // point capture should degenerate to the latest third
-        capamount.timer = std::max(capamount.timer - CAPDEGEN*frametime, std::floor(capamount.timer * 3.0/MAXCAP) * MAXCAP/3.0);
+        if (owningteam != NO_TEAM)
+        {
+            capamount.timer = std::max(capamount.timer - CAPDEGEN*frametime, std::floor(capamount.timer * 3.0/MAXCAP) * MAXCAP/3.0);
+        }
+        else
+        {
+            capamount.timer = capamount.timer - CAPDEGEN*frametime;
+        }
     }
 }
 
