@@ -71,7 +71,7 @@ void ControlPoint::beginstep(Gamestate &state, double frametime)
         }
         else
         {
-            capamount.timer = capamount.timer - CAPDEGEN*frametime;
+            capamount.timer = std::max(capamount.timer - CAPDEGEN*frametime, 0.0);
         }
     }
 }
