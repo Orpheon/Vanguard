@@ -929,10 +929,34 @@
         33.0,
         20.0
     ],
-    "heroes/reinhardt/ult/ number of frames": 10,
+    "heroes/reinhardt/ult/ number of frames": 16,
     "heroes/reinhardt/ult/10_sprite.png": [
         21.0,
         40.0
+    ],
+    "heroes/reinhardt/ult/11_sprite.png": [
+        20.0,
+        10.0
+    ],
+    "heroes/reinhardt/ult/12_sprite.png": [
+        19.0,
+        12.0
+    ],
+    "heroes/reinhardt/ult/13_sprite.png": [
+        17.0,
+        10.0
+    ],
+    "heroes/reinhardt/ult/14_sprite.png": [
+        18.0,
+        10.0
+    ],
+    "heroes/reinhardt/ult/15_sprite.png": [
+        24.0,
+        9.0
+    ],
+    "heroes/reinhardt/ult/16_sprite.png": [
+        37.0,
+        12.0
     ],
     "heroes/reinhardt/ult/1_sprite.png": [
         37.0,
@@ -970,33 +994,17 @@
         19.0,
         12.0
     ],
-    "heroes/reinhardt/ult/retract/ number of frames": 6,
-    "heroes/reinhardt/ult/retract/11_sprite.png": [
-        20.0,
-        10.0
-    ],
-    "heroes/reinhardt/ult/retract/12_sprite.png": [
-        19.0,
-        12.0
-    ],
-    "heroes/reinhardt/ult/retract/13_sprite.png": [
-        17.0,
-        10.0
-    ],
-    "heroes/reinhardt/ult/retract/14_sprite.png": [
-        18.0,
-        10.0
-    ],
-    "heroes/reinhardt/ult/retract/15_sprite.png": [
-        24.0,
-        9.0
-    ],
-    "heroes/reinhardt/ult/retract/16_sprite.png": [
-        37.0,
-        12.0
+    "heroes/reinhardt/ult/plume/ number of frames": 1,
+    "heroes/reinhardt/ult/plume/1_sprite.png": [
+        16.0,
+        17.0
     ],
     "ui/ number of frames": 0,
-    "ui/Logo/ number of frames": 1,
+    "ui/Logo/ number of frames": 2,
+    "ui/Logo/VanguardLogoTransparent.png": [
+        69.5,
+        41.5
+    ],
     "ui/Logo/vanguard.png": [
         69.5,
         41.5
@@ -1008,16 +1016,16 @@
     ],
     "ui/ingame/ number of frames": 2,
     "ui/ingame/Gamemode/ number of frames": 3,
-    "ui/ingame/Gamemode/BlueCaptured.png": [
-        118.0,
+    "ui/ingame/Gamemode/AllyCaptured.png": [
+        76.0,
+        30.5
+    ],
+    "ui/ingame/Gamemode/EnemyCaptured.png": [
+        76.0,
         30.5
     ],
     "ui/ingame/Gamemode/PointLocked.png": [
-        118.0,
-        44.0
-    ],
-    "ui/ingame/Gamemode/RedCaptured.png": [
-        118.0,
+        76.0,
         30.5
     ],
     "ui/ingame/Gamemode/ref/ number of frames": 0,
