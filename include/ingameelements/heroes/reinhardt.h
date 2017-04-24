@@ -28,6 +28,7 @@ class Reinhardt : public Character
         void interrupt(Gamestate &state) override;
         void drawhud(Renderer &renderer, Gamestate &state) override;
         bool weaponvisible(Gamestate &state) override;
+        void createearthshatter(Gamestate &state);
 
         double passiveultcharge() override {return 100*0.4166666666666667;}
         Heroclass heroclass() override {return REINHARDT;}
@@ -41,6 +42,7 @@ class Reinhardt : public Character
         Animation preparechargeanim;
         Animation endchargeanim;
         Animation earthshatteranim;
+        Timer earthshatterdelay;
         LoopAnimation shieldrunanim;
     protected:
     private:

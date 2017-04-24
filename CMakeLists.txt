@@ -56,6 +56,7 @@ set (SRC_FILES
         "src/ingameelements/weapons/peacemaker.cpp"
         "src/ingameelements/weapons/reinhardtshield.cpp"
         "src/ingameelements/projectiles/flashbang.cpp"
+        "src/ingameelements/projectiles/earthshatter.cpp"
         "src/mapelements/spawnroom.cpp"
         "src/mapelements/controlpoint.cpp"
         "src/ingameelements/gamemodes/kothmanager.cpp"

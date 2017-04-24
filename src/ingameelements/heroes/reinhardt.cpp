@@ -1,4 +1,5 @@
 #include "ingameelements/heroes/reinhardt.h"
+#include "ingameelements/projectiles/earthshatter.h"
 #include "datastructures.h"
 #include "spriteloader.h"
 #include "animation.h"
@@ -21,6 +22,9 @@ void Reinhardt::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     endchargeanim.active(false);
     earthshatteranim.init(herofolder()+"ult/");
     earthshatteranim.active(false);
+    earthshatterdelay.init(earthshatteranim.timer.duration * 5.0/8.0,
+                           std::bind(&Reinhardt::createearthshatter, this, std::placeholders::_1));
+    earthshatterdelay.active = false;
     shieldrunanim.init(herofolder()+"shieldrun/");
 }
 
@@ -100,6 +104,7 @@ void Reinhardt::midstep(Gamestate &state, double frametime)
     if (earthshatteranim.active() and not (earthshatteranim.getframe() == 9 and not onground(state)))
     {
         earthshatteranim.update(state, frametime);
+        earthshatterdelay.update(state, frametime);
     }
     if (onground(state))
     {
@@ -141,6 +146,7 @@ void Reinhardt::interpolate(Entity &prev_entity, Entity &next_entity, double alp
     chargeanim.interpolate(p.chargeanim, n.chargeanim, alpha);
     endchargeanim.interpolate(p.endchargeanim, n.endchargeanim, alpha);
     earthshatteranim.interpolate(p.earthshatteranim, n.earthshatteranim, alpha);
+    earthshatterdelay.interpolate(p.earthshatterdelay, n.earthshatterdelay, alpha);
     shieldrunanim.interpolate(p.shieldrunanim, n.shieldrunanim, alpha);
 }
 
@@ -169,14 +175,32 @@ void Reinhardt::useability2(Gamestate &state)
 void Reinhardt::useultimate(Gamestate &state)
 {
     earthshatteranim.reset();
+    earthshatterdelay.reset();
     Player &ownerplayer = state.get<Player>(owner);
     ownerplayer.ultcharge.reset();
+}
+
+void Reinhardt::createearthshatter(Gamestate &state)
+{
+    int direction = isflipped ? -1 : 1;
+    double spawnx = x + direction * 40;
+    for (double spawny = y; spawny < y + getstandingcollisionrect(state).h*2; ++spawny)
+    {
+        if (not state.currentmap->testpixel(spawnx, spawny) and state.currentmap->testpixel(spawnx, spawny+1))
+        {
+            Earthshatter &shockwave = state.get<Earthshatter>(state.make_entity<Earthshatter>(state, owner));
+            shockwave.x = spawnx;
+            shockwave.y = spawny;
+            break;
+        }
+    }
 }
 
 void Reinhardt::interrupt(Gamestate &state)
 {
     chargeanim.active(false);
     earthshatteranim.active(false);
+    earthshatterdelay.active = false;
 }
 
 Rect Reinhardt::getcollisionrect(Gamestate &state)
