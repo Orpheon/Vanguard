@@ -134,7 +134,7 @@ void Reinhardt::midstep(Gamestate &state, double frametime)
     chargeanim.update(state, frametime);
     preparechargeanim.update(state, frametime);
     endchargeanim.update(state, frametime);
-    if (earthshatteranim.active() and not (earthshatteranim.getframe() == 9 and not onground(state)))
+    if (onground(state) or earthshatteranim.getframe() != 9)
     {
         earthshatteranim.update(state, frametime);
         earthshatterdelay.update(state, frametime);
