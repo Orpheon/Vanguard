@@ -21,7 +21,7 @@ class Earthshatter : public MovingEntity
         Timer explosionspawner;
         int direction;
 
-        double MAX_RANGE = 5 * 30;
+        double MAX_RANGE = 7 * 30;
         double SPEED = MAX_RANGE / 0.5;
         double EXPLOSION_STEPSIZE = 20;
 };

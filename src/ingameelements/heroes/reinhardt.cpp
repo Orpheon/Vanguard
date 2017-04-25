@@ -22,7 +22,7 @@ void Reinhardt::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     endchargeanim.active(false);
     earthshatteranim.init(herofolder()+"ult/");
     earthshatteranim.active(false);
-    earthshatterdelay.init(earthshatteranim.timer.duration * 5.0/8.0,
+    earthshatterdelay.init(earthshatteranim.timer.duration * 0.6,
                            std::bind(&Reinhardt::createearthshatter, this, std::placeholders::_1));
     earthshatterdelay.active = false;
     shieldrunanim.init(herofolder()+"shieldrun/");
