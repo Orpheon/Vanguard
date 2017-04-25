@@ -23,6 +23,7 @@
     "heroes/reinhardt/run/ duration": 140,
     "heroes/reinhardt/shieldrun/ duration": 50,
     "heroes/reinhardt/firing/ duration": 0.5,
+    "heroes/reinhardt/firestrikebackarm/ duration": 1,
     "heroes/reinhardt/emote/ duration": 3,
     "heroes/reinhardt/crouchwalk/ duration": 40,
     "heroes/reinhardt/stun/ duration": 0.7,

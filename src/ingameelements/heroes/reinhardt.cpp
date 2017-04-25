@@ -189,6 +189,18 @@ bool Reinhardt::cangetinput(Gamestate &state)
         and not earthshatteranim.active() and Character::cangetinput(state);
 }
 
+bool Reinhardt::canuseweapons(Gamestate &state)
+{
+    Hammer &hammer = state.get<Hammer&>(weapon);
+    return Character::canuseweapons(state) and not hammer.firestrikeanim.active();
+}
+
+bool Reinhardt::canuseabilities(Gamestate &state)
+{
+    Hammer &hammer = state.get<Hammer&>(weapon);
+    return Character::canuseabilities(state) and not hammer.firestrikeanim.active();
+}
+
 bool Reinhardt::weaponvisible(Gamestate &state)
 {
     return  not stunanim.active() and not preparechargeanim.active() and not chargeanim.active()
@@ -202,7 +214,8 @@ void Reinhardt::useability1(Gamestate &state)
 
 void Reinhardt::useability2(Gamestate &state)
 {
-
+    state.get<Hammer&>(weapon).firestrikeanim.reset();
+    state.get<Hammer&>(weapon).firestrikedelay.reset();
 }
 
 void Reinhardt::useultimate(Gamestate &state)
@@ -329,6 +342,11 @@ std::string Reinhardt::currenttorsosprite(Gamestate &state, bool mask)
     {
         return NULL_SPRITE;
     }
+    Hammer &hammer = state.get<Hammer>(weapon);
+    if (hammer.firestrikeanim.active())
+    {
+        return herofolder()+"firestriketorso/"+std::to_string(hammer.firestrikeanim.getframe());
+    }
     if (crouchanim.active())
     {
         return herofolder()+"crouchwalktorso/"+std::to_string(crouchanim.getframe());
@@ -348,7 +366,6 @@ std::string Reinhardt::currenttorsosprite(Gamestate &state, bool mask)
     {
         return herofolder()+"idletorso/1";
     }
-    Hammer &hammer = state.get<Hammer>(weapon);
     if (hammer.barrier(state).active)
     {
         return NULL_SPRITE;

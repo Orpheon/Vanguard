@@ -22,6 +22,8 @@ class Reinhardt : public Character
         std::string currenttorsosprite(Gamestate &state, bool mask);
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Reinhardt(*this));}
         bool cangetinput(Gamestate &state) override;
+        bool canuseweapons(Gamestate &state) override;
+        bool canuseabilities(Gamestate &state) override;
         void useability1(Gamestate &state) override;
         void useability2(Gamestate &state) override;
         void useultimate(Gamestate &state) override;

@@ -11,20 +11,29 @@ void Hammer::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     Weapon::init(id_, state, owner_);
 
     barrierptr = state.make_entity<ReinhardtShield>(state, team, owner_);
+
+    firestrikeanim.init(herofolder()+"firestrikebackarm/");
+    firestrikeanim.active(false);
+    firestrikedelay.init(firestrikeanim.timer.duration, std::bind(&Hammer::createfirestrike, this, std::placeholders::_1));
+    firestrikedelay.active = false;
 }
 
 void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
 {
     std::string mainsprite;
     Reinhardt &c = state.get<Reinhardt>(state.get<Player>(owner).character);
-    if (barrier(state).active)
+    if (firestrikeanim.active())
     {
-        mainsprite = "heroes/reinhardt/shield/back";
+        mainsprite = firestrikeanim.getframepath();
+    }
+    else if (barrier(state).active)
+    {
+        mainsprite = herofolder()+"shield/back";
 
     }
     else
     {
-        mainsprite = "heroes/reinhardt/arm/back";
+        mainsprite = herofolder()+"arm/back";
     }
     ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
     double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
@@ -66,14 +75,18 @@ void Hammer::render(Renderer &renderer, Gamestate &state)
 {
     std::string mainsprite;
     Reinhardt &c = state.get<Reinhardt>(state.get<Player>(owner).character);
-    if (barrier(state).active)
+    if (firestrikeanim.active())
     {
-        mainsprite = "heroes/reinhardt/shield/front";
+        mainsprite = herofolder()+"firestrikefrontarm/"+std::to_string(firestrikeanim.getframe());
+    }
+    else if (barrier(state).active)
+    {
+        mainsprite = herofolder()+"shield/front";
 
     }
     else
     {
-        mainsprite = "heroes/reinhardt/arm/front";
+        mainsprite = herofolder()+"arm/front";
     }
     ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
     double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
@@ -122,6 +135,8 @@ void Hammer::midstep(Gamestate &state, double frametime)
 {
     Weapon::midstep(state, frametime);
     barrier(state).midstep(state, frametime);
+    firestrikeanim.update(state, frametime);
+    firestrikedelay.update(state, frametime);
 }
 
 void Hammer::endstep(Gamestate &state, double frametime)
@@ -132,7 +147,7 @@ void Hammer::endstep(Gamestate &state, double frametime)
 
 void Hammer::wantfireprimary(Gamestate &state)
 {
-    if (state.engine.isserver and not firinganim.active())
+    if (state.engine.isserver and not firinganim.active() and not firestrikeanim.active())
     {
         fireprimary(state);
         state.engine.sendbuffer.write<uint8_t>(PRIMARY_FIRED);
@@ -165,4 +180,15 @@ void Hammer::destroy(Gamestate &state)
 {
     barrier(state).destroy(state);
     Weapon::destroy(state);
+}
+
+void Hammer::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
+{
+    Weapon::interpolate(prev_entity, next_entity, alpha);
+
+    Hammer &prev_e = static_cast<Hammer&>(prev_entity);
+    Hammer &next_e = static_cast<Hammer&>(next_entity);
+
+    firestrikeanim.interpolate(prev_e.firestrikeanim, next_e.firestrikeanim, alpha);
+    firestrikedelay.interpolate(prev_e.firestrikedelay, next_e.firestrikedelay, alpha);
 }
