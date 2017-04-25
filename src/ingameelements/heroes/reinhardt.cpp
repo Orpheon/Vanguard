@@ -71,6 +71,39 @@ void Reinhardt::render(Renderer &renderer, Gamestate &state)
         }
     }
 
+    mainsprite = currenttorsosprite(state, false);
+    if (mainsprite != NULL_SPRITE)
+    {
+        sprite = renderer.spriteloader.requestsprite(mainsprite);
+        spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
+        spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
+        rel_x = (x-renderer.cam_x)*renderer.zoom;
+        rel_y = (y-renderer.cam_y)*renderer.zoom;
+
+        outline = renderer.spriteloader.requestspriteoutline(mainsprite);
+        outlinecolor = al_map_rgb(225, 17, 17);
+
+        if (isflipped)
+        {
+            // Flip horizontally
+            al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
+            if (state.get<Player>(renderer.myself).team != team)
+            {
+                // Draw enemy outline
+                al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
+            }
+        }
+        else
+        {
+            al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
+            if (state.get<Player>(renderer.myself).team != team)
+            {
+                // Draw enemy outline
+                al_draw_tinted_bitmap(outline, outlinecolor, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
+            }
+        }
+    }
+
     state.get<Weapon>(weapon).render(renderer, state);
 }
 
@@ -217,6 +250,30 @@ Rect Reinhardt::getstandingcollisionrect(Gamestate &state)
     return state.engine.maskloader.get_rect_from_json(herofolder()).offset(x, y);
 }
 
+bool Reinhardt::collides(Gamestate &state, double testx, double testy)
+{
+    if (Character::collides(state, testx, testy))
+    {
+        return true;
+    }
+    else
+    {
+        Rect self = state.engine.maskloader.get_rect(currenttorsosprite(state, true)).offset(x, y);
+
+        if (testx > self.x and testx < self.x+self.w and testy > self.y and testy < self.y+self.h)
+        {
+            // We're close enough that an actual collision might happen
+            // Check the sprite
+            ALLEGRO_BITMAP *selfsprite = state.engine.maskloader.requestsprite(currenttorsosprite(state, true));
+            return al_get_pixel(selfsprite, testx-self.x, testy-self.y).a != 0;
+        }
+        else
+        {
+            return false;
+        }
+    }
+}
+
 std::string Reinhardt::currentsprite(Gamestate &state, bool mask)
 {
     if (stunanim.active())
@@ -264,4 +321,37 @@ std::string Reinhardt::currentsprite(Gamestate &state, bool mask)
         return shieldrunanim.getframepath();
     }
     return runanim.getframepath();
+}
+
+std::string Reinhardt::currenttorsosprite(Gamestate &state, bool mask)
+{
+    if (stunanim.active() or earthshatteranim.active() or preparechargeanim.active() or chargeanim.active() or endchargeanim.active())
+    {
+        return NULL_SPRITE;
+    }
+    if (crouchanim.active())
+    {
+        return herofolder()+"crouchwalktorso/"+std::to_string(crouchanim.getframe());
+    }
+    /*if (not ongroundsmooth.active)
+    {
+        if (vspeed > 100)
+        {
+            return herofolder()+"falling/1";
+        }
+        else
+        {
+            return herofolder()+"jump/1";
+        }
+    }*/
+    if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
+    {
+        return herofolder()+"idletorso/1";
+    }
+    Hammer &hammer = state.get<Hammer>(weapon);
+    if (hammer.barrier(state).active)
+    {
+        return NULL_SPRITE;
+    }
+    return herofolder()+"runtorso/"+std::to_string(runanim.getframe());
 }

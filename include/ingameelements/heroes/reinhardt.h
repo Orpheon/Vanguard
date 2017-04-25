@@ -17,7 +17,9 @@ class Reinhardt : public Character
         void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         Rect getcollisionrect(Gamestate &state) override;
         Rect getstandingcollisionrect(Gamestate &state) override;
+        bool collides(Gamestate &state, double testx, double testy) override;
         std::string currentsprite(Gamestate &state, bool mask) override;
+        std::string currenttorsosprite(Gamestate &state, bool mask);
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Reinhardt(*this));}
         bool cangetinput(Gamestate &state) override;
         void useability1(Gamestate &state) override;
