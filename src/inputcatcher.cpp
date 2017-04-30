@@ -96,35 +96,35 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate &state, Networker &ne
 
     ALLEGRO_KEYBOARD_STATE keystate;
     al_get_keyboard_state(&keystate);
-    if (al_key_down(&keystate, config["jump"]) or al_key_down(&keystate, config["jump_alt1"]) or al_key_down(&keystate, config["jump_alt2"]))
+    if (al_key_down(&keystate, config.at("jump")) or al_key_down(&keystate, config.at("jump_alt1")) or al_key_down(&keystate, config.at("jump_alt2")))
     {
         heldkeys.JUMP = true;
     }
-    if (al_key_down(&keystate, config["crouch"]) or al_key_down(&keystate, config["crouch_alt1"]) or al_key_down(&keystate, config["crouch_alt2"]))
+    if (al_key_down(&keystate, config.at("crouch")) or al_key_down(&keystate, config.at("crouch_alt1")) or al_key_down(&keystate, config.at("crouch_alt2")))
     {
         heldkeys.CROUCH = true;
     }
-    if (al_key_down(&keystate, config["left"]) or al_key_down(&keystate, config["left_alt1"]) or al_key_down(&keystate, config["left_alt2"]))
+    if (al_key_down(&keystate, config.at("left")) or al_key_down(&keystate, config.at("left_alt1")) or al_key_down(&keystate, config.at("left_alt2")))
     {
         heldkeys.LEFT = true;
     }
-    if (al_key_down(&keystate, config["right"]) or al_key_down(&keystate, config["right_alt1"]) or al_key_down(&keystate, config["right_alt2"]))
+    if (al_key_down(&keystate, config.at("right")) or al_key_down(&keystate, config.at("right_alt1")) or al_key_down(&keystate, config.at("right_alt2")))
     {
         heldkeys.RIGHT = true;
     }
-    if (al_key_down(&keystate, config["ability1"]) or al_key_down(&keystate, config["ability1_alt1"]) or al_key_down(&keystate, config["ability1_alt2"]))
+    if (al_key_down(&keystate, config.at("ability1")) or al_key_down(&keystate, config.at("ability1_alt1")) or al_key_down(&keystate, config.at("ability1_alt2")))
     {
         heldkeys.ABILITY_1 = true;
     }
-    if (al_key_down(&keystate, config["ability2"]) or al_key_down(&keystate, config["ability2_alt1"]) or al_key_down(&keystate, config["ability2_alt2"]))
+    if (al_key_down(&keystate, config.at("ability2")) or al_key_down(&keystate, config.at("ability2_alt1")) or al_key_down(&keystate, config.at("ability2_alt2")))
     {
         heldkeys.ABILITY_2 = true;
     }
-    if (al_key_down(&keystate, config["ultimate"]) or al_key_down(&keystate, config["ultimate_alt1"]) or al_key_down(&keystate, config["ultimate_alt2"]))
+    if (al_key_down(&keystate, config.at("ultimate")) or al_key_down(&keystate, config.at("ultimate_alt1")) or al_key_down(&keystate, config.at("ultimate_alt2")))
     {
         heldkeys.ULTIMATE = true;
     }
-    if (al_key_down(&keystate, config["reload"]) or al_key_down(&keystate, config["reload_alt1"]) or al_key_down(&keystate, config["reload_alt2"]))
+    if (al_key_down(&keystate, config.at("reload")) or al_key_down(&keystate, config.at("reload_alt1")) or al_key_down(&keystate, config.at("reload_alt2")))
     {
         heldkeys.RELOAD = true;
     }

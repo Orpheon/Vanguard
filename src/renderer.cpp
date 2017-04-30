@@ -151,68 +151,16 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
 
 ALLEGRO_DISPLAY* Renderer::createnewdisplay()
 {
-    ConfigLoader configloader;
-    nlohmann::json config = configloader.requestconfig();
-    return createnewdisplay(config);
-}
-
-ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
-{
     //default display values are set on header file
     int display_width, display_height, display_type;
 
-    if (config.find("display_resolution") == config.end())
-    {
-        display_width = DISPLAY_DEFAULT_WIDTH;
-        display_height = DISPLAY_DEFAULT_HEIGHT;
-    }
-    else
-    {
-        try
-        {
-            display_width = config["display_resolution"][0];
-            display_height = config["display_resolution"][1];
-            if (display_width < 640)
-            {
-                display_width = 640;
-            }
-            if (display_height < 480)
-            {
-                display_height = 480;
-            }
-        }
-        catch (std::domain_error)
-        {
-            Global::logging().print(__FILE__, __LINE__, "Could not load display resolution data, using default values instead");
-            display_width = DISPLAY_DEFAULT_WIDTH;
-            display_height = DISPLAY_DEFAULT_HEIGHT;
-        }
-    }
+    display_width = Global::settings().at("Display resolution").at(0);
+    display_height = Global::settings().at("Display resolution").at(1);
+    display_type = Global::settings().at("Display type");
 
-    if (config.find("display_type") == config.end())
-    {
-        display_type = DISPLAY_DEFAULT_TYPE;
-    }
-    else
-    {
-        try
-        {
-            display_type = config["display_type"];
-            // Check whether display type is valid
-            if (display_type != ALLEGRO_RESIZABLE && display_type != ALLEGRO_FULLSCREEN && display_type != (ALLEGRO_FRAMELESS | ALLEGRO_MAXIMIZED))
-            {
-                display_type = DISPLAY_DEFAULT_TYPE;
-            }
-        }
-        catch (std::domain_error)
-        {
-            Global::logging().print(__FILE__, __LINE__, "Could not load display type data, using default instead");
-        }
-    }
-    // TODO: ADD ANOTHER OPTIONS LIKE VSYNC
+    al_set_new_display_option(ALLEGRO_VSYNC, Global::settings().at("Vsync"), ALLEGRO_SUGGEST);
 
     ALLEGRO_DISPLAY *display;
-    al_set_new_display_option(ALLEGRO_VSYNC, 1, ALLEGRO_SUGGEST);
     al_set_new_display_flags(ALLEGRO_OPENGL | display_type);
     display = al_create_display(display_width, display_height);
 
@@ -220,15 +168,5 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay(const nlohmann::json &config)
     {
         Global::logging().panic(__FILE__, __LINE__, "Could not create display");
     }
-
-    /*
-    ConfigLoader configloader;
-    nlohmann::json config_fixed = configloader.requestconfig();
-    config_fixed["display_resolution"][0] = display_width;
-    config_fixed["display_resolution"][1] = display_height;
-    config_fixed["display_type"] = display_type;
-    configloader.saveconfig(config_fixed);
-    */
-
     return display;
 }
