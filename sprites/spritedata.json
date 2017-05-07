@@ -929,19 +929,19 @@
     "heroes/reinhardt/ult/plume/ number of frames": 4,
     "heroes/reinhardt/ult/plume/1_sprite.png": [
         9.0,
-        -19.0
+        7.0
     ],
     "heroes/reinhardt/ult/plume/2_sprite.png": [
         10.0,
-        -3.0
+        23.0
     ],
     "heroes/reinhardt/ult/plume/3_sprite.png": [
-        23.0,
-        27.0
+        24.0,
+        53.0
     ],
     "heroes/reinhardt/ult/plume/4_sprite.png": [
-        16.0,
-        8.0
+        17.0,
+        34.0
     ],
     "ui/ number of frames": 0,
     "ui/Logo/ number of frames": 2,
