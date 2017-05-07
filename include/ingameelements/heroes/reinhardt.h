@@ -17,9 +17,13 @@ class Reinhardt : public Character
         void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         Rect getcollisionrect(Gamestate &state) override;
         Rect getstandingcollisionrect(Gamestate &state) override;
+        bool collides(Gamestate &state, double testx, double testy) override;
         std::string currentsprite(Gamestate &state, bool mask) override;
+        std::string currenttorsosprite(Gamestate &state, bool mask);
         std::unique_ptr<Entity> clone() {return std::unique_ptr<Entity>(new Reinhardt(*this));}
         bool cangetinput(Gamestate &state) override;
+        bool canuseweapons(Gamestate &state) override;
+        bool canuseabilities(Gamestate &state) override;
         void useability1(Gamestate &state) override;
         void useability2(Gamestate &state) override;
         void useultimate(Gamestate &state) override;
@@ -28,6 +32,7 @@ class Reinhardt : public Character
         void interrupt(Gamestate &state) override;
         void drawhud(Renderer &renderer, Gamestate &state) override;
         bool weaponvisible(Gamestate &state) override;
+        void createearthshatter(Gamestate &state);
 
         double passiveultcharge() override {return 100*0.4166666666666667;}
         Heroclass heroclass() override {return REINHARDT;}
@@ -41,6 +46,7 @@ class Reinhardt : public Character
         Animation preparechargeanim;
         Animation endchargeanim;
         Animation earthshatteranim;
+        Timer earthshatterdelay;
         LoopAnimation shieldrunanim;
     protected:
     private:

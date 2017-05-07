@@ -13,12 +13,14 @@ class Hammer : public Weapon
 
         void renderbehind(Renderer &renderer, Gamestate &state);
         void render(Renderer &renderer, Gamestate &state) override;
+        void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Hammer(*this));}
 
         void fireprimary(Gamestate &state) override;
         void wantfireprimary(Gamestate &state) override;
         void firesecondary(Gamestate &state) override;
         void wantfiresecondary(Gamestate &state) override;
+        void createfirestrike(Gamestate &state) {}
         void beginstep(Gamestate &state, double frametime) override;
         void midstep(Gamestate &state, double frametime) override;
         void endstep(Gamestate &state, double frametime) override;
@@ -31,6 +33,8 @@ class Hammer : public Weapon
         ReinhardtShield& barrier(Gamestate &state);
 
         EntityPtr barrierptr;
+        Animation firestrikeanim;
+        Timer firestrikedelay;
 
     protected:
     private:

@@ -11,3 +11,5 @@ constexpr int STAIRCASE_STEPSIZE = -6;
 constexpr int PLAYER_LIMIT = 16;
 
 constexpr double PI = 3.1415;
+
+constexpr auto NULL_SPRITE = "NULL_SPRITE";

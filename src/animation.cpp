@@ -77,7 +77,7 @@ void Animation::init(std::string path_, std::function<void(Gamestate &state)> ev
 
     ConfigLoader cfgloader;
 
-    nlohmann::json data = cfgloader.requestconfig("gamedata.json");
+    nlohmann::json data = cfgloader.open("gamedata.json");
     double duration = 0;
     try
     {
@@ -88,7 +88,7 @@ void Animation::init(std::string path_, std::function<void(Gamestate &state)> ev
         Global::logging().panic(__FILE__, __LINE__, "Could not load %s animation duration", path.c_str());
     }
 
-    nlohmann::json data2 = cfgloader.requestconfig("sprites/spritedata.json");
+    nlohmann::json data2 = cfgloader.open("sprites/spritedata.json");
     try
     {
         nframes = data2[path+" number of frames"];

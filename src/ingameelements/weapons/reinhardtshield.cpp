@@ -20,7 +20,7 @@ void ReinhardtShield::init(uint64_t id_, Gamestate &state, Team team_, EntityPtr
 void ReinhardtShield::midstep(Gamestate &state, double frametime)
 {
     Character &reinhardt = state.get<Player>(owner).getcharacter(state);
-    if (not brokencooldown.active)
+    if (not brokencooldown.active and reinhardt.canuseabilities(state))
     {
         active = reinhardt.heldkeys.SECONDARY_FIRE;
     }

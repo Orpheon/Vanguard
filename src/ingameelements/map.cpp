@@ -17,10 +17,10 @@ Map::Map(Gamestate &state, std::string name)
     // Load the map data first
     std::string mapfolder = "maps/" + name + "/";
     ConfigLoader configloader;
-    mapdata = configloader.requestconfig(mapfolder + "mapdata.json");
+    mapdata = configloader.open(mapfolder + "mapdata.json");
 
     // Load all the images
-    std::string bg = mapdata["background"], wg = mapdata["wallmask foreground"], wm = mapdata["wallmask"];
+    std::string bg = mapdata.at("background"), wg = mapdata.at("wallmask foreground"), wm = mapdata.at("wallmask");
     al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
     background = al_load_bitmap((mapfolder + bg).c_str());
     wallground = al_load_bitmap((mapfolder + wg).c_str());
@@ -34,9 +34,9 @@ Map::Map(Gamestate &state, std::string name)
         Global::logging().panic(__FILE__, __LINE__, "%s does not have proper gamemode data", (mapfolder+"mapdata.json").c_str());
     }
 
-    for (nlohmann::json gamemode : mapdata["gamemodes"])
+    for (nlohmann::json gamemode : mapdata.at("gamemodes"))
     {
-        if (gamemode["type"] == "KOTH")
+        if (gamemode.at("type") == "KOTH")
         {
             if (gamemode.find("cp") == gamemode.end())
             {
@@ -50,16 +50,16 @@ Map::Map(Gamestate &state, std::string name)
             {
                 Global::logging().panic(__FILE__, __LINE__, "%s koth gamemode does not have a spawn 2 field.", (mapfolder+"mapdata.json").c_str());
             }
-            Rect cparea(gamemode["cp"][0], gamemode["cp"][1], gamemode["cp"][2], gamemode["cp"][3]);
-            Rect spawnarea1(gamemode["spawn 1"][0], gamemode["spawn 1"][1],
-                            gamemode["spawn 1"][2], gamemode["spawn 1"][3]);
-            Rect spawnarea2(gamemode["spawn 2"][0], gamemode["spawn 2"][1],
-                            gamemode["spawn 2"][2], gamemode["spawn 2"][3]);
+            Rect cparea(gamemode.at("cp")[0], gamemode.at("cp")[1], gamemode.at("cp")[2], gamemode.at("cp")[3]);
+            Rect spawnarea1(gamemode.at("spawn 1")[0], gamemode.at("spawn 1")[1],
+                            gamemode.at("spawn 1")[2], gamemode.at("spawn 1")[3]);
+            Rect spawnarea2(gamemode.at("spawn 2")[0], gamemode.at("spawn 2")[1],
+                            gamemode.at("spawn 2")[2], gamemode.at("spawn 2")[3]);
             gamemodes.push_back(state.make_entity<KothManager>(spawnarea1, spawnarea2, cparea));
         }
         else
         {
-            Global::logging().panic(__FILE__, __LINE__, "Unknown gamemode %s", gamemode["type"]);
+            Global::logging().panic(__FILE__, __LINE__, "Unknown gamemode %s", gamemode.at("type"));
         }
     }
     currentgamemode(state).activate(state, std::bind(&Map::gotonextgamemode, this, std::placeholders::_1, std::placeholders::_2));

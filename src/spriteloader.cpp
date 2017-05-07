@@ -8,8 +8,8 @@ Spriteloader::Spriteloader(bool masksonly_) : bitmapcache(), masksonly(masksonly
 {
     ConfigLoader cfgloader;
 
-    spriteoffsets = cfgloader.requestconfig("sprites/spritedata.json");
-    gamedata = cfgloader.requestconfig("gamedata.json");
+    spriteoffsets = cfgloader.open("sprites/spritedata.json");
+    gamedata = cfgloader.open("gamedata.json");
 }
 
 Spriteloader::~Spriteloader()

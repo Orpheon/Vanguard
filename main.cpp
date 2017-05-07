@@ -18,13 +18,20 @@
 #include "networking/servernetworker.h"
 #include "networking/clientnetworker.h"
 #include "global.h"
+#include "configloader.h"
 
 long int getmillisec();
 
-int main_impl(int argc, char **argv)
+int main(int argc, char **argv)
 {
+    // Initialize logging
     std::unique_ptr<PrintLogger> default_logger(new PrintLogger());
     Global::provide_logging(default_logger.get());
+
+    // Load the settings config
+    ConfigLoader settings_configloader;
+    nlohmann::json settings = settings_configloader.open("settings.json");
+    Global::provide_settings(&settings);
 
     // Initialize Allegro
     if (!al_init())
@@ -160,16 +167,4 @@ int main_impl(int argc, char **argv)
         renderer.render(display, renderingstate, myself, *networker);
     }
     return 0;
-}
-
-int main(int argc, char **argv)
-{
-    try
-    {
-        return main_impl(argc, argv);
-    }
-    catch (...)
-    {
-        return -1;
-    }
 }

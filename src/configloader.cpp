@@ -2,25 +2,27 @@
 #include <string>
 
 #include "configloader.h"
+#include "global.h"
 #include "json.hpp"
 
-nlohmann::json ConfigLoader::requestconfig()
-{
-    return requestconfig(CONFIG_PATH);
-}
-
-nlohmann::json ConfigLoader::requestconfig(const std::string &path)
+nlohmann::json ConfigLoader::open(const std::string &path)
 {
     std::ifstream configfile(path);
-    nlohmann::json config;
-    config << configfile;
-    configfile.close();
-    return config;
+    if (configfile.good())
+    {
+        config << configfile;
+        configfile.close();
+        return config;
+    }
+    else
+    {
+        Global::logging().panic(__FILE__, __LINE__, "Config %s requested but not found.", path);
+    }
 }
 
-void ConfigLoader::saveconfig(nlohmann::json& config)
+void ConfigLoader::save(std::string &path)
 {
-    std::ofstream configfile(CONFIG_PATH);
+    std::ofstream configfile(path);
     configfile << config.dump(4) << std::endl;
     configfile.close();
 }

@@ -6,12 +6,8 @@
 class ConfigLoader
 {
     public:
-        nlohmann::json requestconfig();
-        nlohmann::json requestconfig(const std::string &path);
-        void saveconfig(nlohmann::json &config);
-
-    protected:
-
+        nlohmann::json open(const std::string &path);
+        void save(std::string &path);
     private:
-        const std::string CONFIG_PATH = "config.json";
+        nlohmann::json config;
 };
