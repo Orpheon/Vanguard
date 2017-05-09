@@ -63,9 +63,9 @@ void Peacemaker::render(Renderer &renderer, Gamestate &state)
     }
 }
 
-void Peacemaker::midstep(Gamestate &state, double frametime)
+void Peacemaker::beginstep(Gamestate &state, double frametime)
 {
-    Clipweapon::midstep(state, frametime);
+    Clipweapon::beginstep(state, frametime);
 
     if (isfthing)
     {

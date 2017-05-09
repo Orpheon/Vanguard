@@ -13,7 +13,7 @@ void Corpse::init(uint64_t id_, Gamestate &state, std::string herofolder, bool i
     isflipped = isflipped_;
 }
 
-void Corpse::midstep(Gamestate &state, double frametime)
+void Corpse::beginstep(Gamestate &state, double frametime)
 {
     countdown.update(state, frametime);
 

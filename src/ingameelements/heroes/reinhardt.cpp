@@ -112,9 +112,9 @@ void Reinhardt::drawhud(Renderer &renderer, Gamestate &state)
     Character::drawhud(renderer, state);
 }
 
-void Reinhardt::midstep(Gamestate &state, double frametime)
+void Reinhardt::beginstep(Gamestate &state, double frametime)
 {
-    Character::midstep(state, frametime);
+    Character::beginstep(state, frametime);
 
     if (chargeanim.active())
     {

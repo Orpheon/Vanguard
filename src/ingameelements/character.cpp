@@ -48,11 +48,6 @@ void Character::setinput(Gamestate &state, InputContainer heldkeys_, double mous
 
 void Character::beginstep(Gamestate &state, double frametime)
 {
-    getweapon(state).beginstep(state, frametime);
-}
-
-void Character::midstep(Gamestate &state, double frametime)
-{
     Player &ownerplayer = state.get<Player>(owner);
 
     if (cangetinput(state))
@@ -135,12 +130,12 @@ void Character::midstep(Gamestate &state, double frametime)
     // Passive ult charge
     ownerplayer.ultcharge.update(state, frametime*passiveultcharge());
 
-    getweapon(state).midstep(state, frametime);
+    getweapon(state).beginstep(state, frametime);
 }
 
-void Character::endstep(Gamestate &state, double frametime)
+void Character::midstep(Gamestate &state, double frametime)
 {
-    MovingEntity::endstep(state, frametime);
+    MovingEntity::midstep(state, frametime);
 
     // Collision with wallmask
     if (state.currentmap->collides(getcollisionrect(state)))
@@ -285,6 +280,11 @@ void Character::endstep(Gamestate &state, double frametime)
         crouchanim.active(crouch);
     }
 
+    getweapon(state).midstep(state, frametime);
+}
+
+void Character::endstep(Gamestate &state, double frametime)
+{
     getweapon(state).endstep(state, frametime);
 }
 

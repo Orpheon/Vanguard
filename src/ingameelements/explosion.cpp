@@ -10,7 +10,7 @@ void Explosion::init(uint64_t id_, Gamestate &state, std::string animationpath, 
     direction = direction_;
 }
 
-void Explosion::midstep(Gamestate &state, double frametime)
+void Explosion::beginstep(Gamestate &state, double frametime)
 {
     explosionanim.update(state, frametime);
 }

@@ -14,7 +14,7 @@ void MovingEntity::init(uint64_t id_, Gamestate &state)
     vspeed = 0;
 }
 
-void MovingEntity::endstep(Gamestate &state, double frametime)
+void MovingEntity::midstep(Gamestate &state, double frametime)
 {
     x += hspeed*frametime;
     y += vspeed*frametime;

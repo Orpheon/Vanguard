@@ -19,12 +19,6 @@ void Weapon::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
 void Weapon::beginstep(Gamestate &state, double frametime)
 {
-    // FIXME: Why is this method here
-    ;
-}
-
-void Weapon::midstep(Gamestate &state, double frametime)
-{
     firinganim.update(state, frametime);
 }
 

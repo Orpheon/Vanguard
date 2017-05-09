@@ -9,7 +9,7 @@ class Clipweapon : public Weapon
         virtual void init(uint64_t id_, Gamestate &state, EntityPtr owner_) override;
         virtual ~Clipweapon() = default;
 
-        virtual void midstep(Gamestate &state, double frametime) override;
+        virtual void beginstep(Gamestate &state, double frametime) override;
         virtual void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         virtual void serialize(Gamestate &state, WriteBuffer &buffer, bool fullupdate) override;
         virtual void deserialize(Gamestate &state, ReadBuffer &buffer, bool fullupdate) override;

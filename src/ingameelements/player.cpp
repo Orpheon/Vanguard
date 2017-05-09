@@ -49,6 +49,7 @@ void Player::init(uint64_t id_, Gamestate &state)
 
 void Player::beginstep(Gamestate &state, double frametime)
 {
+    spawntimer.update(state, frametime);
     if (state.exists(character))
     {
         state.get<Character>(character).beginstep(state, frametime);
@@ -57,7 +58,6 @@ void Player::beginstep(Gamestate &state, double frametime)
 
 void Player::midstep(Gamestate &state, double frametime)
 {
-    spawntimer.update(state, frametime);
     if (state.exists(character))
     {
         state.get<Character>(character).midstep(state, frametime);

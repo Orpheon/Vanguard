@@ -129,14 +129,14 @@ void Hammer::beginstep(Gamestate &state, double frametime)
 {
     Weapon::beginstep(state, frametime);
     barrier(state).beginstep(state, frametime);
+    firestrikeanim.update(state, frametime);
+    firestrikedelay.update(state, frametime);
 }
 
 void Hammer::midstep(Gamestate &state, double frametime)
 {
     Weapon::midstep(state, frametime);
     barrier(state).midstep(state, frametime);
-    firestrikeanim.update(state, frametime);
-    firestrikedelay.update(state, frametime);
 }
 
 void Hammer::endstep(Gamestate &state, double frametime)

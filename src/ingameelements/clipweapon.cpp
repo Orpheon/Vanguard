@@ -8,9 +8,9 @@ void Clipweapon::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     clip = getclipsize();
 }
 
-void Clipweapon::midstep(Gamestate &state, double frametime)
+void Clipweapon::beginstep(Gamestate &state, double frametime)
 {
-    Weapon::midstep(state, frametime);
+    Weapon::beginstep(state, frametime);
 
     if (clip == 0)
     {

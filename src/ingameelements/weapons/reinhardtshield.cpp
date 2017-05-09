@@ -17,7 +17,7 @@ void ReinhardtShield::init(uint64_t id_, Gamestate &state, Team team_, EntityPtr
     brokencooldown.active = false;
 }
 
-void ReinhardtShield::midstep(Gamestate &state, double frametime)
+void ReinhardtShield::beginstep(Gamestate &state, double frametime)
 {
     Character &reinhardt = state.get<Player>(owner).getcharacter(state);
     if (not brokencooldown.active and reinhardt.canuseabilities(state))
@@ -40,9 +40,9 @@ void ReinhardtShield::midstep(Gamestate &state, double frametime)
     }
 }
 
-void ReinhardtShield::endstep(Gamestate &state, double frametime)
+void ReinhardtShield::midstep(Gamestate &state, double frametime)
 {
-    Shield::endstep(state, frametime);
+    Shield::midstep(state, frametime);
 
     Character &reinhardt = state.get<Player>(owner).getcharacter(state);
     Weapon &hammer = reinhardt.getweapon(state);

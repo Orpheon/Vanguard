@@ -14,7 +14,7 @@ class Projectile : public MovingEntity
         virtual PenetrationLevel penetration() = 0;
         virtual std::string spriteid() = 0;
         virtual bool checkcollision(Gamestate &state, Entity &target);
-        virtual void midstep(Gamestate &state, double frametime) override;
+        virtual void beginstep(Gamestate &state, double frametime) override;
         EntityPtr owner;
         Team team;
     protected:

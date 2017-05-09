@@ -14,7 +14,7 @@ void Trail::init(uint64_t id_, Gamestate &state, ALLEGRO_COLOR color_, double x1
     countdown.init(duration, std::bind(&Trail::destroy, this, std::placeholders::_1));
 }
 
-void Trail::midstep(Gamestate &state, double frametime)
+void Trail::beginstep(Gamestate &state, double frametime)
 {
     countdown.update(state, frametime);
 }

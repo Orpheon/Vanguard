@@ -12,7 +12,7 @@ void Projectile::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     team = state.get<Player>(owner).team;
 }
 
-void Projectile::midstep(Gamestate &state, double frametime)
+void Projectile::beginstep(Gamestate &state, double frametime)
 {
     if (not (penetration() & PENETRATE_WALLMASK) and state.currentmap->collides(x, y, spriteid(), std::atan2(vspeed, hspeed)))
     {

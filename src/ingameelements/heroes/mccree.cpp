@@ -165,9 +165,9 @@ void Mccree::drawhud(Renderer &renderer, Gamestate &state)
 }
 
 
-void Mccree::midstep(Gamestate &state, double frametime)
+void Mccree::beginstep(Gamestate &state, double frametime)
 {
-    Character::midstep(state, frametime);
+    Character::beginstep(state, frametime);
 
     rollanim.update(state, frametime);
     if (rollanim.active())
