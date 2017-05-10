@@ -35,7 +35,7 @@ class Character : public MovingEntity
         virtual bool onground(Gamestate &state);
         virtual Rect getcollisionrect(Gamestate &state) = 0;
         virtual Rect getstandingcollisionrect(Gamestate &state) = 0;
-        virtual bool cangetinput(Gamestate &state) {return not stunanim.active();}
+        virtual bool cangetinput(Gamestate &state) {return not stunanim.active() and not pinanim.active();}
         virtual bool canuseweapons(Gamestate &state) {return cangetinput(state);}
         virtual bool canuseabilities(Gamestate &state) {return cangetinput(state);}
         virtual double damage(Gamestate &state, double amount) override;
@@ -74,6 +74,7 @@ class Character : public MovingEntity
         LoopAnimation runanim;
         LoopAnimation crouchanim;
         Animation stunanim;
+        LoopAnimation pinanim;
         Timer ongroundsmooth;
 
         InputContainer heldkeys;

@@ -13,6 +13,7 @@ class Reinhardt : public Character
         virtual void init(uint64_t id_, Gamestate &state, EntityPtr owner_) override;
         virtual ~Reinhardt() override = default;
         void beginstep(Gamestate &state, double frametime) override;
+        void endstep(Gamestate &state, double frametime) override;
         void render(Renderer &renderer, Gamestate &state) override;
         void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         Rect getcollisionrect(Gamestate &state) override;
@@ -28,11 +29,13 @@ class Reinhardt : public Character
         void useability2(Gamestate &state) override;
         void useultimate(Gamestate &state) override;
         void begincharge() {chargeanim.reset();}
-        void endcharge() {chargeanim.active(false); endchargeanim.reset();}
+        void endcharge(Gamestate &state);
         void interrupt(Gamestate &state) override;
         void drawhud(Renderer &renderer, Gamestate &state) override;
         bool weaponvisible(Gamestate &state) override;
         void createearthshatter(Gamestate &state);
+        double pinoffset_x() {return 48 * (isflipped?-1:1);}
+        double pinoffset_y() {return 24;}
 
         double passiveultcharge() override {return 100*0.4166666666666667;}
         Heroclass heroclass() override {return REINHARDT;}
@@ -48,6 +51,11 @@ class Reinhardt : public Character
         Animation earthshatteranim;
         Timer earthshatterdelay;
         LoopAnimation shieldrunanim;
+
+        EntityPtr pintarget;
+
+        static constexpr double CHARGE_BUMP_DAMAGE = 50;
+        static constexpr double CHARGE_PIN_DAMAGE = 300;
     protected:
     private:
 };

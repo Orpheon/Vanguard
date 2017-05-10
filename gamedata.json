@@ -18,6 +18,7 @@
     "heroes/mccree/projectiletrail/ duration": 0.2,
     "heroes/mccree/stun/ duration": 0.7,
     "heroes/mccree/falling/ duration": 45,
+    "heroes/mccree/pinned/ duration": 1,
 
     "heroes/reinhardt/reload/ duration": 0,
     "heroes/reinhardt/run/ duration": 140,
@@ -32,6 +33,7 @@
     "heroes/reinhardt/charge/ duration": 2,
     "heroes/reinhardt/ult/ duration": 1.3,
     "heroes/reinhardt/ult/plume/ duration": 0.4,
+    "heroes/reinhardt/pinned/ duration": 1,
 
     "heroes/mccree/idle/1 weapon": [-3, 8],
     "heroes/mccree/run/1 weapon": [-2, 9],

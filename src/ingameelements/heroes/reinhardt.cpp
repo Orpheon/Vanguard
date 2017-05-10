@@ -14,7 +14,7 @@ void Reinhardt::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Character::init(id_, state, owner_);
 
-    chargeanim.init(herofolder()+"charge/", std::bind(&Reinhardt::endcharge, this));
+    chargeanim.init(herofolder()+"charge/", std::bind(&Reinhardt::endcharge, this, std::placeholders::_1));
     chargeanim.active(false);
     preparechargeanim.init(herofolder()+"preparecharge/", std::bind(&Reinhardt::begincharge, this));
     preparechargeanim.active(false);
@@ -120,7 +120,11 @@ void Reinhardt::beginstep(Gamestate &state, double frametime)
     {
         if (xblocked)
         {
-            endcharge();
+            if (state.exists(pintarget))
+            {
+                state.get<Character&>(pintarget).damage(state, CHARGE_PIN_DAMAGE);
+            }
+            endcharge(state);
         }
         if (isflipped)
         {
@@ -129,6 +133,24 @@ void Reinhardt::beginstep(Gamestate &state, double frametime)
         else
         {
             hspeed = 500;
+        }
+        for (auto& playerptr : state.playerlist)
+        {
+            Player &player = state.get<Player&>(playerptr);
+            if (state.exists(player.character))
+            {
+                Character &character = player.getcharacter(state);
+                if (character.damageableby(team) and character.collides(state, x+pinoffset_x(), y+pinoffset_y()))
+                {
+                    character.damage(state, CHARGE_BUMP_DAMAGE);
+                    if (state.exists(character.id) and not state.exists(pintarget))
+                    {
+                        // If they survived and we don't yet have a pinned target, pin them
+                        character.pinanim.reset();
+                        pintarget = character.id;
+                    }
+                }
+            }
         }
     }
     chargeanim.update(state, frametime);
@@ -165,6 +187,20 @@ void Reinhardt::beginstep(Gamestate &state, double frametime)
             state.engine.sendbuffer.write<uint8_t>(ABILITY2_USED);
             state.engine.sendbuffer.write<uint8_t>(state.findplayerid(owner));
         }
+    }
+}
+
+void Reinhardt::endstep(Gamestate &state, double frametime)
+{
+    Character::endstep(state, frametime);
+
+    if (chargeanim.active() and state.exists(pintarget))
+    {
+        Character &target = state.get<Character&>(pintarget);
+        target.x = x + pinoffset_x();
+        target.y = y;
+        target.hspeed = hspeed;
+        target.vspeed = vspeed;
     }
 }
 
@@ -224,6 +260,16 @@ void Reinhardt::useultimate(Gamestate &state)
     earthshatterdelay.reset();
     Player &ownerplayer = state.get<Player>(owner);
     ownerplayer.ultcharge.reset();
+}
+
+void Reinhardt::endcharge(Gamestate &state)
+{
+    if (state.exists(pintarget))
+    {
+        state.get<Character&>(pintarget).pinanim.active(false);
+    }
+    chargeanim.active(false);
+    endchargeanim.reset();
 }
 
 void Reinhardt::createearthshatter(Gamestate &state)
@@ -289,6 +335,10 @@ bool Reinhardt::collides(Gamestate &state, double testx, double testy)
 
 std::string Reinhardt::currentsprite(Gamestate &state, bool mask)
 {
+    if (pinanim.active())
+    {
+        return pinanim.getframepath();
+    }
     if (stunanim.active())
     {
         return stunanim.getframepath();

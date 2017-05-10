@@ -27,6 +27,8 @@ void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     crouchanim.active(false);
     stunanim.init(herofolder()+"stun/");
     stunanim.active(false);
+    pinanim.init(herofolder()+"pinned/");
+    pinanim.active(false);
     ongroundsmooth.init(0.05);
 
     xblocked = false;
@@ -270,6 +272,7 @@ void Character::midstep(Gamestate &state, double frametime)
         }
     }
     stunanim.update(state, frametime);
+    pinanim.update(state, frametime);
     ongroundsmooth.update(state, frametime);
     if (hspeed == 0.0)
     {
@@ -700,6 +703,7 @@ void Character::interpolate(Entity &prev_entity, Entity &next_entity, double alp
     runanim.interpolate(p.runanim, n.runanim, alpha);
     crouchanim.interpolate(p.crouchanim, n.crouchanim, alpha);
     stunanim.interpolate(p.stunanim, n.stunanim, alpha);
+    pinanim.interpolate(p.pinanim, n.pinanim, alpha);
     ongroundsmooth.interpolate(p.ongroundsmooth, n.ongroundsmooth, alpha);
     hp.normal = p.hp.normal + alpha*(n.hp.normal - p.hp.normal);
     hp.armor = p.hp.armor + alpha*(n.hp.armor - p.hp.armor);

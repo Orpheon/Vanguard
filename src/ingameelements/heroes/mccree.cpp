@@ -328,6 +328,10 @@ Rect Mccree::getstandingcollisionrect(Gamestate &state)
 
 std::string Mccree::currentsprite(Gamestate &state, bool mask)
 {
+    if (pinanim.active())
+    {
+        return pinanim.getframepath();
+    }
     if (stunanim.active())
     {
         return stunanim.getframepath();
