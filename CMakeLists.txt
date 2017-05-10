@@ -2,11 +2,13 @@ project(Vanguard)
 cmake_minimum_required(VERSION 2.8)
 
 option(COMPILE_STATIC "Compile statically instead of dynamically" OFF)
+option(VANGUARD_DEBUG_MODE "Generate debug symbols and stack trace, currently linux-only" ON)
 
 set (Vanguardcompileflags "-std=c++11 -Wall -pedantic -fwrapv -Wno-format-security")
 if (COMPILE_STATIC)
     set (Vanguardlib allegro_monolith-static allegro_dialog-static jpeg vorbis ogg glu32 opengl32 freetype png16 z kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid dsound wsock32 psapi shlwapi enet)
     set (Vanguardlinkflags "-static-libstdc++ -static-libgcc -static ")
+    set (VANGUARD_DEBUG_MODE OFF)
 else (COMPILE_STATIC)
     set (Vanguardlib allegro allegro_image allegro_primitives allegro_font allegro_ttf allegro_dialog enet)
     set (Vanguardlinkflags "")
@@ -62,7 +64,14 @@ set (SRC_FILES
         "src/ingameelements/gamemodes/kothmanager.cpp"
         "src/ingameelements/gamemodes/gamemodemanager.cpp")
 
+if (VANGUARD_DEBUG_MODE)
+    set (SRC_FILES ${SRC_FILES} "src/backward-stacktrace/backward.cpp")
+    set (Vanguardlib ${Vanguardlib} dw)
+    set(CMAKE_BUILD_TYPE Debug)
+endif (VANGUARD_DEBUG_MODE)
+
 SET( CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} ${Vanguardcompileflags}" )
+MESSAGE(${CMAKE_CXX_FLAGS})
 SET( CMAKE_EXE_LINKER_FLAGS  "${CMAKE_EXE_LINKER_FLAGS} ${Vanguardlinkflags}" )
 
 add_executable(Vanguard ${SRC_FILES})
