@@ -140,7 +140,7 @@ void Character::midstep(Gamestate &state, double frametime)
     MovingEntity::midstep(state, frametime);
 
     // Collision with wallmask
-    if (state.currentmap->collides(getcollisionrect(state)))
+    if (state.currentmap->collides(getcollisionrect(state)) and not pinanim.active())
     {
         // We collide, do collision handling
         double hs = hspeed*frametime, vs = vspeed*frametime;

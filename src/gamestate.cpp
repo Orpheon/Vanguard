@@ -69,9 +69,12 @@ void Gamestate::removeplayer(int playerid)
     for (auto &e : entitylist)
     {
         auto &entity = *(e.second);
-        if (entity.isowner(EntityPtr(playerid)))
+        if (not entity.destroyentity)
         {
-            entity.destroy(*this);
+            if (entity.isowner(EntityPtr(playerid)))
+            {
+                entity.destroy(*this);
+            }
         }
     }
 
@@ -186,15 +189,18 @@ EntityPtr Gamestate::collidelinetarget(Gamestate &state, double x1, double y1, M
         for (auto &e : entitylist)
         {
             auto &entity = *(e.second);
-            if ((entity.id == target.id or entity.blocks(penlevel)) and entity.damageableby(team))
+            if (not entity.destroyentity)
             {
-                double enemycenterx=0, enemycentery=0;
-                double dist = entity.maxdamageabledist(state, &enemycenterx, &enemycentery);
-                if (std::hypot(enemycenterx-*collisionptx, enemycentery-*collisionpty) <= dist)
+                if ((entity.id == target.id or entity.blocks(penlevel)) and entity.damageableby(team))
                 {
-                    if (entity.collides(state, *collisionptx, *collisionpty))
+                    double enemycenterx=0, enemycentery=0;
+                    double dist = entity.maxdamageabledist(state, &enemycenterx, &enemycentery);
+                    if (std::hypot(enemycenterx-*collisionptx, enemycentery-*collisionpty) <= dist)
                     {
-                        return EntityPtr(entity.id);
+                        if (entity.collides(state, *collisionptx, *collisionpty))
+                        {
+                            return EntityPtr(entity.id);
+                        }
                     }
                 }
             }
@@ -224,15 +230,18 @@ EntityPtr Gamestate::collidelinedamageable(Gamestate &state, double x1, double y
         for (auto &e : entitylist)
         {
             auto &entity = *(e.second);
-            if (entity.damageableby(team))
+            if (not entity.destroyentity)
             {
-                double enemycenterx=0, enemycentery=0;
-                double dist = entity.maxdamageabledist(state, &enemycenterx, &enemycentery);
-                if (std::hypot(enemycenterx-*collisionptx, enemycentery-*collisionpty) <= dist)
+                if (entity.damageableby(team))
                 {
-                    if (entity.collides(state, *collisionptx, *collisionpty))
+                    double enemycenterx=0, enemycentery=0;
+                    double dist = entity.maxdamageabledist(state, &enemycenterx, &enemycentery);
+                    if (std::hypot(enemycenterx-*collisionptx, enemycentery-*collisionpty) <= dist)
                     {
-                        return EntityPtr(entity.id);
+                        if (entity.collides(state, *collisionptx, *collisionpty))
+                        {
+                            return EntityPtr(entity.id);
+                        }
                     }
                 }
             }

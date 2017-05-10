@@ -21,13 +21,16 @@ void Projectile::beginstep(Gamestate &state, double frametime)
     for (auto &e : state.entitylist)
     {
         auto &entity = *(e.second);
-        if (entity.damageableby(team) and checkcollision(state, entity))
+        if (not entity.destroyentity)
         {
-            dealdamage(state, entity);
-            if (entity.blocks(penetration()))
+            if (entity.damageableby(team) and checkcollision(state, entity))
             {
-                destroy(state);
-                break;
+                dealdamage(state, entity);
+                if (entity.blocks(penetration()))
+                {
+                    destroy(state);
+                    break;
+                }
             }
         }
     }

@@ -41,16 +41,19 @@ double Flashbang::explode(Gamestate &state)
     for (auto &e : state.entitylist)
     {
         auto &entity = *(e.second);
-        if (entity.hasposition() and entity.damageableby(team))
+        if (not entity.destroyentity)
         {
-            double collisionptx, collisionpty;
-            MovingEntity &mv = static_cast<MovingEntity&>(entity);
-            EntityPtr target = state.collidelinetarget(state, x, y, mv, team, PENETRATE_CHARACTER, &collisionptx, &collisionpty);
-            if (target.id == entity.id)
+            if (entity.hasposition() and entity.damageableby(team))
             {
-                entity.damage(state, 25);
-                dmgdealt += 25;
-                entity.stun(state);
+                double collisionptx, collisionpty;
+                MovingEntity &mv = static_cast<MovingEntity&>(entity);
+                EntityPtr target = state.collidelinetarget(state, x, y, mv, team, PENETRATE_CHARACTER, &collisionptx, &collisionpty);
+                if (target.id == entity.id)
+                {
+                    entity.damage(state, 25);
+                    dmgdealt += 25;
+                    entity.stun(state);
+                }
             }
         }
     }

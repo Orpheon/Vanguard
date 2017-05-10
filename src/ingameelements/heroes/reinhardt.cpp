@@ -317,19 +317,20 @@ bool Reinhardt::collides(Gamestate &state, double testx, double testy)
     }
     else
     {
-        Rect self = state.engine.maskloader.get_rect(currenttorsosprite(state, true)).offset(x, y);
+        std::string torsosprite = currenttorsosprite(state, true);
+        if (torsosprite != "NULL_SPRITE")
+        {
+            Rect self = state.engine.maskloader.get_rect(currenttorsosprite(state, true)).offset(x, y);
 
-        if (testx > self.x and testx < self.x+self.w and testy > self.y and testy < self.y+self.h)
-        {
-            // We're close enough that an actual collision might happen
-            // Check the sprite
-            ALLEGRO_BITMAP *selfsprite = state.engine.maskloader.requestsprite(currenttorsosprite(state, true));
-            return al_get_pixel(selfsprite, testx-self.x, testy-self.y).a != 0;
+            if (testx > self.x and testx < self.x+self.w and testy > self.y and testy < self.y+self.h)
+            {
+                // We're close enough that an actual collision might happen
+                // Check the sprite
+                ALLEGRO_BITMAP *selfsprite = state.engine.maskloader.requestsprite(currenttorsosprite(state, true));
+                return al_get_pixel(selfsprite, testx-self.x, testy-self.y).a != 0;
+            }
         }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 }
 
@@ -388,11 +389,12 @@ std::string Reinhardt::currentsprite(Gamestate &state, bool mask)
 
 std::string Reinhardt::currenttorsosprite(Gamestate &state, bool mask)
 {
-    if (stunanim.active() or earthshatteranim.active() or preparechargeanim.active() or chargeanim.active() or endchargeanim.active())
+    if (pinanim.active() or stunanim.active() or earthshatteranim.active() or preparechargeanim.active() or
+        chargeanim.active() or endchargeanim.active())
     {
         return NULL_SPRITE;
     }
-    Hammer &hammer = state.get<Hammer>(weapon);
+    Hammer &hammer = state.get<Hammer&>(weapon);
     if (hammer.firestrikeanim.active())
     {
         return herofolder()+"firestriketorso/"+std::to_string(hammer.firestrikeanim.getframe());
