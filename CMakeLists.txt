@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 
 option(COMPILE_STATIC "Compile statically instead of dynamically" OFF)
 option(VANGUARD_DEBUG_MODE "Generate debug symbols and stack trace, currently linux-only" ON)
+set(VANGUARD_DEBUG_MODE ON)
 
 set (Vanguardcompileflags "-std=c++11 -Wall -pedantic -fwrapv -Wno-format-security")
 if (COMPILE_STATIC)

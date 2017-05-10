@@ -92,6 +92,9 @@
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/animation.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
+		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/backward-stacktrace/backward.cpp">
+			<Option target="Vanguard"/>
+		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/colorpalette.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
