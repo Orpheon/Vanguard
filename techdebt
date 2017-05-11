@@ -1,6 +1,5 @@
 -Move things out from datastructure.h that aren't datatstructures anymore like InputContainer
 -src/renderer.cpp:    // TODO: ADD ANOTHER OPTIONS LIKE VSYNC
--src/ingameelements/map.cpp:    // TODO this thing
 -if configloader is given a nonexistent json path, it just hangs without error message. This needs to be fixed.
 -src/ingameelements/projectiles/flashbang.cpp // TODO: Register ult damage
 -Use argument=default for optional arguments instead of function name mangling like in spriteloader
