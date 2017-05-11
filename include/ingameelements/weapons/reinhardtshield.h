@@ -21,8 +21,8 @@ class ReinhardtShield : public Shield
         bool isrootobject() {return false;}
         std::string spritestr();
 
-        double attachpoint_x() {return 0;}
-        double attachpoint_y() {return 0;}
+        double attachpoint_x(Gamestate &state) {return 0;}
+        double attachpoint_y(Gamestate &state) {return 0;}
 
         EntityPtr owner;
         bool active;

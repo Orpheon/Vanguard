@@ -47,8 +47,8 @@ void ReinhardtShield::midstep(Gamestate &state, double frametime)
     Character &reinhardt = state.get<Player>(owner).getcharacter(state);
     Weapon &hammer = reinhardt.getweapon(state);
     aimdirection = hammer.aimdirection;
-    x = reinhardt.x + attachpoint_x() + DIST_TO_REINHARDT * std::cos(aimdirection);
-    y = reinhardt.y + attachpoint_y() + DIST_TO_REINHARDT * std::sin(aimdirection);
+    x = reinhardt.x + attachpoint_x(state) + DIST_TO_REINHARDT * std::cos(aimdirection);
+    y = reinhardt.y + attachpoint_y(state) + DIST_TO_REINHARDT * std::sin(aimdirection);
 }
 
 void ReinhardtShield::render(Renderer &renderer, Gamestate &state)
@@ -66,8 +66,8 @@ void ReinhardtShield::render(Renderer &renderer, Gamestate &state)
         spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
         rel_x = (x - renderer.cam_x)*renderer.zoom;
         rel_y = (y - renderer.cam_y)*renderer.zoom;
-        attachpt_x = attachpoint_x()*renderer.zoom;
-        attachpt_y = attachpoint_y()*renderer.zoom;
+        attachpt_x = attachpoint_x(state)*renderer.zoom;
+        attachpt_y = attachpoint_y(state)*renderer.zoom;
 
         Character &reinhardt = state.get<Player>(owner).getcharacter(state);
 

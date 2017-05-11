@@ -26,8 +26,10 @@ class Hammer : public Weapon
         void endstep(Gamestate &state, double frametime) override;
         void destroy(Gamestate &state) override;
 
-        double getattachpoint_x() override {return 0;}
-        double getattachpoint_y() override {return 8;}
+        double getattachpoint_x(Gamestate &state) override;
+        double getattachpoint_y(Gamestate &state) override;
+        double getbackattachpoint_x(Gamestate &state);
+        double getbackattachpoint_y(Gamestate &state);
         std::string herofolder() {return "heroes/reinhardt/";}
 
         ReinhardtShield& barrier(Gamestate &state);

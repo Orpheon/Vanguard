@@ -46,8 +46,8 @@ void Peacemaker::render(Renderer &renderer, Gamestate &state)
     double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
     double rel_x = (x - renderer.cam_x)*renderer.zoom;
     double rel_y = (y - renderer.cam_y)*renderer.zoom;
-    double attachpt_x = getattachpoint_x()*renderer.zoom;
-    double attachpt_y = getattachpoint_y()*renderer.zoom;
+    double attachpt_x = getattachpoint_x(state)*renderer.zoom;
+    double attachpt_y = getattachpoint_y(state)*renderer.zoom;
 
     al_set_target_bitmap(renderer.midground);
     if (c.weaponvisible(state))

@@ -30,8 +30,8 @@ class Weapon : public MovingEntity
         virtual void firesecondary(Gamestate &state) = 0;
         virtual void wantfiresecondary(Gamestate &state) = 0;
         virtual bool hasclip() {return false;}
-        virtual double getattachpoint_x() = 0;
-        virtual double getattachpoint_y() = 0;
+        virtual double getattachpoint_x(Gamestate &state) = 0;
+        virtual double getattachpoint_y(Gamestate &state) = 0;
         virtual std::string herofolder() = 0;
 
         std::string idlesprite;

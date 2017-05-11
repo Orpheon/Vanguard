@@ -24,8 +24,8 @@ class Peacemaker : public Clipweapon
         std::string herofolder() override {return "heroes/mccree/";}
         int getclipsize() override {return 6;}
         std::function<void(Gamestate &state)> getreloadfunction(Gamestate &state) override {return std::bind(&Peacemaker::restoreclip, this, std::placeholders::_1);}
-        double getattachpoint_x() override {return -3;}
-        double getattachpoint_y() override {return 8;}
+        double getattachpoint_x(Gamestate &state) override {return -3;}
+        double getattachpoint_y(Gamestate &state) override {return 8;}
 
         Animation fthanim;
         bool isfthing;

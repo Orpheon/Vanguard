@@ -40,8 +40,8 @@ void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
     double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
     double rel_x = (x - renderer.cam_x)*renderer.zoom;
     double rel_y = (y - renderer.cam_y)*renderer.zoom;
-    double attachpt_x = getattachpoint_x()*renderer.zoom;
-    double attachpt_y = getattachpoint_y()*renderer.zoom;
+    double attachpt_x = getbackattachpoint_x(state)*renderer.zoom;
+    double attachpt_y = getbackattachpoint_y(state)*renderer.zoom;
 
     ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(mainsprite);
     ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
@@ -51,7 +51,8 @@ void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
     {
         if (c.isflipped)
         {
-            al_draw_scaled_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, (aimdirection+3.1415)*barrier(state).active, 0);
+            al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x-attachpt_x, rel_y-attachpt_y,
+                                          -1, 1, (aimdirection+3.1415)*barrier(state).active, 0);
             if (state.get<Player>(renderer.myself).team != team)
             {
                 // Draw enemy outline
@@ -93,8 +94,8 @@ void Hammer::render(Renderer &renderer, Gamestate &state)
     double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
     double rel_x = (x - renderer.cam_x)*renderer.zoom;
     double rel_y = (y - renderer.cam_y)*renderer.zoom;
-    double attachpt_x = getattachpoint_x()*renderer.zoom;
-    double attachpt_y = getattachpoint_y()*renderer.zoom;
+    double attachpt_x = getattachpoint_x(state)*renderer.zoom;
+    double attachpt_y = getattachpoint_y(state)*renderer.zoom;
 
     ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(mainsprite);
     ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
@@ -169,6 +170,40 @@ void Hammer::wantfiresecondary(Gamestate &state)
 void Hammer::firesecondary(Gamestate &state)
 {
     // Do nothing
+}
+
+double Hammer::getattachpoint_x(Gamestate &state)
+{
+    return 0;
+}
+
+double Hammer::getattachpoint_y(Gamestate &state)
+{
+    return 8;
+}
+
+double Hammer::getbackattachpoint_x(Gamestate &state)
+{
+    if (barrier(state).active)
+    {
+        return 1 * (state.get<Player&>(owner).getcharacter(state).isflipped ? 1:-1);
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+double Hammer::getbackattachpoint_y(Gamestate &state)
+{
+    if (barrier(state).active)
+    {
+        return 4;
+    }
+    else
+    {
+        return 8;
+    }
 }
 
 ReinhardtShield& Hammer::barrier(Gamestate &state)
