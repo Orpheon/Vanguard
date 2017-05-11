@@ -375,14 +375,18 @@ std::string Reinhardt::currentsprite(Gamestate &state, bool mask)
             return herofolder()+"jump/1";
         }
     }*/
-    if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
-    {
-        return herofolder()+"idle/1";
-    }
     Hammer &hammer = state.get<Hammer>(weapon);
     if (hammer.barrier(state).active)
     {
+        if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
+        {
+            return herofolder()+"shield/1";
+        }
         return shieldrunanim.getframepath();
+    }
+    if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
+    {
+        return herofolder()+"idle/1";
     }
     return runanim.getframepath();
 }
@@ -414,13 +418,13 @@ std::string Reinhardt::currenttorsosprite(Gamestate &state, bool mask)
             return herofolder()+"jump/1";
         }
     }*/
-    if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
-    {
-        return herofolder()+"idletorso/1";
-    }
     if (hammer.barrier(state).active)
     {
         return NULL_SPRITE;
+    }
+    if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
+    {
+        return herofolder()+"idletorso/1";
     }
     return herofolder()+"runtorso/"+std::to_string(runanim.getframe());
 }
