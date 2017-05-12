@@ -5,6 +5,7 @@
 #include "animation.h"
 #include "gamestate.h"
 #include "engine.h"
+#include "colorpalette.h"
 
 #include <memory>
 #include <cmath>

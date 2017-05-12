@@ -40,7 +40,7 @@ class Reinhardt : public Character
         double passiveultcharge() override {return 100*0.4166666666666667;}
         Heroclass heroclass() override {return REINHARDT;}
         double runpower() override {return 1.8;}
-        Health maxhp() override {return Health(300, 200, 0);}
+        Health initializehealth() override {return Health(300, 200, 0);}
         std::string herofolder() override {return "heroes/reinhardt/";}
         EntityPtr constructweapon(Gamestate &state) override {return state.make_entity<Hammer>(state, owner);}
         double maxhspeed(Gamestate &state) override {return state.get<Hammer>(weapon).barrier(state).active ? 60.0 : Character::maxhspeed(state);}

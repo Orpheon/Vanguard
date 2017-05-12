@@ -53,6 +53,7 @@ set (SRC_FILES
         "src/ingameelements/clipweapon.cpp"
         "src/ingameelements/trail.cpp"
         "src/ingameelements/shield.cpp"
+        "src/ingameelements/health.cpp"
         "src/ingameelements/heroes/reinhardt.cpp"
         "src/ingameelements/heroes/mccree.cpp"
         "src/ingameelements/weapons/hammer.cpp"

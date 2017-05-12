@@ -131,6 +131,9 @@
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/gamemodes/kothmanager.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
+		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/health.cpp">
+			<Option target="Vanguard"/>
+		</Unit>
 		<Unit filename="/home/orpheon/Programming/C++/Vanguard/src/ingameelements/heroes/mccree.cpp">
 			<Option target="Vanguard"/>
 		</Unit>

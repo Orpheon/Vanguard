@@ -21,7 +21,7 @@ void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     entitytype = ENTITYTYPE::CHARACTER;
     owner = owner_;
     weapon = constructweapon(state);
-    hp = maxhp();
+    hp = initializehealth();
     team = state.get<Player>(owner).team;
     runanim.init(herofolder()+"run/");
     crouchanim.init(herofolder()+"crouchwalk/");
@@ -297,132 +297,89 @@ void Character::render(Renderer &renderer, Gamestate &state)
     // --------------- HEALTHBAR ---------------
     al_set_target_bitmap(renderer.surfaceground);
     std::string mainsprite = currentsprite(state, false);
-    unsigned char healthalpha = 255;
-    unsigned char lack_healthalpha = 51;
 
-    ALLEGRO_COLOR EXISTING_HEALTH[] = { ColorPalette::premul(Color::HP, healthalpha),
-                                        ColorPalette::premul(Color::ARMOR, healthalpha),
-                                        ColorPalette::premul(Color::SHIELD, healthalpha)};
+    ALLEGRO_COLOR EXISTING_HEALTH[] = { ColorPalette::premul(Color::HP, 255),
+                                        ColorPalette::premul(Color::ARMOR, 255),
+                                        ColorPalette::premul(Color::SHIELD, 255)};
 
-    ALLEGRO_COLOR LACKING_HEALTH[] = { ColorPalette::premul(Color::HP, lack_healthalpha),
-                                       ColorPalette::premul(Color::ARMOR, lack_healthalpha),
-                                       ColorPalette::premul(Color::SHIELD, lack_healthalpha)};
+    ALLEGRO_COLOR LACKING_HEALTH[] = { ColorPalette::premul(Color::HP, 51),
+                                       ColorPalette::premul(Color::ARMOR, 51),
+                                       ColorPalette::premul(Color::SHIELD, 51)};
 
-    double x_;
-    float r[8]; // Array used to pass the polygon data for the actual drawing
-
-    // Parameters
-    double totalwidth = 60;
-    int height = 6;
-    int space = 2;
+    double centerx = renderer.zoom*(x - renderer.cam_x);
+    double centery = renderer.zoom*(y - renderer.spriteloader.get_spriteoffset_y(mainsprite) - renderer.cam_y - 15);
+    double totalwidth = 100;
+    double between_rect_spacing = 2;
     double slant = 0.3;
-    double y_ = renderer.zoom*(y - renderer.spriteloader.get_spriteoffset_y(mainsprite) - renderer.cam_y - 15);
+    double health_height = 6;
 
-    int nrects = std::ceil(maxhp().total()/25.0);
-    double width = totalwidth/nrects;
-    double start_x = renderer.zoom*(x - renderer.cam_x) - width*(nrects/2.0) - space*((nrects-1)/2.0);
+    int nrects = static_cast<int>(std::ceil(initializehealth().total()/25.0));
+    double rect_width = (totalwidth - between_rect_spacing*(nrects-1)) / nrects;
 
-    // Draw first normal health, then armor, then shields
-    for (int healthtype=0; healthtype<3; ++healthtype)
+    for (int rect = 0; rect < nrects; ++rect)
     {
-        double hppercent = 1.0;
-        if (healthtype == 0)
+        if ((rect+1) * 25 < hp.total())
         {
-            nrects = std::ceil(maxhp().normal/25.0);
-            if (nrects == 0)
-            {
-                continue;
-            }
-            hppercent = hp.normal/maxhp().normal;
+            // Full rectangle
         }
-        else if (healthtype == 1)
+        else if (rect * 25 > hp.total())
         {
-            nrects = std::ceil(maxhp().armor/25.0);
-            if (nrects == 0)
-            {
-                continue;
-            }
-            hppercent = hp.armor/maxhp().armor;
+            // Empty rectangle
         }
-        else if (healthtype == 2)
+        else
         {
-            nrects = std::ceil(maxhp().shields/25.0);
-            if (nrects == 0)
-            {
-                continue;
-            }
-            hppercent = hp.shields/maxhp().shields;
+            // Mystery
         }
+    }
 
-        // Full existing health boxes
-        for (int i=0; i<std::floor(nrects*hppercent); ++i)
-        {
-            x_ = start_x + i*width + (i-1)*space;
-            r[0] = x_+height*slant;
-            r[1] = y_;
-
-            r[2] = x_;
-            r[3] = y_+height;
-
-            r[4] = x_+width;
-            r[5] = y_+height;
-
-            r[6] = x_+width+height*slant;
-            r[7] = y_;
-            al_draw_filled_polygon(r, 4, EXISTING_HEALTH[healthtype]);
-        }
-        // Interface between existing and lacking health
-        double leftover = nrects*hppercent - std::floor(nrects*hppercent);
-        if (leftover > 0.0)
-        {
-            // Draw the half-rectangle
-            x_ = start_x + std::floor(nrects*hppercent)*width + (std::floor(nrects*hppercent)-1)*space;
-            r[0] = x_+height*slant;
-            r[1] = y_;
-
-            r[2] = x_;
-            r[3] = y_+height;
-
-            r[4] = x_+width*leftover;
-            r[5] = y_+height;
-
-            r[6] = x_+width*leftover+height*slant;
-            r[7] = y_;
-            al_draw_filled_polygon(r, 4, EXISTING_HEALTH[healthtype]);
-
-            // Draw the other half rectangle
-            r[0] = x_+width*leftover+height*slant;
-            r[1] = y_;
-
-            r[2] = x_+width*leftover;
-            r[3] = y_+height;
-
-            r[4] = x_+width;
-            r[5] = y_+height;
-
-            r[6] = x_+width+height*slant;
-            r[7] = y_;
-            al_draw_filled_polygon(r, 4, LACKING_HEALTH[healthtype]);
-        }
-        // Full lacking health boxes
-        for (int i=std::ceil(nrects*hppercent); i<nrects; ++i)
-        {
-            x_ = start_x + i*width + (i-1)*space;
-            r[0] = x_+height*slant;
-            r[1] = y_;
-
-            r[2] = x_;
-            r[3] = y_+height;
-
-            r[4] = x_+width;
-            r[5] = y_+height;
-
-            r[6] = x_+width+height*slant;
-            r[7] = y_;
-            al_draw_filled_polygon(r, 4, LACKING_HEALTH[healthtype]);
-        }
-//        // Outline
-//        for (int i=0; i<nrects; ++i)
+//    double x_;
+//    float r[8]; // Array used to pass the polygon data for the actual drawing
+//
+//    // Parameters
+//    double totalwidth = 60;
+//    int height = 6;
+//    int space = 2;
+//    double slant = 0.3;
+//    double y_ = renderer.zoom*(y - renderer.spriteloader.get_spriteoffset_y(mainsprite) - renderer.cam_y - 15);
+//
+//    int nrects = std::ceil(initializehealth().total()/25.0);
+//    double width = totalwidth/nrects;
+//    double start_x = renderer.zoom*(x - renderer.cam_x) - width*(nrects/2.0) - space*((nrects-1)/2.0);
+//
+//    // Draw first normal health, then armor, then shields
+//    for (int healthtype=0; healthtype<3; ++healthtype)
+//    {
+//        double hppercent = 1.0;
+//        if (healthtype == 0)
+//        {
+//            nrects = std::ceil(initializehealth().normal/25.0);
+//            if (nrects == 0)
+//            {
+//                continue;
+//            }
+//            hppercent = hp.normal/initializehealth().normal;
+//        }
+//        else if (healthtype == 1)
+//        {
+//            nrects = std::ceil(initializehealth().armor/25.0);
+//            if (nrects == 0)
+//            {
+//                continue;
+//            }
+//            hppercent = hp.armor/initializehealth().armor;
+//        }
+//        else if (healthtype == 2)
+//        {
+//            nrects = std::ceil(initializehealth().shields/25.0);
+//            if (nrects == 0)
+//            {
+//                continue;
+//            }
+//            hppercent = hp.shields/initializehealth().shields;
+//        }
+//
+//        // Full existing health boxes
+//        for (int i=0; i<std::floor(nrects*hppercent); ++i)
 //        {
 //            x_ = start_x + i*width + (i-1)*space;
 //            r[0] = x_+height*slant;
@@ -436,11 +393,78 @@ void Character::render(Renderer &renderer, Gamestate &state)
 //
 //            r[6] = x_+width+height*slant;
 //            r[7] = y_;
-//            al_draw_polygon(r, 4, ALLEGRO_LINE_JOIN_ROUND, EXISTING_HEALTH[healthtype], 0, 0);
+//            al_draw_filled_polygon(r, 4, EXISTING_HEALTH[healthtype]);
 //        }
-        // Offset starting position for the next health
-        start_x += nrects*(width + space);
-    }
+//        // Interface between existing and lacking health
+//        double leftover = nrects*hppercent - std::floor(nrects*hppercent);
+//        if (leftover > 0.0)
+//        {
+//            // Draw the half-rectangle
+//            x_ = start_x + std::floor(nrects*hppercent)*width + (std::floor(nrects*hppercent)-1)*space;
+//            r[0] = x_+height*slant;
+//            r[1] = y_;
+//
+//            r[2] = x_;
+//            r[3] = y_+height;
+//
+//            r[4] = x_+width*leftover;
+//            r[5] = y_+height;
+//
+//            r[6] = x_+width*leftover+height*slant;
+//            r[7] = y_;
+//            al_draw_filled_polygon(r, 4, EXISTING_HEALTH[healthtype]);
+//
+//            // Draw the other half rectangle
+//            r[0] = x_+width*leftover+height*slant;
+//            r[1] = y_;
+//
+//            r[2] = x_+width*leftover;
+//            r[3] = y_+height;
+//
+//            r[4] = x_+width;
+//            r[5] = y_+height;
+//
+//            r[6] = x_+width+height*slant;
+//            r[7] = y_;
+//            al_draw_filled_polygon(r, 4, LACKING_HEALTH[healthtype]);
+//        }
+//        // Full lacking health boxes
+//        for (int i=std::ceil(nrects*hppercent); i<nrects; ++i)
+//        {
+//            x_ = start_x + i*width + (i-1)*space;
+//            r[0] = x_+height*slant;
+//            r[1] = y_;
+//
+//            r[2] = x_;
+//            r[3] = y_+height;
+//
+//            r[4] = x_+width;
+//            r[5] = y_+height;
+//
+//            r[6] = x_+width+height*slant;
+//            r[7] = y_;
+//            al_draw_filled_polygon(r, 4, LACKING_HEALTH[healthtype]);
+//        }
+////        // Outline
+////        for (int i=0; i<nrects; ++i)
+////        {
+////            x_ = start_x + i*width + (i-1)*space;
+////            r[0] = x_+height*slant;
+////            r[1] = y_;
+////
+////            r[2] = x_;
+////            r[3] = y_+height;
+////
+////            r[4] = x_+width;
+////            r[5] = y_+height;
+////
+////            r[6] = x_+width+height*slant;
+////            r[7] = y_;
+////            al_draw_polygon(r, 4, ALLEGRO_LINE_JOIN_ROUND, EXISTING_HEALTH[healthtype], 0, 0);
+////        }
+//        // Offset starting position for the next health
+//        start_x += nrects*(width + space);
+//    }
 
     // --------------- /HEALTHBAR ---------------
 
@@ -762,36 +786,12 @@ bool Character::collides(Gamestate &state, double testx, double testy)
 
 double Character::damage(Gamestate &state, double amount)
 {
-    double prev_health = hp.total();
-    if (hp.shields < amount)
+    double effective_damage = hp.damage(amount);
+    if (hp.total() <= 0)
     {
-        amount -= hp.shields;
-        hp.shields = 0;
-        if (hp.armor > 0)
-        {
-            amount -= std::min(amount/2.0, 5.0);
-        }
-        if (hp.armor < amount)
-        {
-            amount -= hp.armor;
-            hp.armor = 0;
-            hp.normal -= amount;
-            if (hp.normal <= 0)
-            {
-                // RIP
-                die(state);
-            }
-        }
-        else
-        {
-            hp.armor -= amount;
-        }
+        die(state);
     }
-    else
-    {
-        hp.shields -= amount;
-    }
-    return prev_health - hp.total();
+    return effective_damage;
 }
 
 void Character::die(Gamestate &state)

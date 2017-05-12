@@ -167,21 +167,6 @@ struct InputContainer : public ReducedInputContainer
     }
 };
 
-struct Health
-{
-    Health() : normal(0), armor(0), shields(0) {}
-    Health(double n, double a, double s) : normal(n), armor(a), shields(s) {}
-
-    double normal;
-    double armor;
-    double shields;
-
-    double total()
-    {
-        return normal + armor + shields;
-    }
-};
-
 struct EntityPtr
 {
     EntityPtr(uint64_t id_) : id(id_) {}

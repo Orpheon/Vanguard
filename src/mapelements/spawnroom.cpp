@@ -21,7 +21,7 @@ void Spawnroom::beginstep(Gamestate &state, double frametime)
             Character &c = p.getcharacter(state);
             if (isinside(c.x, c.y))
             {
-                c.hp = c.maxhp();
+                c.hp.fill();
             }
         }
     }

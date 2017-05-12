@@ -9,6 +9,7 @@
 #include "animation.h"
 #include "ingameelements/weapon.h"
 #include "global_constants.h"
+#include "ingameelements/health.h"
 
 class Character : public MovingEntity
 {
@@ -51,7 +52,7 @@ class Character : public MovingEntity
         virtual double maxhspeed(Gamestate &state) {return crouchanim.active() ? 60.0 : 153.0;}
 
         virtual double runpower() = 0;
-        virtual Health maxhp() = 0;
+        virtual Health initializehealth() = 0;
         virtual Heroclass heroclass() = 0;
         virtual std::string herofolder() = 0;
         virtual EntityPtr constructweapon(Gamestate &state) = 0;
