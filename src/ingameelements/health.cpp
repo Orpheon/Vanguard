@@ -147,7 +147,7 @@ double Health::total()
 
 double Health::max()
 {
-    return max_normal + max_armor + max_shields + max_symshields + torbarmor + lucioshields;
+    return max_normal + max_armor + max_shields + max_symshields;
 }
 
 void Health::fill()
