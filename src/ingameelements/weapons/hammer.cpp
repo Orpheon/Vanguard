@@ -62,7 +62,7 @@ void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
         }
         else
         {
-            al_draw_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, aimdirection*barrier(state).active, 0);
+            al_draw_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x-attachpt_x, rel_y-attachpt_y, aimdirection*barrier(state).active, 0);
             if (state.get<Player>(renderer.myself).team != team)
             {
                 // Draw enemy outline
@@ -186,7 +186,7 @@ double Hammer::getbackattachpoint_x(Gamestate &state)
 {
     if (barrier(state).active)
     {
-        return 1 * (state.get<Player&>(owner).getcharacter(state).isflipped ? 1:-1);
+        return 6 * (state.get<Player&>(owner).getcharacter(state).isflipped ? 1:-1);
     }
     else
     {
@@ -198,7 +198,7 @@ double Hammer::getbackattachpoint_y(Gamestate &state)
 {
     if (barrier(state).active)
     {
-        return 4;
+        return 10;
     }
     else
     {
