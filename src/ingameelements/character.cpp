@@ -12,6 +12,7 @@
 #include "ingameelements/corpse.h"
 #include "renderer.h"
 #include "ingameelements/heroes/mccree.h"
+#include "colorpalette.h"
 
 void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
@@ -296,16 +297,17 @@ void Character::render(Renderer &renderer, Gamestate &state)
     // --------------- HEALTHBAR ---------------
     al_set_target_bitmap(renderer.surfaceground);
     std::string mainsprite = currentsprite(state, false);
-    double healthalpha = 1.0;
-    double lack_healthalpha = 0.2;
+    unsigned char healthalpha = 255;
+    unsigned char lack_healthalpha = 51;
 
-    // Normal, armor, shields
-    ALLEGRO_COLOR EXISTING_HEALTH[] = { al_premul_rgba_f(225/255.0, 225/255.0, 225/255.0, healthalpha),
-                                        al_premul_rgba_f(237/255.0, 223/255.0, 132/255.0, healthalpha),
-                                        al_premul_rgba_f(101/255.0, 206/255.0, 240/255.0, healthalpha)};
-    ALLEGRO_COLOR LACKING_HEALTH[] = {  al_premul_rgba_f(225/255.0, 225/255.0, 225/255.0, lack_healthalpha),
-                                        al_premul_rgba_f(237/255.0, 223/255.0, 132/255.0, lack_healthalpha),
-                                        al_premul_rgba_f(101/255.0, 206/255.0, 240/255.0, lack_healthalpha)};
+    ALLEGRO_COLOR EXISTING_HEALTH[] = { ColorPalette::premul(Color::HP, healthalpha),
+                                        ColorPalette::premul(Color::ARMOR, healthalpha),
+                                        ColorPalette::premul(Color::SHIELD, healthalpha)};
+
+    ALLEGRO_COLOR LACKING_HEALTH[] = { ColorPalette::premul(Color::HP, lack_healthalpha),
+                                       ColorPalette::premul(Color::ARMOR, lack_healthalpha),
+                                       ColorPalette::premul(Color::SHIELD, lack_healthalpha)};
+
     double x_;
     float r[8]; // Array used to pass the polygon data for the actual drawing
 
@@ -481,21 +483,16 @@ void Character::render(Renderer &renderer, Gamestate &state)
 void Character::drawhud(Renderer &renderer, Gamestate &state)
 {
     // Experimental healthbar
-    double healthalpha = 1.0;
-    double lack_healthalpha = 0.4;
+    double healthalpha = 255;
+    double lack_healthalpha = 102;
 
-    // Lucio shield
-    // al_premul_rgba_f(242/255.0, 197/255.0, 84/255.0, healthalpha)
-    // Torb armor
-    // al_premul_rgba_f(69/255.0, 122/255.0, 255/255.0, healthalpha)
+    ALLEGRO_COLOR EXISTING_HEALTH[] = { ColorPalette::premul(Color::HP, healthalpha),
+                                        ColorPalette::premul(Color::ARMOR, healthalpha),
+                                        ColorPalette::premul(Color::SHIELD, healthalpha)};
 
-    // Normal, armor, shields
-    ALLEGRO_COLOR EXISTING_HEALTH[] = { al_premul_rgba_f(225/255.0, 225/255.0, 225/255.0, healthalpha),
-                                        al_premul_rgba_f(237/255.0, 223/255.0, 132/255.0, healthalpha),
-                                        al_premul_rgba_f(101/255.0, 206/255.0, 240/255.0, healthalpha)};
-    ALLEGRO_COLOR LACKING_HEALTH[] = {  al_premul_rgba_f(225/255.0, 225/255.0, 225/255.0, lack_healthalpha),
-                                        al_premul_rgba_f(237/255.0, 223/255.0, 132/255.0, lack_healthalpha),
-                                        al_premul_rgba_f(101/255.0, 206/255.0, 240/255.0, lack_healthalpha)};
+    ALLEGRO_COLOR LACKING_HEALTH[] = { ColorPalette::premul(Color::HP, lack_healthalpha),
+                                       ColorPalette::premul(Color::ARMOR, lack_healthalpha),
+                                       ColorPalette::premul(Color::SHIELD, lack_healthalpha)};
     double tmpx;
     float r[8]; // Array used to pass the polygon data for the actual drawing
 
