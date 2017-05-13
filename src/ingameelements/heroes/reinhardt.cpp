@@ -106,6 +106,21 @@ void Reinhardt::render(Renderer &renderer, Gamestate &state)
     }
 
     state.get<Weapon>(weapon).render(renderer, state);
+
+    // Shield health
+    al_set_target_bitmap(renderer.surfaceground);
+    mainsprite = currentsprite(state, false);
+    double totalwidth = renderer.zoom * 60;
+    int height = renderer.zoom * 2;
+    double center_x = renderer.zoom * (x - renderer.cam_x);
+    double left_x = center_x - totalwidth / 2.0;
+    double center_y = renderer.zoom * (y - renderer.spriteloader.get_spriteoffset_y(mainsprite) - renderer.cam_y);
+    Hammer &w = state.get<Hammer&>(weapon);
+    double hppercent = w.barrier(state).hp / w.barrier(state).SHIELD_MAX_HP;
+    al_draw_filled_rectangle(left_x, center_y - height, left_x + hppercent*totalwidth, center_y,
+                             ColorPalette::premul(Color::SHIELD, 255));
+    al_draw_filled_rectangle(left_x + hppercent*totalwidth, center_y - height, left_x + totalwidth, center_y,
+                             ColorPalette::premul(Color::SHIELD, 51));
 }
 
 void Reinhardt::drawhud(Renderer &renderer, Gamestate &state)
