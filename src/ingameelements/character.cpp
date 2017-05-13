@@ -422,7 +422,7 @@ void Character::render(Renderer &renderer, Gamestate &state)
                 double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
                 double rel_x = (x - renderer.cam_x)*renderer.zoom;
                 double rel_y = (y - renderer.cam_y)*renderer.zoom;
-                double factor = (hp.total()-charge) / maxhp().total();
+                double factor = (hp.total()-charge) / initializehealth().total();
                 if (factor < 0)
                 {
                     al_draw_bitmap(skull, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
@@ -452,7 +452,7 @@ void Character::drawhud(Renderer &renderer, Gamestate &state)
 
     // Parameters
     int totalwidth = 250;
-    double width = totalwidth/std::ceil(maxhp().total()/25.0);
+    double width = totalwidth/std::ceil(initializehealth().total()/25.0);
     int height = 20;
     int space = 20/9.0;
     double slant = 0.3;
@@ -466,30 +466,30 @@ void Character::drawhud(Renderer &renderer, Gamestate &state)
         double hppercent = 1.0;
         if (healthtype == 0)
         {
-            nrects = std::ceil(maxhp().normal/25.0);
+            nrects = std::ceil(initializehealth().normal/25.0);
             if (nrects == 0)
             {
                 continue;
             }
-            hppercent = hp.normal/maxhp().normal;
+            hppercent = hp.normal/ initializehealth().normal;
         }
         else if (healthtype == 1)
         {
-            nrects = std::ceil(maxhp().armor/25.0);
+            nrects = std::ceil(initializehealth().armor/25.0);
             if (nrects == 0)
             {
                 continue;
             }
-            hppercent = hp.armor/maxhp().armor;
+            hppercent = hp.armor/ initializehealth().armor;
         }
         else if (healthtype == 2)
         {
-            nrects = std::ceil(maxhp().shields/25.0);
+            nrects = std::ceil(initializehealth().shields/25.0);
             if (nrects == 0)
             {
                 continue;
             }
-            hppercent = hp.shields/maxhp().shields;
+            hppercent = hp.shields/ initializehealth().shields;
         }
 
         // Full existing health boxes
