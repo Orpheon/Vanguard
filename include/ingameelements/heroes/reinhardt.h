@@ -51,6 +51,7 @@ class Reinhardt : public Character
         Animation earthshatteranim;
         Timer earthshatterdelay;
         LoopAnimation shieldrunanim;
+        Timer chargecooldown;
 
         EntityPtr pintarget;
 

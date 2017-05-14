@@ -27,6 +27,8 @@ void Reinhardt::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
                            std::bind(&Reinhardt::createearthshatter, this, std::placeholders::_1));
     earthshatterdelay.active = false;
     shieldrunanim.init(herofolder()+"shieldrun/");
+    chargecooldown.init(10);
+    chargecooldown.active = false;
 }
 
 void Reinhardt::render(Renderer &renderer, Gamestate &state)
@@ -126,6 +128,76 @@ void Reinhardt::render(Renderer &renderer, Gamestate &state)
 void Reinhardt::drawhud(Renderer &renderer, Gamestate &state)
 {
     Character::drawhud(renderer, state);
+
+    double space = 3;
+    float r[8];
+
+    ALLEGRO_BITMAP *sprite;
+    Rect spriterect = renderer.spriteloader.get_rect("ui/ingame/"+herofolder()+"charge");
+    if (chargecooldown.active)
+    {
+        sprite = renderer.spriteloader.requestsprite("ui/ingame/"+herofolder()+"chargecooldown", 1.0);
+    }
+    else
+    {
+        sprite = renderer.spriteloader.requestsprite("ui/ingame/"+herofolder()+"charge", 1.0);
+    }
+    spriterect.x = renderer.WINDOW_WIDTH*6/7.0 - spriterect.w*2 - space;
+    spriterect.y = renderer.WINDOW_HEIGHT*hudheight()-spriterect.h;
+    al_draw_bitmap(sprite, spriterect.x, spriterect.y, 0);
+    if (chargecooldown.active)
+    {
+        // Draw the fill-in
+        r[0] = spriterect.x+17*chargecooldown.getpercent();
+        r[1] = spriterect.y+2+34*(1-chargecooldown.getpercent());
+
+        r[2] = spriterect.x;
+        r[3] = spriterect.y+spriterect.h-2;
+
+        r[4] = spriterect.x+39;
+        r[5] = spriterect.y+spriterect.h-2;
+
+        r[6] = spriterect.x+17*chargecooldown.getpercent()+39;
+        r[7] = spriterect.y+2+34*(1-chargecooldown.getpercent());
+
+        al_draw_filled_polygon(r, 4, al_premul_rgba_f(239/255.0, 179/255.0, 89/255.0, 0.5));
+
+        al_draw_text(renderer.font10, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+2,
+                     spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer.font10)/2.0, ALLEGRO_ALIGN_CENTER,
+                     std::to_string((int)std::ceil(chargecooldown.duration - chargecooldown.timer)).c_str());
+    }
+//
+//    if (flashbangcooldown.active)
+//    {
+//        sprite = renderer.spriteloader.requestsprite("ui/ingame/"+herofolder()+"flashbangcooldown", 1.0);
+//    }
+//    else
+//    {
+//        sprite = renderer.spriteloader.requestsprite("ui/ingame/"+herofolder()+"flashbang", 1.0);
+//    }
+//    spriterect.x = spriterect.x + spriterect.w+space;
+//    al_draw_bitmap(sprite, spriterect.x, spriterect.y, 0);
+//    if (flashbangcooldown.active)
+//    {
+//        // Draw the fill-in
+//        r[0] = spriterect.x+17*flashbangcooldown.getpercent();
+//        r[1] = spriterect.y+2+34*(1-flashbangcooldown.getpercent());
+//
+//        r[2] = spriterect.x;
+//        r[3] = spriterect.y+spriterect.h-2;
+//
+//        r[4] = spriterect.x+39;
+//        r[5] = spriterect.y+spriterect.h-2;
+//
+//        r[6] = spriterect.x+17*flashbangcooldown.getpercent()+39;
+//        r[7] = spriterect.y+2+34*(1-flashbangcooldown.getpercent());
+//
+//        al_draw_filled_polygon(r, 4, al_premul_rgba_f(239/255.0, 179/255.0, 89/255.0, 0.5));
+//
+//        al_draw_text(renderer.font10, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+2,
+//                     spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer.font10)/2.0, ALLEGRO_ALIGN_CENTER,
+//                     std::to_string((int)std::ceil(flashbangcooldown.duration - flashbangcooldown.timer)).c_str());
+//    }
 }
 
 void Reinhardt::beginstep(Gamestate &state, double frametime)
@@ -169,6 +241,7 @@ void Reinhardt::beginstep(Gamestate &state, double frametime)
             }
         }
     }
+    chargecooldown.update(state, frametime);
     chargeanim.update(state, frametime);
     preparechargeanim.update(state, frametime);
     endchargeanim.update(state, frametime);
@@ -191,7 +264,8 @@ void Reinhardt::beginstep(Gamestate &state, double frametime)
 
     if (canuseabilities(state))
     {
-        if (heldkeys.ABILITY_1 and state.engine.isserver)
+        // Charging
+        if (heldkeys.ABILITY_1 and state.engine.isserver and not chargecooldown.active)
         {
             useability1(state);
             state.engine.sendbuffer.write<uint8_t>(ABILITY1_USED);
@@ -233,6 +307,7 @@ void Reinhardt::interpolate(Entity &prev_entity, Entity &next_entity, double alp
     earthshatteranim.interpolate(p.earthshatteranim, n.earthshatteranim, alpha);
     earthshatterdelay.interpolate(p.earthshatterdelay, n.earthshatterdelay, alpha);
     shieldrunanim.interpolate(p.shieldrunanim, n.shieldrunanim, alpha);
+    chargecooldown.interpolate(p.chargecooldown, n.chargecooldown, alpha);
 }
 
 bool Reinhardt::cangetinput(Gamestate &state)
@@ -286,6 +361,7 @@ void Reinhardt::endcharge(Gamestate &state)
     }
     chargeanim.active(false);
     endchargeanim.reset();
+    chargecooldown.reset();
 }
 
 void Reinhardt::createearthshatter(Gamestate &state)

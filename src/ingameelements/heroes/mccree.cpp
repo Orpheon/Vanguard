@@ -128,8 +128,9 @@ void Mccree::drawhud(Renderer &renderer, Gamestate &state)
 
         al_draw_filled_polygon(r, 4, al_premul_rgba_f(239/255.0, 179/255.0, 89/255.0, 0.5));
 
-        al_draw_text(renderer.font10, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+2, spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer.font10)/2.0,
-                        ALLEGRO_ALIGN_CENTER, std::to_string((int)std::ceil(rollcooldown.duration - rollcooldown.timer)).c_str());
+        al_draw_text(renderer.font10, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+2,
+                     spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer.font10)/2.0, ALLEGRO_ALIGN_CENTER,
+                     std::to_string((int)std::ceil(rollcooldown.duration - rollcooldown.timer)).c_str());
     }
 
     if (flashbangcooldown.active)
