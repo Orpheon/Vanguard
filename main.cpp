@@ -1,170 +1,58 @@
-#include <cstdio>
-#include <string>
-#include <memory>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
-#include <allegro5/allegro_primitives.h>
-#define boolean enet_boolean
-#include <enet/enet.h>
-
-#undef boolean
-
-#include "inputcatcher.h"
-#include "engine.h"
-#include "renderer.h"
-#include "datastructures.h"
-#include "global_constants.h"
-#include "mainmenu.h"
-#include "networking/servernetworker.h"
-#include "networking/clientnetworker.h"
-#include "global.h"
-#include "configloader.h"
-
-long int getmillisec();
+#include <stdexcept>
 
 int main(int argc, char **argv)
 {
-    // Initialize logging
-    std::unique_ptr<PrintLogger> default_logger(new PrintLogger());
-    Global::provide_logging(default_logger.get());
-
-    // Load the settings config
-    ConfigLoader settings_configloader;
-    nlohmann::json settings = settings_configloader.open("settings.json");
-    Global::provide_settings(&settings);
-
     // Initialize Allegro
     if (!al_init())
     {
-        Global::logging().panic(__FILE__, __LINE__, "Allegro initialization failed");
+        throw new std::runtime_error("Allegro initialization failed");
     }
 
     // Initialize the Allegro Image addon, used to load sprites and maps
     if (!al_init_image_addon())
     {
-        Global::logging().panic(__FILE__, __LINE__, "Allegro image addon initialization failed");
+        throw new std::runtime_error("Allegro image addon initialization failed");
     }
 
-    // Initialize primitives for drawing
-    if (!al_init_primitives_addon())
+    // Initialize display
+    int display_width = 1280, display_height = 1024;
+    ALLEGRO_DISPLAY *display = al_create_display(display_width, display_height);
+
+    if(!display)
     {
-        Global::logging().panic(__FILE__, __LINE__, "Allegro primitives addon initialization failed");
+        throw new std::runtime_error("Could not create display");
     }
 
-    // Initialize keyboard modules
-    if (!al_install_keyboard())
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Allegro keyboard initialization failed");
-    }
-
-    // Initialize mouse
-    if (!al_install_mouse())
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Allegro mouse initialization failed");
-    }
-
-    // Initialize networking system
-    if (enet_initialize())
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Enet initialization failed");
-    }
-
-    //load font
-    //gg2 font as placeholder for now i guess
-    al_init_font_addon();
-    al_init_ttf_addon();
-    ALLEGRO_FONT *font = al_load_font("Vanguard Main Font.ttf", 12, ALLEGRO_TTF_MONOCHROME);
-    if (!font)
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Could not load Vanguard Main Font.ttf");
-    }
-
-//    MainMenu *mainmenu = new MainMenu(display);
-    bool isserver;
-    if (argc >= 2)
-    {
-        // If there are any arguments
-        isserver = false;
-    }
-    else
-    {
-        isserver = true;
-    }
-
-//    double lasttimeupdated = al_get_time();
-//    bool run = true;
-//    while (run)
-//    {
-//        if (al_get_time() - lasttimeupdated >= MENU_TIMESTEP)
-//        {
-//            run = mainmenu->run(display, &gametype);
-//            lasttimeupdated = al_get_time();
-//        }
-//    }
-//    delete mainmenu;
-
-    Renderer renderer;
-    ALLEGRO_DISPLAY* display = renderer.createnewdisplay();
-
-    Engine engine(isserver);
-    InputCatcher inputcatcher(display);
-    Gamestate renderingstate(engine);
-
-    std::unique_ptr<Networker> networker;
-    if (isserver)
-    {
-        networker = std::unique_ptr<Networker>(new ServerNetworker(engine.sendbuffer));
-    }
-    else
-    {
-        networker = std::unique_ptr<Networker>(new ClientNetworker(engine.sendbuffer));
-    }
-
-    engine.loadmap("lijiang");
-    // FIXME: Hack to make sure the oldstate is properly initialized
-    engine.update(0);
-
-    EntityPtr myself(0);
-    if (isserver)
-    {
-        myself = engine.currentstate->addplayer();
-        engine.currentstate->get<Player>(myself).spawntimer.active = true;
-    }
-    else
-    {
-        ClientNetworker &n = reinterpret_cast<ClientNetworker&>(*networker);
-        while (not n.isconnected())
-        {
-            n.receive(*(engine.currentstate));
-        }
-        myself = engine.currentstate->playerlist.at(engine.currentstate->playerlist.size()-1);
-    }
-
-    double enginetime = al_get_time();
-    double networkertime = al_get_time();
     while (true)
     {
-        while (al_get_time() - enginetime >= ENGINE_TIMESTEP)
+        // This only happens with certain sprites in ALLEGRO_VIDEO_BITMAP mode,
+        // but in ALLEGRO_MEMORY_BITMAP mode on this laptop it happens consistently for everything, so using that
+        al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
+        // Load png sprite
+        ALLEGRO_BITMAP *first_sprite = al_load_bitmap("sprites/heroes/mccree/idle/1_sprite.png");
+        
+        int w=al_get_bitmap_width(first_sprite), h=al_get_bitmap_height(first_sprite);
+        // Now we create a second bitmap of same width and height, and attempt to draw the sprite over to it
+        ALLEGRO_BITMAP *second_sprite = al_create_bitmap(w, h);
+        al_set_target_bitmap(second_sprite);
+        al_draw_bitmap(first_sprite, 0, 0, 0);
+        // You'd expect them to be identical after this, but they're not (see picture)
+        
+        // However, formats and flags are identical
+        if (al_get_bitmap_format(first_sprite) != al_get_bitmap_format(second_sprite) or al_get_bitmap_flags(first_sprite)!= al_get_bitmap_flags(second_sprite))
         {
-            networker->receive(*(engine.currentstate));
-            inputcatcher.run(display, *(engine.currentstate), *networker, renderer, myself);
-            engine.update(ENGINE_TIMESTEP);
-            networker->sendeventdata(*(engine.currentstate));
-
-            enginetime += ENGINE_TIMESTEP;
+            // None of these conditions ever happen, so it's not format incompatibility
+            throw new std::runtime_error("Format incompatibility.");
         }
-        if (isserver)
-        {
-            if (al_get_time() - networkertime >= NETWORKING_TIMESTEP)
-            {
-                ServerNetworker &n = reinterpret_cast<ServerNetworker&>(*networker);
-                n.sendframedata(*(engine.currentstate));
+        
+        al_set_target_backbuffer(display); // Draw to display
+        al_clear_to_color(al_map_rgba(0, 0, 0, 0)); // Make background black
+        al_draw_bitmap(first_sprite, display_width/2.0 - 100, display_height/2.0, 0); // Draw original sprite on the left
+        al_draw_bitmap(second_sprite, display_width/2.0 + 100, display_height/2.0, 0); // Draw new sprite on the right
 
-                networkertime = al_get_time();
-            }
-        }
-        renderingstate.interpolate(*(engine.oldstate), *(engine.currentstate), (al_get_time()-enginetime)/ENGINE_TIMESTEP);
-        renderer.render(display, renderingstate, myself, *networker);
+        al_flip_display();
     }
     return 0;
 }

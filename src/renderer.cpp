@@ -40,7 +40,7 @@ Renderer::~Renderer()
     al_destroy_bitmap(surfaceground);
 }
 
-void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myself_, Networker &networker)
+void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myself_)
 {
     myself = myself_;
 
@@ -63,88 +63,24 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
         zoom = 1.0*WINDOW_WIDTH / VIEWPORT_WIDTH;
         spriteloader.setzoom(zoom);
     }
-
-    // Set camera
-    if (state.exists(myself))
-    {
-        Player &p = state.get<Player>(myself);
-        if (state.exists(p.character))
-        {
-            Character &c = p.getcharacter(state);
-            cam_x = c.x - VIEWPORT_WIDTH/2.0;
-            cam_y = c.y - WINDOW_HEIGHT/zoom/2.0;
-        }
-    }
-
-    al_set_target_bitmap(background);
-    al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-    al_set_target_bitmap(midground);
-    al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-    al_set_target_bitmap(foreground);
-    al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-    al_set_target_bitmap(surfaceground);
-    al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-
-    // Go through all objects and let them render themselves on the layers
-    for (auto &e : state.entitylist)
-    {
-        if (e.second->isrootobject() and not e.second->destroyentity)
-        {
-            e.second->render(*this, state);
-        }
-    }
-
-    // Set render target to be the display
+    
     al_set_target_backbuffer(display);
-
-    // Clear black
-    al_clear_to_color(al_map_rgba(0, 0, 0, 1));
-
-    // Draw the map background first
-    state.currentmap->renderbackground(*this);
-
-    // Then draw each layer
-    al_draw_bitmap(background, 0, 0, 0);
-    al_draw_bitmap(midground, 0, 0, 0);
-    al_draw_bitmap(foreground, 0, 0, 0);
-
-    // Draw the map wallmask on top of everything, to prevent sprites that go through walls
-    state.currentmap->renderwallground(*this);
-
-    // Draw the final layer on top of even that, for certain things like character healthbars
-    al_draw_bitmap(surfaceground, 0, 0, 0);
-
-
-    //fps counter mostly borrowed from pygg2
-    double frametime = al_get_time() - lasttime;
-    lasttime = al_get_time();
-
-    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 0, ALLEGRO_ALIGN_LEFT, ("Frametime: " + std::to_string(frametime * 1000) + "ms").c_str());
-    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 12, ALLEGRO_ALIGN_LEFT, ("FPS: " + std::to_string((int)(1/frametime))).c_str());
-    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 24, ALLEGRO_ALIGN_LEFT, ("Ping: " + std::to_string(networker.host->peers[0].roundTripTime)).c_str());
-    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 60, ALLEGRO_ALIGN_LEFT, ("pos: " + std::to_string(cam_x+WINDOW_WIDTH/2.0) + " " + std::to_string(cam_y+WINDOW_HEIGHT/2.0)).c_str());
-    if (state.exists(myself) and state.exists(state.get<Player>(myself).character))
+    al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
+    ALLEGRO_BITMAP *first_sprite = al_load_bitmap("sprites/heroes/mccree/idle/1_sprite.png");
+    int w=al_get_bitmap_width(first_sprite), h=al_get_bitmap_height(first_sprite);
+    ALLEGRO_BITMAP *second_sprite = al_create_bitmap(w, h);
+    al_set_target_bitmap(second_sprite);
+    al_draw_bitmap(first_sprite, 0, 0, 0);
+    al_set_target_backbuffer(display);
+    
+    if (al_get_bitmap_format(first_sprite) != al_get_bitmap_format(second_sprite) or al_get_bitmap_flags(first_sprite)!= al_get_bitmap_flags(second_sprite))
     {
-        Player &p = state.get<Player>(myself);
-        Character &c = p.getcharacter(state);
-        al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 72, ALLEGRO_ALIGN_LEFT, ("hspeed: " + std::to_string(c.hspeed)).c_str());
-        al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 84, ALLEGRO_ALIGN_LEFT, ("vspeed: " + std::to_string(c.vspeed)).c_str());
+        Global::logging().panic(__FILE__, __LINE__, "Format incompatibility.");
     }
-    else
-    {
-        al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 72, ALLEGRO_ALIGN_LEFT, "hspeed: 0.000000");
-        al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 84, ALLEGRO_ALIGN_LEFT, "vspeed: 0.000000");
-    }
-    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 96, ALLEGRO_ALIGN_LEFT, ("#Players: " + std::to_string(state.playerlist.size())).c_str());
-    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 108, ALLEGRO_ALIGN_LEFT, ("Zoom: " + std::to_string(zoom)).c_str());
-    al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 120, ALLEGRO_ALIGN_LEFT, state.engine.isserver ? "Server" : "Client");
-
-
-    if (state.exists(myself) and state.exists(state.get<Player>(myself).character))
-    {
-        Player &p = state.get<Player>(myself);
-        p.getcharacter(state).drawhud(*this, state);
-    }
+    
+    al_clear_to_color(al_map_rgba(0, 0, 0, 0));
+    al_draw_bitmap(first_sprite, WINDOW_WIDTH/2.0 - 100, WINDOW_HEIGHT/2.0, 0);
+    al_draw_bitmap(second_sprite, WINDOW_WIDTH/2.0 + 100, WINDOW_HEIGHT/2.0, 0);
 
     al_flip_display();
 }

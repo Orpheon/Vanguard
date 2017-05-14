@@ -83,7 +83,7 @@ ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path, double zoom)
         }
         if (not masksonly or tmpbitmap == NULL)
         {
-            al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
+            al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
             tmpbitmap = al_load_bitmap(("sprites/"+path+"_sprite.png").c_str());
         }
         if (tmpbitmap == NULL)
