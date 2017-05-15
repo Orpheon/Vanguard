@@ -101,6 +101,7 @@ ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path, double zoom)
             bitmapcache[path] = al_create_bitmap(w*zoom, h*zoom);
             ALLEGRO_BITMAP *oldtarget = al_get_target_bitmap();
             al_set_target_bitmap(bitmapcache[path]);
+            al_clear_to_color(al_map_rgba(0, 0, 0, 0));
             al_draw_scaled_bitmap(tmpbitmap, 0, 0, w, h, 0, 0, w*zoom, h*zoom, 0);
             al_set_target_bitmap(oldtarget);
         }
