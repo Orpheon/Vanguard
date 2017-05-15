@@ -703,7 +703,7 @@
         14.0,
         20.0
     ],
-    "heroes/reinhardt/preparecharge/ number of frames": 6,
+    "heroes/reinhardt/preparecharge/ number of frames": 7,
     "heroes/reinhardt/preparecharge/1_sprite.png": [
         22.0,
         15.0
@@ -711,6 +711,10 @@
     "heroes/reinhardt/preparecharge/2_sprite.png": [
         28.0,
         18.0
+    ],
+    "heroes/reinhardt/preparecharge/3_sprite.png": [
+        25.0,
+        25.0
     ],
     "heroes/reinhardt/preparecharge/4_sprite.png": [
         28.0,
