@@ -49,6 +49,7 @@
 					<Add library="allegro_primitives-static" />
 					<Add library="allegro_font-static" />
 					<Add library="allegro_ttf-static" />
+					<Add library="allegro_dialog-static" />
 					<Add library="enet" />
 					<Add library="jpeg" />
 					<Add library="vorbis" />
@@ -87,6 +88,7 @@
 			<Add library="allegro_primitives" />
 			<Add library="allegro_font" />
 			<Add library="allegro_ttf" />
+			<Add library="allegro_dialog" />
 			<Add library="enet" />
 		</Linker>
 		<Unit filename="include/animation.h" />
