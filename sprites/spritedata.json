@@ -609,6 +609,11 @@
         1.0,
         43.0
     ],
+    "heroes/reinhardt/firestrikeprojectile/ number of frames": 1,
+    "heroes/reinhardt/firestrikeprojectile/1_sprite.png": [
+        10.0,
+        21.0
+    ],
     "heroes/reinhardt/firestriketorso/ number of frames": 14,
     "heroes/reinhardt/firestriketorso/10_sprite.png": [
         13.0,
