@@ -4,7 +4,7 @@
 -Use argument=default for optional arguments instead of function name mangling like in spriteloader
 -Check that Global can't use std::unique_ptr directly instead of the hack that is the start of main.cpp
 -spriteloader make sure that masksonly doesn't load things that aren't marked hitmask into video memory
--disable jumping on mccree
+-disable jumping on mccree during deadeye
 -PNG error bullshit
 -mccree stun after ult desyncs with weapon a bit
 -prevent earthshatter from clipping walls
