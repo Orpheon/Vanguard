@@ -66,6 +66,8 @@ class Character : public MovingEntity
 
         Timer xblockedsmooth;
         Timer yblockedsmooth;
+        bool canJump = false;
+        bool hasJumped = false;
         double friction;
         double acceleration;
 
