@@ -44,11 +44,7 @@
 					<Add option="-static-libstdc++" />
 					<Add option="-static-libgcc" />
 					<Add option="-static" />
-					<Add library="allegro-static" />
-					<Add library="allegro_image-static" />
-					<Add library="allegro_primitives-static" />
-					<Add library="allegro_font-static" />
-					<Add library="allegro_ttf-static" />
+					<Add library="allegro_monolith-static" />
 					<Add library="allegro_dialog-static" />
 					<Add library="enet" />
 					<Add library="jpeg" />
@@ -78,8 +74,8 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wshadow" />
-			<Add option="-Wall" />
 			<Add option="-std=c++11" />
+			<Add option="-Wall" />
 			<Add directory="include" />
 		</Compiler>
 		<Linker>

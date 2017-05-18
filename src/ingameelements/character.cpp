@@ -71,13 +71,32 @@ void Character::beginstep(Gamestate &state, double frametime)
         hasJumped = false;
         if (onground(state)){
             canJump = true;
+            wallclingtimer = 120;
         }
     // Gravity (lucio wallride shenanigans)
 
         if (ownerplayer.heroclass == MCCREE){
             if (vspeed >= 0 and xblocked and (heldkeys.RIGHT or heldkeys.LEFT)){
-                vspeed = 0;
-                canJump = true;
+//                disabled while testing sliding down walls
+//                vspeed = 0;
+
+//                disable the next bit until next comment if you want wallcling
+                if (wallclingtimer > 0){
+                    wallclingtimer -= 1;
+                    vspeed = 60;
+                }
+                else{
+                    vspeed += 540.0*frametime;
+                    doublejumptimer = 30;
+                }
+//                end of wallslide code
+
+                if (doublejumptimer > 60 or doublejumptimer == 2){
+                    doublejumptimer = 1;
+                }
+                else if (doublejumptimer == 1){
+                    doublejumptimer = 2;
+                }
             }
             else if (vspeed >= 0 and heldkeys.JUMP and (heldkeys.RIGHT or heldkeys.LEFT)){
                 vspeed = 0;
@@ -89,11 +108,22 @@ void Character::beginstep(Gamestate &state, double frametime)
         else {
             vspeed += 540.0*frametime;
         }
+
+        if (doublejumptimer <= 60){
+            doublejumptimer += 1;
+            canJump = true;
+        }
+
+        if (onground(state)){
+            doublejumptimer = 1000;
+        }
+
         if (heldkeys.JUMP)
         {
             if (canJump)
             {
                 vspeed = -250.0;
+                doublejumptimer = 1000;
             }
         }
         if (heldkeys.CROUCH)

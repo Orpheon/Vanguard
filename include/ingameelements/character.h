@@ -68,6 +68,8 @@ class Character : public MovingEntity
         Timer yblockedsmooth;
         bool canJump = false;
         bool hasJumped = false;
+        int doublejumptimer;
+        int wallclingtimer;
         double friction;
         double acceleration;
 
