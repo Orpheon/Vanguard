@@ -140,6 +140,9 @@ void Character::midstep(Gamestate &state, double frametime)
 {
     MovingEntity::midstep(state, frametime);
 
+    xblocked = false;
+    yblocked = false;
+
     // Collision with wallmask
     if (state.currentmap->collides(getcollisionrect(state)) and not pinanim.active())
     {
@@ -161,7 +164,6 @@ void Character::midstep(Gamestate &state, double frametime)
         }
         // We're at the point where the character touched the wallmask for the first time
         // Now keep moving one unit in either direction until all possible movement is exhausted
-        xblocked = false; yblocked = false;
         bool xfinished = false, yfinished = false;
         double oldxbuffer = xbuffer, oldybuffer = ybuffer;
         while (not xfinished or not yfinished)
