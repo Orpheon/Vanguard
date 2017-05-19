@@ -76,11 +76,60 @@ void Character::beginstep(Gamestate &state, double frametime)
     // Gravity (lucio wallride shenanigans)
 
         if (ownerplayer.heroclass == MCCREE){
-            if (vspeed >= 0 and xblocked and (heldkeys.RIGHT or heldkeys.LEFT)){
+// super experimental wall-grab back and forth code
+
+            if (vspeed >= 0 and xblocked and not onground(state)){
+                if (iscling){
+                    if (heldkeys.LEFT xor heldkeys.RIGHT){
+                        vspeed = 0;
+                    }
+                    else{
+                        iscling = false;
+                        doublejumptimer = 1;
+                    }
+                }
+                else {
+                    if (heldkeys.RIGHT and (not rightcling) and (not heldkeys.LEFT)){
+                        vspeed = 0;
+                        iscling = true;
+                        rightcling = true;
+                        leftcling = false;
+                    }
+                    else if (heldkeys.LEFT and (not leftcling) and (not heldkeys.RIGHT)){
+                        vspeed = 0;
+                        iscling = true;
+                        leftcling = true;
+                        rightcling = false;
+                    }
+                    else{
+                        vspeed += 540 * frametime;
+                    }
+                }
+            }
+
+// gliding
+//            else if (vspeed >= 0 and (heldkeys.LEFT xor heldkeys.RIGHT)and heldkeys.JUMP){
+//                vspeed = 0;
+//            }
+            else{
+                if (not xblocked){
+                    iscling = false;
+                }
+                vspeed += 540.0 * frametime;
+                doublejumptimer += 1;
+            }
+
+// end of experimental alternating wallcling code
+
+
+
+
+/*            if (vspeed >= 0 and xblocked and (heldkeys.RIGHT or heldkeys.LEFT)){
 //                disabled while testing sliding down walls
 //                vspeed = 0;
 
 //                disable the next bit until next comment if you want wallcling
+
                 if (wallclingtimer > 0){
                     wallclingtimer -= 1;
                     vspeed = 60;
@@ -89,6 +138,7 @@ void Character::beginstep(Gamestate &state, double frametime)
                     vspeed += 540.0*frametime;
                     doublejumptimer = 30;
                 }
+
 //                end of wallslide code
 
                 if (doublejumptimer > 60 or doublejumptimer == 2){
@@ -104,6 +154,7 @@ void Character::beginstep(Gamestate &state, double frametime)
             else {
                     vspeed += 540.0*frametime;
             }
+*/
         }
         else {
             vspeed += 540.0*frametime;
@@ -116,6 +167,9 @@ void Character::beginstep(Gamestate &state, double frametime)
 
         if (onground(state)){
             doublejumptimer = 1000;
+            leftcling = false;
+            rightcling = false;
+            iscling = false;
         }
 
         if (heldkeys.JUMP)
@@ -124,6 +178,7 @@ void Character::beginstep(Gamestate &state, double frametime)
             {
                 vspeed = -250.0;
                 doublejumptimer = 1000;
+                iscling = false;
             }
         }
         if (heldkeys.CROUCH)
