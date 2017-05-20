@@ -14,7 +14,8 @@ void Projectile::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
 void Projectile::beginstep(Gamestate &state, double frametime)
 {
-    if (not (penetration() & PENETRATE_WALLMASK) and state.currentmap->collides(x, y, spriteid(), std::atan2(vspeed, hspeed)))
+    if (not (penetration() & PENETRATE_WALLMASK)
+        and state.currentmap->collides(state, x, y, spriteid(), std::atan2(vspeed, hspeed)))
     {
         destroy(state);
     }

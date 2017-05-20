@@ -177,8 +177,8 @@ void Hammer::firesecondary(Gamestate &state)
 void Hammer::createfirestrike(Gamestate &state)
 {
     Firestrike &firestrike = state.get<Firestrike&>(state.make_entity<Firestrike>(state, owner));
-    firestrike.x = x + std::cos(aimdirection) * 30;
-    firestrike.y = y + std::sin(aimdirection) * 30;
+    firestrike.x = x + std::cos(aimdirection) * 40;
+    firestrike.y = y + std::sin(aimdirection) * 40;
     firestrike.hspeed = firestrike.SPEED * std::cos(aimdirection);
     firestrike.vspeed = firestrike.SPEED * std::sin(aimdirection);
 }
