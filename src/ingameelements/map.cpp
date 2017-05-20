@@ -102,9 +102,39 @@ bool Map::collides(Rect r)
     return false;
 }
 
-bool Map::collides(double rotx, double roty, std::string spriteid, double angle)
+bool Map::collides(Gamestate &state, double x, double y, std::string spriteid, double angle)
 {
-    // TODO this thing
+    Rect bbox = state.engine.maskloader.get_rect(spriteid);
+
+    // Check if projectile is outside the map somehow
+    if (x + bbox.x > width() or y + bbox.y > height() or x + bbox.x + bbox.w < 0 or y + bbox.y + bbox.h < 0)
+    {
+        return true;
+    }
+    // Check pixel-wise
+    ALLEGRO_BITMAP *sprite = state.engine.maskloader.requestsprite(spriteid);
+//    Global::logging().print(__FILE__, __LINE__, "Flags: %i", al_get_bitmap_flags(sprite));
+    double spriteoffset_x = state.engine.maskloader.get_spriteoffset_x(spriteid);
+    double spriteoffset_y = state.engine.maskloader.get_spriteoffset_y(spriteid);
+    double cosa = std::cos(angle), sina = std::sin(angle);
+    for (int i = 0; i < bbox.w; ++i)
+    {
+        double relx = i - spriteoffset_x;
+        for (int j = 0; j < bbox.h; ++j)
+        {
+            if (al_get_pixel(sprite, i, j).a != 0)
+            {
+                // Rotate around (x,y) by angle
+                double rely = j - spriteoffset_y;
+                double rotx = x + cosa*relx - sina*rely;
+                double roty = y + sina*relx + cosa*rely;
+                if (al_get_pixel(wallmask, rotx, roty).a != 0)
+                {
+                    return true;
+                }
+            }
+        }
+    }
     return false;
 }
 

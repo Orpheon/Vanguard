@@ -19,7 +19,7 @@ class Map
         void renderbackground(Renderer &renderer);
         void renderwallground(Renderer &renderer);
         bool collides(Rect rect);
-        bool collides(double rotx, double roty, std::string spriteid, double angle);
+        bool collides(Gamestate &state, double x, double y, std::string spriteid, double angle);
         bool collideline(double x1, double y1, double x2, double y2);
         bool testpixel(double x, double y) {return x < 0 or y < 0 or x > al_get_bitmap_width(wallmask) or y > al_get_bitmap_height(wallmask) or al_get_pixel(wallmask, x, y).a != 0;}
         double width() {return al_get_bitmap_width(background);}
