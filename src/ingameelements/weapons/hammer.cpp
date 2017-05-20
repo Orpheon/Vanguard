@@ -3,6 +3,7 @@
 #include "ingameelements/weapons/hammer.h"
 #include "renderer.h"
 #include "ingameelements/heroes/reinhardt.h"
+#include "ingameelements/projectiles/firestrike.h"
 
 #include "engine.h"
 
@@ -14,7 +15,8 @@ void Hammer::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
     firestrikeanim.init(herofolder()+"firestrikebackarm/");
     firestrikeanim.active(false);
-    firestrikedelay.init(firestrikeanim.timer.duration, std::bind(&Hammer::createfirestrike, this, std::placeholders::_1));
+    firestrikedelay.init(firestrikeanim.timer.duration * 0.5,
+                         std::bind(&Hammer::createfirestrike, this, std::placeholders::_1));
     firestrikedelay.active = false;
 }
 
@@ -170,6 +172,15 @@ void Hammer::wantfiresecondary(Gamestate &state)
 void Hammer::firesecondary(Gamestate &state)
 {
     // Do nothing
+}
+
+void Hammer::createfirestrike(Gamestate &state)
+{
+    Firestrike &firestrike = state.get<Firestrike&>(state.make_entity<Firestrike>(state, owner));
+    firestrike.x = x + std::cos(aimdirection) * 30;
+    firestrike.y = y + std::sin(aimdirection) * 30;
+    firestrike.hspeed = firestrike.SPEED * std::cos(aimdirection);
+    firestrike.vspeed = firestrike.SPEED * std::sin(aimdirection);
 }
 
 double Hammer::getattachpoint_x(Gamestate &state)

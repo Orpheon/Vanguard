@@ -20,7 +20,7 @@ class Hammer : public Weapon
         void wantfireprimary(Gamestate &state) override;
         void firesecondary(Gamestate &state) override;
         void wantfiresecondary(Gamestate &state) override;
-        void createfirestrike(Gamestate &state) {}
+        void createfirestrike(Gamestate &state);
         void beginstep(Gamestate &state, double frametime) override;
         void midstep(Gamestate &state, double frametime) override;
         void endstep(Gamestate &state, double frametime) override;
