@@ -33,9 +33,9 @@ void Flashbang::render(Renderer &renderer, Gamestate &state)
 
 double Flashbang::explode(Gamestate &state)
 {
-    Explosion &e = state.get<Explosion>(state.make_entity<Explosion>(state, "heroes/mccree/flashbang_explosion/", 0));
-    e.x = x;
-    e.y = y;
+    Explosion &explosion = state.get<Explosion>(state.make_entity<Explosion>(state, "heroes/mccree/flashbang_explosion/", 0));
+    explosion.x = x;
+    explosion.y = y;
     double dmgdealt = 0;
     
     for (auto &e : state.entitylist)
@@ -47,12 +47,16 @@ double Flashbang::explode(Gamestate &state)
             {
                 double collisionptx, collisionpty;
                 MovingEntity &mv = static_cast<MovingEntity&>(entity);
-                EntityPtr target = state.collidelinetarget(state, x, y, mv, team, PENETRATE_CHARACTER, &collisionptx, &collisionpty);
-                if (target.id == entity.id)
+                if (std::hypot(mv.x - x, mv.y - y) < EXPLOSION_RADIUS)
                 {
-                    entity.damage(state, 25);
-                    dmgdealt += 25;
-                    entity.stun(state);
+                    EntityPtr target = state.collidelinetarget(state, x, y, mv, team, PENETRATE_CHARACTER,
+                                                               &collisionptx, &collisionpty);
+                    if (target.id == entity.id)
+                    {
+                        entity.damage(state, 25);
+                        dmgdealt += 25;
+                        entity.stun(state);
+                    }
                 }
             }
         }
@@ -65,6 +69,5 @@ void Flashbang::destroy(Gamestate &state)
 {
     double dmgdealt = explode(state);
     // TODO: Register ult damage
-    Global::logging().print(__FILE__, __LINE__, "Flashbang destroyed, dealt %f damage", dmgdealt);
     Projectile::destroy(state);
 }
