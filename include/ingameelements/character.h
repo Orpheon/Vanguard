@@ -64,8 +64,8 @@ class Character : public MovingEntity
 
         Health hp;
 
-        bool xblocked;
-        bool yblocked;
+        Timer xblockedsmooth;
+        Timer yblockedsmooth;
         double friction;
         double acceleration;
 

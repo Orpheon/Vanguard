@@ -206,7 +206,7 @@ void Reinhardt::beginstep(Gamestate &state, double frametime)
 
     if (chargeanim.active())
     {
-        if (xblocked)
+        if (xblockedsmooth.active)
         {
             if (state.exists(pintarget))
             {

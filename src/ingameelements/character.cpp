@@ -32,8 +32,10 @@ void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     pinanim.active(false);
     ongroundsmooth.init(0.05);
 
-    xblocked = false;
-    yblocked = false;
+    xblockedsmooth.init(0.02);
+    xblockedsmooth.active = false;
+    yblockedsmooth.init(0.02);
+    yblockedsmooth.active = false;
     isflipped = false;
     acceleration = 300;
     // friction factor per second of null movement; calculated directly from Gang Garrison 2
@@ -140,9 +142,6 @@ void Character::midstep(Gamestate &state, double frametime)
 {
     MovingEntity::midstep(state, frametime);
 
-    xblocked = false;
-    yblocked = false;
-
     // Collision with wallmask
     if (state.currentmap->collides(getcollisionrect(state)) and not pinanim.active())
     {
@@ -164,6 +163,7 @@ void Character::midstep(Gamestate &state, double frametime)
         }
         // We're at the point where the character touched the wallmask for the first time
         // Now keep moving one unit in either direction until all possible movement is exhausted
+        bool xblocked = false, yblocked = false;
         bool xfinished = false, yfinished = false;
         double oldxbuffer = xbuffer, oldybuffer = ybuffer;
         while (not xfinished or not yfinished)
@@ -231,10 +231,12 @@ void Character::midstep(Gamestate &state, double frametime)
         if (xblocked)
         {
             hspeed = 0;
+            xblockedsmooth.reset();
         }
         if (yblocked)
         {
             vspeed = 0;
+            yblockedsmooth.reset();
         }
         if (state.currentmap->collides(getcollisionrect(state)))
         {
@@ -277,6 +279,8 @@ void Character::midstep(Gamestate &state, double frametime)
     stunanim.update(state, frametime);
     pinanim.update(state, frametime);
     ongroundsmooth.update(state, frametime);
+    xblockedsmooth.update(state, frametime);
+    yblockedsmooth.update(state, frametime);
     if (hspeed == 0.0)
     {
         bool run=runanim.active(), crouch=crouchanim.active();
@@ -658,6 +662,8 @@ void Character::interpolate(Entity &prev_entity, Entity &next_entity, double alp
     stunanim.interpolate(p.stunanim, n.stunanim, alpha);
     pinanim.interpolate(p.pinanim, n.pinanim, alpha);
     ongroundsmooth.interpolate(p.ongroundsmooth, n.ongroundsmooth, alpha);
+    xblockedsmooth.interpolate(p.xblockedsmooth, n.xblockedsmooth, alpha);
+    yblockedsmooth.interpolate(p.yblockedsmooth, n.yblockedsmooth, alpha);
     hp.normal = p.hp.normal + alpha*(n.hp.normal - p.hp.normal);
     hp.armor = p.hp.armor + alpha*(n.hp.armor - p.hp.armor);
     hp.shields = p.hp.shields + alpha*(n.hp.shields - p.hp.shields);
