@@ -78,7 +78,7 @@ void Character::beginstep(Gamestate &state, double frametime)
         if (ownerplayer.heroclass == MCCREE){
 // super experimental wall-grab back and forth code
 
-            if (vspeed >= 0 and xblocked and not onground(state)){
+            if (vspeed >= 0 and xblockedsmooth.active and not onground(state)){
                 if (iscling){
                     if (heldkeys.LEFT xor heldkeys.RIGHT){
                         vspeed = 0;
@@ -112,7 +112,7 @@ void Character::beginstep(Gamestate &state, double frametime)
 //                vspeed = 0;
 //            }
             else{
-                if (not xblocked){
+                if (not xblockedsmooth.active){
                     iscling = false;
                 }
                 vspeed += 540.0 * frametime;
