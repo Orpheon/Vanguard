@@ -43,36 +43,8 @@ void Reinhardt::render(Renderer &renderer, Gamestate &state)
     ALLEGRO_BITMAP *sprite;
     double spriteoffset_x, spriteoffset_y;
     double rel_x, rel_y;
-
-    mainsprite = currentsprite(state, false);
-    sprite = renderer.spriteloader.requestsprite(mainsprite);
-    spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-    spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
-    rel_x = (x-renderer.cam_x)*renderer.zoom;
-    rel_y = (y-renderer.cam_y)*renderer.zoom;
-
-    ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(mainsprite);
-    ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
-
-    if (isflipped)
-    {
-        // Flip horizontally
-        al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-        if (state.get<Player>(renderer.myself).team != team)
-        {
-            // Draw enemy outline
-            al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-        }
-    }
-    else
-    {
-        al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-        if (state.get<Player>(renderer.myself).team != team)
-        {
-            // Draw enemy outline
-            al_draw_tinted_bitmap(outline, outlinecolor, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-        }
-    }
+    ALLEGRO_BITMAP *outline;
+    ALLEGRO_COLOR outlinecolor;
 
     mainsprite = currenttorsosprite(state, false);
     if (mainsprite != NULL_SPRITE)
@@ -104,6 +76,36 @@ void Reinhardt::render(Renderer &renderer, Gamestate &state)
                 // Draw enemy outline
                 al_draw_tinted_bitmap(outline, outlinecolor, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
             }
+        }
+    }
+
+    mainsprite = currentsprite(state, false);
+    sprite = renderer.spriteloader.requestsprite(mainsprite);
+    spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
+    spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
+    rel_x = (x-renderer.cam_x)*renderer.zoom;
+    rel_y = (y-renderer.cam_y)*renderer.zoom;
+
+    outline = renderer.spriteloader.requestspriteoutline(mainsprite);
+    outlinecolor = al_map_rgb(225, 17, 17);
+
+    if (isflipped)
+    {
+        // Flip horizontally
+        al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
+        if (state.get<Player>(renderer.myself).team != team)
+        {
+            // Draw enemy outline
+            al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
+        }
+    }
+    else
+    {
+        al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
+        if (state.get<Player>(renderer.myself).team != team)
+        {
+            // Draw enemy outline
+            al_draw_tinted_bitmap(outline, outlinecolor, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
         }
     }
 
