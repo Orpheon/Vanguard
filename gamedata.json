@@ -1,8 +1,8 @@
 {
-    "heroes/mccree/ rect": [-7, -5, 14, 39],
-    "heroes/mccree/crouch/ rect": [-7, 4, 14, 30],
-    "heroes/reinhardt/ rect": [-15, -16, 29, 50],
-    "heroes/reinhardt/crouch/ rect": [-7, 4, 14, 30],
+    "heroes/mccree/ rect": [-7, -4, 14, 39],
+    "heroes/mccree/crouch/ rect": [-7, 5, 14, 30],
+    "heroes/reinhardt/ rect": [-15, -15, 29, 50],
+    "heroes/reinhardt/crouch/ rect": [-7, 5, 14, 30],
 
     "heroes/mccree/reload/ duration": 1.5,
     "heroes/mccree/run/ duration": 120,
