@@ -1,6 +1,11 @@
 project(Vanguard)
 cmake_minimum_required(VERSION 2.8)
 
+find_library(ALLEGRO_PATH allegro)
+if (NOT EXISTS ${ALLEGRO_PATH})
+    message("${ALLEGRO_PATH} exists")
+endif()
+
 option(COMPILE_STATIC "Compile statically instead of dynamically" OFF)
 option(VANGUARD_DEBUG_MODE "Generate debug symbols and stack trace, currently linux-only" ON)
 set(VANGUARD_DEBUG_MODE ON)
@@ -9,12 +14,28 @@ if (WIN32)
     set (COMPILE_STATIC ON)
 endif (WIN32)
 
+find_library(ENET_PATH enet)
+if (NOT EXISTS ${ENET_PATH})
+    message(FATAL_ERROR "${ENET_PATH} does not exist - you probably have not installed enet.")
+endif()
+
 set (Vanguardcompileflags "-std=c++11 -Wall -pedantic -fwrapv -Wno-format-security")
 if (COMPILE_STATIC)
-    set (Vanguardlib allegro_monolith-static allegro_dialog-static jpeg vorbis ogg glu32 opengl32 freetype png16 z kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid dsound wsock32 psapi shlwapi enet)
+    find_library(ALLEGRO_PATH allegro_monolith-static)
+    if (NOT EXISTS ${ALLEGRO_PATH})
+        message(FATAL_ERROR "${ALLEGRO_PATH} does not exist - you probably have not installed static allegro libraries.\
+         Either install them or change the flag in cmake to dynamic compilation.")
+    endif()
+    set (Vanguardlib "allegro_monolith-static allegro_dialog-static jpeg vorbis ogg glu32 opengl32 freetype png16 z \
+    kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid dsound wsock32 psapi shlwapi enet")
     set (Vanguardlinkflags "-static-libstdc++ -static-libgcc -static ")
     set (VANGUARD_DEBUG_MODE OFF)
 else (COMPILE_STATIC)
+    find_library(ALLEGRO_PATH allegro)
+    if (NOT EXISTS ${ALLEGRO_PATH})
+        message(FATAL_ERROR "${ALLEGRO_PATH} does not exist - you probably have not installed dynamic allegro libraries.\
+         Either install them or change the flag in cmake to static compilation.")
+    endif()
     set (Vanguardlib allegro allegro_image allegro_primitives allegro_font allegro_ttf allegro_dialog enet)
     set (Vanguardlinkflags "")
 endif (COMPILE_STATIC)
