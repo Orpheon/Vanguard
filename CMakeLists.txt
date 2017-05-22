@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 
 find_library(ALLEGRO_PATH allegro)
 if (NOT EXISTS ${ALLEGRO_PATH})
-    message("${ALLEGRO_PATH} exists")
+    message("${ALLEGRO_PATH} does not exist")
 endif()
 
 option(COMPILE_STATIC "Compile statically instead of dynamically" OFF)
