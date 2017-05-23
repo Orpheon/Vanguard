@@ -7,3 +7,4 @@
 -PNG error bullshit
 -mccree stun after ult desyncs with weapon a bit
 -prevent earthshatter from clipping walls
+-compilation doesn't work on clang
