@@ -152,6 +152,7 @@ void Character::beginstep(Gamestate &state, double frametime)
 //                end of wallslide code
 
                 iscling = true;
+                doublejumptimer = 1000;
                 vspeed = 0;
             }
             else if (iscling){
