@@ -32,9 +32,9 @@ void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     pinanim.active(false);
     ongroundsmooth.init(0.05);
 
-    xblockedsmooth.init(0.02);
+    xblockedsmooth.init(0.1);
     xblockedsmooth.active = false;
-    yblockedsmooth.init(0.02);
+    yblockedsmooth.init(0.05);
     yblockedsmooth.active = false;
     isflipped = false;
     acceleration = 300;
@@ -60,11 +60,21 @@ void Character::beginstep(Gamestate &state, double frametime)
     {
         if (heldkeys.LEFT)
         {
-            hspeed = std::max(hspeed - acceleration * runpower() * frametime, -maxhspeed(state));
+            if(speedboosttimer <= 300){
+                hspeed = std::max(hspeed - acceleration * runpower() * frametime * 2, -maxhspeed(state)*1.5);
+            }
+            else{
+                hspeed = std::max(hspeed - acceleration * runpower() * frametime, -maxhspeed(state));
+            }
         }
         if (heldkeys.RIGHT)
         {
-            hspeed = std::min(hspeed + acceleration * runpower() * frametime, maxhspeed(state));
+            if(speedboosttimer <= 300){
+                hspeed = std::min(hspeed + acceleration * runpower() * frametime * 2, maxhspeed(state)*1.5);
+            }
+            else{
+                hspeed = std::min(hspeed + acceleration * runpower() * frametime, maxhspeed(state));
+            }
         }
 
         canJump = false;
@@ -77,7 +87,7 @@ void Character::beginstep(Gamestate &state, double frametime)
 
         if (ownerplayer.heroclass == MCCREE){
 // super experimental wall-grab back and forth code
-
+/*
             if (vspeed >= 0 and xblockedsmooth.active and not onground(state)){
                 if (iscling){
                     if (heldkeys.LEFT xor heldkeys.RIGHT){
@@ -120,16 +130,16 @@ void Character::beginstep(Gamestate &state, double frametime)
             }
 
 // end of experimental alternating wallcling code
+*/
 
 
 
-
-/*            if (vspeed >= 0 and xblocked and (heldkeys.RIGHT or heldkeys.LEFT)){
+            if (vspeed >= 0 and xblockedsmooth.active and (heldkeys.RIGHT xor heldkeys.LEFT)){
 //                disabled while testing sliding down walls
 //                vspeed = 0;
 
 //                disable the next bit until next comment if you want wallcling
-
+/*
                 if (wallclingtimer > 0){
                     wallclingtimer -= 1;
                     vspeed = 60;
@@ -138,23 +148,22 @@ void Character::beginstep(Gamestate &state, double frametime)
                     vspeed += 540.0*frametime;
                     doublejumptimer = 30;
                 }
-
+*/
 //                end of wallslide code
 
-                if (doublejumptimer > 60 or doublejumptimer == 2){
-                    doublejumptimer = 1;
-                }
-                else if (doublejumptimer == 1){
-                    doublejumptimer = 2;
-                }
-            }
-            else if (vspeed >= 0 and heldkeys.JUMP and (heldkeys.RIGHT or heldkeys.LEFT)){
+                iscling = true;
                 vspeed = 0;
             }
+            else if (iscling){
+                iscling = false;
+                doublejumptimer = 1;
+            }
+//            else if (vspeed >= 0 and heldkeys.JUMP and (heldkeys.RIGHT or heldkeys.LEFT)){
+//                vspeed = 0;
+//            }
             else {
                     vspeed += 540.0*frametime;
             }
-*/
         }
         else {
             vspeed += 540.0*frametime;
@@ -167,6 +176,7 @@ void Character::beginstep(Gamestate &state, double frametime)
 
         if (onground(state)){
             doublejumptimer = 1000;
+            speedboosttimer = 1000;
             leftcling = false;
             rightcling = false;
             iscling = false;
@@ -176,11 +186,16 @@ void Character::beginstep(Gamestate &state, double frametime)
         {
             if (canJump)
             {
+                if (doublejumptimer <= 60){
+                    speedboosttimer = 1;
+                }
                 vspeed = -250.0;
                 doublejumptimer = 1000;
                 iscling = false;
+
             }
         }
+        speedboosttimer+=1;
         if (heldkeys.CROUCH)
         {
             if (not crouchanim.active())

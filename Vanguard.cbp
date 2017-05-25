@@ -132,6 +132,7 @@
 		<Unit filename="include/timer.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/animation.cpp" />
+		<Unit filename="src/backward-stacktrace/backward.cpp" />
 		<Unit filename="src/colorpalette.cpp" />
 		<Unit filename="src/configloader.cpp" />
 		<Unit filename="src/engine.cpp" />
@@ -152,6 +153,7 @@
 		<Unit filename="src/ingameelements/player.cpp" />
 		<Unit filename="src/ingameelements/projectile.cpp" />
 		<Unit filename="src/ingameelements/projectiles/earthshatter.cpp" />
+		<Unit filename="src/ingameelements/projectiles/firestrike.cpp" />
 		<Unit filename="src/ingameelements/projectiles/flashbang.cpp" />
 		<Unit filename="src/ingameelements/shield.cpp" />
 		<Unit filename="src/ingameelements/trail.cpp" />

@@ -72,6 +72,7 @@ class Character : public MovingEntity
         bool rightcling;
         bool iscling;
         bool testvar;
+        int speedboosttimer;
         int doublejumptimer;
         int wallclingtimer;
         double friction;
