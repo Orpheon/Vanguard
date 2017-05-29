@@ -6,7 +6,7 @@ pacman -S --force --needed base-devel mingw-w64-i686-toolchain mingw-w64-x86_64-
 
 # For compilation
 pacman -S --needed mingw-w64-x86_64-freetype mingw-w64-x86_64-physfs mingw-w64-x86_64-libvorbis mingw-w64-x86_64-flac mingw-w64-x86_64-dumb mingw-w64-x86_64-libtheora mingw-w64-x86_64-libjpeg-turbo mingw64/mingw-w64-x86_64-freeglut
-http://download.gna.org/allegro/allegro-deps/1.4.0/allegro_deps-mingw-gcc5.3.0-x64-1.4.0.zip
+https://github.com/liballeg/allegro_winpkg/releases/download/1.5.0/allegro_deps-mingw-gcc6.2.0-x64-1.5.0.zip
 DXSDK_DIR=/mingw64/x86_64-w64-mingw32 cmake -G"MSYS Makefiles" -DWANT_DEMO=off -DWANT_EXAMPLES=off -DSHARED=off ..
 
 # For enet
