@@ -24,7 +24,7 @@ for (dirpath, dirnames, filenames) in os.walk("sprites template"):
 for filepath in filelist:
     # Crop sprite to remove whitespace around and remember how much we cropped it by for rendering offset
     im = Image.open(filepath)
-    im.convert(mode="RGBA")
+    im = im.convert(mode="RGBA")
     w, h = im.size
     r = 0
     l = w
@@ -60,7 +60,7 @@ for filepath in filelist:
         else:
             im = Image.open(filepath)
 
-        im.convert(mode="RGBA")
+        im = im.convert(mode="RGBA")
         w, h = im.size
         outline = Image.new("RGBA", im.size)
         inputpix = im.load()

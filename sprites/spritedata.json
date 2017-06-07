@@ -467,8 +467,8 @@
     ],
     "heroes/reinhardt/falling/ number of frames": 1,
     "heroes/reinhardt/falling/1_sprite.png": [
-        12.0,
-        33.0
+        11.0,
+        -6.0
     ],
     "heroes/reinhardt/firestrikebackarm/ number of frames": 14,
     "heroes/reinhardt/firestrikebackarm/10_sprite.png": [
@@ -676,7 +676,12 @@
     "heroes/reinhardt/jump/ number of frames": 1,
     "heroes/reinhardt/jump/1_sprite.png": [
         12.0,
-        43.0
+        -6.0
+    ],
+    "heroes/reinhardt/jumptorso/ number of frames": 1,
+    "heroes/reinhardt/jumptorso/1_sprite.png": [
+        13.0,
+        18.0
     ],
     "heroes/reinhardt/pinned/ number of frames": 1,
     "heroes/reinhardt/pinned/1_sprite.png": [
@@ -711,6 +716,87 @@
     "heroes/reinhardt/preparecharge/7_sprite.png": [
         31.0,
         2.0
+    ],
+    "heroes/reinhardt/rockethammertorso/ number of frames": 20,
+    "heroes/reinhardt/rockethammertorso/10_sprite.png": [
+        7.0,
+        13.0
+    ],
+    "heroes/reinhardt/rockethammertorso/11_sprite.png": [
+        9.0,
+        13.0
+    ],
+    "heroes/reinhardt/rockethammertorso/12_sprite.png": [
+        9.0,
+        14.0
+    ],
+    "heroes/reinhardt/rockethammertorso/13_sprite.png": [
+        14.0,
+        14.0
+    ],
+    "heroes/reinhardt/rockethammertorso/14_sprite.png": [
+        39.0,
+        27.0
+    ],
+    "heroes/reinhardt/rockethammertorso/15_sprite.png": [
+        61.0,
+        32.0
+    ],
+    "heroes/reinhardt/rockethammertorso/16_sprite.png": [
+        63.0,
+        20.0
+    ],
+    "heroes/reinhardt/rockethammertorso/17_sprite.png": [
+        52.0,
+        26.0
+    ],
+    "heroes/reinhardt/rockethammertorso/18_sprite.png": [
+        51.0,
+        19.0
+    ],
+    "heroes/reinhardt/rockethammertorso/19_sprite.png": [
+        48.0,
+        19.0
+    ],
+    "heroes/reinhardt/rockethammertorso/1_sprite.png": [
+        46.0,
+        20.0
+    ],
+    "heroes/reinhardt/rockethammertorso/20_sprite.png": [
+        49.0,
+        20.0
+    ],
+    "heroes/reinhardt/rockethammertorso/2_sprite.png": [
+        49.0,
+        21.0
+    ],
+    "heroes/reinhardt/rockethammertorso/3_sprite.png": [
+        47.0,
+        20.0
+    ],
+    "heroes/reinhardt/rockethammertorso/4_sprite.png": [
+        47.0,
+        23.0
+    ],
+    "heroes/reinhardt/rockethammertorso/5_sprite.png": [
+        50.0,
+        32.0
+    ],
+    "heroes/reinhardt/rockethammertorso/6_sprite.png": [
+        34.0,
+        25.0
+    ],
+    "heroes/reinhardt/rockethammertorso/7_sprite.png": [
+        28.0,
+        26.0
+    ],
+    "heroes/reinhardt/rockethammertorso/8_sprite.png": [
+        8.0,
+        14.0
+    ],
+    "heroes/reinhardt/rockethammertorso/9_sprite.png": [
+        8.0,
+        14.0
     ],
     "heroes/reinhardt/run/ number of frames": 8,
     "heroes/reinhardt/run/1_sprite.png": [
