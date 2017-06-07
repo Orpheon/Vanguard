@@ -12,6 +12,7 @@ set(VANGUARD_DEBUG_MODE ON)
 
 if (WIN32)
     set (COMPILE_STATIC ON)
+    set (VANGUARD_DEBUG_MODE OFF)
 endif (WIN32)
 
 find_library(ENET_PATH enet)
