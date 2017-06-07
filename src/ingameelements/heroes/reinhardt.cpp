@@ -369,8 +369,9 @@ void Reinhardt::endcharge(Gamestate &state)
 void Reinhardt::createearthshatter(Gamestate &state)
 {
     int direction = isflipped ? -1 : 1;
-    double spawnx = x + direction * 40;
-    for (double spawny = y; spawny < y + getstandingcollisionrect(state).h*2; ++spawny)
+    double spawnx = x + direction * 55;
+    Rect standingrect = getstandingcollisionrect(state);
+    for (double spawny = y - standingrect.h / 2.0; spawny < y + standingrect.h*2; ++spawny)
     {
         if (not state.currentmap->testpixel(spawnx, spawny) and state.currentmap->testpixel(spawnx, spawny+1))
         {

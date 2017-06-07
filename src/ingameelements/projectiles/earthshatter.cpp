@@ -12,6 +12,8 @@ void Earthshatter::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     distance.init(MAX_RANGE, std::bind(&Earthshatter::destroy, this, std::placeholders::_1));
     olddistance = 0;
     explosionspawner.init(EXPLOSION_STEPSIZE, std::bind(&Earthshatter::spawnexplosion, this, std::placeholders::_1));
+    // We want an explosion to happen immediately
+    explosionspawner.timer = explosionspawner.duration;
 
     while (state.currentmap->testpixel(x, y))
     {
