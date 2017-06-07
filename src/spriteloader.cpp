@@ -28,6 +28,7 @@ int Spriteloader::get_spriteoffset_x(std::string s)
         if (spriteoffsets.find(s+"_hitmask.png") != spriteoffsets.end())
         {
             offset = spriteoffsets[s+"_hitmask.png"][0];
+            return offset;
         }
     }
 
@@ -51,6 +52,7 @@ int Spriteloader::get_spriteoffset_y(std::string s)
         if (spriteoffsets.find(s+"_hitmask.png") != spriteoffsets.end())
         {
             offset = spriteoffsets[s+"_hitmask.png"][1];
+            return offset;
         }
     }
 

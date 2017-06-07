@@ -584,7 +584,11 @@
         1.0,
         43.0
     ],
-    "heroes/reinhardt/firestrikeprojectile/ number of frames": 1,
+    "heroes/reinhardt/firestrikeprojectile/ number of frames": 2,
+    "heroes/reinhardt/firestrikeprojectile/1_hitmask.png": [
+        1.0,
+        13.0
+    ],
     "heroes/reinhardt/firestrikeprojectile/1_sprite.png": [
         10.0,
         21.0
