@@ -70,11 +70,6 @@ int Spriteloader::get_spriteoffset_y(std::string s)
 
 ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path)
 {
-    return requestsprite(path, defaultzoom);
-}
-
-ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path, double zoom)
-{
     if (bitmapcache.count(path) == 0)
     {
         ALLEGRO_BITMAP *tmpbitmap = NULL;
@@ -97,7 +92,7 @@ ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path, double zoom)
         {
             Global::logging().panic(__FILE__, __LINE__, " Could not load sprites/%s_sprite.png", path.c_str());
         }
-        if (zoom == 1.0)
+        if (defaultzoom == 1.0)
         {
             bitmapcache[path] = tmpbitmap;
         }
@@ -105,11 +100,11 @@ ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path, double zoom)
         {
             bitmapcache[path] = tmpbitmap;
             int w=al_get_bitmap_width(tmpbitmap), h=al_get_bitmap_height(tmpbitmap);
-            bitmapcache[path] = al_create_bitmap(w*zoom, h*zoom);
+            bitmapcache[path] = al_create_bitmap(w*defaultzoom, h*defaultzoom);
             ALLEGRO_BITMAP *oldtarget = al_get_target_bitmap();
             al_set_target_bitmap(bitmapcache[path]);
             al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-            al_draw_scaled_bitmap(tmpbitmap, 0, 0, w, h, 0, 0, w*zoom, h*zoom, 0);
+            al_draw_scaled_bitmap(tmpbitmap, 0, 0, w, h, 0, 0, w*defaultzoom, h*defaultzoom, 0);
             al_set_target_bitmap(oldtarget);
         }
     }
@@ -117,11 +112,6 @@ ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path, double zoom)
 }
 
 ALLEGRO_BITMAP* Spriteloader::requestspriteoutline(std::string path)
-{
-    return requestspriteoutline(path, defaultzoom);
-}
-
-ALLEGRO_BITMAP* Spriteloader::requestspriteoutline(std::string path, double zoom)
 {
     path += "_outline";
     if (bitmapcache.count(path) == 0)
@@ -141,7 +131,7 @@ ALLEGRO_BITMAP* Spriteloader::requestspriteoutline(std::string path, double zoom
             Global::logging().panic(__FILE__, __LINE__, " Could not load sprites/%s.png", path.c_str());
 
         }
-        if (zoom == 1.0)
+        if (defaultzoom == 1.0)
         {
             bitmapcache[path] = tmpbitmap;
         }
@@ -149,10 +139,10 @@ ALLEGRO_BITMAP* Spriteloader::requestspriteoutline(std::string path, double zoom
         {
             bitmapcache[path] = tmpbitmap;
             int w=al_get_bitmap_width(tmpbitmap), h=al_get_bitmap_height(tmpbitmap);
-            bitmapcache[path] = al_create_bitmap(w*zoom, h*zoom);
+            bitmapcache[path] = al_create_bitmap(w*defaultzoom, h*defaultzoom);
             ALLEGRO_BITMAP *oldtarget = al_get_target_bitmap();
             al_set_target_bitmap(bitmapcache.at(path));
-            al_draw_scaled_bitmap(tmpbitmap, 0, 0, w, h, 0, 0, w*zoom, h*zoom, 0);
+            al_draw_scaled_bitmap(tmpbitmap, 0, 0, w, h, 0, 0, w*defaultzoom, h*defaultzoom, 0);
             al_set_target_bitmap(oldtarget);
         }
     }
@@ -161,9 +151,9 @@ ALLEGRO_BITMAP* Spriteloader::requestspriteoutline(std::string path, double zoom
 
 Rect Spriteloader::get_rect(std::string s)
 {
-    ALLEGRO_BITMAP *sprite = requestsprite(s, defaultzoom);
+    ALLEGRO_BITMAP *sprite = requestsprite(s);
     int dx = get_spriteoffset_x(s), dy = get_spriteoffset_y(s);
-    return Rect(-dx, -dy, al_get_bitmap_width(sprite), al_get_bitmap_height(sprite));
+    return Rect(-dx * defaultzoom, -dy * defaultzoom, al_get_bitmap_width(sprite), al_get_bitmap_height(sprite));
 }
 
 Rect Spriteloader::get_rect_from_json(std::string s)

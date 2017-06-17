@@ -13,9 +13,7 @@ class Spriteloader
         virtual ~Spriteloader();
 
         ALLEGRO_BITMAP* requestsprite(std::string path);
-        ALLEGRO_BITMAP* requestsprite(std::string path, double zoom_);
         ALLEGRO_BITMAP* requestspriteoutline(std::string path);
-        ALLEGRO_BITMAP* requestspriteoutline(std::string path, double zoom_);
 
         Spriteloader & operator=(Spriteloader &&)=default;
         int get_spriteoffset_x(std::string s);
