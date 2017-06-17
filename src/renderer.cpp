@@ -66,6 +66,15 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
 
         zoom = 1.0*WINDOW_WIDTH / VIEWPORT_WIDTH;
         spriteloader.setzoom(zoom);
+
+        al_destroy_font(font20);
+        al_destroy_font(font10);
+        al_destroy_font(font6);
+        al_destroy_font(gg2font);
+        font20 = al_load_font("Vanguard Main Font.ttf", 20 * zoom, ALLEGRO_TTF_MONOCHROME);
+        font10 = al_load_font("Vanguard Main Font.ttf", 10 * zoom, ALLEGRO_TTF_MONOCHROME);
+        font6 = al_load_font("Vanguard Main Font.ttf", 6 * zoom, ALLEGRO_TTF_MONOCHROME);
+        gg2font = al_load_font("gg2bold.ttf", 12 * zoom, ALLEGRO_TTF_MONOCHROME);
     }
 
     // Set camera

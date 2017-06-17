@@ -1049,7 +1049,7 @@
     ],
     "ui/ingame/Gamemode/ref/ number of frames": 0,
     "ui/ingame/heroes/ number of frames": 0,
-    "ui/ingame/heroes/mccree/ number of frames": 6,
+    "ui/ingame/heroes/mccree/ number of frames": 7,
     "ui/ingame/heroes/mccree/flashbang_sprite.png": [
         28.0,
         19.0
@@ -1073,6 +1073,10 @@
     "ui/ingame/heroes/mccree/ultready_sprite.png": [
         18.0,
         20.5
+    ],
+    "ui/ingame/heroes/mccree/weapon_sprite.png": [
+        38.5,
+        19.0
     ],
     "ui/ingame/heroes/reinhardt/ number of frames": 7,
     "ui/ingame/heroes/reinhardt/Hold_Shield.png": [

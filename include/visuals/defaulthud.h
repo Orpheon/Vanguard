@@ -10,5 +10,5 @@ class DefaultHud : public Hud
         void render(Renderer &renderer, Gamestate &state, Player &myself) override;
         void mccreehud(Renderer &renderer, Gamestate &state, Mccree &myself);
         void reinhardthud(Renderer &renderer, Gamestate &state, Reinhardt &myself);
-        void renderability(Renderer &renderer, std::string spritename, double x, double y, Timer cooldown);
+        double renderability(Renderer &renderer, std::string spritename, double x, double y, Timer cooldown);
 };

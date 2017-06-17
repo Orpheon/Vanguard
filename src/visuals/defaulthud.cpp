@@ -166,12 +166,32 @@ void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
 
 void DefaultHud::mccreehud(Renderer &renderer, Gamestate &state, Mccree &myself)
 {
-    double abilities_x = renderer.WINDOW_WIDTH * 5.0/6.0;
+    double abilities_x = renderer.WINDOW_WIDTH * 6.0/7.0;
     double abilities_y = renderer.WINDOW_HEIGHT* 9.0/10.0;
-    double space = renderer.WINDOW_WIDTH / 15.0;
-    renderability(renderer, "ui/ingame/"+myself.herofolder()+"rolling", abilities_x, abilities_y, myself.rollcooldown);
-    renderability(renderer, "ui/ingame/"+myself.herofolder()+"flashbang", abilities_x - space, abilities_y,
-                  myself.flashbangcooldown);
+
+    std::string mainsprite = "ui/ingame/"+myself.herofolder()+"weapon";
+    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
+    Rect spriterect = renderer.spriteloader.get_rect(mainsprite);
+    al_draw_bitmap(sprite, abilities_x, abilities_y - spriterect.h, 0);
+    // Ammo count
+    Peacemaker &weapon = state.get<Peacemaker&>(myself.weapon);
+    std::string ammo = std::to_string(weapon.clip);
+    std::string maxammo = "I "+std::to_string(weapon.getclipsize());
+    double total_ammo_width = al_get_text_width(renderer.font10, ammo.c_str())
+                              + al_get_text_width(renderer.font6, maxammo.c_str());
+    double space_between_weapon_and_ammo = 10 * renderer.zoom;
+    double ammo_x = abilities_x + spriterect.w - total_ammo_width;
+    double ammo_y = abilities_y - spriterect.h - space_between_weapon_and_ammo;
+    al_draw_text(renderer.font10, al_map_rgb(255, 255, 255), ammo_x, ammo_y - al_get_font_line_height(renderer.font10),
+                 ALLEGRO_ALIGN_LEFT, ammo.c_str());
+    al_draw_text(renderer.font6, al_map_rgb(255, 255, 255), ammo_x + al_get_text_width(renderer.font10, ammo.c_str()),
+                 ammo_y - al_get_font_line_height(renderer.font6), ALLEGRO_ALIGN_LEFT, maxammo.c_str());
+    abilities_x -= spriterect.w;
+
+    abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"rolling", abilities_x, abilities_y,
+                                 myself.rollcooldown);
+    abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"flashbang", abilities_x, abilities_y,
+                                 myself.flashbangcooldown);
 }
 
 void DefaultHud::reinhardthud(Renderer &renderer, Gamestate &state, Reinhardt &myself)
@@ -179,7 +199,7 @@ void DefaultHud::reinhardthud(Renderer &renderer, Gamestate &state, Reinhardt &m
     // TODO: Reinhardt hud
 }
 
-void DefaultHud::renderability(Renderer &renderer, std::string spritename, double x, double y, Timer cooldown)
+double DefaultHud::renderability(Renderer &renderer, std::string spritename, double x, double y, Timer cooldown)
 {
     float r[8];
 
@@ -217,4 +237,6 @@ void DefaultHud::renderability(Renderer &renderer, std::string spritename, doubl
                      spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer.font10)/2.0, ALLEGRO_ALIGN_CENTER,
                      std::to_string((int)std::ceil(cooldown.duration - cooldown.timer)).c_str());
     }
+
+    return spriterect.w;
 }
