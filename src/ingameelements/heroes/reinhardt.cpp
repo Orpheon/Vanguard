@@ -127,49 +127,6 @@ void Reinhardt::render(Renderer &renderer, Gamestate &state)
                              ColorPalette::premul(Color::SHIELD, 51));
 }
 
-void Reinhardt::drawhud(Renderer &renderer, Gamestate &state)
-{
-//    Character::drawhud(renderer, state);
-//
-//    double space = 3;
-//    float r[8];
-//
-//    ALLEGRO_BITMAP *sprite;
-//    Rect spriterect = renderer.spriteloader.get_rect("ui/ingame/"+herofolder()+"charge");
-//    if (chargecooldown.active)
-//    {
-//        sprite = renderer.spriteloader.requestsprite("ui/ingame/"+herofolder()+"chargecooldown", 1.0);
-//    }
-//    else
-//    {
-//        sprite = renderer.spriteloader.requestsprite("ui/ingame/"+herofolder()+"charge", 1.0);
-//    }
-//    spriterect.x = renderer.WINDOW_WIDTH*6/7.0 - spriterect.w*2 - space;
-//    spriterect.y = renderer.WINDOW_HEIGHT*hudheight()-spriterect.h;
-//    al_draw_bitmap(sprite, spriterect.x, spriterect.y, 0);
-//    if (chargecooldown.active)
-//    {
-//        // Draw the fill-in
-//        r[0] = spriterect.x+17*chargecooldown.getpercent();
-//        r[1] = spriterect.y+2+34*(1-chargecooldown.getpercent());
-//
-//        r[2] = spriterect.x;
-//        r[3] = spriterect.y+spriterect.h-2;
-//
-//        r[4] = spriterect.x+39;
-//        r[5] = spriterect.y+spriterect.h-2;
-//
-//        r[6] = spriterect.x+17*chargecooldown.getpercent()+39;
-//        r[7] = spriterect.y+2+34*(1-chargecooldown.getpercent());
-//
-//        al_draw_filled_polygon(r, 4, al_premul_rgba_f(239/255.0, 179/255.0, 89/255.0, 0.5));
-//
-//        al_draw_text(renderer.font10, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+2,
-//                     spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer.font10)/2.0, ALLEGRO_ALIGN_CENTER,
-//                     std::to_string((int)std::ceil(chargecooldown.duration - chargecooldown.timer)).c_str());
-//    }
-}
-
 void Reinhardt::beginstep(Gamestate &state, double frametime)
 {
     Character::beginstep(state, frametime);

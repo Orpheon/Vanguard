@@ -46,7 +46,6 @@ class Character : public MovingEntity
         virtual void useability1(Gamestate &state) = 0;
         virtual void useability2(Gamestate &state) = 0;
         virtual void useultimate(Gamestate &state) = 0;
-        virtual void drawhud(Renderer &renderer, Gamestate &state);
         virtual bool weaponvisible(Gamestate &state) {return true;}
         virtual double maxhspeed(Gamestate &state) {return crouchanim.active() ? 60.0 : 153.0;}
 

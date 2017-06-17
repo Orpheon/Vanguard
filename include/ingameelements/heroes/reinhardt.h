@@ -31,7 +31,6 @@ class Reinhardt : public Character
         void begincharge() {chargeanim.reset();}
         void endcharge(Gamestate &state);
         void interrupt(Gamestate &state) override;
-        void drawhud(Renderer &renderer, Gamestate &state) override;
         bool weaponvisible(Gamestate &state) override;
         void createearthshatter(Gamestate &state);
         double pinoffset_x() {return 48 * (isflipped?-1:1);}

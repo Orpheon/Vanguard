@@ -440,22 +440,6 @@ void Character::render(Renderer &renderer, Gamestate &state)
     }
 }
 
-void Character::drawhud(Renderer &renderer, Gamestate &state)
-{
-//    // Ammo count
-//    if (getweapon(state).hasclip())
-//    {
-//        Clipweapon &w = state.get<Clipweapon>(weapon);
-//        std::string ammo = std::to_string(w.clip);
-//        std::string maxammo = "I "+std::to_string(w.getclipsize());
-//        tmpx = renderer.WINDOW_WIDTH*9/10.0;
-//        al_draw_text(renderer.font20, al_map_rgb(255, 255, 255), tmpx, renderer.WINDOW_HEIGHT*hudheight()-al_get_font_line_height(renderer.font20), ALLEGRO_ALIGN_LEFT, ammo.c_str());
-//        al_draw_text(renderer.font10, al_map_rgb(255, 255, 255), tmpx+al_get_text_width(renderer.font20, ammo.c_str()),
-//                        renderer.WINDOW_HEIGHT*hudheight()-al_get_font_line_height(renderer.font10), ALLEGRO_ALIGN_LEFT, maxammo.c_str());
-//    }
-//
-}
-
 bool Character::onground(Gamestate &state)
 {
     Rect r = getcollisionrect(state);
