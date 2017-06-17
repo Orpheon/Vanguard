@@ -161,7 +161,7 @@ ALLEGRO_BITMAP* Spriteloader::requestspriteoutline(std::string path, double zoom
 
 Rect Spriteloader::get_rect(std::string s)
 {
-    ALLEGRO_BITMAP *sprite = requestsprite(s, 1.0);
+    ALLEGRO_BITMAP *sprite = requestsprite(s, defaultzoom);
     int dx = get_spriteoffset_x(s), dy = get_spriteoffset_y(s);
     return Rect(-dx, -dy, al_get_bitmap_width(sprite), al_get_bitmap_height(sprite));
 }

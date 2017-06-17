@@ -65,6 +65,7 @@ set (SRC_FILES
         "src/networking/buffer.cpp"
         "src/networking/servernetworker.cpp"
         "src/networking/clientnetworker.cpp"
+        "src/visuals/defaulthud.cpp"
         "src/ingameelements/corpse.cpp"
         "src/ingameelements/player.cpp"
         "src/ingameelements/explosion.cpp"

@@ -27,7 +27,6 @@ class Mccree : public Character
         void useultimate(Gamestate &state) override;
         void interrupt(Gamestate &state) override;
         void resetafterult(Gamestate &state);
-        void drawhud(Renderer &renderer, Gamestate &state) override;
         bool weaponvisible(Gamestate &state) override;
 
         Health initializehealth() override {return Health(200, 0, 0);}

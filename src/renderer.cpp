@@ -9,6 +9,8 @@
 #include "entity.h"
 #include "configloader.h"
 #include "global.h"
+#include "visuals/hud.h"
+#include "visuals/defaulthud.h"
 
 Renderer::Renderer() : cam_x(0), cam_y(0), zoom(1), myself(0), WINDOW_WIDTH(0), WINDOW_HEIGHT(0), spriteloader(false)
 {
@@ -25,6 +27,8 @@ Renderer::Renderer() : cam_x(0), cam_y(0), zoom(1), myself(0), WINDOW_WIDTH(0), 
     font10 = al_load_font("Vanguard Main Font.ttf", 10, ALLEGRO_TTF_MONOCHROME);
     font6 = al_load_font("Vanguard Main Font.ttf", 6, ALLEGRO_TTF_MONOCHROME);
     gg2font = al_load_font("gg2bold.ttf", 12, ALLEGRO_TTF_MONOCHROME);
+
+    currenthud = std::unique_ptr<Hud>(new DefaultHud());
 }
 
 Renderer::~Renderer()
@@ -139,11 +143,9 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
     al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 108, ALLEGRO_ALIGN_LEFT, ("Zoom: " + std::to_string(zoom)).c_str());
     al_draw_text(gg2font, al_map_rgb(255, 255, 255), 0, 120, ALLEGRO_ALIGN_LEFT, state.engine.isserver ? "Server" : "Client");
 
-
-    if (state.exists(myself) and state.exists(state.get<Player>(myself).character))
+    if (state.exists(myself))
     {
-        Player &p = state.get<Player>(myself);
-        p.getcharacter(state).drawhud(*this, state);
+        currenthud->render(*this, state, state.get<Player>(myself));
     }
 
     al_flip_display();

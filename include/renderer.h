@@ -3,6 +3,7 @@
 #include "gamestate.h"
 #include "spriteloader.h"
 #include "networking/networker.h"
+#include "visuals/hud.h"
 
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_font.h>
@@ -35,4 +36,5 @@ class Renderer
     private:
         double lasttime;
         const int DISPLAY_DEFAULT_TYPE = ALLEGRO_RESIZABLE;
+        std::unique_ptr<Hud> currenthud;
 };
