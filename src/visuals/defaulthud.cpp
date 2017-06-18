@@ -141,7 +141,7 @@ void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
             al_draw_circle(mid_x, mid_y, total_width / 2.0, al_map_rgba(255 * alpha, 255 * alpha, 255 * alpha, 255 * alpha),
                            total_width / 30.0);
             // Charging arc
-            al_draw_arc(mid_x, mid_y, total_width / 3.0, -3.1415/2.0, 2*3.1415 * myself.ultcharge.timer/100.0,
+            al_draw_arc(mid_x, mid_y, total_width / 3.0, -PI/2.0, 2*PI * myself.ultcharge.timer/100.0,
                         al_map_rgb(255, 230, 125), total_width / 14.0);
         }
         else
