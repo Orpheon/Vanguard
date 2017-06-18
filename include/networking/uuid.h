@@ -45,43 +45,43 @@ BEGIN_XG_NAMESPACE
 // 16 byte value that can be passed around by value. It also supports
 // conversion to string (via the stream operator <<) and conversion from a
 // string via constructor.
-class Uuid
+class Guid
 {
 public:
-	Uuid(const std::vector<unsigned char> &bytes);
-	Uuid(const unsigned char *bytes);
-	Uuid(const std::string &fromString);
-	Uuid();
-	Uuid(const Uuid &other);
-	Uuid &operator=(const Uuid &other);
-	bool operator==(const Uuid &other) const;
-	bool operator!=(const Uuid &other) const;
+	Guid(const std::vector<unsigned char> &bytes);
+	Guid(const unsigned char *bytes);
+	Guid(const std::string &fromString);
+	Guid();
+	Guid(const Guid &other);
+	Guid &operator=(const Guid &other);
+	bool operator==(const Guid &other) const;
+	bool operator!=(const Guid &other) const;
 
 	std::string str() const;
 	const char* c_str() const;
 
 	operator std::string() const;
 
-	void swap(Uuid &other);
+	void swap(Guid &other);
 	// actual data
 	std::vector<unsigned char> _bytes;
 };
 
-Uuid newUuid();
+Guid newGuid();
 
 #ifdef GUID_ANDROID
-struct AndroidUuidInfo
+struct AndroidGuidInfo
 {
-	static AndroidUuidInfo fromJniEnv(JNIEnv *env);
+	static AndroidGuidInfo fromJniEnv(JNIEnv *env);
 
 	JNIEnv *env;
 	jclass uuidClass;
-	jmethodID newUuidMethod;
+	jmethodID newGuidMethod;
 	jmethodID mostSignificantBitsMethod;
 	jmethodID leastSignificantBitsMethod;
 };
 
-extern AndroidUuidInfo androidInfo;
+extern AndroidGuidInfo androidInfo;
 
 void initJni(JNIEnv *env);
 #endif
@@ -90,18 +90,18 @@ END_XG_NAMESPACE
 
 namespace std
 {
-	// Template specialization for std::swap<Uuid>() --
+	// Template specialization for std::swap<Guid>() --
 	// See guid.cpp for the function definition
 	template <>
-	void swap(xg::Uuid &guid0, xg::Uuid &guid1);
+	void swap(xg::Guid &guid0, xg::Guid &guid1);
 
-	// Specialization for std::hash<Uuid> -- this implementation
+	// Specialization for std::hash<Guid> -- this implementation
 	// uses std::hash<std::string> on the stringification of the guid
 	// to calculate the hash
 	template <>
-	struct hash<xg::Uuid>
+	struct hash<xg::Guid>
 	{
-		typedef xg::Uuid argument_type;
+		typedef xg::Guid argument_type;
 		typedef std::size_t result_type;
 
 		result_type operator()(argument_type const &guid) const

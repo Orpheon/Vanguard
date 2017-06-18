@@ -6,7 +6,8 @@
 ClientNetworker::ClientNetworker(WriteBuffer &sendbuffer_) : Networker(false, sendbuffer_), connected(false)
 {
     ENetAddress serveraddress;
-    enet_address_set_host(&serveraddress, Global::settings()["Server ip"]);
+    std::string serverip = Global::settings()["Server ip"];
+    enet_address_set_host(&serveraddress, serverip.c_str());
     serveraddress.port = 3224;
     host = enet_host_create(NULL, 1, 1, 0, 0);
     if (host == NULL)

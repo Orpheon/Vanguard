@@ -29,8 +29,8 @@ if (COMPILE_STATIC)
         message(FATAL_ERROR "${ALLEGRO_PATH} does not exist - you probably have not installed static allegro libraries.\
          Either install them or change the flag in cmake to dynamic compilation.")
     endif()
-    set (Vanguardlib "allegro_monolith-static allegro_dialog-static jpeg vorbis ogg glu32 opengl32 freetype png16 z \
-    kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid dsound wsock32 psapi shlwapi enet")
+    set (Vanguardlib allegro_monolith-static allegro_dialog-static jpeg vorbis ogg glu32 opengl32 freetype png16 z
+    kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid dsound wsock32 psapi shlwapi enet)
     set (Vanguardlinkflags "-static-libstdc++ -static-libgcc -static ")
     set (VANGUARD_DEBUG_MODE OFF)
 else (COMPILE_STATIC)
@@ -47,7 +47,7 @@ if(WIN32)
     add_definitions(-DGUID_WINDOWS)
 elseif(APPLE)
     find_library(CFLIB CoreFoundation)
-    set(Vanguardlib "${Vanguardlib}${CFLIB}")
+    set(Vanguardlib ${Vanguardlib} ${CFLIB})
     add_definitions(-DGUID_CFUUID)
 else()
     find_package(LibUUID REQUIRED)
@@ -59,8 +59,6 @@ else()
     set(Vanguardlib ${Vanguardlib} ${LIBUUID_LIBRARIES})
     add_definitions(-DGUID_LIBUUID)
 endif()
-
-message(${Vanguardlib})
 
 if (WIN32)
     set (Vanguardlib ${Vanguardlib} ws2_32 winmm)

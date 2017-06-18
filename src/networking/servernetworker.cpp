@@ -36,7 +36,7 @@ ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sen
         lobby = nullptr;
     }
 
-    serverid = xg::newUuid();
+    serverid = xg::newGuid();
 }
 
 ServerNetworker::~ServerNetworker()
@@ -168,9 +168,9 @@ void ServerNetworker::sendframedata(Gamestate &state)
 
 void ServerNetworker::registerlobby(Gamestate &state)
 {
-    xg::Uuid message_type(LOBBY_MESSAGE_TYPE_REGISTER);
-    xg::Uuid lobbyid(GG2_IDENTIFIER);
-    xg::Uuid compatibility(COMPATIBILITY_IDENTIFIER);
+    xg::Guid message_type(LOBBY_MESSAGE_TYPE_REGISTER);
+    xg::Guid lobbyid(GG2_IDENTIFIER);
+    xg::Guid compatibility(COMPATIBILITY_IDENTIFIER);
 
     WriteBuffer buffer;
 

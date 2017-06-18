@@ -46,14 +46,14 @@ using namespace std;
 BEGIN_XG_NAMESPACE
 
 #ifdef GUID_ANDROID
-AndroidUuidInfo androidInfo;
+AndroidGuidInfo androidInfo;
 
-AndroidUuidInfo AndroidUuidInfo::fromJniEnv(JNIEnv *env)
+AndroidGuidInfo AndroidGuidInfo::fromJniEnv(JNIEnv *env)
 {
-	AndroidUuidInfo info;
+	AndroidGuidInfo info;
 	info.env = env;
 	info.uuidClass = env->FindClass("java/util/UUID");
-	info.newUuidMethod = env->GetStaticMethodID(
+	info.newGuidMethod = env->GetStaticMethodID(
 		info.uuidClass, "randomUUID", "()Ljava/util/UUID;");
 	info.mostSignificantBitsMethod = env->GetMethodID(
 		info.uuidClass, "getMostSignificantBits", "()J");
@@ -64,12 +64,12 @@ AndroidUuidInfo AndroidUuidInfo::fromJniEnv(JNIEnv *env)
 
 void initJni(JNIEnv *env)
 {
-	androidInfo = AndroidUuidInfo::fromJniEnv(env);
+	androidInfo = AndroidGuidInfo::fromJniEnv(env);
 }
 #endif
 
 // overload << so that it's easy to convert to a string
-ostream &operator<<(ostream &s, const Uuid &guid)
+ostream &operator<<(ostream &s, const Guid &guid)
 {
 	return s << hex << setfill('0')
 		<< setw(2) << (int)guid._bytes[0]
@@ -95,7 +95,7 @@ ostream &operator<<(ostream &s, const Uuid &guid)
 }
 
 // convert to string using std::snprintf() and std::string
-std::string Uuid::str() const
+std::string Guid::str() const
 {
 	char one[10], two[6], three[6], four[6], five[14];
 
@@ -121,25 +121,25 @@ std::string Uuid::str() const
 }
 
 // convert to a C-style string
-const char *Uuid::c_str() const
+const char *Guid::c_str() const
 {
 	return str().c_str();
 }
 
 // conversion operator for std::string
-Uuid::operator std::string() const
+Guid::operator std::string() const
 {
 	return str();
 }
 
 // create a guid from vector of bytes
-Uuid::Uuid(const vector<unsigned char> &bytes)
+Guid::Guid(const vector<unsigned char> &bytes)
 {
 	_bytes = bytes;
 }
 
 // create a guid from array of bytes
-Uuid::Uuid(const unsigned char *bytes)
+Guid::Guid(const unsigned char *bytes)
 {
 	_bytes.assign(bytes, bytes + 16);
 }
@@ -166,7 +166,7 @@ unsigned char hexPairToChar(char a, char b)
 }
 
 // create a guid from string
-Uuid::Uuid(const string &fromString)
+Guid::Guid(const string &fromString)
 {
 	_bytes.clear();
 
@@ -194,38 +194,38 @@ Uuid::Uuid(const string &fromString)
 }
 
 // create empty guid
-Uuid::Uuid()
+Guid::Guid()
 {
 	_bytes = vector<unsigned char>(16, 0);
 }
 
 // copy constructor
-Uuid::Uuid(const Uuid &other)
+Guid::Guid(const Guid &other)
 {
 	_bytes = other._bytes;
 }
 
 // overload assignment operator
-Uuid &Uuid::operator=(const Uuid &other)
+Guid &Guid::operator=(const Guid &other)
 {
-	Uuid(other).swap(*this);
+	Guid(other).swap(*this);
 	return *this;
 }
 
 // overload equality operator
-bool Uuid::operator==(const Uuid &other) const
+bool Guid::operator==(const Guid &other) const
 {
 	return _bytes == other._bytes;
 }
 
 // overload inequality operator
-bool Uuid::operator!=(const Uuid &other) const
+bool Guid::operator!=(const Guid &other) const
 {
 	return !((*this) == other);
 }
 
 // member swap function
-void Uuid::swap(Uuid& other)
+void Guid::swap(Guid& other)
 {
 	_bytes.swap(other._bytes);
 }
@@ -233,7 +233,7 @@ void Uuid::swap(Uuid& other)
 // This is the linux friendly implementation, but it could work on other
 // systems that have libuuid available
 #ifdef GUID_LIBUUID
-Uuid newUuid()
+Guid newGuid()
 {
 	uuid_t id;
 	uuid_generate(id);
@@ -243,7 +243,7 @@ Uuid newUuid()
 
 // this is the mac and ios version
 #ifdef GUID_CFUUID
-Uuid newUuid()
+Guid newGuid()
 {
 	auto newId = CFUUIDCreate(NULL);
 	auto bytes = CFUUIDGetUUIDBytes(newId);
@@ -274,10 +274,10 @@ Uuid newUuid()
 
 // obviously this is the windows version
 #ifdef GUID_WINDOWS
-Uuid newUuid()
+Guid newGuid()
 {
 	GUID newId;
-	CoCreateUuid(&newId);
+	CoCreateGuid(&newId);
 
 	const unsigned char bytes[16] =
 	{
@@ -308,13 +308,13 @@ Uuid newUuid()
 
 // android version that uses a call to a java api
 #ifdef GUID_ANDROID
-Uuid newUuid()
+Guid newGuid()
 {
-	jobject javaUuid = androidInfo.env->CallStaticObjectMethod(
-		androidInfo.uuidClass, androidInfo.newUuidMethod);
-	jlong mostSignificant = androidInfo.env->CallLongMethod(javaUuid,
+	jobject javaGuid = androidInfo.env->CallStaticObjectMethod(
+		androidInfo.uuidClass, androidInfo.newGuidMethod);
+	jlong mostSignificant = androidInfo.env->CallLongMethod(javaGuid,
 		androidInfo.mostSignificantBitsMethod);
-	jlong leastSignificant = androidInfo.env->CallLongMethod(javaUuid,
+	jlong leastSignificant = androidInfo.env->CallLongMethod(javaGuid,
 		androidInfo.leastSignificantBitsMethod);
 
 	unsigned char bytes[16] =
@@ -342,12 +342,12 @@ Uuid newUuid()
 
 END_XG_NAMESPACE
 
-// Specialization for std::swap<Uuid>() --
+// Specialization for std::swap<Guid>() --
 // call member swap function of lhs, passing rhs
 namespace std
 {
 	template <>
-	void swap(xg::Uuid& lhs, xg::Uuid& rhs)
+	void swap(xg::Guid& lhs, xg::Guid& rhs)
 	{
 		lhs.swap(rhs);
 	}

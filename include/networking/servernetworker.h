@@ -17,7 +17,7 @@ class ServerNetworker : public Networker
     protected:
     private:
         Timer lobbyreminder;
-        xg::Uuid serverid;
+        xg::Guid serverid;
         ENetPeer *lobby;
 };
 
