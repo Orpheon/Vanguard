@@ -1,6 +1,7 @@
 #pragma once
 
 #include "networking/networker.h"
+#include "networking/uuid.h"
 #include <vector>
 
 
@@ -16,5 +17,7 @@ class ServerNetworker : public Networker
     protected:
     private:
         Timer lobbyreminder;
+        xg::Uuid serverid;
+        ENetPeer *lobby;
 };
 

@@ -12,8 +12,10 @@
 #include "ingameelements/gamemodes/gamemodemanager.h"
 #include "ingameelements/gamemodes/kothmanager.h"
 
-Map::Map(Gamestate &state, std::string name)
+Map::Map(Gamestate &state, std::string name_)
 {
+    name = name_;
+
     // Load the map data first
     std::string mapfolder = "maps/" + name + "/";
     ConfigLoader configloader;

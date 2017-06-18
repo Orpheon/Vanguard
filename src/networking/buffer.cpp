@@ -17,6 +17,15 @@ ReadBuffer::~ReadBuffer()
 {
     //dtor
 }
+std::string ReadBuffer::readstring(int length)
+{
+    std::string output;
+    for (int i=0; i<length; ++i)
+    {
+        output += read<char>();
+    }
+    return output;
+}
 
 WriteBuffer::WriteBuffer() : Buffer(std::malloc(32), 32)
 {
@@ -33,4 +42,11 @@ void WriteBuffer::enlarge(uint64_t newsize)
     std::free(data);
     data = newdata;
     datalen = newsize;
+}
+void WriteBuffer::writestring(std::string input)
+{
+    for (auto& c : input)
+    {
+        write<char>(c);
+    }
 }

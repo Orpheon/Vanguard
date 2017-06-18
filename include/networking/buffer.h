@@ -39,6 +39,7 @@ class ReadBuffer : public Buffer
             return r;
         }
         uint64_t length() override {return datalen-pos;}
+        std::string readstring(int length);
     protected:
     private:
 };
@@ -60,6 +61,7 @@ class WriteBuffer : public Buffer
             pos += sizeof(T);
         }
         uint64_t length() override {return pos;}
+        void writestring(std::string input);
     protected:
     private:
 };

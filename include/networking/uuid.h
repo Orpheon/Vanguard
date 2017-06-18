@@ -63,14 +63,8 @@ public:
 	operator std::string() const;
 
 	void swap(Uuid &other);
-
-private:
-
 	// actual data
 	std::vector<unsigned char> _bytes;
-
-	// make the << operator a friend so it can access _bytes
-	friend std::ostream &operator<<(std::ostream &s, const Uuid &guid);
 };
 
 Uuid newUuid();

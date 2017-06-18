@@ -27,6 +27,8 @@ class Map
         Spawnroom& spawnroom(Gamestate &state, Team team);
         GamemodeManager& currentgamemode(Gamestate &state);
         void gotonextgamemode(Gamestate &state, Team winners);
+
+        std::string name;
     protected:
     private:
         ALLEGRO_BITMAP *background;

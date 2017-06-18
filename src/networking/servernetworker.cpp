@@ -1,6 +1,9 @@
 #include "networking/servernetworker.h"
+#include "networking/uuid.h"
 #include "global_constants.h"
 #include "global.h"
+
+#include <cstdint>
 
 ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sendbuffer_)
 {
@@ -11,19 +14,33 @@ ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sen
     if (host == NULL)
     {
         Global::logging().panic(__FILE__, __LINE__, "Failed to create server host");
-        throw -1;
     }
+
     lobbyreminder.init(30, std::bind(&ServerNetworker::registerlobby, this, std::placeholders::_1));
     lobbyreminder.timer = lobbyreminder.duration; // Fire immediately
-    if (not Global::settings()["Display on Lobby"])
+    if (Global::settings()["Display on Lobby"])
+    {
+        ENetAddress lobbyaddress;
+        enet_address_set_host(&lobbyaddress, LOBBY_HOST);
+        lobbyaddress.port = 29944;
+        lobby = enet_host_connect(host, &lobbyaddress, 1, 0);
+        if (lobby == NULL)
+        {
+            Global::logging().panic(__FILE__, __LINE__, "Failed to create lobby host");
+        }
+    }
+    else
     {
         lobbyreminder.active = false;
+        lobby = nullptr;
     }
+
+    serverid = xg::newUuid();
 }
 
 ServerNetworker::~ServerNetworker()
 {
-    //dtor
+
 }
 
 void ServerNetworker::receive(Gamestate &state)
@@ -140,6 +157,76 @@ void ServerNetworker::sendframedata(Gamestate &state)
 
 void ServerNetworker::registerlobby(Gamestate &state)
 {
+    xg::Uuid message_type(LOBBY_MESSAGE_TYPE_REGISTER);
+    xg::Uuid lobbyid(GG2_IDENTIFIER);
+    xg::Uuid compatibility(COMPATIBILITY_IDENTIFIER);
+
     WriteBuffer buffer;
 
+    // See https://github.com/Medo42/Faucet-Lobby/blob/master/Protocol%20Spec.txt for reference
+    // https://github.com/PyGG2/PyGG2/blob/master/server/lobby.py is also helpful
+
+    // Message type for lobby
+    for (auto& byte : message_type._bytes)
+    {
+        buffer.write<uint8_t>(byte);
+    }
+    // Server id
+    for (auto& byte : serverid._bytes)
+    {
+        buffer.write<uint8_t>(byte);
+    }
+    // Lobby id
+    for (auto& byte : lobbyid._bytes)
+    {
+        buffer.write<uint8_t>(byte);
+    }
+    // Transport protocol (0=TCP, 1=UDP)
+    buffer.write<uint8_t>(1);
+    // Port number
+    buffer.write<uint16_t>(host->address.port);
+    // Number of total player slots
+    buffer.write<uint16_t>(PLAYER_LIMIT);
+    // Number of players ingame
+    buffer.write<uint16_t>(static_cast<uint16_t>(state.playerlist.size()));
+    // Number of AI bots
+    buffer.write<uint16_t>(0);
+    // Flags
+    buffer.write<uint16_t>(0);
+
+    std::map<std::string, std::string> data = {
+        {"name", "Vanguard test server"},
+        {"game", GAME_NAME},
+        {"game_uint16_t", GAME_NAME_SHORT},
+        {"game_ver", GAME_VERSION},
+        {"game_url", GAME_URL},
+        {"map", state.currentmap->name}
+    };
+
+    // Extra data
+
+    // Write number of key/value pairs
+    // Protocol_id isn't a string but fixed so doing it separately
+    buffer.write<uint16_t>(data.size() + 1);
+
+    // Compatibility flag
+    buffer.write<uint8_t>(std::string("protocol_id").size());
+    buffer.writestring("protocol_id");
+    buffer.write<uint16_t>(16);
+    for (auto& byte : compatibility._bytes)
+    {
+        buffer.write<uint8_t>(byte);
+    }
+
+    // Everything else
+    for (auto& entry : data)
+    {
+        buffer.write<uint8_t>(entry.first.size());
+        buffer.writestring(entry.first);
+        buffer.write<uint16_t>(entry.second.size());
+        buffer.writestring(entry.second);
+    }
+
+    ENetPacket *lobbypacket = enet_packet_create(buffer.getdata(), buffer.length(), ENET_PACKET_FLAG_RELIABLE);
+    enet_peer_send(lobby, 0, lobbypacket);
 }
