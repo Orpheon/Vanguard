@@ -3,5 +3,6 @@
     "Display resolution": [1280, 1024],
     "Display type": 16,
     "Vsync": 2,
-    "Display on Lobby": false
+    "Display on Lobby": false,
+    "Server ip": "127.0.0.1"
 }
