@@ -40,5 +40,6 @@ class Player : public Entity
         Timer ultcharge;
         Team team;
         Heroclass heroclass;
+        std::string name;
 };
 

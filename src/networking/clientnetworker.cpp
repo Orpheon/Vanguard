@@ -30,7 +30,10 @@ void ClientNetworker::receive(Gamestate &state)
     {
         if (event.type == ENET_EVENT_TYPE_CONNECT)
         {
-            ;
+            std::string name = Global::settings()["Player name"];
+            sendbuffer.write<uint8_t>(PLAYER_CHANGENAME);
+            sendbuffer.write<uint8_t>(name.length());
+            sendbuffer.writestring(name);
         }
         else if (event.type == ENET_EVENT_TYPE_DISCONNECT)
         {
@@ -110,6 +113,14 @@ void ClientNetworker::receive(Gamestate &state)
                     Team team = static_cast<Team>(data.read<uint8_t>());
                     KothManager &km = static_cast<KothManager&>(state.currentmap->currentgamemode(state));
                     km.createpoint(state, team);
+                }
+                else if (eventtype == PLAYER_CHANGENAME)
+                {
+                    int playerid = data.read<uint8_t>();
+                    Player &p = state.findplayer(playerid);
+                    int namelength = data.read<uint8_t>();
+                    std::string name = data.readstring(namelength);
+                    p.name = name;
                 }
                 else
                 {

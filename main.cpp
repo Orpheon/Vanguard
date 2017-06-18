@@ -128,7 +128,9 @@ int main(int argc, char **argv)
     if (isserver)
     {
         myself = engine.currentstate->addplayer();
-        engine.currentstate->get<Player>(myself).spawntimer.active = true;
+        Player &p = engine.currentstate->get<Player&>(myself);
+        p.name = Global::settings()["Player name"];
+        p.spawntimer.active = true;
     }
     else
     {

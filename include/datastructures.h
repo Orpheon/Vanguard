@@ -43,7 +43,8 @@ enum EVENTTYPE {SERVER_SNAPSHOTUPDATE,
                 ABILITY1_USED,
                 ABILITY2_USED,
                 ULTIMATE_USED,
-                KOTH_CP_CREATED};
+                KOTH_CP_CREATED,
+                PLAYER_CHANGENAME};
 
 enum PenetrationLevel { PENETRATE_NOTHING = 0,
                         PENETRATE_CHARACTER = 1,

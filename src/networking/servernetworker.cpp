@@ -4,6 +4,7 @@
 #include "global.h"
 
 #include <cstdint>
+#include <string>
 
 ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sendbuffer_)
 {
@@ -116,6 +117,16 @@ void ServerNetworker::receive(Gamestate &state)
                     sendbuffer.write<uint8_t>(PLAYER_CHANGECLASS);
                     sendbuffer.write<uint8_t>(state.findplayerid(player.id));
                     sendbuffer.write<uint8_t>(static_cast<uint8_t>(newclass));
+                }
+                else if (eventtype == PLAYER_CHANGENAME)
+                {
+                    int length = data.read<uint8_t>();
+                    std::string name = data.readstring(length);
+                    player.name = name;
+                    sendbuffer.write<uint8_t>(PLAYER_CHANGENAME);
+                    sendbuffer.write<uint8_t>(state.findplayerid(player.id));
+                    sendbuffer.write<uint8_t>(length);
+                    sendbuffer.writestring(name);
                 }
                 else
                 {
