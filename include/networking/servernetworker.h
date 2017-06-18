@@ -12,7 +12,9 @@ class ServerNetworker : public Networker
         void receive(Gamestate &state) override;
         void sendeventdata(Gamestate &state) override;
         void sendframedata(Gamestate &state);
+        void registerlobby(Gamestate &state);
     protected:
     private:
+        Timer lobbyreminder;
 };
 

@@ -1,6 +1,8 @@
 project(Vanguard)
 cmake_minimum_required(VERSION 2.8)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CmakeModules")
+
 find_library(ALLEGRO_PATH allegro)
 if (NOT EXISTS ${ALLEGRO_PATH})
     message("${ALLEGRO_PATH} does not exist")
@@ -41,6 +43,25 @@ else (COMPILE_STATIC)
     set (Vanguardlinkflags "")
 endif (COMPILE_STATIC)
 
+if(WIN32)
+    add_definitions(-DGUID_WINDOWS)
+elseif(APPLE)
+    find_library(CFLIB CoreFoundation)
+    set(Vanguardlib "${Vanguardlib}${CFLIB}")
+    add_definitions(-DGUID_CFUUID)
+else()
+    find_package(LibUUID REQUIRED)
+    if (NOT LIBUUID_FOUND)
+        message(FATAL_ERROR
+                "You might need to run 'sudo apt-get install uuid-dev' or similar")
+    endif()
+    include_directories(${LIBUUID_INCLUDE_DIRS})
+    set(Vanguardlib ${Vanguardlib} ${LIBUUID_LIBRARIES})
+    add_definitions(-DGUID_LIBUUID)
+endif()
+
+message(${Vanguardlib})
+
 if (WIN32)
     set (Vanguardlib ${Vanguardlib} ws2_32 winmm)
 endif (WIN32)
@@ -65,6 +86,7 @@ set (SRC_FILES
         "src/networking/buffer.cpp"
         "src/networking/servernetworker.cpp"
         "src/networking/clientnetworker.cpp"
+        "src/networking/uuid.cpp"
         "src/visuals/defaulthud.cpp"
         "src/ingameelements/corpse.cpp"
         "src/ingameelements/player.cpp"

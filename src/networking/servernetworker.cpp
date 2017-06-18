@@ -13,6 +13,12 @@ ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sen
         Global::logging().panic(__FILE__, __LINE__, "Failed to create server host");
         throw -1;
     }
+    lobbyreminder.init(30, std::bind(&ServerNetworker::registerlobby, this, std::placeholders::_1));
+    lobbyreminder.timer = lobbyreminder.duration; // Fire immediately
+    if (not Global::settings()["Display on Lobby"])
+    {
+        lobbyreminder.active = false;
+    }
 }
 
 ServerNetworker::~ServerNetworker()
@@ -124,4 +130,16 @@ void ServerNetworker::sendframedata(Gamestate &state)
     ENetPacket *framepacket = enet_packet_create(frame.getdata(), frame.length(), 0);
     enet_host_broadcast(host, 0, framepacket);
     enet_host_flush(host);
+
+    if (not lobbyreminder.active and Global::settings()["Display on Lobby"])
+    {
+        lobbyreminder.reset();
+    }
+    lobbyreminder.update(state, NETWORKING_TIMESTEP);
+}
+
+void ServerNetworker::registerlobby(Gamestate &state)
+{
+    WriteBuffer buffer;
+
 }

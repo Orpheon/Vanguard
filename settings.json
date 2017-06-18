@@ -2,5 +2,6 @@
     "Player name": "Agent",
     "Display resolution": [1280, 1024],
     "Display type": 16,
-    "Vsync": 2
+    "Vsync": 2,
+    "Display on Lobby": true
 }
