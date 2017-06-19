@@ -2,6 +2,8 @@
 
 #include "networking/networker.h"
 #include "networking/uuid.h"
+
+#include <libsocket/inetclientdgram.hpp>
 #include <vector>
 
 
@@ -18,6 +20,6 @@ class ServerNetworker : public Networker
     private:
         Timer lobbyreminder;
         xg::Guid serverid;
-        ENetPeer *lobby;
+        libsocket::inet_dgram_client lobbyclient;
 };
 

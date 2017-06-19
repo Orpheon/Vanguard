@@ -30,7 +30,7 @@ if (COMPILE_STATIC)
          Either install them or change the flag in cmake to dynamic compilation.")
     endif()
     set (Vanguardlib allegro_monolith-static allegro_dialog-static jpeg vorbis ogg glu32 opengl32 freetype png16 z
-    kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid dsound wsock32 psapi shlwapi enet)
+    kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid dsound wsock32 psapi shlwapi enet socket++)
     set (Vanguardlinkflags "-static-libstdc++ -static-libgcc -static ")
     set (VANGUARD_DEBUG_MODE OFF)
 else (COMPILE_STATIC)
@@ -39,7 +39,7 @@ else (COMPILE_STATIC)
         message(FATAL_ERROR "${ALLEGRO_PATH} does not exist - you probably have not installed dynamic allegro libraries.\
          Either install them or change the flag in cmake to static compilation.")
     endif()
-    set (Vanguardlib allegro allegro_image allegro_primitives allegro_font allegro_ttf allegro_dialog enet)
+    set (Vanguardlib allegro allegro_image allegro_primitives allegro_font allegro_ttf allegro_dialog enet socket++)
     set (Vanguardlinkflags "")
 endif (COMPILE_STATIC)
 

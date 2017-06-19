@@ -5,8 +5,9 @@
 
 #include <cstdint>
 #include <string>
+#include <libsocket/inetbase.hpp>
 
-ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sendbuffer_)
+ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sendbuffer_), lobbyclient(LIBSOCKET_IPv4)
 {
     ENetAddress address;
     address.host = ENET_HOST_ANY;
@@ -21,19 +22,11 @@ ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sen
     lobbyreminder.timer = lobbyreminder.duration; // Fire immediately
     if (Global::settings()["Display on Lobby"])
     {
-        ENetAddress lobbyaddress;
-        enet_address_set_host(&lobbyaddress, LOBBY_HOST);
-        lobbyaddress.port = 29944;
-        lobby = enet_host_connect(host, &lobbyaddress, 1, 0);
-        if (lobby == NULL)
-        {
-            Global::logging().panic(__FILE__, __LINE__, "Failed to create lobby host");
-        }
+        lobbyclient.connect(LOBBY_HOST, std::to_string(LOBBY_PORT));
     }
     else
     {
         lobbyreminder.active = false;
-        lobby = nullptr;
     }
 
     serverid = xg::newGuid();
@@ -41,7 +34,7 @@ ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sen
 
 ServerNetworker::~ServerNetworker()
 {
-
+    lobbyclient.destroy();
 }
 
 void ServerNetworker::receive(Gamestate &state)
@@ -238,6 +231,7 @@ void ServerNetworker::registerlobby(Gamestate &state)
         buffer.writestring(entry.second);
     }
 
-    ENetPacket *lobbypacket = enet_packet_create(buffer.getdata(), buffer.length(), ENET_PACKET_FLAG_RELIABLE);
-    enet_peer_send(lobby, 0, lobbypacket);
+    Global::logging().print(__FILE__, __LINE__, "Sent packet to lobby");
+
+    lobbyclient.snd(buffer.getdata(), buffer.length());
 }
