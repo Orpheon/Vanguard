@@ -22,6 +22,11 @@ void Hammer::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
 void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
 {
+    if (firinganim.active())
+    {
+        return;
+    }
+
     std::string mainsprite;
     Reinhardt &c = state.get<Reinhardt>(state.get<Player>(owner).character);
     if (firestrikeanim.active())
@@ -78,7 +83,11 @@ void Hammer::render(Renderer &renderer, Gamestate &state)
 {
     std::string mainsprite;
     Reinhardt &c = state.get<Reinhardt>(state.get<Player>(owner).character);
-    if (firestrikeanim.active())
+    if (firinganim.active())
+    {
+        mainsprite = firinganim.getframepath();
+    }
+    else if (firestrikeanim.active())
     {
         mainsprite = herofolder()+"firestrikefrontarm/"+std::to_string(firestrikeanim.getframe());
     }
@@ -242,4 +251,5 @@ void Hammer::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
 
     firestrikeanim.interpolate(prev_e.firestrikeanim, next_e.firestrikeanim, alpha);
     firestrikedelay.interpolate(prev_e.firestrikedelay, next_e.firestrikedelay, alpha);
+    firinganim.interpolate(prev_e.firinganim, next_e.firinganim, alpha);
 }

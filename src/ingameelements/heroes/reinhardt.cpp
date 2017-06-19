@@ -419,6 +419,10 @@ std::string Reinhardt::currenttorsosprite(Gamestate &state, bool mask)
         return NULL_SPRITE;
     }
     Hammer &hammer = state.get<Hammer&>(weapon);
+    if (hammer.firinganim.active())
+    {
+        return NULL_SPRITE;
+    }
     if (hammer.firestrikeanim.active())
     {
         return herofolder()+"firestriketorso/"+std::to_string(hammer.firestrikeanim.getframe());
