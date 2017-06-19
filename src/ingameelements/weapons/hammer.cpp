@@ -181,6 +181,11 @@ void Hammer::createfirestrike(Gamestate &state)
     firestrike.y = y + std::sin(aimdirection) * 40;
     firestrike.hspeed = firestrike.SPEED * std::cos(aimdirection);
     firestrike.vspeed = firestrike.SPEED * std::sin(aimdirection);
+
+    if (state.currentmap->collideline(x, y, firestrike.x, firestrike.y))
+    {
+        firestrike.destroy(state);
+    }
 }
 
 double Hammer::getattachpoint_x(Gamestate &state)
