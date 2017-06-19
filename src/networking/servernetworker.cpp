@@ -12,7 +12,7 @@ ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sen
     ENetAddress address;
     address.host = ENET_HOST_ANY;
     address.port = 3224; // 3223-3230
-    host = enet_host_create(&address, PLAYER_LIMIT, 1, 0, 0);
+    host = enet_host_create(&address, PLAYER_LIMIT, 2, 0, 0);
     if (host == NULL)
     {
         Global::logging().panic(__FILE__, __LINE__, "Failed to create server host");
@@ -137,7 +137,7 @@ void ServerNetworker::sendeventdata(Gamestate &state)
     if (sendbuffer.length() > 0)
     {
         ENetPacket *eventpacket = enet_packet_create(sendbuffer.getdata(), sendbuffer.length(), ENET_PACKET_FLAG_RELIABLE);
-        enet_host_broadcast(host, 0, eventpacket);
+        enet_host_broadcast(host, 1, eventpacket);
         enet_host_flush(host);
         sendbuffer.reset();
     }
