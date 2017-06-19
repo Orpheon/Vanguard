@@ -137,7 +137,7 @@ void ServerNetworker::sendeventdata(Gamestate &state)
     if (sendbuffer.length() > 0)
     {
         ENetPacket *eventpacket = enet_packet_create(sendbuffer.getdata(), sendbuffer.length(), ENET_PACKET_FLAG_RELIABLE);
-        enet_host_broadcast(host, 1, eventpacket);
+        enet_host_broadcast(host, 0, eventpacket);
         enet_host_flush(host);
         sendbuffer.reset();
     }
@@ -149,7 +149,7 @@ void ServerNetworker::sendframedata(Gamestate &state)
     frame.write<uint8_t>(SERVER_SNAPSHOTUPDATE);
     state.serializesnapshot(frame);
     ENetPacket *framepacket = enet_packet_create(frame.getdata(), frame.length(), 0);
-    enet_host_broadcast(host, 0, framepacket);
+    enet_host_broadcast(host, 1, framepacket);
     enet_host_flush(host);
 
     if (not lobbyreminder.active and Global::settings()["Display on Lobby"])
