@@ -208,7 +208,7 @@ void ServerNetworker::registerlobby(Gamestate &state)
     std::map<std::string, std::string> data = {
         {"name", "Vanguard test server"},
         {"game", GAME_NAME},
-        {"game_uint16_t", GAME_NAME_SHORT},
+        {"game_short", GAME_NAME_SHORT},
         {"game_ver", GAME_VERSION},
         {"game_url", GAME_URL},
         {"map", state.currentmap->name}
