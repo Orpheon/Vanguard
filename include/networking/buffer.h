@@ -50,15 +50,26 @@ class WriteBuffer : public Buffer
         WriteBuffer();
         virtual ~WriteBuffer() override;
         void enlarge(uint64_t newsize);
-        template<class T> void write(T input)
+        template<class T> void write(T input, bool reverse=false)
         {
             if (datalen-pos < sizeof(T))
             {
                 // Buffer too small, resize
                 enlarge(datalen*2.0);
             }
-            std::memcpy(reinterpret_cast<char*>(data)+pos, &input, sizeof(T));
-            pos += sizeof(T);
+            if (reverse)
+            {
+                for (unsigned int i=0; i<sizeof(T); ++i)
+                {
+                    std::memcpy(reinterpret_cast<char*>(data)+pos, reinterpret_cast<char*>(&input)+sizeof(T)-i-1, 1);
+                    ++pos;
+                }
+            }
+            else
+            {
+                std::memcpy(reinterpret_cast<char*>(data)+pos, &input, sizeof(T));
+                pos += sizeof(T);
+            }
         }
         uint64_t length() override {return pos;}
         void writestring(std::string input);

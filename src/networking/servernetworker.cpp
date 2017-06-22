@@ -162,7 +162,7 @@ void ServerNetworker::sendframedata(Gamestate &state)
 void ServerNetworker::registerlobby(Gamestate &state)
 {
     xg::Guid message_type(LOBBY_MESSAGE_TYPE_REGISTER);
-    xg::Guid lobbyid(GG2_IDENTIFIER);
+    xg::Guid lobbyid(VANGUARD_IDENTIFIER);
     xg::Guid compatibility(COMPATIBILITY_IDENTIFIER);
 
     WriteBuffer buffer;
@@ -173,30 +173,30 @@ void ServerNetworker::registerlobby(Gamestate &state)
     // Message type for lobby
     for (auto& byte : message_type._bytes)
     {
-        buffer.write<uint8_t>(byte);
+        buffer.write<uint8_t>(byte, true);
     }
     // Server id
     for (auto& byte : serverid._bytes)
     {
-        buffer.write<uint8_t>(byte);
+        buffer.write<uint8_t>(byte, true);
     }
     // Lobby id
     for (auto& byte : lobbyid._bytes)
     {
-        buffer.write<uint8_t>(byte);
+        buffer.write<uint8_t>(byte, true);
     }
     // Transport protocol (0=TCP, 1=UDP)
-    buffer.write<uint8_t>(1);
+    buffer.write<uint8_t>(1, true);
     // Port number
-    buffer.write<uint16_t>(host->address.port);
+    buffer.write<uint16_t>(host->address.port, true);
     // Number of total player slots
-    buffer.write<uint16_t>(PLAYER_LIMIT);
+    buffer.write<uint16_t>(PLAYER_LIMIT, true);
     // Number of players ingame
-    buffer.write<uint16_t>(static_cast<uint16_t>(state.playerlist.size()));
+    buffer.write<uint16_t>(static_cast<uint16_t>(state.playerlist.size()), true);
     // Number of AI bots
-    buffer.write<uint16_t>(0);
+    buffer.write<uint16_t>(0, true);
     // Flags
-    buffer.write<uint16_t>(0);
+    buffer.write<uint16_t>(0, true);
 
     std::map<std::string, std::string> data = {
         {"name", "Vanguard test server"},
@@ -211,23 +211,23 @@ void ServerNetworker::registerlobby(Gamestate &state)
 
     // Write number of key/value pairs
     // Protocol_id isn't a string but fixed so doing it separately
-    buffer.write<uint16_t>(data.size() + 1);
+    buffer.write<uint16_t>(data.size() + 1, true);
 
     // Compatibility flag
-    buffer.write<uint8_t>(std::string("protocol_id").size());
+    buffer.write<uint8_t>(std::string("protocol_id").size(), true);
     buffer.writestring("protocol_id");
-    buffer.write<uint16_t>(16);
+    buffer.write<uint16_t>(16, true);
     for (auto& byte : compatibility._bytes)
     {
-        buffer.write<uint8_t>(byte);
+        buffer.write<uint8_t>(byte, true);
     }
 
     // Everything else
     for (auto& entry : data)
     {
-        buffer.write<uint8_t>(entry.first.size());
+        buffer.write<uint8_t>(entry.first.size(), true);
         buffer.writestring(entry.first);
-        buffer.write<uint16_t>(entry.second.size());
+        buffer.write<uint16_t>(entry.second.size(), true);
         buffer.writestring(entry.second);
     }
 
