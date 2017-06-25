@@ -1,6 +1,51 @@
 {
     "/ number of frames": 0,
-    "download/ number of frames": 0,
+    "download/ number of frames": 1,
+    "download/getup/ number of frames": 11,
+    "download/getup/10_sprite.png": [
+        7.0,
+        -35.0
+    ],
+    "download/getup/11_sprite.png": [
+        7.0,
+        -29.0
+    ],
+    "download/getup/1_sprite.png": [
+        20.0,
+        -56.0
+    ],
+    "download/getup/2_sprite.png": [
+        19.0,
+        -55.0
+    ],
+    "download/getup/3_sprite.png": [
+        13.0,
+        -52.0
+    ],
+    "download/getup/4_sprite.png": [
+        8.0,
+        -47.0
+    ],
+    "download/getup/5_sprite.png": [
+        7.0,
+        -45.0
+    ],
+    "download/getup/6_sprite.png": [
+        6.0,
+        -44.0
+    ],
+    "download/getup/7_sprite.png": [
+        5.0,
+        -43.0
+    ],
+    "download/getup/8_sprite.png": [
+        5.0,
+        -43.0
+    ],
+    "download/getup/9_sprite.png": [
+        5.0,
+        -38.0
+    ],
     "download/sleep - Copy (2)/ number of frames": 11,
     "download/sleep - Copy (2)/1.png": [
         70.0,
@@ -46,10 +91,59 @@
         70.0,
         70.0
     ],
+    "download/sleep/ number of frames": 11,
+    "download/sleep/10_sprite.png": [
+        20.0,
+        -56.0
+    ],
+    "download/sleep/11_sprite.png": [
+        22.0,
+        -58.0
+    ],
+    "download/sleep/1_sprite.png": [
+        8.0,
+        -29.0
+    ],
+    "download/sleep/2_sprite.png": [
+        10.0,
+        -30.0
+    ],
+    "download/sleep/3_sprite.png": [
+        11.0,
+        -30.0
+    ],
+    "download/sleep/4_sprite.png": [
+        12.0,
+        -30.0
+    ],
+    "download/sleep/5_sprite.png": [
+        13.0,
+        -32.0
+    ],
+    "download/sleep/6_sprite.png": [
+        15.0,
+        -34.0
+    ],
+    "download/sleep/7_sprite.png": [
+        14.0,
+        -37.0
+    ],
+    "download/sleep/8_sprite.png": [
+        14.0,
+        -42.0
+    ],
+    "download/sleep/9_sprite.png": [
+        18.0,
+        -53.0
+    ],
     "download/walk - Copy/ number of frames": 1,
     "download/walk - Copy/shieldup idle 3.png": [
         16.0,
         16.0
+    ],
+    "download/weapon_sprite.png": [
+        59.5,
+        19.0
     ],
     "heroes/ number of frames": 0,
     "heroes/mccree/ number of frames": 0,
@@ -1012,6 +1106,11 @@
         41.5
     ],
     "ui/Menu/ number of frames": 1,
+    "ui/Menu/background/ number of frames": 1,
+    "ui/Menu/background/1_sprite.png": [
+        640.0,
+        512.0
+    ],
     "ui/Menu/menu.png": [
         606.0,
         330.0

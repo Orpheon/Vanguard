@@ -26,5 +26,5 @@ constexpr auto COMPATIBILITY_IDENTIFIER = "c41aaa23-52e6-4160-9566-5110b71c645e"
 
 constexpr auto GAME_NAME = "Vanguard";
 constexpr auto GAME_NAME_SHORT = "Vg";
-constexpr auto GAME_VERSION = "alpha";
+constexpr auto GAME_VERSION = "0.18";
 constexpr auto GAME_URL = "http://www.ganggarrison.com/forums/index.php?topic=37227.msg1272479#msg1272479";

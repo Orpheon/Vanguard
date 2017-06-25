@@ -31,7 +31,6 @@ class Renderer
         ALLEGRO_FONT *font20;
         ALLEGRO_FONT *font10;
         ALLEGRO_FONT *font6;
-        ALLEGRO_FONT *gg2font;
     protected:
     private:
         double lasttime;

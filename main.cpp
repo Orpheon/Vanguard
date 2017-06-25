@@ -14,7 +14,7 @@
 #include "renderer.h"
 #include "datastructures.h"
 #include "global_constants.h"
-#include "mainmenu.h"
+#include "visuals/mainmenu.h"
 #include "networking/servernetworker.h"
 #include "networking/clientnetworker.h"
 #include "global.h"
@@ -73,13 +73,34 @@ int main(int argc, char **argv)
     //gg2 font as placeholder for now i guess
     al_init_font_addon();
     al_init_ttf_addon();
-    ALLEGRO_FONT *font = al_load_font("Vanguard Main Font.ttf", 12, ALLEGRO_TTF_MONOCHROME);
-    if (!font)
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Could not load Vanguard Main Font.ttf");
-    }
+//    ALLEGRO_FONT *font = al_load_font("Vanguard Main Font.ttf", 12, ALLEGRO_TTF_MONOCHROME);
+//    if (!font)
+//    {
+//        Global::logging().panic(__FILE__, __LINE__, "Could not load Vanguard Main Font.ttf");
+//    }
 
-//    MainMenu *mainmenu = new MainMenu(display);
+    Renderer renderer;
+    ALLEGRO_DISPLAY* display = renderer.createnewdisplay();
+
+    std::unique_ptr<Mainmenu> mainmenu = std::unique_ptr<Mainmenu>(new Mainmenu(display));
+    double lasttimeupdated = al_get_time();
+    int not_finished = 1;
+    while (not_finished)
+    {
+        if (al_get_time() - lasttimeupdated >= MENU_TIMESTEP)
+        {
+            not_finished = mainmenu->run(display);
+            lasttimeupdated = al_get_time();
+            if (not_finished == -1)
+            {
+                // Quit
+                return 0;
+            }
+        }
+    }
+    // Clean up
+    mainmenu.reset();
+
     bool isserver;
     if (argc >= 2)
     {
@@ -90,21 +111,6 @@ int main(int argc, char **argv)
     {
         isserver = true;
     }
-
-//    double lasttimeupdated = al_get_time();
-//    bool run = true;
-//    while (run)
-//    {
-//        if (al_get_time() - lasttimeupdated >= MENU_TIMESTEP)
-//        {
-//            run = mainmenu->run(display, &gametype);
-//            lasttimeupdated = al_get_time();
-//        }
-//    }
-//    delete mainmenu;
-
-    Renderer renderer;
-    ALLEGRO_DISPLAY* display = renderer.createnewdisplay();
 
     Engine engine(isserver);
     InputCatcher inputcatcher(display);

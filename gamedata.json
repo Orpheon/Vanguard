@@ -4,6 +4,8 @@
     "heroes/reinhardt/ rect": [-15, -15, 29, 50],
     "heroes/reinhardt/crouch/ rect": [-7, 5, 14, 30],
 
+    "ui/Menu/background/ duration": 2,
+
     "heroes/mccree/reload/ duration": 1.5,
     "heroes/mccree/run/ duration": 120,
     "heroes/mccree/ultwalk/ duration": 10,
