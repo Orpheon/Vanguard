@@ -483,7 +483,7 @@ void Character::interpolate(Entity &prev_entity, Entity &next_entity, double alp
     else
     {
         heldkeys = n.heldkeys;
-        crouchanim.active(p.crouchanim.active());
+        crouchanim.active(n.crouchanim.active());
     }
     mouse_x = p.mouse_x + alpha*(n.mouse_x - p.mouse_x);
     mouse_y = p.mouse_y + alpha*(n.mouse_y - p.mouse_y);
