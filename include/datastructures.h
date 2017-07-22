@@ -46,6 +46,10 @@ enum EVENTTYPE {SERVER_SNAPSHOTUPDATE,
                 KOTH_CP_CREATED,
                 PLAYER_CHANGENAME};
 
+enum POSTMENUACTION {   QUIT,
+                        HOST_SERVER,
+                        JOIN_SERVER};
+
 enum PenetrationLevel { PENETRATE_NOTHING = 0,
                         PENETRATE_CHARACTER = 1,
                         PENETRATE_SHIELD = 2,

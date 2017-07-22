@@ -24,16 +24,16 @@ Mainmenu::Mainmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(displ
 
     buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("JOIN SERVER", initial_x,
                                                                          initial_height + (counter++)*line_spacing,
-                                                                         nullptr, normal_button_font,
-                                                                         hovered_button_font)));
+                                                                         std::bind(&Mainmenu::joinserver, this),
+                                                                         normal_button_font, hovered_button_font)));
     buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("HOST SERVER", initial_x,
                                                                          initial_height + (counter++)*line_spacing,
-                                                                         nullptr, normal_button_font,
-                                                                         hovered_button_font)));
+                                                                         std::bind(&Mainmenu::hostserver, this),
+                                                                         normal_button_font, hovered_button_font)));
     buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("CONNECT MANUALLY", initial_x,
                                                                          initial_height + (counter++)*line_spacing,
-                                                                         nullptr, normal_button_font,
-                                                                         hovered_button_font)));
+                                                                         std::bind(&Mainmenu::joinserver, this),
+                                                                         normal_button_font, hovered_button_font)));
     buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("OPTIONS", initial_x,
                                                                          initial_height + (counter++)*line_spacing,
                                                                          nullptr, normal_button_font,
@@ -48,8 +48,8 @@ Mainmenu::Mainmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(displ
                                                                          hovered_button_font)));
     buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("QUIT", initial_x,
                                                                          initial_height + (counter++)*line_spacing,
-                                                                         nullptr, normal_button_font,
-                                                                         hovered_button_font)));
+                                                                         std::bind(&Mainmenu::quit, this),
+                                                                         normal_button_font, hovered_button_font)));
 }
 
 void Mainmenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
@@ -62,7 +62,7 @@ void Mainmenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
         {
             case ALLEGRO_EVENT_DISPLAY_CLOSE:
                 // Deliberate closing, not an error
-                throw 0;
+                quit();
 
             case ALLEGRO_EVENT_KEY_DOWN:
                 switch (event.keyboard.keycode)
@@ -76,7 +76,7 @@ void Mainmenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
 
                     case ALLEGRO_KEY_ESCAPE:
                         // Exit menu
-                        owner.exitmenus();
+                        quit();
                 }
 
             case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
@@ -107,4 +107,22 @@ void Mainmenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
         button->render(display, mousestate.x, mousestate.y);
     }
     al_flip_display();
+}
+
+void Mainmenu::hostserver()
+{
+    owner.planned_action = POSTMENUACTION::HOST_SERVER;
+    owner.exitmenus();
+}
+
+void Mainmenu::joinserver()
+{
+    owner.planned_action = POSTMENUACTION::JOIN_SERVER;
+    owner.exitmenus();
+}
+
+void Mainmenu::quit()
+{
+    owner.planned_action = POSTMENUACTION::QUIT;
+    owner.exitmenus();
 }

@@ -98,19 +98,30 @@ int main(int argc, char **argv)
             }
         }
     }
-    // Clean up
-    menus.reset();
 
     bool isserver;
-    if (argc >= 2)
+
+    // Server, client, or quit?
+    if (menus->action() == POSTMENUACTION::QUIT)
     {
-        // If there are any arguments
+        // Exit peacefully
+        return 0;
+    }
+    else if (menus->action() == POSTMENUACTION::HOST_SERVER)
+    {
+        isserver = true;
+    }
+    else if (menus->action() == POSTMENUACTION::JOIN_SERVER)
+    {
         isserver = false;
     }
     else
     {
-        isserver = true;
+        Global::logging().panic(__FILE__, __LINE__, "Unknown post menu status %i", menus->action());
     }
+
+    // Clean up
+    menus.reset();
 
     Engine engine(isserver);
     InputCatcher inputcatcher(display);
