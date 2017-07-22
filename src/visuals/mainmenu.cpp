@@ -8,20 +8,8 @@
 #define LEFT_MOUSE_BUTTON 1
 #define RIGHT_MOUSE_BUTTON 2
 
-Mainmenu::Mainmenu(ALLEGRO_DISPLAY *display) : spriteloader(false)
+Mainmenu::Mainmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(display, owner_), spriteloader(false)
 {
-    // Create an event queue, and error if it fails
-    event_queue = al_create_event_queue();
-    if (!event_queue)
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Could not create event queue");
-    }
-
-    // Connect the window, keyboard and mouse events to this event queue
-    al_register_event_source(event_queue, al_get_display_event_source(display));
-    al_register_event_source(event_queue, al_get_keyboard_event_source());
-    al_register_event_source(event_queue, al_get_mouse_event_source());
-
     background.init("ui/Menu/background/");
 
     ALLEGRO_FONT *normal_button_font = al_load_font("Vanguard Title Font.ttf", 30, ALLEGRO_TTF_MONOCHROME);
@@ -64,15 +52,9 @@ Mainmenu::Mainmenu(ALLEGRO_DISPLAY *display) : spriteloader(false)
                                                                          hovered_button_font)));
 }
 
-Mainmenu::~Mainmenu()
-{
-    al_destroy_event_queue(event_queue);
-}
-
-bool Mainmenu::run(ALLEGRO_DISPLAY *display)
+void Mainmenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
 {
     ALLEGRO_EVENT event;
-    bool finished = false;
     // Capture events first
     while (al_get_next_event(event_queue, &event))
     {
@@ -94,7 +76,7 @@ bool Mainmenu::run(ALLEGRO_DISPLAY *display)
 
                     case ALLEGRO_KEY_ESCAPE:
                         // Exit menu
-                        finished = true;
+                        owner.exitmenus();
                 }
 
             case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
@@ -125,13 +107,4 @@ bool Mainmenu::run(ALLEGRO_DISPLAY *display)
         button->render(display, mousestate.x, mousestate.y);
     }
     al_flip_display();
-
-    if (finished)
-    {
-        return 0;
-    }
-    else
-    {
-        return 1;
-    }
 }

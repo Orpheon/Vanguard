@@ -82,14 +82,14 @@ int main(int argc, char **argv)
     Renderer renderer;
     ALLEGRO_DISPLAY* display = renderer.createnewdisplay();
 
-    std::unique_ptr<Mainmenu> mainmenu = std::unique_ptr<Mainmenu>(new Mainmenu(display));
+    std::unique_ptr<MenuContainer> menus = std::unique_ptr<MenuContainer>(new MenuContainer(display));
     double lasttimeupdated = al_get_time();
     int not_finished = 1;
     while (not_finished)
     {
         if (al_get_time() - lasttimeupdated >= MENU_TIMESTEP)
         {
-            not_finished = mainmenu->run(display);
+            not_finished = menus->run(display);
             lasttimeupdated = al_get_time();
             if (not_finished == -1)
             {
@@ -99,7 +99,7 @@ int main(int argc, char **argv)
         }
     }
     // Clean up
-    mainmenu.reset();
+    menus.reset();
 
     bool isserver;
     if (argc >= 2)
