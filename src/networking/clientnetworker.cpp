@@ -3,10 +3,10 @@
 #include "global.h"
 #include "ingameelements/gamemodes/kothmanager.h"
 
-ClientNetworker::ClientNetworker(WriteBuffer &sendbuffer_) : Networker(false, sendbuffer_), connected(false)
+ClientNetworker::ClientNetworker(WriteBuffer &sendbuffer_, std::string serverip) : Networker(false, sendbuffer_),
+                                                                                   connected(false)
 {
     ENetAddress serveraddress;
-    std::string serverip = Global::settings()["Server ip"];
     enet_address_set_host(&serveraddress, serverip.c_str());
     serveraddress.port = 3224;
     host = enet_host_create(NULL, 1, 1, 0, 0);

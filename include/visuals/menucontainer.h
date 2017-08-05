@@ -17,6 +17,7 @@ class MenuContainer
         int action() { return planned_action; }
 
         int planned_action;
+        std::string serverip;
 
     private:
         ALLEGRO_EVENT_QUEUE *event_queue;

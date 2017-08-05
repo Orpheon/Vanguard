@@ -18,7 +18,7 @@ class Mainmenu : public Menu
         void run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue) override;
         void quit();
         void hostserver();
-        void joinserver();
+        void connectmanually();
 
         Spriteloader spriteloader;
         MenuLoopAnimation background;

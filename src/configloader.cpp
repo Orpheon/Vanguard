@@ -12,12 +12,13 @@ nlohmann::json ConfigLoader::open(const std::string &path)
     {
         config << configfile;
         configfile.close();
-        return config;
     }
     else
     {
         Global::logging().panic(__FILE__, __LINE__, "Config %s requested but not found.", path);
     }
+
+    return config;
 }
 
 void ConfigLoader::save(std::string &path)

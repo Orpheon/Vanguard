@@ -24,7 +24,7 @@ Mainmenu::Mainmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(displ
 
     buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("JOIN SERVER", initial_x,
                                                                          initial_height + (counter++)*line_spacing,
-                                                                         std::bind(&Mainmenu::joinserver, this),
+                                                                         std::bind(&Mainmenu::connectmanually, this),
                                                                          normal_button_font, hovered_button_font)));
     buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("HOST SERVER", initial_x,
                                                                          initial_height + (counter++)*line_spacing,
@@ -32,7 +32,7 @@ Mainmenu::Mainmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(displ
                                                                          normal_button_font, hovered_button_font)));
     buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("CONNECT MANUALLY", initial_x,
                                                                          initial_height + (counter++)*line_spacing,
-                                                                         std::bind(&Mainmenu::joinserver, this),
+                                                                         std::bind(&Mainmenu::connectmanually, this),
                                                                          normal_button_font, hovered_button_font)));
     buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("OPTIONS", initial_x,
                                                                          initial_height + (counter++)*line_spacing,
@@ -115,8 +115,10 @@ void Mainmenu::hostserver()
     owner.exitmenus();
 }
 
-void Mainmenu::joinserver()
+void Mainmenu::connectmanually()
 {
+    Global::logging().ask_question("Test question");
+    owner.serverip = "127.0.0.1";
     owner.planned_action = POSTMENUACTION::JOIN_SERVER;
     owner.exitmenus();
 }

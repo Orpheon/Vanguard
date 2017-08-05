@@ -30,6 +30,12 @@ class Logger
         }
 
         template <typename ... Args>
+        std::string ask_question(std::string msg, Args ... args)
+        {
+            return ask_question_flush(format(msg, args...));
+        }
+
+        template <typename ... Args>
         void show_error_message(const char *filename, int line, std::string msg, Args ... args)
         {
             std::string output = "Error: %s at line %i:\n" + msg;
@@ -50,6 +56,7 @@ class Logger
         virtual void print_flush(std::string msg) = 0;
         virtual void panic_flush(std::string msg) = 0;
         virtual void show_message_flush(std::string msg) = 0;
+        virtual std::string ask_question_flush(std::string msg) = 0;
         virtual void show_error_message_flush(std::string msg) = 0;
 };
 
@@ -69,7 +76,13 @@ class PrintLogger : public Logger
 
         void show_message_flush(std::string msg)
         {
-            al_show_native_message_box(nullptr, "", msg.c_str(), "", "", 0);
+            al_show_native_message_box(nullptr, "", msg.c_str(), "", "", ALLEGRO_MESSAGEBOX_WARN);
+        }
+
+        std::string ask_question_flush(std::string msg)
+        {
+            al_show_native_message_box(nullptr, "AAA", msg.c_str(), "BBB", "C|C|C|7|7|7|7", ALLEGRO_MESSAGEBOX_QUESTION);
+            return "";
         }
 
         void show_error_message_flush(std::string msg)
