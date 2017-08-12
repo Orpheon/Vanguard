@@ -252,7 +252,7 @@ bool Reinhardt::canuseweapons(Gamestate &state)
 bool Reinhardt::canuseabilities(Gamestate &state)
 {
     Hammer &hammer = state.get<Hammer&>(weapon);
-    return Character::canuseabilities(state) and not hammer.firestrikeanim.active();
+    return Character::canuseabilities(state) and not hammer.firestrikeanim.active() and not hammer.firinganim.active();
 }
 
 bool Reinhardt::weaponvisible(Gamestate &state)
@@ -313,6 +313,13 @@ void Reinhardt::interrupt(Gamestate &state)
     chargeanim.active(false);
     earthshatteranim.active(false);
     earthshatterdelay.active = false;
+    if (state.exists(weapon))
+    {
+        Hammer &w = state.get<Hammer&>(weapon);
+        w.firinganim.active(false);
+        w.firestrikeanim.active(false);
+        w.barrier(state).active = false;
+    }
 }
 
 Rect Reinhardt::getcollisionrect(Gamestate &state)
