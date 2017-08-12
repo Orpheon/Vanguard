@@ -231,7 +231,5 @@ void ServerNetworker::registerlobby(Gamestate &state)
         buffer.writestring(entry.second);
     }
 
-    Global::logging().print(__FILE__, __LINE__, "Sent packet to lobby");
-
     lobbyclient.snd(buffer.getdata(), buffer.length());
 }
