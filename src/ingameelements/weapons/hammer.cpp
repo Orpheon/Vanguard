@@ -18,6 +18,11 @@ void Hammer::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     firestrikedelay.init(firestrikeanim.timer.duration * 0.5,
                          std::bind(&Hammer::createfirestrike, this, std::placeholders::_1));
     firestrikedelay.active = false;
+    // 6th and 14th frame of an assumed 20 frame animation - ugly but idk better way
+    firingdelay1.init(firinganim.timer.duration * 6.0/20.0, std::bind(&Hammer::hitarea, this, std::placeholders::_1));
+    firingdelay1.active = false;
+    firingdelay2.init(firinganim.timer.duration * 14.0/20.0, std::bind(&Hammer::hitarea, this, std::placeholders::_1));
+    firingdelay2.active = false;
 }
 
 void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
@@ -135,6 +140,9 @@ void Hammer::render(Renderer &renderer, Gamestate &state)
     }
 
     barrier(state).render(renderer, state);
+
+    al_draw_rectangle(rel_x + renderer.zoom*30 * (c.isflipped ? -1 : 1), rel_y - renderer.zoom*30,
+                      rel_x + renderer.zoom*59 * (c.isflipped ? -1 : 1), rel_y + renderer.zoom*30, al_map_rgb(255, 0, 0), 0);
 }
 
 void Hammer::beginstep(Gamestate &state, double frametime)
@@ -197,6 +205,46 @@ void Hammer::createfirestrike(Gamestate &state)
     }
 }
 
+void Hammer::hitarea(Gamestate &state)
+{
+    for (auto &e : state.entitylist)
+    {
+        auto &entity = *(e.second);
+        if (not entity.destroyentity)
+        {
+            if (entity.damageableby(team))
+            {
+                Reinhardt &c = state.get<Reinhardt>(state.get<Player>(owner).character);
+                int direction = (c.isflipped ? -1 : 1);
+                for (int i=0; i<30; ++i)
+                {
+                    for (int j=0; j<60; ++j)
+                    {
+                        if (entity.collides(state, x + direction*(30 + i), y - 30 + direction*j))
+                        {
+                            Global::logging().print(__FILE__, __LINE__, "Hit some entity");
+                            // We hit something, check if it's protected
+                            double tmpx, tmpy;
+                            if (state.collidelinetarget(state, x, y, state.get<MovingEntity>(entity.id), team,
+                                                        PENETRATE_CHARACTER, &tmpx, &tmpy).id == entity.id)
+                            {
+                                Global::logging().print(__FILE__, __LINE__, "Damage");
+                                entity.damage(state, DAMAGE);
+                            }
+                            else
+                            {
+                                Global::logging().print(__FILE__, __LINE__, "%i is protected by %i", entity.id, state.collidelinetarget(state, x, y, state.get<MovingEntity>(entity.id), team,
+                                                                                                                                        PENETRATE_CHARACTER, &tmpx, &tmpy).id);
+                            }
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 double Hammer::getattachpoint_x(Gamestate &state)
 {
     return 0;
@@ -252,4 +300,6 @@ void Hammer::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
     firestrikeanim.interpolate(prev_e.firestrikeanim, next_e.firestrikeanim, alpha);
     firestrikedelay.interpolate(prev_e.firestrikedelay, next_e.firestrikedelay, alpha);
     firinganim.interpolate(prev_e.firinganim, next_e.firinganim, alpha);
+    firingdelay1.interpolate(prev_e.firingdelay1, next_e.firingdelay1, alpha);
+    firingdelay2.interpolate(prev_e.firingdelay2, next_e.firingdelay2, alpha);
 }

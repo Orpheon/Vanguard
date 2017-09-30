@@ -21,6 +21,7 @@ class Hammer : public Weapon
         void firesecondary(Gamestate &state) override;
         void wantfiresecondary(Gamestate &state) override;
         void createfirestrike(Gamestate &state);
+        void hitarea(Gamestate &state);
         void beginstep(Gamestate &state, double frametime) override;
         void midstep(Gamestate &state, double frametime) override;
         void endstep(Gamestate &state, double frametime) override;
@@ -37,6 +38,8 @@ class Hammer : public Weapon
         EntityPtr barrierptr;
         Animation firestrikeanim;
         Timer firestrikedelay;
+        Timer firingdelay1;
+        Timer firingdelay2;
 
     protected:
     private:
