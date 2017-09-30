@@ -1,4 +1,5 @@
 #include <cmath>
+#include <allegro5/allegro_primitives.h> // DEBUGTOOL
 
 #include "ingameelements/weapons/hammer.h"
 #include "renderer.h"
