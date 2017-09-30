@@ -1,5 +1,4 @@
 #include <cmath>
-#include <allegro5/allegro_primitives.h> // DEBUGTOOL
 
 #include "ingameelements/weapons/hammer.h"
 #include "renderer.h"
@@ -141,9 +140,6 @@ void Hammer::render(Renderer &renderer, Gamestate &state)
     }
 
     barrier(state).render(renderer, state);
-
-    al_draw_rectangle(rel_x + renderer.zoom*30 * (c.isflipped ? -1 : 1), rel_y - renderer.zoom*30,
-                      rel_x + renderer.zoom*59 * (c.isflipped ? -1 : 1), rel_y + renderer.zoom*30, al_map_rgb(255, 0, 0), 0);
 }
 
 void Hammer::beginstep(Gamestate &state, double frametime)
@@ -152,6 +148,8 @@ void Hammer::beginstep(Gamestate &state, double frametime)
     barrier(state).beginstep(state, frametime);
     firestrikeanim.update(state, frametime);
     firestrikedelay.update(state, frametime);
+    firingdelay1.update(state, frametime);
+    firingdelay2.update(state, frametime);
 }
 
 void Hammer::midstep(Gamestate &state, double frametime)
@@ -180,6 +178,10 @@ void Hammer::fireprimary(Gamestate &state)
 {
     firinganim.reset();
     firinganim.active(true);
+    firingdelay1.reset();
+    firingdelay1.active = true;
+    firingdelay2.reset();
+    firingdelay2.active = true;
 }
 
 void Hammer::wantfiresecondary(Gamestate &state)
@@ -208,6 +210,7 @@ void Hammer::createfirestrike(Gamestate &state)
 
 void Hammer::hitarea(Gamestate &state)
 {
+    Reinhardt &reinhardt = state.get<Reinhardt>(state.get<Player>(owner).character);
     for (auto &e : state.entitylist)
     {
         auto &entity = *(e.second);
@@ -215,27 +218,19 @@ void Hammer::hitarea(Gamestate &state)
         {
             if (entity.damageableby(team))
             {
-                Reinhardt &c = state.get<Reinhardt>(state.get<Player>(owner).character);
-                int direction = (c.isflipped ? -1 : 1);
+                int direction = (reinhardt.isflipped ? -1 : 1);
                 for (int i=0; i<30; ++i)
                 {
                     for (int j=0; j<60; ++j)
                     {
-                        if (entity.collides(state, x + direction*(30 + i), y - 30 + direction*j))
+                        if (entity.collides(state, x + direction*(30 + i), y - 30 + j))
                         {
-                            Global::logging().print(__FILE__, __LINE__, "Hit some entity");
                             // We hit something, check if it's protected
                             double tmpx, tmpy;
                             if (state.collidelinetarget(state, x, y, state.get<MovingEntity>(entity.id), team,
                                                         PENETRATE_CHARACTER, &tmpx, &tmpy).id == entity.id)
                             {
-                                Global::logging().print(__FILE__, __LINE__, "Damage");
                                 entity.damage(state, DAMAGE);
-                            }
-                            else
-                            {
-                                Global::logging().print(__FILE__, __LINE__, "%i is protected by %i", entity.id, state.collidelinetarget(state, x, y, state.get<MovingEntity>(entity.id), team,
-                                                                                                                                        PENETRATE_CHARACTER, &tmpx, &tmpy).id);
                             }
                             return;
                         }
