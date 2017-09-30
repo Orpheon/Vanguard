@@ -12,7 +12,7 @@ ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sen
     ENetAddress address;
     address.host = ENET_HOST_ANY;
     address.port = 3224; // 3223-3230
-    host = enet_host_create(&address, PLAYER_LIMIT, 2, 0, 0);
+    host = enet_host_create(&address, PLAYER_LIMIT, 1, 0, 0);
     if (host == NULL)
     {
         Global::logging().panic(__FILE__, __LINE__, "Failed to create server host");
@@ -149,7 +149,7 @@ void ServerNetworker::sendframedata(Gamestate &state)
     frame.write<uint8_t>(SERVER_SNAPSHOTUPDATE);
     state.serializesnapshot(frame);
     ENetPacket *framepacket = enet_packet_create(frame.getdata(), frame.length(), 0);
-    enet_host_broadcast(host, 1, framepacket);
+    enet_host_broadcast(host, 0, framepacket);
     enet_host_flush(host);
 
     if (not lobbyreminder.active and Global::settings()["Display on Lobby"])
