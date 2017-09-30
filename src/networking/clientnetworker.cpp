@@ -9,12 +9,12 @@ ClientNetworker::ClientNetworker(WriteBuffer &sendbuffer_, std::string serverip)
     ENetAddress serveraddress;
     enet_address_set_host(&serveraddress, serverip.c_str());
     serveraddress.port = 3224;
-    host = enet_host_create(NULL, 1, 1, 0, 0);
+    host = enet_host_create(NULL, 1, 2, 0, 0);
     if (host == NULL)
     {
         Global::logging().panic(__FILE__, __LINE__, "Failed to create client host");
     }
-    server = enet_host_connect(host, &serveraddress, 1, 0);
+    server = enet_host_connect(host, &serveraddress, 2, 0);
 }
 
 ClientNetworker::~ClientNetworker()
@@ -150,6 +150,6 @@ void ClientNetworker::sendinput(InputContainer heldkeys, float mouse_x, float mo
     input.write<int16_t>(mouse_x);
     input.write<int16_t>(mouse_y);
     ENetPacket *inputpacket = enet_packet_create(input.getdata(), input.length(), 0);
-    enet_host_broadcast(host, 0, inputpacket);
+    enet_host_broadcast(host, 1, inputpacket);
     enet_host_flush(host);
 }
