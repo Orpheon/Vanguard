@@ -220,6 +220,7 @@ EntityPtr Gamestate::collidelinedamageable(Gamestate &state, double x1, double y
     *collisionptx = x1;
     *collisionpty = y1;
     Team enemyteam = team == TEAM1 ? TEAM2 : TEAM1;
+    // FIXME: Resource hog, potentially do distance checking to the whole line beforehand
     for (int i=0; i<nsteps; ++i)
     {
         if (currentmap->testpixel(*collisionptx, *collisionpty) or currentmap->spawnroom(state, enemyteam).isinside(*collisionptx, *collisionpty))

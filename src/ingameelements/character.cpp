@@ -28,6 +28,8 @@ void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     crouchanim.active(false);
     stunanim.init(herofolder()+"stun/");
     stunanim.active(false);
+    earthshatteredanim.init(herofolder()+"sleep/");
+    earthshatteredanim.active(false);
     pinanim.init(herofolder()+"pinned/");
     pinanim.active(false);
     ongroundsmooth.init(0.05);
@@ -277,6 +279,7 @@ void Character::midstep(Gamestate &state, double frametime)
         }
     }
     stunanim.update(state, frametime);
+    earthshatteredanim.update(state, frametime);
     pinanim.update(state, frametime);
     ongroundsmooth.update(state, frametime);
     xblockedsmooth.update(state, frametime);
@@ -458,6 +461,11 @@ bool Character::onground(Gamestate &state)
     {
         return false;
     }
+}
+
+bool Character::cangetinput(Gamestate &state)
+{
+    return not stunanim.active() and not pinanim.active() and not earthshatteredanim.active();
 }
 
 double Character::maxdamageabledist(Gamestate &state, double *centerx, double *centery)

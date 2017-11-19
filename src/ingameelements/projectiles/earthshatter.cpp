@@ -63,6 +63,44 @@ void Earthshatter::beginstep(Gamestate &state, double frametime)
     distance.update(state, frametime*SPEED);
 }
 
+void Earthshatter::endstep(Gamestate &state, double frametime)
+{
+    Team myteam = state.get<Player&>(owner).team;
+    Team enemyteam = myteam == TEAM1 ? TEAM2 : TEAM1;
+
+    // FIXME Resource hog, maybe increment could be larger than 1 without drawback? Or do distance checking beforehand
+    for (int h=0; h<60; ++h)
+    {
+        if (state.currentmap->testpixel(x, y-h) or state.currentmap->spawnroom(state, enemyteam).isinside(x, y-h))
+        {
+            // We hit wallmask or went out of bounds or hit enemy spawnroom
+            break;
+        }
+        for (auto &p : state.playerlist)
+        {
+            auto &player = state.get<Player&>(p);
+            if (state.exists(player.character) and player.team == enemyteam)
+            {
+                auto &character = player.getcharacter(state);
+                if (not character.earthshatteredanim.active())
+                {
+                    double enemycenterx=0, enemycentery=0;
+                    double dist = character.maxdamageabledist(state, &enemycenterx, &enemycentery);
+                    if (std::hypot(enemycenterx-x, enemycentery-y+h) <= dist)
+                    {
+                        if (character.collides(state, x, y-h))
+                        {
+                            character.damage(state, 50);
+                            character.earthshatteredanim.reset();
+                            character.interrupt(state);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 void Earthshatter::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
 {
     MovingEntity::interpolate(prev_entity, next_entity, alpha);

@@ -371,6 +371,10 @@ std::string Reinhardt::currentsprite(Gamestate &state, bool mask)
     {
         return stunanim.getframepath();
     }
+    if (earthshatteredanim.active())
+    {
+        return earthshatteredanim.getframepath();
+    }
     if (earthshatteranim.active())
     {
         return earthshatteranim.getframepath();

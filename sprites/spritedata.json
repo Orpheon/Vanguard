@@ -1,5 +1,1031 @@
 {
     "/ number of frames": 0,
+    "LucioRC/ number of frames": 0,
+    "LucioRC/ampitupbackarm/ number of frames": 13,
+    "LucioRC/ampitupbackarm/10_sprite.png": [
+        -1.0,
+        -2.0
+    ],
+    "LucioRC/ampitupbackarm/11_sprite.png": [
+        -2.0,
+        -8.0
+    ],
+    "LucioRC/ampitupbackarm/12_sprite.png": [
+        -2.0,
+        -8.0
+    ],
+    "LucioRC/ampitupbackarm/13_sprite.png": [
+        -2.0,
+        -8.0
+    ],
+    "LucioRC/ampitupbackarm/1_sprite.png": [
+        -2.0,
+        -8.0
+    ],
+    "LucioRC/ampitupbackarm/2_sprite.png": [
+        -1.0,
+        6.0
+    ],
+    "LucioRC/ampitupbackarm/3_sprite.png": [
+        0.0,
+        3.0
+    ],
+    "LucioRC/ampitupbackarm/4_sprite.png": [
+        0.0,
+        4.0
+    ],
+    "LucioRC/ampitupbackarm/5_sprite.png": [
+        0.0,
+        3.0
+    ],
+    "LucioRC/ampitupbackarm/6_sprite.png": [
+        0.0,
+        3.0
+    ],
+    "LucioRC/ampitupbackarm/7_sprite.png": [
+        -1.0,
+        7.0
+    ],
+    "LucioRC/ampitupbackarm/8_sprite.png": [
+        -1.0,
+        6.0
+    ],
+    "LucioRC/ampitupbackarm/9_sprite.png": [
+        0.0,
+        3.0
+    ],
+    "LucioRC/ampitupstand/ number of frames": 18,
+    "LucioRC/ampitupstand/10_sprite.png": [
+        9.0,
+        10.0
+    ],
+    "LucioRC/ampitupstand/11_sprite.png": [
+        9.0,
+        9.0
+    ],
+    "LucioRC/ampitupstand/12_sprite.png": [
+        10.0,
+        7.0
+    ],
+    "LucioRC/ampitupstand/13_sprite.png": [
+        12.0,
+        6.0
+    ],
+    "LucioRC/ampitupstand/14_sprite.png": [
+        12.0,
+        7.0
+    ],
+    "LucioRC/ampitupstand/15_sprite.png": [
+        12.0,
+        3.0
+    ],
+    "LucioRC/ampitupstand/16_sprite.png": [
+        12.0,
+        5.0
+    ],
+    "LucioRC/ampitupstand/17_sprite.png": [
+        11.0,
+        7.0
+    ],
+    "LucioRC/ampitupstand/18_sprite.png": [
+        12.0,
+        6.0
+    ],
+    "LucioRC/ampitupstand/1_sprite.png": [
+        12.0,
+        6.0
+    ],
+    "LucioRC/ampitupstand/2_sprite.png": [
+        11.0,
+        10.0
+    ],
+    "LucioRC/ampitupstand/3_sprite.png": [
+        11.0,
+        9.0
+    ],
+    "LucioRC/ampitupstand/4_sprite.png": [
+        10.0,
+        7.0
+    ],
+    "LucioRC/ampitupstand/5_sprite.png": [
+        9.0,
+        6.0
+    ],
+    "LucioRC/ampitupstand/6_sprite.png": [
+        9.0,
+        7.0
+    ],
+    "LucioRC/ampitupstand/7_sprite.png": [
+        12.0,
+        3.0
+    ],
+    "LucioRC/ampitupstand/8_sprite.png": [
+        12.0,
+        6.0
+    ],
+    "LucioRC/ampitupstand/9_sprite.png": [
+        10.0,
+        5.0
+    ],
+    "LucioRC/backarm/ number of frames": 1,
+    "LucioRC/backarm/1_sprite.png": [
+        -2.0,
+        -8.0
+    ],
+    "LucioRC/corpse/ number of frames": 1,
+    "LucioRC/corpse/1_sprite.png": [
+        18.0,
+        -21.0
+    ],
+    "LucioRC/crossfade2healbackarm/ number of frames": 5,
+    "LucioRC/crossfade2healbackarm/1_sprite.png": [
+        -1.0,
+        -4.0
+    ],
+    "LucioRC/crossfade2healbackarm/2_sprite.png": [
+        -1.0,
+        -4.0
+    ],
+    "LucioRC/crossfade2healbackarm/3_sprite.png": [
+        -1.0,
+        -4.0
+    ],
+    "LucioRC/crossfade2healbackarm/4_sprite.png": [
+        -1.0,
+        -4.0
+    ],
+    "LucioRC/crossfade2healbackarm/5_sprite.png": [
+        -1.0,
+        -5.0
+    ],
+    "LucioRC/crossfade2speedbackarm/ number of frames": 5,
+    "LucioRC/crossfade2speedbackarm/1_sprite.png": [
+        -1.0,
+        -4.0
+    ],
+    "LucioRC/crossfade2speedbackarm/2_sprite.png": [
+        -1.0,
+        -4.0
+    ],
+    "LucioRC/crossfade2speedbackarm/3_sprite.png": [
+        -1.0,
+        -4.0
+    ],
+    "LucioRC/crossfade2speedbackarm/4_sprite.png": [
+        -1.0,
+        -4.0
+    ],
+    "LucioRC/crossfade2speedbackarm/5_sprite.png": [
+        -1.0,
+        -5.0
+    ],
+    "LucioRC/crouch/ number of frames": 1,
+    "LucioRC/crouch/1_sprite.png": [
+        10.0,
+        -5.0
+    ],
+    "LucioRC/crouchwalk/ number of frames": 4,
+    "LucioRC/crouchwalk/1_sprite.png": [
+        9.0,
+        -5.0
+    ],
+    "LucioRC/crouchwalk/2_sprite.png": [
+        9.0,
+        -5.0
+    ],
+    "LucioRC/crouchwalk/3_sprite.png": [
+        9.0,
+        -5.0
+    ],
+    "LucioRC/crouchwalk/4_sprite.png": [
+        10.0,
+        -5.0
+    ],
+    "LucioRC/firing/ number of frames": 14,
+    "LucioRC/firing/10_sprite.png": [
+        10.0,
+        -1.0
+    ],
+    "LucioRC/firing/11_sprite.png": [
+        10.0,
+        -1.0
+    ],
+    "LucioRC/firing/12_sprite.png": [
+        10.0,
+        -4.0
+    ],
+    "LucioRC/firing/13_sprite.png": [
+        9.0,
+        -4.0
+    ],
+    "LucioRC/firing/14_sprite.png": [
+        9.0,
+        -4.0
+    ],
+    "LucioRC/firing/1_sprite.png": [
+        9.0,
+        -4.0
+    ],
+    "LucioRC/firing/2_sprite.png": [
+        11.0,
+        -2.0
+    ],
+    "LucioRC/firing/3_sprite.png": [
+        10.0,
+        -4.0
+    ],
+    "LucioRC/firing/4_sprite.png": [
+        11.0,
+        -2.0
+    ],
+    "LucioRC/firing/5_sprite.png": [
+        10.0,
+        -4.0
+    ],
+    "LucioRC/firing/6_sprite.png": [
+        11.0,
+        -2.0
+    ],
+    "LucioRC/firing/7_sprite.png": [
+        10.0,
+        -4.0
+    ],
+    "LucioRC/firing/8_sprite.png": [
+        9.0,
+        0.0
+    ],
+    "LucioRC/firing/9_sprite.png": [
+        10.0,
+        0.0
+    ],
+    "LucioRC/frontarm/ number of frames": 1,
+    "LucioRC/frontarm/1_sprite.png": [
+        9.0,
+        -4.0
+    ],
+    "LucioRC/idle/ number of frames": 1,
+    "LucioRC/idle/1_sprite.png": [
+        12.0,
+        6.0
+    ],
+    "LucioRC/jump/ number of frames": 1,
+    "LucioRC/jump/1_sprite.png": [
+        12.0,
+        7.0
+    ],
+    "LucioRC/jumpdrop/ number of frames": 1,
+    "LucioRC/jumpdrop/1_sprite.png": [
+        12.0,
+        3.0
+    ],
+    "LucioRC/projectile/ number of frames": 1,
+    "LucioRC/projectile/1_sprite.png": [
+        2.0,
+        2.0
+    ],
+    "LucioRC/reload/ number of frames": 8,
+    "LucioRC/reload/1_sprite.png": [
+        10.0,
+        -4.0
+    ],
+    "LucioRC/reload/2_sprite.png": [
+        9.0,
+        -3.0
+    ],
+    "LucioRC/reload/3_sprite.png": [
+        9.0,
+        -3.0
+    ],
+    "LucioRC/reload/4_sprite.png": [
+        9.0,
+        -5.0
+    ],
+    "LucioRC/reload/5_sprite.png": [
+        9.0,
+        -4.0
+    ],
+    "LucioRC/reload/6_sprite.png": [
+        9.0,
+        -4.0
+    ],
+    "LucioRC/reload/7_sprite.png": [
+        9.0,
+        -4.0
+    ],
+    "LucioRC/reload/8_sprite.png": [
+        9.0,
+        -4.0
+    ],
+    "LucioRC/runbackarm/ number of frames": 8,
+    "LucioRC/runbackarm/1_sprite.png": [
+        -3.0,
+        -4.0
+    ],
+    "LucioRC/runbackarm/2_sprite.png": [
+        -3.0,
+        -6.0
+    ],
+    "LucioRC/runbackarm/3_sprite.png": [
+        -3.0,
+        -6.0
+    ],
+    "LucioRC/runbackarm/4_sprite.png": [
+        -3.0,
+        -5.0
+    ],
+    "LucioRC/runbackarm/5_sprite.png": [
+        -2.0,
+        -5.0
+    ],
+    "LucioRC/runbackarm/6_sprite.png": [
+        -2.0,
+        -5.0
+    ],
+    "LucioRC/runbackarm/7_sprite.png": [
+        -1.0,
+        -6.0
+    ],
+    "LucioRC/runbackarm/8_sprite.png": [
+        -3.0,
+        -5.0
+    ],
+    "LucioRC/runtorso/ number of frames": 8,
+    "LucioRC/runtorso/1_sprite.png": [
+        18.0,
+        4.0
+    ],
+    "LucioRC/runtorso/2_sprite.png": [
+        17.0,
+        3.0
+    ],
+    "LucioRC/runtorso/3_sprite.png": [
+        10.0,
+        3.0
+    ],
+    "LucioRC/runtorso/4_sprite.png": [
+        18.0,
+        4.0
+    ],
+    "LucioRC/runtorso/5_sprite.png": [
+        15.0,
+        4.0
+    ],
+    "LucioRC/runtorso/6_sprite.png": [
+        15.0,
+        3.0
+    ],
+    "LucioRC/runtorso/7_sprite.png": [
+        9.0,
+        3.0
+    ],
+    "LucioRC/runtorso/8_sprite.png": [
+        18.0,
+        4.0
+    ],
+    "LucioRC/sleep/ number of frames": 1,
+    "LucioRC/sleep/1_sprite.png": [
+        18.0,
+        -21.0
+    ],
+    "LucioRC/soundwave/ number of frames": 8,
+    "LucioRC/soundwave/1_sprite.png": [
+        9.0,
+        -4.0
+    ],
+    "LucioRC/soundwave/2_sprite.png": [
+        11.0,
+        2.0
+    ],
+    "LucioRC/soundwave/3_sprite.png": [
+        11.0,
+        0.0
+    ],
+    "LucioRC/soundwave/4_sprite.png": [
+        10.0,
+        -1.0
+    ],
+    "LucioRC/soundwave/5_sprite.png": [
+        10.0,
+        -1.0
+    ],
+    "LucioRC/soundwave/6_sprite.png": [
+        10.0,
+        -4.0
+    ],
+    "LucioRC/soundwave/7_sprite.png": [
+        9.0,
+        -4.0
+    ],
+    "LucioRC/soundwave/8_sprite.png": [
+        9.0,
+        -4.0
+    ],
+    "LucioRC/stun/ number of frames": 1,
+    "LucioRC/stun/1_sprite.png": [
+        13.0,
+        5.0
+    ],
+    "LucioRC/ult/ number of frames": 13,
+    "LucioRC/ult/10_sprite.png": [
+        17.0,
+        7.0
+    ],
+    "LucioRC/ult/11_sprite.png": [
+        19.0,
+        8.0
+    ],
+    "LucioRC/ult/12_sprite.png": [
+        24.0,
+        11.0
+    ],
+    "LucioRC/ult/13_sprite.png": [
+        19.0,
+        13.0
+    ],
+    "LucioRC/ult/1_sprite.png": [
+        12.0,
+        16.0
+    ],
+    "LucioRC/ult/2_sprite.png": [
+        12.0,
+        16.0
+    ],
+    "LucioRC/ult/3_sprite.png": [
+        23.0,
+        17.0
+    ],
+    "LucioRC/ult/4_sprite.png": [
+        14.0,
+        17.0
+    ],
+    "LucioRC/ult/5_sprite.png": [
+        10.0,
+        18.0
+    ],
+    "LucioRC/ult/6_sprite.png": [
+        15.0,
+        18.0
+    ],
+    "LucioRC/ult/7_sprite.png": [
+        14.0,
+        18.0
+    ],
+    "LucioRC/ult/8_sprite.png": [
+        18.0,
+        17.0
+    ],
+    "LucioRC/ult/9_sprite.png": [
+        21.0,
+        13.0
+    ],
+    "LucioRC/ulteffect/ number of frames": 5,
+    "LucioRC/ulteffect/1_sprite.png": [
+        31.0,
+        2.0
+    ],
+    "LucioRC/ulteffect/2_sprite.png": [
+        34.0,
+        4.0
+    ],
+    "LucioRC/ulteffect/3_sprite.png": [
+        37.0,
+        4.0
+    ],
+    "LucioRC/ulteffect/4_sprite.png": [
+        39.0,
+        -19.0
+    ],
+    "LucioRC/ulteffect/5_sprite.png": [
+        40.0,
+        -19.0
+    ],
+    "Symmetra - Copy/ number of frames": 0,
+    "Symmetra - Copy/altcharge/ number of frames": 7,
+    "Symmetra - Copy/altcharge/1_sprite.png": [
+        3.0,
+        -2.0
+    ],
+    "Symmetra - Copy/altcharge/2_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/altcharge/3_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/altcharge/4_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/altcharge/5_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/altcharge/6_sprite.png": [
+        3.0,
+        -2.0
+    ],
+    "Symmetra - Copy/altcharge/7_sprite.png": [
+        3.0,
+        -1.0
+    ],
+    "Symmetra - Copy/altfiring/ number of frames": 8,
+    "Symmetra - Copy/altfiring/1_sprite.png": [
+        3.0,
+        -1.0
+    ],
+    "Symmetra - Copy/altfiring/2_sprite.png": [
+        3.0,
+        -2.0
+    ],
+    "Symmetra - Copy/altfiring/3_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/altfiring/4_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/altfiring/5_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/altfiring/6_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/altfiring/7_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/altfiring/8_sprite.png": [
+        3.0,
+        -2.0
+    ],
+    "Symmetra - Copy/arm/ number of frames": 1,
+    "Symmetra - Copy/arm/1_sprite.png": [
+        3.0,
+        -2.0
+    ],
+    "Symmetra - Copy/build/ number of frames": 6,
+    "Symmetra - Copy/build/1_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/build/2_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/build/3_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/build/4_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/build/5_sprite.png": [
+        3.0,
+        -2.0
+    ],
+    "Symmetra - Copy/build/6_sprite.png": [
+        3.0,
+        0.0
+    ],
+    "Symmetra - Copy/buildend/ number of frames": 9,
+    "Symmetra - Copy/buildend/1_sprite.png": [
+        3.0,
+        0.0
+    ],
+    "Symmetra - Copy/buildend/2_sprite.png": [
+        3.0,
+        -2.0
+    ],
+    "Symmetra - Copy/buildend/3_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/buildend/4_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/buildend/5_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/buildend/6_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/buildend/7_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/buildend/8_sprite.png": [
+        3.0,
+        -2.0
+    ],
+    "Symmetra - Copy/buildend/9_sprite.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/corpse/ number of frames": 1,
+    "Symmetra - Copy/corpse/1_sprite.png": [
+        25.0,
+        -28.0
+    ],
+    "Symmetra - Copy/crouch/ number of frames": 1,
+    "Symmetra - Copy/crouch/1_sprite.png": [
+        7.0,
+        -3.0
+    ],
+    "Symmetra - Copy/crouchwalk/ number of frames": 4,
+    "Symmetra - Copy/crouchwalk/1_sprite.png": [
+        7.0,
+        -3.0
+    ],
+    "Symmetra - Copy/crouchwalk/2_sprite.png": [
+        6.0,
+        -3.0
+    ],
+    "Symmetra - Copy/crouchwalk/3_sprite.png": [
+        6.0,
+        -3.0
+    ],
+    "Symmetra - Copy/crouchwalk/4_sprite.png": [
+        5.0,
+        -3.0
+    ],
+    "Symmetra - Copy/falling/ number of frames": 2,
+    "Symmetra - Copy/falling/1_sprite.png": [
+        7.0,
+        7.0
+    ],
+    "Symmetra - Copy/falling/2_sprite.png": [
+        7.0,
+        7.0
+    ],
+    "Symmetra - Copy/firing/ number of frames": 3,
+    "Symmetra - Copy/firing/1_sprite.png": [
+        3.0,
+        -2.0
+    ],
+    "Symmetra - Copy/firing/2_sprite.png": [
+        3.0,
+        -2.0
+    ],
+    "Symmetra - Copy/firing/3_sprite.png": [
+        3.0,
+        -2.0
+    ],
+    "Symmetra - Copy/getup/ number of frames": 12,
+    "Symmetra - Copy/getup/10_sprite.png": [
+        4.0,
+        2.0
+    ],
+    "Symmetra - Copy/getup/11_sprite.png": [
+        4.0,
+        5.0
+    ],
+    "Symmetra - Copy/getup/12_sprite.png": [
+        6.0,
+        5.0
+    ],
+    "Symmetra - Copy/getup/1_sprite.png": [
+        21.0,
+        -23.0
+    ],
+    "Symmetra - Copy/getup/2_sprite.png": [
+        19.0,
+        -17.0
+    ],
+    "Symmetra - Copy/getup/3_sprite.png": [
+        14.0,
+        -18.0
+    ],
+    "Symmetra - Copy/getup/4_sprite.png": [
+        9.0,
+        -15.0
+    ],
+    "Symmetra - Copy/getup/5_sprite.png": [
+        8.0,
+        -13.0
+    ],
+    "Symmetra - Copy/getup/6_sprite.png": [
+        6.0,
+        -10.0
+    ],
+    "Symmetra - Copy/getup/7_sprite.png": [
+        5.0,
+        -9.0
+    ],
+    "Symmetra - Copy/getup/8_sprite.png": [
+        3.0,
+        -9.0
+    ],
+    "Symmetra - Copy/getup/9_sprite.png": [
+        2.0,
+        -3.0
+    ],
+    "Symmetra - Copy/idle/ number of frames": 1,
+    "Symmetra - Copy/idle/1_sprite.png": [
+        6.0,
+        5.0
+    ],
+    "Symmetra - Copy/jump/ number of frames": 1,
+    "Symmetra - Copy/jump/1_sprite.png": [
+        6.0,
+        -1.0
+    ],
+    "Symmetra - Copy/pinned/ number of frames": 1,
+    "Symmetra - Copy/pinned/1_sprite.png": [
+        7.0,
+        1.0
+    ],
+    "Symmetra - Copy/projectiles/ number of frames": 2,
+    "Symmetra - Copy/projectiles/energyball_sprite.png": [
+        5.0,
+        4.0
+    ],
+    "Symmetra - Copy/projectiles/shield_sprite.png": [
+        0.0,
+        7.0
+    ],
+    "Symmetra - Copy/reload/ number of frames": 18,
+    "Symmetra - Copy/reload/sprite_1.png": [
+        3.0,
+        -2.0
+    ],
+    "Symmetra - Copy/reload/sprite_10.png": [
+        3.0,
+        6.0
+    ],
+    "Symmetra - Copy/reload/sprite_11.png": [
+        3.0,
+        6.0
+    ],
+    "Symmetra - Copy/reload/sprite_12.png": [
+        3.0,
+        6.0
+    ],
+    "Symmetra - Copy/reload/sprite_13.png": [
+        3.0,
+        6.0
+    ],
+    "Symmetra - Copy/reload/sprite_14.png": [
+        3.0,
+        6.0
+    ],
+    "Symmetra - Copy/reload/sprite_15.png": [
+        3.0,
+        5.0
+    ],
+    "Symmetra - Copy/reload/sprite_16.png": [
+        3.0,
+        1.0
+    ],
+    "Symmetra - Copy/reload/sprite_17.png": [
+        3.0,
+        -3.0
+    ],
+    "Symmetra - Copy/reload/sprite_18.png": [
+        3.0,
+        -2.0
+    ],
+    "Symmetra - Copy/reload/sprite_2.png": [
+        3.0,
+        1.0
+    ],
+    "Symmetra - Copy/reload/sprite_3.png": [
+        3.0,
+        5.0
+    ],
+    "Symmetra - Copy/reload/sprite_4.png": [
+        3.0,
+        6.0
+    ],
+    "Symmetra - Copy/reload/sprite_5.png": [
+        3.0,
+        6.0
+    ],
+    "Symmetra - Copy/reload/sprite_6.png": [
+        3.0,
+        6.0
+    ],
+    "Symmetra - Copy/reload/sprite_7.png": [
+        3.0,
+        6.0
+    ],
+    "Symmetra - Copy/reload/sprite_8.png": [
+        3.0,
+        6.0
+    ],
+    "Symmetra - Copy/reload/sprite_9.png": [
+        3.0,
+        6.0
+    ],
+    "Symmetra - Copy/run/ number of frames": 8,
+    "Symmetra - Copy/run/1_sprite.png": [
+        14.0,
+        5.0
+    ],
+    "Symmetra - Copy/run/2_sprite.png": [
+        11.0,
+        4.0
+    ],
+    "Symmetra - Copy/run/3_sprite.png": [
+        9.0,
+        3.0
+    ],
+    "Symmetra - Copy/run/4_sprite.png": [
+        17.0,
+        4.0
+    ],
+    "Symmetra - Copy/run/5_sprite.png": [
+        14.0,
+        5.0
+    ],
+    "Symmetra - Copy/run/6_sprite.png": [
+        10.0,
+        4.0
+    ],
+    "Symmetra - Copy/run/7_sprite.png": [
+        8.0,
+        3.0
+    ],
+    "Symmetra - Copy/run/8_sprite.png": [
+        17.0,
+        4.0
+    ],
+    "Symmetra - Copy/shieldsummon/ number of frames": 5,
+    "Symmetra - Copy/shieldsummon/1_sprite.png": [
+        -1.0,
+        -3.0
+    ],
+    "Symmetra - Copy/shieldsummon/2_sprite.png": [
+        -1.0,
+        -3.0
+    ],
+    "Symmetra - Copy/shieldsummon/3_sprite.png": [
+        -1.0,
+        -3.0
+    ],
+    "Symmetra - Copy/shieldsummon/4_sprite.png": [
+        -1.0,
+        -2.0
+    ],
+    "Symmetra - Copy/shieldsummon/5_sprite.png": [
+        -1.0,
+        -1.0
+    ],
+    "Symmetra - Copy/sleep/ number of frames": 1,
+    "Symmetra - Copy/sleep/1_sprite.png": [
+        23.0,
+        -29.0
+    ],
+    "Symmetra - Copy/sleepanim/ number of frames": 12,
+    "Symmetra - Copy/sleepanim/10_sprite.png": [
+        20.0,
+        -20.0
+    ],
+    "Symmetra - Copy/sleepanim/11_sprite.png": [
+        20.0,
+        -22.0
+    ],
+    "Symmetra - Copy/sleepanim/12_sprite.png": [
+        23.0,
+        -28.0
+    ],
+    "Symmetra - Copy/sleepanim/1_sprite.png": [
+        6.0,
+        5.0
+    ],
+    "Symmetra - Copy/sleepanim/2_sprite.png": [
+        5.0,
+        5.0
+    ],
+    "Symmetra - Copy/sleepanim/3_sprite.png": [
+        7.0,
+        5.0
+    ],
+    "Symmetra - Copy/sleepanim/4_sprite.png": [
+        9.0,
+        5.0
+    ],
+    "Symmetra - Copy/sleepanim/5_sprite.png": [
+        12.0,
+        5.0
+    ],
+    "Symmetra - Copy/sleepanim/6_sprite.png": [
+        13.0,
+        4.0
+    ],
+    "Symmetra - Copy/sleepanim/7_sprite.png": [
+        16.0,
+        1.0
+    ],
+    "Symmetra - Copy/sleepanim/8_sprite.png": [
+        17.0,
+        0.0
+    ],
+    "Symmetra - Copy/sleepanim/9_sprite.png": [
+        17.0,
+        -7.0
+    ],
+    "Symmetra - Copy/stun/ number of frames": 1,
+    "Symmetra - Copy/stun/1_sprite.png": [
+        9.0,
+        12.0
+    ],
+    "Symmetra - Copy/turret/ number of frames": 1,
+    "Symmetra - Copy/turret/1_sprite.png": [
+        3.0,
+        -29.0
+    ],
+    "Symmetra - Copy/ultbuild/ number of frames": 13,
+    "Symmetra - Copy/ultbuild/10_sprite.png": [
+        19.0,
+        -28.0
+    ],
+    "Symmetra - Copy/ultbuild/11_sprite.png": [
+        18.0,
+        -28.0
+    ],
+    "Symmetra - Copy/ultbuild/12_sprite.png": [
+        17.0,
+        -28.0
+    ],
+    "Symmetra - Copy/ultbuild/13_sprite.png": [
+        17.0,
+        -28.0
+    ],
+    "Symmetra - Copy/ultbuild/1_sprite.png": [
+        7.0,
+        -15.0
+    ],
+    "Symmetra - Copy/ultbuild/2_sprite.png": [
+        7.0,
+        -15.0
+    ],
+    "Symmetra - Copy/ultbuild/3_sprite.png": [
+        7.0,
+        -15.0
+    ],
+    "Symmetra - Copy/ultbuild/4_sprite.png": [
+        7.0,
+        -15.0
+    ],
+    "Symmetra - Copy/ultbuild/5_sprite.png": [
+        7.0,
+        -13.0
+    ],
+    "Symmetra - Copy/ultbuild/6_sprite.png": [
+        10.0,
+        -15.0
+    ],
+    "Symmetra - Copy/ultbuild/7_sprite.png": [
+        15.0,
+        -16.0
+    ],
+    "Symmetra - Copy/ultbuild/8_sprite.png": [
+        18.0,
+        -20.0
+    ],
+    "Symmetra - Copy/ultbuild/9_sprite.png": [
+        18.0,
+        -26.0
+    ],
+    "Symmetra - Copy/ultidle/ number of frames": 5,
+    "Symmetra - Copy/ultidle/1_sprite.png": [
+        17.0,
+        -27.0
+    ],
+    "Symmetra - Copy/ultidle/2_sprite.png": [
+        17.0,
+        -27.0
+    ],
+    "Symmetra - Copy/ultidle/3_sprite.png": [
+        17.0,
+        -27.0
+    ],
+    "Symmetra - Copy/ultidle/4_sprite.png": [
+        17.0,
+        -27.0
+    ],
+    "Symmetra - Copy/ultidle/5_sprite.png": [
+        17.0,
+        -27.0
+    ],
+    "Symmetra - Copy/ultshieldgenerator/ number of frames": 1,
+    "Symmetra - Copy/ultshieldgenerator/1_sprite.png": [
+        12.0,
+        12.0
+    ],
+    "Symmetra - Copy/ultteleport/ number of frames": 1,
+    "Symmetra - Copy/ultteleport/1_sprite.png": [
+        11.0,
+        11.0
+    ],
     "download/ number of frames": 1,
     "download/getup/ number of frames": 11,
     "download/getup/10_sprite.png": [

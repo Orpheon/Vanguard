@@ -7,7 +7,7 @@ class Earthshatter : public MovingEntity
     public:
         virtual void init(uint64_t id_, Gamestate &state, EntityPtr owner_);
         virtual void beginstep(Gamestate &state, double frametime) override;
-        virtual void endstep(Gamestate &state, double frametime) override {}
+        virtual void endstep(Gamestate &state, double frametime) override;
         virtual void render(Renderer &renderer, Gamestate &state) override {}
         virtual bool isrootobject() override {return true;}
         virtual std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Earthshatter(*this));}

@@ -19,6 +19,7 @@
     "heroes/mccree/fanthehammerloop/ duration": 0.11,
     "heroes/mccree/projectiletrail/ duration": 0.2,
     "heroes/mccree/stun/ duration": 0.7,
+    "heroes/mccree/sleep/ duration": 2.5,
     "heroes/mccree/falling/ duration": 45,
     "heroes/mccree/pinned/ duration": 1,
 
@@ -30,6 +31,7 @@
     "heroes/reinhardt/emote/ duration": 3,
     "heroes/reinhardt/crouchwalk/ duration": 40,
     "heroes/reinhardt/stun/ duration": 0.7,
+    "heroes/reinhardt/sleep/ duration": 2.5,
     "heroes/reinhardt/preparecharge/ duration": 0.7,
     "heroes/reinhardt/endcharge/ duration": 0.7,
     "heroes/reinhardt/charge/ duration": 2,
