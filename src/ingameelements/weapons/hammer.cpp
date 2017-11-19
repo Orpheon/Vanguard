@@ -18,6 +18,9 @@ void Hammer::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     firestrikedelay.init(firestrikeanim.timer.duration * 0.5,
                          std::bind(&Hammer::createfirestrike, this, std::placeholders::_1));
     firestrikedelay.active = false;
+    firestrikecooldown.init(6);
+    firestrikecooldown.active = false;
+
     // 6th and 14th frame of an assumed 20 frame animation - ugly but idk better way
     firingdelay1.init(firinganim.timer.duration * 6.0/20.0, std::bind(&Hammer::hitarea, this, std::placeholders::_1));
     firingdelay1.active = false;
@@ -148,6 +151,7 @@ void Hammer::beginstep(Gamestate &state, double frametime)
     barrier(state).beginstep(state, frametime);
     firestrikeanim.update(state, frametime);
     firestrikedelay.update(state, frametime);
+    firestrikecooldown.update(state, frametime);
     firingdelay1.update(state, frametime);
     firingdelay2.update(state, frametime);
 }
@@ -206,6 +210,8 @@ void Hammer::createfirestrike(Gamestate &state)
     {
         firestrike.destroy(state);
     }
+
+    firestrikecooldown.reset();
 }
 
 void Hammer::hitarea(Gamestate &state)
@@ -295,6 +301,7 @@ void Hammer::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
 
     firestrikeanim.interpolate(prev_e.firestrikeanim, next_e.firestrikeanim, alpha);
     firestrikedelay.interpolate(prev_e.firestrikedelay, next_e.firestrikedelay, alpha);
+    firestrikecooldown.interpolate(prev_e.firestrikecooldown, next_e.firestrikecooldown, alpha);
     firinganim.interpolate(prev_e.firinganim, next_e.firinganim, alpha);
     firingdelay1.interpolate(prev_e.firingdelay1, next_e.firingdelay1, alpha);
     firingdelay2.interpolate(prev_e.firingdelay2, next_e.firingdelay2, alpha);

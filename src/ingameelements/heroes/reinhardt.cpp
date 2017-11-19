@@ -198,7 +198,7 @@ void Reinhardt::beginstep(Gamestate &state, double frametime)
             state.engine.sendbuffer.write<uint8_t>(ABILITY1_USED);
             state.engine.sendbuffer.write<uint8_t>(state.findplayerid(owner));
         }
-        if (heldkeys.ABILITY_2 and state.engine.isserver)
+        if (heldkeys.ABILITY_2 and state.engine.isserver and not state.get<Hammer&>(weapon).firestrikecooldown.active)
         {
             useability2(state);
             state.engine.sendbuffer.write<uint8_t>(ABILITY2_USED);

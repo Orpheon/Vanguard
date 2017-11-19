@@ -1027,6 +1027,51 @@
         11.0
     ],
     "download/ number of frames": 1,
+    "download/getup - Copy (2) - Copy/ number of frames": 11,
+    "download/getup - Copy (2) - Copy/1.png": [
+        49.0,
+        -50.0
+    ],
+    "download/getup - Copy (2) - Copy/10.png": [
+        15.0,
+        -18.0
+    ],
+    "download/getup - Copy (2) - Copy/11.png": [
+        18.0,
+        -18.0
+    ],
+    "download/getup - Copy (2) - Copy/2.png": [
+        46.0,
+        -43.0
+    ],
+    "download/getup - Copy (2) - Copy/3.png": [
+        34.0,
+        -22.0
+    ],
+    "download/getup - Copy (2) - Copy/4.png": [
+        18.0,
+        -8.0
+    ],
+    "download/getup - Copy (2) - Copy/5.png": [
+        16.0,
+        -5.0
+    ],
+    "download/getup - Copy (2) - Copy/6.png": [
+        16.0,
+        -9.0
+    ],
+    "download/getup - Copy (2) - Copy/7.png": [
+        15.0,
+        -10.0
+    ],
+    "download/getup - Copy (2) - Copy/8.png": [
+        11.0,
+        -10.0
+    ],
+    "download/getup - Copy (2) - Copy/9.png": [
+        7.0,
+        -10.0
+    ],
     "download/getup/ number of frames": 11,
     "download/getup/10_sprite.png": [
         7.0,
@@ -1072,50 +1117,54 @@
         5.0,
         -38.0
     ],
-    "download/sleep - Copy (2)/ number of frames": 11,
-    "download/sleep - Copy (2)/1.png": [
-        70.0,
-        70.0
+    "download/sleep - Copy - Copy/ number of frames": 12,
+    "download/sleep - Copy - Copy/0.png": [
+        25.0,
+        -17.0
     ],
-    "download/sleep - Copy (2)/10.png": [
-        70.0,
-        70.0
+    "download/sleep - Copy - Copy/1.png": [
+        24.0,
+        -17.0
     ],
-    "download/sleep - Copy (2)/11.png": [
-        70.0,
-        70.0
+    "download/sleep - Copy - Copy/10.png": [
+        50.0,
+        -50.0
     ],
-    "download/sleep - Copy (2)/2.png": [
-        70.0,
-        70.0
+    "download/sleep - Copy - Copy/11.png": [
+        50.0,
+        -51.0
     ],
-    "download/sleep - Copy (2)/3.png": [
-        70.0,
-        70.0
+    "download/sleep - Copy - Copy/2.png": [
+        24.0,
+        -15.0
     ],
-    "download/sleep - Copy (2)/4.png": [
-        70.0,
-        70.0
+    "download/sleep - Copy - Copy/3.png": [
+        32.0,
+        -18.0
     ],
-    "download/sleep - Copy (2)/5.png": [
-        70.0,
-        70.0
+    "download/sleep - Copy - Copy/4.png": [
+        40.0,
+        -13.0
     ],
-    "download/sleep - Copy (2)/6.png": [
-        70.0,
-        70.0
+    "download/sleep - Copy - Copy/5.png": [
+        45.0,
+        -11.0
     ],
-    "download/sleep - Copy (2)/7.png": [
-        70.0,
-        70.0
+    "download/sleep - Copy - Copy/6.png": [
+        50.0,
+        -15.0
     ],
-    "download/sleep - Copy (2)/8.png": [
-        70.0,
-        70.0
+    "download/sleep - Copy - Copy/7.png": [
+        49.0,
+        -24.0
     ],
-    "download/sleep - Copy (2)/9.png": [
-        70.0,
-        70.0
+    "download/sleep - Copy - Copy/8.png": [
+        50.0,
+        -39.0
+    ],
+    "download/sleep - Copy - Copy/9.png": [
+        46.0,
+        -48.0
     ],
     "download/sleep/ number of frames": 11,
     "download/sleep/10_sprite.png": [
@@ -1320,6 +1369,51 @@
         19.0,
         7.0
     ],
+    "heroes/mccree/getup/ number of frames": 11,
+    "heroes/mccree/getup/10_sprite.png": [
+        7.0,
+        -35.0
+    ],
+    "heroes/mccree/getup/11_sprite.png": [
+        7.0,
+        -29.0
+    ],
+    "heroes/mccree/getup/1_sprite.png": [
+        20.0,
+        -56.0
+    ],
+    "heroes/mccree/getup/2_sprite.png": [
+        19.0,
+        -55.0
+    ],
+    "heroes/mccree/getup/3_sprite.png": [
+        13.0,
+        -52.0
+    ],
+    "heroes/mccree/getup/4_sprite.png": [
+        8.0,
+        -47.0
+    ],
+    "heroes/mccree/getup/5_sprite.png": [
+        7.0,
+        -45.0
+    ],
+    "heroes/mccree/getup/6_sprite.png": [
+        6.0,
+        -44.0
+    ],
+    "heroes/mccree/getup/7_sprite.png": [
+        5.0,
+        -43.0
+    ],
+    "heroes/mccree/getup/8_sprite.png": [
+        5.0,
+        -43.0
+    ],
+    "heroes/mccree/getup/9_sprite.png": [
+        5.0,
+        -38.0
+    ],
     "heroes/mccree/idle/ number of frames": 1,
     "heroes/mccree/idle/1_sprite.png": [
         9.0,
@@ -1456,10 +1550,50 @@
         15.0,
         4.0
     ],
-    "heroes/mccree/sleep/ number of frames": 1,
+    "heroes/mccree/sleep/ number of frames": 11,
+    "heroes/mccree/sleep/10_sprite.png": [
+        20.0,
+        -56.0
+    ],
+    "heroes/mccree/sleep/11_sprite.png": [
+        22.0,
+        -58.0
+    ],
     "heroes/mccree/sleep/1_sprite.png": [
-        23.0,
-        -25.0
+        8.0,
+        -29.0
+    ],
+    "heroes/mccree/sleep/2_sprite.png": [
+        10.0,
+        -30.0
+    ],
+    "heroes/mccree/sleep/3_sprite.png": [
+        11.0,
+        -30.0
+    ],
+    "heroes/mccree/sleep/4_sprite.png": [
+        12.0,
+        -30.0
+    ],
+    "heroes/mccree/sleep/5_sprite.png": [
+        13.0,
+        -32.0
+    ],
+    "heroes/mccree/sleep/6_sprite.png": [
+        15.0,
+        -34.0
+    ],
+    "heroes/mccree/sleep/7_sprite.png": [
+        14.0,
+        -37.0
+    ],
+    "heroes/mccree/sleep/8_sprite.png": [
+        14.0,
+        -42.0
+    ],
+    "heroes/mccree/sleep/9_sprite.png": [
+        18.0,
+        -53.0
     ],
     "heroes/mccree/stun/ number of frames": 1,
     "heroes/mccree/stun/1_sprite.png": [
@@ -1851,6 +1985,51 @@
         12.0,
         12.0
     ],
+    "heroes/reinhardt/getup/ number of frames": 11,
+    "heroes/reinhardt/getup/10_sprite.png": [
+        15.0,
+        -18.0
+    ],
+    "heroes/reinhardt/getup/11_sprite.png": [
+        18.0,
+        -18.0
+    ],
+    "heroes/reinhardt/getup/1_sprite.png": [
+        49.0,
+        -50.0
+    ],
+    "heroes/reinhardt/getup/2_sprite.png": [
+        46.0,
+        -43.0
+    ],
+    "heroes/reinhardt/getup/3_sprite.png": [
+        34.0,
+        -22.0
+    ],
+    "heroes/reinhardt/getup/4_sprite.png": [
+        18.0,
+        -8.0
+    ],
+    "heroes/reinhardt/getup/5_sprite.png": [
+        16.0,
+        -5.0
+    ],
+    "heroes/reinhardt/getup/6_sprite.png": [
+        16.0,
+        -9.0
+    ],
+    "heroes/reinhardt/getup/7_sprite.png": [
+        15.0,
+        -10.0
+    ],
+    "heroes/reinhardt/getup/8_sprite.png": [
+        11.0,
+        -10.0
+    ],
+    "heroes/reinhardt/getup/9_sprite.png": [
+        7.0,
+        -10.0
+    ],
     "heroes/reinhardt/idle/ number of frames": 1,
     "heroes/reinhardt/idle/1_sprite.png": [
         14.0,
@@ -2029,10 +2208,50 @@
         17.0,
         16.0
     ],
-    "heroes/reinhardt/sleep/ number of frames": 1,
+    "heroes/reinhardt/sleep/ number of frames": 11,
+    "heroes/reinhardt/sleep/10_sprite.png": [
+        50.0,
+        -50.0
+    ],
+    "heroes/reinhardt/sleep/11_sprite.png": [
+        50.0,
+        -51.0
+    ],
     "heroes/reinhardt/sleep/1_sprite.png": [
-        23.0,
-        -25.0
+        24.0,
+        -17.0
+    ],
+    "heroes/reinhardt/sleep/2_sprite.png": [
+        24.0,
+        -15.0
+    ],
+    "heroes/reinhardt/sleep/3_sprite.png": [
+        32.0,
+        -18.0
+    ],
+    "heroes/reinhardt/sleep/4_sprite.png": [
+        40.0,
+        -13.0
+    ],
+    "heroes/reinhardt/sleep/5_sprite.png": [
+        45.0,
+        -11.0
+    ],
+    "heroes/reinhardt/sleep/6_sprite.png": [
+        50.0,
+        -15.0
+    ],
+    "heroes/reinhardt/sleep/7_sprite.png": [
+        49.0,
+        -24.0
+    ],
+    "heroes/reinhardt/sleep/8_sprite.png": [
+        50.0,
+        -39.0
+    ],
+    "heroes/reinhardt/sleep/9_sprite.png": [
+        46.0,
+        -48.0
     ],
     "heroes/reinhardt/stun/ number of frames": 1,
     "heroes/reinhardt/stun/1_sprite.png": [
@@ -2157,7 +2376,7 @@
     ],
     "ui/ingame/Gamemode/ref/ number of frames": 0,
     "ui/ingame/heroes/ number of frames": 0,
-    "ui/ingame/heroes/mccree/ number of frames": 7,
+    "ui/ingame/heroes/mccree/ number of frames": 8,
     "ui/ingame/heroes/mccree/flashbang_sprite.png": [
         28.0,
         19.0
@@ -2174,6 +2393,10 @@
         28.0,
         19.0
     ],
+    "ui/ingame/heroes/mccree/rollingactive_sprite.png": [
+        28.0,
+        19.0
+    ],
     "ui/ingame/heroes/mccree/rollingcooldown_sprite.png": [
         28.0,
         19.0
@@ -2186,12 +2409,12 @@
         38.5,
         19.0
     ],
-    "ui/ingame/heroes/reinhardt/ number of frames": 7,
-    "ui/ingame/heroes/reinhardt/Hold_Shield.png": [
+    "ui/ingame/heroes/reinhardt/ number of frames": 10,
+    "ui/ingame/heroes/reinhardt/charge_sprite.png": [
         28.0,
         19.0
     ],
-    "ui/ingame/heroes/reinhardt/charge_sprite.png": [
+    "ui/ingame/heroes/reinhardt/chargeactive_sprite.png": [
         28.0,
         19.0
     ],
@@ -2203,6 +2426,10 @@
         28.0,
         19.0
     ],
+    "ui/ingame/heroes/reinhardt/firestrikeactive_sprite.png": [
+        28.0,
+        19.0
+    ],
     "ui/ingame/heroes/reinhardt/firestrikecooldown_sprite.png": [
         28.0,
         19.0
@@ -2211,9 +2438,17 @@
         28.0,
         19.0
     ],
+    "ui/ingame/heroes/reinhardt/shieldactive_sprite.png": [
+        28.0,
+        19.0
+    ],
     "ui/ingame/heroes/reinhardt/ultready_sprite.png": [
         21.0,
         21.0
+    ],
+    "ui/ingame/heroes/reinhardt/weapon_sprite.png": [
+        59.5,
+        19.0
     ],
     "ui/ingame/ultbar_sprite.png": [
         51.0,

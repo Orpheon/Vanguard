@@ -189,23 +189,45 @@ void DefaultHud::mccreehud(Renderer &renderer, Gamestate &state, Mccree &myself)
     abilities_x -= spriterect.w;
 
     abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"rolling", abilities_x, abilities_y,
-                                 myself.rollcooldown);
+                                 myself.rollcooldown, myself.rollanim.active());
     abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"flashbang", abilities_x, abilities_y,
-                                 myself.flashbangcooldown);
+                                 myself.flashbangcooldown, false);
 }
 
 void DefaultHud::reinhardthud(Renderer &renderer, Gamestate &state, Reinhardt &myself)
 {
-    // TODO: Reinhardt hud
+    double abilities_x = renderer.WINDOW_WIDTH * 6.0/7.0;
+    double abilities_y = renderer.WINDOW_HEIGHT* 9.0/10.0;
+
+    std::string mainsprite = "ui/ingame/"+myself.herofolder()+"weapon";
+    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
+    Rect spriterect = renderer.spriteloader.get_rect(mainsprite);
+    al_draw_bitmap(sprite, abilities_x, abilities_y - spriterect.h, 0);
+    abilities_x -= spriterect.w;
+
+    Hammer& hammer = state.get<Hammer&>(myself.weapon);
+
+    abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"firestrike", abilities_x, abilities_y,
+                                 hammer.firestrikecooldown, hammer.firestrikeanim.active());
+    abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"charge", abilities_x, abilities_y,
+                                 myself.chargecooldown, myself.preparechargeanim.active()
+                                                        or myself.chargeanim.active());
+    abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"shield", abilities_x, abilities_y,
+                                 hammer.barrier(state).brokencooldown, hammer.barrier(state).active);
 }
 
-double DefaultHud::renderability(Renderer &renderer, std::string spritename, double x, double y, Timer cooldown)
+double DefaultHud::renderability(Renderer &renderer, std::string spritename, double x, double y, Timer cooldown,
+                                 bool active)
 {
     float r[8];
 
     ALLEGRO_BITMAP *sprite;
     Rect spriterect = renderer.spriteloader.get_rect(spritename);
-    if (cooldown.active)
+    if (active)
+    {
+        sprite = renderer.spriteloader.requestsprite(spritename+"active");
+    }
+    else if (cooldown.active)
     {
         sprite = renderer.spriteloader.requestsprite(spritename+"cooldown");
     }
@@ -216,7 +238,7 @@ double DefaultHud::renderability(Renderer &renderer, std::string spritename, dou
     spriterect.x = x;
     spriterect.y = y - spriterect.h;
     al_draw_bitmap(sprite, spriterect.x, spriterect.y, 0);
-    if (cooldown.active)
+    if (cooldown.active and not active)
     {
         // Draw the fill-in
         r[0] = spriterect.x+17*cooldown.getpercent()*renderer.zoom;

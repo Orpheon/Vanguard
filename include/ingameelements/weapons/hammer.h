@@ -38,6 +38,8 @@ class Hammer : public Weapon
         EntityPtr barrierptr;
         Animation firestrikeanim;
         Timer firestrikedelay;
+        Timer firestrikecooldown;
+
         Timer firingdelay1;
         Timer firingdelay2;
 
