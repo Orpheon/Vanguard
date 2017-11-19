@@ -24,8 +24,8 @@ Renderer::Renderer() : cam_x(0), cam_y(0), zoom(1), myself(0), WINDOW_WIDTH(0), 
     lasttime = al_get_time();
 
     font20 = al_load_font("Vanguard Text Font.ttf", 20, ALLEGRO_TTF_MONOCHROME);
-    font10 = al_load_font("Vanguard Text Font.ttf", 10, ALLEGRO_TTF_MONOCHROME);
-    font6 = al_load_font("Vanguard Text Font.ttf", 6, ALLEGRO_TTF_MONOCHROME);
+    font12 = al_load_font("Vanguard Text Font.ttf", 12, ALLEGRO_TTF_MONOCHROME);
+    font8 = al_load_font("Vanguard Text Font.ttf", 8, ALLEGRO_TTF_MONOCHROME);
 
     currenthud = std::unique_ptr<Hud>(new DefaultHud());
 }
@@ -34,8 +34,8 @@ Renderer::~Renderer()
 {
     // Cleanup
     al_destroy_font(font20);
-    al_destroy_font(font10);
-    al_destroy_font(font6);
+    al_destroy_font(font12);
+    al_destroy_font(font8);
     al_destroy_bitmap(background);
     al_destroy_bitmap(midground);
     al_destroy_bitmap(foreground);
@@ -66,11 +66,11 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
         spriteloader.setzoom(zoom);
 
         al_destroy_font(font20);
-        al_destroy_font(font10);
-        al_destroy_font(font6);
+        al_destroy_font(font12);
+        al_destroy_font(font8);
         font20 = al_load_font("Vanguard Text Font.ttf", 20 * zoom, ALLEGRO_TTF_MONOCHROME);
-        font10 = al_load_font("Vanguard Text Font.ttf", 10 * zoom, ALLEGRO_TTF_MONOCHROME);
-        font6 = al_load_font("Vanguard Text Font.ttf", 6 * zoom, ALLEGRO_TTF_MONOCHROME);
+        font12 = al_load_font("Vanguard Text Font.ttf", 12 * zoom, ALLEGRO_TTF_MONOCHROME);
+        font8 = al_load_font("Vanguard Text Font.ttf", 8 * zoom, ALLEGRO_TTF_MONOCHROME);
     }
 
     // Set camera

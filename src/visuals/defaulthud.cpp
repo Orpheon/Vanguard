@@ -177,15 +177,15 @@ void DefaultHud::mccreehud(Renderer &renderer, Gamestate &state, Mccree &myself)
     Peacemaker &weapon = state.get<Peacemaker&>(myself.weapon);
     std::string ammo = std::to_string(weapon.clip);
     std::string maxammo = "I "+std::to_string(weapon.getclipsize());
-    double total_ammo_width = al_get_text_width(renderer.font10, ammo.c_str())
-                              + al_get_text_width(renderer.font6, maxammo.c_str());
+    double total_ammo_width = al_get_text_width(renderer.font12, ammo.c_str())
+                              + al_get_text_width(renderer.font8, maxammo.c_str());
     double space_between_weapon_and_ammo = 10 * renderer.zoom;
     double ammo_x = abilities_x + spriterect.w - total_ammo_width;
     double ammo_y = abilities_y - spriterect.h - space_between_weapon_and_ammo;
-    al_draw_text(renderer.font10, al_map_rgb(255, 255, 255), ammo_x, ammo_y - al_get_font_line_height(renderer.font10),
+    al_draw_text(renderer.font12, al_map_rgb(255, 255, 255), ammo_x, ammo_y - al_get_font_line_height(renderer.font12),
                  ALLEGRO_ALIGN_LEFT, ammo.c_str());
-    al_draw_text(renderer.font6, al_map_rgb(255, 255, 255), ammo_x + al_get_text_width(renderer.font10, ammo.c_str()),
-                 ammo_y - al_get_font_line_height(renderer.font6), ALLEGRO_ALIGN_LEFT, maxammo.c_str());
+    al_draw_text(renderer.font8, al_map_rgb(255, 255, 255), ammo_x + al_get_text_width(renderer.font12, ammo.c_str()),
+                 ammo_y - al_get_font_line_height(renderer.font8), ALLEGRO_ALIGN_LEFT, maxammo.c_str());
     abilities_x -= spriterect.w;
 
     abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"rolling", abilities_x, abilities_y,
@@ -233,8 +233,8 @@ double DefaultHud::renderability(Renderer &renderer, std::string spritename, dou
 
         al_draw_filled_polygon(r, 4, al_premul_rgba_f(239/255.0, 179/255.0, 89/255.0, 0.5));
 
-        al_draw_text(renderer.font10, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+2,
-                     spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer.font10)/2.0, ALLEGRO_ALIGN_CENTER,
+        al_draw_text(renderer.font12, al_map_rgb(255, 255, 255), spriterect.x+spriterect.w/2.0+2,
+                     spriterect.y+spriterect.h/2.0-al_get_font_line_height(renderer.font12)/2.0, ALLEGRO_ALIGN_CENTER,
                      std::to_string((int)std::ceil(cooldown.duration - cooldown.timer)).c_str());
     }
 

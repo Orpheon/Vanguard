@@ -29,8 +29,8 @@ class Renderer
         ALLEGRO_BITMAP *surfaceground;
         Spriteloader spriteloader;
         ALLEGRO_FONT *font20;
-        ALLEGRO_FONT *font10;
-        ALLEGRO_FONT *font6;
+        ALLEGRO_FONT *font12;
+        ALLEGRO_FONT *font8;
     protected:
     private:
         double lasttime;

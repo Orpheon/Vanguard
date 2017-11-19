@@ -443,7 +443,7 @@ void Character::render(Renderer &renderer, Gamestate &state)
     }
 
     // Name
-    auto &font = renderer.font6;
+    auto &font = renderer.font8;
     int text_top_y = health_top_y - al_get_font_line_height(font) - 10 * renderer.zoom;
     al_draw_text(font, al_map_rgb(255, 255, 255), center_x, text_top_y, ALLEGRO_ALIGN_CENTER,
                  state.get<Player&>(owner).name.c_str());
