@@ -24,4 +24,5 @@ class Earthshatter : public MovingEntity
         double MAX_RANGE = 7 * 30;
         double SPEED = MAX_RANGE / 0.5;
         double EXPLOSION_STEPSIZE = 40;
+        PenetrationLevel penetrationlevel = PENETRATE_CHARACTER;
 };

@@ -60,6 +60,27 @@ void Earthshatter::beginstep(Gamestate &state, double frametime)
             }
         }
     }
+
+    // Stop if collides with a shield
+    Team myteam = state.get<Player&>(owner).team;
+    for (auto &e : state.entitylist)
+    {
+        auto &entity = *(e.second);
+        // If the entity blocks the stuff a shield would block
+        if (entity.damageableby(myteam) and entity.blocks(penetrationlevel))
+        {
+            double enemycenterx=0, enemycentery=0;
+            double dist = entity.maxdamageabledist(state, &enemycenterx, &enemycentery);
+            if (std::hypot(enemycenterx-x, enemycentery-y) <= dist)
+            {
+                if (entity.collides(state, x, y))
+                {
+                    destroy(state);
+                }
+            }
+        }
+    }
+
     distance.update(state, frametime*SPEED);
 }
 
@@ -90,9 +111,15 @@ void Earthshatter::endstep(Gamestate &state, double frametime)
                     {
                         if (character.collides(state, x, y-h))
                         {
-                            character.damage(state, 50);
-                            character.earthshatteredanim.reset();
-                            character.interrupt(state);
+                            // Check first if there's a shield protecting the character
+                            double collisionptx=0, collisionpty=0;
+                            if (state.collidelinetarget(state, x, y, character, myteam, penetrationlevel, &collisionptx,
+                                                        &collisionpty).id == character.id)
+                            {
+                                character.damage(state, 50);
+                                character.earthshatteredanim.reset();
+                                character.interrupt(state);
+                            }
                         }
                     }
                 }
