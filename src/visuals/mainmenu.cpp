@@ -8,12 +8,14 @@
 #define LEFT_MOUSE_BUTTON 1
 #define RIGHT_MOUSE_BUTTON 2
 
-Mainmenu::Mainmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(display, owner_), spriteloader(false)
+Mainmenu::Mainmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(display, owner_), spriteloader(false),
+                                                                      istypingIP(false), ipfont(nullptr)
 {
     background.init("ui/Menu/background/");
 
     ALLEGRO_FONT *normal_button_font = al_load_font("Vanguard Title Font.ttf", 30, ALLEGRO_TTF_MONOCHROME);
     ALLEGRO_FONT *hovered_button_font = al_load_font("Vanguard Title Font.ttf", 40, ALLEGRO_TTF_MONOCHROME);
+    ipfont = al_load_font("Vanguard Text Font.ttf", 10, ALLEGRO_TTF_MONOCHROME);
 
     int WINDOW_WIDTH = al_get_display_width(display);
     int WINDOW_HEIGHT = al_get_display_height(display);
@@ -58,38 +60,88 @@ void Mainmenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
     // Capture events first
     while (al_get_next_event(event_queue, &event))
     {
-        switch (event.type)
+        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
         {
-            case ALLEGRO_EVENT_DISPLAY_CLOSE:
-                // Deliberate closing, not an error
-                quit();
+            // Deliberate closing, not an error
+            quit();
+        }
 
-            case ALLEGRO_EVENT_KEY_DOWN:
-                switch (event.keyboard.keycode)
+        if (istypingIP)
+        {
+            if (event.type == ALLEGRO_EVENT_KEY_CHAR)
+            {
+                // Ignore things that are typed outside focus
+                if (event.keyboard.display == display)
                 {
-                    case ALLEGRO_KEY_W:
-//                        pressed_keys.JUMP = true;
-                        break;
-                    case ALLEGRO_KEY_S:
-//                        pressed_keys.CROUCH = true;
-                        break;
+                    // I'm not going to even try messing with unicode here
 
-                    case ALLEGRO_KEY_ESCAPE:
-                        // Exit menu
-                        quit();
-                }
-
-            case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
-                if (event.mouse.button == LEFT_MOUSE_BUTTON)
-                {
-                    for (auto& button : buttons)
+                    if (event.keyboard.modifiers & ALLEGRO_KEYMOD_CTRL)
                     {
-                        if (button->ontop(event.mouse.x, event.mouse.y))
+                        if (event.keyboard.keycode == ALLEGRO_KEY_V)
                         {
-                            button->onclick();
+                            ipstring += al_get_clipboard_text(display);
                         }
                     }
+                    else if (event.keyboard.keycode == ALLEGRO_KEY_INSERT)
+                    {
+                        ipstring += al_get_clipboard_text(display);
+                    }
+                    else if (event.keyboard.keycode == ALLEGRO_KEY_BACKSPACE)
+                    {
+                        if (ipstring.length() > 0)
+                        {
+                            ipstring.pop_back();
+                        }
+                    }
+                    else if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+                    {
+                        ipstring = "";
+                        istypingIP = false;
+                    }
+                    else if (event.keyboard.keycode == ALLEGRO_KEY_ENTER)
+                    {
+                        owner.serverip = ipstring;
+                        owner.planned_action = JOIN_SERVER;
+                        owner.exitmenus();
+                    }
+                    else if (event.keyboard.unichar >= 32 and event.keyboard.unichar < 127)
+                    {
+                        ipstring += static_cast<char>(event.keyboard.unichar);
+                    }
                 }
+            }
+        }
+        else
+        {
+            switch (event.type)
+            {
+                case ALLEGRO_EVENT_KEY_CHAR:
+                    switch (event.keyboard.keycode)
+                    {
+                        case ALLEGRO_KEY_W:
+//                        pressed_keys.JUMP = true;
+                            break;
+                        case ALLEGRO_KEY_S:
+//                        pressed_keys.CROUCH = true;
+                            break;
+
+                        case ALLEGRO_KEY_ESCAPE:
+                            // Exit menu
+                            quit();
+                    }
+
+                case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+                    if (event.mouse.button == LEFT_MOUSE_BUTTON)
+                    {
+                        for (auto& button : buttons)
+                        {
+                            if (button->ontop(event.mouse.x, event.mouse.y))
+                            {
+                                button->onclick();
+                            }
+                        }
+                    }
+            }
         }
     }
 
@@ -106,6 +158,20 @@ void Mainmenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
     {
         button->render(display, mousestate.x, mousestate.y);
     }
+
+    if (istypingIP)
+    {
+        int WINDOW_WIDTH = al_get_display_width(display);
+        int WINDOW_HEIGHT = al_get_display_height(display);
+        int textheight = al_get_font_line_height(ipfont);
+
+        al_draw_text(ipfont, al_map_rgb(255, 255, 255), WINDOW_WIDTH/2.0, WINDOW_HEIGHT/2.0 - textheight*2,
+                     ALLEGRO_ALIGN_CENTER, "Please enter the server's ip and confirm with enter:");
+
+        al_draw_text(ipfont, al_map_rgb(255, 255, 255), WINDOW_WIDTH/2.0, WINDOW_HEIGHT/2.0, ALLEGRO_ALIGN_CENTER,
+                     ipstring.c_str());
+    }
+
     al_flip_display();
 }
 
@@ -117,10 +183,7 @@ void Mainmenu::hostserver()
 
 void Mainmenu::connectmanually()
 {
-    Global::logging().ask_question("Test question");
-    owner.serverip = "127.0.0.1";
-    owner.planned_action = POSTMENUACTION::JOIN_SERVER;
-    owner.exitmenus();
+    istypingIP = true;
 }
 
 void Mainmenu::quit()

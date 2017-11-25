@@ -25,4 +25,8 @@ class Mainmenu : public Menu
     protected:
     private:
         std::list<std::unique_ptr<MainmenuButton>> buttons;
+
+        bool istypingIP;
+        std::string ipstring;
+        ALLEGRO_FONT *ipfont;
 };
