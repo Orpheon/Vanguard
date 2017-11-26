@@ -6,7 +6,7 @@
 
 #include "global.h"
 
-MenuContainer::MenuContainer(ALLEGRO_DISPLAY *display) : planned_action(-1), finished(false)
+MenuContainer::MenuContainer(ALLEGRO_DISPLAY *display) : planned_action(NOACTION), finished(false)
 {
     // Create an event queue, and error if it fails
     event_queue = al_create_event_queue();

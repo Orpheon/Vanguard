@@ -70,14 +70,8 @@ int main(int argc, char **argv)
     }
 
     //load font
-    //gg2 font as placeholder for now i guess
     al_init_font_addon();
     al_init_ttf_addon();
-//    ALLEGRO_FONT *font = al_load_font("Vanguard Main Font.ttf", 12, ALLEGRO_TTF_MONOCHROME);
-//    if (!font)
-//    {
-//        Global::logging().panic(__FILE__, __LINE__, "Could not load Vanguard Main Font.ttf");
-//    }
 
     Renderer renderer;
     ALLEGRO_DISPLAY* display = renderer.createnewdisplay();

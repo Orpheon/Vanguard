@@ -1,5 +1,4 @@
 #include "visuals/mainmenu.h"
-#include "global.h"
 #include "global_constants.h"
 
 #include "allegro5/allegro_font.h"
@@ -116,18 +115,10 @@ void Mainmenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
             switch (event.type)
             {
                 case ALLEGRO_EVENT_KEY_CHAR:
-                    switch (event.keyboard.keycode)
+                    if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
                     {
-                        case ALLEGRO_KEY_W:
-//                        pressed_keys.JUMP = true;
-                            break;
-                        case ALLEGRO_KEY_S:
-//                        pressed_keys.CROUCH = true;
-                            break;
-
-                        case ALLEGRO_KEY_ESCAPE:
-                            // Exit menu
-                            quit();
+                        // Exit menu altogether
+                        quit();
                     }
 
                 case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
