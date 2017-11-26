@@ -26,7 +26,7 @@ Mainmenu::Mainmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(displ
 
     buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("JOIN SERVER", initial_x,
                                                                          initial_height + (counter++)*line_spacing,
-                                                                         std::bind(&Mainmenu::connectmanually, this),
+                                                                         std::bind(&Mainmenu::joinlobby, this),
                                                                          normal_button_font, hovered_button_font)));
     buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("HOST SERVER", initial_x,
                                                                          initial_height + (counter++)*line_spacing,
@@ -179,6 +179,11 @@ void Mainmenu::hostserver()
 {
     owner.planned_action = POSTMENUACTION::HOST_SERVER;
     owner.exitmenus();
+}
+
+void Mainmenu::joinlobby()
+{
+    owner.planned_action = POSTMENUACTION::OPEN_LOBBY;
 }
 
 void Mainmenu::connectmanually()

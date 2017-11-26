@@ -2,6 +2,7 @@
 #include "visuals/menucontainer.h"
 #include "visuals/menu.h"
 #include "visuals/mainmenu.h"
+#include "visuals/lobbymenu.h"
 
 #include "global.h"
 
@@ -30,6 +31,16 @@ MenuContainer::~MenuContainer()
 bool MenuContainer::run(ALLEGRO_DISPLAY *display)
 {
     current_menu->run(display, event_queue);
+    if (action() == POSTMENUACTION::OPEN_LOBBY)
+    {
+        current_menu = std::unique_ptr<Menu>(new Lobbymenu(display, *this));
+        planned_action = POSTMENUACTION::NOACTION;
+    }
+    else if (action() == POSTMENUACTION::OPEN_MAINMENU)
+    {
+        current_menu = std::unique_ptr<Mainmenu>(new Mainmenu(display, *this));
+        planned_action = POSTMENUACTION::NOACTION;
+    }
 
     if (finished)
     {

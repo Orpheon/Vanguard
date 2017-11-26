@@ -89,6 +89,7 @@ set (SRC_FILES
         "src/visuals/mainmenubutton.cpp"
         "src/visuals/mainmenu.cpp"
         "src/visuals/menucontainer.cpp"
+        "src/visuals/lobbymenu.cpp"
         "src/ingameelements/corpse.cpp"
         "src/ingameelements/player.cpp"
         "src/ingameelements/explosion.cpp"
