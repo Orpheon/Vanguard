@@ -15,6 +15,8 @@ class Lobbymenu : public Menu
 
         MenuLoopAnimation background;
         Spriteloader spriteloader;
+
+        std::vector<ServerData> servers;
     protected:
     private:
 };

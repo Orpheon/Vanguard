@@ -4,6 +4,12 @@
 
 Lobbymenu::Lobbymenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(display, owner_), spriteloader(false)
 {
+    for (int i=0; i<10; ++i)
+    {
+        ServerData s = {"Server"+std::to_string(i), "1.1.1.1", i, i*3};
+        servers.push_back(s);
+    }
+
     background.init("ui/Menu/background/");
 }
 
