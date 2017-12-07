@@ -199,8 +199,10 @@ struct ServerData
 {
     std::string name;
     std::string ip;
+    int port;
     std::string mapname;
     int playercount;
     int maxplayercount;
+    int botcount;
     int ping;
 };
