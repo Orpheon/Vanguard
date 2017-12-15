@@ -6,7 +6,7 @@
 class ClientNetworker : public Networker
 {
     public:
-        ClientNetworker(WriteBuffer &sendbuffer_, std::string serverip);
+        ClientNetworker(WriteBuffer &sendbuffer_, std::string serverip, int serverport);
         virtual ~ClientNetworker() override;
         void receive(Gamestate &state) override;
         void sendeventdata(Gamestate &state) override;

@@ -95,6 +95,7 @@ int main(int argc, char **argv)
 
     bool isserver = true;
     std::string serverip;
+    int serverport = 3224;
 
     // Server, client, or quit?
     if (menus->action() == POSTMENUACTION::QUIT)
@@ -110,6 +111,7 @@ int main(int argc, char **argv)
     {
         isserver = false;
         serverip = menus->serverip;
+        serverport = menus->serverport;
     }
     else
     {
@@ -130,7 +132,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        networker = std::unique_ptr<Networker>(new ClientNetworker(engine.sendbuffer, serverip));
+        networker = std::unique_ptr<Networker>(new ClientNetworker(engine.sendbuffer, serverip, serverport));
     }
 
     engine.loadmap("lijiang");

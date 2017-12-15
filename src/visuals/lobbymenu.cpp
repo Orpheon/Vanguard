@@ -37,7 +37,6 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
         if (bytes_received > 0)
         {
             n_servers = __bswap_32(n_servers);
-            Global::logging().print(__FILE__, __LINE__, "n_servers: %i", n_servers);
             servers.clear();
             for (unsigned int i=0; i<n_servers; ++i)
             {
@@ -50,17 +49,14 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
                 void *data = calloc(serverblocklength, 1);
                 lobbysocket.rcv(data, serverblocklength, MSG_DONTWAIT);
                 ReadBuffer buffer(data, serverblocklength);
-                int protocol = buffer.read<uint8_t>();
-                Global::logging().print(__FILE__, __LINE__, "Protocol: %i", protocol);
+                buffer.read<uint8_t>(); // UDP / TCP
                 int ipv4_port = __bswap_16(buffer.read<uint16_t>());
-                Global::logging().print(__FILE__, __LINE__, "ipv4 port: %i", ipv4_port);
                 int p1 = buffer.read<uint8_t>();
                 int p2 = buffer.read<uint8_t>();
                 int p3 = buffer.read<uint8_t>();
                 int p4 = buffer.read<uint8_t>();
                 std::string ipv4_addr = std::to_string(p1) + "." + std::to_string(p2) + "." + std::to_string(p3) + "."
                                         + std::to_string(p4);
-                Global::logging().print(__FILE__, __LINE__, "ipv4 addr: %s", ipv4_addr.c_str());
                 // We don't support ipv6
                 buffer.read<uint16_t>(); // Port number
                 buffer.read<uint32_t>(); // Address 0-4
@@ -74,8 +70,6 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
                 }
                 else
                 {
-                    Global::logging().print(__FILE__, __LINE__,
-                                            "Invalid port number %i, is a server using ipv6? Skipping", ipv4_port);
                     free(data);
                     continue;
                 }
@@ -85,11 +79,9 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
                 new_server.maxplayercount = n_maxplayers;
                 new_server.playercount = n_players;
                 new_server.botcount = n_bots;
-                Global::logging().print(__FILE__, __LINE__, "%i / %i players", n_players, n_maxplayers);
                 // Flags currently only containing password protection, which we're ignoring for now
                 buffer.read<uint16_t>();
-                int infolength = __bswap_16(buffer.read<uint16_t>());
-                Global::logging().print(__FILE__, __LINE__, "infolength: %i", infolength);
+                __bswap_16(buffer.read<uint16_t>()); // length of key/value data
                 while (buffer.length() > 0) {
                     int keylength = buffer.read<uint8_t>();
                     std::string key = buffer.readstring(keylength);
@@ -103,7 +95,6 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
                     {
                         new_server.name = value;
                     }
-                    Global::logging().print(__FILE__, __LINE__, "%s: %s", key.c_str(), value.c_str());
                 }
 
                 free(data);
@@ -113,14 +104,13 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
     }
     catch (libsocket::socket_exception &e)
     {
-        Global::logging().print(__FILE__, __LINE__, "Socket exception");
         if (e.err == EAGAIN or e.err == EWOULDBLOCK)
         {
             // No data was found, but socket is connected
             if (not sentrequest)
             {
                 xg::Guid message_type(LOBBY_MESSAGE_TYPE_LIST);
-                xg::Guid lobbyid(GG2_IDENTIFIER);
+                xg::Guid lobbyid(VANGUARD_IDENTIFIER);
 
                 WriteBuffer buffer;
 
@@ -232,6 +222,16 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
                     {
                         scrolloffset = 0;
                     }
+                }
+                break;
+
+            case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+                if (selection != -1)
+                {
+                    owner.planned_action = POSTMENUACTION::JOIN_SERVER;
+                    owner.serverip = servers.at(selection).ip;
+                    owner.serverport = servers.at(selection).port;
+                    owner.exitmenus();
                 }
                 break;
         }

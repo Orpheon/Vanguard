@@ -18,6 +18,7 @@ class MenuContainer
 
         int planned_action;
         std::string serverip;
+        int serverport;
 
     private:
         ALLEGRO_EVENT_QUEUE *event_queue;
