@@ -433,7 +433,7 @@ std::string Reinhardt::currentsprite(Gamestate &state, bool mask)
 std::string Reinhardt::currenttorsosprite(Gamestate &state, bool mask)
 {
     if (pinanim.active() or stunanim.active() or earthshatteranim.active() or preparechargeanim.active() or
-        chargeanim.active() or endchargeanim.active())
+        chargeanim.active() or endchargeanim.active() or not Character::weaponvisible(state))
     {
         return NULL_SPRITE;
     }
