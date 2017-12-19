@@ -103,7 +103,8 @@ void Earthshatter::endstep(Gamestate &state, double frametime)
             if (state.exists(player.character) and player.team == enemyteam)
             {
                 auto &character = player.getcharacter(state);
-                if (not character.earthshatteredanim.active())
+                if (not character.earthshatteredfallanim.active() and not character.earthshatteredanim.active()
+                    and not character.earthshatteredgetupanim.active())
                 {
                     double enemycenterx=0, enemycentery=0;
                     double dist = character.maxdamageabledist(state, &enemycenterx, &enemycentery);
@@ -117,7 +118,7 @@ void Earthshatter::endstep(Gamestate &state, double frametime)
                                                         &collisionpty).id == character.id)
                             {
                                 character.damage(state, 50);
-                                character.earthshatteredanim.reset();
+                                character.earthshatteredfallanim.reset();
                                 character.interrupt(state);
                             }
                         }

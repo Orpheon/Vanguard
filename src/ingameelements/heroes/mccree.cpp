@@ -262,6 +262,18 @@ std::string Mccree::currentsprite(Gamestate &state, bool mask)
     {
         return stunanim.getframepath();
     }
+    if (earthshatteredfallanim.active())
+    {
+        return earthshatteredfallanim.getframepath();
+    }
+    if (earthshatteredanim.active())
+    {
+        return earthshatteredanim.getframepath();
+    }
+    if (earthshatteredgetupanim.active())
+    {
+        return earthshatteredgetupanim.getframepath();
+    }
     if (ulting.active)
     {
         if (std::fabs(hspeed) < 5.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
@@ -298,5 +310,6 @@ std::string Mccree::currentsprite(Gamestate &state, bool mask)
 
 bool Mccree::weaponvisible(Gamestate &state)
 {
-    return not rollanim.active() and not stunanim.active() and (not ulting.active or state.get<Peacemaker>(weapon).isfiringult);
+    return Character::weaponvisible(state) and not rollanim.active() and not stunanim.active()
+           and (not ulting.active or state.get<Peacemaker>(weapon).isfiringult);
 }

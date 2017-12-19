@@ -257,8 +257,8 @@ bool Reinhardt::canuseabilities(Gamestate &state)
 
 bool Reinhardt::weaponvisible(Gamestate &state)
 {
-    return  not stunanim.active() and not preparechargeanim.active() and not chargeanim.active()
-        and not endchargeanim.active() and not earthshatteranim.active();
+    return Character::weaponvisible(state) and not stunanim.active() and not preparechargeanim.active()
+           and not chargeanim.active() and not endchargeanim.active() and not earthshatteranim.active();
 }
 
 void Reinhardt::useability1(Gamestate &state)
@@ -371,9 +371,17 @@ std::string Reinhardt::currentsprite(Gamestate &state, bool mask)
     {
         return stunanim.getframepath();
     }
+    if (earthshatteredfallanim.active())
+    {
+        return earthshatteredfallanim.getframepath();
+    }
     if (earthshatteredanim.active())
     {
         return earthshatteredanim.getframepath();
+    }
+    if (earthshatteredgetupanim.active())
+    {
+        return earthshatteredgetupanim.getframepath();
     }
     if (earthshatteranim.active())
     {

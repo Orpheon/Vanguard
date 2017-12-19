@@ -43,7 +43,6 @@ class Animation
         bool inited = false;
 };
 
-
 class LoopAnimation : public Animation
 {
     public:

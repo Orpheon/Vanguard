@@ -28,8 +28,16 @@ void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     crouchanim.active(false);
     stunanim.init(herofolder()+"stun/");
     stunanim.active(false);
-    earthshatteredanim.init(herofolder()+"sleep/");
+
+    earthshatteredfallanim.init(herofolder()+"fallasleep/", std::bind(&Character::earthshatteredhitground, this,
+                                                                      std::placeholders::_1));
+    earthshatteredfallanim.active(false);
+    earthshatteredanim.init(herofolder()+"sleep/", std::bind(&Character::earthshatteredgetup, this,
+                                                             std::placeholders::_1));
     earthshatteredanim.active(false);
+    earthshatteredgetupanim.init(herofolder()+"getup/");
+    earthshatteredgetupanim.active(false);
+
     pinanim.init(herofolder()+"pinned/");
     pinanim.active(false);
     ongroundsmooth.init(0.05);
@@ -279,7 +287,9 @@ void Character::midstep(Gamestate &state, double frametime)
         }
     }
     stunanim.update(state, frametime);
+    earthshatteredfallanim.update(state, frametime);
     earthshatteredanim.update(state, frametime);
+    earthshatteredgetupanim.update(state, frametime);
     pinanim.update(state, frametime);
     ongroundsmooth.update(state, frametime);
     xblockedsmooth.update(state, frametime);
@@ -465,7 +475,14 @@ bool Character::onground(Gamestate &state)
 
 bool Character::cangetinput(Gamestate &state)
 {
-    return not stunanim.active() and not pinanim.active() and not earthshatteredanim.active();
+    return not stunanim.active() and not pinanim.active() and not earthshatteredfallanim.active()
+           and not earthshatteredanim.active() and not earthshatteredgetupanim.active();
+}
+
+bool Character::weaponvisible(Gamestate &state)
+{
+    return not earthshatteredfallanim.active() and not earthshatteredanim.active()
+           and not earthshatteredgetupanim.active();
 }
 
 double Character::maxdamageabledist(Gamestate &state, double *centerx, double *centery)
@@ -499,6 +516,9 @@ void Character::interpolate(Entity &prev_entity, Entity &next_entity, double alp
     crouchanim.interpolate(p.crouchanim, n.crouchanim, alpha);
     stunanim.interpolate(p.stunanim, n.stunanim, alpha);
     pinanim.interpolate(p.pinanim, n.pinanim, alpha);
+    earthshatteredfallanim.interpolate(p.earthshatteredfallanim, n.earthshatteredfallanim, alpha);
+    earthshatteredanim.interpolate(p.earthshatteredanim, n.earthshatteredanim, alpha);
+    earthshatteredgetupanim.interpolate(p.earthshatteredgetupanim, n.earthshatteredgetupanim, alpha);
     ongroundsmooth.interpolate(p.ongroundsmooth, n.ongroundsmooth, alpha);
     xblockedsmooth.interpolate(p.xblockedsmooth, n.xblockedsmooth, alpha);
     yblockedsmooth.interpolate(p.yblockedsmooth, n.yblockedsmooth, alpha);

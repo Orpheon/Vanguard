@@ -46,8 +46,10 @@ class Character : public MovingEntity
         virtual void useability1(Gamestate &state) = 0;
         virtual void useability2(Gamestate &state) = 0;
         virtual void useultimate(Gamestate &state) = 0;
-        virtual bool weaponvisible(Gamestate &state) {return true;}
+        virtual bool weaponvisible(Gamestate &state);
         virtual double maxhspeed(Gamestate &state) {return crouchanim.active() ? 60.0 : 153.0;}
+        virtual void earthshatteredhitground(Gamestate &state) {earthshatteredanim.reset();}
+        virtual void earthshatteredgetup(Gamestate &state) {earthshatteredgetupanim.reset();}
 
         virtual double runpower() = 0;
         virtual Health initializehealth() = 0;
@@ -73,7 +75,9 @@ class Character : public MovingEntity
         LoopAnimation runanim;
         LoopAnimation crouchanim;
         Animation stunanim;
+        Animation earthshatteredfallanim;
         Animation earthshatteredanim;
+        Animation earthshatteredgetupanim;
         LoopAnimation pinanim;
         Timer ongroundsmooth;
 
