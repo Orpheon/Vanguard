@@ -31,6 +31,10 @@ Mainmenu::Mainmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(displ
                                                                          initial_height + (counter++)*line_spacing,
                                                                          std::bind(&Mainmenu::hostserver, this),
                                                                          normal_button_font, hovered_button_font)));
+    buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("JOIN SELF (DEBUG)", initial_x,
+                                                                         initial_height + (counter++)*line_spacing,
+                                                                         std::bind(&Mainmenu::joinself, this),
+                                                                         normal_button_font, hovered_button_font)));
     buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("CONNECT MANUALLY", initial_x,
                                                                          initial_height + (counter++)*line_spacing,
                                                                          std::bind(&Mainmenu::connectmanually, this),
@@ -175,6 +179,14 @@ void Mainmenu::hostserver()
 void Mainmenu::joinlobby()
 {
     owner.planned_action = POSTMENUACTION::OPEN_LOBBY;
+}
+
+void Mainmenu::joinself()
+{
+    owner.planned_action = POSTMENUACTION::JOIN_SERVER;
+    owner.serverip = "127.0.0.1";
+    owner.serverport = 3226;
+    owner.exitmenus();
 }
 
 void Mainmenu::connectmanually()

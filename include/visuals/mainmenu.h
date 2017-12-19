@@ -19,6 +19,7 @@ class Mainmenu : public Menu
         void quit();
         void hostserver();
         void joinlobby();
+        void joinself();
         void connectmanually();
 
         Spriteloader spriteloader;
