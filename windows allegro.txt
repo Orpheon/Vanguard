@@ -14,9 +14,13 @@ http://enet.bespin.org/download/enet-1.3.13.tar.gz
 ./configure LDFLAGS="-static" --prefix=/mingw64
 make
 
-30 pixels per overwatch meter
+# For ASIO
+https://sourceforge.net/projects/asio/files/asio/1.10.8%20%28Stable%29/asio-1.10.8.zip/download (Version 1.10.6 atm)
+./configure LDFLAGS="-static" --prefix=/mingw64 --without-boost
+make
+make install
 
-third step on the right of the point
+30 pixels per overwatch meter
 
 
 Utter tempest memes http://www.springfieldspringfield.co.uk/movie_script.php?movie=scooby-doo-wrestlemania-mystery
