@@ -22,6 +22,8 @@ if (NOT EXISTS ${ENET_PATH})
     message(FATAL_ERROR "${ENET_PATH} does not exist - you probably have not installed enet.")
 endif()
 
+add_definitions(-DASIO_STANDALONE)
+
 set (Vanguardcompileflags "-std=c++11 -Wall -pedantic -fwrapv -Wno-format-security")
 if (COMPILE_STATIC)
     find_library(ALLEGRO_PATH allegro_monolith-static)
@@ -30,7 +32,7 @@ if (COMPILE_STATIC)
          Either install them or change the flag in cmake to dynamic compilation.")
     endif()
     set (Vanguardlib allegro_monolith-static allegro_dialog-static jpeg vorbis ogg glu32 opengl32 freetype png16 z
-    kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid dsound wsock32 psapi shlwapi enet socket++)
+    kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid dsound wsock32 psapi shlwapi enet)
     set (Vanguardlinkflags "-static-libstdc++ -static-libgcc -static ")
     set (VANGUARD_DEBUG_MODE OFF)
 else (COMPILE_STATIC)
@@ -39,7 +41,7 @@ else (COMPILE_STATIC)
         message(FATAL_ERROR "${ALLEGRO_PATH} does not exist - you probably have not installed dynamic allegro libraries.\
          Either install them or change the flag in cmake to static compilation.")
     endif()
-    set (Vanguardlib allegro allegro_image allegro_primitives allegro_font allegro_ttf allegro_dialog enet socket++)
+    set (Vanguardlib allegro allegro_image allegro_primitives allegro_font allegro_ttf allegro_dialog enet)
     set (Vanguardlinkflags "")
 endif (COMPILE_STATIC)
 
@@ -89,7 +91,6 @@ set (SRC_FILES
         "src/visuals/mainmenubutton.cpp"
         "src/visuals/mainmenu.cpp"
         "src/visuals/menucontainer.cpp"
-        "src/visuals/lobbymenu.cpp"
         "src/ingameelements/corpse.cpp"
         "src/ingameelements/player.cpp"
         "src/ingameelements/explosion.cpp"

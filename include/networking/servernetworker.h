@@ -3,7 +3,7 @@
 #include "networking/networker.h"
 #include "networking/uuid.h"
 
-#include <libsocket/inetclientdgram.hpp>
+#include <asio.hpp>
 #include <vector>
 
 
@@ -20,6 +20,8 @@ class ServerNetworker : public Networker
     private:
         Timer lobbyreminder;
         xg::Guid serverid;
-        libsocket::inet_dgram_client lobbyclient;
+        asio::io_service io_service;
+        asio::ip::udp::socket lobbyclient;
+        asio::ip::udp::endpoint lobbyaddress;
 };
 

@@ -5,9 +5,8 @@
 
 #include <cstdint>
 #include <string>
-#include <libsocket/inetbase.hpp>
 
-ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sendbuffer_), lobbyclient(LIBSOCKET_IPv4)
+ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sendbuffer_), lobbyclient(io_service)
 {
     ENetAddress address;
     address.host = ENET_HOST_ANY;
@@ -17,12 +16,15 @@ ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sen
     {
         Global::logging().panic(__FILE__, __LINE__, "Failed to create server host");
     }
+    asio::ip::udp::resolver ipresolver(io_service);
+    asio::ip::udp::resolver::query query(LOBBY_HOST, std::to_string(LOBBY_PORT));
+    lobbyaddress = *ipresolver.resolve(query);
 
     lobbyreminder.init(30, std::bind(&ServerNetworker::registerlobby, this, std::placeholders::_1));
     lobbyreminder.timer = lobbyreminder.duration; // Fire immediately
     if (Global::settings()["Display on Lobby"])
     {
-        lobbyclient.connect(LOBBY_HOST, std::to_string(LOBBY_PORT));
+        lobbyclient.open(asio::ip::udp::v4());
     }
     else
     {
@@ -34,7 +36,7 @@ ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sen
 
 ServerNetworker::~ServerNetworker()
 {
-    lobbyclient.destroy();
+
 }
 
 void ServerNetworker::receive(Gamestate &state)
@@ -231,5 +233,5 @@ void ServerNetworker::registerlobby(Gamestate &state)
         buffer.writestring(entry.second);
     }
 
-    lobbyclient.snd(buffer.getdata(), buffer.length());
+    lobbyclient.send_to(asio::buffer(buffer.getdata(), buffer.length()), lobbyaddress);
 }
