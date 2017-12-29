@@ -41,7 +41,7 @@ else (COMPILE_STATIC)
         message(FATAL_ERROR "${ALLEGRO_PATH} does not exist - you probably have not installed dynamic allegro libraries.\
          Either install them or change the flag in cmake to static compilation.")
     endif()
-    set (Vanguardlib allegro allegro_image allegro_primitives allegro_font allegro_ttf allegro_dialog enet)
+    set (Vanguardlib allegro allegro_image allegro_primitives allegro_font allegro_ttf allegro_dialog enet pthread)
     set (Vanguardlinkflags "")
 endif (COMPILE_STATIC)
 
@@ -91,6 +91,7 @@ set (SRC_FILES
         "src/visuals/mainmenubutton.cpp"
         "src/visuals/mainmenu.cpp"
         "src/visuals/menucontainer.cpp"
+        "src/visuals/lobbymenu.cpp"
         "src/ingameelements/corpse.cpp"
         "src/ingameelements/player.cpp"
         "src/ingameelements/explosion.cpp"

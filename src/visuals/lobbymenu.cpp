@@ -9,144 +9,49 @@
 #include <libsocket/inetclientstream.hpp>
 #include <byteswap.h>
 
-Lobbymenu::Lobbymenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(display, owner_), spriteloader(false)
+Lobbymenu::Lobbymenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(display, owner_), spriteloader(false),
+                                                                        lobbysocket(io_service)
 {
-    sentrequest = false;
-
     background.init("ui/Menu/background/");
-
     serverfont = al_load_font("Vanguard Text Font.ttf", 15, ALLEGRO_TTF_MONOCHROME);
 
-    refreshservers();
+    connected = false;
+    asio::ip::tcp::resolver ipresolver(io_service);
+    asio::ip::tcp::resolver::query query(LOBBY_HOST, std::to_string(LOBBY_PORT));
+    lobbysocket.async_connect(*ipresolver.resolve(query),
+                              std::bind(&Lobbymenu::connectionhandler, this, std::placeholders::_1));
+
+    refreshtimer = 0;
+    async_nservers = 0;
+
+    // See https://github.com/Medo42/Faucet-Lobby/blob/master/Protocol%20Spec.txt for reference
+    xg::Guid message_type(LOBBY_MESSAGE_TYPE_LIST);
+//    xg::Guid lobbyid(VANGUARD_IDENTIFIER);
+    xg::Guid lobbyid(GG2_IDENTIFIER);
+
+    // Message type for lobby
+    for (auto& byte : message_type._bytes)
+    {
+        lobby_query.write<uint8_t>(byte, true);
+    }
+    // Lobby id
+    for (auto& byte : lobbyid._bytes)
+    {
+        lobby_query.write<uint8_t>(byte, true);
+    }
 }
 
 void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
 {
     // Networking
+    io_service.reset();
+    io_service.poll();
+
     refreshtimer -= MENU_TIMESTEP;
-    if (refreshtimer <= 0)
+    if (refreshtimer <= 0 and connected)
     {
         refreshtimer = REFRESH_PERIOD;
         refreshservers();
-    }
-
-    try
-    {
-        uint32_t n_servers = 0;
-        ssize_t bytes_received = lobbysocket.rcv(&n_servers, sizeof(uint32_t), MSG_DONTWAIT);
-        if (bytes_received > 0)
-        {
-            n_servers = __bswap_32(n_servers);
-            servers.clear();
-            for (unsigned int i=0; i<n_servers; ++i)
-            {
-                ServerData new_server;
-
-                uint32_t serverblocklength = 0;
-                lobbysocket.rcv(&serverblocklength, sizeof(uint32_t), MSG_DONTWAIT);
-                serverblocklength = __bswap_32(serverblocklength);
-
-                void *data = calloc(serverblocklength, 1);
-                lobbysocket.rcv(data, serverblocklength, MSG_DONTWAIT);
-                ReadBuffer buffer(data, serverblocklength);
-                buffer.read<uint8_t>(); // UDP / TCP
-                int ipv4_port = __bswap_16(buffer.read<uint16_t>());
-                int p1 = buffer.read<uint8_t>();
-                int p2 = buffer.read<uint8_t>();
-                int p3 = buffer.read<uint8_t>();
-                int p4 = buffer.read<uint8_t>();
-                std::string ipv4_addr = std::to_string(p1) + "." + std::to_string(p2) + "." + std::to_string(p3) + "."
-                                        + std::to_string(p4);
-                // We don't support ipv6
-                buffer.read<uint16_t>(); // Port number
-                buffer.read<uint32_t>(); // Address 0-4
-                buffer.read<uint32_t>(); // Address 5-8
-                buffer.read<uint32_t>(); // Address 9-12
-                buffer.read<uint32_t>(); // Address 13-16
-                if (ipv4_port != 0)
-                {
-                    new_server.ip = ipv4_addr;
-                    new_server.port = ipv4_port;
-                }
-                else
-                {
-                    free(data);
-                    continue;
-                }
-                int n_maxplayers = __bswap_16(buffer.read<uint16_t>());
-                int n_players = __bswap_16(buffer.read<uint16_t>());
-                int n_bots = __bswap_16(buffer.read<uint16_t>());
-                new_server.maxplayercount = n_maxplayers;
-                new_server.playercount = n_players;
-                new_server.botcount = n_bots;
-                // Flags currently only containing password protection, which we're ignoring for now
-                buffer.read<uint16_t>();
-                __bswap_16(buffer.read<uint16_t>()); // length of key/value data
-                while (buffer.length() > 0) {
-                    int keylength = buffer.read<uint8_t>();
-                    std::string key = buffer.readstring(keylength);
-                    int valuelength = __bswap_16(buffer.read<uint16_t>());
-                    std::string value = buffer.readstring(valuelength);
-                    if (key == "map")
-                    {
-                        new_server.mapname = value;
-                    }
-                    else if (key == "name")
-                    {
-                        new_server.name = value;
-                    }
-                }
-
-                free(data);
-                servers.push_back(new_server);
-            }
-        }
-    }
-    catch (libsocket::socket_exception &e)
-    {
-        if (e.err == EAGAIN or e.err == EWOULDBLOCK)
-        {
-            // No data was found, but socket is connected
-            if (not sentrequest)
-            {
-                xg::Guid message_type(LOBBY_MESSAGE_TYPE_LIST);
-                xg::Guid lobbyid(VANGUARD_IDENTIFIER);
-
-                WriteBuffer buffer;
-
-                // See https://github.com/Medo42/Faucet-Lobby/blob/master/Protocol%20Spec.txt for reference
-
-                // Message type for lobby
-                for (auto& byte : message_type._bytes)
-                {
-                    buffer.write<uint8_t>(byte, true);
-                }
-                // Lobby id
-                for (auto& byte : lobbyid._bytes)
-                {
-                    buffer.write<uint8_t>(byte, true);
-                }
-
-                try
-                {
-                    lobbysocket.snd(buffer.getdata(), buffer.length());
-                }
-                catch (libsocket::socket_exception &e)
-                {
-                    Global::logging().panic(__FILE__, __LINE__, "Socket error: %i = %s", e.err, e.mesg.c_str());
-                }
-
-                sentrequest = true;
-            }
-        }
-        else if (e.err == 115)
-        {
-            Global::logging().print(__FILE__, __LINE__, "Not yet connected");
-        }
-        else
-        {
-            Global::logging().panic(__FILE__, __LINE__, "Socket error: %i = %s", e.err, e.mesg.c_str());
-        }
     }
 
     // Define frame
@@ -226,7 +131,7 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
                 break;
 
             case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
-                if (selection != -1)
+                if (selection != -1 and selection < servers.size())
                 {
                     owner.planned_action = POSTMENUACTION::JOIN_SERVER;
                     owner.serverip = servers.at(selection).ip;
@@ -297,19 +202,92 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
     al_flip_display();
 }
 
+void Lobbymenu::connectionhandler(const asio::error_code &error)
+{
+    if (not error)
+    {
+        connected = true;
+    }
+    else
+    {
+        Global::logging().print(__FILE__, __LINE__, "Error connecting to lobby: %s", error.message().c_str());
+    }
+}
+
+void Lobbymenu::readhandler(const asio::error_code &error)
+{
+    if (error)
+    {
+        Global::logging().print(__FILE__, __LINE__, "Error receiving data from lobby: %s", error.message().c_str());
+    }
+    else
+    {
+        int n_servers = __bswap_32(async_nservers);
+        servers.clear();
+        for (int i=0; i<n_servers; ++i)
+        {
+            ServerData new_server;
+
+            uint32_t serverblocklength = 0;
+            asio::read(lobbysocket, asio::buffer(&serverblocklength, sizeof(uint32_t)));
+            serverblocklength = __bswap_32(serverblocklength);
+
+            void *data = calloc(serverblocklength, 1);
+            asio::read(lobbysocket, asio::buffer(data, serverblocklength));
+            ReadBuffer buffer(data, serverblocklength);
+            buffer.read<uint8_t>(); // UDP / TCP
+            int ipv4_port = __bswap_16(buffer.read<uint16_t>());
+            int p1 = buffer.read<uint8_t>();
+            int p2 = buffer.read<uint8_t>();
+            int p3 = buffer.read<uint8_t>();
+            int p4 = buffer.read<uint8_t>();
+            std::string ipv4_addr = std::to_string(p1) + "." + std::to_string(p2) + "." + std::to_string(p3) + "."
+                                    + std::to_string(p4);
+            // We don't support ipv6
+            buffer.read<uint16_t>(); // Port number
+            buffer.read<uint32_t>(); // Address 0-4
+            buffer.read<uint32_t>(); // Address 5-8
+            buffer.read<uint32_t>(); // Address 9-12
+            buffer.read<uint32_t>(); // Address 13-16
+            if (ipv4_port != 0) {
+                new_server.ip = ipv4_addr;
+                new_server.port = ipv4_port;
+            } else {
+                std::free(data);
+                continue;
+            }
+            int n_maxplayers = __bswap_16(buffer.read<uint16_t>());
+            int n_players = __bswap_16(buffer.read<uint16_t>());
+            int n_bots = __bswap_16(buffer.read<uint16_t>());
+            new_server.maxplayercount = n_maxplayers;
+            new_server.playercount = n_players;
+            new_server.botcount = n_bots;
+            // Flags currently only containing password protection, which we're ignoring for now
+            buffer.read<uint16_t>();
+            __bswap_16(buffer.read<uint16_t>()); // length of key/value data
+            while (buffer.length() > 0) {
+                int keylength = buffer.read<uint8_t>();
+                std::string key = buffer.readstring(keylength);
+                int valuelength = __bswap_16(buffer.read<uint16_t>());
+                std::string value = buffer.readstring(valuelength);
+                if (key == "map") {
+                    new_server.mapname = value;
+                } else if (key == "name") {
+                    new_server.name = value;
+                }
+            }
+
+            std::free(data);
+            servers.push_back(new_server);
+        }
+    }
+}
+
 void Lobbymenu::refreshservers()
 {
-    lobbysocket.destroy();
-    try
-    {
-        lobbysocket.connect(LOBBY_HOST, std::to_string(LOBBY_PORT), LIBSOCKET_IPv4);
-    }
-    catch (libsocket::socket_exception &e)
-    {
-        Global::logging().print(__FILE__, __LINE__, "%i = %s", e.err, e.mesg.c_str());
-    }
-
-    sentrequest = false;
+    asio::write(lobbysocket, asio::buffer(lobby_query.getdata(), lobby_query.length()), asio::transfer_all());
+    asio::async_read(lobbysocket, asio::buffer(&async_nservers, sizeof(uint32_t)),
+                     std::bind(&Lobbymenu::readhandler, this, std::placeholders::_1));
 }
 
 void Lobbymenu::quit()

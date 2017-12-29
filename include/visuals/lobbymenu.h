@@ -6,7 +6,7 @@
 #include "allegro5/allegro_font.h"
 #include "allegro5/allegro_ttf.h"
 
-#include <libsocket/inetclientstream.hpp>
+#include <asio.hpp>
 
 
 class Lobbymenu : public Menu
@@ -18,11 +18,16 @@ class Lobbymenu : public Menu
         void refreshservers();
         void quit();
 
+        void connectionhandler(const asio::error_code &error);
+        void readhandler(const asio::error_code &error);
+
         MenuLoopAnimation background;
         Spriteloader spriteloader;
 
         std::vector<ServerData> servers;
-        libsocket::inet_stream lobbysocket;
+
+        asio::io_service io_service;
+        asio::ip::tcp::socket lobbysocket;
     protected:
     private:
         int N_SERVERS_TO_DISPLAY = 15;
@@ -32,6 +37,10 @@ class Lobbymenu : public Menu
         int scrolloffset = 0;
         int selection = -1;
         // Can't use Timer object because of hardcoded Gamestate argument in trigger function
-        double refreshtimer = REFRESH_PERIOD;
-        bool sentrequest = false;
+        double refreshtimer;
+        bool connected;
+
+        WriteBuffer lobby_query;
+
+        uint32_t async_nservers;
 };
