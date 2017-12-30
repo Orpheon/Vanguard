@@ -6,8 +6,6 @@
 #include "allegro5/allegro_primitives.h"
 
 #include <cstdint>
-#include <libsocket/inetclientstream.hpp>
-#include <byteswap.h>
 
 Lobbymenu::Lobbymenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(display, owner_), spriteloader(false),
                                                                         lobbysocket(io_service)
@@ -236,7 +234,7 @@ void Lobbymenu::readhandler(const asio::error_code &error)
     }
     else
     {
-        int n_servers = __bswap_32(async_nservers);
+        int n_servers = __builtin_bswap32(async_nservers);
         servers.clear();
         for (int i=0; i<n_servers; ++i)
         {
@@ -244,13 +242,13 @@ void Lobbymenu::readhandler(const asio::error_code &error)
 
             uint32_t serverblocklength = 0;
             asio::read(lobbysocket, asio::buffer(&serverblocklength, sizeof(uint32_t)));
-            serverblocklength = __bswap_32(serverblocklength);
+            serverblocklength = __builtin_bswap32(serverblocklength);
 
             void *data = calloc(serverblocklength, 1);
             asio::read(lobbysocket, asio::buffer(data, serverblocklength));
             ReadBuffer buffer(data, serverblocklength);
             buffer.read<uint8_t>(); // UDP / TCP
-            int ipv4_port = __bswap_16(buffer.read<uint16_t>());
+            int ipv4_port = __builtin_bswap16(buffer.read<uint16_t>());
             int p1 = buffer.read<uint8_t>();
             int p2 = buffer.read<uint8_t>();
             int p3 = buffer.read<uint8_t>();
@@ -270,19 +268,19 @@ void Lobbymenu::readhandler(const asio::error_code &error)
                 std::free(data);
                 continue;
             }
-            int n_maxplayers = __bswap_16(buffer.read<uint16_t>());
-            int n_players = __bswap_16(buffer.read<uint16_t>());
-            int n_bots = __bswap_16(buffer.read<uint16_t>());
+            int n_maxplayers = __builtin_bswap16(buffer.read<uint16_t>());
+            int n_players = __builtin_bswap16(buffer.read<uint16_t>());
+            int n_bots = __builtin_bswap16(buffer.read<uint16_t>());
             new_server.maxplayercount = n_maxplayers;
             new_server.playercount = n_players;
             new_server.botcount = n_bots;
             // Flags currently only containing password protection, which we're ignoring for now
             buffer.read<uint16_t>();
-            __bswap_16(buffer.read<uint16_t>()); // length of key/value data
+            __builtin_bswap16(buffer.read<uint16_t>()); // length of key/value data
             while (buffer.length() > 0) {
                 int keylength = buffer.read<uint8_t>();
                 std::string key = buffer.readstring(keylength);
-                int valuelength = __bswap_16(buffer.read<uint16_t>());
+                int valuelength = __builtin_bswap16(buffer.read<uint16_t>());
                 std::string value = buffer.readstring(valuelength);
                 if (key == "map") {
                     new_server.mapname = value;
