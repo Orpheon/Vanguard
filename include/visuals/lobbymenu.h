@@ -28,10 +28,12 @@ class Lobbymenu : public Menu
 
         asio::io_service io_service;
         asio::ip::tcp::socket lobbysocket;
+        asio::ip::tcp::endpoint lobbyaddress;
     protected:
     private:
         int N_SERVERS_TO_DISPLAY = 15;
         double REFRESH_PERIOD = 50;
+        double MIN_REFRESH_PERIOD = 5;
 
         ALLEGRO_FONT *serverfont;
         int scrolloffset = 0;
@@ -39,6 +41,7 @@ class Lobbymenu : public Menu
         // Can't use Timer object because of hardcoded Gamestate argument in trigger function
         double refreshtimer;
         bool connected;
+        bool attempted_connection;
 
         WriteBuffer lobby_query;
 

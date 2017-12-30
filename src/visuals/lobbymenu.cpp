@@ -16,18 +16,17 @@ Lobbymenu::Lobbymenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(dis
     serverfont = al_load_font("Vanguard Text Font.ttf", 15, ALLEGRO_TTF_MONOCHROME);
 
     connected = false;
+    attempted_connection = false;
     asio::ip::tcp::resolver ipresolver(io_service);
     asio::ip::tcp::resolver::query query(LOBBY_HOST, std::to_string(LOBBY_PORT));
-    lobbysocket.async_connect(*ipresolver.resolve(query),
-                              std::bind(&Lobbymenu::connectionhandler, this, std::placeholders::_1));
+    lobbyaddress = *ipresolver.resolve(query);
 
     refreshtimer = 0;
     async_nservers = 0;
 
     // See https://github.com/Medo42/Faucet-Lobby/blob/master/Protocol%20Spec.txt for reference
     xg::Guid message_type(LOBBY_MESSAGE_TYPE_LIST);
-//    xg::Guid lobbyid(VANGUARD_IDENTIFIER);
-    xg::Guid lobbyid(GG2_IDENTIFIER);
+    xg::Guid lobbyid(VANGUARD_IDENTIFIER);
 
     // Message type for lobby
     for (auto& byte : message_type._bytes)
@@ -48,10 +47,18 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
     io_service.poll();
 
     refreshtimer -= MENU_TIMESTEP;
-    if (refreshtimer <= 0 and connected)
+    if (refreshtimer <= 0)
     {
-        refreshtimer = REFRESH_PERIOD;
-        refreshservers();
+        if (connected)
+        {
+            refreshservers();
+        }
+        else if (not attempted_connection)
+        {
+            lobbysocket.async_connect(lobbyaddress,
+                                      std::bind(&Lobbymenu::connectionhandler, this, std::placeholders::_1));
+            attempted_connection = true;
+        }
     }
 
     // Define frame
@@ -108,6 +115,13 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
                     // Go back to main menu
                     owner.planned_action = POSTMENUACTION::OPEN_MAINMENU;
                 }
+                else if (event.keyboard.keycode == ALLEGRO_KEY_F5)
+                {
+                    if (refreshtimer < REFRESH_PERIOD - MIN_REFRESH_PERIOD)
+                    {
+                        refreshtimer = 0;
+                    }
+                }
                 break;
 
             case ALLEGRO_EVENT_MOUSE_AXES:
@@ -131,7 +145,7 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
                 break;
 
             case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
-                if (selection != -1 and selection < servers.size())
+                if (selection != -1 and selection < static_cast<signed int>(servers.size()))
                 {
                     owner.planned_action = POSTMENUACTION::JOIN_SERVER;
                     owner.serverip = servers.at(selection).ip;
@@ -280,14 +294,20 @@ void Lobbymenu::readhandler(const asio::error_code &error)
             std::free(data);
             servers.push_back(new_server);
         }
+
+        lobbysocket.close();
+        connected = false;
+        attempted_connection = false;
     }
 }
 
 void Lobbymenu::refreshservers()
 {
     asio::write(lobbysocket, asio::buffer(lobby_query.getdata(), lobby_query.length()), asio::transfer_all());
-    asio::async_read(lobbysocket, asio::buffer(&async_nservers, sizeof(uint32_t)),
+    asio::async_read(lobbysocket, asio::buffer(&async_nservers, sizeof(uint32_t)), asio::transfer_all(),
                      std::bind(&Lobbymenu::readhandler, this, std::placeholders::_1));
+
+    refreshtimer = REFRESH_PERIOD;
 }
 
 void Lobbymenu::quit()
