@@ -5,7 +5,7 @@
 
 void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
 {
-    double HUD_Y_BASELINE = renderer.WINDOW_HEIGHT * 9.0/10.0;
+    HUD_Y_BASELINE = renderer.WINDOW_HEIGHT * 9.0/10.0;
 
     // TODO: Draw gamemode hud
 
@@ -40,7 +40,7 @@ void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
         int healthamounts_length = sizeof(healthamounts) / sizeof(healthamounts[0]);
 
         double health_height = renderer.zoom * 15;
-        double health_top_y = HUD_Y_BASELINE - health_height;
+        double health_top_y = HUD_Y_BASELINE - health_height / 2.0;
         double totalwidth = renderer.zoom * 200;
         double center_x = renderer.WINDOW_WIDTH/11.0 + totalwidth/2.0;
         double between_rect_spacing = 2;
@@ -127,7 +127,7 @@ void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
         // Ult button
         double total_width = 100 * renderer.zoom;
         double mid_x = renderer.WINDOW_WIDTH / 2.0;
-        double mid_y = HUD_Y_BASELINE - total_width / 3.0;
+        double mid_y = HUD_Y_BASELINE;
         double alpha = 0.6;
 
         if (myself.ultcharge.active)
@@ -167,12 +167,12 @@ void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
 void DefaultHud::mccreehud(Renderer &renderer, Gamestate &state, Mccree &myself)
 {
     double abilities_x = renderer.WINDOW_WIDTH * 6.0/7.0;
-    double abilities_y = renderer.WINDOW_HEIGHT* 9.0/10.0;
+    double abilities_y = HUD_Y_BASELINE;
 
     std::string mainsprite = "ui/ingame/"+myself.herofolder()+"weapon";
     ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
     Rect spriterect = renderer.spriteloader.get_rect(mainsprite);
-    al_draw_bitmap(sprite, abilities_x, abilities_y - spriterect.h, 0);
+    al_draw_bitmap(sprite, abilities_x, abilities_y - spriterect.h / 2.0, 0);
     // Ammo count
     Peacemaker &weapon = state.get<Peacemaker&>(myself.weapon);
     std::string ammo = std::to_string(weapon.clip);
@@ -181,10 +181,11 @@ void DefaultHud::mccreehud(Renderer &renderer, Gamestate &state, Mccree &myself)
                               + al_get_text_width(renderer.font8, maxammo.c_str());
     double space_between_weapon_and_ammo = 10 * renderer.zoom;
     double ammo_x = abilities_x + spriterect.w - total_ammo_width;
-    double ammo_y = abilities_y - spriterect.h - space_between_weapon_and_ammo;
+    double ammo_y = abilities_y - spriterect.h / 2.0 - space_between_weapon_and_ammo;
     al_draw_text(renderer.font12, al_map_rgb(255, 255, 255), ammo_x, ammo_y - al_get_font_line_height(renderer.font12),
                  ALLEGRO_ALIGN_LEFT, ammo.c_str());
-    al_draw_text(renderer.font8, al_map_rgb(255, 255, 255), ammo_x + al_get_text_width(renderer.font12, ammo.c_str()),
+    al_draw_text(renderer.font8, al_map_rgb(255, 255, 255),
+                 ammo_x + al_get_text_width(renderer.font12, ammo.c_str()) * 1.1,
                  ammo_y - al_get_font_line_height(renderer.font8), ALLEGRO_ALIGN_LEFT, maxammo.c_str());
     abilities_x -= spriterect.w;
 
@@ -197,13 +198,13 @@ void DefaultHud::mccreehud(Renderer &renderer, Gamestate &state, Mccree &myself)
 void DefaultHud::reinhardthud(Renderer &renderer, Gamestate &state, Reinhardt &myself)
 {
     double abilities_x = renderer.WINDOW_WIDTH * 6.0/7.0;
-    double abilities_y = renderer.WINDOW_HEIGHT* 9.0/10.0;
+    double abilities_y = HUD_Y_BASELINE;
 
     std::string mainsprite = "ui/ingame/"+myself.herofolder()+"weapon";
     ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
     Rect spriterect = renderer.spriteloader.get_rect(mainsprite);
-    al_draw_bitmap(sprite, abilities_x, abilities_y - spriterect.h, 0);
-    abilities_x -= spriterect.w;
+    al_draw_bitmap(sprite, abilities_x, abilities_y - spriterect.h / 2.0, 0);
+    abilities_x -= renderer.WINDOW_WIDTH * 1.0/10.0;
 
     Hammer& hammer = state.get<Hammer&>(myself.weapon);
 
@@ -236,7 +237,7 @@ double DefaultHud::renderability(Renderer &renderer, std::string spritename, dou
         sprite = renderer.spriteloader.requestsprite(spritename);
     }
     spriterect.x = x;
-    spriterect.y = y - spriterect.h;
+    spriterect.y = y - spriterect.h / 2.0;
     al_draw_bitmap(sprite, spriterect.x, spriterect.y, 0);
     if (cooldown.active and not active)
     {

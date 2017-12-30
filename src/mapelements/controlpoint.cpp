@@ -143,7 +143,8 @@ void ControlPoint::render(Renderer &renderer, Gamestate &state)
         ALLEGRO_COLOR cc = ColorPalette::get(cappingcolor);
         al_draw_arc(rel_x, rel_y, 31.0, -PI/2.0, 2*PI*capamount.getpercent(), cc, 5);
     }
-    al_draw_text(renderer.font20, ColorPalette::get(Color::WHITE), rel_x + 5, rel_y - 20, ALLEGRO_ALIGN_CENTER, "A");
+    al_draw_text(renderer.font20, ColorPalette::get(Color::WHITE), rel_x,
+                 rel_y - al_get_font_line_height(renderer.font20) / 2.0, ALLEGRO_ALIGN_CENTER, "A");
 }
 
 void ControlPoint::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)

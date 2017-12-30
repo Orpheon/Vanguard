@@ -12,4 +12,6 @@ class DefaultHud : public Hud
         void reinhardthud(Renderer &renderer, Gamestate &state, Reinhardt &myself);
         double renderability(Renderer &renderer, std::string spritename, double x, double y, Timer cooldown,
                              bool active);
+
+        double HUD_Y_BASELINE = 0;
 };
