@@ -2350,6 +2350,74 @@
         17.0,
         34.0
     ],
+    "particles/ number of frames": 0,
+    "particles/healing/ number of frames": 6,
+    "particles/healing/1_sprite.png": [
+        22.0,
+        23.0
+    ],
+    "particles/healing/2_sprite.png": [
+        23.0,
+        23.0
+    ],
+    "particles/healing/3_sprite.png": [
+        23.0,
+        23.0
+    ],
+    "particles/healing/4_sprite.png": [
+        23.0,
+        23.0
+    ],
+    "particles/healing/5_sprite.png": [
+        23.0,
+        23.0
+    ],
+    "particles/healing/6_sprite.png": [
+        23.0,
+        23.0
+    ],
+    "particles/healingcross/ number of frames": 5,
+    "particles/healingcross/1_sprite.png": [
+        3.0,
+        3.0
+    ],
+    "particles/healingcross/2_sprite.png": [
+        3.0,
+        6.0
+    ],
+    "particles/healingcross/3_sprite.png": [
+        2.0,
+        7.0
+    ],
+    "particles/healingcross/4_sprite.png": [
+        2.0,
+        9.0
+    ],
+    "particles/healingcross/5_sprite.png": [
+        1.0,
+        9.0
+    ],
+    "particles/speedboost/ number of frames": 5,
+    "particles/speedboost/1_sprite.png": [
+        -2.0,
+        0.5
+    ],
+    "particles/speedboost/2_sprite.png": [
+        1.0,
+        0.5
+    ],
+    "particles/speedboost/3_sprite.png": [
+        3.0,
+        0.5
+    ],
+    "particles/speedboost/4_sprite.png": [
+        5.0,
+        0.5
+    ],
+    "particles/speedboost/5_sprite.png": [
+        8.0,
+        0.5
+    ],
     "ui/ number of frames": 0,
     "ui/Logo/ number of frames": 2,
     "ui/Logo/VanguardLogoTransparent.png": [
@@ -2419,7 +2487,7 @@
         38.5,
         19.0
     ],
-    "ui/ingame/heroes/reinhardt/ number of frames": 10,
+    "ui/ingame/heroes/reinhardt/ number of frames": 11,
     "ui/ingame/heroes/reinhardt/charge_sprite.png": [
         28.0,
         19.0
@@ -2449,6 +2517,10 @@
         19.0
     ],
     "ui/ingame/heroes/reinhardt/shieldactive_sprite.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ingame/heroes/reinhardt/shieldcooldown_sprite.png": [
         28.0,
         19.0
     ],
