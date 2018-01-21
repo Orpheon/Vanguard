@@ -448,7 +448,7 @@ std::string Reinhardt::currenttorsosprite(Gamestate &state, bool mask)
     }
     if (crouchanim.active())
     {
-        return herofolder()+"crouchwalktorso/"+std::to_string(crouchanim.getframe());
+        return herofolder()+"crouchtorso/1";
     }
     /*if (not ongroundsmooth.active)
     {
