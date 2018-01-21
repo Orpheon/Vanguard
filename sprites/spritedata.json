@@ -1286,47 +1286,47 @@
     "heroes/mccree/fallasleep/ number of frames": 11,
     "heroes/mccree/fallasleep/10_sprite.png": [
         20.0,
-        -20.0
+        -21.0
     ],
     "heroes/mccree/fallasleep/11_sprite.png": [
         22.0,
-        -22.0
+        -23.0
     ],
     "heroes/mccree/fallasleep/1_sprite.png": [
         8.0,
-        7.0
+        6.0
     ],
     "heroes/mccree/fallasleep/2_sprite.png": [
         10.0,
-        6.0
+        5.0
     ],
     "heroes/mccree/fallasleep/3_sprite.png": [
         11.0,
-        6.0
+        5.0
     ],
     "heroes/mccree/fallasleep/4_sprite.png": [
         12.0,
-        6.0
+        5.0
     ],
     "heroes/mccree/fallasleep/5_sprite.png": [
         13.0,
-        4.0
+        3.0
     ],
     "heroes/mccree/fallasleep/6_sprite.png": [
         15.0,
-        2.0
+        1.0
     ],
     "heroes/mccree/fallasleep/7_sprite.png": [
         14.0,
-        -1.0
+        -2.0
     ],
     "heroes/mccree/fallasleep/8_sprite.png": [
         14.0,
-        -6.0
+        -7.0
     ],
     "heroes/mccree/fallasleep/9_sprite.png": [
         18.0,
-        -17.0
+        -18.0
     ],
     "heroes/mccree/falling/ number of frames": 2,
     "heroes/mccree/falling/1_sprite.png": [
@@ -1417,47 +1417,47 @@
     "heroes/mccree/getup/ number of frames": 11,
     "heroes/mccree/getup/10_sprite.png": [
         7.0,
-        1.0
+        0.0
     ],
     "heroes/mccree/getup/11_sprite.png": [
         7.0,
-        7.0
+        6.0
     ],
     "heroes/mccree/getup/1_sprite.png": [
         20.0,
-        -20.0
+        -21.0
     ],
     "heroes/mccree/getup/2_sprite.png": [
         19.0,
-        -19.0
+        -20.0
     ],
     "heroes/mccree/getup/3_sprite.png": [
         13.0,
-        -16.0
+        -17.0
     ],
     "heroes/mccree/getup/4_sprite.png": [
         8.0,
-        -11.0
+        -12.0
     ],
     "heroes/mccree/getup/5_sprite.png": [
         7.0,
-        -9.0
+        -10.0
     ],
     "heroes/mccree/getup/6_sprite.png": [
         6.0,
-        -8.0
+        -9.0
     ],
     "heroes/mccree/getup/7_sprite.png": [
         5.0,
-        -7.0
+        -8.0
     ],
     "heroes/mccree/getup/8_sprite.png": [
         5.0,
-        -7.0
+        -8.0
     ],
     "heroes/mccree/getup/9_sprite.png": [
         5.0,
-        -2.0
+        -3.0
     ],
     "heroes/mccree/idle/ number of frames": 1,
     "heroes/mccree/idle/1_sprite.png": [
@@ -1598,7 +1598,7 @@
     "heroes/mccree/sleep/ number of frames": 1,
     "heroes/mccree/sleep/1_sprite.png": [
         22.0,
-        -22.0
+        -23.0
     ],
     "heroes/mccree/stun/ number of frames": 1,
     "heroes/mccree/stun/1_sprite.png": [
@@ -1727,47 +1727,47 @@
     "heroes/reinhardt/fallasleep/ number of frames": 11,
     "heroes/reinhardt/fallasleep/10_sprite.png": [
         46.0,
-        -14.0
+        -15.0
     ],
     "heroes/reinhardt/fallasleep/11_sprite.png": [
         46.0,
-        -15.0
+        -16.0
     ],
     "heroes/reinhardt/fallasleep/1_sprite.png": [
         20.0,
-        19.0
+        18.0
     ],
     "heroes/reinhardt/fallasleep/2_sprite.png": [
         20.0,
-        21.0
+        20.0
     ],
     "heroes/reinhardt/fallasleep/3_sprite.png": [
         27.0,
-        18.0
+        17.0
     ],
     "heroes/reinhardt/fallasleep/4_sprite.png": [
         36.0,
-        23.0
+        22.0
     ],
     "heroes/reinhardt/fallasleep/5_sprite.png": [
         41.0,
-        25.0
+        24.0
     ],
     "heroes/reinhardt/fallasleep/6_sprite.png": [
         46.0,
-        21.0
+        20.0
     ],
     "heroes/reinhardt/fallasleep/7_sprite.png": [
         45.0,
-        12.0
+        11.0
     ],
     "heroes/reinhardt/fallasleep/8_sprite.png": [
         46.0,
-        -3.0
+        -4.0
     ],
     "heroes/reinhardt/fallasleep/9_sprite.png": [
         42.0,
-        -12.0
+        -13.0
     ],
     "heroes/reinhardt/falling/ number of frames": 1,
     "heroes/reinhardt/falling/1_sprite.png": [
@@ -2038,47 +2038,47 @@
     "heroes/reinhardt/getup/ number of frames": 11,
     "heroes/reinhardt/getup/10_sprite.png": [
         11.0,
-        18.0
+        17.0
     ],
     "heroes/reinhardt/getup/11_sprite.png": [
         14.0,
-        18.0
+        17.0
     ],
     "heroes/reinhardt/getup/1_sprite.png": [
         45.0,
-        -14.0
+        -15.0
     ],
     "heroes/reinhardt/getup/2_sprite.png": [
         42.0,
-        -7.0
+        -8.0
     ],
     "heroes/reinhardt/getup/3_sprite.png": [
         30.0,
-        14.0
+        13.0
     ],
     "heroes/reinhardt/getup/4_sprite.png": [
         14.0,
-        28.0
+        27.0
     ],
     "heroes/reinhardt/getup/5_sprite.png": [
         12.0,
-        31.0
+        30.0
     ],
     "heroes/reinhardt/getup/6_sprite.png": [
         12.0,
-        27.0
+        26.0
     ],
     "heroes/reinhardt/getup/7_sprite.png": [
         11.0,
-        26.0
+        25.0
     ],
     "heroes/reinhardt/getup/8_sprite.png": [
         7.0,
-        26.0
+        25.0
     ],
     "heroes/reinhardt/getup/9_sprite.png": [
         3.0,
-        26.0
+        25.0
     ],
     "heroes/reinhardt/idle/ number of frames": 1,
     "heroes/reinhardt/idle/1_sprite.png": [
@@ -2261,7 +2261,7 @@
     "heroes/reinhardt/sleep/ number of frames": 1,
     "heroes/reinhardt/sleep/1_sprite.png": [
         46.0,
-        -15.0
+        -16.0
     ],
     "heroes/reinhardt/stun/ number of frames": 1,
     "heroes/reinhardt/stun/1_sprite.png": [
