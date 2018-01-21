@@ -225,11 +225,12 @@ void Hammer::hitarea(Gamestate &state)
             if (entity.damageableby(team))
             {
                 int direction = (reinhardt.isflipped ? -1 : 1);
-                for (int i=0; i<30; ++i)
+                bool foundcollision = false;
+                for (int i=0; i<110 and not foundcollision; ++i)
                 {
-                    for (int j=0; j<60; ++j)
+                    for (int j=0; j<60 and not foundcollision; ++j)
                     {
-                        if (entity.collides(state, x + direction*(30 + i), y - 30 + j))
+                        if (entity.collides(state, x + direction*(-20 + i), y - 30 + j))
                         {
                             // We hit something, check if it's protected
                             double tmpx, tmpy;
@@ -238,7 +239,7 @@ void Hammer::hitarea(Gamestate &state)
                             {
                                 entity.damage(state, DAMAGE);
                             }
-                            return;
+                            foundcollision = true;
                         }
                     }
                 }

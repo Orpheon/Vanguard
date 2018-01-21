@@ -600,6 +600,12 @@ void Character::die(Gamestate &state)
         state.engine.sendbuffer.write<uint8_t>(state.findplayerid(owner));
 
         state.get<Player>(owner).spawntimer.reset();
+
+        // If we're in the spawnroom, respawn immediately
+        if (state.currentmap->spawnroom(state, team).isinside(x, y))
+        {
+            state.get<Player>(owner).spawntimer.timer = state.get<Player>(owner).spawntimer.duration;
+        }
     }
 }
 

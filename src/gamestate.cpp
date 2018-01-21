@@ -178,6 +178,13 @@ EntityPtr Gamestate::collidelinetarget(Gamestate &state, double x1, double y1, M
     double dx = static_cast<double>(target.x-x1)/nsteps, dy = static_cast<double>(target.y-y1)*1.0/nsteps;
     *collisionptx = x1;
     *collisionpty = y1;
+
+    if (nsteps < 1)
+    {
+        // Target and sender are on top of each other, no blocking possible
+        return EntityPtr(target.id);
+    }
+
     for (int i=0; i<nsteps; ++i)
     {
         if ((not (penlevel & PENETRATE_WALLMASK)) and (currentmap->testpixel(*collisionptx, *collisionpty) or
@@ -207,7 +214,9 @@ EntityPtr Gamestate::collidelinetarget(Gamestate &state, double x1, double y1, M
         }
         *collisionptx += dx; *collisionpty += dy;
     }
-    Global::logging().panic(__FILE__, __LINE__, "Entity %i could not be reached at pt %f|%f", target.id, collisionptx, collisionpty);
+    Global::logging().panic(__FILE__, __LINE__,
+                            "Entity %i could not be reached at pt %f|%f (dx|dy = %f|%f, x1|y1= %f|%f)", target.id,
+                            *collisionptx, *collisionpty, dx, dy, x1, y1);
     return EntityPtr(0);
 }
 
@@ -223,7 +232,8 @@ EntityPtr Gamestate::collidelinedamageable(Gamestate &state, double x1, double y
     // FIXME: Resource hog, potentially do distance checking to the whole line beforehand
     for (int i=0; i<nsteps; ++i)
     {
-        if (currentmap->testpixel(*collisionptx, *collisionpty) or currentmap->spawnroom(state, enemyteam).isinside(*collisionptx, *collisionpty))
+        if (currentmap->testpixel(*collisionptx, *collisionpty) or
+            currentmap->spawnroom(state, enemyteam).isinside(*collisionptx, *collisionpty))
         {
             // We hit wallmask or went out of bounds or hit enemy spawnroom
             return EntityPtr(0);
