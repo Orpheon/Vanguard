@@ -154,6 +154,7 @@ void Player::serialize(Gamestate &state, WriteBuffer &buffer, bool fullupdate)
     if (fullupdate)
     {
         buffer.write<bool>(state.exists(character));
+        buffer.write<uint8_t>(heroclass);
     }
     buffer.write<uint16_t>(ultcharge.timer*65536/100.0);
     if (state.exists(character))
@@ -168,6 +169,7 @@ void Player::deserialize(Gamestate &state, ReadBuffer &buffer, bool fullupdate)
     if (fullupdate)
     {
         bool hascharacter = buffer.read<bool>();
+        heroclass = static_cast<Heroclass>(buffer.read<uint8_t>());
         if (hascharacter)
         {
             spawn(state);
