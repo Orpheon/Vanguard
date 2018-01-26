@@ -136,11 +136,11 @@ void Reinhardt::beginstep(Gamestate &state, double frametime)
     {
         if (isflipped)
         {
-            hspeed = -500;
+            hspeed = -CHARGE_SPEED;
         }
         else
         {
-            hspeed = 500;
+            hspeed = CHARGE_SPEED;
         }
 
         double throwawayvar1, throwawayvar2;
@@ -219,10 +219,6 @@ void Reinhardt::beginstep(Gamestate &state, double frametime)
             {
                 Character &target = state.get<Character&>(pintarget);
                 target.damage(state, CHARGE_PIN_DAMAGE);
-                while (state.currentmap->collides(target.getcollisionrect(state)))
-                {
-                    target.x -= isflipped ? -1 : 1;
-                }
             }
             endcharge(state);
         }
@@ -349,7 +345,12 @@ void Reinhardt::endcharge(Gamestate &state)
 {
     if (state.exists(pintarget))
     {
-        state.get<Character&>(pintarget).pinanim.active(false);
+        Character &target = state.get<Character&>(pintarget);
+        target.pinanim.active(false);
+        while (state.currentmap->collides(target.getcollisionrect(state)))
+        {
+            target.x -= isflipped ? -1 : 1;
+        }
     }
     chargeanim.active(false);
     endchargeanim.reset();

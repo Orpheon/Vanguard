@@ -53,6 +53,7 @@ class Reinhardt : public Character
         EntityPtr pintarget;
         std::list<uint64_t> already_bumped_characters;
 
+        static constexpr double CHARGE_SPEED = 500;
         static constexpr double CHARGE_BUMP_DAMAGE = 50;
         static constexpr double CHARGE_PIN_DAMAGE = 300;
         static constexpr double CHARGE_BUMP_STRENGTH = 500;
