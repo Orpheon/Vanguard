@@ -273,6 +273,7 @@ void Reinhardt::endstep(Gamestate &state, double frametime)
         target.y = y;
         target.hspeed = hspeed;
         target.vspeed = vspeed;
+        target.isflipped = not isflipped;
     }
 }
 

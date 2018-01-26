@@ -482,7 +482,7 @@ bool Character::cangetinput(Gamestate &state)
 bool Character::weaponvisible(Gamestate &state)
 {
     return not earthshatteredfallanim.active() and not earthshatteredanim.active()
-           and not earthshatteredgetupanim.active();
+           and not earthshatteredgetupanim.active() and not pinanim.active();
 }
 
 double Character::maxdamageabledist(Gamestate &state, double *centerx, double *centery)
