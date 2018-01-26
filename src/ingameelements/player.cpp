@@ -52,7 +52,7 @@ void Player::beginstep(Gamestate &state, double frametime)
     spawntimer.update(state, frametime);
     if (state.exists(character))
     {
-        state.get<Character>(character).beginstep(state, frametime);
+        state.get<Character&>(character).beginstep(state, frametime);
     }
 }
 
@@ -60,7 +60,7 @@ void Player::midstep(Gamestate &state, double frametime)
 {
     if (state.exists(character))
     {
-        state.get<Character>(character).midstep(state, frametime);
+        state.get<Character&>(character).midstep(state, frametime);
     }
 }
 
@@ -68,7 +68,7 @@ void Player::endstep(Gamestate &state, double frametime)
 {
     if (state.exists(character))
     {
-        state.get<Character>(character).endstep(state, frametime);
+        state.get<Character&>(character).endstep(state, frametime);
     }
 }
 
@@ -76,7 +76,7 @@ void Player::render(Renderer &renderer, Gamestate &state)
 {
     if (state.exists(character))
     {
-        state.get<Character>(character).render(renderer, state);
+        state.get<Character&>(character).render(renderer, state);
     }
 }
 
