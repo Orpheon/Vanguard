@@ -9,6 +9,7 @@
 
 #include <memory>
 #include <cmath>
+#include <algorithm>
 #include <allegro5/allegro_primitives.h>
 
 void Reinhardt::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
@@ -133,14 +134,6 @@ void Reinhardt::beginstep(Gamestate &state, double frametime)
 
     if (chargeanim.active())
     {
-        if (xblockedsmooth.active)
-        {
-            if (state.exists(pintarget))
-            {
-                state.get<Character&>(pintarget).damage(state, CHARGE_PIN_DAMAGE);
-            }
-            endcharge(state);
-        }
         if (isflipped)
         {
             hspeed = -500;
@@ -149,23 +142,67 @@ void Reinhardt::beginstep(Gamestate &state, double frametime)
         {
             hspeed = 500;
         }
-        for (auto& playerptr : state.playerlist)
+
+        double throwawayvar1, throwawayvar2;
+        double maxdist_self = maxdamageabledist(state, &throwawayvar1, &throwawayvar2);
+        if (state.engine.isserver)
         {
-            Player &player = state.get<Player&>(playerptr);
-            if (state.exists(player.character))
+            for (auto& playerptr : state.playerlist)
             {
-                Character &character = player.getcharacter(state);
-                if (character.damageableby(team) and character.collides(state, x+pinoffset_x(), y+pinoffset_y()))
+                Player &player = state.get<Player&>(playerptr);
+                if (state.exists(player.character))
                 {
-                    character.damage(state, CHARGE_BUMP_DAMAGE);
-                    if (state.exists(character.id) and not state.exists(pintarget))
+                    Character &character = player.getcharacter(state);
+                    if (character.damageableby(team))
                     {
-                        // If they survived and we don't yet have a pinned target, pin them
-                        character.pinanim.reset();
-                        pintarget = character.id;
+                        double maxdist_other = character.maxdamageabledist(state, &throwawayvar1, &throwawayvar2);
+                        if (std::hypot(x - character.x, y - character.y) < maxdist_other + maxdist_self)
+                        {
+                            if (std::count(already_bumped_characters.begin(), already_bumped_characters.end(),
+                                           character.id) == 0)
+                            {
+                                Rect hitbox = getcollisionrect(state);
+                                bool found_collision = false;
+                                for (int i=0; i<hitbox.w and not found_collision; ++i)
+                                {
+                                    for (int j=0; j<hitbox.h and not found_collision; ++j)
+                                    {
+                                        if (character.collides(state, hitbox.x+i, hitbox.y+j))
+                                        {
+                                            character.damage(state, CHARGE_BUMP_DAMAGE);
+                                            already_bumped_characters.push_back(character.id);
+                                            found_collision = true;
+                                            if (state.exists(character.id) and not state.exists(pintarget))
+                                            {
+                                                // If they survived and we don't yet have a pinned target, pin them
+                                                character.pinanim.reset();
+                                                pintarget = character.id;
+                                                state.engine.sendbuffer.write<uint8_t>(CHARACTER_PINNED);
+                                                state.engine.sendbuffer.write<uint8_t>(state.findplayerid(owner));
+                                                state.engine.sendbuffer.write<uint8_t>(state.findplayerid(player.id));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
+        }
+
+        if (xblockedsmooth.active)
+        {
+            if (state.exists(pintarget))
+            {
+                Character &target = state.get<Character&>(pintarget);
+                target.damage(state, CHARGE_PIN_DAMAGE);
+                while (state.currentmap->collides(target.getcollisionrect(state)))
+                {
+                    target.x -= isflipped ? -1 : 1;
+                }
+            }
+            endcharge(state);
         }
     }
     chargecooldown.update(state, frametime);
@@ -214,7 +251,7 @@ void Reinhardt::endstep(Gamestate &state, double frametime)
     if (chargeanim.active() and state.exists(pintarget))
     {
         Character &target = state.get<Character&>(pintarget);
-        target.x = x + pinoffset_x();
+        target.x = x + 10 * (isflipped ? -1:1);
         target.y = y;
         target.hspeed = hspeed;
         target.vspeed = vspeed;
@@ -280,6 +317,12 @@ void Reinhardt::useultimate(Gamestate &state)
     ownerplayer.ultcharge.reset();
 }
 
+void Reinhardt::begincharge()
+{
+    chargeanim.reset();
+    already_bumped_characters.clear();
+}
+
 void Reinhardt::endcharge(Gamestate &state)
 {
     if (state.exists(pintarget))
@@ -289,6 +332,7 @@ void Reinhardt::endcharge(Gamestate &state)
     chargeanim.active(false);
     endchargeanim.reset();
     chargecooldown.reset();
+    pintarget = 0;
 }
 
 void Reinhardt::createearthshatter(Gamestate &state)

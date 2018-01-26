@@ -2,6 +2,7 @@
 
 #include "global.h"
 #include "ingameelements/gamemodes/kothmanager.h"
+#include "ingameelements/heroes/reinhardt.h"
 
 ClientNetworker::ClientNetworker(WriteBuffer &sendbuffer_, std::string serverip, int serverport)
     : Networker(false, sendbuffer_), connected(false)
@@ -120,6 +121,20 @@ void ClientNetworker::receive(Gamestate &state)
                     int namelength = data.read<uint8_t>();
                     std::string name = data.readstring(namelength);
                     p.name = name;
+                }
+                else if (eventtype == CHARACTER_PINNED)
+                {
+                    int reinhardtid = data.read<uint8_t>();
+                    Player &reinhardtplayer = state.findplayer(reinhardtid);
+                    int targetid = data.read<uint8_t>();
+                    Player &targetplayer = state.findplayer(targetid);
+
+                    if (state.exists(reinhardtplayer.character) and state.exists(targetplayer.character))
+                    {
+                        Reinhardt &reinhardt = state.get<Reinhardt&>(reinhardtplayer.character);
+                        reinhardt.pintarget = targetplayer.character;
+                        targetplayer.getcharacter(state).pinanim.reset();
+                    }
                 }
                 else
                 {

@@ -68,7 +68,7 @@ class Gamestate
         EntityPtr collidelinedamageable(Gamestate &state, double x1, double y1, double x2, double y2, Team team,
                                         double *collisionptx, double *collisionpty);
 
-        std::unordered_map<uint64_t, std::unique_ptr<Entity>> entitylist;
+        std::map<uint64_t, std::unique_ptr<Entity>> entitylist;
         std::vector<EntityPtr> playerlist;
 
         // Make gamestate move-assigneable, so that " = " doesn't copy but move.

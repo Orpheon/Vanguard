@@ -28,13 +28,11 @@ class Reinhardt : public Character
         void useability1(Gamestate &state) override;
         void useability2(Gamestate &state) override;
         void useultimate(Gamestate &state) override;
-        void begincharge() {chargeanim.reset();}
+        void begincharge();
         void endcharge(Gamestate &state);
         void interrupt(Gamestate &state) override;
         bool weaponvisible(Gamestate &state) override;
         void createearthshatter(Gamestate &state);
-        double pinoffset_x() {return 48 * (isflipped?-1:1);}
-        double pinoffset_y() {return 24;}
 
         double passiveultcharge() override {return 100*0.4166666666666667;}
         Heroclass heroclass() override {return REINHARDT;}
@@ -53,6 +51,7 @@ class Reinhardt : public Character
         Timer chargecooldown;
 
         EntityPtr pintarget;
+        std::list<uint64_t> already_bumped_characters;
 
         static constexpr double CHARGE_BUMP_DAMAGE = 50;
         static constexpr double CHARGE_PIN_DAMAGE = 300;
