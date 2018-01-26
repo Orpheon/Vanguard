@@ -172,14 +172,36 @@ void Reinhardt::beginstep(Gamestate &state, double frametime)
                                             character.damage(state, CHARGE_BUMP_DAMAGE);
                                             already_bumped_characters.push_back(character.id);
                                             found_collision = true;
-                                            if (state.exists(character.id) and not state.exists(pintarget))
+                                            if (state.exists(character.id))
                                             {
-                                                // If they survived and we don't yet have a pinned target, pin them
-                                                character.pinanim.reset();
-                                                pintarget = character.id;
-                                                state.engine.sendbuffer.write<uint8_t>(CHARACTER_PINNED);
-                                                state.engine.sendbuffer.write<uint8_t>(state.findplayerid(owner));
-                                                state.engine.sendbuffer.write<uint8_t>(state.findplayerid(player.id));
+                                                if (not state.exists(pintarget))
+                                                {
+                                                    // If they survived and we don't yet have a pinned target, pin them
+                                                    character.pinanim.reset();
+                                                    pintarget = character.id;
+                                                    state.engine.sendbuffer.write<uint8_t>(CHARACTER_PINNED);
+                                                    state.engine.sendbuffer.write<uint8_t>(state.findplayerid(owner));
+                                                    state.engine.sendbuffer.write<uint8_t>(state.findplayerid(player.id));
+                                                }
+                                                else
+                                                {
+                                                    // We already have a pinned target, launch them in the air instead
+                                                    double dx = character.x
+                                                                - (x + CHARGE_BUMP_XOFFSET * (isflipped?-1:1));
+                                                    double dy = character.y - (y + CHARGE_BUMP_YOFFSET);
+                                                    if (dx == 0 and dy == 0)
+                                                    {
+                                                        // If we collided straight with the fist, just get thrown forward
+                                                        dx = 1;
+                                                        dy = 0;
+                                                    }
+                                                    double length = std::hypot(dx, dy);
+                                                    dx /= length;
+                                                    dy /= length;
+
+                                                    character.hspeed = dx * CHARGE_BUMP_STRENGTH;
+                                                    character.vspeed = dy * CHARGE_BUMP_STRENGTH;
+                                                }
                                             }
                                         }
                                     }

@@ -55,6 +55,9 @@ class Reinhardt : public Character
 
         static constexpr double CHARGE_BUMP_DAMAGE = 50;
         static constexpr double CHARGE_PIN_DAMAGE = 300;
+        static constexpr double CHARGE_BUMP_STRENGTH = 500;
+        static constexpr double CHARGE_BUMP_XOFFSET = 0;
+        static constexpr double CHARGE_BUMP_YOFFSET = 16;
     protected:
     private:
 };
