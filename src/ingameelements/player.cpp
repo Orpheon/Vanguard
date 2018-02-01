@@ -4,6 +4,7 @@
 #include "ingameelements/character.h"
 #include "ingameelements/heroes/mccree.h"
 #include "ingameelements/heroes/reinhardt.h"
+#include "ingameelements/heroes/lucio.h"
 #include "engine.h"
 #include "mapelements/spawnroom.h"
 #include "global.h"
@@ -14,7 +15,7 @@ void Player::init(uint64_t id_, Gamestate &state)
 
     entitytype = ENTITYTYPE::PLAYER;
     character = 0;
-    heroclass = MCCREE;
+    heroclass = LUCIO;
     spawntimer.init(4, std::bind(&Player::spawn, this, std::placeholders::_1));
     spawntimer.active = false;
     // Spawn a character asap
@@ -95,6 +96,10 @@ void Player::spawn(Gamestate &state)
     else if (heroclass == REINHARDT)
     {
         character = state.make_entity<Reinhardt>(state, EntityPtr(id));
+    }
+    else if (heroclass == LUCIO)
+    {
+        character = state.make_entity<Lucio>(state, EntityPtr(id));
     }
     else
     {
