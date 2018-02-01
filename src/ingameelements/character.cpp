@@ -490,7 +490,7 @@ double Character::maxdamageabledist(Gamestate &state, double *centerx, double *c
     *centerx = x;
     *centery = y;
     Rect bbox = state.engine.maskloader.get_rect(currentsprite(state, true));
-    return std::hypot(bbox.w, bbox.h) / 2.0;
+    return std::hypot(bbox.w, bbox.h);
 }
 
 void Character::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)

@@ -113,9 +113,8 @@ void Earthshatter::endstep(Gamestate &state, double frametime)
                         if (character.collides(state, x, y-h))
                         {
                             // Check first if there's a shield protecting the character
-                            double collisionptx=0, collisionpty=0;
-                            if (state.collidelinetarget(state, x, y, character, myteam, penetrationlevel, &collisionptx,
-                                                        &collisionpty).id == character.id)
+                            if (state.collidelineshielded(state, x, y, x, y-h, character, myteam, penetrationlevel).id
+                                == character.id)
                             {
                                 character.damage(state, 50);
                                 character.earthshatteredfallanim.reset();

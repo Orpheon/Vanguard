@@ -215,8 +215,57 @@ EntityPtr Gamestate::collidelinetarget(Gamestate &state, double x1, double y1, M
         *collisionptx += dx; *collisionpty += dy;
     }
     Global::logging().panic(__FILE__, __LINE__,
-                            "Entity %i could not be reached at pt %f|%f (dx|dy = %f|%f, x1|y1= %f|%f)", target.id,
-                            *collisionptx, *collisionpty, dx, dy, x1, y1);
+                            "Entity %i could not be reached at pt %f|%f (dx|dy = %f|%f, x1|y1 = %f|%f, targetx|y = %f|%f)",
+                            target.id, *collisionptx, *collisionpty, dx, dy, x1, y1, target.x, target.y);
+    return EntityPtr(0);
+}
+
+EntityPtr Gamestate::collidelineshielded(Gamestate &state, double x1, double y1, double x2, double y2,
+                                         MovingEntity &target, Team team, PenetrationLevel penlevel)
+{
+    int nsteps = std::ceil(std::max(std::abs(x1-x2), std::abs(y1-y2)));
+    double dx = static_cast<double>(x2-x1)/nsteps, dy = static_cast<double>(y2-y1)*1.0/nsteps;
+    double collisionptx = x1, collisionpty = y1;
+
+    if (nsteps < 1)
+    {
+        // Target and sender are on top of each other, no blocking possible
+        return EntityPtr(target.id);
+    }
+
+    for (int i=0; i<=nsteps; ++i)
+    {
+        if ((not (penlevel & PENETRATE_WALLMASK)) and (currentmap->testpixel(collisionptx, collisionpty) or
+                                                       currentmap->spawnroom(state, team).isinside(collisionptx,
+                                                                                                   collisionpty)))
+        {
+            // We hit wallmask or went out of bounds or hit enemy spawnroom
+            return EntityPtr(0);
+        }
+        for (auto &e : entitylist)
+        {
+            auto &entity = *(e.second);
+            if (not entity.destroyentity)
+            {
+                if ((entity.id == target.id or entity.blocks(penlevel)) and entity.damageableby(team))
+                {
+                    double enemycenterx=0, enemycentery=0;
+                    double dist = entity.maxdamageabledist(state, &enemycenterx, &enemycentery);
+                    if (std::hypot(enemycenterx-collisionptx, enemycentery-collisionpty) <= dist)
+                    {
+                        if (entity.collides(state, collisionptx, collisionpty))
+                        {
+                            return EntityPtr(entity.id);
+                        }
+                    }
+                }
+            }
+        }
+        collisionptx += dx; collisionpty += dy;
+    }
+    Global::logging().panic(__FILE__, __LINE__,
+                            "Entity %i could not be reached at pt %f|%f (dx|dy = %f|%f, x1|y1 = %f|%f, x2|y2 = %f|%f)",
+                            target.id, collisionptx, collisionpty, dx, dy, x1, y1, x2, y2);
     return EntityPtr(0);
 }
 
