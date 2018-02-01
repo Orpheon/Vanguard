@@ -8,6 +8,7 @@ class Sonicamp : public Clipweapon
         virtual void init(uint64_t id_, Gamestate &state, EntityPtr owner_) override;
         virtual ~Sonicamp() override = default;
 
+        void renderbehind(Renderer &renderer, Gamestate &state);
         void render(Renderer &renderer, Gamestate &state) override;
         std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Sonicamp(*this));}
 
@@ -21,6 +22,8 @@ class Sonicamp : public Clipweapon
         std::function<void(Gamestate &state)> getreloadfunction(Gamestate &state) override {return std::bind(&Sonicamp::restoreclip, this, std::placeholders::_1);}
         double getattachpoint_x(Gamestate &state) override {return 0;}
         double getattachpoint_y(Gamestate &state) override {return 0;}
+        double getbackattachpoint_x(Gamestate &state);
+        double getbackattachpoint_y(Gamestate &state);
     protected:
     private:
 };

@@ -10,6 +10,7 @@ class Lucio : public Character
     public:
         virtual void init(uint64_t id_, Gamestate &state, EntityPtr owner_) override;
         virtual ~Lucio() override = default;
+        void midstep(Gamestate &state, double frametime) override;
         void render(Renderer &renderer, Gamestate &state) override;
         void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         Rect getcollisionrect(Gamestate &state) override;
@@ -20,6 +21,7 @@ class Lucio : public Character
         void useability2(Gamestate &state) override;
         void useultimate(Gamestate &state) override;
         void interrupt(Gamestate &state) override;
+        bool canjump(Gamestate &state) override;
 
         Health initializehealth() override {return Health(200, 0, 0);}
         double passiveultcharge() override {return 20;}//0.4166666666666667;}
@@ -27,6 +29,8 @@ class Lucio : public Character
         std::string herofolder() override {return "heroes/lucio/";}
         double runpower() override {return 1.8;}
         EntityPtr constructweapon(Gamestate &state) {return state.make_entity<Sonicamp>(state, owner);}
+
+        Timer wallriding;
     protected:
     private:
 };

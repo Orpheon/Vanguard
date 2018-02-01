@@ -46,6 +46,8 @@ void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     xblockedsmooth.active = false;
     yblockedsmooth.init(0.02);
     yblockedsmooth.active = false;
+    jumpcooldown.init(0.5);
+    jumpcooldown.active = false;
     isflipped = false;
     acceleration = 300;
     // friction factor per second of null movement; calculated directly from Gang Garrison 2
@@ -78,9 +80,10 @@ void Character::beginstep(Gamestate &state, double frametime)
 
         if (heldkeys.JUMP)
         {
-            if (onground(state))
+            if (canjump(state))
             {
                 vspeed = -250.0;
+                jumpcooldown.reset();
             }
         }
         if (heldkeys.CROUCH)
@@ -294,6 +297,7 @@ void Character::midstep(Gamestate &state, double frametime)
     ongroundsmooth.update(state, frametime);
     xblockedsmooth.update(state, frametime);
     yblockedsmooth.update(state, frametime);
+    jumpcooldown.update(state, frametime);
     if (hspeed == 0.0)
     {
         bool run=runanim.active(), crouch=crouchanim.active();
@@ -522,6 +526,7 @@ void Character::interpolate(Entity &prev_entity, Entity &next_entity, double alp
     ongroundsmooth.interpolate(p.ongroundsmooth, n.ongroundsmooth, alpha);
     xblockedsmooth.interpolate(p.xblockedsmooth, n.xblockedsmooth, alpha);
     yblockedsmooth.interpolate(p.yblockedsmooth, n.yblockedsmooth, alpha);
+    jumpcooldown.interpolate(p.jumpcooldown, n.jumpcooldown, alpha);
     hp.normal = p.hp.normal + alpha*(n.hp.normal - p.hp.normal);
     hp.armor = p.hp.armor + alpha*(n.hp.armor - p.hp.armor);
     hp.shields = p.hp.shields + alpha*(n.hp.shields - p.hp.shields);

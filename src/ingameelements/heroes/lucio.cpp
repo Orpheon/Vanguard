@@ -7,12 +7,17 @@
 void Lucio::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Character::init(id_, state, owner_);
+
+    wallriding.init(0.4);
+    wallriding.active = false;
 }
 
 void Lucio::render(Renderer &renderer, Gamestate &state)
 {
     Character::render(renderer, state);
     al_set_target_bitmap(renderer.midground);
+
+    state.get<Sonicamp&>(weapon).renderbehind(renderer, state);
 
     std::string mainsprite;
     ALLEGRO_BITMAP *sprite;
@@ -52,9 +57,27 @@ void Lucio::render(Renderer &renderer, Gamestate &state)
     state.get<Weapon>(weapon).render(renderer, state);
 }
 
+void Lucio::midstep(Gamestate &state, double frametime)
+{
+    Character::midstep(state, frametime);
+
+    if (xblockedsmooth.active and not onground(state))
+    {
+        // We're wallriding
+        vspeed = std::min(vspeed, 0.0);
+        wallriding.reset();
+    }
+    wallriding.update(state, frametime);
+}
+
 void Lucio::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
 {
     Character::interpolate(prev_entity, next_entity, alpha);
+
+    Lucio &p = static_cast<Lucio&>(prev_entity);
+    Lucio &n = static_cast<Lucio&>(next_entity);
+
+    wallriding.interpolate(p.wallriding, n.wallriding, alpha);
 }
 
 void Lucio::useability1(Gamestate &state)
@@ -75,6 +98,11 @@ void Lucio::useultimate(Gamestate &state)
 void Lucio::interrupt(Gamestate &state)
 {
     ;
+}
+
+bool Lucio::canjump(Gamestate &state)
+{
+    return (onground(state) or wallriding.active) and not jumpcooldown.active;
 }
 
 Rect Lucio::getcollisionrect(Gamestate &state)
