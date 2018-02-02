@@ -217,7 +217,7 @@ void Peacemaker::fireultimate(Gamestate &state)
     if (deadeyetargets.size() > 0)
     {
         EntityPtr playerptr = 0;
-        double distance = VIEWPORT_WIDTH*10;
+        double distance = state.currentmap->width()*10;
         // Select closest target
         for (auto &p : deadeyetargets)
         {

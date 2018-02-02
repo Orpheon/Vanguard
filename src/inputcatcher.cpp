@@ -77,6 +77,16 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate &state, Networker &ne
                     case ALLEGRO_KEY_ESCAPE:
                         // Exit game
                         throw 0;
+
+                    case ALLEGRO_KEY_F9:
+                        if (renderer.VIEWPORT_WIDTH != 960)
+                        {
+                            renderer.changeviewport(960);
+                        }
+                        else
+                        {
+                            renderer.changeviewport(300);
+                        }
                 }
                 if (newclass != player.heroclass)
                 {

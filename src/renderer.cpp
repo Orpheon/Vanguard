@@ -46,7 +46,7 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
 {
     myself = myself_;
 
-    if (WINDOW_WIDTH != al_get_display_width(display) or WINDOW_HEIGHT != al_get_display_height(display))
+    if (WINDOW_WIDTH != al_get_display_width(display) or WINDOW_HEIGHT != al_get_display_height(display) or changedzoom)
     {
         al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
         WINDOW_WIDTH = al_get_display_width(display);
@@ -71,6 +71,8 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
         font20 = al_load_font("Vanguard Text Font.ttf", 20 * zoom, ALLEGRO_TTF_MONOCHROME);
         font12 = al_load_font("Vanguard Text Font.ttf", 12 * zoom, ALLEGRO_TTF_MONOCHROME);
         font8 = al_load_font("Vanguard Text Font.ttf", 8 * zoom, ALLEGRO_TTF_MONOCHROME);
+
+        changedzoom = false;
     }
 
     // Set camera
@@ -151,4 +153,10 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay()
         Global::logging().panic(__FILE__, __LINE__, "Could not create display");
     }
     return display;
+}
+
+void Renderer::changeviewport(int newsize)
+{
+    changedzoom = true;
+    VIEWPORT_WIDTH = newsize;
 }
