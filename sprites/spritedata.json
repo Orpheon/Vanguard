@@ -923,7 +923,47 @@
         10.0,
         -5.0
     ],
-    "heroes/lucio/fallasleep/ number of frames": 0,
+    "heroes/lucio/fallasleep/ number of frames": 10,
+    "heroes/lucio/fallasleep/10_sprite.png": [
+        22.0,
+        -20.0
+    ],
+    "heroes/lucio/fallasleep/1_sprite.png": [
+        10.0,
+        7.0
+    ],
+    "heroes/lucio/fallasleep/2_sprite.png": [
+        12.0,
+        6.0
+    ],
+    "heroes/lucio/fallasleep/3_sprite.png": [
+        13.0,
+        6.0
+    ],
+    "heroes/lucio/fallasleep/4_sprite.png": [
+        14.0,
+        5.0
+    ],
+    "heroes/lucio/fallasleep/5_sprite.png": [
+        17.0,
+        3.0
+    ],
+    "heroes/lucio/fallasleep/6_sprite.png": [
+        20.0,
+        1.0
+    ],
+    "heroes/lucio/fallasleep/7_sprite.png": [
+        20.0,
+        -1.0
+    ],
+    "heroes/lucio/fallasleep/8_sprite.png": [
+        20.0,
+        -6.0
+    ],
+    "heroes/lucio/fallasleep/9_sprite.png": [
+        20.0,
+        -16.0
+    ],
     "heroes/lucio/firing/ number of frames": 14,
     "heroes/lucio/firing/10_sprite.png": [
         10.0,
@@ -986,7 +1026,51 @@
         9.0,
         -4.0
     ],
-    "heroes/lucio/getup/ number of frames": 0,
+    "heroes/lucio/getup/ number of frames": 11,
+    "heroes/lucio/getup/10_sprite.png": [
+        7.0,
+        4.0
+    ],
+    "heroes/lucio/getup/11_sprite.png": [
+        9.0,
+        4.0
+    ],
+    "heroes/lucio/getup/1_sprite.png": [
+        22.0,
+        -22.0
+    ],
+    "heroes/lucio/getup/2_sprite.png": [
+        19.0,
+        -16.0
+    ],
+    "heroes/lucio/getup/3_sprite.png": [
+        15.0,
+        -15.0
+    ],
+    "heroes/lucio/getup/4_sprite.png": [
+        11.0,
+        -11.0
+    ],
+    "heroes/lucio/getup/5_sprite.png": [
+        10.0,
+        -10.0
+    ],
+    "heroes/lucio/getup/6_sprite.png": [
+        8.0,
+        -10.0
+    ],
+    "heroes/lucio/getup/7_sprite.png": [
+        8.0,
+        -9.0
+    ],
+    "heroes/lucio/getup/8_sprite.png": [
+        8.0,
+        -5.0
+    ],
+    "heroes/lucio/getup/9_sprite.png": [
+        8.0,
+        2.0
+    ],
     "heroes/lucio/idle/ number of frames": 1,
     "heroes/lucio/idle/1_sprite.png": [
         12.0,
@@ -1002,7 +1086,11 @@
         12.0,
         3.0
     ],
-    "heroes/lucio/pinned/ number of frames": 0,
+    "heroes/lucio/pinned/ number of frames": 1,
+    "heroes/lucio/pinned/1_sprite.png": [
+        11.0,
+        5.0
+    ],
     "heroes/lucio/projectile/ number of frames": 1,
     "heroes/lucio/projectile/1_sprite.png": [
         2.0,
@@ -1109,8 +1197,8 @@
     ],
     "heroes/lucio/sleep/ number of frames": 1,
     "heroes/lucio/sleep/1_sprite.png": [
-        18.0,
-        -21.0
+        24.0,
+        -25.0
     ],
     "heroes/lucio/soundwave/ number of frames": 8,
     "heroes/lucio/soundwave/1_sprite.png": [
@@ -1223,6 +1311,16 @@
     "heroes/lucio/ulteffect/5_sprite.png": [
         40.0,
         -19.0
+    ],
+    "heroes/lucio/wallride/ number of frames": 1,
+    "heroes/lucio/wallride/1_sprite.png": [
+        9.0,
+        7.0
+    ],
+    "heroes/lucio/wallridebackarm/ number of frames": 1,
+    "heroes/lucio/wallridebackarm/1_sprite.png": [
+        8.0,
+        10.0
     ],
     "heroes/mccree/ number of frames": 0,
     "heroes/mccree/arm/ number of frames": 1,
@@ -2106,7 +2204,7 @@
     "heroes/reinhardt/pinned/ number of frames": 1,
     "heroes/reinhardt/pinned/1_sprite.png": [
         16.0,
-        37.0
+        29.0
     ],
     "heroes/reinhardt/preparecharge/ number of frames": 7,
     "heroes/reinhardt/preparecharge/1_sprite.png": [
