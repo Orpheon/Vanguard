@@ -64,8 +64,7 @@ void Lucio::beginstep(Gamestate &state, double frametime)
 {
     Character::beginstep(state, frametime);
 
-    if (ampitupstanding.active() and
-        (std::fabs(hspeed) > 11.0 or heldkeys.LEFT or heldkeys.RIGHT or not onground(state)))
+    if (ampitupstanding.active() and (heldkeys.LEFT or heldkeys.RIGHT or not onground(state)))
     {
         ampitupstanding.active(false);
     }
@@ -123,7 +122,7 @@ void Lucio::useability2(Gamestate &state)
     Global::logging().print(__FILE__, __LINE__, "Amp it up used.");
     ampitup.reset();
     ampitupcooldown.reset();
-    if (std::fabs(hspeed) > 11.0 or heldkeys.LEFT or heldkeys.RIGHT or not onground(state))
+    if (heldkeys.LEFT or heldkeys.RIGHT or not onground(state))
     {
         ampitupbackarm.reset();
     }
