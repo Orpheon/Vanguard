@@ -10,6 +10,14 @@ void Lucio::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
     wallriding.init(0.4);
     wallriding.active = false;
+    ampitup.init(3);
+    ampitup.active = false;
+    ampitupcooldown.init(12);
+    ampitupcooldown.active = false;
+    ampitupbackarm.init(herofolder()+"ampitupbackarm/");
+    ampitupbackarm.active(false);
+    ampitupstanding.init(herofolder()+"ampitupstanding/");
+    ampitupstanding.active(false);
 }
 
 void Lucio::render(Renderer &renderer, Gamestate &state)
@@ -78,6 +86,10 @@ void Lucio::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
     Lucio &n = static_cast<Lucio&>(next_entity);
 
     wallriding.interpolate(p.wallriding, n.wallriding, alpha);
+    ampitup.interpolate(p.ampitup, n.ampitup, alpha);
+    ampitupcooldown.interpolate(p.ampitupcooldown, n.ampitupcooldown, alpha);
+    ampitupbackarm.interpolate(p.ampitupbackarm, n.ampitupbackarm, alpha);
+    ampitupstanding.interpolate(p.ampitupstanding, n.ampitupstanding, alpha);
 }
 
 void Lucio::useability1(Gamestate &state)

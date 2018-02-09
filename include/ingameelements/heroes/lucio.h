@@ -31,6 +31,10 @@ class Lucio : public Character
         EntityPtr constructweapon(Gamestate &state) {return state.make_entity<Sonicamp>(state, owner);}
 
         Timer wallriding;
+        Timer ampitup;
+        Timer ampitupcooldown;
+        Animation ampitupbackarm;
+        Animation ampitupstanding;
     protected:
     private:
 };
