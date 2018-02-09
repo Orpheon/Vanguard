@@ -41,6 +41,7 @@ class Character : public MovingEntity
         virtual bool canuseabilities(Gamestate &state) {return cangetinput(state);}
         virtual bool canjump(Gamestate &state) {return onground(state) and not jumpcooldown.active;}
         virtual double damage(Gamestate &state, double amount) override;
+        virtual double heal(Gamestate &state, double amount);
         virtual void die(Gamestate &state);
         virtual void interrupt(Gamestate &state) = 0;
         virtual void stun(Gamestate &state) override;
@@ -51,6 +52,8 @@ class Character : public MovingEntity
         virtual double maxhspeed(Gamestate &state) {return crouchanim.active() ? 60.0 : 153.0;}
         virtual void earthshatteredhitground(Gamestate &state) {earthshatteredanim.reset();}
         virtual void earthshatteredgetup(Gamestate &state) {earthshatteredgetupanim.reset();}
+        virtual void stopgettinghealed(Gamestate &state) {healingeffect.active(false);}
+        virtual void createspeedboosteffect(Gamestate &state);
 
         virtual double runpower() = 0;
         virtual Health initializehealth() = 0;
@@ -64,6 +67,11 @@ class Character : public MovingEntity
         EntityPtr weapon;
 
         Health hp;
+        double amounthealed;
+        LoopAnimation healingeffect;
+        Timer isbeinghealed;
+        double speedboost;
+        Timer speedboosteffect;
 
         Timer xblockedsmooth;
         Timer yblockedsmooth;

@@ -8,6 +8,10 @@
 
     "ui/Menu/background/ duration": 2,
 
+    "particles/healingcross/ duration": 0.3,
+    "particles/healing/ duration": 1.2,
+    "particles/speedboost/ duration": 0.3,
+
     "heroes/mccree/reload/ duration": 1.5,
     "heroes/mccree/run/ duration": 120,
     "heroes/mccree/ultwalk/ duration": 10,
