@@ -38,7 +38,7 @@ void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
     xblockedsmooth.init(0.02, false);
     yblockedsmooth.init(0.02, false);
-    jumpcooldown.init(0.5, false);
+    jumpcooldown.init(0.2, false);
     isflipped = false;
     acceleration = 300;
     // friction factor per second of null movement; calculated directly from Gang Garrison 2

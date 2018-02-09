@@ -94,6 +94,7 @@ void Lucio::midstep(Gamestate &state, double frametime)
         // We're wallriding
         vspeed = std::min(vspeed, 0.0);
         wallriding.reset();
+        jumpcooldown.reset();
     }
     wallriding.update(state, frametime);
 }
