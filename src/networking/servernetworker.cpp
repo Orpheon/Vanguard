@@ -20,7 +20,7 @@ ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sen
     asio::ip::udp::resolver::query query(LOBBY_HOST, std::to_string(LOBBY_PORT));
     lobbyaddress = *ipresolver.resolve(query);
 
-    lobbyreminder.init(30, std::bind(&ServerNetworker::registerlobby, this, std::placeholders::_1));
+    lobbyreminder.init(30, std::bind(&ServerNetworker::registerlobby, this, std::placeholders::_1), true);
     lobbyreminder.timer = lobbyreminder.duration; // Fire immediately
     if (Global::settings()["Display on Lobby"])
     {

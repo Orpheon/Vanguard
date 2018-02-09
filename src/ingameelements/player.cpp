@@ -16,11 +16,10 @@ void Player::init(uint64_t id_, Gamestate &state)
     entitytype = ENTITYTYPE::PLAYER;
     character = 0;
     heroclass = LUCIO;
-    spawntimer.init(4, std::bind(&Player::spawn, this, std::placeholders::_1));
-    spawntimer.active = false;
+    spawntimer.init(4, std::bind(&Player::spawn, this, std::placeholders::_1), false);
     // Spawn a character asap
     spawntimer.timer = spawntimer.duration;
-    ultcharge.init(100);
+    ultcharge.init(100, true);
 
     int teambalance = 0;
     for (auto &pptr : state.playerlist)

@@ -11,10 +11,9 @@ void Peacemaker::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Clipweapon::init(id_, state, owner_);
 
-    fthanim.init(herofolder()+"fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, std::placeholders::_1));
-    fthanim.active(false);
-    deadeyeanim.init(herofolder()+"fanthehammerloop/");
-    deadeyeanim.active(false);
+    fthanim.init(herofolder()+"fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, std::placeholders::_1),
+                 false);
+    deadeyeanim.init(herofolder()+"fanthehammerloop/", false);
     isfthing = false;
     isfiringult = false;
 }
@@ -201,11 +200,13 @@ void Peacemaker::firesecondary(Gamestate &state)
     {
         if (isfthing)
         {
-            fthanim.init("heroes/mccree/fanthehammerloop/", std::bind(&Peacemaker::wantfiresecondary, this, std::placeholders::_1));
+            fthanim.init("heroes/mccree/fanthehammerloop/",
+                         std::bind(&Peacemaker::wantfiresecondary, this, std::placeholders::_1), true);
         }
         else
         {
-            fthanim.init("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::wantfiresecondary, this, std::placeholders::_1));
+            fthanim.init("heroes/mccree/fanthehammerstart/",
+                         std::bind(&Peacemaker::wantfiresecondary, this, std::placeholders::_1), true);
             isfthing = true;
         }
     }
@@ -251,7 +252,8 @@ void Peacemaker::fireultimate(Gamestate &state)
 
         deadeyetargets.erase(playerptr.id);
 
-        deadeyeanim.init("heroes/mccree/fanthehammerloop/", std::bind(&Peacemaker::fireultimate, this, std::placeholders::_1));
+        deadeyeanim.init("heroes/mccree/fanthehammerloop/",
+                         std::bind(&Peacemaker::fireultimate, this, std::placeholders::_1), true);
     }
     else
     {

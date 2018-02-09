@@ -14,21 +14,15 @@ void Mccree::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Character::init(id_, state, owner_);
 
-    rollanim.init(herofolder()+"roll/");
-    rollanim.active(false);
-    flashbanganim.init(herofolder()+"flashbang/");
-    flashbanganim.active(false);
-    ultwalkanim.init(herofolder()+"ultwalk/");
-    fallanim.init(herofolder()+"falling/");
+    rollanim.init(herofolder()+"roll/", false);
+    flashbanganim.init(herofolder()+"flashbang/", false);
+    ultwalkanim.init(herofolder()+"ultwalk/", true);
+    fallanim.init(herofolder()+"falling/", true);
 
-    rollcooldown.init(8);
-    rollcooldown.active = false;
-    flashbangcooldown.init(10);
-    flashbangcooldown.active = false;
-    ulting.init(6, std::bind(&Mccree::resetafterult, this, std::placeholders::_1));
-    ulting.active = false;
-    ultcooldown.init(0.5);
-    ultcooldown.active = false;
+    rollcooldown.init(8, false);
+    flashbangcooldown.init(10, false);
+    ulting.init(6, std::bind(&Mccree::resetafterult, this, std::placeholders::_1), false);
+    ultcooldown.init(0.5, false);
 }
 
 void Mccree::render(Renderer &renderer, Gamestate &state)

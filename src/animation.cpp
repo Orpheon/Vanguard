@@ -8,16 +8,17 @@
 
 // ######### VALUE ANIMATION #########
 
-void ValueAnimation::init(std::vector<int> sequence_, double duration, std::function<void(Gamestate &state)> eventfunc_)
+void ValueAnimation::init(std::vector<int> sequence_, double duration, std::function<void(Gamestate &state)> eventfunc_,
+                          bool active_)
 {
     sequence = sequence_;
-    timer.init(duration, eventfunc_);
+    timer.init(duration, eventfunc_, active_);
     inited = true;
 }
 
-void ValueAnimation::init(std::vector<int> sequence_, double duration)
+void ValueAnimation::init(std::vector<int> sequence_, double duration, bool active_)
 {
-    init(sequence_, duration, nullptr);
+    init(sequence_, duration, nullptr, active_);
 }
 
 unsigned int ValueAnimation::getframe()
@@ -71,7 +72,7 @@ void ValueAnimation::reset()
 
 // ######### ANIMATION #########
 
-void Animation::init(std::string path_, std::function<void(Gamestate &state)> eventfunc_)
+void Animation::init(std::string path_, std::function<void(Gamestate &state)> eventfunc_, bool active_)
 {
     path = path_;
 
@@ -98,13 +99,13 @@ void Animation::init(std::string path_, std::function<void(Gamestate &state)> ev
         Global::logging().panic(__FILE__, __LINE__, "Could not load %s animation number of frames", path.c_str());
     }
 
-    timer.init(duration, eventfunc_);
+    timer.init(duration, eventfunc_, active_);
     inited = true;
 }
 
-void Animation::init(std::string path_)
+void Animation::init(std::string path_, bool active_)
 {
-    Animation::init(path_, nullptr);
+    Animation::init(path_, nullptr, active_);
 }
 
 int Animation::getframe()

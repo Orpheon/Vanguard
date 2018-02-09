@@ -3,16 +3,16 @@
 
 #include "timer.h"
 
-void Timer::init(double duration_, std::function<void(Gamestate &state)> eventfunc_)
+void Timer::init(double duration_, std::function<void(Gamestate &state)> eventfunc_, bool active_)
 {
-    Timer::init(duration_);
+    Timer::init(duration_, active_);
     eventfunc = eventfunc_;
 }
 
-void Timer::init(double duration_)
+void Timer::init(double duration_, bool active_)
 {
     timer = 0;
-    active = true;
+    active = active_;
     eventfunc = nullptr;
     duration = duration_;
     inited = true;

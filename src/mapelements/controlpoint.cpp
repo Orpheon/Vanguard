@@ -12,8 +12,8 @@ void ControlPoint::init(uint64_t id_, Rect area_, Team owningteam_, std::functio
     Entity::init(id_);
     area = area_;
     capturefunc = capturefunc_;
-    capamount.init(MAXCAP, std::bind(&ControlPoint::capture, this, std::placeholders::_1));
-    capfalloff.init(5);
+    capamount.init(MAXCAP, std::bind(&ControlPoint::capture, this, std::placeholders::_1), true);
+    capfalloff.init(5, true);
     owningteam = owningteam_;
     cappingteam = NO_TEAM;
 }

@@ -3,8 +3,7 @@
 void Clipweapon::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Weapon::init(id_, state, owner_);
-    reloadanim.init(herofolder()+"reload/", getreloadfunction(state));
-    reloadanim.active(false);
+    reloadanim.init(herofolder()+"reload/", getreloadfunction(state), false);
     clip = getclipsize();
 }
 

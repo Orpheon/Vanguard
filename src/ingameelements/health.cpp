@@ -10,7 +10,7 @@ Health::Health(double n, double a, double s)
     normal = max_normal;
     armor = max_armor;
     shields = max_shields;
-    damaged.init(3);
+    damaged.init(3, true);
 }
 
 double Health::damage(double amount)

@@ -8,16 +8,11 @@ void Lucio::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Character::init(id_, state, owner_);
 
-    wallriding.init(0.4);
-    wallriding.active = false;
-    ampitup.init(3);
-    ampitup.active = false;
-    ampitupcooldown.init(12);
-    ampitupcooldown.active = false;
-    ampitupbackarm.init(herofolder()+"ampitupbackarm/");
-    ampitupbackarm.active(false);
-    ampitupstanding.init(herofolder()+"ampitupstanding/");
-    ampitupstanding.active(false);
+    wallriding.init(0.4, false);
+    ampitup.init(3, false);
+    ampitupcooldown.init(12, false);
+    ampitupbackarm.init(herofolder()+"ampitupbackarm/", false);
+    ampitupstanding.init(herofolder()+"ampitupstanding/", false);
 }
 
 void Lucio::render(Renderer &renderer, Gamestate &state)

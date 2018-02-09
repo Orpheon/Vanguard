@@ -9,7 +9,7 @@ void Flashbang::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Projectile::init(id_, state, owner_);
 
-    countdown.init(0.3, std::bind(&Flashbang::destroy, this, std::placeholders::_1));
+    countdown.init(0.3, std::bind(&Flashbang::destroy, this, std::placeholders::_1), true);
 }
 
 void Flashbang::beginstep(Gamestate &state, double frametime)

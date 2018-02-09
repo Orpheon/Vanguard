@@ -10,8 +10,8 @@ class Timer
 {
     public:
         virtual ~Timer() = default;
-        virtual void init(double duration_, std::function<void(Gamestate &state)> eventfunc_);
-        virtual void init(double duration_);
+        virtual void init(double duration_, std::function<void(Gamestate &state)> eventfunc_, bool active_);
+        virtual void init(double duration_, bool active_);
         void update(Gamestate &state, double dt);
         double getpercent();
         void interpolate(Timer &prev_timer, Timer &next_timer, double alpha);

@@ -9,9 +9,10 @@ void Earthshatter::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     owner = owner_;
 
     direction = state.get<Player&>(owner).getcharacter(state).isflipped ? -1 : 1;
-    distance.init(MAX_RANGE, std::bind(&Earthshatter::destroy, this, std::placeholders::_1));
+    distance.init(MAX_RANGE, std::bind(&Earthshatter::destroy, this, std::placeholders::_1), true);
     olddistance = 0;
-    explosionspawner.init(EXPLOSION_STEPSIZE, std::bind(&Earthshatter::spawnexplosion, this, std::placeholders::_1));
+    explosionspawner.init(EXPLOSION_STEPSIZE, std::bind(&Earthshatter::spawnexplosion, this, std::placeholders::_1),
+                          true);
     // We want an explosion to happen immediately
     explosionspawner.timer = explosionspawner.duration;
 

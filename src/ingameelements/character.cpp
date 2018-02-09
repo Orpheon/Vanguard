@@ -23,31 +23,22 @@ void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     weapon = constructweapon(state);
     hp = initializehealth();
     team = state.get<Player>(owner).team;
-    runanim.init(herofolder()+"run/");
-    crouchanim.init(herofolder()+"crouchwalk/");
-    crouchanim.active(false);
-    stunanim.init(herofolder()+"stun/");
-    stunanim.active(false);
+    runanim.init(herofolder()+"run/", true);
+    crouchanim.init(herofolder()+"crouchwalk/", false);
+    stunanim.init(herofolder()+"stun/", false);
 
     earthshatteredfallanim.init(herofolder()+"fallasleep/", std::bind(&Character::earthshatteredhitground, this,
-                                                                      std::placeholders::_1));
-    earthshatteredfallanim.active(false);
+                                                                      std::placeholders::_1), false);
     earthshatteredanim.init(herofolder()+"sleep/", std::bind(&Character::earthshatteredgetup, this,
-                                                             std::placeholders::_1));
-    earthshatteredanim.active(false);
-    earthshatteredgetupanim.init(herofolder()+"getup/");
-    earthshatteredgetupanim.active(false);
+                                                             std::placeholders::_1), false);
+    earthshatteredgetupanim.init(herofolder()+"getup/", false);
 
-    pinanim.init(herofolder()+"pinned/");
-    pinanim.active(false);
-    ongroundsmooth.init(0.05);
+    pinanim.init(herofolder()+"pinned/", false);
+    ongroundsmooth.init(0.05, true);
 
-    xblockedsmooth.init(0.02);
-    xblockedsmooth.active = false;
-    yblockedsmooth.init(0.02);
-    yblockedsmooth.active = false;
-    jumpcooldown.init(0.5);
-    jumpcooldown.active = false;
+    xblockedsmooth.init(0.02, false);
+    yblockedsmooth.init(0.02, false);
+    jumpcooldown.init(0.5, false);
     isflipped = false;
     acceleration = 300;
     // friction factor per second of null movement; calculated directly from Gang Garrison 2

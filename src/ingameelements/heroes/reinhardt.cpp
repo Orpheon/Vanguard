@@ -16,20 +16,14 @@ void Reinhardt::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Character::init(id_, state, owner_);
 
-    chargeanim.init(herofolder()+"charge/", std::bind(&Reinhardt::endcharge, this, std::placeholders::_1));
-    chargeanim.active(false);
-    preparechargeanim.init(herofolder()+"preparecharge/", std::bind(&Reinhardt::begincharge, this));
-    preparechargeanim.active(false);
-    endchargeanim.init(herofolder()+"endcharge/");
-    endchargeanim.active(false);
-    earthshatteranim.init(herofolder()+"ult/");
-    earthshatteranim.active(false);
+    chargeanim.init(herofolder()+"charge/", std::bind(&Reinhardt::endcharge, this, std::placeholders::_1), false);
+    preparechargeanim.init(herofolder()+"preparecharge/", std::bind(&Reinhardt::begincharge, this), false);
+    endchargeanim.init(herofolder()+"endcharge/", false);
+    earthshatteranim.init(herofolder()+"ult/", false);
     earthshatterdelay.init(earthshatteranim.timer.duration * 0.6,
-                           std::bind(&Reinhardt::createearthshatter, this, std::placeholders::_1));
-    earthshatterdelay.active = false;
-    shieldrunanim.init(herofolder()+"shieldrun/");
-    chargecooldown.init(10);
-    chargecooldown.active = false;
+                           std::bind(&Reinhardt::createearthshatter, this, std::placeholders::_1), false);
+    shieldrunanim.init(herofolder()+"shieldrun/", true);
+    chargecooldown.init(10, false);
 }
 
 void Reinhardt::render(Renderer &renderer, Gamestate &state)

@@ -13,19 +13,16 @@ void Hammer::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
     barrierptr = state.make_entity<ReinhardtShield>(state, team, owner_);
 
-    firestrikeanim.init(herofolder()+"firestrikebackarm/");
-    firestrikeanim.active(false);
+    firestrikeanim.init(herofolder()+"firestrikebackarm/", false);
     firestrikedelay.init(firestrikeanim.timer.duration * 0.5,
-                         std::bind(&Hammer::createfirestrike, this, std::placeholders::_1));
-    firestrikedelay.active = false;
-    firestrikecooldown.init(6);
-    firestrikecooldown.active = false;
+                         std::bind(&Hammer::createfirestrike, this, std::placeholders::_1), false);
+    firestrikecooldown.init(6, false);
 
     // 6th and 14th frame of an assumed 20 frame animation - ugly but idk better way
-    firingdelay1.init(firinganim.timer.duration * 6.0/20.0, std::bind(&Hammer::hitarea, this, std::placeholders::_1));
-    firingdelay1.active = false;
-    firingdelay2.init(firinganim.timer.duration * 14.0/20.0, std::bind(&Hammer::hitarea, this, std::placeholders::_1));
-    firingdelay2.active = false;
+    firingdelay1.init(firinganim.timer.duration * 6.0/20.0, std::bind(&Hammer::hitarea, this, std::placeholders::_1),
+                      false);
+    firingdelay2.init(firinganim.timer.duration * 14.0/20.0, std::bind(&Hammer::hitarea, this, std::placeholders::_1),
+                      false);
 }
 
 void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
