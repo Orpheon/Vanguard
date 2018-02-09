@@ -14,6 +14,8 @@ void Lucio::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     ampitupcooldown.init(2, false);
     ampitupbackarm.init(herofolder()+"ampitupbackarm/", false);
     ampitupstanding.init(herofolder()+"ampitupstanding/", false);
+    crossfadeheal.init(herofolder()+"crossfadehealbackarm/", false);
+    crossfadespeed.init(herofolder()+"crossfadespeedbackarm/", false);
 
     currentaura = SPEEDAURA;
 }
@@ -76,10 +78,19 @@ void Lucio::beginstep(Gamestate &state, double frametime)
     ampitupcooldown.update(state, frametime);
     ampitupbackarm.update(state, frametime);
     ampitupstanding.update(state, frametime);
+    crossfadeheal.update(state, frametime);
+    crossfadespeed.update(state, frametime);
     wallridejumpcooldown.update(state, hspeed * frametime);
 
     if (canuseabilities(state))
     {
+        if (heldkeys.ABILITY_1 and not crossfadeheal.active() and not crossfadespeed.active())
+        {
+            useability1(state);
+            state.engine.sendbuffer.write<uint8_t>(ABILITY1_USED);
+            state.engine.sendbuffer.write<uint8_t>(state.findplayerid(owner));
+        }
+
         if (heldkeys.ABILITY_2 and not ampitupcooldown.active and state.engine.isserver)
         {
             useability2(state);
@@ -154,11 +165,23 @@ void Lucio::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
     ampitupcooldown.interpolate(p.ampitupcooldown, n.ampitupcooldown, alpha);
     ampitupbackarm.interpolate(p.ampitupbackarm, n.ampitupbackarm, alpha);
     ampitupstanding.interpolate(p.ampitupstanding, n.ampitupstanding, alpha);
+    crossfadeheal.interpolate(p.crossfadeheal, n.crossfadeheal, alpha);
+    crossfadespeed.interpolate(p.crossfadespeed, n.crossfadespeed, alpha);
 }
 
 void Lucio::useability1(Gamestate &state)
 {
     Global::logging().print(__FILE__, __LINE__, "Crossfade used.");
+    if (currentaura == HEALAURA)
+    {
+        crossfadespeed.reset();
+        currentaura = SPEEDAURA;
+    }
+    else
+    {
+        crossfadeheal.reset();
+        currentaura = HEALAURA;
+    }
 }
 
 void Lucio::useability2(Gamestate &state)
@@ -252,7 +275,14 @@ std::string Lucio::currentsprite(Gamestate &state, bool mask)
     }
     if (not ongroundsmooth.active)
     {
-        return herofolder()+"jump/1";
+        if (vspeed < 0)
+        {
+            return herofolder()+"jump/1";
+        }
+        else
+        {
+            return herofolder()+"jumpdrop/1";
+        }
     }
     if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
     {

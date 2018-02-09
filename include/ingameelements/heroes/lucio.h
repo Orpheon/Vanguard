@@ -39,6 +39,8 @@ class Lucio : public Character
         Timer ampitupcooldown;
         Animation ampitupbackarm;
         Animation ampitupstanding;
+        Animation crossfadeheal;
+        Animation crossfadespeed;
 
         int currentaura;
 

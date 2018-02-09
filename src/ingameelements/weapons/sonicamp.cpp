@@ -22,6 +22,14 @@ void Sonicamp::renderbehind(Renderer &renderer, Gamestate &state)
     {
         mainsprite = c.ampitupbackarm.getframepath();
     }
+    else if (c.crossfadeheal.active())
+    {
+        mainsprite = c.crossfadeheal.getframepath();
+    }
+    else if (c.crossfadespeed.active())
+    {
+        mainsprite = c.crossfadespeed.getframepath();
+    }
     // FIXME: Someday I'm going to curse myself for this. The arm needs to know whether we're currently running or idling
     else if (charactersprite.find("/run/") != std::string::npos)
     {

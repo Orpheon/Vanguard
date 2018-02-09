@@ -859,45 +859,45 @@
         18.0,
         -21.0
     ],
-    "heroes/lucio/crossfade2healbackarm/ number of frames": 5,
-    "heroes/lucio/crossfade2healbackarm/1_sprite.png": [
+    "heroes/lucio/crossfadehealbackarm/ number of frames": 5,
+    "heroes/lucio/crossfadehealbackarm/1_sprite.png": [
         -1.0,
         -4.0
     ],
-    "heroes/lucio/crossfade2healbackarm/2_sprite.png": [
+    "heroes/lucio/crossfadehealbackarm/2_sprite.png": [
         -1.0,
         -4.0
     ],
-    "heroes/lucio/crossfade2healbackarm/3_sprite.png": [
+    "heroes/lucio/crossfadehealbackarm/3_sprite.png": [
         -1.0,
         -4.0
     ],
-    "heroes/lucio/crossfade2healbackarm/4_sprite.png": [
+    "heroes/lucio/crossfadehealbackarm/4_sprite.png": [
         -1.0,
         -4.0
     ],
-    "heroes/lucio/crossfade2healbackarm/5_sprite.png": [
+    "heroes/lucio/crossfadehealbackarm/5_sprite.png": [
         -1.0,
         -5.0
     ],
-    "heroes/lucio/crossfade2speedbackarm/ number of frames": 5,
-    "heroes/lucio/crossfade2speedbackarm/1_sprite.png": [
+    "heroes/lucio/crossfadespeedbackarm/ number of frames": 5,
+    "heroes/lucio/crossfadespeedbackarm/1_sprite.png": [
         -1.0,
         -4.0
     ],
-    "heroes/lucio/crossfade2speedbackarm/2_sprite.png": [
+    "heroes/lucio/crossfadespeedbackarm/2_sprite.png": [
         -1.0,
         -4.0
     ],
-    "heroes/lucio/crossfade2speedbackarm/3_sprite.png": [
+    "heroes/lucio/crossfadespeedbackarm/3_sprite.png": [
         -1.0,
         -4.0
     ],
-    "heroes/lucio/crossfade2speedbackarm/4_sprite.png": [
+    "heroes/lucio/crossfadespeedbackarm/4_sprite.png": [
         -1.0,
         -4.0
     ],
-    "heroes/lucio/crossfade2speedbackarm/5_sprite.png": [
+    "heroes/lucio/crossfadespeedbackarm/5_sprite.png": [
         -1.0,
         -5.0
     ],

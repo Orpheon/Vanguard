@@ -62,6 +62,8 @@
     "heroes/lucio/pinned/ duration": 1,
     "heroes/lucio/ampitupbackarm/ duration": 2,
     "heroes/lucio/ampitupstanding/ duration": 3,
+    "heroes/lucio/crossfadehealbackarm/ duration": 0.8,
+    "heroes/lucio/crossfadespeedbackarm/ duration": 0.8,
 
     "heroes/mccree/idle/1 weapon": [-3, 8],
     "heroes/mccree/run/1 weapon": [-2, 9],
