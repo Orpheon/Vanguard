@@ -9,10 +9,13 @@ void Lucio::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     Character::init(id_, state, owner_);
 
     wallriding.init(0.4, false);
+    wallridejumpcooldown.init(10, false);
     ampitup.init(3, false);
     ampitupcooldown.init(2, false);
     ampitupbackarm.init(herofolder()+"ampitupbackarm/", false);
     ampitupstanding.init(herofolder()+"ampitupstanding/", false);
+
+    currentaura = SPEEDAURA;
 }
 
 void Lucio::render(Renderer &renderer, Gamestate &state)
@@ -73,6 +76,7 @@ void Lucio::beginstep(Gamestate &state, double frametime)
     ampitupcooldown.update(state, frametime);
     ampitupbackarm.update(state, frametime);
     ampitupstanding.update(state, frametime);
+    wallridejumpcooldown.update(state, hspeed * frametime);
 
     if (canuseabilities(state))
     {
@@ -89,14 +93,52 @@ void Lucio::midstep(Gamestate &state, double frametime)
 {
     Character::midstep(state, frametime);
 
+    for (auto &p : state.playerlist)
+    {
+        Player &player = state.get<Player>(p);
+        if (player.team == team and state.exists(player.character))
+        {
+            Character &character = player.getcharacter(state);
+            double dist = std::hypot(x - character.x, y - character.y);
+            if (dist <= AURARANGE)
+            {
+                if (currentaura == HEALAURA)
+                {
+                    if (ampitup.active)
+                    {
+                        character.heal(state, 45 * frametime);
+                    }
+                    else
+                    {
+                        character.heal(state, 15 * frametime);
+                    }
+                }
+                else
+                {
+                    if (ampitup.active)
+                    {
+                        character.speedboost = 1.7;
+                    }
+                    else
+                    {
+                        character.speedboost = 1.3;
+                    }
+                }
+            }
+        }
+    }
+
     if (xblockedsmooth.active and not onground(state))
     {
         // We're wallriding
         vspeed = std::min(vspeed, 0.0);
         wallriding.reset();
-        jumpcooldown.reset();
     }
     wallriding.update(state, frametime);
+    if (onground(state))
+    {
+        wallridejumpcooldown.active = false;
+    }
 }
 
 void Lucio::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
@@ -107,6 +149,7 @@ void Lucio::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
     Lucio &n = static_cast<Lucio&>(next_entity);
 
     wallriding.interpolate(p.wallriding, n.wallriding, alpha);
+    wallridejumpcooldown.interpolate(p.wallridejumpcooldown, n.wallridejumpcooldown, alpha);
     ampitup.interpolate(p.ampitup, n.ampitup, alpha);
     ampitupcooldown.interpolate(p.ampitupcooldown, n.ampitupcooldown, alpha);
     ampitupbackarm.interpolate(p.ampitupbackarm, n.ampitupbackarm, alpha);
@@ -146,7 +189,16 @@ void Lucio::interrupt(Gamestate &state)
 
 bool Lucio::canjump(Gamestate &state)
 {
-    return (onground(state) or wallriding.active) and not jumpcooldown.active;
+    return (onground(state) or wallriding.active) and not wallridejumpcooldown.active and vspeed > -50;
+}
+
+void Lucio::jump(Gamestate &state)
+{
+    Character::jump(state);
+    if (not onground(state))
+    {
+        wallridejumpcooldown.reset();
+    }
 }
 
 bool Lucio::weaponvisible(Gamestate &state)

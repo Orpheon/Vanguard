@@ -38,7 +38,6 @@ void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     ongroundsmooth.init(0.05, true);
     xblockedsmooth.init(0.02, false);
     yblockedsmooth.init(0.02, false);
-    jumpcooldown.init(0.2, false);
     isbeinghealed.init(1, std::bind(&Character::stopgettinghealed, this, std::placeholders::_1), false);
     healingeffect.init("particles/healing/", false);
     speedboosteffect.init(0.4, std::bind(&Character::createspeedboosteffect, this, std::placeholders::_1), false);
@@ -65,19 +64,20 @@ void Character::beginstep(Gamestate &state, double frametime)
     {
         if (heldkeys.LEFT)
         {
-            hspeed = std::max(hspeed - acceleration * runpower() * speedboost * frametime, -maxhspeed(state));
+            hspeed = std::max(hspeed - acceleration * runpower() * speedboost * frametime,
+                              -maxhspeed(state) * speedboost);
         }
         if (heldkeys.RIGHT)
         {
-            hspeed = std::min(hspeed + acceleration * runpower() * speedboost * frametime, maxhspeed(state));
+            hspeed = std::min(hspeed + acceleration * runpower() * speedboost * frametime,
+                              maxhspeed(state) * speedboost);
         }
 
         if (heldkeys.JUMP)
         {
             if (canjump(state))
             {
-                vspeed = -250.0;
-                jumpcooldown.reset();
+                jump(state);
             }
         }
         if (heldkeys.CROUCH)
@@ -294,7 +294,6 @@ void Character::midstep(Gamestate &state, double frametime)
     ongroundsmooth.update(state, frametime);
     xblockedsmooth.update(state, frametime);
     yblockedsmooth.update(state, frametime);
-    jumpcooldown.update(state, frametime);
     isbeinghealed.update(state, frametime);
     healingeffect.update(state, frametime);
     if (hspeed == 0.0)
@@ -551,7 +550,6 @@ void Character::interpolate(Entity &prev_entity, Entity &next_entity, double alp
     ongroundsmooth.interpolate(p.ongroundsmooth, n.ongroundsmooth, alpha);
     xblockedsmooth.interpolate(p.xblockedsmooth, n.xblockedsmooth, alpha);
     yblockedsmooth.interpolate(p.yblockedsmooth, n.yblockedsmooth, alpha);
-    jumpcooldown.interpolate(p.jumpcooldown, n.jumpcooldown, alpha);
     isbeinghealed.interpolate(p.isbeinghealed, n.isbeinghealed, alpha);
     healingeffect.interpolate(p.healingeffect, n.healingeffect, alpha);
     speedboosteffect.interpolate(p.speedboosteffect, n.speedboosteffect, alpha);
@@ -611,6 +609,11 @@ bool Character::collides(Gamestate &state, double testx, double testy)
     {
         return false;
     }
+}
+
+void Character::jump(Gamestate &state)
+{
+    vspeed -= 250.0;
 }
 
 double Character::damage(Gamestate &state, double amount)

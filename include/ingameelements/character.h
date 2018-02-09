@@ -39,7 +39,8 @@ class Character : public MovingEntity
         virtual bool cangetinput(Gamestate &state);
         virtual bool canuseweapons(Gamestate &state) {return cangetinput(state);}
         virtual bool canuseabilities(Gamestate &state) {return cangetinput(state);}
-        virtual bool canjump(Gamestate &state) {return onground(state) and not jumpcooldown.active;}
+        virtual bool canjump(Gamestate &state) {return onground(state);}
+        virtual void jump(Gamestate &state);
         virtual double damage(Gamestate &state, double amount) override;
         virtual double heal(Gamestate &state, double amount);
         virtual void die(Gamestate &state);
@@ -75,7 +76,6 @@ class Character : public MovingEntity
 
         Timer xblockedsmooth;
         Timer yblockedsmooth;
-        Timer jumpcooldown;
         double friction;
         double acceleration;
 
