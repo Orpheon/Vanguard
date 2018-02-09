@@ -275,7 +275,7 @@ std::string Lucio::currentsprite(Gamestate &state, bool mask)
     }
     if (not ongroundsmooth.active)
     {
-        if (vspeed < 0)
+        if (vspeed < 0 or wallriding.active)
         {
             return herofolder()+"jump/1";
         }
