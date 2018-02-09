@@ -3,6 +3,7 @@
 #include "visuals/hud.h"
 #include "ingameelements/heroes/mccree.h"
 #include "ingameelements/heroes/reinhardt.h"
+#include "ingameelements/heroes/lucio.h"
 
 class DefaultHud : public Hud
 {
@@ -10,6 +11,7 @@ class DefaultHud : public Hud
         void render(Renderer &renderer, Gamestate &state, Player &myself) override;
         void mccreehud(Renderer &renderer, Gamestate &state, Mccree &myself);
         void reinhardthud(Renderer &renderer, Gamestate &state, Reinhardt &myself);
+        void luciohud(Renderer &renderer, Gamestate &state, Lucio &myself);
         double renderability(Renderer &renderer, std::string spritename, double x, double y, Timer cooldown,
                              bool active);
 

@@ -11,7 +11,7 @@ void Lucio::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     wallriding.init(0.4, false);
     wallridejumpcooldown.init(10, false);
     ampitup.init(3, false);
-    ampitupcooldown.init(2, false);
+    ampitupcooldown.init(12, false);
     ampitupbackarm.init(herofolder()+"ampitupbackarm/", false);
     ampitupstanding.init(herofolder()+"ampitupstanding/", false);
     crossfadeheal.init(herofolder()+"crossfadehealbackarm/", false);

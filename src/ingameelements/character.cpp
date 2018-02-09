@@ -38,7 +38,7 @@ void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     ongroundsmooth.init(0.05, true);
     xblockedsmooth.init(0.02, false);
     yblockedsmooth.init(0.02, false);
-    isbeinghealed.init(1, std::bind(&Character::stopgettinghealed, this, std::placeholders::_1), false);
+    isbeinghealed.init(0.5, std::bind(&Character::stopgettinghealed, this, std::placeholders::_1), false);
     healingeffect.init("particles/healing/", false);
     speedboosteffect.init(0.4, std::bind(&Character::createspeedboosteffect, this, std::placeholders::_1), false);
     isflipped = false;

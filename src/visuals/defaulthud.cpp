@@ -20,6 +20,10 @@ void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
         {
             reinhardthud(renderer, state, static_cast<Reinhardt&>(character));
         }
+        else if (myself.heroclass == LUCIO)
+        {
+            luciohud(renderer, state, static_cast<Lucio&>(character));
+        }
 
         // --------------- HEALTHBAR ---------------
         ALLEGRO_COLOR healthcolors[] = { ColorPalette::premul(Color::HP, 255),
@@ -215,6 +219,25 @@ void DefaultHud::reinhardthud(Renderer &renderer, Gamestate &state, Reinhardt &m
                                                         or myself.chargeanim.active());
     abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"shield", abilities_x, abilities_y,
                                  hammer.barrier(state).brokencooldown, hammer.barrier(state).active);
+}
+
+void DefaultHud::luciohud(Renderer &renderer, Gamestate &state, Lucio &myself)
+{
+    double abilities_x = renderer.WINDOW_WIDTH * 6.0/7.0;
+    double abilities_y = HUD_Y_BASELINE;
+
+    std::string mainsprite = "ui/ingame/"+myself.herofolder()+"weapon";
+    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
+    Rect spriterect = renderer.spriteloader.get_rect(mainsprite);
+    al_draw_bitmap(sprite, abilities_x, abilities_y - spriterect.h / 2.0, 0);
+    abilities_x -= renderer.WINDOW_WIDTH * 1.0/10.0;
+    Timer emptytimer;
+    emptytimer.init(0, false);
+
+    abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"ampitup", abilities_x, abilities_y,
+                                 myself.ampitupcooldown, myself.ampitup.active);
+    abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"crossfade", abilities_x, abilities_y,
+                                 emptytimer, myself.crossfadespeed.active() or myself.crossfadeheal.active());
 }
 
 double DefaultHud::renderability(Renderer &renderer, std::string spritename, double x, double y, Timer cooldown,
