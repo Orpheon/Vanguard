@@ -10,6 +10,7 @@ class Lucio : public Character
     public:
         virtual void init(uint64_t id_, Gamestate &state, EntityPtr owner_) override;
         virtual ~Lucio() override = default;
+        void beginstep(Gamestate &state, double frametime) override;
         void midstep(Gamestate &state, double frametime) override;
         void render(Renderer &renderer, Gamestate &state) override;
         void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
@@ -22,6 +23,7 @@ class Lucio : public Character
         void useultimate(Gamestate &state) override;
         void interrupt(Gamestate &state) override;
         bool canjump(Gamestate &state) override;
+        bool weaponvisible(Gamestate &state) override;
 
         Health initializehealth() override {return Health(200, 0, 0);}
         double passiveultcharge() override {return 20;}//0.4166666666666667;}

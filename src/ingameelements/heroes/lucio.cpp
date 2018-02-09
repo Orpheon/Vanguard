@@ -10,7 +10,7 @@ void Lucio::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
     wallriding.init(0.4, false);
     ampitup.init(3, false);
-    ampitupcooldown.init(12, false);
+    ampitupcooldown.init(2, false);
     ampitupbackarm.init(herofolder()+"ampitupbackarm/", false);
     ampitupstanding.init(herofolder()+"ampitupstanding/", false);
 }
@@ -60,6 +60,32 @@ void Lucio::render(Renderer &renderer, Gamestate &state)
     state.get<Weapon>(weapon).render(renderer, state);
 }
 
+void Lucio::beginstep(Gamestate &state, double frametime)
+{
+    Character::beginstep(state, frametime);
+
+    if (ampitupstanding.active() and
+        (std::fabs(hspeed) > 11.0 or heldkeys.LEFT or heldkeys.RIGHT or not onground(state)))
+    {
+        ampitupstanding.active(false);
+    }
+
+    ampitup.update(state, frametime);
+    ampitupcooldown.update(state, frametime);
+    ampitupbackarm.update(state, frametime);
+    ampitupstanding.update(state, frametime);
+
+    if (canuseabilities(state))
+    {
+        if (heldkeys.ABILITY_2 and not ampitupcooldown.active and state.engine.isserver)
+        {
+            useability2(state);
+            state.engine.sendbuffer.write<uint8_t>(ABILITY2_USED);
+            state.engine.sendbuffer.write<uint8_t>(state.findplayerid(owner));
+        }
+    }
+}
+
 void Lucio::midstep(Gamestate &state, double frametime)
 {
     Character::midstep(state, frametime);
@@ -95,6 +121,16 @@ void Lucio::useability1(Gamestate &state)
 void Lucio::useability2(Gamestate &state)
 {
     Global::logging().print(__FILE__, __LINE__, "Amp it up used.");
+    ampitup.reset();
+    ampitupcooldown.reset();
+    if (std::fabs(hspeed) > 11.0 or heldkeys.LEFT or heldkeys.RIGHT or not onground(state))
+    {
+        ampitupbackarm.reset();
+    }
+    else
+    {
+        ampitupstanding.reset();
+    }
 }
 
 void Lucio::useultimate(Gamestate &state)
@@ -104,12 +140,18 @@ void Lucio::useultimate(Gamestate &state)
 
 void Lucio::interrupt(Gamestate &state)
 {
-    ;
+    ampitupstanding.active(false);
+    ampitupbackarm.active(false);
 }
 
 bool Lucio::canjump(Gamestate &state)
 {
     return (onground(state) or wallriding.active) and not jumpcooldown.active;
+}
+
+bool Lucio::weaponvisible(Gamestate &state)
+{
+    return Character::weaponvisible(state) and not ampitupstanding.active();
 }
 
 Rect Lucio::getcollisionrect(Gamestate &state)
@@ -147,6 +189,10 @@ std::string Lucio::currentsprite(Gamestate &state, bool mask)
     if (earthshatteredgetupanim.active())
     {
         return earthshatteredgetupanim.getframepath();
+    }
+    if (ampitupstanding.active())
+    {
+        return ampitupstanding.getframepath();
     }
     if (crouchanim.active())
     {

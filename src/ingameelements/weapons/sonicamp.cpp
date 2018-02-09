@@ -14,7 +14,15 @@ void Sonicamp::renderbehind(Renderer &renderer, Gamestate &state)
     std::string mainsprite;
     Lucio &c = state.get<Lucio&>(state.get<Player>(owner).character);
     std::string charactersprite = c.currentsprite(state, false);
-    if (charactersprite.find("/run/") != std::string::npos)
+    if (c.wallriding.active and c.xblockedsmooth.active)
+    {
+        mainsprite = herofolder() + "wallridebackarm/1";
+    }
+    else if (c.ampitupbackarm.active())
+    {
+        mainsprite = c.ampitupbackarm.getframepath();
+    }
+    else if (charactersprite.find("/run/") != std::string::npos)
     {
         mainsprite = herofolder() + "runbackarm/" + std::to_string(c.runanim.getframe());
     }
