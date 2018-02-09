@@ -123,6 +123,11 @@ void Health::update(Gamestate &state, double frametime)
             symshields = std::min(max_symshields, max_symshields+amount);
         }
     }
+
+    if (lucioshields != 0)
+    {
+        lucioshields = std::max(0.0, lucioshields - 83.33 * frametime);
+    }
 }
 
 void Health::interpolate(Health &prev_health, Health &next_health, double alpha)

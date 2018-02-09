@@ -1238,58 +1238,54 @@
         13.0,
         5.0
     ],
-    "heroes/lucio/ult/ number of frames": 13,
+    "heroes/lucio/ult/ number of frames": 12,
     "heroes/lucio/ult/10_sprite.png": [
         17.0,
-        7.0
+        -3.0
     ],
     "heroes/lucio/ult/11_sprite.png": [
         19.0,
-        8.0
+        -2.0
     ],
     "heroes/lucio/ult/12_sprite.png": [
         24.0,
-        11.0
-    ],
-    "heroes/lucio/ult/13_sprite.png": [
-        19.0,
-        13.0
+        1.0
     ],
     "heroes/lucio/ult/1_sprite.png": [
         12.0,
-        16.0
+        6.0
     ],
     "heroes/lucio/ult/2_sprite.png": [
         12.0,
-        16.0
+        6.0
     ],
     "heroes/lucio/ult/3_sprite.png": [
         23.0,
-        17.0
+        7.0
     ],
     "heroes/lucio/ult/4_sprite.png": [
         14.0,
-        17.0
+        7.0
     ],
     "heroes/lucio/ult/5_sprite.png": [
         10.0,
-        18.0
+        8.0
     ],
     "heroes/lucio/ult/6_sprite.png": [
         15.0,
-        18.0
+        8.0
     ],
     "heroes/lucio/ult/7_sprite.png": [
         14.0,
-        18.0
+        8.0
     ],
     "heroes/lucio/ult/8_sprite.png": [
         18.0,
-        17.0
+        7.0
     ],
     "heroes/lucio/ult/9_sprite.png": [
         21.0,
-        13.0
+        3.0
     ],
     "heroes/lucio/ulteffect/ number of frames": 5,
     "heroes/lucio/ulteffect/1_sprite.png": [

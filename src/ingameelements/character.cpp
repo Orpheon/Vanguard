@@ -304,6 +304,7 @@ void Character::midstep(Gamestate &state, double frametime)
         crouchanim.reset();
         crouchanim.active(crouch);
     }
+    hp.update(state, frametime);
 
     getweapon(state).midstep(state, frametime);
 }
@@ -637,6 +638,8 @@ double Character::heal(Gamestate &state, double amount)
 
         e.x = (rand()/(RAND_MAX+1.0)) * rect.w + rect.x;
         e.y = (rand()/(RAND_MAX+1.0)) * rect.h + rect.y;
+
+        amounthealed -= HEALING_PER_CROSSEFFECT;
     }
 
     if (not isbeinghealed.active)
