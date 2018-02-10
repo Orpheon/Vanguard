@@ -18,6 +18,8 @@ class Sonicamp : public Clipweapon
         void firesecondary(Gamestate &state) override;
         void wantfireprimary(Gamestate &state) override;
         void wantfiresecondary(Gamestate &state) override;
+        bool canreload(Gamestate &state) override {return Clipweapon::canreload(state)
+                                                          and not postsoundwavedelay.active;}
 
         std::string herofolder() override {return "heroes/lucio/";}
         int getclipsize() override {return 20;}
@@ -29,6 +31,7 @@ class Sonicamp : public Clipweapon
 
         Timer soundwavecooldown;
         Animation soundwave;
+        Timer postsoundwavedelay;
 
         constexpr static int SOUNDWAVE_RANGE = 30 * 8;
         constexpr static int SOUNDWAVE_FORCE = 500;

@@ -14,6 +14,7 @@ class Clipweapon : public Weapon
         virtual void serialize(Gamestate &state, WriteBuffer &buffer, bool fullupdate) override;
         virtual void deserialize(Gamestate &state, ReadBuffer &buffer, bool fullupdate) override;
         bool hasclip() override {return true;}
+        virtual bool canreload(Gamestate &state) {return true;}
 
         virtual void reload(Gamestate &state);
         virtual int getclipsize() = 0;

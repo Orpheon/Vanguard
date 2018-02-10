@@ -10,6 +10,7 @@ void Sonicamp::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
     soundwavecooldown.init(4, false);
     soundwave.init(herofolder()+"soundwave/", false);
+    postsoundwavedelay.init(1.5, false);
 }
 
 void Sonicamp::renderbehind(Renderer &renderer, Gamestate &state)
@@ -131,6 +132,7 @@ void Sonicamp::midstep(Gamestate &state, double frametime)
 
     soundwavecooldown.update(state, frametime);
     soundwave.update(state, frametime);
+    postsoundwavedelay.update(state, frametime);
 }
 
 void Sonicamp::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
@@ -142,6 +144,7 @@ void Sonicamp::interpolate(Entity &prev_entity, Entity &next_entity, double alph
 
     soundwave.interpolate(p.soundwave, n.soundwave, alpha);
     soundwavecooldown.interpolate(p.soundwavecooldown, n.soundwavecooldown, alpha);
+    postsoundwavedelay.interpolate(p.postsoundwavedelay, n.postsoundwavedelay, alpha);
 }
 
 void Sonicamp::fireprimary(Gamestate &state)
@@ -189,11 +192,13 @@ void Sonicamp::firesecondary(Gamestate &state)
 
     soundwave.reset();
     soundwavecooldown.reset();
+    postsoundwavedelay.reset();
 }
 
 void Sonicamp::wantfireprimary(Gamestate &state)
 {
-    if (clip > 0 and not firinganim.active() and not reloadanim.active() and state.engine.isserver)
+    if (clip > 0 and not firinganim.active() and not reloadanim.active() and not postsoundwavedelay.active
+        and state.engine.isserver)
     {
         fireprimary(state);
         state.engine.sendbuffer.write<uint8_t>(PRIMARY_FIRED);
