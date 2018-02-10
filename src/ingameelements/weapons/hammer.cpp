@@ -230,7 +230,7 @@ void Hammer::hitarea(Gamestate &state)
                         if (entity.collides(state, x + direction*(-20 + i), y - 30 + j))
                         {
                             // We hit something, check if it's protected
-                            if (state.collidelineshielded(state, x, y, x + direction*(-20 + i), y - 30 + j,
+                            if (state.collidelineshielded(x, y, x + direction*(-20 + i), y - 30 + j,
                                                           state.get<MovingEntity&>(entity.id), team,
                                                           PENETRATE_CHARACTER).id == entity.id)
                             {

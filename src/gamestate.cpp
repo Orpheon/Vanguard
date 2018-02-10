@@ -171,7 +171,7 @@ void Gamestate::deserializefull(ReadBuffer &buffer)
     currentmap->currentgamemode(*this).deserializefull(buffer, *this);
 }
 
-EntityPtr Gamestate::collidelinetarget(Gamestate &state, double x1, double y1, MovingEntity &target, Team team,
+EntityPtr Gamestate::collidelinetarget(double x1, double y1, MovingEntity &target, Team team,
                                        PenetrationLevel penlevel, double *collisionptx, double *collisionpty)
 {
     int nsteps = std::ceil(std::max(std::abs(x1-target.x), std::abs(y1-target.y)));
@@ -188,7 +188,7 @@ EntityPtr Gamestate::collidelinetarget(Gamestate &state, double x1, double y1, M
     for (int i=0; i<nsteps; ++i)
     {
         if ((not (penlevel & PENETRATE_WALLMASK)) and (currentmap->testpixel(*collisionptx, *collisionpty) or
-            currentmap->spawnroom(state, team).isinside(*collisionptx, *collisionpty)))
+            currentmap->spawnroom(*this, team).isinside(*collisionptx, *collisionpty)))
         {
             // We hit wallmask or went out of bounds or hit enemy spawnroom
             return EntityPtr(0);
@@ -201,10 +201,10 @@ EntityPtr Gamestate::collidelinetarget(Gamestate &state, double x1, double y1, M
                 if ((entity.id == target.id or entity.blocks(penlevel)) and entity.damageableby(team))
                 {
                     double enemycenterx=0, enemycentery=0;
-                    double dist = entity.maxdamageabledist(state, &enemycenterx, &enemycentery);
+                    double dist = entity.maxdamageabledist(*this, &enemycenterx, &enemycentery);
                     if (std::hypot(enemycenterx-*collisionptx, enemycentery-*collisionpty) <= dist)
                     {
-                        if (entity.collides(state, *collisionptx, *collisionpty))
+                        if (entity.collides(*this, *collisionptx, *collisionpty))
                         {
                             return EntityPtr(entity.id);
                         }
@@ -220,7 +220,7 @@ EntityPtr Gamestate::collidelinetarget(Gamestate &state, double x1, double y1, M
     return EntityPtr(0);
 }
 
-EntityPtr Gamestate::collidelineshielded(Gamestate &state, double x1, double y1, double x2, double y2,
+EntityPtr Gamestate::collidelineshielded(double x1, double y1, double x2, double y2,
                                          MovingEntity &target, Team team, PenetrationLevel penlevel)
 {
     int nsteps = std::ceil(std::max(std::abs(x1-x2), std::abs(y1-y2)));
@@ -236,7 +236,7 @@ EntityPtr Gamestate::collidelineshielded(Gamestate &state, double x1, double y1,
     for (int i=0; i<=nsteps; ++i)
     {
         if ((not (penlevel & PENETRATE_WALLMASK)) and (currentmap->testpixel(collisionptx, collisionpty) or
-                                                       currentmap->spawnroom(state, team).isinside(collisionptx,
+                                                       currentmap->spawnroom(*this, team).isinside(collisionptx,
                                                                                                    collisionpty)))
         {
             // We hit wallmask or went out of bounds or hit enemy spawnroom
@@ -250,10 +250,10 @@ EntityPtr Gamestate::collidelineshielded(Gamestate &state, double x1, double y1,
                 if ((entity.id == target.id or entity.blocks(penlevel)) and entity.damageableby(team))
                 {
                     double enemycenterx=0, enemycentery=0;
-                    double dist = entity.maxdamageabledist(state, &enemycenterx, &enemycentery);
+                    double dist = entity.maxdamageabledist(*this, &enemycenterx, &enemycentery);
                     if (std::hypot(enemycenterx-collisionptx, enemycentery-collisionpty) <= dist)
                     {
-                        if (entity.collides(state, collisionptx, collisionpty))
+                        if (entity.collides(*this, collisionptx, collisionpty))
                         {
                             return EntityPtr(entity.id);
                         }
@@ -270,7 +270,7 @@ EntityPtr Gamestate::collidelineshielded(Gamestate &state, double x1, double y1,
 }
 
 
-EntityPtr Gamestate::collidelinedamageable(Gamestate &state, double x1, double y1, double x2, double y2,
+EntityPtr Gamestate::collidelinedamageable(double x1, double y1, double x2, double y2,
                                            Team team, double *collisionptx, double *collisionpty)
 {
     int nsteps = std::ceil(std::max(std::abs(x1-x2), std::abs(y1-y2)));
@@ -282,7 +282,7 @@ EntityPtr Gamestate::collidelinedamageable(Gamestate &state, double x1, double y
     for (int i=0; i<nsteps; ++i)
     {
         if (currentmap->testpixel(*collisionptx, *collisionpty) or
-            currentmap->spawnroom(state, enemyteam).isinside(*collisionptx, *collisionpty))
+            currentmap->spawnroom(*this, enemyteam).isinside(*collisionptx, *collisionpty))
         {
             // We hit wallmask or went out of bounds or hit enemy spawnroom
             return EntityPtr(0);
@@ -295,10 +295,10 @@ EntityPtr Gamestate::collidelinedamageable(Gamestate &state, double x1, double y
                 if (entity.damageableby(team))
                 {
                     double enemycenterx=0, enemycentery=0;
-                    double dist = entity.maxdamageabledist(state, &enemycenterx, &enemycentery);
+                    double dist = entity.maxdamageabledist(*this, &enemycenterx, &enemycentery);
                     if (std::hypot(enemycenterx-*collisionptx, enemycentery-*collisionpty) <= dist)
                     {
-                        if (entity.collides(state, *collisionptx, *collisionpty))
+                        if (entity.collides(*this, *collisionptx, *collisionpty))
                         {
                             return EntityPtr(entity.id);
                         }

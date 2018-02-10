@@ -49,8 +49,8 @@ double Flashbang::explode(Gamestate &state)
                 MovingEntity &mv = static_cast<MovingEntity&>(entity);
                 if (std::hypot(mv.x - x, mv.y - y) < EXPLOSION_RADIUS)
                 {
-                    EntityPtr target = state.collidelinetarget(state, x, y, mv, team, PENETRATE_CHARACTER,
-                                                               &collisionptx, &collisionpty);
+                    EntityPtr target = state.collidelinetarget(x, y, mv, team, PENETRATE_CHARACTER, &collisionptx,
+                                                               &collisionpty);
                     if (target.id == entity.id)
                     {
                         entity.damage(state, 25);
