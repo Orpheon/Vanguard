@@ -41,7 +41,15 @@ void Timer::update(Gamestate &state, double dt)
             {
                 eventfunc(state);
             }
-            active = false;
+            if (reset_after_eventfunc_flag)
+            {
+                reset();
+                reset_after_eventfunc_flag = false;
+            }
+            else
+            {
+                active = false;
+            }
         }
     }
 }
@@ -70,4 +78,9 @@ void Timer::interpolate(Timer &prev_timer, Timer &next_timer, double alpha)
     {
         timer = prev_timer.timer + alpha*(next_timer.timer - prev_timer.timer);
     }
+}
+
+void Timer::reset_after_eventfunc()
+{
+    reset_after_eventfunc_flag = true;
 }
