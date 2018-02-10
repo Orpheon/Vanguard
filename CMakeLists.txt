@@ -117,6 +117,7 @@ set (SRC_FILES
         "src/ingameelements/projectiles/flashbang.cpp"
         "src/ingameelements/projectiles/earthshatter.cpp"
         "src/ingameelements/projectiles/firestrike.cpp"
+        "src/ingameelements/projectiles/sonicproj.cpp"
         "src/ingameelements/gamemodes/kothmanager.cpp"
         "src/ingameelements/gamemodes/gamemodemanager.cpp"
         "src/mapelements/spawnroom.cpp"

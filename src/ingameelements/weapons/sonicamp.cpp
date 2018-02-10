@@ -3,6 +3,7 @@
 #include <engine.h>
 #include "ingameelements/weapons/sonicamp.h"
 #include "ingameelements/heroes/lucio.h"
+#include "ingameelements/projectiles/sonicproj.h"
 
 void Sonicamp::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
@@ -11,6 +12,9 @@ void Sonicamp::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     soundwavecooldown.init(4, false);
     soundwave.init(herofolder()+"soundwave/", false);
     postsoundwavedelay.init(1.5, false);
+    refireloop.init(0.125, std::bind(&Sonicamp::createprojectile, this, std::placeholders::_1), false);
+    refiredelay.init(1, false);
+    refirecounter = 0;
 }
 
 void Sonicamp::renderbehind(Renderer &renderer, Gamestate &state)
@@ -133,6 +137,8 @@ void Sonicamp::midstep(Gamestate &state, double frametime)
     soundwavecooldown.update(state, frametime);
     soundwave.update(state, frametime);
     postsoundwavedelay.update(state, frametime);
+    refireloop.update(state, frametime);
+    refiredelay.update(state, frametime);
 }
 
 void Sonicamp::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
@@ -149,7 +155,39 @@ void Sonicamp::interpolate(Entity &prev_entity, Entity &next_entity, double alph
 
 void Sonicamp::fireprimary(Gamestate &state)
 {
-    Global::logging().print(__FILE__, __LINE__, "Fired primary");
+    refirecounter = 0;
+    refireloop.reset();
+    firinganim.reset();
+}
+
+void Sonicamp::createprojectile(Gamestate &state)
+{
+    if (clip > 0)
+    {
+        SonicProj &proj = state.get<SonicProj&>(state.make_entity<SonicProj>(state, owner));
+        proj.x = x + std::cos(aimdirection) * 14;
+        proj.y = y + std::sin(aimdirection) * 14;
+        proj.hspeed = proj.SPEED * std::cos(aimdirection);
+        proj.vspeed = proj.SPEED * std::sin(aimdirection);
+
+        if (state.currentmap->collideline(x, y, proj.x, proj.y))
+        {
+            proj.destroy(state);
+        }
+
+        ++refirecounter;
+        --clip;
+    }
+    if (clip > 0 and refirecounter < 4)
+    {
+        firinganim.reset();
+        refireloop.reset_after_eventfunc();
+    }
+    else
+    {
+        refirecounter = 0;
+        refiredelay.reset();
+    }
 }
 
 void Sonicamp::firesecondary(Gamestate &state)
@@ -197,8 +235,8 @@ void Sonicamp::firesecondary(Gamestate &state)
 
 void Sonicamp::wantfireprimary(Gamestate &state)
 {
-    if (clip > 0 and not firinganim.active() and not reloadanim.active() and not postsoundwavedelay.active
-        and state.engine.isserver)
+    if (clip > 0 and not refireloop.active and not refiredelay.active and not reloadanim.active()
+        and not postsoundwavedelay.active and state.engine.isserver)
     {
         fireprimary(state);
         state.engine.sendbuffer.write<uint8_t>(PRIMARY_FIRED);

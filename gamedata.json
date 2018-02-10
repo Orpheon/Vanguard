@@ -51,7 +51,8 @@
 
     "heroes/lucio/reload/ duration": 1.5,
     "heroes/lucio/run/ duration": 120,
-    "heroes/lucio/firing/ duration": 0.5,
+    "heroes/lucio/firing/ duration": 0.125,
+    "heroes/lucio/firingend/ duration": 0.5,
     "heroes/lucio/emote/ duration": 3,
     "heroes/lucio/crouchwalk/ duration": 40,
     "heroes/lucio/stun/ duration": 0.7,

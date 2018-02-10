@@ -965,62 +965,39 @@
         20.0,
         -16.0
     ],
-    "heroes/lucio/firing/ number of frames": 14,
-    "heroes/lucio/firing/10_sprite.png": [
-        10.0,
-        -1.0
-    ],
-    "heroes/lucio/firing/11_sprite.png": [
-        10.0,
-        -1.0
-    ],
-    "heroes/lucio/firing/12_sprite.png": [
-        10.0,
-        -4.0
-    ],
-    "heroes/lucio/firing/13_sprite.png": [
-        9.0,
-        -4.0
-    ],
-    "heroes/lucio/firing/14_sprite.png": [
-        9.0,
-        -4.0
-    ],
+    "heroes/lucio/firing/ number of frames": 2,
     "heroes/lucio/firing/1_sprite.png": [
-        9.0,
-        -4.0
+        11.0,
+        -2.0
     ],
     "heroes/lucio/firing/2_sprite.png": [
-        11.0,
-        -2.0
-    ],
-    "heroes/lucio/firing/3_sprite.png": [
         10.0,
         -4.0
     ],
-    "heroes/lucio/firing/4_sprite.png": [
-        11.0,
-        -2.0
-    ],
-    "heroes/lucio/firing/5_sprite.png": [
-        10.0,
-        -4.0
-    ],
-    "heroes/lucio/firing/6_sprite.png": [
-        11.0,
-        -2.0
-    ],
-    "heroes/lucio/firing/7_sprite.png": [
-        10.0,
-        -4.0
-    ],
-    "heroes/lucio/firing/8_sprite.png": [
+    "heroes/lucio/firingend/ number of frames": 6,
+    "heroes/lucio/firingend/1_sprite.png": [
         9.0,
         0.0
     ],
-    "heroes/lucio/firing/9_sprite.png": [
+    "heroes/lucio/firingend/2_sprite.png": [
         10.0,
         0.0
+    ],
+    "heroes/lucio/firingend/3_sprite.png": [
+        10.0,
+        -1.0
+    ],
+    "heroes/lucio/firingend/4_sprite.png": [
+        10.0,
+        -1.0
+    ],
+    "heroes/lucio/firingend/5_sprite.png": [
+        10.0,
+        -4.0
+    ],
+    "heroes/lucio/firingend/6_sprite.png": [
+        9.0,
+        -4.0
     ],
     "heroes/lucio/frontarm/ number of frames": 1,
     "heroes/lucio/frontarm/1_sprite.png": [
