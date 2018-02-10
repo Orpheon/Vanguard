@@ -94,7 +94,7 @@ void Sonicamp::render(Renderer &renderer, Gamestate &state)
     }
     else
     {
-        mainsprite = c.herofolder()+"frontarm/1";
+        mainsprite = c.herofolder()+"arm/1";
     }
     ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
     double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;

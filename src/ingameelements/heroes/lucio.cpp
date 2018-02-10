@@ -65,6 +65,14 @@ void Lucio::render(Renderer &renderer, Gamestate &state)
     }
 
     state.get<Weapon>(weapon).render(renderer, state);
+
+    int dir = isflipped?-1:1;
+    double rel_x_2, rel_y_2, rel_x_3, rel_y_3;
+    rel_x_2 = (x+renderer.spriteloader.getweaponoffset_x(mainsprite)*dir-renderer.cam_x)*renderer.zoom;
+    rel_y_2 = (y+renderer.spriteloader.getweaponoffset_y(mainsprite)-renderer.cam_y)*renderer.zoom;
+    rel_x_3 = (x+renderer.spriteloader.getweaponoffset_x(mainsprite)*dir+dir-renderer.cam_x)*renderer.zoom;
+    rel_y_3 = (y+renderer.spriteloader.getweaponoffset_y(mainsprite)+1-renderer.cam_y)*renderer.zoom;
+    al_draw_filled_rectangle(rel_x_2, rel_y_2, rel_x_3, rel_y_3, al_map_rgb(255, 0, 0));
 }
 
 void Lucio::beginstep(Gamestate &state, double frametime)
