@@ -10,7 +10,7 @@ void Lucio::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     Character::init(id_, state, owner_);
 
     wallriding.init(0.4, false);
-    wallridejumpcooldown.init(10, false);
+    wallridejumpcooldown.init(20, std::bind(&Lucio::nolongerwallriding, this, std::placeholders::_1), false);
     ampitup.init(3, false);
     ampitupcooldown.init(12, false);
     ampitupbackarm.init(herofolder()+"ampitupbackarm/", false);
@@ -82,7 +82,6 @@ void Lucio::beginstep(Gamestate &state, double frametime)
     ampitupstanding.update(state, frametime);
     crossfadeheal.update(state, frametime);
     crossfadespeed.update(state, frametime);
-    wallridejumpcooldown.update(state, hspeed * frametime);
     soundbarrier.update(state, frametime);
 
     if (canuseabilities(state) and state.engine.isserver)
@@ -144,6 +143,8 @@ void Lucio::midstep(Gamestate &state, double frametime)
             }
         }
     }
+
+    wallridejumpcooldown.update(state, std::fabs(hspeed) * frametime);
 
     if (xblockedsmooth.active and not onground(state) and not soundbarrier.active())
     {
@@ -261,6 +262,15 @@ void Lucio::jump(Gamestate &state)
     if (not onground(state))
     {
         wallridejumpcooldown.reset();
+    }
+}
+
+void Lucio::nolongerwallriding(Gamestate &state)
+{
+    if (not xblockedsmooth.active and wallriding.active)
+    {
+        // Don't allow jumps in the air after wallridingcooldown has elapsed if we haven't touched a wall since
+        wallriding.active = false;
     }
 }
 

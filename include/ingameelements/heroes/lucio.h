@@ -28,6 +28,7 @@ class Lucio : public Character
         void jump(Gamestate &state) override;
         bool weaponvisible(Gamestate &state) override;
         void createsoundbarrier(Gamestate &state);
+        void nolongerwallriding(Gamestate &state);
 
         Health initializehealth() override {return Health(200, 0, 0);}
         double passiveultcharge() override {return 20;}//0.4166666666666667;}
