@@ -80,8 +80,42 @@ void Sonicamp::renderbehind(Renderer &renderer, Gamestate &state)
 
 void Sonicamp::render(Renderer &renderer, Gamestate &state)
 {
-    // TODO
-    ;
+    std::string mainsprite;
+    double dir = aimdirection;
+    Lucio &c = state.get<Lucio>(state.get<Player&>(owner).character);
+    if (firinganim.active())
+    {
+        mainsprite = firinganim.getframepath();
+    }
+    else if (reloadanim.active())
+    {
+        mainsprite = reloadanim.getframepath();
+        dir = 3.1415*c.isflipped;
+    }
+    else
+    {
+        mainsprite = c.herofolder()+"frontarm/1";
+    }
+    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
+    double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
+    double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
+    double rel_x = (x - renderer.cam_x)*renderer.zoom;
+    double rel_y = (y - renderer.cam_y)*renderer.zoom;
+    double attachpt_x = getattachpoint_x(state)*renderer.zoom;
+    double attachpt_y = getattachpoint_y(state)*renderer.zoom;
+
+    al_set_target_bitmap(renderer.midground);
+    if (c.weaponvisible(state))
+    {
+        if (c.isflipped)
+        {
+            al_draw_scaled_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, 1, -1, dir, 0);
+        }
+        else
+        {
+            al_draw_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, dir, 0);
+        }
+    }
 }
 
 void Sonicamp::fireprimary(Gamestate &state)
