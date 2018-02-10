@@ -38,8 +38,9 @@ class Sonicamp : public Clipweapon
         int refirecounter;
         Animation firingend;
 
-        constexpr static int SOUNDWAVE_RANGE = 30 * 8;
+        constexpr static int SOUNDWAVE_RANGE = 100;
         constexpr static int SOUNDWAVE_FORCE = 500;
+        constexpr static double SOUNDWAVE_ANGLEWIDTH = PI/3.0;
     protected:
     private:
 };

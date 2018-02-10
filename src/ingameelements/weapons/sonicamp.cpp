@@ -224,19 +224,32 @@ void Sonicamp::firesecondary(Gamestate &state)
                     double dist = std::hypot(x - collisionx, y - collisiony);
                     double dx = collisionx - x;
                     double dy = collisiony - y;
-                    if (dist != 0)
-                    {
-                        dx /= dist;
-                        dy /= dist;
-                    }
-                    else
-                    {
-                        dx = 1;
-                        dy = 0;
-                    }
 
-                    character.hspeed += dx * SOUNDWAVE_FORCE;
-                    character.vspeed += dy * SOUNDWAVE_FORCE;
+                    double dalpha = std::atan2(dy, dx) - aimdirection;
+                    while (dalpha > PI)
+                    {
+                        dalpha -= 2.0*PI;
+                    }
+                    while (dalpha <= -PI)
+                    {
+                        dalpha += 2.0*PI;
+                    }
+                    if (dalpha <= SOUNDWAVE_ANGLEWIDTH)
+                    {
+                        if (dist != 0)
+                        {
+                            dx /= dist;
+                            dy /= dist;
+                        }
+                        else
+                        {
+                            dx = 1;
+                            dy = 0;
+                        }
+
+                        character.hspeed += dx * SOUNDWAVE_FORCE;
+                        character.vspeed += dy * SOUNDWAVE_FORCE;
+                    }
                 }
             }
         }
