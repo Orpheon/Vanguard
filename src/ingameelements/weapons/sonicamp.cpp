@@ -15,6 +15,7 @@ void Sonicamp::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     refireloop.init(0.125, std::bind(&Sonicamp::createprojectile, this, std::placeholders::_1), false);
     refiredelay.init(1, false);
     refirecounter = 0;
+    firingend.init(herofolder()+"firingend/", false);
 }
 
 void Sonicamp::renderbehind(Renderer &renderer, Gamestate &state)
@@ -95,6 +96,10 @@ void Sonicamp::render(Renderer &renderer, Gamestate &state)
     {
         mainsprite = soundwave.getframepath();
     }
+    else if (firingend.active())
+    {
+        mainsprite = firingend.getframepath();
+    }
     else if (firinganim.active())
     {
         mainsprite = firinganim.getframepath();
@@ -139,6 +144,7 @@ void Sonicamp::midstep(Gamestate &state, double frametime)
     postsoundwavedelay.update(state, frametime);
     refireloop.update(state, frametime);
     refiredelay.update(state, frametime);
+    firingend.update(state, frametime);
 }
 
 void Sonicamp::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
@@ -151,6 +157,9 @@ void Sonicamp::interpolate(Entity &prev_entity, Entity &next_entity, double alph
     soundwave.interpolate(p.soundwave, n.soundwave, alpha);
     soundwavecooldown.interpolate(p.soundwavecooldown, n.soundwavecooldown, alpha);
     postsoundwavedelay.interpolate(p.postsoundwavedelay, n.postsoundwavedelay, alpha);
+    refireloop.interpolate(p.refireloop, n.refireloop, alpha);
+    refiredelay.interpolate(p.refiredelay, n.refiredelay, alpha);
+    firingend.interpolate(p.firingend, n.firingend, alpha);
 }
 
 void Sonicamp::fireprimary(Gamestate &state)
@@ -180,7 +189,14 @@ void Sonicamp::createprojectile(Gamestate &state)
     }
     if (clip > 0 and refirecounter < 4)
     {
-        firinganim.reset();
+        if (refirecounter < 3)
+        {
+            firinganim.reset();
+        }
+        else
+        {
+            firingend.reset();
+        }
         refireloop.reset_after_eventfunc();
     }
     else

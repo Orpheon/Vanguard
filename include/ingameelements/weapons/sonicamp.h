@@ -36,6 +36,7 @@ class Sonicamp : public Clipweapon
         Timer refireloop;
         Timer refiredelay;
         int refirecounter;
+        Animation firingend;
 
         constexpr static int SOUNDWAVE_RANGE = 30 * 8;
         constexpr static int SOUNDWAVE_FORCE = 500;
