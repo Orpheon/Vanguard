@@ -230,10 +230,26 @@ void DefaultHud::luciohud(Renderer &renderer, Gamestate &state, Lucio &myself)
     ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
     Rect spriterect = renderer.spriteloader.get_rect(mainsprite);
     al_draw_bitmap(sprite, abilities_x, abilities_y - spriterect.h / 2.0, 0);
+    // Ammo count
+    Sonicamp &weapon = state.get<Sonicamp&>(myself.weapon);
+    std::string ammo = std::to_string(weapon.clip);
+    std::string maxammo = "I "+std::to_string(weapon.getclipsize());
+    double total_ammo_width = al_get_text_width(renderer.font12, ammo.c_str())
+                              + al_get_text_width(renderer.font8, maxammo.c_str());
+    double space_between_weapon_and_ammo = 10 * renderer.zoom;
+    double ammo_x = abilities_x + spriterect.w - total_ammo_width;
+    double ammo_y = abilities_y - spriterect.h / 2.0 - space_between_weapon_and_ammo;
+    al_draw_text(renderer.font12, al_map_rgb(255, 255, 255), ammo_x, ammo_y - al_get_font_line_height(renderer.font12),
+                 ALLEGRO_ALIGN_LEFT, ammo.c_str());
+    al_draw_text(renderer.font8, al_map_rgb(255, 255, 255),
+                 ammo_x + al_get_text_width(renderer.font12, ammo.c_str()) * 1.1,
+                 ammo_y - al_get_font_line_height(renderer.font8), ALLEGRO_ALIGN_LEFT, maxammo.c_str());
     abilities_x -= renderer.WINDOW_WIDTH * 1.0/10.0;
     Timer emptytimer;
     emptytimer.init(0, false);
 
+    abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"soundwave", abilities_x, abilities_y,
+                                 weapon.soundwavecooldown, weapon.soundwave.active());
     abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"ampitup", abilities_x, abilities_y,
                                  myself.ampitupcooldown, myself.ampitup.active);
     abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"crossfade", abilities_x, abilities_y,

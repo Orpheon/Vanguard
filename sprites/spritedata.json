@@ -923,6 +923,7 @@
         10.0,
         -5.0
     ],
+    "heroes/lucio/emote/ number of frames": 0,
     "heroes/lucio/fallasleep/ number of frames": 10,
     "heroes/lucio/fallasleep/10_sprite.png": [
         22.0,
@@ -1096,7 +1097,7 @@
         2.0,
         2.0
     ],
-    "heroes/lucio/reload/ number of frames": 8,
+    "heroes/lucio/reload/ number of frames": 6,
     "heroes/lucio/reload/1_sprite.png": [
         10.0,
         -4.0
@@ -1118,14 +1119,6 @@
         -4.0
     ],
     "heroes/lucio/reload/6_sprite.png": [
-        9.0,
-        -4.0
-    ],
-    "heroes/lucio/reload/7_sprite.png": [
-        9.0,
-        -4.0
-    ],
-    "heroes/lucio/reload/8_sprite.png": [
         9.0,
         -4.0
     ],
@@ -2580,7 +2573,7 @@
         28.0,
         19.0
     ],
-    "ui/ingame/heroes/lucio/soundwavecoolodwn_sprite.png": [
+    "ui/ingame/heroes/lucio/soundwavecooldown_sprite.png": [
         28.0,
         19.0
     ],

@@ -7,6 +7,9 @@
 void Sonicamp::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Clipweapon::init(id_, state, owner_);
+
+    soundwavecooldown.init(4, false);
+    soundwave.init(herofolder()+"soundwave/", false);
 }
 
 void Sonicamp::renderbehind(Renderer &renderer, Gamestate &state)
@@ -83,7 +86,11 @@ void Sonicamp::render(Renderer &renderer, Gamestate &state)
     std::string mainsprite;
     double dir = aimdirection;
     Lucio &c = state.get<Lucio>(state.get<Player&>(owner).character);
-    if (firinganim.active())
+    if (soundwave.active())
+    {
+        mainsprite = soundwave.getframepath();
+    }
+    else if (firinganim.active())
     {
         mainsprite = firinganim.getframepath();
     }
@@ -118,6 +125,25 @@ void Sonicamp::render(Renderer &renderer, Gamestate &state)
     }
 }
 
+void Sonicamp::midstep(Gamestate &state, double frametime)
+{
+    Clipweapon::midstep(state, frametime);
+
+    soundwavecooldown.update(state, frametime);
+    soundwave.update(state, frametime);
+}
+
+void Sonicamp::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
+{
+    Clipweapon::interpolate(prev_entity, next_entity, alpha);
+
+    Sonicamp &p = static_cast<Sonicamp&>(prev_entity);
+    Sonicamp &n = static_cast<Sonicamp&>(next_entity);
+
+    soundwave.interpolate(p.soundwave, n.soundwave, alpha);
+    soundwavecooldown.interpolate(p.soundwavecooldown, n.soundwavecooldown, alpha);
+}
+
 void Sonicamp::fireprimary(Gamestate &state)
 {
     Global::logging().print(__FILE__, __LINE__, "Fired primary");
@@ -125,7 +151,44 @@ void Sonicamp::fireprimary(Gamestate &state)
 
 void Sonicamp::firesecondary(Gamestate &state)
 {
-    Global::logging().print(__FILE__, __LINE__, "Fired secondary");
+    for (auto &p : state.playerlist)
+    {
+        Player &player = state.get<Player>(p);
+        if (player.team != team and state.exists(player.character))
+        {
+            Character &character = player.getcharacter(state);
+            double dist = std::hypot(x - character.x, y - character.y);
+            if (dist <= SOUNDWAVE_RANGE)
+            {
+                double collisionx, collisiony;
+                if (state.collidelinetarget(x, y, character, team, PENETRATE_CHARACTER, &collisionx, &collisiony).id
+                    == character.id)
+                {
+                    double dist = std::hypot(x - collisionx, y - collisiony);
+                    double dx = collisionx - x;
+                    double dy = collisiony - y;
+                    if (dist != 0)
+                    {
+                        dx /= dist;
+                        dy /= dist;
+                    }
+                    else
+                    {
+                        dx = 1;
+                        dy = 0;
+                    }
+
+                    character.hspeed += dx * SOUNDWAVE_FORCE;
+                    character.vspeed += dy * SOUNDWAVE_FORCE;
+                }
+            }
+        }
+    }
+
+    clip = std::max(0, clip-4);
+
+    soundwave.reset();
+    soundwavecooldown.reset();
 }
 
 void Sonicamp::wantfireprimary(Gamestate &state)
@@ -140,7 +203,8 @@ void Sonicamp::wantfireprimary(Gamestate &state)
 
 void Sonicamp::wantfiresecondary(Gamestate &state)
 {
-    if (clip > 0 and not firinganim.active() and not reloadanim.active() and state.engine.isserver)
+    if (clip > 0 and not firinganim.active() and not reloadanim.active() and not soundwavecooldown.active
+        and state.engine.isserver)
     {
         firesecondary(state);
         state.engine.sendbuffer.write<uint8_t>(SECONDARY_FIRED);

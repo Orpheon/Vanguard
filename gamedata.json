@@ -66,6 +66,7 @@
     "heroes/lucio/crossfadespeedbackarm/ duration": 0.8,
     "heroes/lucio/ult/ duration": 0.9,
     "heroes/lucio/ulteffect/ duration": 0.5,
+    "heroes/lucio/soundwave/ duration": 0.7,
 
     "heroes/mccree/idle/1 weapon": [-3, 8],
     "heroes/mccree/run/1 weapon": [-2, 9],

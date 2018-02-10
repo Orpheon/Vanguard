@@ -11,6 +11,8 @@ class Sonicamp : public Clipweapon
         void renderbehind(Renderer &renderer, Gamestate &state);
         void render(Renderer &renderer, Gamestate &state) override;
         std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Sonicamp(*this));}
+        void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
+        void midstep(Gamestate &state, double frametime) override;
 
         void fireprimary(Gamestate &state) override;
         void firesecondary(Gamestate &state) override;
@@ -24,6 +26,12 @@ class Sonicamp : public Clipweapon
         double getattachpoint_y(Gamestate &state) override {return 4;}
         double getbackattachpoint_x(Gamestate &state);
         double getbackattachpoint_y(Gamestate &state);
+
+        Timer soundwavecooldown;
+        Animation soundwave;
+
+        constexpr static int SOUNDWAVE_RANGE = 30 * 8;
+        constexpr static int SOUNDWAVE_FORCE = 500;
     protected:
     private:
 };
