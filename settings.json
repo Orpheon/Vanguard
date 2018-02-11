@@ -4,5 +4,6 @@
     "Display type": 16,
     "Vsync": 2,
     "Display on Lobby": true,
-    "Server ip": "127.0.0.1"
+    "Server ip": "127.0.0.1",
+    "Server port": 3226
 }
