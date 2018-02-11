@@ -972,9 +972,9 @@
     ],
     "heroes/lucio/firing/2_sprite.png": [
         10.0,
-        -4.0
+        -5.0
     ],
-    "heroes/lucio/firingend/ number of frames": 6,
+    "heroes/lucio/firingend/ number of frames": 5,
     "heroes/lucio/firingend/1_sprite.png": [
         9.0,
         0.0
@@ -995,14 +995,10 @@
         10.0,
         -4.0
     ],
-    "heroes/lucio/firingend/6_sprite.png": [
-        9.0,
-        -4.0
-    ],
     "heroes/lucio/frontarm/ number of frames": 1,
     "heroes/lucio/frontarm/1_sprite.png": [
         9.0,
-        -4.0
+        -7.0
     ],
     "heroes/lucio/getup/ number of frames": 11,
     "heroes/lucio/getup/10_sprite.png": [
@@ -1077,11 +1073,11 @@
     "heroes/lucio/reload/ number of frames": 6,
     "heroes/lucio/reload/1_sprite.png": [
         10.0,
-        -4.0
+        -7.0
     ],
     "heroes/lucio/reload/2_sprite.png": [
         9.0,
-        -3.0
+        -4.0
     ],
     "heroes/lucio/reload/3_sprite.png": [
         9.0,
@@ -1089,15 +1085,15 @@
     ],
     "heroes/lucio/reload/4_sprite.png": [
         9.0,
-        -5.0
+        -7.0
     ],
     "heroes/lucio/reload/5_sprite.png": [
         9.0,
-        -4.0
+        -7.0
     ],
     "heroes/lucio/reload/6_sprite.png": [
         9.0,
-        -4.0
+        -6.0
     ],
     "heroes/lucio/run/ number of frames": 8,
     "heroes/lucio/run/1_sprite.png": [
@@ -1173,7 +1169,7 @@
     "heroes/lucio/soundwave/ number of frames": 8,
     "heroes/lucio/soundwave/1_sprite.png": [
         9.0,
-        -4.0
+        -7.0
     ],
     "heroes/lucio/soundwave/2_sprite.png": [
         11.0,
@@ -1197,11 +1193,11 @@
     ],
     "heroes/lucio/soundwave/7_sprite.png": [
         9.0,
-        -4.0
+        -7.0
     ],
     "heroes/lucio/soundwave/8_sprite.png": [
         9.0,
-        -4.0
+        -7.0
     ],
     "heroes/lucio/stun/ number of frames": 1,
     "heroes/lucio/stun/1_sprite.png": [

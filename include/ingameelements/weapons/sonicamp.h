@@ -25,8 +25,8 @@ class Sonicamp : public Clipweapon
         std::string herofolder() override {return "heroes/lucio/";}
         int getclipsize() override {return 20;}
         std::function<void(Gamestate &state)> getreloadfunction(Gamestate &state) override {return std::bind(&Sonicamp::restoreclip, this, std::placeholders::_1);}
-        double getattachpoint_x(Gamestate &state) override {return -5;}
-        double getattachpoint_y(Gamestate &state) override {return 4;}
+        double getattachpoint_x(Gamestate &state) override {return -8;}
+        double getattachpoint_y(Gamestate &state) override {return 10;}
         double getbackattachpoint_x(Gamestate &state);
         double getbackattachpoint_y(Gamestate &state);
 

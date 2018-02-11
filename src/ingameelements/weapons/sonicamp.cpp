@@ -285,10 +285,10 @@ void Sonicamp::wantfiresecondary(Gamestate &state)
 
 double Sonicamp::getbackattachpoint_x(Gamestate &state)
 {
-    return -3 * (state.get<Player&>(owner).getcharacter(state).isflipped ? -1:1);
+    return -7 * (state.get<Player&>(owner).getcharacter(state).isflipped ? -1:1);
 }
 
 double Sonicamp::getbackattachpoint_y(Gamestate &state)
 {
-    return 6;
+    return 12;
 }
