@@ -23,11 +23,7 @@ void Sonicamp::renderbehind(Renderer &renderer, Gamestate &state)
     std::string mainsprite;
     Lucio &c = state.get<Lucio&>(state.get<Player>(owner).character);
     std::string charactersprite = c.currentsprite(state, false);
-    if (c.wallriding.active and c.xblockedsmooth.active)
-    {
-        mainsprite = herofolder() + "wallridebackarm/1";
-    }
-    else if (c.ampitupbackarm.active())
+    if (c.ampitupbackarm.active())
     {
         mainsprite = c.ampitupbackarm.getframepath();
     }
@@ -289,10 +285,10 @@ void Sonicamp::wantfiresecondary(Gamestate &state)
 
 double Sonicamp::getbackattachpoint_x(Gamestate &state)
 {
-    return 0 * (state.get<Player&>(owner).getcharacter(state).isflipped ? -1:1);
+    return -3 * (state.get<Player&>(owner).getcharacter(state).isflipped ? -1:1);
 }
 
 double Sonicamp::getbackattachpoint_y(Gamestate &state)
 {
-    return 0;
+    return 6;
 }
