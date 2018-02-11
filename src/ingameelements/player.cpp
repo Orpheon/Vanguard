@@ -16,11 +16,10 @@ void Player::init(uint64_t id_, Gamestate &state)
     entitytype = ENTITYTYPE::PLAYER;
     character = 0;
     heroclass = LUCIO;
-    spawntimer.init(4, std::bind(&Player::spawn, this, std::placeholders::_1));
-    spawntimer.active = false;
+    spawntimer.init(4, std::bind(&Player::spawn, this, std::placeholders::_1), false);
     // Spawn a character asap
     spawntimer.timer = spawntimer.duration;
-    ultcharge.init(100);
+    ultcharge.init(100, true);
 
     int teambalance = 0;
     for (auto &pptr : state.playerlist)
@@ -51,6 +50,25 @@ void Player::init(uint64_t id_, Gamestate &state)
 void Player::beginstep(Gamestate &state, double frametime)
 {
     spawntimer.update(state, frametime);
+
+    // Passive ult charge
+    if (heroclass == MCCREE)
+    {
+        ultcharge.update(state, frametime/3.0);
+    }
+    else if (heroclass == REINHARDT)
+    {
+        ultcharge.update(state, frametime/2.75);
+    }
+    else if (heroclass == LUCIO)
+    {
+        ultcharge.update(state, frametime/5.25);
+    }
+    else
+    {
+        Global::logging().panic(__FILE__, __LINE__, "Hero %i is lacking a passive ultcharge.", heroclass);
+    }
+
     if (state.exists(character))
     {
         state.get<Character&>(character).beginstep(state, frametime);
@@ -199,4 +217,40 @@ void Player::destroy(Gamestate &state)
         state.get<Character>(character).destroy(state);
     }
     destroyentity = true;
+}
+
+void Player::registerdamage(Gamestate &state, double dmg)
+{
+    if (heroclass == MCCREE)
+    {
+        ultcharge.update(state, dmg/15.0);
+    }
+    else if (heroclass == REINHARDT)
+    {
+        ultcharge.update(state, dmg/14.25);
+    }
+    else if (heroclass == LUCIO)
+    {
+        ultcharge.update(state, dmg/27.0);
+    }
+    else
+    {
+        Global::logging().panic(__FILE__, __LINE__, "Hero %i is lacking a damage ultcharge implementation.", heroclass);
+    }
+}
+
+void Player::registerhealing(Gamestate &state, double healing)
+{
+    if (heroclass == LUCIO)
+    {
+        ultcharge.update(state, healing/27.0);
+    }
+    else if (heroclass == MCCREE or heroclass == REINHARDT)
+    {
+        Global::logging().panic(__FILE__, __LINE__, "Hero %i should not be able to heal.", heroclass);
+    }
+    else
+    {
+        Global::logging().panic(__FILE__, __LINE__, "Hero %i is lacking a heal ultcharge implementation.", heroclass);
+    }
 }

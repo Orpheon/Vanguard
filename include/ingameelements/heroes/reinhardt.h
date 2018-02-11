@@ -34,7 +34,6 @@ class Reinhardt : public Character
         bool weaponvisible(Gamestate &state) override;
         void createearthshatter(Gamestate &state);
 
-        double passiveultcharge() override {return 100*0.4166666666666667;}
         Heroclass heroclass() override {return REINHARDT;}
         double runpower() override {return 1.8;}
         Health initializehealth() override {return Health(300, 200, 0);}

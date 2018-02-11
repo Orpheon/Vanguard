@@ -10,7 +10,7 @@ Health::Health(double n, double a, double s)
     normal = max_normal;
     armor = max_armor;
     shields = max_shields;
-    damaged.init(3);
+    damaged.init(3, true);
 }
 
 double Health::damage(double amount)
@@ -122,6 +122,11 @@ void Health::update(Gamestate &state, double frametime)
             amount -= max_symshields - symshields;
             symshields = std::min(max_symshields, max_symshields+amount);
         }
+    }
+
+    if (lucioshields != 0)
+    {
+        lucioshields = std::max(0.0, lucioshields - 83.33 * frametime);
     }
 }
 

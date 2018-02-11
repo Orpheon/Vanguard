@@ -62,13 +62,13 @@ class Gamestate
         void serializefull(WriteBuffer &buffer);
         void deserializefull(ReadBuffer &buffer);
 
-        EntityPtr collidelinetarget(Gamestate &state, double x1, double y1, MovingEntity &target, Team team,
+        EntityPtr collidelinetarget(double x1, double y1, MovingEntity &target, Team team,
                                     PenetrationLevel penlevel, double *collisionptx, double *collisionpty);
 
-        EntityPtr collidelineshielded(Gamestate &state, double x1, double y1, double x2, double y2,
+        EntityPtr collidelineshielded(double x1, double y1, double x2, double y2,
                                       MovingEntity &target, Team team, PenetrationLevel penlevel);
 
-        EntityPtr collidelinedamageable(Gamestate &state, double x1, double y1, double x2, double y2, Team team,
+        EntityPtr collidelinedamageable(double x1, double y1, double x2, double y2, Team team,
                                         double *collisionptx, double *collisionpty);
 
         std::map<uint64_t, std::unique_ptr<Entity>> entitylist;

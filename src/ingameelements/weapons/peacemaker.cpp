@@ -11,10 +11,9 @@ void Peacemaker::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Clipweapon::init(id_, state, owner_);
 
-    fthanim.init(herofolder()+"fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, std::placeholders::_1));
-    fthanim.active(false);
-    deadeyeanim.init(herofolder()+"fanthehammerloop/");
-    deadeyeanim.active(false);
+    fthanim.init(herofolder()+"fanthehammerstart/", std::bind(&Peacemaker::firesecondary, this, std::placeholders::_1),
+                 false);
+    deadeyeanim.init(herofolder()+"fanthehammerloop/", false);
     isfthing = false;
     isfiringult = false;
 }
@@ -124,7 +123,7 @@ void Peacemaker::fireprimary(Gamestate &state)
     double cosa = std::cos(aimdirection), sina = std::sin(aimdirection);
     double collisionptx, collisionpty;
     double d = std::hypot(state.currentmap->width(), state.currentmap->height());
-    EntityPtr target = state.collidelinedamageable(state, x, y, x+cosa*d, y+sina*d, team, &collisionptx, &collisionpty);
+    EntityPtr target = state.collidelinedamageable(x, y, x+cosa*d, y+sina*d, team, &collisionptx, &collisionpty);
     if (state.exists(target))
     {
         double distance = std::hypot(collisionptx-x, collisionpty-y);
@@ -134,7 +133,8 @@ void Peacemaker::fireprimary(Gamestate &state)
             falloff = std::max(0.0, 1 - (distance-FALLOFF_BEGIN)/(FALLOFF_END-FALLOFF_BEGIN));
         }
         Entity &e = state.get<Entity>(target);
-        e.damage(state, MAX_DAMAGE*falloff);
+        double effectivedamage = e.damage(state, MAX_DAMAGE*falloff);
+        state.get<Player&>(owner).registerdamage(state, effectivedamage);
     }
 
     state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
@@ -176,7 +176,7 @@ void Peacemaker::firesecondary(Gamestate &state)
     double spread = (2*(rand()/(RAND_MAX+1.0)) - 1)*25*3.1415/180.0;
     double cosa = std::cos(aimdirection+spread), sina = std::sin(aimdirection+spread);
     double collisionptx, collisionpty;
-    EntityPtr target = state.collidelinedamageable(state, x, y, x+cosa*FALLOFF_END, y+sina*FALLOFF_END, team,
+    EntityPtr target = state.collidelinedamageable(x, y, x+cosa*FALLOFF_END, y+sina*FALLOFF_END, team,
                                                    &collisionptx, &collisionpty);
     if (state.exists(target))
     {
@@ -187,7 +187,8 @@ void Peacemaker::firesecondary(Gamestate &state)
             falloff = std::max(0.0, (distance-FALLOFF_BEGIN) / (FALLOFF_END-FALLOFF_BEGIN));
         }
         Entity &e = state.get<Entity>(target);
-        e.damage(state, MAX_DAMAGE*falloff);
+        double effectivedamage = e.damage(state, MAX_DAMAGE*falloff);
+        state.get<Player&>(owner).registerdamage(state, effectivedamage);
     }
 
     state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
@@ -201,11 +202,13 @@ void Peacemaker::firesecondary(Gamestate &state)
     {
         if (isfthing)
         {
-            fthanim.init("heroes/mccree/fanthehammerloop/", std::bind(&Peacemaker::wantfiresecondary, this, std::placeholders::_1));
+            fthanim.init("heroes/mccree/fanthehammerloop/",
+                         std::bind(&Peacemaker::wantfiresecondary, this, std::placeholders::_1), true);
         }
         else
         {
-            fthanim.init("heroes/mccree/fanthehammerstart/", std::bind(&Peacemaker::wantfiresecondary, this, std::placeholders::_1));
+            fthanim.init("heroes/mccree/fanthehammerstart/",
+                         std::bind(&Peacemaker::wantfiresecondary, this, std::placeholders::_1), true);
             isfthing = true;
         }
     }
@@ -236,12 +239,13 @@ void Peacemaker::fireultimate(Gamestate &state)
 
         Character &c = state.get<Player>(playerptr).getcharacter(state);
         double collisionptx, collisionpty;
-        EntityPtr target = state.collidelinedamageable(state, x, y, c.x, c.y, team, &collisionptx, &collisionpty);
+        EntityPtr target = state.collidelinedamageable(x, y, c.x, c.y, team, &collisionptx, &collisionpty);
         double angle = std::atan2(c.y-y, c.x-x), cosa = std::cos(angle), sina = std::sin(angle);
         if (state.exists(target))
         {
             Entity &e = state.get<Entity>(target);
-            e.damage(state, deadeyetargets.at(playerptr.id));
+            double effectivedamage = e.damage(state, deadeyetargets.at(playerptr.id));
+            state.get<Player&>(owner).registerdamage(state, effectivedamage);
         }
 
         state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
@@ -251,7 +255,8 @@ void Peacemaker::fireultimate(Gamestate &state)
 
         deadeyetargets.erase(playerptr.id);
 
-        deadeyeanim.init("heroes/mccree/fanthehammerloop/", std::bind(&Peacemaker::fireultimate, this, std::placeholders::_1));
+        deadeyeanim.init("heroes/mccree/fanthehammerloop/",
+                         std::bind(&Peacemaker::fireultimate, this, std::placeholders::_1), true);
     }
     else
     {

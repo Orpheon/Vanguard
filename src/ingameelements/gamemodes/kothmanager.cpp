@@ -18,9 +18,9 @@ void KothManager::activate(Gamestate &state, std::function<void(Gamestate &state
     for (int i=0; i<2; ++i)
     {
         teamcounters.push_back(Timer());
-        teamcounters.at(i).init(100, std::bind(&KothManager::win, this, std::placeholders::_1));
+        teamcounters.at(i).init(100, std::bind(&KothManager::win, this, std::placeholders::_1), true);
     }
-    unlocktimer.init(5, std::bind(&KothManager::createpoint, this, std::placeholders::_1, NO_TEAM));
+    unlocktimer.init(5, std::bind(&KothManager::createpoint, this, std::placeholders::_1, NO_TEAM), true);
 }
 
 void KothManager::beginstep(Gamestate &state, double frametime)

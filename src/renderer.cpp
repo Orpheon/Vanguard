@@ -141,11 +141,19 @@ ALLEGRO_DISPLAY* Renderer::createnewdisplay()
     display_width = Global::settings().at("Display resolution").at(0);
     display_height = Global::settings().at("Display resolution").at(1);
     display_type = Global::settings().at("Display type");
+    bool force_opengl = Global::settings().at("Force OpenGL");
 
     al_set_new_display_option(ALLEGRO_VSYNC, Global::settings().at("Vsync"), ALLEGRO_SUGGEST);
 
     ALLEGRO_DISPLAY *display;
-    al_set_new_display_flags(ALLEGRO_OPENGL | display_type);
+    if (force_opengl)
+    {
+        al_set_new_display_flags(ALLEGRO_OPENGL | display_type);
+    }
+    else
+    {
+        al_set_new_display_flags(display_type);
+    }
     display = al_create_display(display_width, display_height);
 
     if(!display)

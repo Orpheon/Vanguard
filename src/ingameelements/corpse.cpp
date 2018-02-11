@@ -9,7 +9,7 @@ void Corpse::init(uint64_t id_, Gamestate &state, std::string herofolder, bool i
     MovingEntity::init(id_, state);
 
     spritepath = herofolder+"corpse/1";
-    countdown.init(8, std::bind(&Corpse::destroy, this, std::placeholders::_1));
+    countdown.init(8, std::bind(&Corpse::destroy, this, std::placeholders::_1), true);
     isflipped = isflipped_;
 }
 

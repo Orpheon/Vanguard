@@ -9,9 +9,10 @@ void Earthshatter::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     owner = owner_;
 
     direction = state.get<Player&>(owner).getcharacter(state).isflipped ? -1 : 1;
-    distance.init(MAX_RANGE, std::bind(&Earthshatter::destroy, this, std::placeholders::_1));
+    distance.init(MAX_RANGE, std::bind(&Earthshatter::destroy, this, std::placeholders::_1), true);
     olddistance = 0;
-    explosionspawner.init(EXPLOSION_STEPSIZE, std::bind(&Earthshatter::spawnexplosion, this, std::placeholders::_1));
+    explosionspawner.init(EXPLOSION_STEPSIZE, std::bind(&Earthshatter::spawnexplosion, this, std::placeholders::_1),
+                          true);
     // We want an explosion to happen immediately
     explosionspawner.timer = explosionspawner.duration;
 
@@ -113,10 +114,11 @@ void Earthshatter::endstep(Gamestate &state, double frametime)
                         if (character.collides(state, x, y-h))
                         {
                             // Check first if there's a shield protecting the character
-                            if (state.collidelineshielded(state, x, y, x, y-h, character, myteam, penetrationlevel).id
+                            if (state.collidelineshielded(x, y, x, y-h, character, myteam, penetrationlevel).id
                                 == character.id)
                             {
-                                character.damage(state, 50);
+                                double effectivedamage = character.damage(state, 50);
+                                state.get<Player&>(owner).registerdamage(state, effectivedamage);
                                 character.earthshatteredfallanim.reset();
                                 character.interrupt(state);
                             }

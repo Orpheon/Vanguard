@@ -9,7 +9,7 @@ void Flashbang::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Projectile::init(id_, state, owner_);
 
-    countdown.init(0.3, std::bind(&Flashbang::destroy, this, std::placeholders::_1));
+    countdown.init(0.3, std::bind(&Flashbang::destroy, this, std::placeholders::_1), true);
 }
 
 void Flashbang::beginstep(Gamestate &state, double frametime)
@@ -49,8 +49,8 @@ double Flashbang::explode(Gamestate &state)
                 MovingEntity &mv = static_cast<MovingEntity&>(entity);
                 if (std::hypot(mv.x - x, mv.y - y) < EXPLOSION_RADIUS)
                 {
-                    EntityPtr target = state.collidelinetarget(state, x, y, mv, team, PENETRATE_CHARACTER,
-                                                               &collisionptx, &collisionpty);
+                    EntityPtr target = state.collidelinetarget(x, y, mv, team, PENETRATE_CHARACTER, &collisionptx,
+                                                               &collisionpty);
                     if (target.id == entity.id)
                     {
                         entity.damage(state, 25);
@@ -68,6 +68,6 @@ double Flashbang::explode(Gamestate &state)
 void Flashbang::destroy(Gamestate &state)
 {
     double dmgdealt = explode(state);
-    // TODO: Register ult damage
+    state.get<Player&>(owner).registerdamage(state, dmgdealt);
     Projectile::destroy(state);
 }

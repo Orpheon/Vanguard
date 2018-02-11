@@ -13,8 +13,7 @@ void Weapon::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     owner = owner_;
     aimdirection = 0;
     team = state.get<Player>(owner).team;
-    firinganim.init(herofolder()+"firing/");
-    firinganim.active(false);
+    firinganim.init(herofolder()+"firing/", false);
 }
 
 void Weapon::beginstep(Gamestate &state, double frametime)

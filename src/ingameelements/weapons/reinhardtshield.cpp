@@ -11,10 +11,8 @@ void ReinhardtShield::init(uint64_t id_, Gamestate &state, Team team_, EntityPtr
     owner = owner_;
     active = false;
     aimdirection = 0;
-    rechargecooldown.init(2);
-    rechargecooldown.active = false;
-    brokencooldown.init(5);
-    brokencooldown.active = false;
+    rechargecooldown.init(2, false);
+    brokencooldown.init(5, false);
 }
 
 void ReinhardtShield::beginstep(Gamestate &state, double frametime)

@@ -6,7 +6,7 @@ void Explosion::init(uint64_t id_, Gamestate &state, std::string animationpath, 
     MovingEntity::init(id_, state);
 
     entitytype = ENTITYTYPE::EXPLOSION;
-    explosionanim.init(animationpath, std::bind(&Explosion::destroy, this, std::placeholders::_1));
+    explosionanim.init(animationpath, std::bind(&Explosion::destroy, this, std::placeholders::_1), true);
     direction = direction_;
 }
 

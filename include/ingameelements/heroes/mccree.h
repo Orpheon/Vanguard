@@ -30,7 +30,6 @@ class Mccree : public Character
         bool weaponvisible(Gamestate &state) override;
 
         Health initializehealth() override {return Health(200, 0, 0);}
-        double passiveultcharge() override {return 20;}//0.4166666666666667;}
         Heroclass heroclass() override {return MCCREE;}
         std::string herofolder() override {return "heroes/mccree/";}
         double runpower() override {return 1.8;}

@@ -7,8 +7,9 @@
 class ValueAnimation
 {
     public:
-        virtual void init(std::vector<int> sequence_, double duration);
-        virtual void init(std::vector<int> sequence_, double duration, std::function<void(Gamestate &state)> eventfunc_);
+        virtual void init(std::vector<int> sequence_, double duration, bool active_);
+        virtual void init(std::vector<int> sequence_, double duration, std::function<void(Gamestate &state)> eventfunc_,
+                          bool active_);
         virtual ~ValueAnimation() = default;
         virtual unsigned int getframe();
         virtual int getvalue();
@@ -26,8 +27,8 @@ class ValueAnimation
 class Animation
 {
     public:
-        virtual void init(std::string path_);
-        virtual void init(std::string path_, std::function<void(Gamestate &state)> eventfunc_);
+        virtual void init(std::string path_, bool active_);
+        virtual void init(std::string path_, std::function<void(Gamestate &state)> eventfunc_, bool active_);
         virtual ~Animation() = default;
         virtual int getframe();
         virtual std::string getframepath();

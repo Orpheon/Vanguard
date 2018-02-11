@@ -13,6 +13,7 @@
 #include "renderer.h"
 #include "ingameelements/heroes/mccree.h"
 #include "colorpalette.h"
+#include "ingameelements/explosion.h"
 
 void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
@@ -23,31 +24,23 @@ void Character::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     weapon = constructweapon(state);
     hp = initializehealth();
     team = state.get<Player>(owner).team;
-    runanim.init(herofolder()+"run/");
-    crouchanim.init(herofolder()+"crouchwalk/");
-    crouchanim.active(false);
-    stunanim.init(herofolder()+"stun/");
-    stunanim.active(false);
+    runanim.init(herofolder()+"run/", true);
+    crouchanim.init(herofolder()+"crouchwalk/", false);
+    stunanim.init(herofolder()+"stun/", false);
 
     earthshatteredfallanim.init(herofolder()+"fallasleep/", std::bind(&Character::earthshatteredhitground, this,
-                                                                      std::placeholders::_1));
-    earthshatteredfallanim.active(false);
+                                                                      std::placeholders::_1), false);
     earthshatteredanim.init(herofolder()+"sleep/", std::bind(&Character::earthshatteredgetup, this,
-                                                             std::placeholders::_1));
-    earthshatteredanim.active(false);
-    earthshatteredgetupanim.init(herofolder()+"getup/");
-    earthshatteredgetupanim.active(false);
+                                                             std::placeholders::_1), false);
+    earthshatteredgetupanim.init(herofolder()+"getup/", false);
 
-    pinanim.init(herofolder()+"pinned/");
-    pinanim.active(false);
-    ongroundsmooth.init(0.05);
-
-    xblockedsmooth.init(0.02);
-    xblockedsmooth.active = false;
-    yblockedsmooth.init(0.02);
-    yblockedsmooth.active = false;
-    jumpcooldown.init(0.5);
-    jumpcooldown.active = false;
+    pinanim.init(herofolder()+"pinned/", false);
+    ongroundsmooth.init(0.05, true);
+    xblockedsmooth.init(0.02, false);
+    yblockedsmooth.init(0.02, false);
+    isbeinghealed.init(0.5, std::bind(&Character::stopgettinghealed, this, std::placeholders::_1), false);
+    healingeffect.init("particles/healing/", false);
+    speedboosteffect.init(0.4, std::bind(&Character::createspeedboosteffect, this, std::placeholders::_1), false);
     isflipped = false;
     acceleration = 300;
     // friction factor per second of null movement; calculated directly from Gang Garrison 2
@@ -71,19 +64,20 @@ void Character::beginstep(Gamestate &state, double frametime)
     {
         if (heldkeys.LEFT)
         {
-            hspeed = std::max(hspeed - acceleration * runpower() * frametime, -maxhspeed(state));
+            hspeed = std::max(hspeed - acceleration * runpower() * speedboost * frametime,
+                              -maxhspeed(state) * speedboost);
         }
         if (heldkeys.RIGHT)
         {
-            hspeed = std::min(hspeed + acceleration * runpower() * frametime, maxhspeed(state));
+            hspeed = std::min(hspeed + acceleration * runpower() * speedboost * frametime,
+                              maxhspeed(state) * speedboost);
         }
 
         if (heldkeys.JUMP)
         {
             if (canjump(state))
             {
-                vspeed = -250.0;
-                jumpcooldown.reset();
+                jump(state);
             }
         }
         if (heldkeys.CROUCH)
@@ -145,8 +139,8 @@ void Character::beginstep(Gamestate &state, double frametime)
     // apply friction
     hspeed *= std::pow(friction, frametime);
 
-    // Passive ult charge
-    ownerplayer.ultcharge.update(state, frametime*passiveultcharge());
+    // Reset speedboost to 1, it will be reapplied in midstep if we are still in range
+    speedboost = 1.0;
 
     getweapon(state).beginstep(state, frametime);
 }
@@ -297,7 +291,8 @@ void Character::midstep(Gamestate &state, double frametime)
     ongroundsmooth.update(state, frametime);
     xblockedsmooth.update(state, frametime);
     yblockedsmooth.update(state, frametime);
-    jumpcooldown.update(state, frametime);
+    isbeinghealed.update(state, frametime);
+    healingeffect.update(state, frametime);
     if (hspeed == 0.0)
     {
         bool run=runanim.active(), crouch=crouchanim.active();
@@ -306,17 +301,44 @@ void Character::midstep(Gamestate &state, double frametime)
         crouchanim.reset();
         crouchanim.active(crouch);
     }
+    hp.update(state, frametime);
 
     getweapon(state).midstep(state, frametime);
 }
 
 void Character::endstep(Gamestate &state, double frametime)
 {
+    if (speedboost != 1.0)
+    {
+        if (not speedboosteffect.active)
+        {
+            speedboosteffect.reset();
+        }
+        speedboosteffect.update(state, frametime);
+    }
+
     getweapon(state).endstep(state, frametime);
 }
 
 void Character::render(Renderer &renderer, Gamestate &state)
 {
+    // --------------- YELLOW GLOW WHEN HEALED ---------------
+
+    if (healingeffect.active())
+    {
+        al_set_target_bitmap(renderer.midground);
+
+        std::string mainsprite = healingeffect.getframepath();
+        ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
+        double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
+        double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
+        Rect rect = getcollisionrect(state);
+        double rel_x = (rect.x + rect.w/2.0 - renderer.cam_x)*renderer.zoom;
+        double rel_y = (rect.y + rect.h/2.0 - renderer.cam_y)*renderer.zoom;
+
+        al_draw_bitmap(sprite, rel_x - spriteoffset_x, rel_y - spriteoffset_y, 0);
+    }
+
     // --------------- HEALTHBAR ---------------
     al_set_target_bitmap(renderer.surfaceground);
     std::string mainsprite = currentsprite(state, false);
@@ -526,7 +548,9 @@ void Character::interpolate(Entity &prev_entity, Entity &next_entity, double alp
     ongroundsmooth.interpolate(p.ongroundsmooth, n.ongroundsmooth, alpha);
     xblockedsmooth.interpolate(p.xblockedsmooth, n.xblockedsmooth, alpha);
     yblockedsmooth.interpolate(p.yblockedsmooth, n.yblockedsmooth, alpha);
-    jumpcooldown.interpolate(p.jumpcooldown, n.jumpcooldown, alpha);
+    isbeinghealed.interpolate(p.isbeinghealed, n.isbeinghealed, alpha);
+    healingeffect.interpolate(p.healingeffect, n.healingeffect, alpha);
+    speedboosteffect.interpolate(p.speedboosteffect, n.speedboosteffect, alpha);
     hp.normal = p.hp.normal + alpha*(n.hp.normal - p.hp.normal);
     hp.armor = p.hp.armor + alpha*(n.hp.armor - p.hp.armor);
     hp.shields = p.hp.shields + alpha*(n.hp.shields - p.hp.shields);
@@ -585,6 +609,11 @@ bool Character::collides(Gamestate &state, double testx, double testy)
     }
 }
 
+void Character::jump(Gamestate &state)
+{
+    vspeed -= 250.0;
+}
+
 double Character::damage(Gamestate &state, double amount)
 {
     double effective_damage = hp.damage(amount);
@@ -593,6 +622,43 @@ double Character::damage(Gamestate &state, double amount)
         die(state);
     }
     return effective_damage;
+}
+
+double Character::heal(Gamestate &state, double amount)
+{
+    double effective_amount = hp.heal(amount);
+    amounthealed += effective_amount;
+    while (amounthealed >= HEALING_PER_CROSSEFFECT)
+    {
+        Explosion &e = state.get<Explosion>(state.make_entity<Explosion>(state, "particles/healingcross/", 0));
+        Rect rect = getcollisionrect(state);
+
+        e.x = (rand()/(RAND_MAX+1.0)) * rect.w + rect.x;
+        e.y = (rand()/(RAND_MAX+1.0)) * rect.h + rect.y;
+
+        amounthealed -= HEALING_PER_CROSSEFFECT;
+    }
+
+    if (not isbeinghealed.active)
+    {
+        healingeffect.reset();
+    }
+    isbeinghealed.reset();
+
+    return effective_amount;
+}
+
+void Character::createspeedboosteffect(Gamestate &state)
+{
+    if (std::fabs(hspeed) >= 11.0)
+    {
+        Explosion &e = state.get<Explosion>(state.make_entity<Explosion>(state, "particles/speedboost/",
+                                                                         (hspeed<0)*3.1415));
+        Rect rect = getcollisionrect(state);
+
+        e.x = (rand()/(RAND_MAX+1.0)) * rect.w + rect.x;
+        e.y = (rand()/(RAND_MAX+1.0)) * rect.h + rect.y;
+    }
 }
 
 void Character::die(Gamestate &state)
