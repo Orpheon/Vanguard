@@ -2490,16 +2490,6 @@
         69.5,
         41.5
     ],
-    "ui/Menu/ number of frames": 1,
-    "ui/Menu/background/ number of frames": 1,
-    "ui/Menu/background/1_sprite.png": [
-        640.0,
-        512.0
-    ],
-    "ui/Menu/menu.png": [
-        606.0,
-        330.0
-    ],
     "ui/ingame/ number of frames": 1,
     "ui/ingame/Gamemode/ number of frames": 3,
     "ui/ingame/Gamemode/AllyCaptured.png": [
@@ -2638,5 +2628,20 @@
     "ui/ingame/ultbar_sprite.png": [
         51.0,
         58.5
+    ],
+    "ui/menus/ number of frames": 1,
+    "ui/menus/mainmenu/ number of frames": 1,
+    "ui/menus/mainmenu/1_sprite.png": [
+        640.0,
+        512.0
+    ],
+    "ui/menus/menu.png": [
+        606.0,
+        330.0
+    ],
+    "ui/menus/optionsmenu/ number of frames": 1,
+    "ui/menus/optionsmenu/1_sprites.png": [
+        640.0,
+        360.0
     ]
 }

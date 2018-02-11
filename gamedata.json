@@ -6,7 +6,8 @@
     "heroes/lucio/ rect": [-7, -4, 14, 39],
     "heroes/lucio/crouch/ rect": [-7, 5, 14, 30],
 
-    "ui/Menu/background/ duration": 2,
+    "ui/menus/mainmenu/ duration": 2,
+    "ui/menus/optionsmenu/ duration": 2,
 
     "particles/healingcross/ duration": 0.3,
     "particles/healing/ duration": 1.2,

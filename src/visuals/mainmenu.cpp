@@ -10,7 +10,7 @@
 Mainmenu::Mainmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(display, owner_), spriteloader(false),
                                                                       istypingIP(false), ipfont(nullptr)
 {
-    background.init("ui/Menu/background/");
+    background.init("ui/menus/mainmenu/");
 
     ALLEGRO_FONT *normal_button_font = al_load_font("Vanguard Title Font.ttf", 30, ALLEGRO_TTF_MONOCHROME);
     ALLEGRO_FONT *hovered_button_font = al_load_font("Vanguard Title Font.ttf", 40, ALLEGRO_TTF_MONOCHROME);
