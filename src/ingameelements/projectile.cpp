@@ -26,7 +26,8 @@ void Projectile::beginstep(Gamestate &state, double frametime)
         {
             if (entity.damageableby(team) and checkcollision(state, entity))
             {
-                dealdamage(state, entity);
+                double effectivedamage = dealdamage(state, entity);
+                state.get<Player&>(owner).registerdamage(state, effectivedamage);
                 if (entity.blocks(penetration()))
                 {
                     destroy(state);

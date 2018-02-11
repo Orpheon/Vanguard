@@ -31,7 +31,6 @@ class Lucio : public Character
         void nolongerwallriding(Gamestate &state);
 
         Health initializehealth() override {return Health(200, 0, 0);}
-        double passiveultcharge() override {return 20;}//0.4166666666666667;}
         Heroclass heroclass() override {return LUCIO;}
         std::string herofolder() override {return "heroes/lucio/";}
         double runpower() override {return 1.8;}

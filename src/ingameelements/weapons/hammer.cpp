@@ -234,7 +234,8 @@ void Hammer::hitarea(Gamestate &state)
                                                           state.get<MovingEntity&>(entity.id), team,
                                                           PENETRATE_CHARACTER).id == entity.id)
                             {
-                                entity.damage(state, DAMAGE);
+                                double effectivedamage = entity.damage(state, DAMAGE);
+                                state.get<Player&>(owner).registerdamage(state, effectivedamage);
                             }
                             foundcollision = true;
                         }

@@ -68,6 +68,6 @@ double Flashbang::explode(Gamestate &state)
 void Flashbang::destroy(Gamestate &state)
 {
     double dmgdealt = explode(state);
-    // TODO: Register ult damage
+    state.get<Player&>(owner).registerdamage(state, dmgdealt);
     Projectile::destroy(state);
 }

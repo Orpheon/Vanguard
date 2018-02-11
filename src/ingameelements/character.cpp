@@ -139,9 +139,6 @@ void Character::beginstep(Gamestate &state, double frametime)
     // apply friction
     hspeed *= std::pow(friction, frametime);
 
-    // Passive ult charge
-    ownerplayer.ultcharge.update(state, frametime*passiveultcharge());
-
     // Reset speedboost to 1, it will be reapplied in midstep if we are still in range
     speedboost = 1.0;
 

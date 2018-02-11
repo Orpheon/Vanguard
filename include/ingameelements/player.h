@@ -32,6 +32,8 @@ class Player : public Entity
         void serialize(Gamestate &state, WriteBuffer &buffer, bool fullupdate);
         void deserialize(Gamestate &state, ReadBuffer &buffer, bool fullupdate);
         void destroy(Gamestate &state) override;
+        void registerdamage(Gamestate &state, double dmg);
+        void registerhealing(Gamestate &state, double healing);
 
         Character& getcharacter(Gamestate &state);
 

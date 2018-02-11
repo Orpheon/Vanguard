@@ -41,6 +41,7 @@ class Sonicamp : public Clipweapon
         constexpr static int SOUNDWAVE_RANGE = 100;
         constexpr static int SOUNDWAVE_FORCE = 500;
         constexpr static double SOUNDWAVE_ANGLEWIDTH = PI/3.0;
+        constexpr static double SOUNDWAVE_DAMAGE = 24;
     protected:
     private:
 };

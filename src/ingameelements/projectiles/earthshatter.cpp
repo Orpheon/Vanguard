@@ -117,7 +117,8 @@ void Earthshatter::endstep(Gamestate &state, double frametime)
                             if (state.collidelineshielded(x, y, x, y-h, character, myteam, penetrationlevel).id
                                 == character.id)
                             {
-                                character.damage(state, 50);
+                                double effectivedamage = character.damage(state, 50);
+                                state.get<Player&>(owner).registerdamage(state, effectivedamage);
                                 character.earthshatteredfallanim.reset();
                                 character.interrupt(state);
                             }

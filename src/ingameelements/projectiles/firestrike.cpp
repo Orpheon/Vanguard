@@ -17,9 +17,9 @@ double Firestrike::dealdamage(Gamestate &state, Entity &target)
         }
     }
 
-    double effective_dmg = target.damage(state, DAMAGE);
+    double effectivedamage = target.damage(state, DAMAGE);
     already_damaged_entities.push_back(target.id);
-    return effective_dmg;
+    return effectivedamage;
 }
 
 void Firestrike::render(Renderer &renderer, Gamestate &state)

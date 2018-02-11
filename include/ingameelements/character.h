@@ -62,7 +62,6 @@ class Character : public MovingEntity
         virtual std::string herofolder() = 0;
         virtual EntityPtr constructweapon(Gamestate &state) = 0;
         Weapon& getweapon(Gamestate &state);
-        virtual double passiveultcharge() = 0;
 
         EntityPtr owner;
         EntityPtr weapon;
