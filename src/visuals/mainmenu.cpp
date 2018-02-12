@@ -69,6 +69,11 @@ void Mainmenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
             quit();
         }
 
+        if (event.type ==  ALLEGRO_EVENT_DISPLAY_RESIZE)
+        {
+            al_acknowledge_resize(display);
+        }
+
         if (istypingIP)
         {
             if (event.type == ALLEGRO_EVENT_KEY_CHAR)
@@ -148,7 +153,12 @@ void Mainmenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
     // use mousestate.x or .y for position of mouse on screen
 
     // Draw
-    al_draw_bitmap(spriteloader.requestsprite(background.getframepath()), 0, 0, 0);
+    int WINDOW_WIDTH = al_get_display_width(display);
+    int WINDOW_HEIGHT = al_get_display_height(display);
+    ALLEGRO_BITMAP* bgsprite = spriteloader.requestsprite(background.getframepath());
+    double w = al_get_bitmap_width(bgsprite), h = al_get_bitmap_height(bgsprite);
+    al_draw_scaled_bitmap(bgsprite, 0, 0, w, h, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+    
     for (auto& button : buttons)
     {
         button->render(display, mousestate.x, mousestate.y);
@@ -156,8 +166,6 @@ void Mainmenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
 
     if (istypingIP)
     {
-        int WINDOW_WIDTH = al_get_display_width(display);
-        int WINDOW_HEIGHT = al_get_display_height(display);
         int textheight = al_get_font_line_height(ipfont);
 
         al_draw_text(ipfont, al_map_rgb(255, 255, 255), WINDOW_WIDTH/2.0, WINDOW_HEIGHT/2.0 - textheight*2,
