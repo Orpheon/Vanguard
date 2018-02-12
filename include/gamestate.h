@@ -62,9 +62,6 @@ class Gamestate
         void serializefull(WriteBuffer &buffer);
         void deserializefull(ReadBuffer &buffer);
 
-        EntityPtr collidelinetarget(double x1, double y1, MovingEntity &target, Team team,
-                                    PenetrationLevel penlevel, double *collisionptx, double *collisionpty);
-
         EntityPtr collidelineshielded(double x1, double y1, double x2, double y2,
                                       MovingEntity &target, Team team, PenetrationLevel penlevel);
 

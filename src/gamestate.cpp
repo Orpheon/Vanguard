@@ -171,55 +171,6 @@ void Gamestate::deserializefull(ReadBuffer &buffer)
     currentmap->currentgamemode(*this).deserializefull(buffer, *this);
 }
 
-EntityPtr Gamestate::collidelinetarget(double x1, double y1, MovingEntity &target, Team team,
-                                       PenetrationLevel penlevel, double *collisionptx, double *collisionpty)
-{
-    int nsteps = std::ceil(std::max(std::abs(x1-target.x), std::abs(y1-target.y)));
-    double dx = static_cast<double>(target.x-x1)/nsteps, dy = static_cast<double>(target.y-y1)*1.0/nsteps;
-    *collisionptx = x1;
-    *collisionpty = y1;
-
-    if (nsteps < 1)
-    {
-        // Target and sender are on top of each other, no blocking possible
-        return EntityPtr(target.id);
-    }
-
-    for (int i=0; i<nsteps; ++i)
-    {
-        if ((not (penlevel & PENETRATE_WALLMASK)) and (currentmap->testpixel(*collisionptx, *collisionpty) or
-            currentmap->spawnroom(*this, team).isinside(*collisionptx, *collisionpty)))
-        {
-            // We hit wallmask or went out of bounds or hit enemy spawnroom
-            return EntityPtr(0);
-        }
-        for (auto &e : entitylist)
-        {
-            auto &entity = *(e.second);
-            if (not entity.destroyentity)
-            {
-                if ((entity.id == target.id or entity.blocks(penlevel)) and entity.damageableby(team))
-                {
-                    double enemycenterx=0, enemycentery=0;
-                    double dist = entity.maxdamageabledist(*this, &enemycenterx, &enemycentery);
-                    if (std::hypot(enemycenterx-*collisionptx, enemycentery-*collisionpty) <= dist)
-                    {
-                        if (entity.collides(*this, *collisionptx, *collisionpty))
-                        {
-                            return EntityPtr(entity.id);
-                        }
-                    }
-                }
-            }
-        }
-        *collisionptx += dx; *collisionpty += dy;
-    }
-    Global::logging().panic(__FILE__, __LINE__,
-                            "Entity %i could not be reached at pt %f|%f (dx|dy = %f|%f, x1|y1 = %f|%f, targetx|y = %f|%f)",
-                            target.id, *collisionptx, *collisionpty, dx, dy, x1, y1, target.x, target.y);
-    return EntityPtr(0);
-}
-
 EntityPtr Gamestate::collidelineshielded(double x1, double y1, double x2, double y2,
                                          MovingEntity &target, Team team, PenetrationLevel penlevel)
 {
