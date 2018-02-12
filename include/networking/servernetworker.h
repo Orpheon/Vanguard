@@ -16,6 +16,7 @@ class ServerNetworker : public Networker
         void sendeventdata(Gamestate &state) override;
         void sendframedata(Gamestate &state);
         void registerlobby(Gamestate &state);
+        void deregisterlobby();
     protected:
     private:
         Timer lobbyreminder;

@@ -43,7 +43,7 @@ void InputCatcher::run(ALLEGRO_DISPLAY *display, Gamestate &state, Networker &ne
     heldkeys.reset();
 
     Player &player = state.get<Player>(myself);
-
+    
     ALLEGRO_EVENT event;
     // Catch all events that have stacked up this frame. al_get_next_event() returns false when event_queue is empty, and contents of event are undefined
     while (al_get_next_event(event_queue, &event))

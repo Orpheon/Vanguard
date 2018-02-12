@@ -24,164 +24,170 @@ long int getmillisec();
 
 int main(int argc, char **argv)
 {
-    // Initialize logging
-    std::unique_ptr<PrintLogger> default_logger(new PrintLogger());
-    Global::provide_logging(default_logger.get());
-
-    // Load the settings config
-    ConfigLoader settings_configloader;
-    nlohmann::json settings = settings_configloader.open("settings.json");
-    Global::provide_settings(&settings);
-
-    // Initialize Allegro
-    if (!al_init())
+    try
     {
-        Global::logging().panic(__FILE__, __LINE__, "Allegro initialization failed");
-    }
+        // Initialize logging
+        std::unique_ptr<PrintLogger> default_logger(new PrintLogger());
+        Global::provide_logging(default_logger.get());
 
-    // Initialize the Allegro Image addon, used to load sprites and maps
-    if (!al_init_image_addon())
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Allegro image addon initialization failed");
-    }
+        // Load the settings config
+        ConfigLoader settings_configloader;
+        nlohmann::json settings = settings_configloader.open("settings.json");
+        Global::provide_settings(&settings);
 
-    // Initialize primitives for drawing
-    if (!al_init_primitives_addon())
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Allegro primitives addon initialization failed");
-    }
-
-    // Initialize keyboard modules
-    if (!al_install_keyboard())
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Allegro keyboard initialization failed");
-    }
-
-    // Initialize mouse
-    if (!al_install_mouse())
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Allegro mouse initialization failed");
-    }
-
-    // Initialize networking system
-    if (enet_initialize())
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Enet initialization failed");
-    }
-
-    //load font
-    al_init_font_addon();
-    al_init_ttf_addon();
-
-    Renderer renderer;
-    ALLEGRO_DISPLAY* display = renderer.createnewdisplay();
-
-    std::unique_ptr<MenuContainer> menus = std::unique_ptr<MenuContainer>(new MenuContainer(display));
-    double lasttimeupdated = al_get_time();
-    int not_finished = 1;
-    while (not_finished)
-    {
-        if (al_get_time() - lasttimeupdated >= MENU_TIMESTEP)
+        // Initialize Allegro
+        if (!al_init())
         {
-            not_finished = menus->run(display);
-            lasttimeupdated = al_get_time();
-            if (not_finished == -1)
+            Global::logging().panic(__FILE__, __LINE__, "Allegro initialization failed");
+        }
+
+        // Initialize the Allegro Image addon, used to load sprites and maps
+        if (!al_init_image_addon())
+        {
+            Global::logging().panic(__FILE__, __LINE__, "Allegro image addon initialization failed");
+        }
+
+        // Initialize primitives for drawing
+        if (!al_init_primitives_addon())
+        {
+            Global::logging().panic(__FILE__, __LINE__, "Allegro primitives addon initialization failed");
+        }
+
+        // Initialize keyboard modules
+        if (!al_install_keyboard())
+        {
+            Global::logging().panic(__FILE__, __LINE__, "Allegro keyboard initialization failed");
+        }
+
+        // Initialize mouse
+        if (!al_install_mouse())
+        {
+            Global::logging().panic(__FILE__, __LINE__, "Allegro mouse initialization failed");
+        }
+
+        // Initialize networking system
+        if (enet_initialize())
+        {
+            Global::logging().panic(__FILE__, __LINE__, "Enet initialization failed");
+        }
+
+        //load font
+        al_init_font_addon();
+        al_init_ttf_addon();
+
+        Renderer renderer;
+        ALLEGRO_DISPLAY* display = renderer.createnewdisplay();
+
+        std::unique_ptr<MenuContainer> menus = std::unique_ptr<MenuContainer>(new MenuContainer(display));
+        double lasttimeupdated = al_get_time();
+        int not_finished = 1;
+        while (not_finished)
+        {
+            if (al_get_time() - lasttimeupdated >= MENU_TIMESTEP)
             {
-                // Quit
-                return 0;
+                not_finished = menus->run(display);
+                lasttimeupdated = al_get_time();
+                if (not_finished == -1)
+                {
+                    // Quit
+                    return 0;
+                }
             }
         }
-    }
 
-    bool isserver = true;
-    std::string serverip;
-    int serverport = 3224;
+        bool isserver = true;
+        std::string serverip;
+        int serverport = 3224;
 
-    // Server, client, or quit?
-    if (menus->action() == POSTMENUACTION::QUIT)
-    {
-        // Exit peacefully
-        return 0;
-    }
-    else if (menus->action() == POSTMENUACTION::HOST_SERVER)
-    {
-        isserver = true;
-    }
-    else if (menus->action() == POSTMENUACTION::JOIN_SERVER)
-    {
-        isserver = false;
-        serverip = menus->serverip;
-        serverport = menus->serverport;
-    }
-    else
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Unknown post menu status %i", menus->action());
-    }
-
-    // Clean up
-    menus.reset();
-
-    Engine engine(isserver);
-    InputCatcher inputcatcher(display);
-    Gamestate renderingstate(engine);
-
-    std::unique_ptr<Networker> networker;
-    if (isserver)
-    {
-        networker = std::unique_ptr<Networker>(new ServerNetworker(engine.sendbuffer));
-    }
-    else
-    {
-        networker = std::unique_ptr<Networker>(new ClientNetworker(engine.sendbuffer, serverip, serverport));
-    }
-
-    engine.loadmap("lijiang");
-    // FIXME: Hack to make sure the oldstate is properly initialized
-    engine.update(0);
-
-    EntityPtr myself(0);
-    if (isserver)
-    {
-        myself = engine.currentstate->addplayer();
-        Player &p = engine.currentstate->get<Player&>(myself);
-        p.name = Global::settings()["Player name"];
-        p.spawntimer.active = true;
-    }
-    else
-    {
-        ClientNetworker &n = reinterpret_cast<ClientNetworker&>(*networker);
-        while (not n.isconnected())
+        // Server, client, or quit?
+        if (menus->action() == POSTMENUACTION::QUIT)
         {
-            n.receive(*(engine.currentstate));
+            // Exit peacefully
+            return 0;
         }
-        myself = engine.currentstate->playerlist.at(engine.currentstate->playerlist.size()-1);
-    }
-
-    double enginetime = al_get_time();
-    double networkertime = al_get_time();
-    while (true)
-    {
-        while (al_get_time() - enginetime >= ENGINE_TIMESTEP)
+        else if (menus->action() == POSTMENUACTION::HOST_SERVER)
         {
-            networker->receive(*(engine.currentstate));
-            inputcatcher.run(display, *(engine.currentstate), *networker, renderer, myself);
-            engine.update(ENGINE_TIMESTEP);
-            networker->sendeventdata(*(engine.currentstate));
-
-            enginetime += ENGINE_TIMESTEP;
+            isserver = true;
         }
+        else if (menus->action() == POSTMENUACTION::JOIN_SERVER)
+        {
+            isserver = false;
+            serverip = menus->serverip;
+            serverport = menus->serverport;
+        }
+        else
+        {
+            Global::logging().panic(__FILE__, __LINE__, "Unknown post menu status %i", menus->action());
+        }
+
+        // Clean up
+        menus.reset();
+
+        Engine engine(isserver);
+        InputCatcher inputcatcher(display);
+        Gamestate renderingstate(engine);
+
+        std::unique_ptr<Networker> networker;
         if (isserver)
         {
-            if (al_get_time() - networkertime >= NETWORKING_TIMESTEP)
-            {
-                ServerNetworker &n = reinterpret_cast<ServerNetworker&>(*networker);
-                n.sendframedata(*(engine.currentstate));
-
-                networkertime = al_get_time();
-            }
+            networker = std::unique_ptr<Networker>(new ServerNetworker(engine.sendbuffer));
         }
-        renderingstate.interpolate(*(engine.oldstate), *(engine.currentstate), (al_get_time()-enginetime)/ENGINE_TIMESTEP);
-        renderer.render(display, renderingstate, myself, *networker);
+        else
+        {
+            networker = std::unique_ptr<Networker>(new ClientNetworker(engine.sendbuffer, serverip, serverport));
+        }
+
+        engine.loadmap("lijiang");
+        // FIXME: Hack to make sure the oldstate is properly initialized
+        engine.update(0);
+
+        EntityPtr myself(0);
+        if (isserver)
+        {
+            myself = engine.currentstate->addplayer();
+            Player &p = engine.currentstate->get<Player&>(myself);
+            p.name = Global::settings()["Player name"];
+            p.spawntimer.active = true;
+        }
+        else
+        {
+            ClientNetworker &n = reinterpret_cast<ClientNetworker&>(*networker);
+            while (not n.isconnected())
+            {
+                n.receive(*(engine.currentstate));
+            }
+            myself = engine.currentstate->playerlist.at(engine.currentstate->playerlist.size()-1);
+        }
+
+        double enginetime = al_get_time();
+        double networkertime = al_get_time();
+        while (true)
+        {
+            while (al_get_time() - enginetime >= ENGINE_TIMESTEP)
+            {
+                networker->receive(*(engine.currentstate));
+                inputcatcher.run(display, *(engine.currentstate), *networker, renderer, myself);
+                engine.update(ENGINE_TIMESTEP);
+                networker->sendeventdata(*(engine.currentstate));
+
+                enginetime += ENGINE_TIMESTEP;
+            }
+            if (isserver)
+            {
+                if (al_get_time() - networkertime >= NETWORKING_TIMESTEP)
+                {
+                    ServerNetworker &n = reinterpret_cast<ServerNetworker&>(*networker);
+                    n.sendframedata(*(engine.currentstate));
+
+                    networkertime = al_get_time();
+                }
+            }
+            renderingstate.interpolate(*(engine.oldstate), *(engine.currentstate), (al_get_time()-enginetime)/ENGINE_TIMESTEP);
+            renderer.render(display, renderingstate, myself, *networker);
+        }
     }
-    return 0;
+    catch (...)
+    {
+        return 0;
+    }
 }
