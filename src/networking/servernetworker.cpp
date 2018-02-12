@@ -10,7 +10,7 @@ ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sen
 {
     ENetAddress address;
     address.host = ENET_HOST_ANY;
-    address.port = 3226; // 3223-3230
+    address.port = Global::settings()["Server port"];
     host = enet_host_create(&address, PLAYER_LIMIT, 2, 0, 0);
     if (host == NULL)
     {
