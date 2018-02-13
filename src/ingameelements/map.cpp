@@ -53,10 +53,17 @@ Map::Map(Gamestate &state, std::string name_)
                 Global::logging().panic(__FILE__, __LINE__, "%s koth gamemode does not have a spawn 2 field.", (mapfolder+"mapdata.json").c_str());
             }
             Rect cparea(gamemode.at("cp")[0], gamemode.at("cp")[1], gamemode.at("cp")[2], gamemode.at("cp")[3]);
-            Rect spawnarea1(gamemode.at("spawn 1")[0], gamemode.at("spawn 1")[1],
-                            gamemode.at("spawn 1")[2], gamemode.at("spawn 1")[3]);
-            Rect spawnarea2(gamemode.at("spawn 2")[0], gamemode.at("spawn 2")[1],
-                            gamemode.at("spawn 2")[2], gamemode.at("spawn 2")[3]);
+            std::vector<Rect> spawnarea1, spawnarea2;
+            for (auto &r : gamemode.at("spawn 1"))
+            {
+                Rect newrect(r[0], r[1], r[2], r[3]);
+                spawnarea1.push_back(newrect);
+            }
+            for (auto &r : gamemode.at("spawn 2"))
+            {
+                Rect newrect(r[0], r[1], r[2], r[3]);
+                spawnarea2.push_back(newrect);
+            }
             gamemodes.push_back(state.make_entity<KothManager>(spawnarea1, spawnarea2, cparea));
         }
         else

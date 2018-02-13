@@ -127,8 +127,7 @@ void Player::spawn(Gamestate &state)
     Spawnroom &spawn = state.currentmap->spawnroom(state, team);
     do
     {
-        c.x = spawn.area.x + spawn.area.w*(rand()/(RAND_MAX+1.0));
-        c.y = spawn.area.y + spawn.area.h*(rand()/(RAND_MAX+1.0));
+        spawn.randpos(&(c.x), &(c.y));
     }
     while (state.currentmap->collides(c.getcollisionrect(state)));
 
