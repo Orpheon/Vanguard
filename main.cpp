@@ -131,15 +131,16 @@ int main(int argc, char **argv)
         if (isserver)
         {
             networker = std::unique_ptr<Networker>(new ServerNetworker(engine.sendbuffer));
+            std::vector<std::string> maprotation = {"lijiang", "lijiang"};
+            engine.loadrotation(maprotation);
+            engine.nextmap();
+            // FIXME: Hack to make sure the oldstate is properly initialized
+            engine.update(0);
         }
         else
         {
             networker = std::unique_ptr<Networker>(new ClientNetworker(engine.sendbuffer, serverip, serverport));
         }
-
-        engine.loadmap("lijiang");
-        // FIXME: Hack to make sure the oldstate is properly initialized
-        engine.update(0);
 
         EntityPtr myself(0);
         if (isserver)

@@ -2,6 +2,7 @@
 #include <memory>
 #include <algorithm>
 #include <cmath>
+#include <engine.h>
 
 #include "gamestate.h"
 #include "entity.h"
@@ -12,6 +13,8 @@
 Gamestate::Gamestate(Engine &engine_) : entitylist(), playerlist(), currentmap(), engine(engine_), entityidcounter(1)
 {
     time = 0;
+    displaystats = false;
+    mapenddelay.init(10, std::bind(&Gamestate::switchmap, this, std::placeholders::_1), false);
 }
 
 Gamestate::~Gamestate()
@@ -22,6 +25,8 @@ Gamestate::~Gamestate()
 void Gamestate::update(double frametime)
 {
     time += frametime;
+
+    mapenddelay.update(*this, frametime);
 
     for (auto &e : entitylist)
     {
@@ -105,6 +110,8 @@ std::unique_ptr<Gamestate> Gamestate::clone()
     g->entityidcounter = entityidcounter;
     g->currentmap = currentmap;
     g->playerlist = playerlist;
+    g->mapenddelay = mapenddelay;
+    g->displaystats = displaystats;
     return g;
 }
 
@@ -116,6 +123,8 @@ void Gamestate::interpolate(Gamestate &prevstate, Gamestate &nextstate, double a
     entityidcounter = preferredstate.entityidcounter;
     playerlist = preferredstate.playerlist;
     time = prevstate.time + alpha*(nextstate.time - prevstate.time);
+    mapenddelay.interpolate(prevstate.mapenddelay, nextstate.mapenddelay, alpha);
+    displaystats = preferredstate.displaystats;
 
     entitylist.clear();
     for (auto &e : preferredstate.entitylist)
@@ -130,6 +139,36 @@ void Gamestate::interpolate(Gamestate &prevstate, Gamestate &nextstate, double a
     }
 }
 
+void Gamestate::loadmap(std::string name)
+{
+    displaystats = false;
+    currentmap = std::make_shared<Map>(*this, name);
+
+    for (auto &e : entitylist)
+    {
+        e.second->mapstart(*this);
+    }
+}
+
+void Gamestate::switchmap(Gamestate &state)
+{
+    // The Gamestate argument is here only because of timer callback mechanics, DO NOT USE THIS ARGUMENT
+    engine.nextmap();
+}
+
+void Gamestate::mapend()
+{
+    if (engine.isserver)
+    {
+        engine.sendbuffer.write<uint8_t>(MAPEND);
+        mapenddelay.reset();
+    }
+    for (auto &e : entitylist)
+    {
+        e.second->mapend(*this);
+    }
+    displaystats = true;
+}
 
 void Gamestate::serializesnapshot(WriteBuffer &buffer)
 {
@@ -149,6 +188,8 @@ void Gamestate::deserializesnapshot(ReadBuffer &buffer)
 
 void Gamestate::serializefull(WriteBuffer &buffer)
 {
+    buffer.write<uint32_t>(currentmap->name.length());
+    buffer.writestring(currentmap->name);
     buffer.write<uint32_t>(playerlist.size());
     for (auto &p : playerlist)
     {
@@ -159,6 +200,9 @@ void Gamestate::serializefull(WriteBuffer &buffer)
 
 void Gamestate::deserializefull(ReadBuffer &buffer)
 {
+    int mapnamelength = buffer.read<uint32_t>();
+    std::string mapname = buffer.readstring(mapnamelength);
+    loadmap(mapname);
     int nplayers = buffer.read<uint32_t>();
     for (int i=0; i<nplayers; ++i)
     {

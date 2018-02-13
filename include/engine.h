@@ -12,13 +12,16 @@ class Engine
         Engine(bool isserver_);
         ~Engine();
         void update(double frametime);
-        void loadmap(std::string mapname);
+        void nextmap();
+        void loadrotation(std::vector<std::string> &mapnames);
 
         std::unique_ptr<Gamestate> currentstate;
         std::unique_ptr<Gamestate> oldstate;
         Spriteloader maskloader;
         bool isserver;
         WriteBuffer sendbuffer;
+        unsigned long maprotationindex;
+        std::vector<std::string> maprotation;
 
         // Make engine move-assigneable, so that " = " doesn't copy but move.
         Engine & operator=(Engine &&)=default;

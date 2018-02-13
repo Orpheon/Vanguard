@@ -45,7 +45,9 @@ enum EVENTTYPE {SERVER_SNAPSHOTUPDATE,
                 ULTIMATE_USED,
                 KOTH_CP_CREATED,
                 PLAYER_CHANGENAME,
-                CHARACTER_PINNED};
+                CHARACTER_PINNED,
+                MAPEND,
+                MAPSTART};
 
 enum POSTMENUACTION {   NOACTION,
                         QUIT,

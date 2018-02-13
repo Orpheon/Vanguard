@@ -254,3 +254,42 @@ void Player::registerhealing(Gamestate &state, double healing)
         Global::logging().panic(__FILE__, __LINE__, "Hero %i is lacking a heal ultcharge implementation.", heroclass);
     }
 }
+
+void Player::mapend(Gamestate &state)
+{
+    ultcharge.active = false;
+    spawntimer.active = false;
+}
+
+void Player::mapstart(Gamestate &state)
+{
+    ultcharge.reset();
+    spawntimer.reset();
+    // Spawn a character asap
+    spawntimer.timer = spawntimer.duration;
+
+    int teambalance = 0;
+    for (auto &pptr : state.playerlist)
+    {
+        if (pptr != EntityPtr(id))
+        {
+            Player &p = state.get<Player>(pptr);
+            if (p.team == TEAM1)
+            {
+                ++teambalance;
+            }
+            else if (p.team == TEAM2)
+            {
+                --teambalance;
+            }
+        }
+    }
+    if (teambalance > 0)
+    {
+        team = TEAM2;
+    }
+    else
+    {
+        team = TEAM1;
+    }
+}

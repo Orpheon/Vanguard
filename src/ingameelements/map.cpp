@@ -177,7 +177,7 @@ void Map::gotonextgamemode(Gamestate &state, Team winners)
     gamemodes.pop_front();
     if (gamemodes.size() == 0)
     {
-        Global::logging().print(__FILE__, __LINE__, "Map is over, won by %i", winners);
+        state.mapend();
     }
     else
     {

@@ -6,7 +6,7 @@
 #include "global_constants.h"
 
 Engine::Engine(bool isserver_) : currentstate(new Gamestate(*this)), oldstate(new Gamestate(*this)), maskloader(true),
-                                 isserver(isserver_)
+                                 isserver(isserver_), maprotationindex(0)
 {
     ;// constructor
 }
@@ -16,9 +16,23 @@ Engine::~Engine()
     ;// destructor
 }
 
-void Engine::loadmap(std::string mapname)
+void Engine::loadrotation(std::vector<std::string> &mapnames)
 {
-    currentstate->currentmap = std::make_shared<Map>(*currentstate, mapname);
+    maprotation = mapnames;
+    // TODO: Check for existence of all maps in the rotation here
+}
+
+void Engine::nextmap()
+{
+    std::string name = maprotation[maprotationindex];
+    maprotationindex = (maprotationindex+1) % maprotation.size();
+    if (isserver)
+    {
+        sendbuffer.write<uint8_t>(MAPSTART);
+        sendbuffer.write<uint32_t>(name.length());
+        sendbuffer.writestring(name);
+    }
+    currentstate->loadmap(name);
 }
 
 void Engine::update(double frametime)

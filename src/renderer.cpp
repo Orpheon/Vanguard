@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_primitives.h>
 #include <engine.h>
 
 #include "renderer.h"
@@ -75,59 +76,87 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
         changedzoom = false;
     }
 
-    // Set camera
-    if (state.exists(myself))
+    if (state.displaystats)
     {
-        Player &p = state.get<Player>(myself);
-        if (state.exists(p.character))
-        {
-            Character &c = p.getcharacter(state);
-            cam_x = c.x - VIEWPORT_WIDTH/2.0;
-            cam_y = c.y - WINDOW_HEIGHT/zoom/2.0;
-        }
+        // Display end of map score
+
+        // Set render target to be the display
+        al_set_target_backbuffer(display);
+
+        // Clear black
+        al_clear_to_color(al_map_rgba(0, 0, 0, 1));
+
+        // Draw the map background first
+        state.currentmap->renderbackground(*this);
+
+        // Draw translucent black overlay
+        al_draw_filled_rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, al_map_rgba(0, 0, 0, 100));
+
+        // Draw score and shit
+        std::string text =
+            "MAP OVER / STATISTICS PLACEHOLDER";
+        double x = WINDOW_WIDTH / 2.0;
+        double y = WINDOW_HEIGHT / 2.0;
+        double w = WINDOW_WIDTH * 2 / 4.0;
+        double h = al_get_font_line_height(font20);
+        al_draw_text(font20, al_map_rgb(255, 255, 255), x-w/2.0, y-h/2.0, 0, text.c_str());
     }
-
-    al_set_target_bitmap(background);
-    al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-    al_set_target_bitmap(midground);
-    al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-    al_set_target_bitmap(foreground);
-    al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-    al_set_target_bitmap(surfaceground);
-    al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-
-    // Go through all objects and let them render themselves on the layers
-    for (auto &e : state.entitylist)
+    else
     {
-        if (e.second->isrootobject() and not e.second->destroyentity)
+        // Set camera
+        if (state.exists(myself))
         {
-            e.second->render(*this, state);
+            Player &p = state.get<Player>(myself);
+            if (state.exists(p.character))
+            {
+                Character &c = p.getcharacter(state);
+                cam_x = c.x - VIEWPORT_WIDTH/2.0;
+                cam_y = c.y - WINDOW_HEIGHT/zoom/2.0;
+            }
         }
-    }
 
-    // Set render target to be the display
-    al_set_target_backbuffer(display);
+        al_set_target_bitmap(background);
+        al_clear_to_color(al_map_rgba(0, 0, 0, 0));
+        al_set_target_bitmap(midground);
+        al_clear_to_color(al_map_rgba(0, 0, 0, 0));
+        al_set_target_bitmap(foreground);
+        al_clear_to_color(al_map_rgba(0, 0, 0, 0));
+        al_set_target_bitmap(surfaceground);
+        al_clear_to_color(al_map_rgba(0, 0, 0, 0));
 
-    // Clear black
-    al_clear_to_color(al_map_rgba(0, 0, 0, 1));
+        // Go through all objects and let them render themselves on the layers
+        for (auto &e : state.entitylist)
+        {
+            if (e.second->isrootobject() and not e.second->destroyentity)
+            {
+                e.second->render(*this, state);
+            }
+        }
 
-    // Draw the map background first
-    state.currentmap->renderbackground(*this);
+        // Set render target to be the display
+        al_set_target_backbuffer(display);
 
-    // Then draw each layer
-    al_draw_bitmap(background, 0, 0, 0);
-    al_draw_bitmap(midground, 0, 0, 0);
-    al_draw_bitmap(foreground, 0, 0, 0);
+        // Clear black
+        al_clear_to_color(al_map_rgba(0, 0, 0, 1));
 
-    // Draw the map wallmask on top of everything, to prevent sprites that go through walls
-    state.currentmap->renderwallground(*this);
+        // Draw the map background first
+        state.currentmap->renderbackground(*this);
 
-    // Draw the final layer on top of even that, for certain things like character healthbars
-    al_draw_bitmap(surfaceground, 0, 0, 0);
+        // Then draw each layer
+        al_draw_bitmap(background, 0, 0, 0);
+        al_draw_bitmap(midground, 0, 0, 0);
+        al_draw_bitmap(foreground, 0, 0, 0);
 
-    if (state.exists(myself))
-    {
-        currenthud->render(*this, state, state.get<Player>(myself));
+        // Draw the map wallmask on top of everything, to prevent sprites that go through walls
+        state.currentmap->renderwallground(*this);
+
+        // Draw the final layer on top of even that, for certain things like character healthbars
+        al_draw_bitmap(surfaceground, 0, 0, 0);
+
+        if (state.exists(myself))
+        {
+            currenthud->render(*this, state, state.get<Player>(myself));
+        }
     }
 
     al_flip_display();
