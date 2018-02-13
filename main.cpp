@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <string>
 #include <memory>
+#include <fstream>
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
@@ -131,7 +132,15 @@ int main(int argc, char **argv)
         if (isserver)
         {
             networker = std::unique_ptr<Networker>(new ServerNetworker(engine.sendbuffer));
-            std::vector<std::string> maprotation = {"lijiang", "lijiang"};
+            std::ifstream maprotationfile("maprotation.json");
+            if (not maprotationfile.good())
+            {
+                Global::logging().panic(__FILE__, __LINE__, "maprotation.json was not found.");
+            }
+            nlohmann::json maprotationdata;
+            maprotationdata << maprotationfile;
+            maprotationfile.close();
+            std::vector<std::string> maprotation = maprotationdata["maps"];
             engine.loadrotation(maprotation);
             engine.nextmap();
             // FIXME: Hack to make sure the oldstate is properly initialized
