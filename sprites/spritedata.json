@@ -2457,19 +2457,19 @@
     ],
     "particles/speedboost/ number of frames": 5,
     "particles/speedboost/1_sprite.png": [
-        -2.0,
+        2.0,
         0.5
     ],
     "particles/speedboost/2_sprite.png": [
-        1.0,
+        5.0,
         0.5
     ],
     "particles/speedboost/3_sprite.png": [
-        3.0,
+        6.0,
         0.5
     ],
     "particles/speedboost/4_sprite.png": [
-        5.0,
+        7.0,
         0.5
     ],
     "particles/speedboost/5_sprite.png": [
@@ -2502,7 +2502,7 @@
     ],
     "ui/ingame/Gamemode/ref/ number of frames": 0,
     "ui/ingame/heroes/ number of frames": 0,
-    "ui/ingame/heroes/lucio/ number of frames": 10,
+    "ui/ingame/heroes/lucio/ number of frames": 12,
     "ui/ingame/heroes/lucio/ampitup_sprite.png": [
         28.0,
         19.0
@@ -2515,11 +2515,19 @@
         28.0,
         19.0
     ],
-    "ui/ingame/heroes/lucio/crossfade_sprite.png": [
+    "ui/ingame/heroes/lucio/crossfadetoggleheal_sprite.png": [
         28.0,
         19.0
     ],
-    "ui/ingame/heroes/lucio/crossfadeactive_sprite.png": [
+    "ui/ingame/heroes/lucio/crossfadetogglehealactive_sprite.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ingame/heroes/lucio/crossfadetogglespeed_sprite.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ingame/heroes/lucio/crossfadetogglespeedactive_sprite.png": [
         28.0,
         19.0
     ],
