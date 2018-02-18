@@ -15,7 +15,7 @@ nlohmann::json ConfigLoader::open(const std::string &path)
     }
     else
     {
-        Global::logging().panic(__FILE__, __LINE__, "Config %s requested but not found.", path);
+        Global::logging().panic(__FILE__, __LINE__, "Config %s requested but not found.", path.c_str());
     }
 
     return config;
