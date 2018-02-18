@@ -2486,6 +2486,64 @@
         69.5,
         41.5
     ],
+    "ui/ability_icons/ number of frames": 8,
+    "ui/ability_icons/Charge.png": [
+        15.0,
+        14.5
+    ],
+    "ui/ability_icons/ampitup.png": [
+        16.5,
+        14.5
+    ],
+    "ui/ability_icons/crossfade_heal.png": [
+        17.5,
+        12.5
+    ],
+    "ui/ability_icons/crossfade_speed.png": [
+        17.5,
+        12.5
+    ],
+    "ui/ability_icons/firestrike.png": [
+        16.0,
+        14.5
+    ],
+    "ui/ability_icons/flashbang.png": [
+        15.5,
+        13.5
+    ],
+    "ui/ability_icons/killfeed/ number of frames": 6,
+    "ui/ability_icons/killfeed/charge.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ability_icons/killfeed/firestrike.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ability_icons/killfeed/flashbang.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ability_icons/killfeed/soundwave.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ability_icons/killfeed/ult_deadeye.png": [
+        31.5,
+        25.0
+    ],
+    "ui/ability_icons/killfeed/ult_earthshatter.png": [
+        31.5,
+        25.0
+    ],
+    "ui/ability_icons/shield.png": [
+        18.5,
+        9.0
+    ],
+    "ui/ability_icons/soundwave.png": [
+        17.0,
+        12.5
+    ],
     "ui/ingame/ number of frames": 1,
     "ui/ingame/Gamemode/ number of frames": 3,
     "ui/ingame/Gamemode/AllyCaptured.png": [
