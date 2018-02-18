@@ -3,6 +3,7 @@
 #include "visuals/menu.h"
 #include "visuals/mainmenu.h"
 #include "visuals/lobbymenu.h"
+#include "visuals/optionsmenu.h"
 
 #include "global.h"
 
@@ -39,6 +40,11 @@ bool MenuContainer::run(ALLEGRO_DISPLAY *display)
     else if (action() == POSTMENUACTION::OPEN_MAINMENU)
     {
         current_menu = std::unique_ptr<Mainmenu>(new Mainmenu(display, *this));
+        planned_action = POSTMENUACTION::NOACTION;
+    }
+    else if (action() == POSTMENUACTION::OPEN_OPTIONS)
+    {
+        current_menu = std::unique_ptr<Optionsmenu>(new Optionsmenu(display, *this));
         planned_action = POSTMENUACTION::NOACTION;
     }
 

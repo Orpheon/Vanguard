@@ -41,8 +41,8 @@ Mainmenu::Mainmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(displ
                                                                          normal_button_font, hovered_button_font)));
     buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("OPTIONS", initial_x,
                                                                          initial_height + (counter++)*line_spacing,
-                                                                         nullptr, normal_button_font,
-                                                                         hovered_button_font)));
+                                                                         std::bind(&Mainmenu::openoptions, this),
+                                                                         normal_button_font, hovered_button_font)));
     buttons.push_back(std::unique_ptr<MainmenuButton>(new MainmenuButton("COMMUNITY", initial_x,
                                                                          initial_height + (counter++)*line_spacing,
                                                                          nullptr, normal_button_font,
@@ -202,8 +202,7 @@ void Mainmenu::connectmanually()
     istypingIP = true;
 }
 
-void Mainmenu::quit()
+void Mainmenu::openoptions()
 {
-    owner.planned_action = POSTMENUACTION::QUIT;
-    owner.exitmenus();
+    owner.planned_action = POSTMENUACTION::OPEN_OPTIONS;
 }

@@ -54,7 +54,8 @@ enum POSTMENUACTION {   NOACTION,
                         HOST_SERVER,
                         JOIN_SERVER,
                         OPEN_LOBBY,
-                        OPEN_MAINMENU};
+                        OPEN_MAINMENU,
+                        OPEN_OPTIONS};
 
 enum PenetrationLevel { PENETRATE_NOTHING = 0,
                         PENETRATE_CHARACTER = 1,

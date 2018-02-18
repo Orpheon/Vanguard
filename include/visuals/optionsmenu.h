@@ -12,6 +12,7 @@ class Optionsmenu : public Menu
         Optionsmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_);
         virtual ~Optionsmenu() = default;
         void run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue) override;
+        void openmainmenu();
 
         Spriteloader spriteloader;
         MenuLoopAnimation background;

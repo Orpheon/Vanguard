@@ -16,11 +16,11 @@ class Mainmenu : public Menu
         Mainmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_);
         virtual ~Mainmenu() = default;
         void run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue) override;
-        void quit();
         void hostserver();
         void joinlobby();
         void joinself();
         void connectmanually();
+        void openoptions();
 
         Spriteloader spriteloader;
         MenuLoopAnimation background;

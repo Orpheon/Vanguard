@@ -55,7 +55,7 @@ class Map:
         if background.width != wallmask.width or background.height != wallmask.height:
             print("Error: Background of {} is not the same size as the wallmask.".format(name))
             return
-        
+
         emptyim.paste(background, wallmask)
 
         spawns1 = []
