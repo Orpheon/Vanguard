@@ -10,7 +10,7 @@
 Lobbymenu::Lobbymenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(display, owner_), spriteloader(false),
                                                                         lobbysocket(io_service)
 {
-    background.init("ui/Menu/background/");
+    background.init("ui/menus/mainmenu/");
     serverfont = al_load_font("Vanguard Text Font.ttf", 15, ALLEGRO_TTF_MONOCHROME);
 
     connected = false;
