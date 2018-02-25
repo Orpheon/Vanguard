@@ -47,6 +47,7 @@ class Lucio : public Character
         Animation soundbarrier;
 
         int currentaura;
+        bool wallrided;
 
         constexpr static int HEALAURA = 0;
         constexpr static int SPEEDAURA = 1;

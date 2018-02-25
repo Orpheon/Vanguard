@@ -611,7 +611,7 @@ bool Character::collides(Gamestate &state, double testx, double testy)
 
 void Character::jump(Gamestate &state)
 {
-    vspeed -= 250.0;
+    vspeed = -250.0;
 }
 
 double Character::damage(Gamestate &state, double amount)
