@@ -2,6 +2,7 @@
 #include <memory>
 #include <algorithm>
 #include <cmath>
+#include <engine.h>
 
 #include "gamestate.h"
 #include "entity.h"
@@ -12,6 +13,8 @@
 Gamestate::Gamestate(Engine &engine_) : entitylist(), playerlist(), currentmap(), engine(engine_), entityidcounter(1)
 {
     time = 0;
+    displaystats = false;
+    mapenddelay.init(10, std::bind(&Gamestate::switchmap, this, std::placeholders::_1), false);
 }
 
 Gamestate::~Gamestate()
@@ -22,6 +25,8 @@ Gamestate::~Gamestate()
 void Gamestate::update(double frametime)
 {
     time += frametime;
+
+    mapenddelay.update(*this, frametime);
 
     for (auto &e : entitylist)
     {
@@ -105,6 +110,8 @@ std::unique_ptr<Gamestate> Gamestate::clone()
     g->entityidcounter = entityidcounter;
     g->currentmap = currentmap;
     g->playerlist = playerlist;
+    g->mapenddelay = mapenddelay;
+    g->displaystats = displaystats;
     return g;
 }
 
@@ -116,6 +123,8 @@ void Gamestate::interpolate(Gamestate &prevstate, Gamestate &nextstate, double a
     entityidcounter = preferredstate.entityidcounter;
     playerlist = preferredstate.playerlist;
     time = prevstate.time + alpha*(nextstate.time - prevstate.time);
+    mapenddelay.interpolate(prevstate.mapenddelay, nextstate.mapenddelay, alpha);
+    displaystats = preferredstate.displaystats;
 
     entitylist.clear();
     for (auto &e : preferredstate.entitylist)
@@ -130,6 +139,36 @@ void Gamestate::interpolate(Gamestate &prevstate, Gamestate &nextstate, double a
     }
 }
 
+void Gamestate::loadmap(std::string name)
+{
+    displaystats = false;
+    currentmap = std::make_shared<Map>(*this, name);
+
+    for (auto &e : entitylist)
+    {
+        e.second->mapstart(*this);
+    }
+}
+
+void Gamestate::switchmap(Gamestate &state)
+{
+    // The Gamestate argument is here only because of timer callback mechanics, DO NOT USE THIS ARGUMENT
+    engine.nextmap();
+}
+
+void Gamestate::mapend()
+{
+    if (engine.isserver)
+    {
+        engine.sendbuffer.write<uint8_t>(MAPEND);
+        mapenddelay.reset();
+    }
+    for (auto &e : entitylist)
+    {
+        e.second->mapend(*this);
+    }
+    displaystats = true;
+}
 
 void Gamestate::serializesnapshot(WriteBuffer &buffer)
 {
@@ -149,6 +188,8 @@ void Gamestate::deserializesnapshot(ReadBuffer &buffer)
 
 void Gamestate::serializefull(WriteBuffer &buffer)
 {
+    buffer.write<uint32_t>(currentmap->name.length());
+    buffer.writestring(currentmap->name);
     buffer.write<uint32_t>(playerlist.size());
     for (auto &p : playerlist)
     {
@@ -159,6 +200,9 @@ void Gamestate::serializefull(WriteBuffer &buffer)
 
 void Gamestate::deserializefull(ReadBuffer &buffer)
 {
+    int mapnamelength = buffer.read<uint32_t>();
+    std::string mapname = buffer.readstring(mapnamelength);
+    loadmap(mapname);
     int nplayers = buffer.read<uint32_t>();
     for (int i=0; i<nplayers; ++i)
     {
@@ -169,55 +213,6 @@ void Gamestate::deserializefull(ReadBuffer &buffer)
         get<Player>(p).deserialize(*this, buffer, true);
     }
     currentmap->currentgamemode(*this).deserializefull(buffer, *this);
-}
-
-EntityPtr Gamestate::collidelinetarget(double x1, double y1, MovingEntity &target, Team team,
-                                       PenetrationLevel penlevel, double *collisionptx, double *collisionpty)
-{
-    int nsteps = std::ceil(std::max(std::abs(x1-target.x), std::abs(y1-target.y)));
-    double dx = static_cast<double>(target.x-x1)/nsteps, dy = static_cast<double>(target.y-y1)*1.0/nsteps;
-    *collisionptx = x1;
-    *collisionpty = y1;
-
-    if (nsteps < 1)
-    {
-        // Target and sender are on top of each other, no blocking possible
-        return EntityPtr(target.id);
-    }
-
-    for (int i=0; i<nsteps; ++i)
-    {
-        if ((not (penlevel & PENETRATE_WALLMASK)) and (currentmap->testpixel(*collisionptx, *collisionpty) or
-            currentmap->spawnroom(*this, team).isinside(*collisionptx, *collisionpty)))
-        {
-            // We hit wallmask or went out of bounds or hit enemy spawnroom
-            return EntityPtr(0);
-        }
-        for (auto &e : entitylist)
-        {
-            auto &entity = *(e.second);
-            if (not entity.destroyentity)
-            {
-                if ((entity.id == target.id or entity.blocks(penlevel)) and entity.damageableby(team))
-                {
-                    double enemycenterx=0, enemycentery=0;
-                    double dist = entity.maxdamageabledist(*this, &enemycenterx, &enemycentery);
-                    if (std::hypot(enemycenterx-*collisionptx, enemycentery-*collisionpty) <= dist)
-                    {
-                        if (entity.collides(*this, *collisionptx, *collisionpty))
-                        {
-                            return EntityPtr(entity.id);
-                        }
-                    }
-                }
-            }
-        }
-        *collisionptx += dx; *collisionpty += dy;
-    }
-    Global::logging().panic(__FILE__, __LINE__,
-                            "Entity %i could not be reached at pt %f|%f (dx|dy = %f|%f, x1|y1 = %f|%f, targetx|y = %f|%f)",
-                            target.id, *collisionptx, *collisionpty, dx, dy, x1, y1, target.x, target.y);
-    return EntityPtr(0);
 }
 
 EntityPtr Gamestate::collidelineshielded(double x1, double y1, double x2, double y2,

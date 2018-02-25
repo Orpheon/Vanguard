@@ -210,16 +210,18 @@ void Sonicamp::firesecondary(Gamestate &state)
         if (player.team != team and state.exists(player.character))
         {
             Character &character = player.getcharacter(state);
-            double dist = std::hypot(x - character.x, y - character.y);
+            Rect characterrect = state.engine.maskloader.get_rect(character.currentsprite(state, true));
+            double character_x = characterrect.x + characterrect.w/2.0;
+            double character_y = characterrect.y + characterrect.h/2.0;
+            double dist = std::hypot(x - character_x, y - character_y);
             if (dist <= SOUNDWAVE_RANGE)
             {
-                double collisionx, collisiony;
-                if (state.collidelinetarget(x, y, character, team, PENETRATE_CHARACTER, &collisionx, &collisiony).id
+                if (state.collidelineshielded(x, y, character_x, character_y, character, team, PENETRATE_CHARACTER).id
                     == character.id)
                 {
-                    double dist = std::hypot(x - collisionx, y - collisiony);
-                    double dx = collisionx - x;
-                    double dy = collisiony - y;
+                    double dist = std::hypot(x - character_x, y - character_y);
+                    double dx = character_x - x;
+                    double dy = character_y - y;
 
                     double dalpha = std::atan2(dy, dx) - aimdirection;
                     while (dalpha > PI)
@@ -285,10 +287,10 @@ void Sonicamp::wantfiresecondary(Gamestate &state)
 
 double Sonicamp::getbackattachpoint_x(Gamestate &state)
 {
-    return -3 * (state.get<Player&>(owner).getcharacter(state).isflipped ? -1:1);
+    return -7 * (state.get<Player&>(owner).getcharacter(state).isflipped ? -1:1);
 }
 
 double Sonicamp::getbackattachpoint_y(Gamestate &state)
 {
-    return 6;
+    return 12;
 }

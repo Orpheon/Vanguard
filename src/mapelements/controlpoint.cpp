@@ -178,7 +178,6 @@ void ControlPoint::serializefull(WriteBuffer &buffer, Gamestate &state)
 void ControlPoint::deserializefull(ReadBuffer &buffer, Gamestate &state)
 {
     capamount.timer = buffer.read<double>();
-    Global::logging().print(__FILE__, __LINE__, "Client received capamount %f", capamount.timer);
     capfalloff.timer = buffer.read<double>();
     owningteam = static_cast<Team>(buffer.read<char>());
     cappingteam = static_cast<Team>(buffer.read<char>());

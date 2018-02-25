@@ -972,9 +972,9 @@
     ],
     "heroes/lucio/firing/2_sprite.png": [
         10.0,
-        -4.0
+        -5.0
     ],
-    "heroes/lucio/firingend/ number of frames": 6,
+    "heroes/lucio/firingend/ number of frames": 5,
     "heroes/lucio/firingend/1_sprite.png": [
         9.0,
         0.0
@@ -995,14 +995,10 @@
         10.0,
         -4.0
     ],
-    "heroes/lucio/firingend/6_sprite.png": [
-        9.0,
-        -4.0
-    ],
     "heroes/lucio/frontarm/ number of frames": 1,
     "heroes/lucio/frontarm/1_sprite.png": [
         9.0,
-        -4.0
+        -7.0
     ],
     "heroes/lucio/getup/ number of frames": 11,
     "heroes/lucio/getup/10_sprite.png": [
@@ -1077,11 +1073,11 @@
     "heroes/lucio/reload/ number of frames": 6,
     "heroes/lucio/reload/1_sprite.png": [
         10.0,
-        -4.0
+        -7.0
     ],
     "heroes/lucio/reload/2_sprite.png": [
         9.0,
-        -3.0
+        -4.0
     ],
     "heroes/lucio/reload/3_sprite.png": [
         9.0,
@@ -1089,15 +1085,15 @@
     ],
     "heroes/lucio/reload/4_sprite.png": [
         9.0,
-        -5.0
+        -7.0
     ],
     "heroes/lucio/reload/5_sprite.png": [
         9.0,
-        -4.0
+        -7.0
     ],
     "heroes/lucio/reload/6_sprite.png": [
         9.0,
-        -4.0
+        -6.0
     ],
     "heroes/lucio/run/ number of frames": 8,
     "heroes/lucio/run/1_sprite.png": [
@@ -1173,7 +1169,7 @@
     "heroes/lucio/soundwave/ number of frames": 8,
     "heroes/lucio/soundwave/1_sprite.png": [
         9.0,
-        -4.0
+        -7.0
     ],
     "heroes/lucio/soundwave/2_sprite.png": [
         11.0,
@@ -1197,11 +1193,11 @@
     ],
     "heroes/lucio/soundwave/7_sprite.png": [
         9.0,
-        -4.0
+        -7.0
     ],
     "heroes/lucio/soundwave/8_sprite.png": [
         9.0,
-        -4.0
+        -7.0
     ],
     "heroes/lucio/stun/ number of frames": 1,
     "heroes/lucio/stun/1_sprite.png": [
@@ -2461,19 +2457,19 @@
     ],
     "particles/speedboost/ number of frames": 5,
     "particles/speedboost/1_sprite.png": [
-        -2.0,
+        2.0,
         0.5
     ],
     "particles/speedboost/2_sprite.png": [
-        1.0,
+        5.0,
         0.5
     ],
     "particles/speedboost/3_sprite.png": [
-        3.0,
+        6.0,
         0.5
     ],
     "particles/speedboost/4_sprite.png": [
-        5.0,
+        7.0,
         0.5
     ],
     "particles/speedboost/5_sprite.png": [
@@ -2489,16 +2485,6 @@
     "ui/Logo/coverguard_logo2_transparent.png": [
         69.5,
         41.5
-    ],
-    "ui/Menu/ number of frames": 1,
-    "ui/Menu/background/ number of frames": 1,
-    "ui/Menu/background/1_sprite.png": [
-        640.0,
-        512.0
-    ],
-    "ui/Menu/menu.png": [
-        606.0,
-        330.0
     ],
     "ui/ingame/ number of frames": 1,
     "ui/ingame/Gamemode/ number of frames": 3,
@@ -2516,7 +2502,7 @@
     ],
     "ui/ingame/Gamemode/ref/ number of frames": 0,
     "ui/ingame/heroes/ number of frames": 0,
-    "ui/ingame/heroes/lucio/ number of frames": 10,
+    "ui/ingame/heroes/lucio/ number of frames": 12,
     "ui/ingame/heroes/lucio/ampitup_sprite.png": [
         28.0,
         19.0
@@ -2529,11 +2515,19 @@
         28.0,
         19.0
     ],
-    "ui/ingame/heroes/lucio/crossfade_sprite.png": [
+    "ui/ingame/heroes/lucio/crossfadetoggleheal_sprite.png": [
         28.0,
         19.0
     ],
-    "ui/ingame/heroes/lucio/crossfadeactive_sprite.png": [
+    "ui/ingame/heroes/lucio/crossfadetogglehealactive_sprite.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ingame/heroes/lucio/crossfadetogglespeed_sprite.png": [
+        28.0,
+        19.0
+    ],
+    "ui/ingame/heroes/lucio/crossfadetogglespeedactive_sprite.png": [
         28.0,
         19.0
     ],
@@ -2638,5 +2632,20 @@
     "ui/ingame/ultbar_sprite.png": [
         51.0,
         58.5
+    ],
+    "ui/menus/ number of frames": 1,
+    "ui/menus/mainmenu/ number of frames": 1,
+    "ui/menus/mainmenu/1_sprite.png": [
+        640.0,
+        512.0
+    ],
+    "ui/menus/menu.png": [
+        606.0,
+        330.0
+    ],
+    "ui/menus/optionsmenu/ number of frames": 1,
+    "ui/menus/optionsmenu/1_sprites.png": [
+        640.0,
+        360.0
     ]
 }

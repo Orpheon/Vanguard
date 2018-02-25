@@ -3,6 +3,7 @@
 #include "global.h"
 #include "ingameelements/gamemodes/kothmanager.h"
 #include "ingameelements/heroes/reinhardt.h"
+#include "engine.h"
 
 ClientNetworker::ClientNetworker(WriteBuffer &sendbuffer_, std::string serverip, int serverport)
     : Networker(false, sendbuffer_), connected(false)
@@ -48,6 +49,7 @@ void ClientNetworker::receive(Gamestate &state)
                 if (eventtype == SERVER_FULLUPDATE)
                 {
                     state.deserializefull(data);
+                    state.engine.update(0);
                     connected = true;
                 }
                 else if (eventtype == SERVER_SNAPSHOTUPDATE)
@@ -135,6 +137,16 @@ void ClientNetworker::receive(Gamestate &state)
                         reinhardt.pintarget = targetplayer.character;
                         targetplayer.getcharacter(state).pinanim.reset();
                     }
+                }
+                else if (eventtype == MAPEND)
+                {
+                    state.mapend();
+                }
+                else if (eventtype == MAPSTART)
+                {
+                    int namelength = data.read<uint32_t>();
+                    std::string name = data.readstring(namelength);
+                    state.loadmap(name);
                 }
                 else
                 {

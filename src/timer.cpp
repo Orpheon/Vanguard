@@ -74,9 +74,15 @@ void Timer::interpolate(Timer &prev_timer, Timer &next_timer, double alpha)
         throw -1;
     }
 
+    Timer &preferredtimer = alpha < 0.5 ? prev_timer : next_timer;
+    active = preferredtimer.active;
     if (prev_timer.active and next_timer.active)
     {
         timer = prev_timer.timer + alpha*(next_timer.timer - prev_timer.timer);
+    }
+    else
+    {
+        timer = preferredtimer.timer;
     }
 }
 

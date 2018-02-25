@@ -45,12 +45,12 @@ double Flashbang::explode(Gamestate &state)
         {
             if (entity.hasposition() and entity.damageableby(team))
             {
-                double collisionptx, collisionpty;
                 MovingEntity &mv = static_cast<MovingEntity&>(entity);
-                if (std::hypot(mv.x - x, mv.y - y) < EXPLOSION_RADIUS)
+                double centerx, centery;
+                double maxdamagedist = mv.maxdamageabledist(state, &centerx, &centery);
+                if (std::hypot(centerx - x, centery - y) < EXPLOSION_RADIUS + maxdamagedist)
                 {
-                    EntityPtr target = state.collidelinetarget(x, y, mv, team, PENETRATE_CHARACTER, &collisionptx,
-                                                               &collisionpty);
+                    EntityPtr target = state.collidelineshielded(x, y, centerx, centery, mv, team, PENETRATE_CHARACTER);
                     if (target.id == entity.id)
                     {
                         entity.damage(state, 25);

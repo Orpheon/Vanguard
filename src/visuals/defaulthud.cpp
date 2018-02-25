@@ -252,8 +252,27 @@ void DefaultHud::luciohud(Renderer &renderer, Gamestate &state, Lucio &myself)
                                  weapon.soundwavecooldown, weapon.soundwave.active());
     abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"ampitup", abilities_x, abilities_y,
                                  myself.ampitupcooldown, myself.ampitup.active);
-    abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"crossfade", abilities_x, abilities_y,
-                                 emptytimer, myself.crossfadespeed.active() or myself.crossfadeheal.active());
+    if (myself.crossfadespeed.active())
+    {
+        abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"crossfadetogglespeed", abilities_x,
+                                     abilities_y, emptytimer, true);
+    }
+    else if (myself.crossfadeheal.active())
+    {
+        abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"crossfadetoggleheal", abilities_x,
+                                     abilities_y, emptytimer, true);
+    }
+    else if (myself.currentaura == myself.HEALAURA)
+    {
+        abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"crossfadetogglespeed", abilities_x,
+                                     abilities_y, emptytimer, false);
+    }
+    else
+    {
+        abilities_x -= renderability(renderer, "ui/ingame/"+myself.herofolder()+"crossfadetoggleheal", abilities_x,
+                                     abilities_y, emptytimer, false);
+    }
+
 }
 
 double DefaultHud::renderability(Renderer &renderer, std::string spritename, double x, double y, Timer cooldown,

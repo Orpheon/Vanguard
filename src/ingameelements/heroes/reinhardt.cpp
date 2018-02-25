@@ -372,7 +372,8 @@ void Reinhardt::createearthshatter(Gamestate &state)
 
 void Reinhardt::interrupt(Gamestate &state)
 {
-    chargeanim.active(false);
+    endcharge(state);
+    endchargeanim.active(false);
     earthshatteranim.active(false);
     earthshatterdelay.active = false;
     if (state.exists(weapon))

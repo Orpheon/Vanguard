@@ -513,9 +513,9 @@ bool Character::weaponvisible(Gamestate &state)
 
 double Character::maxdamageabledist(Gamestate &state, double *centerx, double *centery)
 {
-    *centerx = x;
-    *centery = y;
     Rect bbox = state.engine.maskloader.get_rect(currentsprite(state, true));
+    *centerx = bbox.x + bbox.w/2.0;
+    *centery = bbox.y + bbox.h/2.0;
     return std::hypot(bbox.w, bbox.h);
 }
 

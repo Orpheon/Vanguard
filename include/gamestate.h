@@ -51,6 +51,9 @@ class Gamestate
         void update(double frametime);
         std::unique_ptr<Gamestate> clone();
         void interpolate(Gamestate &prevstate, Gamestate &nextstate, double alpha);
+        void loadmap(std::string name);
+        void switchmap(Gamestate &state);
+        void mapend();
 
         EntityPtr addplayer();
         void removeplayer(int playerid);
@@ -61,9 +64,6 @@ class Gamestate
         void deserializesnapshot(ReadBuffer &buffer);
         void serializefull(WriteBuffer &buffer);
         void deserializefull(ReadBuffer &buffer);
-
-        EntityPtr collidelinetarget(double x1, double y1, MovingEntity &target, Team team,
-                                    PenetrationLevel penlevel, double *collisionptx, double *collisionpty);
 
         EntityPtr collidelineshielded(double x1, double y1, double x2, double y2,
                                       MovingEntity &target, Team team, PenetrationLevel penlevel);
@@ -78,6 +78,8 @@ class Gamestate
         Gamestate & operator=(Gamestate &&)=default;
 
         double time;
+        Timer mapenddelay;
+        bool displaystats;
         std::shared_ptr<Map> currentmap;
         Engine &engine;
     protected:

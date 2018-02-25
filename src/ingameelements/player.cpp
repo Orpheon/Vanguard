@@ -127,8 +127,7 @@ void Player::spawn(Gamestate &state)
     Spawnroom &spawn = state.currentmap->spawnroom(state, team);
     do
     {
-        c.x = spawn.area.x + spawn.area.w*(rand()/(RAND_MAX+1.0));
-        c.y = spawn.area.y + spawn.area.h*(rand()/(RAND_MAX+1.0));
+        spawn.randpos(&(c.x), &(c.y));
     }
     while (state.currentmap->collides(c.getcollisionrect(state)));
 
@@ -254,5 +253,44 @@ void Player::registerhealing(Gamestate &state, double healing)
     else
     {
         Global::logging().panic(__FILE__, __LINE__, "Hero %i is lacking a heal ultcharge implementation.", heroclass);
+    }
+}
+
+void Player::mapend(Gamestate &state)
+{
+    ultcharge.active = false;
+    spawntimer.active = false;
+}
+
+void Player::mapstart(Gamestate &state)
+{
+    ultcharge.reset();
+    spawntimer.reset();
+    // Spawn a character asap
+    spawntimer.timer = spawntimer.duration;
+
+    int teambalance = 0;
+    for (auto &pptr : state.playerlist)
+    {
+        if (pptr != EntityPtr(id))
+        {
+            Player &p = state.get<Player>(pptr);
+            if (p.team == TEAM1)
+            {
+                ++teambalance;
+            }
+            else if (p.team == TEAM2)
+            {
+                --teambalance;
+            }
+        }
+    }
+    if (teambalance > 0)
+    {
+        team = TEAM2;
+    }
+    else
+    {
+        team = TEAM1;
     }
 }

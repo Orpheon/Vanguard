@@ -1,0 +1,32 @@
+{
+    "wallmask": "wallmask.png",
+    "background": "background.png",
+    "wallmask foreground": "wallmask.png",
+    "gamemodes": [
+        {
+            "cp": [
+                2478,
+                804,
+                180,
+                120
+            ],
+            "spawn 1": [
+                [
+                    648,
+                    732,
+                    282,
+                    252
+                ]
+            ],
+            "type": "KOTH",
+            "spawn 2": [
+                [
+                    4206,
+                    738,
+                    282,
+                    258
+                ]
+            ]
+        }
+    ]
+}

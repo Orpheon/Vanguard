@@ -17,7 +17,7 @@ constexpr auto LOBBY_HOST = "ganggarrison.com";
 constexpr auto LOBBY_PORT = 29944;
 
 constexpr auto LOBBY_MESSAGE_TYPE_REGISTER = "b5dae2e8-424f-9ed0-0fcb-8c21c7ca1352";
-constexpr auto LOBBY_MESSAGE_TYPE_UNREGISTER = "488984ac-45dc-86e1-9901-98dd1c01c064";
+constexpr auto LOBBY_MESSAGE_TYPE_DEREGISTER = "488984ac-45dc-86e1-9901-98dd1c01c064";
 constexpr auto LOBBY_MESSAGE_TYPE_LIST = "297d0df4-430c-bf61-640a-640897eaef57";
 constexpr auto VANGUARD_IDENTIFIER = "4fd0319b-5868-4f24-8b77-568cbb18fde9";
 constexpr auto GG2_IDENTIFIER = "1ccf16b1-436d-856f-504d-cc1af306aaa7";

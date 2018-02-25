@@ -4,9 +4,9 @@
 #include "ingameelements/gamemodes/kothmanager.h"
 #include "gamestate.h"
 
-void KothManager::init(uint64_t id_, Rect spawnarea1, Rect spawnarea2, Rect cparea)
+void KothManager::init(uint64_t id_, std::vector<Rect> spawnareas1, std::vector<Rect> spawnareas2, Rect cparea)
 {
-    GamemodeManager::init(id_, spawnarea1, spawnarea2);
+    GamemodeManager::init(id_, spawnareas1, spawnareas2);
     area = cparea;
 }
 
@@ -18,7 +18,7 @@ void KothManager::activate(Gamestate &state, std::function<void(Gamestate &state
     for (int i=0; i<2; ++i)
     {
         teamcounters.push_back(Timer());
-        teamcounters.at(i).init(100, std::bind(&KothManager::win, this, std::placeholders::_1), true);
+        teamcounters.at(i).init(2, std::bind(&KothManager::win, this, std::placeholders::_1), true);
     }
     unlocktimer.init(5, std::bind(&KothManager::createpoint, this, std::placeholders::_1, NO_TEAM), true);
 }

@@ -34,6 +34,8 @@ class Player : public Entity
         void destroy(Gamestate &state) override;
         void registerdamage(Gamestate &state, double dmg);
         void registerhealing(Gamestate &state, double healing);
+        void mapend(Gamestate &state) override;
+        void mapstart(Gamestate &state) override;
 
         Character& getcharacter(Gamestate &state);
 

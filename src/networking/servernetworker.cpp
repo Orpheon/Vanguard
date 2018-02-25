@@ -36,7 +36,7 @@ ServerNetworker::ServerNetworker(WriteBuffer &sendbuffer_) : Networker(true, sen
 
 ServerNetworker::~ServerNetworker()
 {
-
+    deregisterlobby();
 }
 
 void ServerNetworker::receive(Gamestate &state)
@@ -231,6 +231,26 @@ void ServerNetworker::registerlobby(Gamestate &state)
         buffer.writestring(entry.first);
         buffer.write<uint16_t>(entry.second.size(), true);
         buffer.writestring(entry.second);
+    }
+
+    lobbyclient.send_to(asio::buffer(buffer.getdata(), buffer.length()), lobbyaddress);
+}
+
+void ServerNetworker::deregisterlobby()
+{
+    xg::Guid message_type(LOBBY_MESSAGE_TYPE_DEREGISTER);
+
+    WriteBuffer buffer;
+
+    // Message type for lobby
+    for (auto& byte : message_type._bytes)
+    {
+        buffer.write<uint8_t>(byte, true);
+    }
+    // Server id
+    for (auto& byte : serverid._bytes)
+    {
+        buffer.write<uint8_t>(byte, true);
     }
 
     lobbyclient.send_to(asio::buffer(buffer.getdata(), buffer.length()), lobbyaddress);

@@ -32,6 +32,8 @@ class Entity
         virtual void stun(Gamestate &state) {}
         virtual bool isowner(EntityPtr potential_owner) {return false;}
         virtual bool hasposition() {return false;}
+        virtual void mapend(Gamestate &state) {destroy(state);}
+        virtual void mapstart(Gamestate &state) {}
         ENTITYTYPE entitytype;
         uint64_t id = 0;
         bool destroyentity = false;
