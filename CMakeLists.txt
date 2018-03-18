@@ -24,7 +24,12 @@ endif()
 
 add_definitions(-DASIO_STANDALONE)
 
-set (Vanguardcompileflags "-std=c++11 -Wall -pedantic -fwrapv -Wno-format-security")
+set(CMAKE_CXX_STANDARD 11)
+
+if (CMAKE_COMPILER_IS_GNUCXX)
+    set (Vanguardcompileflags "-Wall -pedantic -fwrapv -Wno-format-security")
+endif (CMAKE_COMPILER_IS_GNUCXX)
+
 if (COMPILE_STATIC)
     find_library(ALLEGRO_PATH allegro_monolith-static)
     if (NOT EXISTS ${ALLEGRO_PATH})
