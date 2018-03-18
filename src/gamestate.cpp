@@ -112,6 +112,7 @@ std::unique_ptr<Gamestate> Gamestate::clone()
     g->playerlist = playerlist;
     g->mapenddelay = mapenddelay;
     g->displaystats = displaystats;
+    g->killfeed = killfeed;
     return g;
 }
 
@@ -125,6 +126,7 @@ void Gamestate::interpolate(Gamestate &prevstate, Gamestate &nextstate, double a
     time = prevstate.time + alpha*(nextstate.time - prevstate.time);
     mapenddelay.interpolate(prevstate.mapenddelay, nextstate.mapenddelay, alpha);
     displaystats = preferredstate.displaystats;
+    killfeed = preferredstate.killfeed;
 
     entitylist.clear();
     for (auto &e : preferredstate.entitylist)
@@ -168,6 +170,25 @@ void Gamestate::mapend()
         e.second->mapend(*this);
     }
     displaystats = true;
+}
+
+void Gamestate::registerkill(EntityPtr killerplayer, EntityPtr victimplayer, std::string &abilitystr)
+{
+    Player &killer = get<Player&>(killerplayer);
+    Player &victim = get<Player&>(victimplayer);
+
+    Killfeedevent event;
+    event.team = killer.team;
+    event.killername = killer.name;
+    event.victimname = victim.name;
+    event.killabilityname = abilitystr;
+    event.time = time;
+
+    killfeed.push_front(event);
+    while (killfeed.size() > MAX_KILLFEED_LENGTH)
+    {
+        killfeed.pop_back();
+    }
 }
 
 void Gamestate::serializesnapshot(WriteBuffer &buffer)

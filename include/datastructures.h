@@ -210,3 +210,12 @@ struct ServerData
     int botcount;
     int ping;
 };
+
+struct Killfeedevent
+{
+    std::string killername;
+    std::string victimname;
+    Team team;
+    std::string killabilityname;
+    double time;
+};

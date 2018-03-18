@@ -3,6 +3,7 @@
 #include <list>
 #include <unordered_map>
 #include <memory>
+#include <deque>
 
 #include "ingameelements/map.h"
 #include "datastructures.h"
@@ -54,6 +55,7 @@ class Gamestate
         void loadmap(std::string name);
         void switchmap(Gamestate &state);
         void mapend();
+        void registerkill(EntityPtr killerplayer, EntityPtr victimplayer, std::string &abilitystr);
 
         EntityPtr addplayer();
         void removeplayer(int playerid);
@@ -73,6 +75,7 @@ class Gamestate
 
         std::map<uint64_t, std::unique_ptr<Entity>> entitylist;
         std::vector<EntityPtr> playerlist;
+        std::deque<Killfeedevent> killfeed;
 
         // Make gamestate move-assigneable, so that " = " doesn't copy but move.
         Gamestate & operator=(Gamestate &&)=default;
