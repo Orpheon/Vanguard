@@ -10,7 +10,7 @@ void Lucio::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     Character::init(id_, state, owner_);
 
     wallriding.init(0.4, false);
-    wallridejumpcooldown.init(20, std::bind(&Lucio::nolongerwallriding, this, std::placeholders::_1), false);
+    wallridejumpcooldown.init(10, std::bind(&Lucio::nolongerwallriding, this, std::placeholders::_1), false);
     ampitup.init(3, false);
     ampitupcooldown.init(12, false);
     ampitupbackarm.init(herofolder()+"ampitupbackarm/", false);
@@ -20,6 +20,7 @@ void Lucio::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     soundbarrier.init(herofolder()+"ult/", std::bind(&Lucio::createsoundbarrier, this, std::placeholders::_1), false);
 
     currentaura = SPEEDAURA;
+    wallrided = false;
 }
 
 void Lucio::render(Renderer &renderer, Gamestate &state)
@@ -144,6 +145,16 @@ void Lucio::midstep(Gamestate &state, double frametime)
         }
     }
 
+    if (onground(state))
+    {
+        wallrided = false;
+    }
+
+    if (wallrided)
+    {
+        speedboost *= 1.2;
+    }
+
     wallridejumpcooldown.update(state, std::fabs(hspeed) * frametime);
 
     if (xblockedsmooth.active and not onground(state) and not soundbarrier.active())
@@ -151,6 +162,7 @@ void Lucio::midstep(Gamestate &state, double frametime)
         // We're wallriding
         vspeed = std::min(vspeed, 0.0);
         wallriding.reset();
+        wallrided = true;
     }
     wallriding.update(state, frametime);
     if (onground(state))
