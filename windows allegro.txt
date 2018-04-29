@@ -1,6 +1,4 @@
-http://download.gna.org/allegro/allegro-bin/5.2.1.1/allegro-mingw-gcc5.3.0-x64-static-5.2.1.1.zip
-http://download.gna.org/allegro/allegro-deps/1.4.0/allegro_deps-mingw-gcc5.3.0-x64-1.4.0.zip
-
+http://liballeg.org/download.html#windows Get binaries and dependencies.
 
 pacman -S --force --needed base-devel mingw-w64-i686-toolchain mingw-w64-x86_64-toolchain git mingw-w64-i686-cmake mingw-w64-x86_64-cmake
 
