@@ -6,10 +6,8 @@
 #include "visuals/hud.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
-
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
+#include <SFML/Graphics/RenderTexture.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 class Renderer
 {
@@ -17,7 +15,8 @@ class Renderer
         Renderer();
         virtual ~Renderer();
         void render(sf::RenderWindow &window, Gamestate &state, EntityPtr myself_, Networker &networker);
-        sf::RenderWindow& createnewdisplay();
+        sf::RenderWindow& createnewwindow();
+        void resetcamera();
         EntityPtr myself;
         int WINDOW_WIDTH;
         int WINDOW_HEIGHT;

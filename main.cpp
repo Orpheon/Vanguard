@@ -92,7 +92,7 @@ int main(int argc, char **argv)
         menus.reset();
 
         Engine engine(isserver);
-        InputCatcher inputcatcher(display);
+        InputCatcher inputcatcher(window);
         Gamestate renderingstate(engine);
 
         std::unique_ptr<Networker> networker;

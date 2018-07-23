@@ -1,12 +1,9 @@
 #include <cstdio>
 #include <vector>
 #include <string>
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
 #include <engine.h>
 
 #include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Sprite.hpp>
@@ -129,15 +126,23 @@ void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myse
     window.display();
 }
 
-sf::RenderWindow& Renderer::createnewdisplay()
+sf::RenderWindow& Renderer::createnewwindow()
 {
-    //default display values are set on header file
-    int display_width, display_height, display_type;
+    //default window values are set on header file
+    int window_width, window_height, window_type;
 
-    display_width = Global::settings().at("Display resolution").at(0);
-    display_height = Global::settings().at("Display resolution").at(1);
-    // TODO: Add display settings in config
+    window_width = Global::settings().at("Display resolution").at(0);
+    window_height = Global::settings().at("Display resolution").at(1);
+    // TODO: Add window settings in config
 
-    sf::RenderWindow display(sf::VideoMode(display_width, display_height), "Vanguard");
-    return display;
+    sf::RenderWindow window(sf::VideoMode(window_width, window_height), "Vanguard");
+    window.setKeyRepeatEnabled(false);
+
+    return window;
+}
+
+void Renderer::resetcamera()
+{
+    sf::Vector2f center = cameraview.getCenter();
+    cameraview.reset(sf::FloatRect(center.x, center.y, VIEWPORT_WIDTH, VIEWPORT_WIDTH*1.0*WINDOW_HEIGHT/WINDOW_WIDTH));
 }
