@@ -108,43 +108,51 @@ void InputCatcher::run(sf::RenderWindow &window, Gamestate &state, Networker &ne
         }
     }
 
-    if (sf::Keyboard::isKeyPressed(config.at("jump")) or sf::Keyboard::isKeyPressed(config.at("jump_alt1"))
-        or sf::Keyboard::isKeyPressed(config.at("jump")))
+    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("jump")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("jump_alt1")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("jump_alt2"))))
     {
         heldkeys.JUMP = true;
     }
-    if (sf::Keyboard::isKeyPressed(config.at("crouch")) or sf::Keyboard::isKeyPressed(config.at("crouch_alt1"))
-        or sf::Keyboard::isKeyPressed(config.at("crouch")))
+    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("crouch")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("crouch_alt1")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("crouch_alt2"))))
     {
         heldkeys.CROUCH = true;
     }
-    if (sf::Keyboard::isKeyPressed(config.at("left")) or sf::Keyboard::isKeyPressed(config.at("left_alt1"))
-        or sf::Keyboard::isKeyPressed(config.at("left")))
+    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("left")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("left_alt1")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("left_alt2"))))
     {
         heldkeys.LEFT = true;
     }
-    if (sf::Keyboard::isKeyPressed(config.at("right")) or sf::Keyboard::isKeyPressed(config.at("right_alt1"))
-        or sf::Keyboard::isKeyPressed(config.at("right")))
+    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("right")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("right_alt1")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("right_alt2"))))
     {
         heldkeys.RIGHT = true;
     }
-    if (sf::Keyboard::isKeyPressed(config.at("ability1")) or sf::Keyboard::isKeyPressed(config.at("ability1_alt1"))
-        or sf::Keyboard::isKeyPressed(config.at("ability1")))
+    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ability1")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ability1_alt1")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ability1_alt2"))))
     {
         heldkeys.ABILITY_1 = true;
     }
-    if (sf::Keyboard::isKeyPressed(config.at("ability2")) or sf::Keyboard::isKeyPressed(config.at("ability2_alt1"))
-        or sf::Keyboard::isKeyPressed(config.at("ability2")))
+    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ability2")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ability2_alt1")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ability2_alt2"))))
     {
         heldkeys.ABILITY_2 = true;
     }
-    if (sf::Keyboard::isKeyPressed(config.at("ultimate")) or sf::Keyboard::isKeyPressed(config.at("ultimate_alt1"))
-        or sf::Keyboard::isKeyPressed(config.at("ultimate")))
+    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ultimate")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ultimate_alt1")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ultimate_alt2"))))
     {
         heldkeys.ULTIMATE = true;
     }
-    if (sf::Keyboard::isKeyPressed(config.at("reload")) or sf::Keyboard::isKeyPressed(config.at("reload_alt1"))
-        or sf::Keyboard::isKeyPressed(config.at("reload")))
+    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("reload")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("reload_alt1")))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("reload_alt2"))))
     {
         heldkeys.RELOAD = true;
     }
