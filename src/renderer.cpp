@@ -16,7 +16,7 @@
 #include "visuals/hud.h"
 #include "visuals/defaulthud.h"
 
-Renderer::Renderer() : myself(0), WINDOW_WIDTH(0), WINDOW_HEIGHT(0), spriteloader(false)
+Renderer::Renderer() : myself(0), WINDOW_WIDTH(0), WINDOW_HEIGHT(0), spriteloader()
 {
     if (!mainfont.loadFromFile("Vanguard Text Font.ttf"))
     {

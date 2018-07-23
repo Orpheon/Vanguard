@@ -84,6 +84,7 @@ set (SRC_FILES
         "src/inputcatcher.cpp"
         "src/gamestate.cpp"
         "src/spriteloader.cpp"
+        "src/maskloader.cpp"
         "src/animation.cpp"
         "src/timer.cpp"
         "src/renderer.cpp"

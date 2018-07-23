@@ -44,7 +44,7 @@ int main(int argc, char **argv)
         }
 
         Renderer renderer;
-        sf::RenderWindow window = renderer.createnewdisplay();
+        sf::RenderWindow &window = renderer.createnewwindow();
 
         std::unique_ptr<MenuContainer> menus = std::unique_ptr<MenuContainer>(new MenuContainer(window));
         double lasttimeupdated = al_get_time();
@@ -92,7 +92,7 @@ int main(int argc, char **argv)
         menus.reset();
 
         Engine engine(isserver);
-        InputCatcher inputcatcher(window);
+        InputCatcher inputcatcher;
         Gamestate renderingstate(engine);
 
         std::unique_ptr<Networker> networker;
@@ -143,7 +143,7 @@ int main(int argc, char **argv)
             while (al_get_time() - enginetime >= ENGINE_TIMESTEP)
             {
                 networker->receive(*(engine.currentstate));
-                inputcatcher.run(display, *(engine.currentstate), *networker, renderer, myself);
+                inputcatcher.run(window, *(engine.currentstate), *networker, renderer, myself);
                 engine.update(ENGINE_TIMESTEP);
                 networker->sendeventdata(*(engine.currentstate));
 
@@ -160,7 +160,7 @@ int main(int argc, char **argv)
                 }
             }
             renderingstate.interpolate(*(engine.oldstate), *(engine.currentstate), (al_get_time()-enginetime)/ENGINE_TIMESTEP);
-            renderer.render(display, renderingstate, myself, *networker);
+            renderer.render(window, renderingstate, myself, *networker);
         }
     }
     catch (...)
