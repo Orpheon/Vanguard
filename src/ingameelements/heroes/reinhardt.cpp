@@ -163,7 +163,7 @@ void Reinhardt::beginstep(Gamestate &state, double frametime)
                                     {
                                         if (character.collides(state, hitbox.x+i, hitbox.y+j))
                                         {
-                                            character.damage(state, CHARGE_BUMP_DAMAGE);
+                                            character.damage(state, CHARGE_BUMP_DAMAGE, owner, REINHARDT_CHARGE);
                                             already_bumped_characters.push_back(character.id);
                                             found_collision = true;
                                             if (state.exists(character.id))
@@ -212,7 +212,7 @@ void Reinhardt::beginstep(Gamestate &state, double frametime)
             if (state.exists(pintarget))
             {
                 Character &target = state.get<Character&>(pintarget);
-                target.damage(state, CHARGE_PIN_DAMAGE);
+                target.damage(state, CHARGE_PIN_DAMAGE, owner, REINHARDT_CHARGE);
             }
             endcharge(state);
         }

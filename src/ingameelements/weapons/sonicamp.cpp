@@ -248,7 +248,7 @@ void Sonicamp::firesecondary(Gamestate &state)
                         character.hspeed += dx * SOUNDWAVE_FORCE;
                         character.vspeed += dy * SOUNDWAVE_FORCE;
 
-                        double effectivedamage = character.damage(state, SOUNDWAVE_DAMAGE);
+                        double effectivedamage = character.damage(state, SOUNDWAVE_DAMAGE, owner, LUCIO_SOUNDWAVE);
                         state.get<Player&>(owner).registerdamage(state, effectivedamage);
                     }
                 }

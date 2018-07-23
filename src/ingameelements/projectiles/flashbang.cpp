@@ -53,7 +53,7 @@ double Flashbang::explode(Gamestate &state)
                     EntityPtr target = state.collidelineshielded(x, y, centerx, centery, mv, team, PENETRATE_CHARACTER);
                     if (target.id == entity.id)
                     {
-                        entity.damage(state, 25);
+                        entity.damage(state, 25, owner, MCCREE_FLASHBANG);
                         dmgdealt += 25;
                         entity.stun(state);
                     }

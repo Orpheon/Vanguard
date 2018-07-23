@@ -73,6 +73,16 @@ enum Team { TEAM1,
             SPECTATOR,
             NO_TEAM };
 
+enum Damagetype {
+    REGULAR_ATTACK,
+    REINHARDT_CHARGE,
+    REINHARDT_FIRESTRIKE,
+    REINHARDT_EARTHSHATTER,
+    MCCREE_FLASHBANG,
+    MCCREE_DEADEYE,
+    LUCIO_SOUNDWAVE
+};
+
 struct ReducedInputContainer
 {
     public:

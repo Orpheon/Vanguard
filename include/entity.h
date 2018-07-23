@@ -25,7 +25,7 @@ class Entity
         virtual void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) = 0;
         virtual void destroy(Gamestate &state) {destroyentity = true;}
         virtual bool collides(Gamestate &state, double testx, double testy) {return false;}
-        virtual double damage(Gamestate &state, double amount) {return amount;};
+        virtual double damage(Gamestate &state, double amount, EntityPtr source, Damagetype damagetype) {return amount;};
         virtual bool damageableby(Team projectile_team) {return false;}
         virtual double maxdamageabledist(Gamestate &state, double *centerx, double *centery) {return 0;}
         virtual bool blocks(PenetrationLevel penlevel) {return false;}

@@ -9,7 +9,7 @@ void SonicProj::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
 double SonicProj::dealdamage(Gamestate &state, Entity &target)
 {
-    return target.damage(state, DAMAGE);
+    return target.damage(state, DAMAGE, owner, REGULAR_ATTACK);
 }
 
 void SonicProj::render(Renderer &renderer, Gamestate &state)

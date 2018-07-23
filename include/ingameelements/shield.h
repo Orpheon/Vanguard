@@ -9,7 +9,7 @@ class Shield : public MovingEntity
         virtual ~Shield() override = default;
         virtual bool isrootobject() override {return true;}
         virtual bool collides(Gamestate &state, double testx, double testy) override = 0;
-        virtual double damage(Gamestate &state, double amount) override;
+        virtual double damage(Gamestate &state, double amount, EntityPtr source, Damagetype damagetype) override;
         virtual void shieldbreak(Gamestate &state) {destroy(state);}
         virtual bool damageableby(Team projectile_team) override {return projectile_team != team;}
         virtual double maxdamageabledist(Gamestate &state, double *centerx, double *centery) override = 0;

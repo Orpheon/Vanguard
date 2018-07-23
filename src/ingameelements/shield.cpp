@@ -9,7 +9,7 @@ void Shield::init(uint64_t id_, Gamestate &state, double maxhp, Team team_)
     team = team_;
 }
 
-double Shield::damage(Gamestate &state, double amount)
+double Shield::damage(Gamestate &state, double amount, EntityPtr source, Damagetype damagetype)
 {
     double oldhp = hp;
     hp -= amount;

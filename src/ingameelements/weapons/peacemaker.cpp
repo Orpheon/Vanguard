@@ -133,7 +133,7 @@ void Peacemaker::fireprimary(Gamestate &state)
             falloff = std::max(0.0, 1 - (distance-FALLOFF_BEGIN)/(FALLOFF_END-FALLOFF_BEGIN));
         }
         Entity &e = state.get<Entity>(target);
-        double effectivedamage = e.damage(state, MAX_DAMAGE*falloff);
+        double effectivedamage = e.damage(state, MAX_DAMAGE*falloff, owner, REGULAR_ATTACK);
         state.get<Player&>(owner).registerdamage(state, effectivedamage);
     }
 
@@ -187,7 +187,7 @@ void Peacemaker::firesecondary(Gamestate &state)
             falloff = std::max(0.0, (distance-FALLOFF_BEGIN) / (FALLOFF_END-FALLOFF_BEGIN));
         }
         Entity &e = state.get<Entity>(target);
-        double effectivedamage = e.damage(state, MAX_DAMAGE*falloff);
+        double effectivedamage = e.damage(state, MAX_DAMAGE*falloff, owner, REGULAR_ATTACK);
         state.get<Player&>(owner).registerdamage(state, effectivedamage);
     }
 
@@ -244,7 +244,7 @@ void Peacemaker::fireultimate(Gamestate &state)
         if (state.exists(target))
         {
             Entity &e = state.get<Entity>(target);
-            double effectivedamage = e.damage(state, deadeyetargets.at(playerptr.id));
+            double effectivedamage = e.damage(state, deadeyetargets.at(playerptr.id), owner, MCCREE_DEADEYE);
             state.get<Player&>(owner).registerdamage(state, effectivedamage);
         }
 

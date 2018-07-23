@@ -41,7 +41,7 @@ class Character : public MovingEntity
         virtual bool canuseabilities(Gamestate &state) {return cangetinput(state);}
         virtual bool canjump(Gamestate &state) {return onground(state);}
         virtual void jump(Gamestate &state);
-        virtual double damage(Gamestate &state, double amount) override;
+        virtual double damage(Gamestate &state, double amount, EntityPtr source, Damagetype damagetype) override;
         virtual double heal(Gamestate &state, double amount);
         virtual void die(Gamestate &state);
         virtual void interrupt(Gamestate &state) = 0;

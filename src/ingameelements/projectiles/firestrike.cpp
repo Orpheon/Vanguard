@@ -17,7 +17,7 @@ double Firestrike::dealdamage(Gamestate &state, Entity &target)
         }
     }
 
-    double effectivedamage = target.damage(state, DAMAGE);
+    double effectivedamage = target.damage(state, DAMAGE, owner, REINHARDT_FIRESTRIKE);
     already_damaged_entities.push_back(target.id);
     return effectivedamage;
 }

@@ -614,7 +614,7 @@ void Character::jump(Gamestate &state)
     vspeed = -250.0;
 }
 
-double Character::damage(Gamestate &state, double amount)
+double Character::damage(Gamestate &state, double amount, EntityPtr source, Damagetype damagetype)
 {
     double effective_damage = hp.damage(amount);
     if (hp.total() <= 0)
