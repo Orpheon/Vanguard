@@ -76,6 +76,8 @@ void DefaultHud::renderkillfeed(Renderer &renderer, Gamestate &state, Player &my
 
     for (auto &event : state.killfeed)
     {
+        // FIXME: This is a really ugly placeholder, loop contents should be replaced
+
         std::string fulltext = event.killername + " killed " + event.victimname;
         if (event.killtype == SUICIDE)
         {
