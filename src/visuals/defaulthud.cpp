@@ -77,6 +77,10 @@ void DefaultHud::renderkillfeed(Renderer &renderer, Gamestate &state, Player &my
     for (auto &event : state.killfeed)
     {
         std::string fulltext = event.killername + " killed " + event.victimname;
+        if (event.killtype == SUICIDE)
+        {
+            fulltext = event.victimname + " suicided";
+        }
         double xoffset = al_get_text_width(renderer.font12, fulltext.c_str());
         if (myself.team == event.team)
         {
