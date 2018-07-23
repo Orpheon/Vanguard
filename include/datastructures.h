@@ -75,6 +75,7 @@ enum Team { TEAM1,
 
 enum Damagetype {
     REGULAR_ATTACK,
+    SUICIDE,
     REINHARDT_CHARGE,
     REINHARDT_FIRESTRIKE,
     REINHARDT_EARTHSHATTER,
@@ -226,6 +227,6 @@ struct Killfeedevent
     std::string killername;
     std::string victimname;
     Team team;
-    std::string killabilityname;
+    Damagetype killtype;
     double time;
 };

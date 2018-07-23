@@ -619,7 +619,7 @@ double Character::damage(Gamestate &state, double amount, EntityPtr source, Dama
     double effective_damage = hp.damage(amount);
     if (hp.total() <= 0)
     {
-        die(state);
+        die(state, source, damagetype);
     }
     return effective_damage;
 }
@@ -661,14 +661,18 @@ void Character::createspeedboosteffect(Gamestate &state)
     }
 }
 
-void Character::die(Gamestate &state)
+void Character::die(Gamestate &state, EntityPtr killer, Damagetype damagetype)
 {
+    state.registerkill(killer, owner, damagetype);
+
     if (state.engine.isserver)
     {
         destroy(state);
 
         state.engine.sendbuffer.write<uint8_t>(PLAYER_DIED);
         state.engine.sendbuffer.write<uint8_t>(state.findplayerid(owner));
+        state.engine.sendbuffer.write<uint8_t>(state.findplayerid(killer));
+        state.engine.sendbuffer.write<uint8_t>(damagetype);
 
         state.get<Player>(owner).spawntimer.reset();
 

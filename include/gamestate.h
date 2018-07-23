@@ -55,7 +55,7 @@ class Gamestate
         void loadmap(std::string name);
         void switchmap(Gamestate &state);
         void mapend();
-        void registerkill(EntityPtr killerplayer, EntityPtr victimplayer, std::string &abilitystr);
+        void registerkill(EntityPtr killerplayer, EntityPtr victimplayer, Damagetype damagetype);
 
         EntityPtr addplayer();
         void removeplayer(int playerid);

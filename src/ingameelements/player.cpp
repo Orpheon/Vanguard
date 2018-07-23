@@ -143,7 +143,7 @@ void Player::changeclass(Gamestate &state, Heroclass newclass)
     heroclass = newclass;
     if (state.exists(character))
     {
-        getcharacter(state).die(state);
+        getcharacter(state).die(state, EntityPtr(id), SUICIDE);
     }
 
     ultcharge.reset();

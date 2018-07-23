@@ -43,7 +43,7 @@ class Character : public MovingEntity
         virtual void jump(Gamestate &state);
         virtual double damage(Gamestate &state, double amount, EntityPtr source, Damagetype damagetype) override;
         virtual double heal(Gamestate &state, double amount);
-        virtual void die(Gamestate &state);
+        virtual void die(Gamestate &state, EntityPtr killer, Damagetype damagetype);
         virtual void interrupt(Gamestate &state) = 0;
         virtual void stun(Gamestate &state) override;
         virtual void useability1(Gamestate &state) = 0;

@@ -90,7 +90,16 @@ void Gamestate::removeplayer(int playerid)
 
 Player& Gamestate::findplayer(int playerid)
 {
-    return get<Player>(playerlist.at(playerid));
+    int id = playerlist.at(playerid);
+    if (exists(id))
+    {
+        return get<Player&>(id);
+    }
+    else
+    {
+        Global::logging().panic(__FILE__, __LINE__, "Player ID %i requested but does not exist.", playerid);
+        return get<Player&>(id);
+    }
 }
 
 int Gamestate::findplayerid(EntityPtr player)
@@ -172,22 +181,25 @@ void Gamestate::mapend()
     displaystats = true;
 }
 
-void Gamestate::registerkill(EntityPtr killerplayer, EntityPtr victimplayer, std::string &abilitystr)
+void Gamestate::registerkill(EntityPtr killerplayer, EntityPtr victimplayer, Damagetype damagetype)
 {
-    Player &killer = get<Player&>(killerplayer);
-    Player &victim = get<Player&>(victimplayer);
-
-    Killfeedevent event;
-    event.team = killer.team;
-    event.killername = killer.name;
-    event.victimname = victim.name;
-    event.killabilityname = abilitystr;
-    event.time = time;
-
-    killfeed.push_front(event);
-    while (killfeed.size() > MAX_KILLFEED_LENGTH)
+    if (exists(killerplayer) and exists(victimplayer))
     {
-        killfeed.pop_back();
+        Player &killer = get<Player&>(killerplayer);
+        Player &victim = get<Player&>(victimplayer);
+
+        Killfeedevent event;
+        event.team = killer.team;
+        event.killername = killer.name;
+        event.victimname = victim.name;
+        event.killtype = damagetype;
+        event.time = time;
+
+        killfeed.push_front(event);
+        while (killfeed.size() > MAX_KILLFEED_LENGTH)
+        {
+            killfeed.pop_back();
+        }
     }
 }
 

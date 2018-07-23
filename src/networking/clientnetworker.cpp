@@ -80,7 +80,13 @@ void ClientNetworker::receive(Gamestate &state)
                 else if (eventtype == PLAYER_DIED)
                 {
                     int playerid = data.read<uint8_t>();
-                    state.findplayer(playerid).getcharacter(state).destroy(state);
+                    int killerid = data.read<uint8_t>();
+                    auto damagetype = static_cast<Damagetype>(data.read<uint8_t>());
+                    Player& player = state.findplayer(playerid);
+                    Player& killer = state.findplayer(killerid);
+                    state.registerkill(EntityPtr(killer.id), EntityPtr(player.id), damagetype);
+                    player.getcharacter(state).destroy(state);
+
                 }
                 else if (eventtype == PRIMARY_FIRED)
                 {
