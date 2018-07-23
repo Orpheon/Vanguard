@@ -5,6 +5,7 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
+#include <SFML/Graphics/RenderWindow.hpp>
 #define boolean enet_boolean
 #include <enet/enet.h>
 
@@ -36,57 +37,23 @@ int main(int argc, char **argv)
         nlohmann::json settings = settings_configloader.open("settings.json");
         Global::provide_settings(&settings);
 
-        // Initialize Allegro
-        if (!al_init())
-        {
-            Global::logging().panic(__FILE__, __LINE__, "Allegro initialization failed");
-        }
-
-        // Initialize the Allegro Image addon, used to load sprites and maps
-        if (!al_init_image_addon())
-        {
-            Global::logging().panic(__FILE__, __LINE__, "Allegro image addon initialization failed");
-        }
-
-        // Initialize primitives for drawing
-        if (!al_init_primitives_addon())
-        {
-            Global::logging().panic(__FILE__, __LINE__, "Allegro primitives addon initialization failed");
-        }
-
-        // Initialize keyboard modules
-        if (!al_install_keyboard())
-        {
-            Global::logging().panic(__FILE__, __LINE__, "Allegro keyboard initialization failed");
-        }
-
-        // Initialize mouse
-        if (!al_install_mouse())
-        {
-            Global::logging().panic(__FILE__, __LINE__, "Allegro mouse initialization failed");
-        }
-
         // Initialize networking system
         if (enet_initialize())
         {
             Global::logging().panic(__FILE__, __LINE__, "Enet initialization failed");
         }
 
-        //load font
-        al_init_font_addon();
-        al_init_ttf_addon();
-
         Renderer renderer;
-        ALLEGRO_DISPLAY* display = renderer.createnewdisplay();
+        sf::RenderWindow window = renderer.createnewdisplay();
 
-        std::unique_ptr<MenuContainer> menus = std::unique_ptr<MenuContainer>(new MenuContainer(display));
+        std::unique_ptr<MenuContainer> menus = std::unique_ptr<MenuContainer>(new MenuContainer(window));
         double lasttimeupdated = al_get_time();
         int not_finished = 1;
         while (not_finished)
         {
             if (al_get_time() - lasttimeupdated >= MENU_TIMESTEP)
             {
-                not_finished = menus->run(display);
+                not_finished = menus->run(window);
                 lasttimeupdated = al_get_time();
                 if (not_finished == -1)
                 {

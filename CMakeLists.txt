@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CmakeModules")
 
+find_package(SFML 2.5 COMPONENTS graphics network system window REQUIRED)
+
 find_library(ALLEGRO_PATH allegro)
 if (NOT EXISTS ${ALLEGRO_PATH})
     message("${ALLEGRO_PATH} does not exist")
@@ -31,13 +33,15 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 endif (CMAKE_COMPILER_IS_GNUCXX)
 
 if (COMPILE_STATIC)
+    set(SFML_STATIC_LIBRARIES TRUE)
     find_library(ALLEGRO_PATH allegro_monolith-static)
     if (NOT EXISTS ${ALLEGRO_PATH})
         message(FATAL_ERROR "${ALLEGRO_PATH} does not exist - you probably have not installed static allegro libraries.\
          Either install them or change the flag in cmake to dynamic compilation.")
     endif()
-    set (Vanguardlib allegro_monolith-static allegro_dialog-static jpeg vorbis ogg glu32 opengl32 freetype png16 z
-    kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid dsound wsock32 psapi shlwapi enet)
+    set (Vanguardlib sfml-graphics sfml-window sfml-system sfml-network allegro_monolith-static allegro_dialog-static
+            jpeg vorbis ogg glu32 opengl32 freetype png16 z kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid
+            dsound wsock32 psapi shlwapi enet)
     set (Vanguardlinkflags "-static-libstdc++ -static-libgcc -static ")
     set (VANGUARD_DEBUG_MODE OFF)
 else (COMPILE_STATIC)
@@ -46,7 +50,8 @@ else (COMPILE_STATIC)
         message(FATAL_ERROR "${ALLEGRO_PATH} does not exist - you probably have not installed dynamic allegro libraries.\
          Either install them or change the flag in cmake to static compilation.")
     endif()
-    set (Vanguardlib allegro allegro_image allegro_primitives allegro_font allegro_ttf allegro_dialog enet pthread)
+    set (Vanguardlib sfml-graphics sfml-window sfml-system sfml-network allegro allegro_image allegro_primitives
+            allegro_font allegro_ttf allegro_dialog enet pthread)
     set (Vanguardlinkflags "")
 endif (COMPILE_STATIC)
 

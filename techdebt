@@ -6,9 +6,4 @@
 -disable jumping on mccree during deadeye
 -mccree stun after ult desyncs with weapon a bit
 -compilation doesn't work on clang
-
-Allegro doesn't support textboxes. GUI libraries exist but they are either complicated to compile or don't support
-copy-paste. Both are terrible, am seriously considering writing own text input, as gay as that is. Question is, is there
-some easy way to have it happen in a separate window as a separate process that can capture text without blocking networking,
-or does the game have to freeze when something is typed in? Or should there be some Global::textbox.update() function?
-If so, how does the code that requested something continue?
+-add window styles in Renderer::createnewdisplay()
