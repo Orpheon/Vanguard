@@ -178,6 +178,7 @@ void Gamestate::mapend()
     {
         e.second->mapend(*this);
     }
+    killfeed.clear();
     displaystats = true;
 }
 

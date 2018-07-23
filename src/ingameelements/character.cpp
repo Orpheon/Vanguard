@@ -663,10 +663,10 @@ void Character::createspeedboosteffect(Gamestate &state)
 
 void Character::die(Gamestate &state, EntityPtr killer, Damagetype damagetype)
 {
-    state.registerkill(killer, owner, damagetype);
-
     if (state.engine.isserver)
     {
+        state.registerkill(killer, owner, damagetype);
+
         destroy(state);
 
         state.engine.sendbuffer.write<uint8_t>(PLAYER_DIED);
