@@ -35,6 +35,9 @@ void InputCatcher::run(sf::RenderWindow &window, Gamestate &state, Networker &ne
     // Go through all events that have been stacking up since last time
     while (window.pollEvent(event))
     {
+        // FIXME: This newclass thing is an ugly placeholder,
+        // when you replace it with a real class menu don't do it like this
+        Heroclass newclass = player.heroclass;
         switch (event.type)
         {
             case sf::Event::Closed:
@@ -48,9 +51,6 @@ void InputCatcher::run(sf::RenderWindow &window, Gamestate &state, Networker &ne
                 break;
 
             case sf::Event::KeyPressed:
-                // FIXME: This newclass thing is an ugly placeholder,
-                // when you replace it with a real class menu don't do it like this
-                Heroclass newclass = player.heroclass;
                 switch (event.key.code)
                 {
                     case sf::Keyboard::Escape:
