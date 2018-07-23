@@ -40,11 +40,11 @@ void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
             // Inner orange circle
             al_draw_circle(mid_x, mid_y, total_width / 4.0, al_map_rgb(239, 179, 89), total_width / 30.0);
             // Thick gray mid circle
-            al_draw_circle(mid_x, mid_y, total_width / 3.0,
-                           al_map_rgba(255 * alpha, 255 * alpha, 255 * alpha,255 * alpha), total_width / 14.0);
+            al_draw_circle(mid_x, mid_y, total_width / 3.0, ColorPalette::premul(Color::WHITE, 255*alpha),
+                           total_width / 14.0);
             // Outer gray circle
-            al_draw_circle(mid_x, mid_y, total_width / 2.0,
-                           al_map_rgba(255 * alpha, 255 * alpha, 255 * alpha, 255 * alpha), total_width / 30.0);
+            al_draw_circle(mid_x, mid_y, total_width / 2.0, ColorPalette::premul(Color::WHITE, 255*alpha),
+                           total_width / 30.0);
             // Charging arc
             al_draw_arc(mid_x, mid_y, total_width / 3.0, -PI/2.0, 2*PI * myself.ultcharge.timer/100.0,
                         al_map_rgb(255, 230, 125), total_width / 14.0);
@@ -58,13 +58,13 @@ void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
             double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
             al_draw_bitmap(sprite, mid_x - spriteoffset_x, mid_y - spriteoffset_y, 0);
             // Inner gray circle
-            al_draw_circle(mid_x, mid_y, total_width / 4.0,
-                           al_map_rgba(255 * alpha, 255 * alpha, 255 * alpha, 255 * alpha), total_width / 25.0);
+            al_draw_circle(mid_x, mid_y, total_width / 4.0, ColorPalette::premul(Color::WHITE, alpha*255),
+                           total_width / 25.0);
             // Neon blue mid circle
             al_draw_circle(mid_x, mid_y, total_width / 3.0, al_map_rgb(110, 253, 251), total_width / 30.0);
             // Outer gray circle
-            al_draw_circle(mid_x, mid_y, total_width / 2.0,
-                           al_map_rgba(255 * alpha, 255 * alpha, 255 * alpha, 255 * alpha), total_width / 30.0);
+            al_draw_circle(mid_x, mid_y, total_width / 2.0, ColorPalette::premul(Color::WHITE, alpha*255),
+                           total_width / 30.0);
         }
     }
 }
