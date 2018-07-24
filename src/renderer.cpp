@@ -51,7 +51,7 @@ void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myse
         state.currentmap->renderbackground(*this);
 
         // Draw translucent black overlay
-        sf::RectangleShape rect(sf::Vector2(WINDOW_WIDTH, WINDOW_HEIGHT));
+        sf::RectangleShape rect(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
         rect.setPosition(0, 0);
         rect.setFillColor(sf::Color(0, 0, 0, 100));
         window.draw(rect);
@@ -124,21 +124,6 @@ void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myse
         }
     }
     window.display();
-}
-
-sf::RenderWindow& Renderer::createnewwindow()
-{
-    //default window values are set on header file
-    int window_width, window_height, window_type;
-
-    window_width = Global::settings().at("Display resolution").at(0);
-    window_height = Global::settings().at("Display resolution").at(1);
-    // TODO: Add window settings in config
-
-    sf::RenderWindow window(sf::VideoMode(window_width, window_height), "Vanguard");
-    window.setKeyRepeatEnabled(false);
-
-    return window;
 }
 
 void Renderer::resetcamera()

@@ -43,8 +43,14 @@ int main(int argc, char **argv)
             Global::logging().panic(__FILE__, __LINE__, "Enet initialization failed");
         }
 
-        Renderer renderer;
-        sf::RenderWindow &window = renderer.createnewwindow();
+        int window_width, window_height, window_type;
+
+        window_width = Global::settings().at("Display resolution").at(0);
+        window_height = Global::settings().at("Display resolution").at(1);
+        // TODO: Add window settings in config
+
+        sf::RenderWindow window(sf::VideoMode(window_width, window_height), "Vanguard");
+        window.setKeyRepeatEnabled(false);
 
         std::unique_ptr<MenuContainer> menus = std::unique_ptr<MenuContainer>(new MenuContainer(window));
         double lasttimeupdated = al_get_time();
@@ -94,6 +100,7 @@ int main(int argc, char **argv)
         Engine engine(isserver);
         InputCatcher inputcatcher;
         Gamestate renderingstate(engine);
+        Renderer renderer;
 
         std::unique_ptr<Networker> networker;
         if (isserver)

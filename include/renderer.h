@@ -15,7 +15,6 @@ class Renderer
         Renderer();
         virtual ~Renderer();
         void render(sf::RenderWindow &window, Gamestate &state, EntityPtr myself_, Networker &networker);
-        sf::RenderWindow& createnewwindow();
         void resetcamera();
         EntityPtr myself;
         int WINDOW_WIDTH;

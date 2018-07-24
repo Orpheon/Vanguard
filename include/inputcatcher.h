@@ -11,6 +11,7 @@ class InputCatcher
         InputCatcher();
         ~InputCatcher();
         void run(sf::RenderWindow &window, Gamestate &state, Networker &networker, Renderer &renderer, EntityPtr myself);
+        void updatekey(std::string keylabel, bool &key);
     private:
         nlohmann::json config;
 };

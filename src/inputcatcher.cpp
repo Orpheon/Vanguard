@@ -23,6 +23,24 @@ InputCatcher::~InputCatcher()
 
 }
 
+void InputCatcher::updatekey(std::string keylabel, bool &key)
+{
+    int code1 = config.at(keylabel);
+    int code2 = config.at(keylabel+"_alt1");
+    int code3 = config.at(keylabel+"_alt2");
+
+    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(code1))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(code2))
+        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(code3)))
+    {
+        key = true;
+    }
+    else
+    {
+        key = false;
+    }
+}
+
 void InputCatcher::run(sf::RenderWindow &window, Gamestate &state, Networker &networker, Renderer &renderer,
                        EntityPtr myself)
 {
@@ -107,55 +125,15 @@ void InputCatcher::run(sf::RenderWindow &window, Gamestate &state, Networker &ne
                 break;
         }
     }
-
-    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("jump")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("jump_alt1")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("jump_alt2"))))
-    {
-        heldkeys.JUMP = true;
-    }
-    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("crouch")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("crouch_alt1")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("crouch_alt2"))))
-    {
-        heldkeys.CROUCH = true;
-    }
-    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("left")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("left_alt1")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("left_alt2"))))
-    {
-        heldkeys.LEFT = true;
-    }
-    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("right")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("right_alt1")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("right_alt2"))))
-    {
-        heldkeys.RIGHT = true;
-    }
-    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ability1")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ability1_alt1")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ability1_alt2"))))
-    {
-        heldkeys.ABILITY_1 = true;
-    }
-    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ability2")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ability2_alt1")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ability2_alt2"))))
-    {
-        heldkeys.ABILITY_2 = true;
-    }
-    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ultimate")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ultimate_alt1")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("ultimate_alt2"))))
-    {
-        heldkeys.ULTIMATE = true;
-    }
-    if (sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("reload")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("reload_alt1")))
-        or sf::Keyboard::isKeyPressed(static_cast<sf::Keyboard::Key>(config.at("reload_alt2"))))
-    {
-        heldkeys.RELOAD = true;
-    }
+    
+    updatekey("jump", heldkeys.JUMP);
+    updatekey("crouch", heldkeys.CROUCH);
+    updatekey("left", heldkeys.LEFT);
+    updatekey("right", heldkeys.RIGHT);
+    updatekey("ability1", heldkeys.ABILITY_1);
+    updatekey("ability2", heldkeys.ABILITY_2);
+    updatekey("ultimate", heldkeys.ULTIMATE);
+    updatekey("reload", heldkeys.RELOAD);
 
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
     {
