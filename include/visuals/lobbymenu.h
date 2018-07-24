@@ -12,9 +12,9 @@
 class Lobbymenu : public Menu
 {
     public:
-        Lobbymenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_);
+        Lobbymenu(sf::RenderWindow &window, MenuContainer &owner_);
         virtual ~Lobbymenu() = default;
-        void run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue) override;
+        void run(sf::RenderWindow &window) override;
         void refreshservers();
         void quit();
 
@@ -35,7 +35,7 @@ class Lobbymenu : public Menu
         double REFRESH_PERIOD = 50;
         double MIN_REFRESH_PERIOD = 5;
 
-        ALLEGRO_FONT *serverfont;
+        sf::Font serverfont;
         int scrolloffset = 0;
         int selection = -1;
         // Can't use Timer object because of hardcoded Gamestate argument in trigger function
