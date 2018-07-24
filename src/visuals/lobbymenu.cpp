@@ -108,6 +108,7 @@ void Lobbymenu::run(sf::RenderWindow &window)
     {
         switch (event.type)
         {
+            int n_servers, delta;
             case sf::Event::Closed:
                 quit();
                 break;
@@ -127,9 +128,9 @@ void Lobbymenu::run(sf::RenderWindow &window)
                 }
                 break;
 
-            case sf::Event::MouseWheelScrollEvent:
-                int n_servers = static_cast<signed int>(servers.size());
-                int delta = static_cast<int>(event.mouseWheelScroll.delta);
+            case sf::Event::MouseWheelScrolled:
+                n_servers = static_cast<signed int>(servers.size());
+                delta = static_cast<int>(event.mouseWheelScroll.delta);
                 if (scrolloffset - delta > n_servers - N_SERVERS_TO_DISPLAY)
                 {
                     scrolloffset = n_servers - N_SERVERS_TO_DISPLAY;
@@ -152,6 +153,9 @@ void Lobbymenu::run(sf::RenderWindow &window)
                     owner.serverport = servers.at(selection).port;
                     owner.exitmenus();
                 }
+                break;
+
+            default:
                 break;
         }
     }

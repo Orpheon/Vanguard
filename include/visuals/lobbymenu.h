@@ -3,9 +3,8 @@
 #include "visuals/menu.h"
 #include "visuals/menuanimation.h"
 #include "spriteloader.h"
-#include "allegro5/allegro_font.h"
-#include "allegro5/allegro_ttf.h"
 
+#include <SFML/Graphics/Font.hpp>
 #include <asio.hpp>
 
 
