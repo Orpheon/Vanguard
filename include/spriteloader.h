@@ -14,8 +14,8 @@ class Spriteloader
     public:
         Spriteloader();
         virtual ~Spriteloader();
-        void loadsprite(std::string &path, sf::Sprite& sprite);
-        void loadspriteoutline(std::string &path, sf::Sprite& sprite);
+        void loadsprite(std::string path, sf::Sprite& sprite);
+        void loadspriteoutline(std::string path, sf::Sprite& sprite);
         Rect get_rect(std::string path);
         void clearcache();
         Spriteloader & operator=(Spriteloader &&)=default;

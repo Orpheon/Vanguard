@@ -16,7 +16,7 @@ Spriteloader::~Spriteloader()
 
 }
 
-void Spriteloader::loadsprite(std::string &path, sf::Sprite &sprite)
+void Spriteloader::loadsprite(std::string path, sf::Sprite &sprite)
 {
     if (texturecache.count(path) == 0)
     {
@@ -45,7 +45,7 @@ void Spriteloader::loadsprite(std::string &path, sf::Sprite &sprite)
     sprite.setOrigin(x, y);
 }
 
-void Spriteloader::loadspriteoutline(std::string &path, sf::Sprite &sprite)
+void Spriteloader::loadspriteoutline(std::string path, sf::Sprite &sprite)
 {
     std::string outlinepath = path + "_outline";
     if (texturecache.count(outlinepath) == 0)

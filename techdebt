@@ -7,3 +7,4 @@
 -mccree stun after ult desyncs with weapon a bit
 -compilation doesn't work on clang
 -add window styles in Renderer::createnewdisplay()
+-test whether new ipstring catching works in mainmenu
