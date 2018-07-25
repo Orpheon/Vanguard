@@ -10,5 +10,6 @@ sf::Color COLOR_LUCIOSHIELD(69, 122, 255);
 
 sf::Color COLOR_ALLY(0, 0, 255);
 sf::Color COLOR_ENEMY(255, 0, 0);
+sf::Color COLOR_ENEMY_OUTLINE(255, 17, 17);
 sf::Color COLOR_SPAWNROOM(248, 222, 0);
 sf::Color COLOR_CP(248, 222, 0);

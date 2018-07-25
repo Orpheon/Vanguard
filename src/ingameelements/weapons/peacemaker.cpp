@@ -20,29 +20,29 @@ void Peacemaker::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
 void Peacemaker::render(Renderer &renderer, Gamestate &state)
 {
-    std::string mainsprite;
+    std::string spritepath;
     double dir = aimdirection;
     Mccree &c = state.get<Mccree>(state.get<Player>(owner).character);
     if (firinganim.active())
     {
-        mainsprite = firinganim.getframepath();
+        spritepath = firinganim.getframepath();
     }
     else if (reloadanim.active())
     {
-        mainsprite = reloadanim.getframepath();
+        spritepath = reloadanim.getframepath();
         dir = 3.1415*c.isflipped;
     }
     else if (fthanim.active())
     {
-        mainsprite = fthanim.getframepath();
+        spritepath = fthanim.getframepath();
     }
     else
     {
-        mainsprite = c.herofolder()+"arm/1";
+        spritepath = c.herofolder()+"arm/1";
     }
-    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
-    double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-    double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
+    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(spritepath);
+    double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(spritepath)*renderer.zoom;
+    double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(spritepath)*renderer.zoom;
     double rel_x = (x - renderer.cam_x)*renderer.zoom;
     double rel_y = (y - renderer.cam_y)*renderer.zoom;
     double attachpt_x = getattachpoint_x(state)*renderer.zoom;

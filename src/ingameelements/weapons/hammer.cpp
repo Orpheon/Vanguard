@@ -32,30 +32,30 @@ void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
         return;
     }
 
-    std::string mainsprite;
+    std::string spritepath;
     Reinhardt &c = state.get<Reinhardt>(state.get<Player>(owner).character);
     if (firestrikeanim.active())
     {
-        mainsprite = firestrikeanim.getframepath();
+        spritepath = firestrikeanim.getframepath();
     }
     else if (barrier(state).active)
     {
-        mainsprite = herofolder()+"shield/back";
+        spritepath = herofolder()+"shield/back";
 
     }
     else
     {
-        mainsprite = herofolder()+"arm/back";
+        spritepath = herofolder()+"arm/back";
     }
-    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
-    double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-    double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
+    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(spritepath);
+    double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(spritepath)*renderer.zoom;
+    double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(spritepath)*renderer.zoom;
     double rel_x = (x - renderer.cam_x)*renderer.zoom;
     double rel_y = (y - renderer.cam_y)*renderer.zoom;
     double attachpt_x = getbackattachpoint_x(state)*renderer.zoom;
     double attachpt_y = getbackattachpoint_y(state)*renderer.zoom;
 
-    ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(mainsprite);
+    ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(spritepath);
     ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
 
     al_set_target_bitmap(renderer.midground);
@@ -86,34 +86,34 @@ void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
 
 void Hammer::render(Renderer &renderer, Gamestate &state)
 {
-    std::string mainsprite;
+    std::string spritepath;
     Reinhardt &c = state.get<Reinhardt>(state.get<Player>(owner).character);
     if (firinganim.active())
     {
-        mainsprite = firinganim.getframepath();
+        spritepath = firinganim.getframepath();
     }
     else if (firestrikeanim.active())
     {
-        mainsprite = herofolder()+"firestrikefrontarm/"+std::to_string(firestrikeanim.getframe());
+        spritepath = herofolder()+"firestrikefrontarm/"+std::to_string(firestrikeanim.getframe());
     }
     else if (barrier(state).active)
     {
-        mainsprite = herofolder()+"shield/front";
+        spritepath = herofolder()+"shield/front";
 
     }
     else
     {
-        mainsprite = herofolder()+"arm/front";
+        spritepath = herofolder()+"arm/front";
     }
-    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
-    double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-    double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
+    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(spritepath);
+    double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(spritepath)*renderer.zoom;
+    double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(spritepath)*renderer.zoom;
     double rel_x = (x - renderer.cam_x)*renderer.zoom;
     double rel_y = (y - renderer.cam_y)*renderer.zoom;
     double attachpt_x = getattachpoint_x(state)*renderer.zoom;
     double attachpt_y = getattachpoint_y(state)*renderer.zoom;
 
-    ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(mainsprite);
+    ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(spritepath);
     ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
 
     al_set_target_bitmap(renderer.midground);

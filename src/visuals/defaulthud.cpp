@@ -49,21 +49,21 @@ void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
             circle.setOutlineThickness(total_width / 30.0);
             circle.setRadius(total_width / 4.0);
             circle.setOrigin(circle.getLocalBounds().width / 2.0, circle.getLocalBounds().height / 2.0);
-            renderer.surfaceground.draw(circle);
+            renderer.hudground.draw(circle);
 
             // Thick gray mid circle
             circle.setOutlineColor(sf::Color(255, 255, 255, 255*alpha));
             circle.setOutlineThickness(total_width / 14.0);
             circle.setRadius(total_width / 3.0);
             circle.setOrigin(circle.getLocalBounds().width / 2.0, circle.getLocalBounds().height / 2.0);
-            renderer.surfaceground.draw(circle);
+            renderer.hudground.draw(circle);
 
             // Outer gray circle
             circle.setOutlineColor(sf::Color(255, 255, 255, 255*alpha));
             circle.setOutlineThickness(total_width / 30.0);
             circle.setRadius(total_width / 2.0);
             circle.setOrigin(circle.getLocalBounds().width / 2.0, circle.getLocalBounds().height / 2.0);
-            renderer.surfaceground.draw(circle);
+            renderer.hudground.draw(circle);
 
             // Charging arc
             // TODO: Reimplement this using sfml, or find workaround, or something
@@ -76,28 +76,28 @@ void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
             std::string spritepath = "ui/ingame/"+character.herofolder()+"ultready";
             sf::Sprite sprite;
             renderer.spriteloader.loadsprite(spritepath, sprite);
-            renderer.surfaceground.draw(sprite);
+            renderer.hudground.draw(sprite);
 
             // Inner gray circle
             circle.setOutlineColor(sf::Color(255, 255, 255, 255*alpha));
             circle.setOutlineThickness(total_width / 25.0);
             circle.setRadius(total_width / 4.0);
             circle.setOrigin(circle.getLocalBounds().width / 2.0, circle.getLocalBounds().height / 2.0);
-            renderer.surfaceground.draw(circle);
+            renderer.hudground.draw(circle);
 
             // Neon blue mid circle
             circle.setOutlineColor(sf::Color(110, 253, 251, 255*alpha));
             circle.setOutlineThickness(total_width / 30.0);
             circle.setRadius(total_width / 3.0);
             circle.setOrigin(circle.getLocalBounds().width / 2.0, circle.getLocalBounds().height / 2.0);
-            renderer.surfaceground.draw(circle);
+            renderer.hudground.draw(circle);
 
             // Outer gray circle
             circle.setOutlineColor(sf::Color(255, 255, 255, 255*alpha));
             circle.setOutlineThickness(total_width / 30.0);
             circle.setRadius(total_width / 2.0);
             circle.setOrigin(circle.getLocalBounds().width / 2.0, circle.getLocalBounds().height / 2.0);
-            renderer.surfaceground.draw(circle);
+            renderer.hudground.draw(circle);
         }
     }
 }
@@ -198,7 +198,7 @@ void DefaultHud::renderhealthbar(Renderer &renderer, Gamestate &state, Character
                 slanted_rect.setPoint(3, sf::Vector2f(rect_x + rect_width + health_height*slant,
                                                       health_top_y));
 
-                renderer.surfaceground.draw(slanted_rect);
+                renderer.hudground.draw(slanted_rect);
 
                 healthamount -= recthp;
                 // We're done here, no need to keep this iteration
@@ -248,7 +248,7 @@ void DefaultHud::mccreehud(Renderer &renderer, Gamestate &state, Mccree &myself)
     sf::Sprite sprite;
     renderer.spriteloader.loadsprite(spritepath, sprite);
     sprite.setPosition(abilities_x, abilities_y);
-    renderer.surfaceground.draw(sprite);
+    renderer.hudground.draw(sprite);
 
     // Ammo count
     Peacemaker &weapon = state.get<Peacemaker&>(myself.weapon);
@@ -284,7 +284,7 @@ void DefaultHud::reinhardthud(Renderer &renderer, Gamestate &state, Reinhardt &m
     sf::Sprite sprite;
     renderer.spriteloader.loadsprite(spritepath, sprite);
     sprite.setPosition(abilities_x, abilities_y);
-    renderer.surfaceground.draw(sprite);
+    renderer.hudground.draw(sprite);
 
     abilities_x -= renderer.WINDOW_WIDTH * 1.0/10.0;
 
@@ -309,7 +309,7 @@ void DefaultHud::luciohud(Renderer &renderer, Gamestate &state, Lucio &myself)
     sf::Sprite sprite;
     renderer.spriteloader.loadsprite(spritepath, sprite);
     sprite.setPosition(abilities_x, abilities_y);
-    renderer.surfaceground.draw(sprite);
+    renderer.hudground.draw(sprite);
 
     // TODO: Do this when I can see stuff
 //    // Ammo count
@@ -374,7 +374,7 @@ double DefaultHud::renderability(Renderer &renderer, std::string spritename, dou
         renderer.spriteloader.loadsprite(spritename, sprite);
     }
     sprite.setPosition(x, y);
-    renderer.surfaceground.draw(sprite);
+    renderer.hudground.draw(sprite);
 
     sf::FloatRect spriterect = sprite.getGlobalBounds();
 
@@ -392,7 +392,7 @@ double DefaultHud::renderability(Renderer &renderer, std::string spritename, dou
                                               spriterect.top + spriterect.height - 2));
         slanted_rect.setPoint(1, sf::Vector2f(spriterect.left + 17*cooldown.getpercent() + 41,
                                               spriterect.top + 2 + 34*(1 - cooldown.getpercent())));
-        renderer.surfaceground.draw(slanted_rect);
+        renderer.hudground.draw(slanted_rect);
 
         sf::Text text;
         text.setFont(renderer.mainfont);
@@ -400,7 +400,7 @@ double DefaultHud::renderability(Renderer &renderer, std::string spritename, dou
         text.setString(std::to_string((int)std::ceil(cooldown.duration - cooldown.timer)));
         text.setOrigin(text.getLocalBounds().width/2.0, text.getLocalBounds().height);
         text.setPosition(spriterect.left + spriterect.width/2.0, spriterect.top + spriterect.height/2.0);
-        renderer.surfaceground.draw(text);
+        renderer.hudground.draw(text);
     }
 
     return spriterect.width;

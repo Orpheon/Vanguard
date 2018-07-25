@@ -25,6 +25,7 @@ class Renderer
         sf::RenderTexture midground;
         sf::RenderTexture foreground;
         sf::RenderTexture surfaceground;
+        sf::RenderTexture hudground;
         Spriteloader spriteloader;
         sf::Font mainfont;
     protected:

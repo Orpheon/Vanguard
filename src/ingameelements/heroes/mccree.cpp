@@ -30,7 +30,7 @@ void Mccree::render(Renderer &renderer, Gamestate &state)
     Character::render(renderer, state);
     al_set_target_bitmap(renderer.midground);
 
-    std::string mainsprite;
+    std::string spritepath;
     ALLEGRO_BITMAP *sprite;
     double spriteoffset_x, spriteoffset_y;
     double rel_x, rel_y;
@@ -54,12 +54,12 @@ void Mccree::render(Renderer &renderer, Gamestate &state)
         }
     }
 
-    mainsprite = currentsprite(state, false);
-    sprite = renderer.spriteloader.requestsprite(mainsprite);
-    spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-    spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
+    spritepath = currentsprite(state, false);
+    sprite = renderer.spriteloader.requestsprite(spritepath);
+    spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(spritepath)*renderer.zoom;
+    spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(spritepath)*renderer.zoom;
 
-    ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(mainsprite);
+    ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(spritepath);
     ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
 
     if (isflipped)

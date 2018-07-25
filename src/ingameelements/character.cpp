@@ -328,10 +328,10 @@ void Character::render(Renderer &renderer, Gamestate &state)
     {
         al_set_target_bitmap(renderer.midground);
 
-        std::string mainsprite = healingeffect.getframepath();
-        ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
-        double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-        double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
+        std::string spritepath = healingeffect.getframepath();
+        ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(spritepath);
+        double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(spritepath)*renderer.zoom;
+        double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(spritepath)*renderer.zoom;
         Rect rect = getcollisionrect(state);
         double rel_x = (rect.x + rect.w/2.0 - renderer.cam_x)*renderer.zoom;
         double rel_y = (rect.y + rect.h/2.0 - renderer.cam_y)*renderer.zoom;
@@ -341,7 +341,7 @@ void Character::render(Renderer &renderer, Gamestate &state)
 
     // --------------- HEALTHBAR ---------------
     al_set_target_bitmap(renderer.surfaceground);
-    std::string mainsprite = currentsprite(state, false);
+    std::string spritepath = currentsprite(state, false);
 
     ALLEGRO_COLOR healthcolors[] = { ColorPalette::premul(Color::HP, 255),
                                       ColorPalette::premul(Color::ARMOR, 255),
@@ -361,7 +361,7 @@ void Character::render(Renderer &renderer, Gamestate &state)
     int healthamounts_length = sizeof(healthamounts) / sizeof(healthamounts[0]);
 
     double center_x = renderer.zoom * (x - renderer.cam_x);
-    double health_top_y = renderer.zoom * (y - renderer.spriteloader.get_spriteoffset_y(mainsprite) - renderer.cam_y - 15);
+    double health_top_y = renderer.zoom * (y - renderer.spriteloader.get_spriteoffset_y(spritepath) - renderer.cam_y - 15);
     double totalwidth = renderer.zoom * 60;
     double between_rect_spacing = 2;
     double slant = 0.3;
@@ -461,10 +461,10 @@ void Character::render(Renderer &renderer, Gamestate &state)
                 }
 
                 al_set_target_bitmap(renderer.foreground);
-                std::string mainsprite = "ui/ingame/heroes/mccree/lockon";
-                ALLEGRO_BITMAP *skull = renderer.spriteloader.requestsprite(mainsprite);
-                double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-                double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
+                std::string spritepath = "ui/ingame/heroes/mccree/lockon";
+                ALLEGRO_BITMAP *skull = renderer.spriteloader.requestsprite(spritepath);
+                double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(spritepath)*renderer.zoom;
+                double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(spritepath)*renderer.zoom;
                 double rel_x = (x - renderer.cam_x)*renderer.zoom;
                 double rel_y = (y - renderer.cam_y)*renderer.zoom;
                 double factor = (hp.total()-charge) / initializehealth().total();

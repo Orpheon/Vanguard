@@ -4,7 +4,7 @@
 
 #include "gamestate.h"
 #include "datastructures.h"
-#include "spriteloader.h"
+#include "maskloader.h"
 
 class Engine
 {
@@ -17,7 +17,7 @@ class Engine
 
         std::unique_ptr<Gamestate> currentstate;
         std::unique_ptr<Gamestate> oldstate;
-        Spriteloader maskloader;
+        Maskloader maskloader;
         bool isserver;
         WriteBuffer sendbuffer;
         unsigned long maprotationindex;

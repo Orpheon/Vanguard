@@ -78,16 +78,22 @@ void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myse
             }
         }
 
+        // Drawing layers for normal objects
         background.clear();
         midground.clear();
         foreground.clear();
+        // Drawing layer for everything that should be visible above the wallmask, in particular HP bars and so on
         surfaceground.clear();
+        // Drawing layer for unscaled things like the HUD
+        hudground.clear();
 
         background.setView(cameraview);
         midground.setView(cameraview);
         foreground.setView(cameraview);
+        surfaceground.setView(cameraview);
 
         // Go through all objects and let them render themselves on the layers
+        state.currentmap->renderbackground(*this);
         for (auto &e : state.entitylist)
         {
             if (e.second->isrootobject() and not e.second->destroyentity)
@@ -95,33 +101,28 @@ void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myse
                 e.second->render(*this, state);
             }
         }
+        if (state.exists(myself))
+        {
+            currenthud->render(*this, state, state.get<Player>(myself));
+        }
+
         background.display();
         midground.display();
         foreground.display();
         surfaceground.display();
+        hudground.display();
 
         window.clear();
-        state.currentmap->renderbackground(*this);
         sf::Sprite sprite(background.getTexture());
         window.draw(sprite);
         sprite.setTexture(midground.getTexture());
         window.draw(sprite);
         sprite.setTexture(foreground.getTexture());
         window.draw(sprite);
-
-        // Draw the map wallmask on top of everything, to prevent sprites that go through walls
-        // FIXME: Make this return a thing and render that here, instead of accessing window
-        state.currentmap->renderwallground(*this);
-
-        // Draw the final layer on top of even that, for certain things like character healthbars
         sprite.setTexture(surfaceground.getTexture());
         window.draw(sprite);
-
-        // FIXME: This too, should be done here
-        if (state.exists(myself))
-        {
-            currenthud->render(*this, state, state.get<Player>(myself));
-        }
+        sprite.setTexture(hudground.getTexture());
+        window.draw(sprite);
     }
     window.display();
 }
