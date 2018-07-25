@@ -90,7 +90,6 @@ set (SRC_FILES
         "src/renderer.cpp"
         "src/entity.cpp"
         "src/configloader.cpp"
-        "src/colorpalette.cpp"
         "src/global.cpp"
         "src/networking/networker.cpp"
         "src/networking/buffer.cpp"

@@ -29,23 +29,16 @@ void Corpse::beginstep(Gamestate &state, double frametime)
 
 void Corpse::render(Renderer &renderer, Gamestate &state)
 {
-    std::string mainsprite = spritepath;
-    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
-    double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-    double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
-    double rel_x = (x - renderer.cam_x)*renderer.zoom;
-    double rel_y = (y - renderer.cam_y)*renderer.zoom;
+    std::string spritepath = spritepath;
+    sf::Sprite sprite;
+    renderer.spriteloader.loadsprite(spritepath, sprite);
 
-    al_set_target_bitmap(renderer.background);
     if (isflipped)
     {
         // Flip horizontally
-        al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
+        sprite.setScale(sf::Vector2f(-1, 1));
     }
-    else
-    {
-        al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-    }
+    renderer.background.draw(sprite);
 }
 
 void Corpse::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
