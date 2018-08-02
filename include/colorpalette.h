@@ -13,3 +13,4 @@ sf::Color COLOR_ENEMY(255, 0, 0);
 sf::Color COLOR_ENEMY_OUTLINE(255, 17, 17);
 sf::Color COLOR_SPAWNROOM(248, 222, 0);
 sf::Color COLOR_CP(248, 222, 0);
+sf::Color COLOR_MCREE_LOCKON(253, 58, 58);
