@@ -46,6 +46,7 @@ void Peacemaker::render(Renderer &renderer, Gamestate &state)
         sf::Sprite sprite;
         renderer.spriteloader.loadsprite(spritepath, sprite);
         sprite.setPosition(x-getattachpoint_x(state), y-getattachpoint_y(state));
+        sprite.setRotation(dir);
         if (mccree.isflipped)
         {
             sprite.setScale(-1, 1);
