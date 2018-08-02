@@ -20,45 +20,37 @@ void Peacemaker::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
 void Peacemaker::render(Renderer &renderer, Gamestate &state)
 {
-    std::string spritepath;
-    double dir = aimdirection;
-    Mccree &c = state.get<Mccree>(state.get<Player>(owner).character);
-    if (firinganim.active())
+    Mccree &mccree = state.get<Mccree&>(state.get<Player>(owner).character);
+    if (mccree.weaponvisible(state))
     {
-        spritepath = firinganim.getframepath();
-    }
-    else if (reloadanim.active())
-    {
-        spritepath = reloadanim.getframepath();
-        dir = 3.1415*c.isflipped;
-    }
-    else if (fthanim.active())
-    {
-        spritepath = fthanim.getframepath();
-    }
-    else
-    {
-        spritepath = c.herofolder()+"arm/1";
-    }
-    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(spritepath);
-    double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(spritepath)*renderer.zoom;
-    double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(spritepath)*renderer.zoom;
-    double rel_x = (x - renderer.cam_x)*renderer.zoom;
-    double rel_y = (y - renderer.cam_y)*renderer.zoom;
-    double attachpt_x = getattachpoint_x(state)*renderer.zoom;
-    double attachpt_y = getattachpoint_y(state)*renderer.zoom;
-
-    al_set_target_bitmap(renderer.midground);
-    if (c.weaponvisible(state))
-    {
-        if (c.isflipped)
+        std::string spritepath;
+        double dir = aimdirection;
+        if (firinganim.active())
         {
-            al_draw_scaled_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, 1, -1, dir, 0);
+            spritepath = firinganim.getframepath();
+        }
+        else if (reloadanim.active())
+        {
+            spritepath = reloadanim.getframepath();
+            dir = 3.1415*mccree.isflipped;
+        }
+        else if (fthanim.active())
+        {
+            spritepath = fthanim.getframepath();
         }
         else
         {
-            al_draw_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, dir, 0);
+            spritepath = mccree.herofolder()+"arm/1";
         }
+
+        sf::Sprite sprite;
+        renderer.spriteloader.loadsprite(spritepath, sprite);
+        sprite.setPosition(x-getattachpoint_x(state), y-getattachpoint_y(state));
+        if (mccree.isflipped)
+        {
+            sprite.setScale(-1, 1);
+        }
+        renderer.midground.draw(sprite);
     }
 }
 

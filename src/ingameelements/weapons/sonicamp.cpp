@@ -96,7 +96,7 @@ void Sonicamp::render(Renderer &renderer, Gamestate &state)
 
         sf::Sprite sprite;
         renderer.spriteloader.loadsprite(spritepath, sprite);
-        sprite.setPosition(-getattachpoint_x(state), -getattachpoint_y(state));
+        sprite.setPosition(x-getattachpoint_x(state), y-getattachpoint_y(state));
         sprite.setRotation(dir);
         if (lucio.isflipped)
         {

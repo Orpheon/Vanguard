@@ -60,7 +60,7 @@ void ReinhardtShield::render(Renderer &renderer, Gamestate &state)
             std::string spritepath = spritestr();
             sf::Sprite sprite;
             renderer.spriteloader.loadsprite(spritepath, sprite);
-            sprite.setPosition(-attachpoint_x(state), -attachpoint_y(state));
+            sprite.setPosition(x-attachpoint_x(state), y-attachpoint_y(state));
 
             if (reinhardt.isflipped)
             {
