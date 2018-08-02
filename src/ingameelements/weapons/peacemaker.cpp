@@ -6,6 +6,7 @@
 #include "ingameelements/explosion.h"
 #include "ingameelements/trail.h"
 #include "engine.h"
+#include "colorpalette.h"
 
 void Peacemaker::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
@@ -115,7 +116,8 @@ void Peacemaker::fireprimary(Gamestate &state)
 {
     double cosa = std::cos(aimdirection), sina = std::sin(aimdirection);
     double collisionptx, collisionpty;
-    double d = std::hypot(state.currentmap->width(), state.currentmap->height());
+    sf::Vector2u mapsize = state.currentmap->size();
+    double d = std::hypot(mapsize.x, mapsize.y);
     EntityPtr target = state.collidelinedamageable(x, y, x+cosa*d, y+sina*d, team, &collisionptx, &collisionpty);
     if (state.exists(target))
     {
@@ -130,7 +132,7 @@ void Peacemaker::fireprimary(Gamestate &state)
         state.get<Player&>(owner).registerdamage(state, effectivedamage);
     }
 
-    state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
+    state.make_entity<Trail>(state, COLOR_MCCREE_TRAIL, x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
     Explosion &e = state.get<Explosion>(state.make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", aimdirection));
     e.x = x+cosa*24;
     e.y = y+sina*24;
@@ -184,7 +186,7 @@ void Peacemaker::firesecondary(Gamestate &state)
         state.get<Player&>(owner).registerdamage(state, effectivedamage);
     }
 
-    state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
+    state.make_entity<Trail>(state, COLOR_MCCREE_TRAIL, x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
     Explosion &e = state.get<Explosion>(state.make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", aimdirection+spread));
     e.x = x+cosa*24;
     e.y = y+sina*24;
@@ -213,7 +215,8 @@ void Peacemaker::fireultimate(Gamestate &state)
     if (deadeyetargets.size() > 0)
     {
         EntityPtr playerptr = 0;
-        double distance = state.currentmap->width()*10;
+        sf::Vector2u mapsize = state.currentmap->size();
+        double distance = std::hypot(mapsize.x, mapsize.y)*10;
         // Select closest target
         for (auto &p : deadeyetargets)
         {
@@ -241,7 +244,7 @@ void Peacemaker::fireultimate(Gamestate &state)
             state.get<Player&>(owner).registerdamage(state, effectivedamage);
         }
 
-        state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
+        state.make_entity<Trail>(state, COLOR_MCCREE_TRAIL, x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
         Explosion &e = state.get<Explosion>(state.make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", angle));
         e.x = x+cosa*24;
         e.y = y+sina*24;

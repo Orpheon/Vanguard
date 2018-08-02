@@ -60,7 +60,6 @@ void Reinhardt::render(Renderer &renderer, Gamestate &state)
 
     spritepath = currentsprite(state, false);
     renderer.spriteloader.loadsprite(spritepath, sprite);
-    sf::FloatRect currentspriterect = sprite.getLocalBounds();
 
     renderer.midground.draw(sprite);
     if (state.get<Player>(renderer.myself).team != team)
@@ -361,14 +360,14 @@ Rect Reinhardt::getcollisionrect(Gamestate &state)
 {
     if (crouchanim.active())
     {
-        return state.engine.maskloader.get_rect_from_json(herofolder()+"crouch/").offset(x, y);
+        return state.engine.maskloader.get_rect(herofolder()+"crouch/").offset(x, y);
     }
     return getstandingcollisionrect(state);
 }
 
 Rect Reinhardt::getstandingcollisionrect(Gamestate &state)
 {
-    return state.engine.maskloader.get_rect_from_json(herofolder()).offset(x, y);
+    return state.engine.maskloader.get_rect(herofolder()).offset(x, y);
 }
 
 bool Reinhardt::collides(Gamestate &state, double testx, double testy)
@@ -388,8 +387,8 @@ bool Reinhardt::collides(Gamestate &state, double testx, double testy)
             {
                 // We're close enough that an actual collision might happen
                 // Check the sprite
-                ALLEGRO_BITMAP *selfsprite = state.engine.maskloader.requestsprite(currenttorsosprite(state, true));
-                return al_get_pixel(selfsprite, testx-self.x, testy-self.y).a != 0;
+                sf::Image &mask = state.engine.maskloader.loadmask(currenttorsosprite(state, true));
+                return mask.getPixel(testx-self.x, testy-self.y).a != 0;
             }
         }
         return false;

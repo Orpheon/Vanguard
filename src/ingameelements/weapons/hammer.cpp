@@ -67,7 +67,7 @@ void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
             renderer.midground.draw(sprite);
             sprite.setColor(sf::Color::White);
         }
-    }   
+    }
 }
 
 void Hammer::render(Renderer &renderer, Gamestate &state)

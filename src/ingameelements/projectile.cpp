@@ -49,19 +49,19 @@ bool Projectile::checkcollision(Gamestate &state, Entity &target)
         return false;
     }
     // We're close enough that an actual collision might happen
-    ALLEGRO_BITMAP *sprite = state.engine.maskloader.requestsprite(spriteid());
-    double spriteoffset_x = state.engine.maskloader.get_spriteoffset_x(spriteid());
-    double spriteoffset_y = state.engine.maskloader.get_spriteoffset_y(spriteid());
+    sf::Image &image = state.engine.maskloader.loadmask(spriteid());
+    sf::Vector2i offset = state.engine.maskloader.offsets(spriteid());
     double cosa = std::cos(angle), sina = std::sin(angle);
     for (int i = 0; i < bbox.w; ++i)
     {
-        double relx = i - spriteoffset_x;
+        double relx = i - offset.x;
         for (int j = 0; j < bbox.h; ++j)
         {
-            if (al_get_pixel(sprite, i, j).a != 0)
+            // FIXME: If this needs to be optimized, replace this with image.getPixelsPtr() stuff
+            if (image.getPixel(i, j).a != 0)
             {
                 // Rotate around (x,y) by angle
-                double rely = j - spriteoffset_y;
+                double rely = j - offset.y;
                 double rotx = x + cosa*relx - sina*rely;
                 double roty = y + sina*relx + cosa*rely;
                 if (target.collides(state, rotx, roty))

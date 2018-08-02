@@ -1,8 +1,7 @@
 #include "mapelements/spawnroom.h"
 #include "gamestate.h"
 #include "renderer.h"
-
-#include "allegro5/allegro_primitives.h"
+#include "colorpalette.h"
 
 void Spawnroom::init(uint64_t id_, std::vector<Rect> &areas_, Team team_)
 {
@@ -51,18 +50,15 @@ void Spawnroom::randpos(double *x, double *y)
 
 void Spawnroom::render(Renderer &renderer, Gamestate &state)
 {
-    al_set_target_bitmap(renderer.background);
-    int border;
+    sf::RectangleShape rect;
+    rect.setFillColor(COLOR_SPAWNROOM_FILL);
+    rect.setOutlineColor(COLOR_SPAWNROOM_OUTLINE);
     for (auto &area : areas)
     {
-        double rel_x = (area.x - renderer.cam_x)*renderer.zoom;
-        double rel_y = (area.y - renderer.cam_y)*renderer.zoom;
-        border = 3;
-        al_draw_rectangle(rel_x+border/2.0, rel_y+border/2.0, rel_x+renderer.zoom*area.w-border/2.0,
-                          rel_y+renderer.zoom*area.h-border/2.0, al_premul_rgba(248, 222, 0, 200), border);
-        border = 10;
-        al_draw_rectangle(rel_x+border/2.0, rel_y+border/2.0, rel_x+renderer.zoom*area.w-border/2.0,
-                          rel_y+renderer.zoom*area.h-border/2.0, al_premul_rgba(248, 222, 0, 200), border);
+        rect.setPosition(area.x, area.y);
+        rect.setSize(sf::Vector2f(area.w, area.h));
+        rect.setOutlineThickness(10);
+        renderer.background.draw(rect);
     }
 
 }

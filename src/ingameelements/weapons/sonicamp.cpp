@@ -40,7 +40,7 @@ void Sonicamp::renderbehind(Renderer &renderer, Gamestate &state)
             // FIXME: Someday I'm going to curse myself for this. The arm needs to know whether we're currently running or idling
         else if (lucio.currentsprite(state, false).find("/run/") != std::string::npos)
         {
-            spritepath = herofolder() + "runbackarm/" + std::to_string(c.runanim.getframe());
+            spritepath = herofolder() + "runbackarm/" + std::to_string(lucio.runanim.getframe());
         }
         else
         {

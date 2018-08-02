@@ -1,4 +1,3 @@
-#include <allegro5/allegro.h>
 #include <string>
 #include <fstream>
 
@@ -23,13 +22,9 @@ Map::Map(Gamestate &state, std::string name_)
 
     // Load all the images
     std::string bg = mapdata.at("background"), wg = mapdata.at("wallmask foreground"), wm = mapdata.at("wallmask");
-    al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-    background = al_load_bitmap((mapfolder + bg).c_str());
-    wallground = al_load_bitmap((mapfolder + wg).c_str());
-
-    al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
-    wallmask = al_load_bitmap((mapfolder + wm).c_str());
-    al_lock_bitmap(wallmask, al_get_bitmap_format(wallmask), ALLEGRO_LOCK_READONLY);
+    background.loadFromFile(mapfolder + bg);
+    wallground.loadFromFile(mapfolder + wg);
+    wallmask.loadFromFile(mapfolder + wm);
 
     if (mapdata.find("gamemodes") == mapdata.end())
     {
@@ -76,25 +71,38 @@ Map::Map(Gamestate &state, std::string name_)
 
 Map::~Map()
 {
-    al_destroy_bitmap(background);
-    al_destroy_bitmap(wallground);
-    al_unlock_bitmap(wallmask);
-    al_destroy_bitmap(wallmask);
+
 }
 
 void Map::renderbackground(Renderer &renderer)
 {
-    al_draw_scaled_bitmap(background, renderer.cam_x, renderer.cam_y, renderer.VIEWPORT_WIDTH, renderer.WINDOW_HEIGHT/renderer.zoom, 0, 0, renderer.WINDOW_WIDTH, renderer.WINDOW_HEIGHT, 0);
+    sf::Sprite sprite(background);
+    renderer.background.draw(sprite);
 }
 
 void Map::renderwallground(Renderer &renderer)
 {
-    al_draw_scaled_bitmap(wallground, renderer.cam_x, renderer.cam_y, renderer.VIEWPORT_WIDTH, renderer.WINDOW_HEIGHT/renderer.zoom, 0, 0, renderer.WINDOW_WIDTH, renderer.WINDOW_HEIGHT, 0);
+    sf::Sprite sprite(wallground);
+    renderer.surfaceground.draw(sprite);
+}
+
+bool Map::testpixel(double x, double y)
+{
+    if (x >= 0 and y >= 0)
+    {
+        sf::Vector2u mapsize = wallmask.getSize();
+        if (x < mapsize.x and y < mapsize.y)
+        {
+            return wallmask.getPixel(x, y).a != 0;
+        }
+    }
+    return true;
 }
 
 bool Map::collides(Rect r)
 {
-    if (r.x < 0 or r.y < 0 or r.x+r.w > width() or r.y+r.h > height())
+    sf::Vector2u mapsize = wallmask.getSize();
+    if (r.x < 0 or r.y < 0 or r.x+r.w > mapsize.x or r.y+r.h > mapsize.y)
     {
         return true;
     }
@@ -102,7 +110,7 @@ bool Map::collides(Rect r)
     {
         for (int j=0; j<r.h; ++j)
         {
-            if (al_get_pixel(wallmask, i+r.x, j+r.y).a != 0)
+            if (wallmask.getPixel(i+r.x, j+r.y).a != 0)
             {
                 return true;
             }
@@ -113,31 +121,30 @@ bool Map::collides(Rect r)
 
 bool Map::collides(Gamestate &state, double x, double y, std::string spriteid, double angle)
 {
+    sf::Vector2u mapsize = wallmask.getSize();
     Rect bbox = state.engine.maskloader.get_rect(spriteid);
 
     // Check if projectile is outside the map somehow
-    if (x + bbox.x > width() or y + bbox.y > height() or x + bbox.x + bbox.w < 0 or y + bbox.y + bbox.h < 0)
+    if (x + bbox.x > mapsize.x or y + bbox.y > mapsize.y or x + bbox.x + bbox.w < 0 or y + bbox.y + bbox.h < 0)
     {
         return true;
     }
     // Check pixel-wise
-    ALLEGRO_BITMAP *sprite = state.engine.maskloader.requestsprite(spriteid);
-//    Global::logging().print(__FILE__, __LINE__, "Flags: %i", al_get_bitmap_flags(sprite));
-    double spriteoffset_x = state.engine.maskloader.get_spriteoffset_x(spriteid);
-    double spriteoffset_y = state.engine.maskloader.get_spriteoffset_y(spriteid);
+    sf::Image &image = state.engine.maskloader.loadmask(spriteid);
+    sf::Vector2i offsets = state.engine.maskloader.offsets(spriteid);
     double cosa = std::cos(angle), sina = std::sin(angle);
     for (int i = 0; i < bbox.w; ++i)
     {
-        double relx = i - spriteoffset_x;
+        double relx = i - offsets.x;
         for (int j = 0; j < bbox.h; ++j)
         {
-            if (al_get_pixel(sprite, i, j).a != 0)
+            if (wallmask.getPixel(i, j).a != 0)
             {
                 // Rotate around (x,y) by angle
-                double rely = j - spriteoffset_y;
+                double rely = j - offsets.y;
                 double rotx = x + cosa*relx - sina*rely;
                 double roty = y + sina*relx + cosa*rely;
-                if (al_get_pixel(wallmask, rotx, roty).a != 0)
+                if (image.getPixel(rotx, roty).a != 0)
                 {
                     return true;
                 }
@@ -149,8 +156,8 @@ bool Map::collides(Gamestate &state, double x, double y, std::string spriteid, d
 
 bool Map::collideline(double x1, double y1, double x2, double y2)
 {
-    double mapw = width(), maph = height();
-    if (x1 < 0 or y1 < 0 or x2 < 0 or y2 < 0 or x1 > mapw or x2 > mapw or y1 > maph or y2 > maph)
+    sf::Vector2u mapsize = wallmask.getSize();
+    if (x1 < 0 or y1 < 0 or x2 < 0 or y2 < 0 or x1 > mapsize.x or x2 > mapsize.x or y1 > mapsize.y or y2 > mapsize.y)
     {
         return true;
     }
@@ -159,7 +166,7 @@ bool Map::collideline(double x1, double y1, double x2, double y2)
     double dx = static_cast<double>(x2-x1)/nsteps, dy = static_cast<double>(y2-y1)*1.0/nsteps;
     for (int i=0; i<nsteps; ++i)
     {
-        if (al_get_pixel(wallmask, x1, y1).a != 0)
+        if (wallmask.getPixel(x1, y1).a != 0)
         {
             return true;
         }

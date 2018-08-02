@@ -140,12 +140,7 @@ bool ReinhardtShield::collides(Gamestate &state, double testx, double testy)
     double roty = testx * sina + testy * cosa;
 
     std::string spritepath = spritestr();
-    double spriteoffset_x = state.engine.maskloader.get_spriteoffset_x(spritepath);
-    double spriteoffset_y = state.engine.maskloader.get_spriteoffset_y(spritepath);
-
-    if (al_get_pixel(state.engine.maskloader.requestsprite(spritepath), rotx+spriteoffset_x, roty+spriteoffset_y).a != 0)
-    {
-        return true;
-    }
-    return false;
+    sf::Image &mask = state.engine.maskloader.loadmask(spritepath);
+    sf::Vector2i offsets = state.engine.maskloader.offsets(spritepath);
+    return mask.getPixel(rotx + offsets.x, roty + offsets.y).a != 0;
 }

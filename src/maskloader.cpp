@@ -9,6 +9,7 @@ Maskloader::Maskloader() : maskcache()
     ConfigLoader cfgloader;
 
     gamedata = cfgloader.open("gamedata.json");
+    spriteoffsets = cfgloader.open("sprites/spritedata.json");
 }
 
 Maskloader::~Maskloader()
@@ -16,7 +17,7 @@ Maskloader::~Maskloader()
 
 }
 
-sf::Image& Maskloader::loadmask(std::string &path)
+sf::Image& Maskloader::loadmask(std::string path)
 {
     if (maskcache.count(path) == 0)
     {
@@ -34,6 +35,22 @@ sf::Image& Maskloader::loadmask(std::string &path)
     return maskcache[path];
 }
 
+sf::Vector2i Maskloader::offsets(std::string path)
+{
+    std::string fullpath = path + "_sprite.png";
+    int x, y;
+    try
+    {
+        x = spriteoffsets[fullpath][0];
+        y = spriteoffsets[fullpath][1];
+    }
+    catch (std::domain_error)
+    {
+        Global::logging().panic(__FILE__, __LINE__, "Could not load sprite offset of %s", fullpath.c_str());
+    }
+    return sf::Vector2i(x, y);
+}
+
 Rect Maskloader::get_rect(std::string s)
 {
     try
@@ -47,7 +64,7 @@ Rect Maskloader::get_rect(std::string s)
     }
 }
 
-sf::Vector2i Maskloader::weaponoffset(std::string s)
+sf::Vector2i Maskloader::weaponoffsets(std::string s)
 {
     try
     {

@@ -604,8 +604,8 @@ bool Character::collides(Gamestate &state, double testx, double testy)
     {
         // We're close enough that an actual collision might happen
         // Check the sprite
-        ALLEGRO_BITMAP *selfsprite = state.engine.maskloader.requestsprite(currentsprite(state, true));
-        return al_get_pixel(selfsprite, testx-self.x, testy-self.y).a != 0;
+        sf::Image &mask = state.engine.maskloader.loadmask(currentsprite(state, true));
+        return mask.getPixel(testx-self.x, testy-self.y).a != 0;
     }
     else
     {
