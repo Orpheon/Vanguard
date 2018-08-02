@@ -203,6 +203,11 @@ void Lobbymenu::run(sf::RenderWindow &window)
     int WINDOW_HEIGHT = windowsize.y;
     sf::Sprite bgsprite;
     spriteloader.loadsprite(background.getframepath(), bgsprite);
+    sf::FloatRect size = bgsprite.getLocalBounds();
+    bgsprite.setPosition(0, 0);
+    bgsprite.setScale(WINDOW_WIDTH/size.width, WINDOW_HEIGHT/size.height);
+    bgsprite.setOrigin(0, 0);
+    window.draw(bgsprite);
 
     sf::RectangleShape backdrop(sf::Vector2f(linewidth, lineheight));
     backdrop.setPosition(initial_x, initial_y);
@@ -233,6 +238,8 @@ void Lobbymenu::run(sf::RenderWindow &window)
     {
         auto& server = *serveridx;
 
+        backdrop.setFillColor(sf::Color(0, 0, 0, 100));
+        backdrop.setOutlineThickness(0);
         backdrop.setPosition(initial_x, servers_y);
         window.draw(backdrop);
 
@@ -245,6 +252,7 @@ void Lobbymenu::run(sf::RenderWindow &window)
             window.draw(backdrop);
         }
 
+        text.setFillColor(sf::Color::White);
         text.setPosition(initial_x + spacing, text_height);
         text.setString(server.name);
         window.draw(text);

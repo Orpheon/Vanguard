@@ -45,7 +45,10 @@ void Optionsmenu::run(sf::RenderWindow &window)
     int WINDOW_HEIGHT = windowsize.y;
     sf::Sprite bgsprite;
     spriteloader.loadsprite(background.getframepath(), bgsprite);
-
+    sf::FloatRect size = bgsprite.getLocalBounds();
+    bgsprite.setPosition(0, 0);
+    bgsprite.setScale(WINDOW_WIDTH/size.width, WINDOW_HEIGHT/size.height);
+    bgsprite.setOrigin(0, 0);
     window.draw(bgsprite);
 
     window.display();

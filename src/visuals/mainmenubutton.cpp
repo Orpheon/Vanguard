@@ -1,12 +1,15 @@
 
+#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 #include "visuals/mainmenubutton.h"
 
-MainmenuButton::MainmenuButton(std::string text_, double x_, double y_, std::function<void()> onclick_, sf::Font &font)
+MainmenuButton::MainmenuButton(std::string text_, double x_, double y_, std::function<void()> onclick_, sf::Font &font_)
 {
+    font = font_;
     text.setCharacterSize(NORMAL_BUTTON_FONT_SIZE);
     text.setFont(font);
     text.setPosition(x_, y_);
-    text.setOrigin(0, HOVERED_BUTTON_FONT_SIZE);
+    text.setString(text_);
     onclick = onclick_;
     bbox = Rect(x_, y_, 350, HOVERED_BUTTON_FONT_SIZE);
 }
@@ -29,12 +32,13 @@ void MainmenuButton::render(sf::RenderWindow &window, double mouse_x, double mou
     {
         // We're being hovered over
         text.setCharacterSize(HOVERED_BUTTON_FONT_SIZE);
-        text.setOrigin(-30, HOVERED_BUTTON_FONT_SIZE);
+        text.setOrigin(-30, 0);
     }
     else
     {
         text.setCharacterSize(NORMAL_BUTTON_FONT_SIZE);
-        text.setOrigin(0, HOVERED_BUTTON_FONT_SIZE);
+        text.setOrigin(0, 0);
     }
+    text.setFillColor(sf::Color::White);
     window.draw(text);
 }

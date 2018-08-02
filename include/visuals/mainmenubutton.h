@@ -11,12 +11,13 @@
 class MainmenuButton
 {
     public:
-        MainmenuButton(std::string text_, double x_, double y_, std::function<void()> onclick_, sf::Font &font);
+        MainmenuButton(std::string text_, double x_, double y_, std::function<void()> onclick_, sf::Font &font_);
         void render(sf::RenderWindow &window, double mouse_x, double mouse_y);
         bool ontop(double mouse_x, double mouse_y);
         std::function<void()> onclick;
     private:
         sf::Text text;
+        sf::Font font;
         Rect bbox;
         int NORMAL_BUTTON_FONT_SIZE = 30;
         int HOVERED_BUTTON_FONT_SIZE = 40;
