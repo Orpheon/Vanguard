@@ -22,9 +22,9 @@ sf::Image& Maskloader::loadmask(std::string path)
     if (maskcache.count(path) == 0)
     {
         sf::Image newimage;
-        if (not newimage.loadFromFile(path + "_hitmask.png"))
+        if (not newimage.loadFromFile("sprites/" + path + "_hitmask.png"))
         {
-            if (not newimage.loadFromFile(path + "_sprite.png"))
+            if (not newimage.loadFromFile("sprites/" + path + "_sprite.png"))
             {
                 Global::logging().panic(__FILE__, __LINE__, " Could not load sprites/%s_sprite.png", path.c_str());
             }

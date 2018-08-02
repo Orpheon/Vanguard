@@ -21,7 +21,7 @@ void Spriteloader::loadsprite(std::string path, sf::Sprite &sprite)
     if (texturecache.count(path) == 0)
     {
         sf::Texture newtexture;
-        if (not newtexture.loadFromFile(path + "_sprite.png"))
+        if (not newtexture.loadFromFile("sprites/" + path + "_sprite.png"))
         {
             Global::logging().panic(__FILE__, __LINE__, " Could not load sprites/%s_sprite.png", path.c_str());
         }
@@ -51,7 +51,7 @@ void Spriteloader::loadspriteoutline(std::string path, sf::Sprite &sprite)
     if (texturecache.count(outlinepath) == 0)
     {
         sf::Texture newtexture;
-        if (not newtexture.loadFromFile(outlinepath))
+        if (not newtexture.loadFromFile("sprites/" + outlinepath))
         {
             Global::logging().panic(__FILE__, __LINE__, " Could not load sprites/%s_sprite.png", outlinepath.c_str());
         }

@@ -2,9 +2,6 @@
 #include <string>
 #include <memory>
 #include <fstream>
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_image.h>
-#include <allegro5/allegro_primitives.h>
 #include <SFML/Graphics/RenderWindow.hpp>
 #define boolean enet_boolean
 #include <enet/enet.h>
@@ -53,20 +50,23 @@ int main(int argc, char **argv)
         window.setKeyRepeatEnabled(false);
 
         std::unique_ptr<MenuContainer> menus = std::unique_ptr<MenuContainer>(new MenuContainer(window));
-        double lasttimeupdated = al_get_time();
+        sf::Clock clock;
+        double updatetimebuffer = 0;
         int not_finished = 1;
         while (not_finished)
         {
-            if (al_get_time() - lasttimeupdated >= MENU_TIMESTEP)
+            if (updatetimebuffer >= MENU_TIMESTEP)
             {
                 not_finished = menus->run(window);
-                lasttimeupdated = al_get_time();
+                updatetimebuffer -= MENU_TIMESTEP;
                 if (not_finished == -1)
                 {
                     // Quit
                     return 0;
                 }
             }
+            sf::Time delta = clock.restart();
+            updatetimebuffer += delta.asSeconds();
         }
 
         bool isserver = true;
@@ -143,31 +143,38 @@ int main(int argc, char **argv)
             myself = engine.currentstate->playerlist.at(engine.currentstate->playerlist.size()-1);
         }
 
-        double enginetime = al_get_time();
-        double networkertime = al_get_time();
+        clock.restart();
+        double enginetimebuffer = 0;
+        double networkertimebuffer = 0;
         while (true)
         {
-            while (al_get_time() - enginetime >= ENGINE_TIMESTEP)
+            while (enginetimebuffer >= ENGINE_TIMESTEP)
             {
                 networker->receive(*(engine.currentstate));
                 inputcatcher.run(window, *(engine.currentstate), *networker, renderer, myself);
                 engine.update(ENGINE_TIMESTEP);
                 networker->sendeventdata(*(engine.currentstate));
 
-                enginetime += ENGINE_TIMESTEP;
+                enginetimebuffer -= ENGINE_TIMESTEP;
             }
             if (isserver)
             {
-                if (al_get_time() - networkertime >= NETWORKING_TIMESTEP)
+                if (networkertimebuffer >= NETWORKING_TIMESTEP)
                 {
                     ServerNetworker &n = reinterpret_cast<ServerNetworker&>(*networker);
                     n.sendframedata(*(engine.currentstate));
 
-                    networkertime = al_get_time();
+                    networkertimebuffer -= NETWORKING_TIMESTEP;
                 }
             }
-            renderingstate.interpolate(*(engine.oldstate), *(engine.currentstate), (al_get_time()-enginetime)/ENGINE_TIMESTEP);
+            sf::Time delta = clock.restart();
+            enginetimebuffer += delta.asSeconds();
+            networkertimebuffer += delta.asSeconds();
+            renderingstate.interpolate(*(engine.oldstate), *(engine.currentstate), enginetimebuffer/ENGINE_TIMESTEP);
             renderer.render(window, renderingstate, myself, *networker);
+            delta = clock.restart();
+            enginetimebuffer += delta.asSeconds();
+            networkertimebuffer += delta.asSeconds();
         }
     }
     catch (...)
