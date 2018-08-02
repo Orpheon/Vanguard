@@ -4,6 +4,7 @@
 #include "animation.h"
 #include "gamestate.h"
 #include "engine.h"
+#include "colorpalette.h"
 #include "ingameelements/projectiles/flashbang.h"
 
 #include <memory>
@@ -28,58 +29,33 @@ void Mccree::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 void Mccree::render(Renderer &renderer, Gamestate &state)
 {
     Character::render(renderer, state);
-    al_set_target_bitmap(renderer.midground);
 
     std::string spritepath;
-    ALLEGRO_BITMAP *sprite;
-    double spriteoffset_x, spriteoffset_y;
-    double rel_x, rel_y;
-    rel_x = (x-renderer.cam_x)*renderer.zoom;
-    rel_y = (y-renderer.cam_y)*renderer.zoom;
-
-    if (flashbanganim.active())
-    {
-        std::string armsprite = flashbanganim.getframepath();
-        sprite = renderer.spriteloader.requestsprite(armsprite);
-        spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(armsprite)*renderer.zoom;
-        spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(armsprite)*renderer.zoom;
-        if (isflipped)
-        {
-            // Flip horizontally
-            al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-        }
-        else
-        {
-            al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-        }
-    }
-
-    spritepath = currentsprite(state, false);
-    sprite = renderer.spriteloader.requestsprite(spritepath);
-    spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(spritepath)*renderer.zoom;
-    spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(spritepath)*renderer.zoom;
-
-    ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(spritepath);
-    ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
+    sf::Sprite sprite;
 
     if (isflipped)
     {
-        // Flip horizontally
-        al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-        if (state.get<Player>(renderer.myself).team != team)
-        {
-            // Draw enemy outline
-            al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-        }
+        sprite.setScale(-1, 1);
     }
-    else
+    sprite.setPosition(x, y);
+
+    if (flashbanganim.active())
     {
-        al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-        if (state.get<Player>(renderer.myself).team != team)
-        {
-            // Draw enemy outline
-            al_draw_tinted_bitmap(outline, outlinecolor, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-        }
+        spritepath = flashbanganim.getframepath();
+        renderer.spriteloader.loadsprite(spritepath, sprite);
+        renderer.midground.draw(sprite);
+    }
+
+    spritepath = currentsprite(state, false);
+    renderer.spriteloader.loadsprite(spritepath, sprite);
+    renderer.midground.draw(sprite);
+
+    if (state.get<Player&>(renderer.myself).team != team)
+    {
+        sprite.setColor(COLOR_ENEMY_OUTLINE);
+        renderer.spriteloader.loadspriteoutline(spritepath, sprite);
+        renderer.midground.draw(sprite);
+        sprite.setColor(sf::Color::White);
     }
 
     state.get<Weapon>(weapon).render(renderer, state);
