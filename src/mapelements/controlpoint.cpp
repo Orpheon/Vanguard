@@ -79,72 +79,72 @@ void ControlPoint::beginstep(Gamestate &state, double frametime)
 void ControlPoint::render(Renderer &renderer, Gamestate &state)
 {
     // Find the center of CP area
-    double rel_x = (area.x + area.w/2 - renderer.cam_x)*renderer.zoom;
-    double rel_y = (area.y + area.h/2 - renderer.cam_y)*renderer.zoom;
-    Color owningcolor;
-    Color cappingcolor;
+    sf::Color owningcolor;
+    sf::Color cappingcolor;
     
     if (owningteam == NO_TEAM)
     {
-        owningcolor = Color::CP;
+        owningcolor = COLOR_CP;
     }
     else if (state.get<Player>(renderer.myself).team == owningteam)
     {
-        owningcolor = Color::ALLY;
+        owningcolor = COLOR_ALLY;
     }
     else
     {
-        owningcolor = Color::ENEMY;
+        owningcolor = COLOR_ENEMY;
     }
 
     if (cappingteam == NO_TEAM)
     {
-        cappingcolor = Color::CP;
+        cappingcolor = COLOR_CP;
     }
     else if (state.get<Player>(renderer.myself).team == cappingteam)
     {
-        cappingcolor = Color::ALLY;
+        cappingcolor = COLOR_ALLY;
     }
     else
     {
-        cappingcolor = Color::ENEMY;
+        cappingcolor = COLOR_ENEMY;
     }
 
-    ALLEGRO_COLOR owningcolorfront = ColorPalette::premul(owningcolor, 200);
-    ALLEGRO_COLOR owningcolormid = ColorPalette::premul(owningcolor, 160);
-    ALLEGRO_COLOR owningcolorback = ColorPalette::premul(owningcolor, 80);
+    sf::Color owningcolorfront = sf::Color(owningcolor.r, owningcolor.g, owningcolor.b, 200);
+    sf::Color owningcolormid = sf::Color(owningcolor.r, owningcolor.g, owningcolor.b, 160);
+    sf::Color owningcolorback = sf::Color(owningcolor.r, owningcolor.g, owningcolor.b, 80);
 
     // Draw CP Area
-    al_set_target_bitmap(renderer.foreground);
-    al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
-        rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
-        owningcolorfront, 5);
-    al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
-        rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
-        owningcolormid, 3);
+    // TODO: Do this when things can be seen
+//    al_set_target_bitmap(renderer.foreground);
+//    al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
+//        rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
+//        owningcolorfront, 5);
+//    al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
+//        rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
+//        owningcolormid, 3);
+//
+//    al_set_target_bitmap(renderer.background);
+//    al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
+//        rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
+//        owningcolormid, 3);
+//    al_draw_line(rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
+//        rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
+//        owningcolormid, 3);
+//
+//    al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
+//        rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
+//        owningcolorback, 3);
 
-    al_set_target_bitmap(renderer.background);
-    al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
-        rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
-        owningcolormid, 3);
-    al_draw_line(rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 10)*renderer.zoom,
-        rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
-        owningcolormid, 3);
-
-    al_draw_line(rel_x - (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
-        rel_x + (area.w / 2)*renderer.zoom, rel_y + ((area.h / 2) - 20)*renderer.zoom,
-        owningcolorback, 3);
-
-    // Draw CP Bubble 
-    al_draw_filled_circle(rel_x, rel_y, 30.0, owningcolorfront);
-    al_draw_circle(rel_x, rel_y, 30.0, owningcolorfront, 5);
-    if (capamount.getpercent() > 0)
-    {
-        ALLEGRO_COLOR cc = ColorPalette::get(cappingcolor);
-        al_draw_arc(rel_x, rel_y, 31.0, -PI/2.0, 2*PI*capamount.getpercent(), cc, 5);
-    }
-    al_draw_text(renderer.font20, ColorPalette::get(Color::WHITE), rel_x,
-                 rel_y - al_get_font_line_height(renderer.font20) / 2.0, ALLEGRO_ALIGN_CENTER, "A");
+    // Draw CP Bubble
+    // TODO: Do this when things can be seen
+//    al_draw_filled_circle(rel_x, rel_y, 30.0, owningcolorfront);
+//    al_draw_circle(rel_x, rel_y, 30.0, owningcolorfront, 5);
+//    if (capamount.getpercent() > 0)
+//    {
+//        ALLEGRO_COLOR cc = ColorPalette::get(cappingcolor);
+//        al_draw_arc(rel_x, rel_y, 31.0, -PI/2.0, 2*PI*capamount.getpercent(), cc, 5);
+//    }
+//    al_draw_text(renderer.font20, ColorPalette::get(Color::WHITE), rel_x,
+//                 rel_y - al_get_font_line_height(renderer.font20) / 2.0, ALLEGRO_ALIGN_CENTER, "A");
 }
 
 void ControlPoint::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
