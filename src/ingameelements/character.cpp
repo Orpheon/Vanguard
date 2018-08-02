@@ -473,7 +473,7 @@ void Character::render(Renderer &renderer, Gamestate &state)
                 sf::CircleShape circle;
                 circle.setRadius(8+32*factor);
                 circle.setOrigin(circle.getLocalBounds().width, circle.getLocalBounds().height);
-                circle.setOutlineColor(COLOR_MCREE_LOCKON);
+                circle.setOutlineColor(COLOR_MCCREE_LOCKON);
                 circle.setPosition(x, y);
                 renderer.foreground.draw(circle);
             }
