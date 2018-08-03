@@ -38,6 +38,12 @@ Renderer::~Renderer()
 
 void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myself_, Networker &networker)
 {
+    if (state.currentmap->size() != background.getSize())
+    {
+        resetmapsize(state.currentmap->size());
+    }
+
+
     myself = myself_;
 
     if (state.displaystats)
@@ -131,4 +137,13 @@ void Renderer::resetcamera()
 {
     sf::Vector2f center = cameraview.getCenter();
     cameraview.reset(sf::FloatRect(center.x, center.y, VIEWPORT_WIDTH, VIEWPORT_WIDTH*1.0*WINDOW_HEIGHT/WINDOW_WIDTH));
+}
+
+void Renderer::resetmapsize(sf::Vector2u size)
+{
+    background.create(size.x, size.y);
+    midground.create(size.x, size.y);
+    foreground.create(size.x, size.y);
+    surfaceground.create(size.x, size.y);
+    hudground.create(size.x, size.y);
 }

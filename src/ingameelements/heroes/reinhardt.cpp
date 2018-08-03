@@ -360,14 +360,14 @@ Rect Reinhardt::getcollisionrect(Gamestate &state)
 {
     if (crouchanim.active())
     {
-        return state.engine.maskloader.get_rect(herofolder()+"crouch/").offset(x, y);
+        return state.engine.maskloader.get_json_rect(herofolder()+"crouch/").offset(x, y);
     }
     return getstandingcollisionrect(state);
 }
 
 Rect Reinhardt::getstandingcollisionrect(Gamestate &state)
 {
-    return state.engine.maskloader.get_rect(herofolder()).offset(x, y);
+    return state.engine.maskloader.get_json_rect(herofolder()).offset(x, y);
 }
 
 bool Reinhardt::collides(Gamestate &state, double testx, double testy)

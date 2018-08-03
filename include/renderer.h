@@ -16,6 +16,7 @@ class Renderer
         virtual ~Renderer();
         void render(sf::RenderWindow &window, Gamestate &state, EntityPtr myself_, Networker &networker);
         void resetcamera();
+        void resetmapsize(sf::Vector2u size);
         EntityPtr myself;
         int WINDOW_WIDTH;
         int WINDOW_HEIGHT;

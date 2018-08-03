@@ -53,6 +53,13 @@ sf::Vector2i Maskloader::offsets(std::string path)
 
 Rect Maskloader::get_rect(std::string s)
 {
+    sf::Image &mask = loadmask(s);
+    sf::Vector2u size = mask.getSize();
+    return Rect(0, 0, size.x, size.y);
+}
+
+Rect Maskloader::get_json_rect(std::string s)
+{
     try
     {
         return Rect(gamedata[s+" rect"][0], gamedata[s+" rect"][1], gamedata[s+" rect"][2], gamedata[s+" rect"][3]);

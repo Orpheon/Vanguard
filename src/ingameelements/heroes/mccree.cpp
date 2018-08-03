@@ -212,14 +212,14 @@ Rect Mccree::getcollisionrect(Gamestate &state)
 {
     if (crouchanim.active())
     {
-        return state.engine.maskloader.get_rect(herofolder()+"crouch/").offset(x, y);
+        return state.engine.maskloader.get_json_rect(herofolder()+"crouch/").offset(x, y);
     }
     return getstandingcollisionrect(state);
 }
 
 Rect Mccree::getstandingcollisionrect(Gamestate &state)
 {
-    return state.engine.maskloader.get_rect(herofolder()).offset(x, y);
+    return state.engine.maskloader.get_json_rect(herofolder()).offset(x, y);
 }
 
 std::string Mccree::currentsprite(Gamestate &state, bool mask)

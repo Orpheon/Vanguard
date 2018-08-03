@@ -16,6 +16,7 @@ class Maskloader
         sf::Image& loadmask(std::string path);
         sf::Vector2i offsets(std::string path);
         Rect get_rect(std::string s);
+        Rect get_json_rect(std::string s);
         sf::Vector2i weaponoffsets(std::string s);
         void clearcache();
         Maskloader & operator=(Maskloader &&)=default;
