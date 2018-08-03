@@ -60,6 +60,7 @@ void InputCatcher::run(sf::RenderWindow &window, Gamestate &state, Networker &ne
         {
             case sf::Event::Closed:
                 window.close();
+                Global::logging().panic(__FILE__, __LINE__, "Game closed.");
                 break;
 
             case sf::Event::Resized:
@@ -73,6 +74,7 @@ void InputCatcher::run(sf::RenderWindow &window, Gamestate &state, Networker &ne
                 {
                     case sf::Keyboard::Escape:
                         window.close();
+                        Global::logging().panic(__FILE__, __LINE__, "Game closed.");
                         break;
 
                     case sf::Keyboard::F9:
