@@ -29,6 +29,9 @@ int main(int argc, char **argv)
         std::unique_ptr<PrintLogger> default_logger(new PrintLogger());
         Global::provide_logging(default_logger.get());
 
+        // Disable sfml logging
+        sf::err().rdbuf(NULL);
+
         // Load the settings config
         ConfigLoader settings_configloader;
         nlohmann::json settings = settings_configloader.open("settings.json");
