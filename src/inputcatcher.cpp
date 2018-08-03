@@ -88,6 +88,7 @@ void InputCatcher::run(sf::RenderWindow &window, Gamestate &state, Networker &ne
                             renderer.VIEWPORT_WIDTH = 300;
                         }
                         renderer.resetcamera();
+                        break;
 
                     case sf::Keyboard::Num1:
                         newclass = MCCREE;

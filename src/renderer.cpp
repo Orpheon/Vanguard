@@ -29,6 +29,8 @@ Renderer::Renderer() : myself(0), WINDOW_WIDTH(0), WINDOW_HEIGHT(0), spriteloade
     cameraview.reset(sf::FloatRect(0, 0, VIEWPORT_WIDTH, VIEWPORT_WIDTH*1.0*WINDOW_HEIGHT/WINDOW_WIDTH));
 
     currenthud = std::unique_ptr<Hud>(new DefaultHud());
+
+    resetdrawlayersize(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT));
 }
 
 Renderer::~Renderer()
@@ -38,12 +40,6 @@ Renderer::~Renderer()
 
 void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myself_, Networker &networker)
 {
-    if (state.currentmap->size() != background.getSize())
-    {
-        resetmapsize(state.currentmap->size());
-    }
-
-
     myself = myself_;
 
     if (state.displaystats)
@@ -85,13 +81,13 @@ void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myse
         }
 
         // Drawing layers for normal objects
-        background.clear();
-        midground.clear();
-        foreground.clear();
+        background.clear(sf::Color::Transparent);
+        midground.clear(sf::Color::Transparent);
+        foreground.clear(sf::Color::Transparent);
         // Drawing layer for everything that should be visible above the wallmask, in particular HP bars and so on
-        surfaceground.clear();
+        surfaceground.clear(sf::Color::Transparent);
         // Drawing layer for unscaled things like the HUD
-        hudground.clear();
+        hudground.clear(sf::Color::Transparent);
 
         background.setView(cameraview);
         midground.setView(cameraview);
@@ -119,7 +115,8 @@ void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myse
         hudground.display();
 
         window.clear();
-        sf::Sprite sprite(background.getTexture());
+        sf::Sprite sprite;
+        sprite.setTexture(background.getTexture());
         window.draw(sprite);
         sprite.setTexture(midground.getTexture());
         window.draw(sprite);
@@ -136,10 +133,11 @@ void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myse
 void Renderer::resetcamera()
 {
     sf::Vector2f center = cameraview.getCenter();
-    cameraview.reset(sf::FloatRect(center.x, center.y, VIEWPORT_WIDTH, VIEWPORT_WIDTH*1.0*WINDOW_HEIGHT/WINDOW_WIDTH));
+    cameraview.setSize(VIEWPORT_WIDTH, VIEWPORT_WIDTH*1.0*WINDOW_HEIGHT/WINDOW_WIDTH);
+    cameraview.setCenter(center);
 }
 
-void Renderer::resetmapsize(sf::Vector2u size)
+void Renderer::resetdrawlayersize(sf::Vector2u size)
 {
     background.create(size.x, size.y);
     midground.create(size.x, size.y);
