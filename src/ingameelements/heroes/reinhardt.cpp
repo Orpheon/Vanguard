@@ -46,6 +46,7 @@ void Reinhardt::render(Renderer &renderer, Gamestate &state)
 
     if (spritepath != NULL_SPRITE)
     {
+        // FIXME: Commenting out these lines makes the legs below render fine. Figure out what's going on here
         renderer.spriteloader.loadsprite(spritepath, sprite);
         renderer.midground.draw(sprite);
         if (state.get<Player>(renderer.myself).team != team)
@@ -60,7 +61,6 @@ void Reinhardt::render(Renderer &renderer, Gamestate &state)
 
     spritepath = currentsprite(state, false);
     renderer.spriteloader.loadsprite(spritepath, sprite);
-
     renderer.midground.draw(sprite);
     if (state.get<Player>(renderer.myself).team != team)
     {

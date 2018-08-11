@@ -60,16 +60,11 @@ void ReinhardtShield::render(Renderer &renderer, Gamestate &state)
             std::string spritepath = spritestr();
             sf::Sprite sprite;
             renderer.spriteloader.loadsprite(spritepath, sprite);
-            sprite.setPosition(x-attachpoint_x(state), y-attachpoint_y(state));
-
+            sprite.setPosition(x, y);
+            sprite.setRotation(aimdirection*180.0/3.1415);
             if (reinhardt.isflipped)
             {
-                sprite.setScale(-1, 1);
-                sprite.setRotation((aimdirection+3.1415)*180.0/3.1415);
-            }
-            else
-            {
-                sprite.setRotation(aimdirection*180.0/3.1415);
+                sprite.setScale(1, -1);
             }
 
             renderer.midground.draw(sprite);

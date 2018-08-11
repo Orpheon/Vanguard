@@ -32,31 +32,36 @@ void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
     if (reinhardt.weaponvisible(state) and not firinganim.active())
     {
         std::string spritepath;
+        sf::Sprite sprite;
         if (firestrikeanim.active())
         {
             spritepath = firestrikeanim.getframepath();
+            if (reinhardt.isflipped)
+            {
+                sprite.setScale(-1, 1);
+            }
         }
         else if (barrier(state).active)
         {
             spritepath = herofolder()+"shield/back";
+            sprite.setRotation(aimdirection * 180.0/3.1415);
+            if (reinhardt.isflipped)
+            {
+                sprite.setScale(1, -1);
+            }
         }
         else
         {
             spritepath = herofolder()+"arm/back";
+            if (reinhardt.isflipped)
+            {
+                sprite.setScale(-1, 1);
+            }
         }
 
-        sf::Sprite sprite;
+
         renderer.spriteloader.loadsprite(spritepath, sprite);
-        sprite.setPosition(x-getattachpoint_x(state), y-getattachpoint_y(state));
-        if (reinhardt.isflipped)
-        {
-            sprite.setScale(-1, 1);
-            sprite.setRotation((aimdirection + 3.1415)*barrier(state).active * 180.0/3.1415);
-        }
-        else
-        {
-            sprite.setRotation(aimdirection * barrier(state).active * 180.0/3.1415);
-        }
+        sprite.setPosition(x - getbackattachpoint_x(state), y - getbackattachpoint_y(state));
         renderer.midground.draw(sprite);
 
         if (state.get<Player&>(renderer.myself).team != team)

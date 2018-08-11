@@ -144,9 +144,12 @@ bool Map::collides(Gamestate &state, double x, double y, std::string spriteid, d
                 double rely = j - offsets.y;
                 double rotx = x + cosa*relx - sina*rely;
                 double roty = y + sina*relx + cosa*rely;
-                if (wallmask.getPixel(rotx, roty).a != 0)
+                if (rotx > 0 and rotx < mapsize.x and roty > 0 and roty < mapsize.y)
                 {
-                    return true;
+                    if (wallmask.getPixel(rotx, roty).a != 0)
+                    {
+                        return true;
+                    }
                 }
             }
         }
