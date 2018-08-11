@@ -29,7 +29,6 @@ void Corpse::beginstep(Gamestate &state, double frametime)
 
 void Corpse::render(Renderer &renderer, Gamestate &state)
 {
-    std::string spritepath = spritepath;
     sf::Sprite sprite;
     renderer.spriteloader.loadsprite(spritepath, sprite);
 

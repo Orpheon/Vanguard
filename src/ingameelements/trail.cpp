@@ -22,6 +22,7 @@ void Trail::beginstep(Gamestate &state, double frametime)
 void Trail::render(Renderer &renderer, Gamestate &state)
 {
     sf::RectangleShape line(sf::Vector2f(hypot(x2-x1, y2-y1), 1));
+    line.setRotation(std::atan2(y2-y1, x2-x1)*180.0/3.1415);
     line.setPosition(x1, y1);
     line.setFillColor(color);
     renderer.background.draw(line);
