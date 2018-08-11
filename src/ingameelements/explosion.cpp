@@ -20,7 +20,7 @@ void Explosion::render(Renderer &renderer, Gamestate &state)
     std::string spritepath = explosionanim.getframepath();
     sf::Sprite sprite;
     renderer.spriteloader.loadsprite(spritepath, sprite);
-    sprite.setRotation(direction);
+    sprite.setRotation(direction*180.0/3.1415);
     sprite.setPosition(x, y);
     renderer.foreground.draw(sprite);
 }

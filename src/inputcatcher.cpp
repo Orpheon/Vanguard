@@ -151,7 +151,7 @@ void InputCatcher::run(sf::RenderWindow &window, Gamestate &state, Networker &ne
     {
         Character &c = player.getcharacter(state);
 
-        sf::Vector2f mousepos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+        sf::Vector2f mousepos = window.mapPixelToCoords(sf::Mouse::getPosition(window), renderer.background.getView());
 
         // Set the input for our current character
         c.setinput(state, heldkeys, mousepos.x, mousepos.y);

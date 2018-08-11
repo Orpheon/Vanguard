@@ -65,11 +65,11 @@ void ReinhardtShield::render(Renderer &renderer, Gamestate &state)
             if (reinhardt.isflipped)
             {
                 sprite.setScale(-1, 1);
-                sprite.setRotation(aimdirection+3.1415);
+                sprite.setRotation((aimdirection+3.1415)*180.0/3.1415);
             }
             else
             {
-                sprite.setRotation(aimdirection);
+                sprite.setRotation(aimdirection*180.0/3.1415);
             }
 
             renderer.midground.draw(sprite);

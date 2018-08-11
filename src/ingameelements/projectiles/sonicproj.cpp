@@ -16,7 +16,7 @@ void SonicProj::render(Renderer &renderer, Gamestate &state)
 {
     sf::Sprite sprite;
     renderer.spriteloader.loadsprite(spriteid(), sprite);
-    sprite.setRotation(std::atan2(vspeed, hspeed));
+    sprite.setRotation(std::atan2(vspeed, hspeed)*180.0/3.1415);
     sprite.setPosition(x, y);
     renderer.background.draw(sprite);
 }

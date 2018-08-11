@@ -340,6 +340,7 @@ void Character::render(Renderer &renderer, Gamestate &state)
     // --------------- HEALTHBAR ---------------
     spritepath = currentsprite(state, false);
     renderer.spriteloader.loadsprite(spritepath, sprite);
+    sprite.setPosition(x, y);
 
     sf::Color healthcolors[] = {
             COLOR_HP,
@@ -360,8 +361,8 @@ void Character::render(Renderer &renderer, Gamestate &state)
                                std::max(hp.max()-hp.total(), 0.0)};
     int healthamounts_length = sizeof(healthamounts) / sizeof(healthamounts[0]);
 
-    double health_height = 15;
-    double health_top_y = sprite.getGlobalBounds().top - health_height;
+    double health_height = 7;
+    double health_top_y = sprite.getGlobalBounds().top - health_height - 5;
     double totalwidth = 60;
     double center_x = x;
     double between_rect_spacing = 2;

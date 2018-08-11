@@ -388,9 +388,9 @@ double DefaultHud::renderability(Renderer &renderer, std::string spritename, dou
                                               spriterect.top + 2 + 34*(1 - cooldown.getpercent())));
         slanted_rect.setPoint(1, sf::Vector2f(spriterect.left,
                                               spriterect.top + spriterect.height - 2));
-        slanted_rect.setPoint(1, sf::Vector2f(spriterect.left + 41,
+        slanted_rect.setPoint(2, sf::Vector2f(spriterect.left + 41,
                                               spriterect.top + spriterect.height - 2));
-        slanted_rect.setPoint(1, sf::Vector2f(spriterect.left + 17*cooldown.getpercent() + 41,
+        slanted_rect.setPoint(3, sf::Vector2f(spriterect.left + 17*cooldown.getpercent() + 41,
                                               spriterect.top + 2 + 34*(1 - cooldown.getpercent())));
         renderer.hudground.draw(slanted_rect);
 
