@@ -123,28 +123,28 @@ bool Map::collides(Gamestate &state, double x, double y, std::string spriteid, d
 {
     sf::Vector2u mapsize = wallmask.getSize();
     Rect bbox = state.engine.maskloader.get_rect(spriteid);
+    sf::Vector2i offsets = state.engine.maskloader.offsets(spriteid);
 
     // Check if projectile is outside the map somehow
-    if (x + bbox.x > mapsize.x or y + bbox.y > mapsize.y or x + bbox.x + bbox.w < 0 or y + bbox.y + bbox.h < 0)
+    if (x - offsets.x > mapsize.x or y - offsets.y > mapsize.y or x - offsets.x + bbox.w < 0 or y - offsets.y + bbox.h < 0)
     {
         return true;
     }
     // Check pixel-wise
     sf::Image &image = state.engine.maskloader.loadmask(spriteid);
-    sf::Vector2i offsets = state.engine.maskloader.offsets(spriteid);
     double cosa = std::cos(angle), sina = std::sin(angle);
     for (int i = 0; i < bbox.w; ++i)
     {
         double relx = i - offsets.x;
         for (int j = 0; j < bbox.h; ++j)
         {
-            if (wallmask.getPixel(i, j).a != 0)
+            if (image.getPixel(i, j).a != 0)
             {
                 // Rotate around (x,y) by angle
                 double rely = j - offsets.y;
                 double rotx = x + cosa*relx - sina*rely;
                 double roty = y + sina*relx + cosa*rely;
-                if (image.getPixel(rotx, roty).a != 0)
+                if (wallmask.getPixel(rotx, roty).a != 0)
                 {
                     return true;
                 }
