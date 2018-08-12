@@ -5,38 +5,32 @@
 #include "networking/networker.h"
 #include "visuals/hud.h"
 
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/RenderTexture.hpp>
+#include <SFML/Graphics/Font.hpp>
 
 class Renderer
 {
     public:
         Renderer();
         virtual ~Renderer();
-        void render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myself_, Networker &networker);
-        ALLEGRO_DISPLAY* createnewdisplay();
-        ALLEGRO_DISPLAY* createnewdisplay(const nlohmann::json &config);
-        void changeviewport(int newsize);
-        double cam_x;
-        double cam_y;
-        double zoom;
+        void render(sf::RenderWindow &window, Gamestate &state, EntityPtr myself_, Networker &networker);
+        void resetcamera();
+        void resetdrawlayersize(sf::Vector2u size);
         EntityPtr myself;
         int WINDOW_WIDTH;
         int WINDOW_HEIGHT;
         int VIEWPORT_WIDTH = 960;
-        ALLEGRO_BITMAP *background;
-        ALLEGRO_BITMAP *midground;
-        ALLEGRO_BITMAP *foreground;
-        ALLEGRO_BITMAP *surfaceground;
+        sf::View cameraview;
+        sf::RenderTexture background;
+        sf::RenderTexture midground;
+        sf::RenderTexture foreground;
+        sf::RenderTexture surfaceground;
+        sf::RenderTexture hudground;
         Spriteloader spriteloader;
-        ALLEGRO_FONT *font20;
-        ALLEGRO_FONT *font12;
-        ALLEGRO_FONT *font8;
+        sf::Font mainfont;
     protected:
     private:
-        double lasttime;
-        const int DISPLAY_DEFAULT_TYPE = ALLEGRO_RESIZABLE;
+        sf::Clock fpsclock;
         std::unique_ptr<Hud> currenthud;
-        bool changedzoom = false;
 };

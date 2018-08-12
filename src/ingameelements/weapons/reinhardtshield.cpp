@@ -53,33 +53,21 @@ void ReinhardtShield::render(Renderer &renderer, Gamestate &state)
 {
     if (active)
     {
-        std::string mainsprite = spritestr();
-        ALLEGRO_BITMAP *sprite;
-        double spriteoffset_x, spriteoffset_y;
-        double rel_x, rel_y;
-        double attachpt_x, attachpt_y;
-
-        sprite = renderer.spriteloader.requestsprite(mainsprite);
-        spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-        spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
-        rel_x = (x - renderer.cam_x)*renderer.zoom;
-        rel_y = (y - renderer.cam_y)*renderer.zoom;
-        attachpt_x = attachpoint_x(state)*renderer.zoom;
-        attachpt_y = attachpoint_y(state)*renderer.zoom;
-
         Character &reinhardt = state.get<Player>(owner).getcharacter(state);
 
         if (reinhardt.weaponvisible(state))
         {
-            al_set_target_bitmap(renderer.midground);
+            std::string spritepath = spritestr();
+            sf::Sprite sprite;
+            renderer.spriteloader.loadsprite(spritepath, sprite);
+            sprite.setPosition(x, y);
+            sprite.setRotation(aimdirection*180.0/3.1415);
             if (reinhardt.isflipped)
             {
-                al_draw_scaled_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, aimdirection+3.1415, 0);
+                sprite.setScale(1, -1);
             }
-            else
-            {
-                al_draw_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, aimdirection, 0);
-            }
+
+            renderer.midground.draw(sprite);
         }
     }
 }
@@ -146,13 +134,8 @@ bool ReinhardtShield::collides(Gamestate &state, double testx, double testy)
     double rotx = testx * cosa - testy * sina;
     double roty = testx * sina + testy * cosa;
 
-    std::string mainsprite = spritestr();
-    double spriteoffset_x = state.engine.maskloader.get_spriteoffset_x(mainsprite);
-    double spriteoffset_y = state.engine.maskloader.get_spriteoffset_y(mainsprite);
-
-    if (al_get_pixel(state.engine.maskloader.requestsprite(mainsprite), rotx+spriteoffset_x, roty+spriteoffset_y).a != 0)
-    {
-        return true;
-    }
-    return false;
+    std::string spritepath = spritestr();
+    sf::Image &mask = state.engine.maskloader.loadmask(spritepath);
+    sf::Vector2i offsets = state.engine.maskloader.offsets(spritepath);
+    return mask.getPixel(rotx + offsets.x, roty + offsets.y).a != 0;
 }

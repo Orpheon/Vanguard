@@ -15,7 +15,7 @@ void Player::init(uint64_t id_, Gamestate &state)
 
     entitytype = ENTITYTYPE::PLAYER;
     character = 0;
-    heroclass = LUCIO;
+    heroclass = MCCREE;
     spawntimer.init(4, std::bind(&Player::spawn, this, std::placeholders::_1), false);
     // Spawn a character asap
     spawntimer.timer = spawntimer.duration;

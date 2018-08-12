@@ -4,206 +4,87 @@
 
 #include <fstream>
 
-Spriteloader::Spriteloader(bool masksonly_) : bitmapcache(), masksonly(masksonly_), defaultzoom(1.0)
+Spriteloader::Spriteloader() : texturecache()
 {
     ConfigLoader cfgloader;
 
     spriteoffsets = cfgloader.open("sprites/spritedata.json");
-    gamedata = cfgloader.open("gamedata.json");
 }
 
 Spriteloader::~Spriteloader()
 {
-    for (auto &e : bitmapcache)
-    {
-        al_destroy_bitmap(e.second);
-    }
+
 }
 
-int Spriteloader::get_spriteoffset_x(std::string s)
+void Spriteloader::loadsprite(std::string path, sf::Sprite &sprite)
 {
-    int offset;
-    if (masksonly)
+    if (texturecache.count(path) == 0)
     {
-        if (spriteoffsets.find(s+"_hitmask.png") != spriteoffsets.end())
-        {
-            offset = spriteoffsets[s+"_hitmask.png"][0];
-            return offset;
-        }
-    }
-
-    s += "_sprite.png";
-    try
-    {
-        offset = spriteoffsets[s][0];
-    }
-    catch (std::domain_error)
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Could not load sprite offset of %s", s.c_str());
-    }
-    return offset;
-}
-
-int Spriteloader::get_spriteoffset_y(std::string s)
-{
-    int offset;
-    if (masksonly)
-    {
-        if (spriteoffsets.find(s+"_hitmask.png") != spriteoffsets.end())
-        {
-            offset = spriteoffsets[s+"_hitmask.png"][1];
-            return offset;
-        }
-    }
-
-    s += "_sprite.png";
-    try
-    {
-        offset = spriteoffsets[s][1];
-    }
-    catch (std::domain_error)
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Could not load sprite offset of %s", s.c_str());
-    }
-    return offset;
-}
-
-ALLEGRO_BITMAP* Spriteloader::requestsprite(std::string path)
-{
-    if (bitmapcache.count(path) == 0)
-    {
-        ALLEGRO_BITMAP *tmpbitmap = NULL;
-        if (masksonly)
-        {
-            al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
-            tmpbitmap = al_load_bitmap(("sprites/"+path+"_hitmask.png").c_str());
-            if (tmpbitmap == NULL)
-            {
-                al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
-                tmpbitmap = al_load_bitmap(("sprites/"+path+"_sprite.png").c_str());
-            }
-        }
-        else
-        {
-            al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-            tmpbitmap = al_load_bitmap(("sprites/"+path+"_sprite.png").c_str());
-        }
-        if (tmpbitmap == NULL)
+        sf::Texture newtexture;
+        if (not newtexture.loadFromFile("sprites/" + path + "_sprite.png"))
         {
             Global::logging().panic(__FILE__, __LINE__, " Could not load sprites/%s_sprite.png", path.c_str());
         }
-        if (defaultzoom == 1.0)
-        {
-            bitmapcache[path] = tmpbitmap;
-        }
-        else
-        {
-            bitmapcache[path] = tmpbitmap;
-            int w=al_get_bitmap_width(tmpbitmap), h=al_get_bitmap_height(tmpbitmap);
-            bitmapcache[path] = al_create_bitmap(w*defaultzoom, h*defaultzoom);
-            ALLEGRO_BITMAP *oldtarget = al_get_target_bitmap();
-            al_set_target_bitmap(bitmapcache[path]);
-            al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-            al_draw_scaled_bitmap(tmpbitmap, 0, 0, w, h, 0, 0, w*defaultzoom, h*defaultzoom, 0);
-            al_set_target_bitmap(oldtarget);
-        }
+        texturecache[path] = newtexture;
     }
-    return bitmapcache.at(path);
-}
 
-ALLEGRO_BITMAP* Spriteloader::requestspriteoutline(std::string path)
-{
-    path += "_outline";
-    if (bitmapcache.count(path) == 0)
-    {
-        ALLEGRO_BITMAP *tmpbitmap = NULL;
-        if (masksonly)
-        {
-            al_set_new_bitmap_flags(ALLEGRO_MEMORY_BITMAP);
-        }
-        else
-        {
-            al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-        }
-        tmpbitmap = al_load_bitmap(("sprites/"+path+".png").c_str());
-        if (tmpbitmap == NULL)
-        {
-            Global::logging().panic(__FILE__, __LINE__, " Could not load sprites/%s.png", path.c_str());
+    sprite.setTexture(texturecache.at(path));
 
-        }
-        if (defaultzoom == 1.0)
-        {
-            bitmapcache[path] = tmpbitmap;
-        }
-        else
-        {
-            bitmapcache[path] = tmpbitmap;
-            int w=al_get_bitmap_width(tmpbitmap), h=al_get_bitmap_height(tmpbitmap);
-            bitmapcache[path] = al_create_bitmap(w*defaultzoom, h*defaultzoom);
-            ALLEGRO_BITMAP *oldtarget = al_get_target_bitmap();
-            al_set_target_bitmap(bitmapcache.at(path));
-            al_draw_scaled_bitmap(tmpbitmap, 0, 0, w, h, 0, 0, w*defaultzoom, h*defaultzoom, 0);
-            al_set_target_bitmap(oldtarget);
-        }
-    }
-    return bitmapcache.at(path);
-}
-
-Rect Spriteloader::get_rect(std::string s)
-{
-    ALLEGRO_BITMAP *sprite = requestsprite(s);
-    int dx = get_spriteoffset_x(s), dy = get_spriteoffset_y(s);
-    return Rect(-dx * defaultzoom, -dy * defaultzoom, al_get_bitmap_width(sprite), al_get_bitmap_height(sprite));
-}
-
-Rect Spriteloader::get_rect_from_json(std::string s)
-{
+    std::string fullpath = path + "_sprite.png";
+    int x, y;
     try
     {
-        return Rect(gamedata[s+" rect"][0], gamedata[s+" rect"][1], gamedata[s+" rect"][2], gamedata[s+" rect"][3]);
+        x = spriteoffsets[fullpath][0];
+        y = spriteoffsets[fullpath][1];
     }
     catch (std::domain_error)
     {
-        Global::logging().panic(__FILE__, __LINE__, " Could not load %s rect data", s.c_str());
-        return Rect();
+        Global::logging().panic(__FILE__, __LINE__, "Could not load sprite offset of %s", fullpath.c_str());
     }
+
+    sprite.setOrigin(x, y);
 }
 
-int Spriteloader::getweaponoffset_x(std::string s)
+void Spriteloader::loadspriteoutline(std::string path, sf::Sprite &sprite)
 {
+    std::string outlinepath = path + "_outline";
+    if (texturecache.count(outlinepath) == 0)
+    {
+        sf::Texture newtexture;
+        if (not newtexture.loadFromFile("sprites/" + outlinepath))
+        {
+            Global::logging().panic(__FILE__, __LINE__, " Could not load sprites/%s_sprite.png", outlinepath.c_str());
+        }
+        texturecache[outlinepath] = newtexture;
+    }
+
+    sprite.setTexture(texturecache.at(outlinepath));
+
+    std::string fullpath = outlinepath + "_sprite.png";
+    int x, y;
     try
     {
-        return gamedata[s+" weapon"][0];
+        x = spriteoffsets[fullpath][0];
+        y = spriteoffsets[fullpath][1];
     }
     catch (std::domain_error)
     {
-        return 0;
+        Global::logging().panic(__FILE__, __LINE__, "Could not load sprite offset of %s", fullpath.c_str());
     }
+
+    sprite.setOrigin(x, y);
 }
 
-int Spriteloader::getweaponoffset_y(std::string s)
+Rect Spriteloader::get_rect(std::string path)
 {
-    try
-    {
-        return gamedata[s+" weapon"][1];
-    }
-    catch (std::domain_error)
-    {
-        return 0;
-    }
+    sf::Sprite sprite;
+    loadsprite(path, sprite);
+    sf::FloatRect rect = sprite.getLocalBounds();
+    Rect r(rect.left, rect.top, rect.width, rect.height);
+    return r;
 }
 
 void Spriteloader::clearcache()
 {
-    for (auto &e : bitmapcache)
-    {
-        al_destroy_bitmap(e.second);
-    }
-    bitmapcache.clear();
-}
-
-void Spriteloader::setzoom(double zoom)
-{
-    defaultzoom = zoom;
-    clearcache();
+    texturecache.clear();
 }

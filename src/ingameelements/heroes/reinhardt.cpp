@@ -11,6 +11,7 @@
 #include <cmath>
 #include <algorithm>
 #include <allegro5/allegro_primitives.h>
+#include <SFML/Graphics/RectangleShape.hpp>
 
 void Reinhardt::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
@@ -29,97 +30,67 @@ void Reinhardt::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 void Reinhardt::render(Renderer &renderer, Gamestate &state)
 {
     Character::render(renderer, state);
-    al_set_target_bitmap(renderer.midground);
+
+    Hammer &hammer = state.get<Hammer&>(weapon);
 
     // Render weapon back first
-    state.get<Hammer>(weapon).renderbehind(renderer, state);
+    hammer.renderbehind(renderer, state);
 
-    std::string mainsprite;
-    ALLEGRO_BITMAP *sprite;
-    double spriteoffset_x, spriteoffset_y;
-    double rel_x, rel_y;
-    ALLEGRO_BITMAP *outline;
-    ALLEGRO_COLOR outlinecolor;
-
-    mainsprite = currenttorsosprite(state, false);
-    if (mainsprite != NULL_SPRITE)
-    {
-        sprite = renderer.spriteloader.requestsprite(mainsprite);
-        spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-        spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
-        rel_x = (x-renderer.cam_x)*renderer.zoom;
-        rel_y = (y-renderer.cam_y)*renderer.zoom;
-
-        outline = renderer.spriteloader.requestspriteoutline(mainsprite);
-        outlinecolor = al_map_rgb(225, 17, 17);
-
-        if (isflipped)
-        {
-            // Flip horizontally
-            al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-            if (state.get<Player>(renderer.myself).team != team)
-            {
-                // Draw enemy outline
-                al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-            }
-        }
-        else
-        {
-            al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-            if (state.get<Player>(renderer.myself).team != team)
-            {
-                // Draw enemy outline
-                al_draw_tinted_bitmap(outline, outlinecolor, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-            }
-        }
-    }
-
-    mainsprite = currentsprite(state, false);
-    sprite = renderer.spriteloader.requestsprite(mainsprite);
-    spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-    spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
-    rel_x = (x-renderer.cam_x)*renderer.zoom;
-    rel_y = (y-renderer.cam_y)*renderer.zoom;
-
-    outline = renderer.spriteloader.requestspriteoutline(mainsprite);
-    outlinecolor = al_map_rgb(225, 17, 17);
-
+    std::string spritepath = currenttorsosprite(state, false);
+    sf::Sprite sprite;
+    sprite.setPosition(x, y);
     if (isflipped)
     {
-        // Flip horizontally
-        al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-        if (state.get<Player>(renderer.myself).team != team)
-        {
-            // Draw enemy outline
-            al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-        }
+        sprite.setScale(-1, 1);
     }
-    else
+
+    if (spritepath != NULL_SPRITE)
     {
-        al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
+        // FIXME: Commenting out these lines makes the legs below render fine. Figure out what's going on here
+        renderer.spriteloader.loadsprite(spritepath, sprite);
+        renderer.midground.draw(sprite);
         if (state.get<Player>(renderer.myself).team != team)
         {
-            // Draw enemy outline
-            al_draw_tinted_bitmap(outline, outlinecolor, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
+            // Draw enemy outline too
+            renderer.spriteloader.loadspriteoutline(spritepath, sprite);
+            sprite.setColor(COLOR_ENEMY_OUTLINE);
+            renderer.midground.draw(sprite);
+            sprite.setColor(sf::Color::White);
         }
     }
 
-    state.get<Weapon>(weapon).render(renderer, state);
+    spritepath = currentsprite(state, false);
+    renderer.spriteloader.loadsprite(spritepath, sprite);
+    renderer.midground.draw(sprite);
+    if (state.get<Player>(renderer.myself).team != team)
+    {
+        // Draw enemy outline too
+        renderer.spriteloader.loadspriteoutline(spritepath, sprite);
+        sprite.setColor(COLOR_ENEMY_OUTLINE);
+        renderer.midground.draw(sprite);
+        sprite.setColor(sf::Color::White);
+    }
+
+    hammer.render(renderer, state);
 
     // Shield health
-    al_set_target_bitmap(renderer.surfaceground);
-    mainsprite = currentsprite(state, false);
-    double totalwidth = renderer.zoom * 60;
-    int height = renderer.zoom * 2;
-    double center_x = renderer.zoom * (x - renderer.cam_x);
-    double left_x = center_x - totalwidth / 2.0;
-    double center_y = renderer.zoom * (y - renderer.spriteloader.get_spriteoffset_y(mainsprite) - renderer.cam_y);
-    Hammer &w = state.get<Hammer&>(weapon);
-    double hppercent = w.barrier(state).hp / w.barrier(state).SHIELD_MAX_HP;
-    al_draw_filled_rectangle(left_x, center_y - height, left_x + hppercent*totalwidth, center_y,
-                             ColorPalette::premul(Color::SHIELD, 255));
-    al_draw_filled_rectangle(left_x + hppercent*totalwidth, center_y - height, left_x + totalwidth, center_y,
-                             ColorPalette::premul(Color::SHIELD, 51));
+    double totalwidth = 60;
+    int height = 2;
+    double left_x = x - totalwidth / 2.0;
+    double center_y = sprite.getGlobalBounds().top;
+
+    double hppercent = hammer.barrier(state).hp / hammer.barrier(state).SHIELD_MAX_HP;
+    sf::RectangleShape rect;
+    // Existing shield hp
+    rect.setPosition(left_x, center_y - height);
+    rect.setSize(sf::Vector2f(hppercent*totalwidth, height));
+    rect.setFillColor(COLOR_SHIELD);
+    renderer.surfaceground.draw(rect);
+    // Missing shield hp
+    rect.setPosition(left_x+ hppercent*totalwidth, center_y - height);
+    rect.setSize(sf::Vector2f((1 - hppercent)*totalwidth, height));
+    rect.setFillColor(sf::Color(COLOR_SHIELD.r, COLOR_SHIELD.g, COLOR_SHIELD.b, 51));
+    renderer.surfaceground.draw(rect);
 }
 
 void Reinhardt::beginstep(Gamestate &state, double frametime)
@@ -389,14 +360,14 @@ Rect Reinhardt::getcollisionrect(Gamestate &state)
 {
     if (crouchanim.active())
     {
-        return state.engine.maskloader.get_rect_from_json(herofolder()+"crouch/").offset(x, y);
+        return state.engine.maskloader.get_json_rect(herofolder()+"crouch/").offset(x, y);
     }
     return getstandingcollisionrect(state);
 }
 
 Rect Reinhardt::getstandingcollisionrect(Gamestate &state)
 {
-    return state.engine.maskloader.get_rect_from_json(herofolder()).offset(x, y);
+    return state.engine.maskloader.get_json_rect(herofolder()).offset(x, y);
 }
 
 bool Reinhardt::collides(Gamestate &state, double testx, double testy)
@@ -416,8 +387,8 @@ bool Reinhardt::collides(Gamestate &state, double testx, double testy)
             {
                 // We're close enough that an actual collision might happen
                 // Check the sprite
-                ALLEGRO_BITMAP *selfsprite = state.engine.maskloader.requestsprite(currenttorsosprite(state, true));
-                return al_get_pixel(selfsprite, testx-self.x, testy-self.y).a != 0;
+                sf::Image &mask = state.engine.maskloader.loadmask(currenttorsosprite(state, true));
+                return mask.getPixel(testx-self.x, testy-self.y).a != 0;
             }
         }
         return false;

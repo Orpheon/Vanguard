@@ -1,47 +1,57 @@
 
+#include <SFML/Window/Event.hpp>
 #include "visuals/optionsmenu.h"
 #include "global_constants.h"
 
-Optionsmenu::Optionsmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(display, owner_), spriteloader(false)
+Optionsmenu::Optionsmenu(sf::RenderWindow &window, MenuContainer &owner_) : Menu(window, owner_)
 {
     background.init("ui/menus/optionsmenu/");
 }
 
-void Optionsmenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
+void Optionsmenu::run(sf::RenderWindow &window)
 {
-    ALLEGRO_EVENT event;
-    // Capture events first
-    while (al_get_next_event(event_queue, &event))
+    sf::Event event;
+    while (window.pollEvent(event))
     {
-        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
+        switch (event.type)
         {
-            // Deliberate closing, not an error
-            quit();
-        }
+            case sf::Event::Closed:
+                quit();
+                break;
 
-        if (event.type ==  ALLEGRO_EVENT_DISPLAY_RESIZE)
-        {
-            al_acknowledge_resize(display);
-        }
+            case sf::Event::Resized:
+                // Nothing - probably placeholder
+                break;
 
-        if (event.type == ALLEGRO_EVENT_KEY_CHAR)
-        {
-            if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
-            {
-                openmainmenu();
-            }
+            case sf::Event::KeyPressed:
+                if (event.key.code == sf::Keyboard::Escape)
+                {
+                    openmainmenu();
+                }
+                break;
+
+            default:
+                break;
         }
     }
 
     background.update(MENU_TIMESTEP);
 
-    int WINDOW_WIDTH = al_get_display_width(display);
-    int WINDOW_HEIGHT = al_get_display_height(display);
-    ALLEGRO_BITMAP* bgsprite = spriteloader.requestsprite(background.getframepath());
-    double w = al_get_bitmap_width(bgsprite), h = al_get_bitmap_height(bgsprite);
-    al_draw_scaled_bitmap(bgsprite, 0, 0, w, h, 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
+    sf::Vector2i mousepos = sf::Mouse::getPosition(window);
+    sf::Vector2u windowsize = window.getSize();
 
-    al_flip_display();
+    // Draw
+    int WINDOW_WIDTH = windowsize.x;
+    int WINDOW_HEIGHT = windowsize.y;
+    sf::Sprite bgsprite;
+    spriteloader.loadsprite(background.getframepath(), bgsprite);
+    sf::FloatRect size = bgsprite.getLocalBounds();
+    bgsprite.setPosition(0, 0);
+    bgsprite.setScale(WINDOW_WIDTH/size.width, WINDOW_HEIGHT/size.height);
+    bgsprite.setOrigin(0, 0);
+    window.draw(bgsprite);
+
+    window.display();
 }
 
 void Optionsmenu::openmainmenu()

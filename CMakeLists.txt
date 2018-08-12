@@ -3,10 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CmakeModules")
 
-find_library(ALLEGRO_PATH allegro)
-if (NOT EXISTS ${ALLEGRO_PATH})
-    message("${ALLEGRO_PATH} does not exist")
-endif()
+find_package(SFML 2.5 COMPONENTS graphics network system window REQUIRED)
 
 option(COMPILE_STATIC "Compile statically instead of dynamically" OFF)
 option(VANGUARD_DEBUG_MODE "Generate debug symbols and stack trace, currently linux-only" ON)
@@ -31,22 +28,13 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 endif (CMAKE_COMPILER_IS_GNUCXX)
 
 if (COMPILE_STATIC)
-    find_library(ALLEGRO_PATH allegro_monolith-static)
-    if (NOT EXISTS ${ALLEGRO_PATH})
-        message(FATAL_ERROR "${ALLEGRO_PATH} does not exist - you probably have not installed static allegro libraries.\
-         Either install them or change the flag in cmake to dynamic compilation.")
-    endif()
-    set (Vanguardlib allegro_monolith-static allegro_dialog-static jpeg vorbis ogg glu32 opengl32 freetype png16 z
-    kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid dsound wsock32 psapi shlwapi enet)
+    set(SFML_STATIC_LIBRARIES TRUE)
+    set (Vanguardlib sfml-graphics sfml-window sfml-system sfml-network jpeg vorbis ogg glu32 opengl32 freetype png16 z
+            kernel32 user32 gdi32 comdlg32 ole32 dinput ddraw dxguid dsound wsock32 psapi shlwapi enet)
     set (Vanguardlinkflags "-static-libstdc++ -static-libgcc -static ")
     set (VANGUARD_DEBUG_MODE OFF)
 else (COMPILE_STATIC)
-    find_library(ALLEGRO_PATH allegro)
-    if (NOT EXISTS ${ALLEGRO_PATH})
-        message(FATAL_ERROR "${ALLEGRO_PATH} does not exist - you probably have not installed dynamic allegro libraries.\
-         Either install them or change the flag in cmake to static compilation.")
-    endif()
-    set (Vanguardlib allegro allegro_image allegro_primitives allegro_font allegro_ttf allegro_dialog enet pthread)
+    set (Vanguardlib sfml-graphics sfml-window sfml-system sfml-network enet pthread)
     set (Vanguardlinkflags "")
 endif (COMPILE_STATIC)
 
@@ -79,12 +67,12 @@ set (SRC_FILES
         "src/inputcatcher.cpp"
         "src/gamestate.cpp"
         "src/spriteloader.cpp"
+        "src/maskloader.cpp"
         "src/animation.cpp"
         "src/timer.cpp"
         "src/renderer.cpp"
         "src/entity.cpp"
         "src/configloader.cpp"
-        "src/colorpalette.cpp"
         "src/global.cpp"
         "src/networking/networker.cpp"
         "src/networking/buffer.cpp"

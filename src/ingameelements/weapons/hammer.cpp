@@ -4,6 +4,7 @@
 #include "renderer.h"
 #include "ingameelements/heroes/reinhardt.h"
 #include "ingameelements/projectiles/firestrike.h"
+#include "colorpalette.h"
 
 #include "engine.h"
 
@@ -27,119 +28,96 @@ void Hammer::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
 void Hammer::renderbehind(Renderer &renderer, Gamestate &state)
 {
-    if (firinganim.active())
+    Reinhardt &reinhardt = state.get<Reinhardt>(state.get<Player>(owner).character);
+    if (reinhardt.weaponvisible(state) and not firinganim.active())
     {
-        return;
-    }
-
-    std::string mainsprite;
-    Reinhardt &c = state.get<Reinhardt>(state.get<Player>(owner).character);
-    if (firestrikeanim.active())
-    {
-        mainsprite = firestrikeanim.getframepath();
-    }
-    else if (barrier(state).active)
-    {
-        mainsprite = herofolder()+"shield/back";
-
-    }
-    else
-    {
-        mainsprite = herofolder()+"arm/back";
-    }
-    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
-    double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-    double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
-    double rel_x = (x - renderer.cam_x)*renderer.zoom;
-    double rel_y = (y - renderer.cam_y)*renderer.zoom;
-    double attachpt_x = getbackattachpoint_x(state)*renderer.zoom;
-    double attachpt_y = getbackattachpoint_y(state)*renderer.zoom;
-
-    ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(mainsprite);
-    ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
-
-    al_set_target_bitmap(renderer.midground);
-    if (c.weaponvisible(state))
-    {
-        if (c.isflipped)
+        std::string spritepath;
+        sf::Sprite sprite;
+        if (firestrikeanim.active())
         {
-            al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x-attachpt_x, rel_y-attachpt_y,
-                                          -1, 1, (aimdirection+3.1415)*barrier(state).active, 0);
-            if (state.get<Player>(renderer.myself).team != team)
+            spritepath = firestrikeanim.getframepath();
+            if (reinhardt.isflipped)
             {
-                // Draw enemy outline
-                al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y,
-                                                    -1, 1, (aimdirection+3.1415)*barrier(state).active, 0);
+                sprite.setScale(-1, 1);
+            }
+        }
+        else if (barrier(state).active)
+        {
+            spritepath = herofolder()+"shield/back";
+            sprite.setRotation(aimdirection * 180.0/3.1415);
+            if (reinhardt.isflipped)
+            {
+                sprite.setScale(1, -1);
             }
         }
         else
         {
-            al_draw_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x-attachpt_x, rel_y-attachpt_y, aimdirection*barrier(state).active, 0);
-            if (state.get<Player>(renderer.myself).team != team)
+            spritepath = herofolder()+"arm/back";
+            if (reinhardt.isflipped)
             {
-                // Draw enemy outline
-                al_draw_tinted_rotated_bitmap(outline, outlinecolor, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, aimdirection*barrier(state).active, 0);
+                sprite.setScale(-1, 1);
             }
+        }
+
+
+        renderer.spriteloader.loadsprite(spritepath, sprite);
+        sprite.setPosition(x - getbackattachpoint_x(state), y - getbackattachpoint_y(state));
+        renderer.midground.draw(sprite);
+
+        if (state.get<Player&>(renderer.myself).team != team)
+        {
+            // Draw enemy outline
+            sprite.setColor(COLOR_ENEMY_OUTLINE);
+            renderer.spriteloader.loadspriteoutline(spritepath, sprite);
+            renderer.midground.draw(sprite);
+            sprite.setColor(sf::Color::White);
         }
     }
 }
 
 void Hammer::render(Renderer &renderer, Gamestate &state)
 {
-    std::string mainsprite;
-    Reinhardt &c = state.get<Reinhardt>(state.get<Player>(owner).character);
-    if (firinganim.active())
+    Reinhardt &reinhardt = state.get<Reinhardt>(state.get<Player>(owner).character);
+    if (reinhardt.weaponvisible(state))
     {
-        mainsprite = firinganim.getframepath();
-    }
-    else if (firestrikeanim.active())
-    {
-        mainsprite = herofolder()+"firestrikefrontarm/"+std::to_string(firestrikeanim.getframe());
-    }
-    else if (barrier(state).active)
-    {
-        mainsprite = herofolder()+"shield/front";
-
-    }
-    else
-    {
-        mainsprite = herofolder()+"arm/front";
-    }
-    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
-    double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-    double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
-    double rel_x = (x - renderer.cam_x)*renderer.zoom;
-    double rel_y = (y - renderer.cam_y)*renderer.zoom;
-    double attachpt_x = getattachpoint_x(state)*renderer.zoom;
-    double attachpt_y = getattachpoint_y(state)*renderer.zoom;
-
-    ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(mainsprite);
-    ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
-
-    al_set_target_bitmap(renderer.midground);
-    if (c.weaponvisible(state))
-    {
-        if (c.isflipped)
+        std::string spritepath;
+        if (firinganim.active())
         {
-            al_draw_scaled_rotated_bitmap(sprite, -attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-            if (state.get<Player>(renderer.myself).team != team)
-            {
-                // Draw enemy outline
-                al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-            }
+            spritepath = firinganim.getframepath();
+        }
+        else if (firestrikeanim.active())
+        {
+            spritepath = herofolder()+"firestrikefrontarm/"+std::to_string(firestrikeanim.getframe());
+        }
+        else if (barrier(state).active)
+        {
+            spritepath = herofolder()+"shield/front";
+
         }
         else
         {
-            al_draw_bitmap(sprite, rel_x - (attachpt_x+spriteoffset_x), rel_y - (attachpt_y+spriteoffset_y), 0);
-            if (state.get<Player>(renderer.myself).team != team)
-            {
-                // Draw enemy outline
-                al_draw_tinted_bitmap(outline, outlinecolor, rel_x - (attachpt_x+spriteoffset_x), rel_y - (attachpt_y+spriteoffset_y), 0);
-            }
+            spritepath = herofolder()+"arm/front";
         }
-    }
+        sf::Sprite sprite;
+        renderer.spriteloader.loadsprite(spritepath, sprite);
+        sprite.setPosition(x-getattachpoint_x(state), y-getattachpoint_y(state));
+        if (reinhardt.isflipped)
+        {
+            sprite.setScale(-1, 1);
+        }
+        renderer.midground.draw(sprite);
 
-    barrier(state).render(renderer, state);
+        if (state.get<Player&>(renderer.myself).team != team)
+        {
+            // Draw enemy outline
+            sprite.setColor(COLOR_ENEMY_OUTLINE);
+            renderer.spriteloader.loadspriteoutline(spritepath, sprite);
+            renderer.midground.draw(sprite);
+            sprite.setColor(sf::Color::White);
+        }
+
+        barrier(state).render(renderer, state);
+    }
 }
 
 void Hammer::beginstep(Gamestate &state, double frametime)

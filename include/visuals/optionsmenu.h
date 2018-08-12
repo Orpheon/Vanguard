@@ -9,9 +9,9 @@
 class Optionsmenu : public Menu
 {
     public:
-        Optionsmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_);
+        Optionsmenu(sf::RenderWindow &window, MenuContainer &owner_);
         virtual ~Optionsmenu() = default;
-        void run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue) override;
+        void run(sf::RenderWindow &window) override;
         void openmainmenu();
 
         Spriteloader spriteloader;

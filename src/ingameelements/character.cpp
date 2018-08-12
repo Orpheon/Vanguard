@@ -1,6 +1,8 @@
 #include <vector>
 #include <cmath>
-#include <allegro5/allegro_primitives.h>
+#include <SFML/Graphics/ConvexShape.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/Text.hpp>
 
 #include "ingameelements/character.h"
 #include "gamestate.h"
@@ -322,34 +324,33 @@ void Character::endstep(Gamestate &state, double frametime)
 
 void Character::render(Renderer &renderer, Gamestate &state)
 {
-    // --------------- YELLOW GLOW WHEN HEALED ---------------
+    std::string spritepath;
+    sf::Sprite sprite;
 
+    // --------------- YELLOW GLOW WHEN HEALED ---------------
     if (healingeffect.active())
     {
-        al_set_target_bitmap(renderer.midground);
-
-        std::string mainsprite = healingeffect.getframepath();
-        ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
-        double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-        double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
+        spritepath = healingeffect.getframepath();
+        renderer.spriteloader.loadsprite(spritepath, sprite);
         Rect rect = getcollisionrect(state);
-        double rel_x = (rect.x + rect.w/2.0 - renderer.cam_x)*renderer.zoom;
-        double rel_y = (rect.y + rect.h/2.0 - renderer.cam_y)*renderer.zoom;
-
-        al_draw_bitmap(sprite, rel_x - spriteoffset_x, rel_y - spriteoffset_y, 0);
+        sprite.setPosition(rect.x + rect.w/2.0, rect.y + rect.h/2.0);
+        renderer.midground.draw(sprite);
     }
 
     // --------------- HEALTHBAR ---------------
-    al_set_target_bitmap(renderer.surfaceground);
-    std::string mainsprite = currentsprite(state, false);
+    spritepath = currentsprite(state, false);
+    renderer.spriteloader.loadsprite(spritepath, sprite);
+    sprite.setPosition(x, y);
 
-    ALLEGRO_COLOR healthcolors[] = { ColorPalette::premul(Color::HP, 255),
-                                      ColorPalette::premul(Color::ARMOR, 255),
-                                      ColorPalette::premul(Color::TORBARMOR, 255),
-                                      ColorPalette::premul(Color::SHIELD, 255),
-                                      ColorPalette::premul(Color::SHIELD, 255),
-                                      ColorPalette::premul(Color::LUCIOSHIELD, 255),
-                                      ColorPalette::premul(Color::HP, 51)};
+    sf::Color healthcolors[] = {
+            COLOR_HP,
+            COLOR_ARMOR,
+//        COLOR_TORBARMOR,
+            COLOR_SHIELD,
+            COLOR_SHIELD,
+            COLOR_LUCIOSHIELD,
+            sf::Color(COLOR_HP.r, COLOR_HP.g, COLOR_HP.b, 51)
+    };
 
     double healthamounts[] = { hp.normal,
                                hp.armor,
@@ -360,15 +361,16 @@ void Character::render(Renderer &renderer, Gamestate &state)
                                std::max(hp.max()-hp.total(), 0.0)};
     int healthamounts_length = sizeof(healthamounts) / sizeof(healthamounts[0]);
 
-    double center_x = renderer.zoom * (x - renderer.cam_x);
-    double health_top_y = renderer.zoom * (y - renderer.spriteloader.get_spriteoffset_y(mainsprite) - renderer.cam_y - 15);
-    double totalwidth = renderer.zoom * 60;
+    double health_height = 7;
+    double health_top_y = sprite.getGlobalBounds().top - health_height - 5;
+    double totalwidth = 60;
+    double center_x = x;
     double between_rect_spacing = 2;
     double slant = 0.3;
-    double health_height = renderer.zoom * 6;
     double hp_per_rect = 25;
 
-    int nrects = static_cast<int>(std::ceil((hp.max()+hp.torbarmor+hp.lucioshields)/hp_per_rect));
+    int nrects = static_cast<int>(std::ceil((hp.max()+hp.torbarmor+hp.lucioshields)
+                                            / hp_per_rect));
     double rect_width = (totalwidth - between_rect_spacing*(nrects-1)) / nrects;
     if (rect_width < 1)
     {
@@ -376,8 +378,9 @@ void Character::render(Renderer &renderer, Gamestate &state)
         between_rect_spacing = 0;
         rect_width = totalwidth / nrects;
     }
-    float r[8]; // Array used to pass the polygon data for the actual drawing
 
+    sf::ConvexShape slanted_rect;
+    slanted_rect.setPointCount(4);
     for (int rect = 0; rect < nrects; ++rect)
     {
         double rect_x = center_x + (rect - nrects/2.0) * (rect_width)
@@ -387,26 +390,24 @@ void Character::render(Renderer &renderer, Gamestate &state)
         for (int i=0; i<healthamounts_length; ++i)
         {
             double &healthamount = healthamounts[i];
+            slanted_rect.setFillColor(healthcolors[i]);
             if (healthamount >= recthp)
             {
                 double rectpercentage = (hp_per_rect-recthp) / hp_per_rect;
                 // Topleft
-                r[0] = rect_x + rect_width * rectpercentage + health_height*slant;
-                r[1] = health_top_y;
-
+                slanted_rect.setPoint(0, sf::Vector2f(rect_x + rect_width * rectpercentage + health_height*slant,
+                                                      health_top_y));
                 // Bottomleft
-                r[2] = rect_x + rect_width * rectpercentage;
-                r[3] = health_top_y + health_height;
-
+                slanted_rect.setPoint(1, sf::Vector2f(rect_x + rect_width * rectpercentage,
+                                                      health_top_y + health_height));
                 // Bottomright
-                r[4] = rect_x + rect_width;
-                r[5] = health_top_y + health_height;
-
+                slanted_rect.setPoint(2, sf::Vector2f(rect_x + rect_width,
+                                                      health_top_y + health_height));
                 // Topright
-                r[6] = rect_x + rect_width + health_height*slant;
-                r[7] = health_top_y;
+                slanted_rect.setPoint(3, sf::Vector2f(rect_x + rect_width + health_height*slant,
+                                                      health_top_y));
 
-                al_draw_filled_polygon(r, 4, healthcolors[i]);
+                renderer.surfaceground.draw(slanted_rect);
 
                 healthamount -= recthp;
                 // We're done here, no need to keep this iteration
@@ -414,37 +415,39 @@ void Character::render(Renderer &renderer, Gamestate &state)
             }
             else
             {
-                // We need to draw several health types into a single rect
-                // This is where it gets fun
-                double start_rectpercentage = (hp_per_rect-recthp) / hp_per_rect;
-                recthp -= healthamount;
-                healthamount = 0;
-                double end_rectpercentage = (hp_per_rect-recthp) / hp_per_rect;
-
-                // Topleft
-                r[0] = rect_x + rect_width * start_rectpercentage + health_height*slant;
-                r[1] = health_top_y;
-
-                // Bottomleft
-                r[2] = rect_x + rect_width * start_rectpercentage;
-                r[3] = health_top_y + health_height;
-
-                // Bottomright
-                r[4] = rect_x + rect_width * end_rectpercentage;
-                r[5] = health_top_y + health_height;
-
-                // Topright
-                r[6] = rect_x + rect_width * end_rectpercentage + health_height*slant;
-                r[7] = health_top_y;
-
-                al_draw_filled_polygon(r, 4, healthcolors[i]);
+                // TODO:
+                Global::logging().print(__FILE__, __LINE__, "Rendering mixed-health rects is currently not working, don't want to try implementing without being able to test.");
+                // This code below can't work, it only seems to draw the first half without caring about the second
+//                // We need to draw several health types into a single rect
+//                // This is where it gets fun
+//                double start_rectpercentage = (hp_per_rect-recthp) / hp_per_rect;
+//                recthp -= healthamount;
+//                healthamount = 0;
+//                double end_rectpercentage = (hp_per_rect-recthp) / hp_per_rect;
+//
+//                // Topleft
+//                r[0] = rect_x + rect_width * start_rectpercentage + health_height*slant;
+//                r[1] = health_top_y;
+//
+//                // Bottomleft
+//                r[2] = rect_x + rect_width * start_rectpercentage;
+//                r[3] = health_top_y + health_height;
+//
+//                // Bottomright
+//                r[4] = rect_x + rect_width * end_rectpercentage;
+//                r[5] = health_top_y + health_height;
+//
+//                // Topright
+//                r[6] = rect_x + rect_width * end_rectpercentage + health_height*slant;
+//                r[7] = health_top_y;
+//
+//                al_draw_filled_polygon(r, 4, healthcolors[i]);
             }
         }
     }
-    // --------------- /HEALTHBAR ---------------
 
 
-    // Deadeye circle
+    // --------------- DEADEYE CIRCLE ---------------
     Player &player = state.get<Player>(renderer.myself);
     if (player.heroclass == MCCREE and player.team != team)
     {
@@ -460,29 +463,31 @@ void Character::render(Renderer &renderer, Gamestate &state)
                     charge = w.deadeyetargets.at(owner.id);
                 }
 
-                al_set_target_bitmap(renderer.foreground);
-                std::string mainsprite = "ui/ingame/heroes/mccree/lockon";
-                ALLEGRO_BITMAP *skull = renderer.spriteloader.requestsprite(mainsprite);
-                double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-                double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
-                double rel_x = (x - renderer.cam_x)*renderer.zoom;
-                double rel_y = (y - renderer.cam_y)*renderer.zoom;
                 double factor = (hp.total()-charge) / initializehealth().total();
                 if (factor < 0)
                 {
-                    al_draw_bitmap(skull, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-                    factor = 0;
+                    spritepath = "ui/ingame/heroes/mccree/lockon";
+                    renderer.spriteloader.loadsprite(spritepath, sprite);
+                    sprite.setPosition(x, y);
+                    renderer.foreground.draw(sprite);
                 }
-                al_draw_circle(rel_x, rel_y, 8+32*factor, al_map_rgb(253, 58, 58), 1);
+                sf::CircleShape circle;
+                circle.setRadius(8+32*factor);
+                circle.setOrigin(circle.getLocalBounds().width, circle.getLocalBounds().height);
+                circle.setOutlineColor(COLOR_MCCREE_LOCKON);
+                circle.setPosition(x, y);
+                renderer.foreground.draw(circle);
             }
         }
     }
 
-    // Name
-    auto &font = renderer.font8;
-    int text_top_y = health_top_y - al_get_font_line_height(font) - 10 * renderer.zoom;
-    al_draw_text(font, al_map_rgb(255, 255, 255), center_x, text_top_y, ALLEGRO_ALIGN_CENTER,
-                 state.get<Player&>(owner).name.c_str());
+    // --------------- PLAYER NAME ---------------
+    sf::Text text;
+    text.setFont(renderer.mainfont);
+    text.setCharacterSize(8);
+    text.setString(state.get<Player&>(owner).name);
+    text.setFillColor(sf::Color::White);
+    text.setPosition(center_x, health_top_y - 10 - text.getLocalBounds().height);
 }
 
 bool Character::onground(Gamestate &state)
@@ -600,8 +605,8 @@ bool Character::collides(Gamestate &state, double testx, double testy)
     {
         // We're close enough that an actual collision might happen
         // Check the sprite
-        ALLEGRO_BITMAP *selfsprite = state.engine.maskloader.requestsprite(currentsprite(state, true));
-        return al_get_pixel(selfsprite, testx-self.x, testy-self.y).a != 0;
+        sf::Image &mask = state.engine.maskloader.loadmask(currentsprite(state, true));
+        return mask.getPixel(testx-self.x, testy-self.y).a != 0;
     }
     else
     {

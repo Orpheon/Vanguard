@@ -6,12 +6,18 @@
 #include "allegro5/allegro_primitives.h"
 
 #include <cstdint>
+#include <SFML/Window/Mouse.hpp>
+#include <SFML/Window/Event.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Text.hpp>
 
-Lobbymenu::Lobbymenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(display, owner_), spriteloader(false),
-                                                                        lobbysocket(io_service)
+Lobbymenu::Lobbymenu(sf::RenderWindow &window, MenuContainer &owner_) : Menu(window, owner_), lobbysocket(io_service)
 {
     background.init("ui/menus/mainmenu/");
-    serverfont = al_load_font("Vanguard Text Font.ttf", 15, ALLEGRO_TTF_MONOCHROME);
+    if (not serverfont.loadFromFile("Vanguard Text Font.ttf"))
+    {
+        Global::logging().panic(__FILE__, __LINE__, "Could not find \"Vanguard Text Font.ttf\".");
+    }
 
     connected = false;
     attempted_connection = false;
@@ -38,7 +44,7 @@ Lobbymenu::Lobbymenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_) : Menu(dis
     }
 }
 
-void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
+void Lobbymenu::run(sf::RenderWindow &window)
 {
     // Networking
     io_service.reset();
@@ -60,31 +66,32 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
     }
 
     // Define frame
-    int initial_x = al_get_display_width(display) * 0.1;
-    int linewidth = al_get_display_width(display) - initial_x*2.0;
+    sf::Vector2u windowsize = window.getSize();
+    int initial_x = windowsize.x * 0.1;
+    int linewidth = windowsize.x - initial_x*2.0;
     int spacing = 10;
-    int ping_x = initial_x + linewidth - al_get_text_width(serverfont, "9999") - spacing;
-    int playercount_x = ping_x - spacing - al_get_text_width(serverfont, "Players");
+    int fontsize = 15;
+    // No way fontsize can be used like that, but idk how. Ideally these would be width of "9999" and "Players"
+    int ping_x = initial_x + linewidth - fontsize*4 - spacing;
+    int playercount_x = ping_x - spacing - fontsize*7;
     int map_x = (playercount_x - spacing - initial_x) * 2/3.0 + initial_x;
 
-    int initial_y = al_get_display_height(display) * 0.2;
+    int initial_y = windowsize.y * 0.2;
     int lineheight = 30;
     int linespacing = 6;
     int servers_y = initial_y + 3*(lineheight + linespacing);
-    int text_height = initial_y + (lineheight - al_get_font_line_height(serverfont))/2.0;
+    int text_height = initial_y + (lineheight - fontsize)/2.0;
 
     // Get input
-    ALLEGRO_MOUSE_STATE current_mouse_state;
-    al_get_mouse_state(&current_mouse_state);
-    int mouse_x = current_mouse_state.x, mouse_y = current_mouse_state.y;
-    if (mouse_x > initial_x and mouse_x < initial_x + linewidth)
+    sf::Vector2i mousepos = sf::Mouse::getPosition(window);
+    if (mousepos.x > initial_x and mousepos.x < initial_x + linewidth)
     {
         int total_height = lineheight * N_SERVERS_TO_DISPLAY + linespacing * (N_SERVERS_TO_DISPLAY-1);
         double unit = (total_height+linespacing) / N_SERVERS_TO_DISPLAY;
 
-        if (mouse_y > servers_y and mouse_y < servers_y + total_height)
+        if (mousepos.y > servers_y and mousepos.y < servers_y + total_height)
         {
-            selection = static_cast<int>((mouse_y - servers_y) / unit);
+            selection = static_cast<int>((mousepos.y - servers_y) / unit);
         }
         else
         {
@@ -96,24 +103,23 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
         selection = -1;
     }
 
-    ALLEGRO_EVENT event;
-    while (al_get_next_event(event_queue, &event))
+    sf::Event event;
+    while (window.pollEvent(event))
     {
-        if (event.type == ALLEGRO_EVENT_DISPLAY_CLOSE)
-        {
-            // Deliberate closing, not an error
-            quit();
-        }
-
         switch (event.type)
         {
-            case ALLEGRO_EVENT_KEY_CHAR:
-                if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
+            int n_servers, delta;
+            case sf::Event::Closed:
+                quit();
+                break;
+
+            case sf::Event::KeyPressed:
+                if (event.key.code == sf::Keyboard::Escape)
                 {
                     // Go back to main menu
                     owner.planned_action = POSTMENUACTION::OPEN_MAINMENU;
                 }
-                else if (event.keyboard.keycode == ALLEGRO_KEY_F5)
+                else if (event.key.code == sf::Keyboard::F5)
                 {
                     if (refreshtimer < REFRESH_PERIOD - MIN_REFRESH_PERIOD)
                     {
@@ -122,27 +128,24 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
                 }
                 break;
 
-            case ALLEGRO_EVENT_MOUSE_AXES:
-                if (event.mouse.dz != 0)
+            case sf::Event::MouseWheelScrolled:
+                n_servers = static_cast<signed int>(servers.size());
+                delta = static_cast<int>(event.mouseWheelScroll.delta);
+                if (scrolloffset - delta > n_servers - N_SERVERS_TO_DISPLAY)
                 {
-                    int n_servers = static_cast<signed int>(servers.size());
-                    if (scrolloffset - event.mouse.dz > n_servers - N_SERVERS_TO_DISPLAY)
-                    {
-                        scrolloffset = n_servers - N_SERVERS_TO_DISPLAY;
-                    }
-                    else
-                    {
-                        scrolloffset -= event.mouse.dz;
-                    }
-
-                    if (scrolloffset < 0)
-                    {
-                        scrolloffset = 0;
-                    }
+                    scrolloffset = n_servers - N_SERVERS_TO_DISPLAY;
+                }
+                else
+                {
+                    scrolloffset -= delta;
+                }
+                if (scrolloffset < 0)
+                {
+                    scrolloffset = 0;
                 }
                 break;
 
-            case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+            case sf::Event::MouseButtonReleased:
                 if (selection != -1 and selection < static_cast<signed int>(servers.size()))
                 {
                     owner.planned_action = POSTMENUACTION::JOIN_SERVER;
@@ -151,67 +154,137 @@ void Lobbymenu::run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue)
                     owner.exitmenus();
                 }
                 break;
+
+            default:
+                break;
         }
     }
 
+//    background.update(MENU_TIMESTEP);
+//
+//    sf::Vector2i mousepos = sf::Mouse::getPosition(window);
+//    sf::Vector2u windowsize = window.getSize();
+//
+//    // Draw
+//    int WINDOW_WIDTH = windowsize.x;
+//    int WINDOW_HEIGHT = windowsize.y;
+//    sf::Sprite bgsprite;
+//    spriteloader.loadsprite(background.getframepath(), bgsprite);
+//
+//    window.draw(bgsprite);
+//
+//    for (auto& button : buttons)
+//    {
+//        button->render(window, mousepos.x, mousepos.y);
+//    }
+//
+//    if (istypingIP)
+//    {
+//        sf::Text iptext;
+//        iptext.setCharacterSize(10);
+//        iptext.setString("Please enter the server's ip and confirm with enter:");
+//        iptext.setFont(textfont);
+//        iptext.setOrigin(0, iptext.getLocalBounds().height * 2.0);
+//        iptext.setPosition(WINDOW_WIDTH/2.0, WINDOW_HEIGHT/2.0);
+//        window.draw(iptext);
+//
+//        iptext.setString(ipstring);
+//        iptext.setOrigin(0, 0);
+//        window.draw(iptext);
+//    }
+//
+//    window.display();
 
-    // Draw
+
     background.update(MENU_TIMESTEP);
 
-    al_draw_bitmap(spriteloader.requestsprite(background.getframepath()), 0, 0, 0);
+    // Draw
+    int WINDOW_WIDTH = windowsize.x;
+    int WINDOW_HEIGHT = windowsize.y;
+    sf::Sprite bgsprite;
+    spriteloader.loadsprite(background.getframepath(), bgsprite);
+    sf::FloatRect size = bgsprite.getLocalBounds();
+    bgsprite.setPosition(0, 0);
+    bgsprite.setScale(WINDOW_WIDTH/size.width, WINDOW_HEIGHT/size.height);
+    bgsprite.setOrigin(0, 0);
+    window.draw(bgsprite);
 
-    al_draw_filled_rectangle(initial_x, initial_y, initial_x+linewidth, initial_y+lineheight,
-                             al_map_rgba(0, 0, 0, 100));
-    al_draw_text(serverfont, al_map_rgb(255, 255, 255), initial_x + spacing, text_height, ALLEGRO_ALIGN_LEFT, "Name");
-    al_draw_text(serverfont, al_map_rgb(255, 255, 255), ping_x, text_height, ALLEGRO_ALIGN_LEFT, "Ping");
-    al_draw_text(serverfont, al_map_rgb(255, 255, 255), playercount_x, text_height, ALLEGRO_ALIGN_LEFT, "Players");
-    al_draw_text(serverfont, al_map_rgb(255, 255, 255), map_x, text_height, ALLEGRO_ALIGN_LEFT, "Map Name");
+    sf::RectangleShape backdrop(sf::Vector2f(linewidth, lineheight));
+    backdrop.setPosition(initial_x, initial_y);
+    backdrop.setFillColor(sf::Color(0, 0, 0, 100));
+    window.draw(backdrop);
 
-    text_height = servers_y + (lineheight - al_get_font_line_height(serverfont))/2.0;
+    sf::Text text;
+    text.setCharacterSize(fontsize);
+    text.setFont(serverfont);
+
+    text.setPosition(initial_x + spacing, text_height);
+    text.setString("Name");
+    window.draw(text);
+    text.setPosition(ping_x + spacing, text_height);
+    text.setString("Ping");
+    window.draw(text);
+    text.setPosition(playercount_x, text_height);
+    text.setString("Players");
+    window.draw(text);
+    text.setPosition(map_x + spacing, text_height);
+    text.setString("Map Name");
+    window.draw(text);
+
+    text_height = servers_y + (lineheight - fontsize)/2.0;
 
     auto serveridx = servers.begin() + scrolloffset;
     for (int i = 0; i < N_SERVERS_TO_DISPLAY and serveridx != servers.end(); ++i)
     {
         auto& server = *serveridx;
 
-        al_draw_filled_rectangle(initial_x, servers_y, initial_x+linewidth, servers_y+lineheight,
-                                 al_map_rgba(0, 0, 0, 100));
+        backdrop.setFillColor(sf::Color(0, 0, 0, 100));
+        backdrop.setOutlineThickness(0);
+        backdrop.setPosition(initial_x, servers_y);
+        window.draw(backdrop);
 
         if (selection == i)
         {
-            al_draw_rectangle(initial_x, servers_y - linespacing*1/3.0, initial_x + linewidth,
-                              servers_y + lineheight + linespacing*1/3.0, al_map_rgba(0, 255, 255, 100),
-                              linespacing*2/3.0);
+            backdrop.setPosition(initial_x, servers_y);
+            backdrop.setFillColor(sf::Color::Transparent);
+            backdrop.setOutlineColor(sf::Color(0, 255, 255, 100));
+            backdrop.setOutlineThickness(linespacing*2/3.0);
+            window.draw(backdrop);
         }
 
-        al_draw_text(serverfont, al_map_rgb(255, 255, 255), initial_x + spacing, text_height, ALLEGRO_ALIGN_LEFT,
-                     server.name.c_str());
-        al_draw_text(serverfont, al_map_rgb(255, 255, 255), map_x, text_height, ALLEGRO_ALIGN_LEFT,
-                     server.mapname.c_str());
-        al_draw_text(serverfont, al_map_rgb(255, 255, 255), playercount_x, text_height, ALLEGRO_ALIGN_LEFT,
-                     (std::to_string(server.playercount) + "/" + std::to_string(server.maxplayercount)).c_str());
+        text.setFillColor(sf::Color::White);
+        text.setPosition(initial_x + spacing, text_height);
+        text.setString(server.name);
+        window.draw(text);
+        text.setPosition(map_x, text_height);
+        text.setString(server.mapname);
+        window.draw(text);
+        text.setPosition(playercount_x, text_height);
+        text.setString(std::to_string(server.playercount));
+        window.draw(text);
+
+        text.setPosition(ping_x, text_height);
+        text.setString(std::to_string(server.ping));
         if (server.ping < 135)
         {
-            al_draw_text(serverfont, al_map_rgb(0, 255, 0), ping_x, text_height, ALLEGRO_ALIGN_LEFT,
-                         std::to_string(server.ping).c_str());
+            text.setFillColor(sf::Color::Green);
         }
         else if (server.ping < 225)
         {
-            al_draw_text(serverfont, al_map_rgb(255, 255, 0), ping_x, text_height, ALLEGRO_ALIGN_LEFT,
-                         std::to_string(server.ping).c_str());
+            text.setFillColor(sf::Color::Yellow);
         }
         else
         {
-            al_draw_text(serverfont, al_map_rgb(255, 0, 0), ping_x, text_height, ALLEGRO_ALIGN_LEFT,
-                         std::to_string(server.ping).c_str());
+            text.setFillColor(sf::Color::Red);
         }
+        window.draw(text);
 
         servers_y += lineheight + linespacing;
-        text_height = servers_y + (lineheight - al_get_font_line_height(serverfont))/2.0;
+        text_height = servers_y + (lineheight - fontsize)/2.0;
         ++serveridx;
     }
 
-    al_flip_display();
+    window.display();
 }
 
 void Lobbymenu::connectionhandler(const asio::error_code &error)

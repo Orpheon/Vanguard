@@ -5,7 +5,7 @@
 class Trail : public Entity
 {
     public:
-        virtual void init(uint64_t id_, Gamestate &state, ALLEGRO_COLOR color_, double x1_, double y1_, double x2_, double y2_, double duration);
+        virtual void init(uint64_t id_, Gamestate &state, sf::Color color_, double x1_, double y1_, double x2_, double y2_, double duration);
         virtual ~Trail() override = default;
         void beginstep(Gamestate &state, double frametime) override;
         void midstep(Gamestate &state, double frametime) override {}
@@ -15,7 +15,7 @@ class Trail : public Entity
         void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         bool isrootobject() override {return true;}
 
-        ALLEGRO_COLOR color;
+        sf::Color color;
         double x1;
         double y1;
         double x2;

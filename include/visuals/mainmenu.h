@@ -13,9 +13,9 @@
 class Mainmenu : public Menu
 {
     public:
-        Mainmenu(ALLEGRO_DISPLAY *display, MenuContainer &owner_);
+        Mainmenu(sf::RenderWindow &window, MenuContainer &owner_);
         virtual ~Mainmenu() = default;
-        void run(ALLEGRO_DISPLAY *display, ALLEGRO_EVENT_QUEUE *event_queue) override;
+        void run(sf::RenderWindow &window) override;
         void hostserver();
         void joinlobby();
         void joinself();
@@ -30,5 +30,5 @@ class Mainmenu : public Menu
 
         bool istypingIP;
         std::string ipstring;
-        ALLEGRO_FONT *ipfont;
+        sf::Font textfont;
 };

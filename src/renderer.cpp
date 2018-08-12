@@ -1,9 +1,12 @@
 #include <cstdio>
 #include <vector>
 #include <string>
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_primitives.h>
 #include <engine.h>
+
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 
 #include "renderer.h"
 #include "global_constants.h"
@@ -13,93 +16,56 @@
 #include "visuals/hud.h"
 #include "visuals/defaulthud.h"
 
-Renderer::Renderer() : cam_x(0), cam_y(0), zoom(1), myself(0), WINDOW_WIDTH(0), WINDOW_HEIGHT(0), spriteloader(false)
+Renderer::Renderer() : myself(0), WINDOW_WIDTH(0), WINDOW_HEIGHT(0), spriteloader()
 {
-    al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-    background = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
-    midground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
-    foreground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
-    surfaceground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
+    if (!mainfont.loadFromFile("Vanguard Text Font.ttf"))
+    {
+        Global::logging().panic(__FILE__, __LINE__, "Vanguard font could not be found.");
+    }
 
-    // fps stuff
-    lasttime = al_get_time();
+    WINDOW_WIDTH = Global::settings().at("Display resolution").at(0);
+    WINDOW_HEIGHT = Global::settings().at("Display resolution").at(1);
 
-    font20 = al_load_font("Vanguard Text Font.ttf", 20, ALLEGRO_TTF_MONOCHROME);
-    font12 = al_load_font("Vanguard Text Font.ttf", 12, ALLEGRO_TTF_MONOCHROME);
-    font8 = al_load_font("Vanguard Text Font.ttf", 8, ALLEGRO_TTF_MONOCHROME);
+    cameraview.reset(sf::FloatRect(0, 0, VIEWPORT_WIDTH, VIEWPORT_WIDTH*1.0*WINDOW_HEIGHT/WINDOW_WIDTH));
 
     currenthud = std::unique_ptr<Hud>(new DefaultHud());
+
+    resetdrawlayersize(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT));
 }
 
 Renderer::~Renderer()
 {
-    // Cleanup
-    al_destroy_font(font20);
-    al_destroy_font(font12);
-    al_destroy_font(font8);
-    al_destroy_bitmap(background);
-    al_destroy_bitmap(midground);
-    al_destroy_bitmap(foreground);
-    al_destroy_bitmap(surfaceground);
+    // Nothing to do
 }
 
-void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myself_, Networker &networker)
+void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myself_, Networker &networker)
 {
     myself = myself_;
-
-    if (WINDOW_WIDTH != al_get_display_width(display) or WINDOW_HEIGHT != al_get_display_height(display) or changedzoom)
-    {
-        al_set_new_bitmap_flags(ALLEGRO_VIDEO_BITMAP);
-        WINDOW_WIDTH = al_get_display_width(display);
-        WINDOW_HEIGHT = al_get_display_height(display);
-
-        al_destroy_bitmap(background);
-        al_destroy_bitmap(midground);
-        al_destroy_bitmap(foreground);
-        al_destroy_bitmap(surfaceground);
-
-        background = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
-        midground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
-        foreground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
-        surfaceground = al_create_bitmap(WINDOW_WIDTH, WINDOW_HEIGHT);
-
-        zoom = 1.0*WINDOW_WIDTH / VIEWPORT_WIDTH;
-        spriteloader.setzoom(zoom);
-
-        al_destroy_font(font20);
-        al_destroy_font(font12);
-        al_destroy_font(font8);
-        font20 = al_load_font("Vanguard Text Font.ttf", 20 * zoom, ALLEGRO_TTF_MONOCHROME);
-        font12 = al_load_font("Vanguard Text Font.ttf", 12 * zoom, ALLEGRO_TTF_MONOCHROME);
-        font8 = al_load_font("Vanguard Text Font.ttf", 8 * zoom, ALLEGRO_TTF_MONOCHROME);
-
-        changedzoom = false;
-    }
 
     if (state.displaystats)
     {
         // Display end of map score
 
-        // Set render target to be the display
-        al_set_target_backbuffer(display);
-
         // Clear black
-        al_clear_to_color(al_map_rgba(0, 0, 0, 1));
+        window.clear();
 
         // Draw the map background first
         state.currentmap->renderbackground(*this);
 
         // Draw translucent black overlay
-        al_draw_filled_rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, al_map_rgba(0, 0, 0, 100));
+        sf::RectangleShape rect(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+        rect.setPosition(0, 0);
+        rect.setFillColor(sf::Color(0, 0, 0, 100));
+        window.draw(rect);
 
         // Draw score and shit
-        std::string text =
-            "MAP OVER / STATISTICS PLACEHOLDER";
-        double x = WINDOW_WIDTH / 2.0;
-        double y = WINDOW_HEIGHT / 2.0;
-        double w = WINDOW_WIDTH * 2 / 4.0;
-        double h = al_get_font_line_height(font20);
-        al_draw_text(font20, al_map_rgb(255, 255, 255), x-w/2.0, y-h/2.0, 0, text.c_str());
+        sf::Text text;
+        text.setString("MAP OVER / STATISTICS PLACEHOLDER");
+        text.setPosition(WINDOW_WIDTH / 2.0, WINDOW_HEIGHT / 2.0);
+        text.setCharacterSize(20);
+        sf::FloatRect r = text.getLocalBounds();
+        text.setOrigin(r.left + r.width/2.0, r.top + r.height/2.0);
+        window.draw(text);
     }
     else
     {
@@ -110,21 +76,26 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
             if (state.exists(p.character))
             {
                 Character &c = p.getcharacter(state);
-                cam_x = c.x - VIEWPORT_WIDTH/2.0;
-                cam_y = c.y - WINDOW_HEIGHT/zoom/2.0;
+                cameraview.setCenter(c.x, c.y);
             }
         }
 
-        al_set_target_bitmap(background);
-        al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-        al_set_target_bitmap(midground);
-        al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-        al_set_target_bitmap(foreground);
-        al_clear_to_color(al_map_rgba(0, 0, 0, 0));
-        al_set_target_bitmap(surfaceground);
-        al_clear_to_color(al_map_rgba(0, 0, 0, 0));
+        // Drawing layers for normal objects
+        background.clear(sf::Color::Transparent);
+        midground.clear(sf::Color::Transparent);
+        foreground.clear(sf::Color::Transparent);
+        // Drawing layer for everything that should be visible above the wallmask, in particular HP bars and so on
+        surfaceground.clear(sf::Color::Transparent);
+        // Drawing layer for unscaled things like the HUD
+        hudground.clear(sf::Color::Transparent);
+
+        background.setView(cameraview);
+        midground.setView(cameraview);
+        foreground.setView(cameraview);
+        surfaceground.setView(cameraview);
 
         // Go through all objects and let them render themselves on the layers
+        state.currentmap->renderbackground(*this);
         for (auto &e : state.entitylist)
         {
             if (e.second->isrootobject() and not e.second->destroyentity)
@@ -132,68 +103,45 @@ void Renderer::render(ALLEGRO_DISPLAY *display, Gamestate &state, EntityPtr myse
                 e.second->render(*this, state);
             }
         }
-
-        // Set render target to be the display
-        al_set_target_backbuffer(display);
-
-        // Clear black
-        al_clear_to_color(al_map_rgba(0, 0, 0, 1));
-
-        // Draw the map background first
-        state.currentmap->renderbackground(*this);
-
-        // Then draw each layer
-        al_draw_bitmap(background, 0, 0, 0);
-        al_draw_bitmap(midground, 0, 0, 0);
-        al_draw_bitmap(foreground, 0, 0, 0);
-
-        // Draw the map wallmask on top of everything, to prevent sprites that go through walls
-        state.currentmap->renderwallground(*this);
-
-        // Draw the final layer on top of even that, for certain things like character healthbars
-        al_draw_bitmap(surfaceground, 0, 0, 0);
-
         if (state.exists(myself))
         {
             currenthud->render(*this, state, state.get<Player>(myself));
         }
-    }
 
-    al_flip_display();
+        background.display();
+        midground.display();
+        foreground.display();
+        surfaceground.display();
+        hudground.display();
+
+        window.clear();
+        sf::Sprite sprite;
+        sprite.setTexture(background.getTexture());
+        window.draw(sprite);
+        sprite.setTexture(midground.getTexture());
+        window.draw(sprite);
+        sprite.setTexture(foreground.getTexture());
+        window.draw(sprite);
+        sprite.setTexture(surfaceground.getTexture());
+        window.draw(sprite);
+        sprite.setTexture(hudground.getTexture());
+        window.draw(sprite);
+    }
+    window.display();
 }
 
-ALLEGRO_DISPLAY* Renderer::createnewdisplay()
+void Renderer::resetcamera()
 {
-    //default display values are set on header file
-    int display_width, display_height, display_type;
-
-    display_width = Global::settings().at("Display resolution").at(0);
-    display_height = Global::settings().at("Display resolution").at(1);
-    display_type = Global::settings().at("Display type");
-    bool force_opengl = Global::settings().at("Force OpenGL");
-
-    al_set_new_display_option(ALLEGRO_VSYNC, Global::settings().at("Vsync"), ALLEGRO_SUGGEST);
-
-    ALLEGRO_DISPLAY *display;
-    if (force_opengl)
-    {
-        al_set_new_display_flags(ALLEGRO_OPENGL | display_type);
-    }
-    else
-    {
-        al_set_new_display_flags(display_type);
-    }
-    display = al_create_display(display_width, display_height);
-
-    if(!display)
-    {
-        Global::logging().panic(__FILE__, __LINE__, "Could not create display");
-    }
-    return display;
+    sf::Vector2f center = cameraview.getCenter();
+    cameraview.setSize(VIEWPORT_WIDTH, VIEWPORT_WIDTH*1.0*WINDOW_HEIGHT/WINDOW_WIDTH);
+    cameraview.setCenter(center);
 }
 
-void Renderer::changeviewport(int newsize)
+void Renderer::resetdrawlayersize(sf::Vector2u size)
 {
-    changedzoom = true;
-    VIEWPORT_WIDTH = newsize;
+    background.create(size.x, size.y);
+    midground.create(size.x, size.y);
+    foreground.create(size.x, size.y);
+    surfaceground.create(size.x, size.y);
+    hudground.create(size.x, size.y);
 }

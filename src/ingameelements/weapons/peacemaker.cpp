@@ -6,6 +6,7 @@
 #include "ingameelements/explosion.h"
 #include "ingameelements/trail.h"
 #include "engine.h"
+#include "colorpalette.h"
 
 void Peacemaker::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
@@ -20,45 +21,39 @@ void Peacemaker::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 
 void Peacemaker::render(Renderer &renderer, Gamestate &state)
 {
-    std::string mainsprite;
-    double dir = aimdirection;
-    Mccree &c = state.get<Mccree>(state.get<Player>(owner).character);
-    if (firinganim.active())
+    Mccree &mccree = state.get<Mccree&>(state.get<Player>(owner).character);
+    if (mccree.weaponvisible(state))
     {
-        mainsprite = firinganim.getframepath();
-    }
-    else if (reloadanim.active())
-    {
-        mainsprite = reloadanim.getframepath();
-        dir = 3.1415*c.isflipped;
-    }
-    else if (fthanim.active())
-    {
-        mainsprite = fthanim.getframepath();
-    }
-    else
-    {
-        mainsprite = c.herofolder()+"arm/1";
-    }
-    ALLEGRO_BITMAP *sprite = renderer.spriteloader.requestsprite(mainsprite);
-    double spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-    double spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
-    double rel_x = (x - renderer.cam_x)*renderer.zoom;
-    double rel_y = (y - renderer.cam_y)*renderer.zoom;
-    double attachpt_x = getattachpoint_x(state)*renderer.zoom;
-    double attachpt_y = getattachpoint_y(state)*renderer.zoom;
-
-    al_set_target_bitmap(renderer.midground);
-    if (c.weaponvisible(state))
-    {
-        if (c.isflipped)
+        std::string spritepath;
+        double dir = aimdirection;
+        if (firinganim.active())
         {
-            al_draw_scaled_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, 1, -1, dir, 0);
+            spritepath = firinganim.getframepath();
+        }
+        else if (reloadanim.active())
+        {
+            spritepath = reloadanim.getframepath();
+            dir = 3.1415*mccree.isflipped;
+        }
+        else if (fthanim.active())
+        {
+            spritepath = fthanim.getframepath();
         }
         else
         {
-            al_draw_rotated_bitmap(sprite, attachpt_x+spriteoffset_x, attachpt_y+spriteoffset_y, rel_x, rel_y, dir, 0);
+            spritepath = mccree.herofolder()+"arm/1";
         }
+
+        sf::Sprite sprite;
+        renderer.spriteloader.loadsprite(spritepath, sprite);
+        sprite.setOrigin(sprite.getOrigin()+sf::Vector2f(getattachpoint_x(state), getattachpoint_y(state)));
+        sprite.setPosition(x, y);
+        sprite.setRotation(dir*180.0/3.1415);
+        if (mccree.isflipped)
+        {
+            sprite.setScale(1, -1);
+        }
+        renderer.midground.draw(sprite);
     }
 }
 
@@ -122,7 +117,8 @@ void Peacemaker::fireprimary(Gamestate &state)
 {
     double cosa = std::cos(aimdirection), sina = std::sin(aimdirection);
     double collisionptx, collisionpty;
-    double d = std::hypot(state.currentmap->width(), state.currentmap->height());
+    sf::Vector2u mapsize = state.currentmap->size();
+    double d = std::hypot(mapsize.x, mapsize.y);
     EntityPtr target = state.collidelinedamageable(x, y, x+cosa*d, y+sina*d, team, &collisionptx, &collisionpty);
     if (state.exists(target))
     {
@@ -137,7 +133,7 @@ void Peacemaker::fireprimary(Gamestate &state)
         state.get<Player&>(owner).registerdamage(state, effectivedamage);
     }
 
-    state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
+    state.make_entity<Trail>(state, COLOR_MCCREE_TRAIL, x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
     Explosion &e = state.get<Explosion>(state.make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", aimdirection));
     e.x = x+cosa*24;
     e.y = y+sina*24;
@@ -191,7 +187,7 @@ void Peacemaker::firesecondary(Gamestate &state)
         state.get<Player&>(owner).registerdamage(state, effectivedamage);
     }
 
-    state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
+    state.make_entity<Trail>(state, COLOR_MCCREE_TRAIL, x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
     Explosion &e = state.get<Explosion>(state.make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", aimdirection+spread));
     e.x = x+cosa*24;
     e.y = y+sina*24;
@@ -220,7 +216,8 @@ void Peacemaker::fireultimate(Gamestate &state)
     if (deadeyetargets.size() > 0)
     {
         EntityPtr playerptr = 0;
-        double distance = state.currentmap->width()*10;
+        sf::Vector2u mapsize = state.currentmap->size();
+        double distance = std::hypot(mapsize.x, mapsize.y)*10;
         // Select closest target
         for (auto &p : deadeyetargets)
         {
@@ -248,7 +245,7 @@ void Peacemaker::fireultimate(Gamestate &state)
             state.get<Player&>(owner).registerdamage(state, effectivedamage);
         }
 
-        state.make_entity<Trail>(state, al_premul_rgba(133, 238, 238, 150), x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
+        state.make_entity<Trail>(state, COLOR_MCCREE_TRAIL, x+cosa*24, y+sina*24, collisionptx, collisionpty, 0.1);
         Explosion &e = state.get<Explosion>(state.make_entity<Explosion>(state, "heroes/mccree/projectiletrail/", angle));
         e.x = x+cosa*24;
         e.y = y+sina*24;

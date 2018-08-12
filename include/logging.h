@@ -23,25 +23,6 @@ class Logger
             panic_flush(format(output, filename, line, args...));
         }
 
-        template <typename ... Args>
-        void show_message(std::string msg, Args ... args)
-        {
-            show_message_flush(format(msg, args...));
-        }
-
-        template <typename ... Args>
-        std::string ask_question(std::string msg, Args ... args)
-        {
-            return ask_question_flush(format(msg, args...));
-        }
-
-        template <typename ... Args>
-        void show_error_message(const char *filename, int line, std::string msg, Args ... args)
-        {
-            std::string output = "Error: %s at line %i:\n" + msg;
-            show_error_message_flush(format(output, filename, line, args...));
-        }
-
     protected:
         template <typename ... Args>
         std::string format(std::string msg, Args ... args)
@@ -55,9 +36,6 @@ class Logger
 
         virtual void print_flush(std::string msg) = 0;
         virtual void panic_flush(std::string msg) = 0;
-        virtual void show_message_flush(std::string msg) = 0;
-        virtual std::string ask_question_flush(std::string msg) = 0;
-        virtual void show_error_message_flush(std::string msg) = 0;
 };
 
 class PrintLogger : public Logger
@@ -72,21 +50,5 @@ class PrintLogger : public Logger
         {
             std::cout << msg << "\n" << std::flush;
             throw new std::runtime_error(msg);
-        }
-
-        void show_message_flush(std::string msg)
-        {
-            al_show_native_message_box(nullptr, "", msg.c_str(), "", "", ALLEGRO_MESSAGEBOX_WARN);
-        }
-
-        std::string ask_question_flush(std::string msg)
-        {
-            al_show_native_message_box(nullptr, "AAA", msg.c_str(), "BBB", "C|C|C|7|7|7|7", ALLEGRO_MESSAGEBOX_QUESTION);
-            return "";
-        }
-
-        void show_error_message_flush(std::string msg)
-        {
-            al_show_native_message_box(nullptr, "", msg.c_str(), "", "", ALLEGRO_MESSAGEBOX_ERROR);
         }
 };

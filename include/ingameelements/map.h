@@ -7,7 +7,7 @@
 #include "ingameelements/gamemodes/gamemodemanager.h"
 #include "mapelements/spawnroom.h"
 
-#include <allegro5/allegro.h>
+#include <SFML/Graphics.hpp>
 #include <string>
 #include <list>
 
@@ -18,12 +18,11 @@ class Map
         virtual ~Map();
         void renderbackground(Renderer &renderer);
         void renderwallground(Renderer &renderer);
+        sf::Vector2u size() { return wallmask.getSize(); }
         bool collides(Rect rect);
         bool collides(Gamestate &state, double x, double y, std::string spriteid, double angle);
         bool collideline(double x1, double y1, double x2, double y2);
-        bool testpixel(double x, double y) {return x < 0 or y < 0 or x > al_get_bitmap_width(wallmask) or y > al_get_bitmap_height(wallmask) or al_get_pixel(wallmask, x, y).a != 0;}
-        double width() {return al_get_bitmap_width(background);}
-        double height() {return al_get_bitmap_height(background);}
+        bool testpixel(double x, double y);
         Spawnroom& spawnroom(Gamestate &state, Team team);
         GamemodeManager& currentgamemode(Gamestate &state);
         void gotonextgamemode(Gamestate &state, Team winners);
@@ -31,9 +30,10 @@ class Map
         std::string name;
     protected:
     private:
-        ALLEGRO_BITMAP *background;
-        ALLEGRO_BITMAP *wallground;
-        ALLEGRO_BITMAP *wallmask;
+        // Textures live on gfx card for rendering, Images live in cpu memory
+        sf::Texture background;
+        sf::Texture wallground;
+        sf::Image wallmask;
         nlohmann::json mapdata;
         std::list<EntityPtr> gamemodes;
 };

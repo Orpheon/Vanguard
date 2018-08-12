@@ -4,20 +4,21 @@
 
 #include <string>
 #include <functional>
-#include "allegro5/allegro5.h"
-#include "allegro5/allegro_font.h"
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 
 class MainmenuButton
 {
     public:
-        MainmenuButton(std::string text_, double x_, double y_, std::function<void()> onclick_,
-                       ALLEGRO_FONT *normal_font_, ALLEGRO_FONT *hovered_font_);
-        void render(ALLEGRO_DISPLAY *display, double mouse_x, double mouse_y);
+        MainmenuButton(std::string text_, double x_, double y_, std::function<void()> onclick_, sf::Font &font_);
+        void render(sf::RenderWindow &window, double mouse_x, double mouse_y);
         bool ontop(double mouse_x, double mouse_y);
         std::function<void()> onclick;
     private:
-        std::string text;
-        ALLEGRO_FONT *normal_font;
-        ALLEGRO_FONT *hovered_font;
+        sf::Text text;
+        sf::Font font;
         Rect bbox;
+        int NORMAL_BUTTON_FONT_SIZE = 30;
+        int HOVERED_BUTTON_FONT_SIZE = 40;
 };

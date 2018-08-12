@@ -1,8 +1,8 @@
 #include "ingameelements/trail.h"
 
-#include <allegro5/allegro_primitives.h>
+#include <SFML/Graphics/RectangleShape.hpp>
 
-void Trail::init(uint64_t id_, Gamestate &state, ALLEGRO_COLOR color_, double x1_, double y1_, double x2_, double y2_, double duration)
+void Trail::init(uint64_t id_, Gamestate &state, sf::Color color_, double x1_, double y1_, double x2_, double y2_, double duration)
 {
     Entity::init(id_);
 
@@ -21,8 +21,11 @@ void Trail::beginstep(Gamestate &state, double frametime)
 
 void Trail::render(Renderer &renderer, Gamestate &state)
 {
-    al_set_target_bitmap(renderer.background);
-    al_draw_line(renderer.zoom*(x1-renderer.cam_x), renderer.zoom*(y1-renderer.cam_y), renderer.zoom*(x2-renderer.cam_x), renderer.zoom*(y2-renderer.cam_y), color, 1);
+    sf::RectangleShape line(sf::Vector2f(hypot(x2-x1, y2-y1), 1));
+    line.setRotation(std::atan2(y2-y1, x2-x1)*180.0/3.1415);
+    line.setPosition(x1, y1);
+    line.setFillColor(color);
+    renderer.background.draw(line);
 }
 
 void Trail::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)

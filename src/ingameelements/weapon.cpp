@@ -24,14 +24,13 @@ void Weapon::beginstep(Gamestate &state, double frametime)
 void Weapon::endstep(Gamestate &state, double frametime)
 {
     Character &c = state.get<Player>(owner).getcharacter(state);
-    double xoffset=0, yoffset=0;
+    sf::Vector2i offsets;
     if (c.weaponvisible(state))
     {
-        xoffset = state.engine.maskloader.getweaponoffset_x(c.currentsprite(state, false));
-        yoffset = state.engine.maskloader.getweaponoffset_y(c.currentsprite(state, false));
+        offsets = state.engine.maskloader.weaponoffsets(c.currentsprite(state, false));
     }
-    x = c.x + xoffset*(c.isflipped ? -1:1);
-    y = c.y + yoffset;
+    x = c.x + offsets.x*(c.isflipped ? -1:1);
+    y = c.y + offsets.y;
 }
 
 void Weapon::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)

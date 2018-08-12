@@ -2,6 +2,7 @@
 #include "engine.h"
 #include "ingameelements/heroes/lucio.h"
 #include "ingameelements/explosion.h"
+#include "colorpalette.h"
 
 #include "allegro5/allegro_primitives.h"
 
@@ -26,43 +27,26 @@ void Lucio::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 void Lucio::render(Renderer &renderer, Gamestate &state)
 {
     Character::render(renderer, state);
-    al_set_target_bitmap(renderer.midground);
-
     state.get<Sonicamp&>(weapon).renderbehind(renderer, state);
 
-    std::string mainsprite;
-    ALLEGRO_BITMAP *sprite;
-    double spriteoffset_x, spriteoffset_y;
-    double rel_x, rel_y;
-    rel_x = (x-renderer.cam_x)*renderer.zoom;
-    rel_y = (y-renderer.cam_y)*renderer.zoom;
+    std::string spritepath;
+    sf::Sprite sprite;
 
-    mainsprite = currentsprite(state, false);
-    sprite = renderer.spriteloader.requestsprite(mainsprite);
-    spriteoffset_x = renderer.spriteloader.get_spriteoffset_x(mainsprite)*renderer.zoom;
-    spriteoffset_y = renderer.spriteloader.get_spriteoffset_y(mainsprite)*renderer.zoom;
-
-    ALLEGRO_BITMAP *outline = renderer.spriteloader.requestspriteoutline(mainsprite);
-    ALLEGRO_COLOR outlinecolor = al_map_rgb(225, 17, 17);
-
+    spritepath = currentsprite(state, false);
+    renderer.spriteloader.loadsprite(spritepath, sprite);
+    sprite.setPosition(x, y);
     if (isflipped)
     {
-        // Flip horizontally
-        al_draw_scaled_rotated_bitmap(sprite, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-        if (state.get<Player>(renderer.myself).team != team)
-        {
-            // Draw enemy outline
-            al_draw_tinted_scaled_rotated_bitmap(outline, outlinecolor, spriteoffset_x, spriteoffset_y, rel_x, rel_y, -1, 1, 0, 0);
-        }
+        sprite.setScale(-1, 1);
     }
-    else
+    renderer.midground.draw(sprite);
+    if (state.get<Player&>(renderer.myself).team != team)
     {
-        al_draw_bitmap(sprite, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-        if (state.get<Player>(renderer.myself).team != team)
-        {
-            // Draw enemy outline
-            al_draw_tinted_bitmap(outline, outlinecolor, rel_x-spriteoffset_x, rel_y-spriteoffset_y, 0);
-        }
+        // Draw enemy outline
+        sprite.setColor(COLOR_ENEMY_OUTLINE);
+        renderer.spriteloader.loadspriteoutline(spritepath, sprite);
+        renderer.midground.draw(sprite);
+        sprite.setColor(sf::Color::White);
     }
 
     state.get<Weapon>(weapon).render(renderer, state);
@@ -295,14 +279,14 @@ Rect Lucio::getcollisionrect(Gamestate &state)
 {
     if (crouchanim.active())
     {
-        return state.engine.maskloader.get_rect_from_json(herofolder()+"crouch/").offset(x, y);
+        return state.engine.maskloader.get_json_rect(herofolder()+"crouch/").offset(x, y);
     }
     return getstandingcollisionrect(state);
 }
 
 Rect Lucio::getstandingcollisionrect(Gamestate &state)
 {
-    return state.engine.maskloader.get_rect_from_json(herofolder()).offset(x, y);
+    return state.engine.maskloader.get_json_rect(herofolder()).offset(x, y);
 }
 
 bool Lucio::canuseweapons(Gamestate &state)
