@@ -28,7 +28,7 @@ void Spriteloader::loadsprite(std::string path, sf::Sprite &sprite)
         texturecache[path] = newtexture;
     }
 
-    sprite.setTexture(texturecache.at(path));
+    sprite.setTexture(texturecache.at(path), true);
 
     std::string fullpath = path + "_sprite.png";
     int x, y;
@@ -58,7 +58,7 @@ void Spriteloader::loadspriteoutline(std::string path, sf::Sprite &sprite)
         texturecache[outlinepath] = newtexture;
     }
 
-    sprite.setTexture(texturecache.at(outlinepath));
+    sprite.setTexture(texturecache.at(outlinepath), true);
 
     std::string fullpath = outlinepath + "_sprite.png";
     int x, y;

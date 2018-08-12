@@ -116,15 +116,15 @@ void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myse
 
         window.clear();
         sf::Sprite sprite;
-        sprite.setTexture(background.getTexture());
+        sprite.setTexture(background.getTexture(), true);
         window.draw(sprite);
-        sprite.setTexture(midground.getTexture());
+        sprite.setTexture(midground.getTexture(), true);
         window.draw(sprite);
-        sprite.setTexture(foreground.getTexture());
+        sprite.setTexture(foreground.getTexture(), true);
         window.draw(sprite);
-        sprite.setTexture(surfaceground.getTexture());
+        sprite.setTexture(surfaceground.getTexture(), true);
         window.draw(sprite);
-        sprite.setTexture(hudground.getTexture());
+        sprite.setTexture(hudground.getTexture(), true);
         window.draw(sprite);
     }
     window.display();
