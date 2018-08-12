@@ -102,6 +102,10 @@ void InputCatcher::run(sf::RenderWindow &window, Gamestate &state, Networker &ne
                         newclass = LUCIO;
                         break;
 
+                    case sf::Keyboard::Num4:
+                        newclass = SOLDIER76;
+                        break;
+
                     default:
                         break;
                 }

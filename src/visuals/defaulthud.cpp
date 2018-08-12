@@ -30,6 +30,10 @@ void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
         {
             luciohud(renderer, state, static_cast<Lucio&>(character));
         }
+        else if (myself.heroclass == SOLDIER76)
+        {
+            soldier76hud(renderer, state, static_cast<Soldier76&>(character));
+        }
 
         renderhealthbar(renderer, state, character);
 
@@ -355,6 +359,11 @@ void DefaultHud::luciohud(Renderer &renderer, Gamestate &state, Lucio &myself)
                                      abilities_y, emptytimer, false);
     }
 
+}
+
+void DefaultHud::soldier76hud(Renderer &renderer, Gamestate &state, Soldier76 &myself)
+{
+    // TODO
 }
 
 double DefaultHud::renderability(Renderer &renderer, std::string spritename, double x, double y, Timer cooldown,

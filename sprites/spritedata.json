@@ -2407,6 +2407,670 @@
         17.0,
         34.0
     ],
+    "heroes/soldier76/ number of frames": 0,
+    "heroes/soldier76/arm/ number of frames": 1,
+    "heroes/soldier76/arm/1_sprite.png": [
+        12.0,
+        -3.0
+    ],
+    "heroes/soldier76/armdisabled/ number of frames": 2,
+    "heroes/soldier76/armdisabled/1_sprite.png": [
+        12.0,
+        -3.0
+    ],
+    "heroes/soldier76/armdisabled/2_sprite.png": [
+        12.0,
+        -5.0
+    ],
+    "heroes/soldier76/backarm/ number of frames": 1,
+    "heroes/soldier76/backarm/1_sprite.png": [
+        -1.0,
+        -6.0
+    ],
+    "heroes/soldier76/corpse/ number of frames": 1,
+    "heroes/soldier76/corpse/1_sprite.png": [
+        21.0,
+        -26.0
+    ],
+    "heroes/soldier76/crouch/ number of frames": 1,
+    "heroes/soldier76/crouch/1_sprite.png": [
+        11.0,
+        -2.0
+    ],
+    "heroes/soldier76/crouchwalk/ number of frames": 8,
+    "heroes/soldier76/crouchwalk/1_sprite.png": [
+        16.0,
+        -2.0
+    ],
+    "heroes/soldier76/crouchwalk/2_sprite.png": [
+        11.0,
+        -2.0
+    ],
+    "heroes/soldier76/crouchwalk/3_sprite.png": [
+        11.0,
+        -1.0
+    ],
+    "heroes/soldier76/crouchwalk/4_sprite.png": [
+        13.0,
+        -1.0
+    ],
+    "heroes/soldier76/crouchwalk/5_sprite.png": [
+        17.0,
+        -2.0
+    ],
+    "heroes/soldier76/crouchwalk/6_sprite.png": [
+        11.0,
+        -2.0
+    ],
+    "heroes/soldier76/crouchwalk/7_sprite.png": [
+        11.0,
+        -1.0
+    ],
+    "heroes/soldier76/crouchwalk/8_sprite.png": [
+        12.0,
+        -1.0
+    ],
+    "heroes/soldier76/crouchwalkbackwards/ number of frames": 8,
+    "heroes/soldier76/crouchwalkbackwards/1_sprite.png": [
+        16.0,
+        -2.0
+    ],
+    "heroes/soldier76/crouchwalkbackwards/2_sprite.png": [
+        12.0,
+        -1.0
+    ],
+    "heroes/soldier76/crouchwalkbackwards/3_sprite.png": [
+        11.0,
+        -1.0
+    ],
+    "heroes/soldier76/crouchwalkbackwards/4_sprite.png": [
+        11.0,
+        -2.0
+    ],
+    "heroes/soldier76/crouchwalkbackwards/5_sprite.png": [
+        17.0,
+        -2.0
+    ],
+    "heroes/soldier76/crouchwalkbackwards/6_sprite.png": [
+        13.0,
+        -1.0
+    ],
+    "heroes/soldier76/crouchwalkbackwards/7_sprite.png": [
+        11.0,
+        -1.0
+    ],
+    "heroes/soldier76/crouchwalkbackwards/8_sprite.png": [
+        11.0,
+        -2.0
+    ],
+    "heroes/soldier76/firing/ number of frames": 2,
+    "heroes/soldier76/firing/1_sprite.png": [
+        13.0,
+        -1.0
+    ],
+    "heroes/soldier76/firing/2_sprite.png": [
+        12.0,
+        -2.0
+    ],
+    "heroes/soldier76/firingbackarm/ number of frames": 2,
+    "heroes/soldier76/firingbackarm/1_sprite.png": [
+        -1.0,
+        -6.0
+    ],
+    "heroes/soldier76/firingbackarm/2_sprite.png": [
+        -1.0,
+        -6.0
+    ],
+    "heroes/soldier76/getup/ number of frames": 11,
+    "heroes/soldier76/getup/10_sprite.png": [
+        9.0,
+        2.0
+    ],
+    "heroes/soldier76/getup/11_sprite.png": [
+        12.0,
+        6.0
+    ],
+    "heroes/soldier76/getup/1_sprite.png": [
+        20.0,
+        -24.0
+    ],
+    "heroes/soldier76/getup/2_sprite.png": [
+        17.0,
+        -19.0
+    ],
+    "heroes/soldier76/getup/3_sprite.png": [
+        14.0,
+        -14.0
+    ],
+    "heroes/soldier76/getup/4_sprite.png": [
+        13.0,
+        -13.0
+    ],
+    "heroes/soldier76/getup/5_sprite.png": [
+        13.0,
+        -13.0
+    ],
+    "heroes/soldier76/getup/6_sprite.png": [
+        12.0,
+        -13.0
+    ],
+    "heroes/soldier76/getup/7_sprite.png": [
+        13.0,
+        -12.0
+    ],
+    "heroes/soldier76/getup/8_sprite.png": [
+        12.0,
+        -10.0
+    ],
+    "heroes/soldier76/getup/9_sprite.png": [
+        9.0,
+        -3.0
+    ],
+    "heroes/soldier76/healbackarm/ number of frames": 6,
+    "heroes/soldier76/healbackarm/1_sprite.png": [
+        -1.0,
+        0.0
+    ],
+    "heroes/soldier76/healbackarm/2_sprite.png": [
+        -1.0,
+        0.0
+    ],
+    "heroes/soldier76/healbackarm/3_sprite.png": [
+        -1.0,
+        0.0
+    ],
+    "heroes/soldier76/healbackarm/4_sprite.png": [
+        -1.0,
+        1.0
+    ],
+    "heroes/soldier76/healbackarm/5_sprite.png": [
+        -1.0,
+        0.0
+    ],
+    "heroes/soldier76/healbackarm/6_sprite.png": [
+        -1.0,
+        0.0
+    ],
+    "heroes/soldier76/healdeploy/ number of frames": 2,
+    "heroes/soldier76/healdeploy/1_sprite.png": [
+        1.0,
+        0.0
+    ],
+    "heroes/soldier76/healdeploy/2_sprite.png": [
+        2.0,
+        1.0
+    ],
+    "heroes/soldier76/healloop/ number of frames": 3,
+    "heroes/soldier76/healloop/1_sprite.png": [
+        3.0,
+        29.0
+    ],
+    "heroes/soldier76/healloop/2_sprite.png": [
+        2.0,
+        29.0
+    ],
+    "heroes/soldier76/healloop/3_sprite.png": [
+        2.0,
+        29.0
+    ],
+    "heroes/soldier76/idle/ number of frames": 1,
+    "heroes/soldier76/idle/1_sprite.png": [
+        12.0,
+        7.0
+    ],
+    "heroes/soldier76/jump/ number of frames": 1,
+    "heroes/soldier76/jump/1_sprite.png": [
+        12.0,
+        7.0
+    ],
+    "heroes/soldier76/jumpdrop/ number of frames": 3,
+    "heroes/soldier76/jumpdrop/1_sprite.png": [
+        12.0,
+        7.0
+    ],
+    "heroes/soldier76/jumpdrop/2_sprite.png": [
+        12.0,
+        7.0
+    ],
+    "heroes/soldier76/jumpdrop/3_sprite.png": [
+        12.0,
+        7.0
+    ],
+    "heroes/soldier76/land/ number of frames": 2,
+    "heroes/soldier76/land/1_sprite.png": [
+        11.0,
+        2.0
+    ],
+    "heroes/soldier76/land/2_sprite.png": [
+        12.0,
+        5.0
+    ],
+    "heroes/soldier76/pinnedbackward/ number of frames": 2,
+    "heroes/soldier76/pinnedbackward/1_sprite.png": [
+        12.0,
+        3.0
+    ],
+    "heroes/soldier76/pinnedbackward/2_sprite.png": [
+        11.0,
+        3.0
+    ],
+    "heroes/soldier76/pinnedforward/ number of frames": 2,
+    "heroes/soldier76/pinnedforward/1_sprite.png": [
+        10.0,
+        3.0
+    ],
+    "heroes/soldier76/pinnedforward/2_sprite.png": [
+        11.0,
+        3.0
+    ],
+    "heroes/soldier76/reload/ number of frames": 15,
+    "heroes/soldier76/reload/10_sprite.png": [
+        12.0,
+        0.0
+    ],
+    "heroes/soldier76/reload/11_sprite.png": [
+        12.0,
+        0.0
+    ],
+    "heroes/soldier76/reload/12_sprite.png": [
+        12.0,
+        -2.0
+    ],
+    "heroes/soldier76/reload/13_sprite.png": [
+        12.0,
+        1.0
+    ],
+    "heroes/soldier76/reload/14_sprite.png": [
+        12.0,
+        -1.0
+    ],
+    "heroes/soldier76/reload/15_sprite.png": [
+        12.0,
+        -3.0
+    ],
+    "heroes/soldier76/reload/1_sprite.png": [
+        12.0,
+        -3.0
+    ],
+    "heroes/soldier76/reload/2_sprite.png": [
+        12.0,
+        -3.0
+    ],
+    "heroes/soldier76/reload/3_sprite.png": [
+        12.0,
+        -2.0
+    ],
+    "heroes/soldier76/reload/4_sprite.png": [
+        12.0,
+        1.0
+    ],
+    "heroes/soldier76/reload/5_sprite.png": [
+        12.0,
+        1.0
+    ],
+    "heroes/soldier76/reload/6_sprite.png": [
+        12.0,
+        2.0
+    ],
+    "heroes/soldier76/reload/7_sprite.png": [
+        12.0,
+        1.0
+    ],
+    "heroes/soldier76/reload/8_sprite.png": [
+        12.0,
+        -1.0
+    ],
+    "heroes/soldier76/reload/9_sprite.png": [
+        12.0,
+        0.0
+    ],
+    "heroes/soldier76/reloadvisor/ number of frames": 8,
+    "heroes/soldier76/reloadvisor/1_sprite.png": [
+        12.0,
+        -3.0
+    ],
+    "heroes/soldier76/reloadvisor/2_sprite.png": [
+        12.0,
+        -3.0
+    ],
+    "heroes/soldier76/reloadvisor/3_sprite.png": [
+        12.0,
+        -2.0
+    ],
+    "heroes/soldier76/reloadvisor/4_sprite.png": [
+        12.0,
+        1.0
+    ],
+    "heroes/soldier76/reloadvisor/5_sprite.png": [
+        12.0,
+        1.0
+    ],
+    "heroes/soldier76/reloadvisor/6_sprite.png": [
+        12.0,
+        0.0
+    ],
+    "heroes/soldier76/reloadvisor/7_sprite.png": [
+        12.0,
+        -3.0
+    ],
+    "heroes/soldier76/reloadvisor/8_sprite.png": [
+        12.0,
+        -3.0
+    ],
+    "heroes/soldier76/rocket_explosion/ number of frames": 9,
+    "heroes/soldier76/rocket_explosion/1_sprite.png": [
+        11.0,
+        11.0
+    ],
+    "heroes/soldier76/rocket_explosion/2_sprite.png": [
+        12.0,
+        12.0
+    ],
+    "heroes/soldier76/rocket_explosion/3_sprite.png": [
+        18.0,
+        18.0
+    ],
+    "heroes/soldier76/rocket_explosion/4_sprite.png": [
+        20.0,
+        20.0
+    ],
+    "heroes/soldier76/rocket_explosion/5_sprite.png": [
+        21.0,
+        21.0
+    ],
+    "heroes/soldier76/rocket_explosion/6_sprite.png": [
+        21.0,
+        21.0
+    ],
+    "heroes/soldier76/rocket_explosion/7_sprite.png": [
+        14.0,
+        16.0
+    ],
+    "heroes/soldier76/rocket_explosion/8_sprite.png": [
+        14.0,
+        16.0
+    ],
+    "heroes/soldier76/rocket_explosion/9_sprite.png": [
+        14.0,
+        15.0
+    ],
+    "heroes/soldier76/rocketbackarm/ number of frames": 2,
+    "heroes/soldier76/rocketbackarm/1_sprite.png": [
+        -1.0,
+        -6.0
+    ],
+    "heroes/soldier76/rocketbackarm/2_sprite.png": [
+        -1.0,
+        -6.0
+    ],
+    "heroes/soldier76/rocketfiring/ number of frames": 2,
+    "heroes/soldier76/rocketfiring/1_sprite.png": [
+        13.0,
+        -1.0
+    ],
+    "heroes/soldier76/rocketfiring/2_sprite.png": [
+        13.0,
+        -2.0
+    ],
+    "heroes/soldier76/rocketprojectile/ number of frames": 3,
+    "heroes/soldier76/rocketprojectile/1_sprite.png": [
+        7.0,
+        1.0
+    ],
+    "heroes/soldier76/rocketprojectile/2_sprite.png": [
+        5.0,
+        1.0
+    ],
+    "heroes/soldier76/rocketprojectile/3_sprite.png": [
+        8.0,
+        1.0
+    ],
+    "heroes/soldier76/run/ number of frames": 8,
+    "heroes/soldier76/run/1_sprite.png": [
+        18.0,
+        7.0
+    ],
+    "heroes/soldier76/run/2_sprite.png": [
+        15.0,
+        6.0
+    ],
+    "heroes/soldier76/run/3_sprite.png": [
+        11.0,
+        7.0
+    ],
+    "heroes/soldier76/run/4_sprite.png": [
+        16.0,
+        8.0
+    ],
+    "heroes/soldier76/run/5_sprite.png": [
+        18.0,
+        7.0
+    ],
+    "heroes/soldier76/run/6_sprite.png": [
+        14.0,
+        6.0
+    ],
+    "heroes/soldier76/run/7_sprite.png": [
+        11.0,
+        7.0
+    ],
+    "heroes/soldier76/run/8_sprite.png": [
+        16.0,
+        8.0
+    ],
+    "heroes/soldier76/runbackwards/ number of frames": 8,
+    "heroes/soldier76/runbackwards/1_sprite.png": [
+        18.0,
+        7.0
+    ],
+    "heroes/soldier76/runbackwards/2_sprite.png": [
+        16.0,
+        8.0
+    ],
+    "heroes/soldier76/runbackwards/3_sprite.png": [
+        12.0,
+        7.0
+    ],
+    "heroes/soldier76/runbackwards/4_sprite.png": [
+        14.0,
+        6.0
+    ],
+    "heroes/soldier76/runbackwards/5_sprite.png": [
+        18.0,
+        7.0
+    ],
+    "heroes/soldier76/runbackwards/6_sprite.png": [
+        16.0,
+        8.0
+    ],
+    "heroes/soldier76/runbackwards/7_sprite.png": [
+        12.0,
+        7.0
+    ],
+    "heroes/soldier76/runbackwards/8_sprite.png": [
+        15.0,
+        6.0
+    ],
+    "heroes/soldier76/sleep/ number of frames": 11,
+    "heroes/soldier76/sleep/10_sprite.png": [
+        19.0,
+        -18.0
+    ],
+    "heroes/soldier76/sleep/11_sprite.png": [
+        24.0,
+        -26.0
+    ],
+    "heroes/soldier76/sleep/1_sprite.png": [
+        13.0,
+        7.0
+    ],
+    "heroes/soldier76/sleep/2_sprite.png": [
+        14.0,
+        6.0
+    ],
+    "heroes/soldier76/sleep/3_sprite.png": [
+        15.0,
+        6.0
+    ],
+    "heroes/soldier76/sleep/4_sprite.png": [
+        15.0,
+        6.0
+    ],
+    "heroes/soldier76/sleep/5_sprite.png": [
+        15.0,
+        6.0
+    ],
+    "heroes/soldier76/sleep/6_sprite.png": [
+        15.0,
+        6.0
+    ],
+    "heroes/soldier76/sleep/7_sprite.png": [
+        17.0,
+        2.0
+    ],
+    "heroes/soldier76/sleep/8_sprite.png": [
+        16.0,
+        2.0
+    ],
+    "heroes/soldier76/sleep/9_sprite.png": [
+        17.0,
+        -11.0
+    ],
+    "heroes/soldier76/sprint/ number of frames": 8,
+    "heroes/soldier76/sprint/1_sprite.png": [
+        18.0,
+        1.0
+    ],
+    "heroes/soldier76/sprint/2_sprite.png": [
+        17.0,
+        0.0
+    ],
+    "heroes/soldier76/sprint/3_sprite.png": [
+        10.0,
+        0.0
+    ],
+    "heroes/soldier76/sprint/4_sprite.png": [
+        12.0,
+        1.0
+    ],
+    "heroes/soldier76/sprint/5_sprite.png": [
+        17.0,
+        2.0
+    ],
+    "heroes/soldier76/sprint/6_sprite.png": [
+        16.0,
+        1.0
+    ],
+    "heroes/soldier76/sprint/7_sprite.png": [
+        9.0,
+        0.0
+    ],
+    "heroes/soldier76/sprint/8_sprite.png": [
+        13.0,
+        1.0
+    ],
+    "heroes/soldier76/sprintjump/ number of frames": 1,
+    "heroes/soldier76/sprintjump/1_sprite.png": [
+        13.0,
+        3.0
+    ],
+    "heroes/soldier76/sprintstart/ number of frames": 2,
+    "heroes/soldier76/sprintstart/1_sprite.png": [
+        10.0,
+        6.0
+    ],
+    "heroes/soldier76/sprintstart/2_sprite.png": [
+        15.0,
+        2.0
+    ],
+    "heroes/soldier76/stun/ number of frames": 7,
+    "heroes/soldier76/stun/1_sprite.png": [
+        11.0,
+        5.0
+    ],
+    "heroes/soldier76/stun/2_sprite.png": [
+        15.0,
+        6.0
+    ],
+    "heroes/soldier76/stun/3_sprite.png": [
+        14.0,
+        7.0
+    ],
+    "heroes/soldier76/stun/4_sprite.png": [
+        13.0,
+        7.0
+    ],
+    "heroes/soldier76/stun/5_sprite.png": [
+        13.0,
+        7.0
+    ],
+    "heroes/soldier76/stun/6_sprite.png": [
+        11.0,
+        6.0
+    ],
+    "heroes/soldier76/stun/7_sprite.png": [
+        11.0,
+        6.0
+    ],
+    "heroes/soldier76/ultbackarm/ number of frames": 9,
+    "heroes/soldier76/ultbackarm/1_sprite.png": [
+        -1.0,
+        0.0
+    ],
+    "heroes/soldier76/ultbackarm/2_sprite.png": [
+        -1.0,
+        0.0
+    ],
+    "heroes/soldier76/ultbackarm/3_sprite.png": [
+        0.0,
+        3.0
+    ],
+    "heroes/soldier76/ultbackarm/4_sprite.png": [
+        -1.0,
+        5.0
+    ],
+    "heroes/soldier76/ultbackarm/5_sprite.png": [
+        1.0,
+        6.0
+    ],
+    "heroes/soldier76/ultbackarm/6_sprite.png": [
+        1.0,
+        5.0
+    ],
+    "heroes/soldier76/ultbackarm/7_sprite.png": [
+        0.0,
+        5.0
+    ],
+    "heroes/soldier76/ultbackarm/8_sprite.png": [
+        0.0,
+        3.0
+    ],
+    "heroes/soldier76/ultbackarm/9_sprite.png": [
+        -1.0,
+        0.0
+    ],
+    "heroes/soldier76/ultreticle/ number of frames": 1,
+    "heroes/soldier76/ultreticle/1_sprite.png": [
+        30.0,
+        30.0
+    ],
+    "heroes/soldier76/ultvisorstart/ number of frames": 4,
+    "heroes/soldier76/ultvisorstart/1_sprite.png": [
+        -5.0,
+        6.0
+    ],
+    "heroes/soldier76/ultvisorstart/2_sprite.png": [
+        -4.0,
+        6.0
+    ],
+    "heroes/soldier76/ultvisorstart/3_sprite.png": [
+        -3.0,
+        6.0
+    ],
+    "heroes/soldier76/ultvisorstart/4_sprite.png": [
+        -2.0,
+        6.0
+    ],
     "particles/ number of frames": 0,
     "particles/healing/ number of frames": 6,
     "particles/healing/1_sprite.png": [
@@ -2474,670 +3138,6 @@
     "particles/speedboost/5_sprite.png": [
         8.0,
         0.5
-    ],
-    "soldier76/ number of frames": 0,
-    "soldier76/arm/ number of frames": 1,
-    "soldier76/arm/1_sprite.png": [
-        12.0,
-        -3.0
-    ],
-    "soldier76/armdisabled/ number of frames": 2,
-    "soldier76/armdisabled/1_sprite.png": [
-        12.0,
-        -3.0
-    ],
-    "soldier76/armdisabled/2_sprite.png": [
-        12.0,
-        -5.0
-    ],
-    "soldier76/backarm/ number of frames": 1,
-    "soldier76/backarm/1_sprite.png": [
-        -1.0,
-        -6.0
-    ],
-    "soldier76/corpse/ number of frames": 1,
-    "soldier76/corpse/1_sprite.png": [
-        21.0,
-        -26.0
-    ],
-    "soldier76/crouch/ number of frames": 1,
-    "soldier76/crouch/1_sprite.png": [
-        11.0,
-        -2.0
-    ],
-    "soldier76/crouchwalk/ number of frames": 8,
-    "soldier76/crouchwalk/1_sprite.png": [
-        16.0,
-        -2.0
-    ],
-    "soldier76/crouchwalk/2_sprite.png": [
-        11.0,
-        -2.0
-    ],
-    "soldier76/crouchwalk/3_sprite.png": [
-        11.0,
-        -1.0
-    ],
-    "soldier76/crouchwalk/4_sprite.png": [
-        13.0,
-        -1.0
-    ],
-    "soldier76/crouchwalk/5_sprite.png": [
-        17.0,
-        -2.0
-    ],
-    "soldier76/crouchwalk/6_sprite.png": [
-        11.0,
-        -2.0
-    ],
-    "soldier76/crouchwalk/7_sprite.png": [
-        11.0,
-        -1.0
-    ],
-    "soldier76/crouchwalk/8_sprite.png": [
-        12.0,
-        -1.0
-    ],
-    "soldier76/crouchwalkbackwards/ number of frames": 8,
-    "soldier76/crouchwalkbackwards/1_sprite.png": [
-        16.0,
-        -2.0
-    ],
-    "soldier76/crouchwalkbackwards/2_sprite.png": [
-        12.0,
-        -1.0
-    ],
-    "soldier76/crouchwalkbackwards/3_sprite.png": [
-        11.0,
-        -1.0
-    ],
-    "soldier76/crouchwalkbackwards/4_sprite.png": [
-        11.0,
-        -2.0
-    ],
-    "soldier76/crouchwalkbackwards/5_sprite.png": [
-        17.0,
-        -2.0
-    ],
-    "soldier76/crouchwalkbackwards/6_sprite.png": [
-        13.0,
-        -1.0
-    ],
-    "soldier76/crouchwalkbackwards/7_sprite.png": [
-        11.0,
-        -1.0
-    ],
-    "soldier76/crouchwalkbackwards/8_sprite.png": [
-        11.0,
-        -2.0
-    ],
-    "soldier76/firing/ number of frames": 2,
-    "soldier76/firing/1_sprite.png": [
-        13.0,
-        -1.0
-    ],
-    "soldier76/firing/2_sprite.png": [
-        12.0,
-        -2.0
-    ],
-    "soldier76/firingbackarm/ number of frames": 2,
-    "soldier76/firingbackarm/1_sprite.png": [
-        -1.0,
-        -6.0
-    ],
-    "soldier76/firingbackarm/2_sprite.png": [
-        -1.0,
-        -6.0
-    ],
-    "soldier76/getup/ number of frames": 11,
-    "soldier76/getup/10_sprite.png": [
-        9.0,
-        2.0
-    ],
-    "soldier76/getup/11_sprite.png": [
-        12.0,
-        6.0
-    ],
-    "soldier76/getup/1_sprite.png": [
-        20.0,
-        -24.0
-    ],
-    "soldier76/getup/2_sprite.png": [
-        17.0,
-        -19.0
-    ],
-    "soldier76/getup/3_sprite.png": [
-        14.0,
-        -14.0
-    ],
-    "soldier76/getup/4_sprite.png": [
-        13.0,
-        -13.0
-    ],
-    "soldier76/getup/5_sprite.png": [
-        13.0,
-        -13.0
-    ],
-    "soldier76/getup/6_sprite.png": [
-        12.0,
-        -13.0
-    ],
-    "soldier76/getup/7_sprite.png": [
-        13.0,
-        -12.0
-    ],
-    "soldier76/getup/8_sprite.png": [
-        12.0,
-        -10.0
-    ],
-    "soldier76/getup/9_sprite.png": [
-        9.0,
-        -3.0
-    ],
-    "soldier76/healbackarm/ number of frames": 6,
-    "soldier76/healbackarm/1_sprite.png": [
-        -1.0,
-        0.0
-    ],
-    "soldier76/healbackarm/2_sprite.png": [
-        -1.0,
-        0.0
-    ],
-    "soldier76/healbackarm/3_sprite.png": [
-        -1.0,
-        0.0
-    ],
-    "soldier76/healbackarm/4_sprite.png": [
-        -1.0,
-        1.0
-    ],
-    "soldier76/healbackarm/5_sprite.png": [
-        -1.0,
-        0.0
-    ],
-    "soldier76/healbackarm/6_sprite.png": [
-        -1.0,
-        0.0
-    ],
-    "soldier76/healdeploy/ number of frames": 2,
-    "soldier76/healdeploy/1_sprite.png": [
-        1.0,
-        0.0
-    ],
-    "soldier76/healdeploy/2_sprite.png": [
-        2.0,
-        1.0
-    ],
-    "soldier76/healloop/ number of frames": 3,
-    "soldier76/healloop/1_sprite.png": [
-        3.0,
-        29.0
-    ],
-    "soldier76/healloop/2_sprite.png": [
-        2.0,
-        29.0
-    ],
-    "soldier76/healloop/3_sprite.png": [
-        2.0,
-        29.0
-    ],
-    "soldier76/idle/ number of frames": 1,
-    "soldier76/idle/1_sprite.png": [
-        12.0,
-        7.0
-    ],
-    "soldier76/jump/ number of frames": 1,
-    "soldier76/jump/1_sprite.png": [
-        12.0,
-        7.0
-    ],
-    "soldier76/jumpdrop/ number of frames": 3,
-    "soldier76/jumpdrop/1_sprite.png": [
-        12.0,
-        7.0
-    ],
-    "soldier76/jumpdrop/2_sprite.png": [
-        12.0,
-        7.0
-    ],
-    "soldier76/jumpdrop/3_sprite.png": [
-        12.0,
-        7.0
-    ],
-    "soldier76/land/ number of frames": 2,
-    "soldier76/land/1_sprite.png": [
-        11.0,
-        2.0
-    ],
-    "soldier76/land/2_sprite.png": [
-        12.0,
-        5.0
-    ],
-    "soldier76/pinnedbackward/ number of frames": 2,
-    "soldier76/pinnedbackward/1_sprite.png": [
-        12.0,
-        3.0
-    ],
-    "soldier76/pinnedbackward/2_sprite.png": [
-        11.0,
-        3.0
-    ],
-    "soldier76/pinnedforward/ number of frames": 2,
-    "soldier76/pinnedforward/1_sprite.png": [
-        10.0,
-        3.0
-    ],
-    "soldier76/pinnedforward/2_sprite.png": [
-        11.0,
-        3.0
-    ],
-    "soldier76/reload/ number of frames": 15,
-    "soldier76/reload/10_sprite.png": [
-        12.0,
-        0.0
-    ],
-    "soldier76/reload/11_sprite.png": [
-        12.0,
-        0.0
-    ],
-    "soldier76/reload/12_sprite.png": [
-        12.0,
-        -2.0
-    ],
-    "soldier76/reload/13_sprite.png": [
-        12.0,
-        1.0
-    ],
-    "soldier76/reload/14_sprite.png": [
-        12.0,
-        -1.0
-    ],
-    "soldier76/reload/15_sprite.png": [
-        12.0,
-        -3.0
-    ],
-    "soldier76/reload/1_sprite.png": [
-        12.0,
-        -3.0
-    ],
-    "soldier76/reload/2_sprite.png": [
-        12.0,
-        -3.0
-    ],
-    "soldier76/reload/3_sprite.png": [
-        12.0,
-        -2.0
-    ],
-    "soldier76/reload/4_sprite.png": [
-        12.0,
-        1.0
-    ],
-    "soldier76/reload/5_sprite.png": [
-        12.0,
-        1.0
-    ],
-    "soldier76/reload/6_sprite.png": [
-        12.0,
-        2.0
-    ],
-    "soldier76/reload/7_sprite.png": [
-        12.0,
-        1.0
-    ],
-    "soldier76/reload/8_sprite.png": [
-        12.0,
-        -1.0
-    ],
-    "soldier76/reload/9_sprite.png": [
-        12.0,
-        0.0
-    ],
-    "soldier76/reloadvisor/ number of frames": 8,
-    "soldier76/reloadvisor/1_sprite.png": [
-        12.0,
-        -3.0
-    ],
-    "soldier76/reloadvisor/2_sprite.png": [
-        12.0,
-        -3.0
-    ],
-    "soldier76/reloadvisor/3_sprite.png": [
-        12.0,
-        -2.0
-    ],
-    "soldier76/reloadvisor/4_sprite.png": [
-        12.0,
-        1.0
-    ],
-    "soldier76/reloadvisor/5_sprite.png": [
-        12.0,
-        1.0
-    ],
-    "soldier76/reloadvisor/6_sprite.png": [
-        12.0,
-        0.0
-    ],
-    "soldier76/reloadvisor/7_sprite.png": [
-        12.0,
-        -3.0
-    ],
-    "soldier76/reloadvisor/8_sprite.png": [
-        12.0,
-        -3.0
-    ],
-    "soldier76/rocket_explosion/ number of frames": 9,
-    "soldier76/rocket_explosion/1_sprite.png": [
-        11.0,
-        11.0
-    ],
-    "soldier76/rocket_explosion/2_sprite.png": [
-        12.0,
-        12.0
-    ],
-    "soldier76/rocket_explosion/3_sprite.png": [
-        18.0,
-        18.0
-    ],
-    "soldier76/rocket_explosion/4_sprite.png": [
-        20.0,
-        20.0
-    ],
-    "soldier76/rocket_explosion/5_sprite.png": [
-        21.0,
-        21.0
-    ],
-    "soldier76/rocket_explosion/6_sprite.png": [
-        21.0,
-        21.0
-    ],
-    "soldier76/rocket_explosion/7_sprite.png": [
-        14.0,
-        16.0
-    ],
-    "soldier76/rocket_explosion/8_sprite.png": [
-        14.0,
-        16.0
-    ],
-    "soldier76/rocket_explosion/9_sprite.png": [
-        14.0,
-        15.0
-    ],
-    "soldier76/rocketbackarm/ number of frames": 2,
-    "soldier76/rocketbackarm/1_sprite.png": [
-        -1.0,
-        -6.0
-    ],
-    "soldier76/rocketbackarm/2_sprite.png": [
-        -1.0,
-        -6.0
-    ],
-    "soldier76/rocketfiring/ number of frames": 2,
-    "soldier76/rocketfiring/1_sprite.png": [
-        13.0,
-        -1.0
-    ],
-    "soldier76/rocketfiring/2_sprite.png": [
-        13.0,
-        -2.0
-    ],
-    "soldier76/rocketprojectile/ number of frames": 3,
-    "soldier76/rocketprojectile/1_sprite.png": [
-        7.0,
-        1.0
-    ],
-    "soldier76/rocketprojectile/2_sprite.png": [
-        5.0,
-        1.0
-    ],
-    "soldier76/rocketprojectile/3_sprite.png": [
-        8.0,
-        1.0
-    ],
-    "soldier76/run/ number of frames": 8,
-    "soldier76/run/1_sprite.png": [
-        18.0,
-        7.0
-    ],
-    "soldier76/run/2_sprite.png": [
-        15.0,
-        6.0
-    ],
-    "soldier76/run/3_sprite.png": [
-        11.0,
-        7.0
-    ],
-    "soldier76/run/4_sprite.png": [
-        16.0,
-        8.0
-    ],
-    "soldier76/run/5_sprite.png": [
-        18.0,
-        7.0
-    ],
-    "soldier76/run/6_sprite.png": [
-        14.0,
-        6.0
-    ],
-    "soldier76/run/7_sprite.png": [
-        11.0,
-        7.0
-    ],
-    "soldier76/run/8_sprite.png": [
-        16.0,
-        8.0
-    ],
-    "soldier76/runbackwards/ number of frames": 8,
-    "soldier76/runbackwards/1_sprite.png": [
-        18.0,
-        7.0
-    ],
-    "soldier76/runbackwards/2_sprite.png": [
-        16.0,
-        8.0
-    ],
-    "soldier76/runbackwards/3_sprite.png": [
-        12.0,
-        7.0
-    ],
-    "soldier76/runbackwards/4_sprite.png": [
-        14.0,
-        6.0
-    ],
-    "soldier76/runbackwards/5_sprite.png": [
-        18.0,
-        7.0
-    ],
-    "soldier76/runbackwards/6_sprite.png": [
-        16.0,
-        8.0
-    ],
-    "soldier76/runbackwards/7_sprite.png": [
-        12.0,
-        7.0
-    ],
-    "soldier76/runbackwards/8_sprite.png": [
-        15.0,
-        6.0
-    ],
-    "soldier76/sleep/ number of frames": 11,
-    "soldier76/sleep/10_sprite.png": [
-        19.0,
-        -18.0
-    ],
-    "soldier76/sleep/11_sprite.png": [
-        24.0,
-        -26.0
-    ],
-    "soldier76/sleep/1_sprite.png": [
-        13.0,
-        7.0
-    ],
-    "soldier76/sleep/2_sprite.png": [
-        14.0,
-        6.0
-    ],
-    "soldier76/sleep/3_sprite.png": [
-        15.0,
-        6.0
-    ],
-    "soldier76/sleep/4_sprite.png": [
-        15.0,
-        6.0
-    ],
-    "soldier76/sleep/5_sprite.png": [
-        15.0,
-        6.0
-    ],
-    "soldier76/sleep/6_sprite.png": [
-        15.0,
-        6.0
-    ],
-    "soldier76/sleep/7_sprite.png": [
-        17.0,
-        2.0
-    ],
-    "soldier76/sleep/8_sprite.png": [
-        16.0,
-        2.0
-    ],
-    "soldier76/sleep/9_sprite.png": [
-        17.0,
-        -11.0
-    ],
-    "soldier76/sprint/ number of frames": 8,
-    "soldier76/sprint/1_sprite.png": [
-        18.0,
-        1.0
-    ],
-    "soldier76/sprint/2_sprite.png": [
-        17.0,
-        0.0
-    ],
-    "soldier76/sprint/3_sprite.png": [
-        10.0,
-        0.0
-    ],
-    "soldier76/sprint/4_sprite.png": [
-        12.0,
-        1.0
-    ],
-    "soldier76/sprint/5_sprite.png": [
-        17.0,
-        2.0
-    ],
-    "soldier76/sprint/6_sprite.png": [
-        16.0,
-        1.0
-    ],
-    "soldier76/sprint/7_sprite.png": [
-        9.0,
-        0.0
-    ],
-    "soldier76/sprint/8_sprite.png": [
-        13.0,
-        1.0
-    ],
-    "soldier76/sprintjump/ number of frames": 1,
-    "soldier76/sprintjump/1_sprite.png": [
-        13.0,
-        3.0
-    ],
-    "soldier76/sprintstart/ number of frames": 2,
-    "soldier76/sprintstart/1_sprite.png": [
-        10.0,
-        6.0
-    ],
-    "soldier76/sprintstart/2_sprite.png": [
-        15.0,
-        2.0
-    ],
-    "soldier76/stun/ number of frames": 7,
-    "soldier76/stun/1_sprite.png": [
-        11.0,
-        5.0
-    ],
-    "soldier76/stun/2_sprite.png": [
-        15.0,
-        6.0
-    ],
-    "soldier76/stun/3_sprite.png": [
-        14.0,
-        7.0
-    ],
-    "soldier76/stun/4_sprite.png": [
-        13.0,
-        7.0
-    ],
-    "soldier76/stun/5_sprite.png": [
-        13.0,
-        7.0
-    ],
-    "soldier76/stun/6_sprite.png": [
-        11.0,
-        6.0
-    ],
-    "soldier76/stun/7_sprite.png": [
-        11.0,
-        6.0
-    ],
-    "soldier76/ultbackarm/ number of frames": 9,
-    "soldier76/ultbackarm/1_sprite.png": [
-        -1.0,
-        0.0
-    ],
-    "soldier76/ultbackarm/2_sprite.png": [
-        -1.0,
-        0.0
-    ],
-    "soldier76/ultbackarm/3_sprite.png": [
-        0.0,
-        3.0
-    ],
-    "soldier76/ultbackarm/4_sprite.png": [
-        -1.0,
-        5.0
-    ],
-    "soldier76/ultbackarm/5_sprite.png": [
-        1.0,
-        6.0
-    ],
-    "soldier76/ultbackarm/6_sprite.png": [
-        1.0,
-        5.0
-    ],
-    "soldier76/ultbackarm/7_sprite.png": [
-        0.0,
-        5.0
-    ],
-    "soldier76/ultbackarm/8_sprite.png": [
-        0.0,
-        3.0
-    ],
-    "soldier76/ultbackarm/9_sprite.png": [
-        -1.0,
-        0.0
-    ],
-    "soldier76/ultreticle/ number of frames": 1,
-    "soldier76/ultreticle/1_sprite.png": [
-        30.0,
-        30.0
-    ],
-    "soldier76/ultvisorstart/ number of frames": 4,
-    "soldier76/ultvisorstart/1_sprite.png": [
-        -5.0,
-        6.0
-    ],
-    "soldier76/ultvisorstart/2_sprite.png": [
-        -4.0,
-        6.0
-    ],
-    "soldier76/ultvisorstart/3_sprite.png": [
-        -3.0,
-        6.0
-    ],
-    "soldier76/ultvisorstart/4_sprite.png": [
-        -2.0,
-        6.0
     ],
     "ui/ number of frames": 0,
     "ui/Logo/ number of frames": 2,

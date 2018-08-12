@@ -146,6 +146,9 @@
 		<Unit filename="/home/orpheon/Programming/Vanguard/src/ingameelements/heroes/reinhardt.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
+		<Unit filename="/home/orpheon/Programming/Vanguard/src/ingameelements/heroes/soldier76.cpp">
+			<Option target="Vanguard"/>
+		</Unit>
 		<Unit filename="/home/orpheon/Programming/Vanguard/src/ingameelements/map.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
@@ -183,6 +186,9 @@
 			<Option target="Vanguard"/>
 		</Unit>
 		<Unit filename="/home/orpheon/Programming/Vanguard/src/ingameelements/weapons/peacemaker.cpp">
+			<Option target="Vanguard"/>
+		</Unit>
+		<Unit filename="/home/orpheon/Programming/Vanguard/src/ingameelements/weapons/pulserifle.cpp">
 			<Option target="Vanguard"/>
 		</Unit>
 		<Unit filename="/home/orpheon/Programming/Vanguard/src/ingameelements/weapons/reinhardtshield.cpp">

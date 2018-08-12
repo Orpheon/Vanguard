@@ -4,6 +4,7 @@
 #include "ingameelements/heroes/mccree.h"
 #include "ingameelements/heroes/reinhardt.h"
 #include "ingameelements/heroes/lucio.h"
+#include "ingameelements/heroes/soldier76.h"
 
 class DefaultHud : public Hud
 {
@@ -14,6 +15,7 @@ class DefaultHud : public Hud
         void mccreehud(Renderer &renderer, Gamestate &state, Mccree &myself);
         void reinhardthud(Renderer &renderer, Gamestate &state, Reinhardt &myself);
         void luciohud(Renderer &renderer, Gamestate &state, Lucio &myself);
+        void soldier76hud(Renderer &renderer, Gamestate &state, Soldier76 &myself);
         double renderability(Renderer &renderer, std::string spritename, double x, double y, Timer cooldown,
                              bool active);
 

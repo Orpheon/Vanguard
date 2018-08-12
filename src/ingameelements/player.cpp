@@ -5,6 +5,7 @@
 #include "ingameelements/heroes/mccree.h"
 #include "ingameelements/heroes/reinhardt.h"
 #include "ingameelements/heroes/lucio.h"
+#include "ingameelements/heroes/soldier76.h"
 #include "engine.h"
 #include "mapelements/spawnroom.h"
 #include "global.h"
@@ -64,6 +65,10 @@ void Player::beginstep(Gamestate &state, double frametime)
     {
         ultcharge.update(state, frametime/5.25);
     }
+    else if (heroclass == SOLDIER76)
+    {
+        ultcharge.update(state, frametime/4.1);
+    }
     else
     {
         Global::logging().panic(__FILE__, __LINE__, "Hero %i is lacking a passive ultcharge.", heroclass);
@@ -118,6 +123,10 @@ void Player::spawn(Gamestate &state)
     else if (heroclass == LUCIO)
     {
         character = state.make_entity<Lucio>(state, EntityPtr(id));
+    }
+    else if (heroclass == SOLDIER76)
+    {
+        character = state.make_entity<Soldier76>(state, EntityPtr(id));
     }
     else
     {
@@ -234,6 +243,10 @@ void Player::registerdamage(Gamestate &state, double dmg)
     {
         ultcharge.update(state, dmg/27.0);
     }
+    else if (heroclass == SOLDIER76)
+    {
+        ultcharge.update(state, dmg/21.0);
+    }
     else
     {
         Global::logging().panic(__FILE__, __LINE__, "Hero %i is lacking a damage ultcharge implementation.", heroclass);
@@ -245,6 +258,10 @@ void Player::registerhealing(Gamestate &state, double healing)
     if (heroclass == LUCIO)
     {
         ultcharge.update(state, healing/27.0);
+    }
+    else if (heroclass == SOLDIER76)
+    {
+        ultcharge.update(state, healing/20.0);
     }
     else if (heroclass == MCCREE or heroclass == REINHARDT)
     {
