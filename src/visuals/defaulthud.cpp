@@ -207,7 +207,7 @@ void DefaultHud::renderhealthbar(Renderer &renderer, Gamestate &state, Character
             else
             {
                 // TODO:
-                Global::logging().print(__FILE__, __LINE__, "Rendering mixed-health rects is currently not working, don't want to try implementing without being able to test.");
+//                Global::logging().print(__FILE__, __LINE__, "Rendering mixed-health rects is currently not working, don't want to try implementing without being able to test.");
                 // This code below can't work, it only seems to draw the first half without caring about the second
 //                // We need to draw several health types into a single rect
 //                // This is where it gets fun
