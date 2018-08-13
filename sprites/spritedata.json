@@ -2424,8 +2424,8 @@
     ],
     "heroes/soldier76/backarm/ number of frames": 1,
     "heroes/soldier76/backarm/1_sprite.png": [
-        -1.0,
-        -6.0
+        0.0,
+        0.0
     ],
     "heroes/soldier76/corpse/ number of frames": 1,
     "heroes/soldier76/corpse/1_sprite.png": [
@@ -2555,12 +2555,12 @@
     ],
     "heroes/soldier76/firingbackarm/ number of frames": 2,
     "heroes/soldier76/firingbackarm/1_sprite.png": [
-        -1.0,
-        -6.0
+        1.0,
+        0.0
     ],
     "heroes/soldier76/firingbackarm/2_sprite.png": [
-        -1.0,
-        -6.0
+        1.0,
+        0.0
     ],
     "heroes/soldier76/getup/ number of frames": 11,
     "heroes/soldier76/getup/10_sprite.png": [
@@ -2609,28 +2609,28 @@
     ],
     "heroes/soldier76/healbackarm/ number of frames": 6,
     "heroes/soldier76/healbackarm/1_sprite.png": [
-        -1.0,
-        0.0
+        1.0,
+        6.0
     ],
     "heroes/soldier76/healbackarm/2_sprite.png": [
-        -1.0,
-        0.0
+        1.0,
+        6.0
     ],
     "heroes/soldier76/healbackarm/3_sprite.png": [
-        -1.0,
-        0.0
+        1.0,
+        6.0
     ],
     "heroes/soldier76/healbackarm/4_sprite.png": [
-        -1.0,
-        1.0
+        1.0,
+        7.0
     ],
     "heroes/soldier76/healbackarm/5_sprite.png": [
-        -1.0,
-        0.0
+        1.0,
+        6.0
     ],
     "heroes/soldier76/healbackarm/6_sprite.png": [
-        -1.0,
-        0.0
+        1.0,
+        6.0
     ],
     "heroes/soldier76/healdeploy/ number of frames": 2,
     "heroes/soldier76/healdeploy/1_sprite.png": [
@@ -2837,12 +2837,12 @@
     ],
     "heroes/soldier76/rocketbackarm/ number of frames": 2,
     "heroes/soldier76/rocketbackarm/1_sprite.png": [
-        -1.0,
-        -6.0
+        1.0,
+        0.0
     ],
     "heroes/soldier76/rocketbackarm/2_sprite.png": [
-        -1.0,
-        -6.0
+        1.0,
+        0.0
     ],
     "heroes/soldier76/rocketfiring/ number of frames": 2,
     "heroes/soldier76/rocketfiring/1_sprite.png": [
@@ -3015,40 +3015,40 @@
     ],
     "heroes/soldier76/ultbackarm/ number of frames": 9,
     "heroes/soldier76/ultbackarm/1_sprite.png": [
-        -1.0,
-        0.0
-    ],
-    "heroes/soldier76/ultbackarm/2_sprite.png": [
-        -1.0,
-        0.0
-    ],
-    "heroes/soldier76/ultbackarm/3_sprite.png": [
-        0.0,
-        3.0
-    ],
-    "heroes/soldier76/ultbackarm/4_sprite.png": [
-        -1.0,
-        5.0
-    ],
-    "heroes/soldier76/ultbackarm/5_sprite.png": [
         1.0,
         6.0
     ],
-    "heroes/soldier76/ultbackarm/6_sprite.png": [
+    "heroes/soldier76/ultbackarm/2_sprite.png": [
         1.0,
-        5.0
+        6.0
+    ],
+    "heroes/soldier76/ultbackarm/3_sprite.png": [
+        2.0,
+        9.0
+    ],
+    "heroes/soldier76/ultbackarm/4_sprite.png": [
+        1.0,
+        11.0
+    ],
+    "heroes/soldier76/ultbackarm/5_sprite.png": [
+        3.0,
+        12.0
+    ],
+    "heroes/soldier76/ultbackarm/6_sprite.png": [
+        3.0,
+        11.0
     ],
     "heroes/soldier76/ultbackarm/7_sprite.png": [
-        0.0,
-        5.0
+        2.0,
+        11.0
     ],
     "heroes/soldier76/ultbackarm/8_sprite.png": [
-        0.0,
-        3.0
+        2.0,
+        9.0
     ],
     "heroes/soldier76/ultbackarm/9_sprite.png": [
-        -1.0,
-        0.0
+        1.0,
+        6.0
     ],
     "heroes/soldier76/ultreticle/ number of frames": 1,
     "heroes/soldier76/ultreticle/1_sprite.png": [

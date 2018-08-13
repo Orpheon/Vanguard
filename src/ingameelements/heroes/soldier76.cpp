@@ -11,7 +11,7 @@ void Soldier76::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 void Soldier76::render(Renderer &renderer, Gamestate &state)
 {
     Character::render(renderer, state);
-//    state.get<Pulserifle&>(weapon).renderbehind(renderer, state);
+    state.get<Pulserifle&>(weapon).renderbehind(renderer, state);
 
     std::string spritepath;
     sf::Sprite sprite;

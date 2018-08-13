@@ -15,6 +15,32 @@ void Pulserifle::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
     shotspread.init(0.5, false);
 }
 
+void Pulserifle::renderbehind(Renderer &renderer, Gamestate &state)
+{
+    Soldier76 &soldier = state.get<Soldier76&>(state.get<Player&>(owner).character);
+    if (soldier.weaponvisible(state) and not reloadanim.active())
+    {
+        std::string spritepath;
+        if (firinganim.active())
+        {
+            spritepath = soldier.herofolder()+"firingbackarm/"+std::to_string(firinganim.getframe());
+        }
+        else
+        {
+            spritepath = soldier.herofolder()+"backarm/1";
+        }
+
+        sf::Sprite sprite;
+        renderer.spriteloader.loadsprite(spritepath, sprite);
+        sprite.setPosition(x - getbackattachpoint_x(state) * (soldier.isflipped?-1:1), y - getbackattachpoint_y(state));
+        if (soldier.isflipped)
+        {
+            sprite.setScale(-1, 1);
+        }
+        renderer.midground.draw(sprite);
+    }
+}
+
 void Pulserifle::render(Renderer &renderer, Gamestate &state)
 {
     Soldier76 &soldier = state.get<Soldier76&>(state.get<Player&>(owner).character);

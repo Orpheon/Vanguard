@@ -9,6 +9,7 @@ public:
     virtual void init(uint64_t id_, Gamestate &state, EntityPtr owner_) override;
     virtual ~Pulserifle() override = default;
 
+    void renderbehind(Renderer &renderer, Gamestate &state);
     void render(Renderer &renderer, Gamestate &state) override;
     std::unique_ptr<Entity> clone() override {return std::unique_ptr<Entity>(new Pulserifle(*this));}
 
@@ -26,6 +27,8 @@ public:
     std::function<void(Gamestate &state)> getreloadfunction(Gamestate &state) override {return std::bind(&Pulserifle::restoreclip, this, std::placeholders::_1);}
     double getattachpoint_x(Gamestate &state) override {return 0;}
     double getattachpoint_y(Gamestate &state) override {return 0;}
+    double getbackattachpoint_x(Gamestate &state) {return -12;}
+    double getbackattachpoint_y(Gamestate &state) {return 6;}
 
     Timer shotspread;
 
