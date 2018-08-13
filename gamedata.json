@@ -5,6 +5,8 @@
     "heroes/reinhardt/crouch/ rect": [-7, 5, 14, 30],
     "heroes/lucio/ rect": [-7, -4, 14, 39],
     "heroes/lucio/crouch/ rect": [-7, 5, 14, 30],
+    "heroes/soldier76/ rect": [-7, -4, 14, 39],
+    "heroes/soldier76/crouch/ rect": [-7, 5, 14, 30],
 
     "ui/menus/mainmenu/ duration": 2,
     "ui/menus/optionsmenu/ duration": 2,
@@ -70,6 +72,18 @@
     "heroes/lucio/ulteffect/ duration": 0.5,
     "heroes/lucio/soundwave/ duration": 0.5,
 
+    "heroes/soldier76/reload/ duration": 1.5,
+    "heroes/soldier76/run/ duration": 120,
+    "heroes/soldier76/firing/ duration": 0.5,
+    "heroes/soldier76/crouchwalk/ duration": 40,
+    "heroes/soldier76/projectiletrail/ duration": 0.2,
+    "heroes/soldier76/stun/ duration": 0.7,
+    "heroes/soldier76/fallasleep/ duration": 0.7,
+    "heroes/soldier76/sleep/ duration": 0.7,
+    "heroes/soldier76/getup/ duration": 1,
+    "heroes/soldier76/falling/ duration": 45,
+    "heroes/soldier76/pinned/ duration": 1,
+
     "heroes/mccree/idle/1 weapon": [-3, 8],
     "heroes/mccree/run/1 weapon": [-2, 9],
     "heroes/mccree/run/2 weapon": [-2, 10],
@@ -128,5 +142,21 @@
     "heroes/lucio/crouchwalk/3 weapon": [-8, 21],
     "heroes/lucio/crouchwalk/4 weapon": [-8, 21],
     "heroes/lucio/jump/1 weapon": [-10, 10],
-    "heroes/lucio/jumpdrop/1 weapon": [-9, 13]
+    "heroes/lucio/jumpdrop/1 weapon": [-9, 13],
+
+    "heroes/soldier76/idle/1 weapon": [-8, 10],
+    "heroes/soldier76/run/1 weapon": [-5, 11],
+    "heroes/soldier76/run/2 weapon": [-6, 12],
+    "heroes/soldier76/run/3 weapon": [-7, 12],
+    "heroes/soldier76/run/4 weapon": [-8, 11],
+    "heroes/soldier76/run/5 weapon": [-9, 11],
+    "heroes/soldier76/run/6 weapon": [-8, 12],
+    "heroes/soldier76/run/7 weapon": [-7, 12],
+    "heroes/soldier76/run/8 weapon": [-6, 11],
+    "heroes/soldier76/crouchwalk/1 weapon": [-8, 21],
+    "heroes/soldier76/crouchwalk/2 weapon": [-8, 21],
+    "heroes/soldier76/crouchwalk/3 weapon": [-8, 21],
+    "heroes/soldier76/crouchwalk/4 weapon": [-8, 21],
+    "heroes/soldier76/jump/1 weapon": [-10, 10],
+    "heroes/soldier76/jumpdrop/1 weapon": [-9, 13]
 }

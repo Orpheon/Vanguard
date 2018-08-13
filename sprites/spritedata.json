@@ -2503,6 +2503,47 @@
         11.0,
         -2.0
     ],
+    "heroes/soldier76/fallasleep/ number of frames": 10,
+    "heroes/soldier76/fallasleep/10_sprite.png": [
+        19.0,
+        -18.0
+    ],
+    "heroes/soldier76/fallasleep/1_sprite.png": [
+        13.0,
+        7.0
+    ],
+    "heroes/soldier76/fallasleep/2_sprite.png": [
+        14.0,
+        6.0
+    ],
+    "heroes/soldier76/fallasleep/3_sprite.png": [
+        15.0,
+        6.0
+    ],
+    "heroes/soldier76/fallasleep/4_sprite.png": [
+        15.0,
+        6.0
+    ],
+    "heroes/soldier76/fallasleep/5_sprite.png": [
+        15.0,
+        6.0
+    ],
+    "heroes/soldier76/fallasleep/6_sprite.png": [
+        15.0,
+        6.0
+    ],
+    "heroes/soldier76/fallasleep/7_sprite.png": [
+        17.0,
+        2.0
+    ],
+    "heroes/soldier76/fallasleep/8_sprite.png": [
+        16.0,
+        2.0
+    ],
+    "heroes/soldier76/fallasleep/9_sprite.png": [
+        17.0,
+        -11.0
+    ],
     "heroes/soldier76/firing/ number of frames": 2,
     "heroes/soldier76/firing/1_sprite.png": [
         13.0,
@@ -2645,21 +2686,21 @@
         12.0,
         5.0
     ],
+    "heroes/soldier76/pinned/ number of frames": 2,
+    "heroes/soldier76/pinned/1_sprite.png": [
+        10.0,
+        3.0
+    ],
+    "heroes/soldier76/pinned/2_sprite.png": [
+        11.0,
+        3.0
+    ],
     "heroes/soldier76/pinnedbackward/ number of frames": 2,
     "heroes/soldier76/pinnedbackward/1_sprite.png": [
         12.0,
         3.0
     ],
     "heroes/soldier76/pinnedbackward/2_sprite.png": [
-        11.0,
-        3.0
-    ],
-    "heroes/soldier76/pinnedforward/ number of frames": 2,
-    "heroes/soldier76/pinnedforward/1_sprite.png": [
-        10.0,
-        3.0
-    ],
-    "heroes/soldier76/pinnedforward/2_sprite.png": [
         11.0,
         3.0
     ],
@@ -2891,50 +2932,10 @@
         15.0,
         6.0
     ],
-    "heroes/soldier76/sleep/ number of frames": 11,
-    "heroes/soldier76/sleep/10_sprite.png": [
-        19.0,
-        -18.0
-    ],
-    "heroes/soldier76/sleep/11_sprite.png": [
+    "heroes/soldier76/sleep/ number of frames": 1,
+    "heroes/soldier76/sleep/1_sprite.png": [
         24.0,
         -26.0
-    ],
-    "heroes/soldier76/sleep/1_sprite.png": [
-        13.0,
-        7.0
-    ],
-    "heroes/soldier76/sleep/2_sprite.png": [
-        14.0,
-        6.0
-    ],
-    "heroes/soldier76/sleep/3_sprite.png": [
-        15.0,
-        6.0
-    ],
-    "heroes/soldier76/sleep/4_sprite.png": [
-        15.0,
-        6.0
-    ],
-    "heroes/soldier76/sleep/5_sprite.png": [
-        15.0,
-        6.0
-    ],
-    "heroes/soldier76/sleep/6_sprite.png": [
-        15.0,
-        6.0
-    ],
-    "heroes/soldier76/sleep/7_sprite.png": [
-        17.0,
-        2.0
-    ],
-    "heroes/soldier76/sleep/8_sprite.png": [
-        16.0,
-        2.0
-    ],
-    "heroes/soldier76/sleep/9_sprite.png": [
-        17.0,
-        -11.0
     ],
     "heroes/soldier76/sprint/ number of frames": 8,
     "heroes/soldier76/sprint/1_sprite.png": [
