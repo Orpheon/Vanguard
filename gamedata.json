@@ -5,8 +5,8 @@
     "heroes/reinhardt/crouch/ rect": [-7, 5, 14, 30],
     "heroes/lucio/ rect": [-7, -4, 14, 39],
     "heroes/lucio/crouch/ rect": [-7, 5, 14, 30],
-    "heroes/soldier76/ rect": [-7, -4, 14, 39],
-    "heroes/soldier76/crouch/ rect": [-7, 5, 14, 30],
+    "heroes/soldier76/ rect": [-8, -6, 16, 40],
+    "heroes/soldier76/crouch/ rect": [-8, 3, 16, 31],
 
     "ui/menus/mainmenu/ duration": 2,
     "ui/menus/optionsmenu/ duration": 2,
@@ -73,8 +73,8 @@
     "heroes/lucio/soundwave/ duration": 0.5,
 
     "heroes/soldier76/reload/ duration": 1.5,
-    "heroes/soldier76/run/ duration": 120,
-    "heroes/soldier76/firing/ duration": 0.5,
+    "heroes/soldier76/run/ duration": 80,
+    "heroes/soldier76/firing/ duration": 0.11111,
     "heroes/soldier76/crouchwalk/ duration": 40,
     "heroes/soldier76/projectiletrail/ duration": 0.2,
     "heroes/soldier76/stun/ duration": 0.7,
