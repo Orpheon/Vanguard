@@ -19,4 +19,4 @@ static const sf::Color COLOR_SPAWNROOM_OUTLINE(248, 222, 0, 200);
 static const sf::Color COLOR_CP(248, 222, 0);
 static const sf::Color COLOR_MCCREE_LOCKON(253, 58, 58);
 static const sf::Color COLOR_MCCREE_TRAIL(133, 238, 238, 150);
-static const sf::Color COLOR_SOLDIER_TRAIL(133, 238, 238, 150);
+static const sf::Color COLOR_SOLDIER_TRAIL(36, 202, 217, 150);
