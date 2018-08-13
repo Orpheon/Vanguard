@@ -19,6 +19,7 @@ class Peacemaker : public Clipweapon
         void wantfiresecondary(Gamestate &state) override;
         void fireultimate(Gamestate &state);
         void beginstep(Gamestate &state, double frametime) override;
+        void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
         void reload(Gamestate &state) override;
 
         std::string herofolder() override {return "heroes/mccree/";}

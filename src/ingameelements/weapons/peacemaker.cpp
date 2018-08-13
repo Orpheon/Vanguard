@@ -93,6 +93,16 @@ void Peacemaker::beginstep(Gamestate &state, double frametime)
     }
 }
 
+void Peacemaker::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
+{
+    Clipweapon::interpolate(prev_entity, next_entity, alpha);
+
+    Peacemaker &p = static_cast<Peacemaker&>(prev_entity);
+    Peacemaker &n = static_cast<Peacemaker&>(next_entity);
+
+    fthanim.interpolate(p.fthanim, n.fthanim, alpha);
+}
+
 void Peacemaker::reload(Gamestate &state)
 {
     if (clip < getclipsize() and not firinganim.active() and not reloadanim.active() and not isfthing)
