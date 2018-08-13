@@ -11,6 +11,8 @@
 void Pulserifle::init(uint64_t id_, Gamestate &state, EntityPtr owner_)
 {
     Clipweapon::init(id_, state, owner_);
+
+    shotspread.init(0.5, false);
 }
 
 void Pulserifle::render(Renderer &renderer, Gamestate &state)
@@ -50,6 +52,18 @@ void Pulserifle::render(Renderer &renderer, Gamestate &state)
 void Pulserifle::beginstep(Gamestate &state, double frametime)
 {
     Clipweapon::beginstep(state, frametime);
+
+    shotspread.update(state, frametime);
+}
+
+void Pulserifle::interpolate(Entity &prev_entity, Entity &next_entity, double alpha)
+{
+    Clipweapon::interpolate(prev_entity, next_entity, alpha);
+
+    Pulserifle &p = static_cast<Pulserifle&>(prev_entity);
+    Pulserifle &n = static_cast<Pulserifle&>(next_entity);
+
+    shotspread.interpolate(p.shotspread, n.shotspread, alpha);
 }
 
 void Pulserifle::reload(Gamestate &state)
@@ -74,7 +88,16 @@ void Pulserifle::wantfireprimary(Gamestate &state)
 
 void Pulserifle::fireprimary(Gamestate &state)
 {
-    double cosa = std::cos(aimdirection), sina = std::sin(aimdirection);
+    if (not shotspread.active)
+    {
+        shotspread.reset();
+        shotspread.timer = shotspread.duration;
+    }
+    double spread = (2*(rand()/(RAND_MAX+1.0)) - 1)*(1 - shotspread.getpercent())*(MAX_SPREAD * 3.1415/180.0);
+    shotspread.timer = std::max(0.0, shotspread.timer - shotspread.duration / 3.0);
+    Global::logging().print(__FILE__, __LINE__, "Shotspread active: %i and percent: %f", shotspread.active, shotspread.getpercent());
+
+    double cosa = std::cos(aimdirection + spread), sina = std::sin(aimdirection + spread);
     double collisionptx, collisionpty;
     sf::Vector2u mapsize = state.currentmap->size();
     double d = std::hypot(mapsize.x, mapsize.y);

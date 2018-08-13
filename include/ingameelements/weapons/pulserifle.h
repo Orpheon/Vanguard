@@ -18,6 +18,7 @@ public:
     void wantfiresecondary(Gamestate &state) override;
     void fireultimate(Gamestate &state);
     void beginstep(Gamestate &state, double frametime) override;
+    void interpolate(Entity &prev_entity, Entity &next_entity, double alpha) override;
     void reload(Gamestate &state) override;
 
     std::string herofolder() override {return "heroes/soldier76/";}
@@ -26,9 +27,13 @@ public:
     double getattachpoint_x(Gamestate &state) override {return 0;}
     double getattachpoint_y(Gamestate &state) override {return 0;}
 
+    Timer shotspread;
+
 protected:
 private:
     double MAX_DAMAGE = 19;
+    // Max spread in degrees
+    double MAX_SPREAD = 10;
     double FALLOFF_BEGIN = 30*10;
     double FALLOFF_END = 50*20;
 };

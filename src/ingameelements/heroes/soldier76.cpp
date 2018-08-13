@@ -152,6 +152,10 @@ std::string Soldier76::currentsprite(Gamestate &state, bool mask)
     }
     if (crouchanim.active())
     {
+        if (std::fabs(hspeed) < 11.0 and not heldkeys.LEFT and not heldkeys.RIGHT)
+        {
+            return herofolder()+"crouch/1";
+        }
         return crouchanim.getframepath();
     }
     if (not ongroundsmooth.active)
