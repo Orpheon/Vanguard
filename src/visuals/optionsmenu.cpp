@@ -41,13 +41,13 @@ void Optionsmenu::run(sf::RenderWindow &window)
     sf::Vector2u windowsize = window.getSize();
 
     // Draw
-    int WINDOW_WIDTH = windowsize.x;
-    int WINDOW_HEIGHT = windowsize.y;
+    int window_width = windowsize.x;
+    int window_height = windowsize.y;
     sf::Sprite bgsprite;
     spriteloader.loadsprite(background.getframepath(), bgsprite);
     sf::FloatRect size = bgsprite.getLocalBounds();
     bgsprite.setPosition(0, 0);
-    bgsprite.setScale(WINDOW_WIDTH/size.width, WINDOW_HEIGHT/size.height);
+    bgsprite.setScale(window_width/size.width, window_height/size.height);
     bgsprite.setOrigin(0, 0);
     window.draw(bgsprite);
 

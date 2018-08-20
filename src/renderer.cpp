@@ -16,21 +16,19 @@
 #include "visuals/hud.h"
 #include "visuals/defaulthud.h"
 
-Renderer::Renderer() : myself(0), WINDOW_WIDTH(0), WINDOW_HEIGHT(0), spriteloader()
+Renderer::Renderer(int window_width_, int window_height_) : myself(0), window_width(window_width_),
+                                                            window_height(window_height_), spriteloader()
 {
     if (!mainfont.loadFromFile("Vanguard Text Font.ttf"))
     {
         Global::logging().panic(__FILE__, __LINE__, "Vanguard font could not be found.");
     }
 
-    WINDOW_WIDTH = Global::settings().at("Display resolution").at(0);
-    WINDOW_HEIGHT = Global::settings().at("Display resolution").at(1);
-
-    cameraview.reset(sf::FloatRect(0, 0, VIEWPORT_WIDTH, VIEWPORT_WIDTH*1.0*WINDOW_HEIGHT/WINDOW_WIDTH));
+    cameraview.reset(sf::FloatRect(0, 0, VIEWPORT_WIDTH, VIEWPORT_WIDTH*1.0*window_height/window_width));
 
     currenthud = std::unique_ptr<Hud>(new DefaultHud());
 
-    resetdrawlayersize(sf::Vector2u(WINDOW_WIDTH, WINDOW_HEIGHT));
+    resetdrawlayersize(sf::Vector2u(window_width, window_height));
 }
 
 Renderer::~Renderer()
@@ -53,7 +51,7 @@ void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myse
         state.currentmap->renderbackground(*this);
 
         // Draw translucent black overlay
-        sf::RectangleShape rect(sf::Vector2f(WINDOW_WIDTH, WINDOW_HEIGHT));
+        sf::RectangleShape rect(sf::Vector2f(window_width, window_height));
         rect.setPosition(0, 0);
         rect.setFillColor(sf::Color(0, 0, 0, 100));
         window.draw(rect);
@@ -61,7 +59,7 @@ void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myse
         // Draw score and shit
         sf::Text text;
         text.setString("MAP OVER / STATISTICS PLACEHOLDER");
-        text.setPosition(WINDOW_WIDTH / 2.0, WINDOW_HEIGHT / 2.0);
+        text.setPosition(window_width / 2.0, window_height / 2.0);
         text.setCharacterSize(20);
         sf::FloatRect r = text.getLocalBounds();
         text.setOrigin(r.left + r.width/2.0, r.top + r.height/2.0);
@@ -133,7 +131,7 @@ void Renderer::render(sf::RenderWindow &window, Gamestate &state, EntityPtr myse
 void Renderer::resetcamera()
 {
     sf::Vector2f center = cameraview.getCenter();
-    cameraview.setSize(VIEWPORT_WIDTH, VIEWPORT_WIDTH*1.0*WINDOW_HEIGHT/WINDOW_WIDTH);
+    cameraview.setSize(VIEWPORT_WIDTH, VIEWPORT_WIDTH*1.0*window_height/window_width);
     cameraview.setCenter(center);
 }
 

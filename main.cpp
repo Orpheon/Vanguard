@@ -45,9 +45,11 @@ int main(int argc, char **argv)
 
     window_width = Global::settings().at("Display resolution").at(0);
     window_height = Global::settings().at("Display resolution").at(1);
-    // TODO: Add window settings in config
 
     sf::RenderWindow window(sf::VideoMode(window_width, window_height), "Vanguard");
+    // SFML silently creates a smaller window if the window width and height are larger than the physical screen size
+    window_width = window.getSize().x;
+    window_height = window.getSize().y;
     window.setKeyRepeatEnabled(false);
 
     std::unique_ptr<MenuContainer> menus = std::unique_ptr<MenuContainer>(new MenuContainer(window));
@@ -101,7 +103,7 @@ int main(int argc, char **argv)
     Engine engine(isserver);
     InputCatcher inputcatcher;
     Gamestate renderingstate(engine);
-    Renderer renderer;
+    Renderer renderer(window_width, window_height);
 
     std::unique_ptr<Networker> networker;
     if (isserver)

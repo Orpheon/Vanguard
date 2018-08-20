@@ -166,8 +166,8 @@ void Lobbymenu::run(sf::RenderWindow &window)
 //    sf::Vector2u windowsize = window.getSize();
 //
 //    // Draw
-//    int WINDOW_WIDTH = windowsize.x;
-//    int WINDOW_HEIGHT = windowsize.y;
+//    int window_width = windowsize.x;
+//    int window_height = windowsize.y;
 //    sf::Sprite bgsprite;
 //    spriteloader.loadsprite(background.getframepath(), bgsprite);
 //
@@ -185,7 +185,7 @@ void Lobbymenu::run(sf::RenderWindow &window)
 //        iptext.setString("Please enter the server's ip and confirm with enter:");
 //        iptext.setFont(textfont);
 //        iptext.setOrigin(0, iptext.getLocalBounds().height * 2.0);
-//        iptext.setPosition(WINDOW_WIDTH/2.0, WINDOW_HEIGHT/2.0);
+//        iptext.setPosition(window_width/2.0, window_height/2.0);
 //        window.draw(iptext);
 //
 //        iptext.setString(ipstring);
@@ -199,13 +199,13 @@ void Lobbymenu::run(sf::RenderWindow &window)
     background.update(MENU_TIMESTEP);
 
     // Draw
-    int WINDOW_WIDTH = windowsize.x;
-    int WINDOW_HEIGHT = windowsize.y;
+    int window_width = windowsize.x;
+    int window_height = windowsize.y;
     sf::Sprite bgsprite;
     spriteloader.loadsprite(background.getframepath(), bgsprite);
     sf::FloatRect size = bgsprite.getLocalBounds();
     bgsprite.setPosition(0, 0);
-    bgsprite.setScale(WINDOW_WIDTH/size.width, WINDOW_HEIGHT/size.height);
+    bgsprite.setScale(window_width/size.width, window_height/size.height);
     bgsprite.setOrigin(0, 0);
     window.draw(bgsprite);
 

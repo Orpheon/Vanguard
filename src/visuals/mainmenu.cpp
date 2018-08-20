@@ -20,11 +20,11 @@ Mainmenu::Mainmenu(sf::RenderWindow &window, MenuContainer &owner_) : Menu(windo
         Global::logging().panic(__FILE__, __LINE__, "Vanguard Text Font.ttf not found");
     }
 
-    int WINDOW_WIDTH = window.getSize().x;
-    int WINDOW_HEIGHT = window.getSize().y;
+    int window_width = window.getSize().x;
+    int window_height = window.getSize().y;
 
-    int initial_x = WINDOW_WIDTH*0.1;
-    int initial_height = WINDOW_HEIGHT*0.4;
+    int initial_x = window_width*0.1;
+    int initial_height = window_height*0.4;
     double line_spacing = 50;
     int counter = 0;
 
@@ -139,13 +139,13 @@ void Mainmenu::run(sf::RenderWindow &window)
     sf::Vector2u windowsize = window.getSize();
 
     // Draw
-    int WINDOW_WIDTH = windowsize.x;
-    int WINDOW_HEIGHT = windowsize.y;
+    int window_width = windowsize.x;
+    int window_height = windowsize.y;
     sf::Sprite bgsprite;
     spriteloader.loadsprite(background.getframepath(), bgsprite);
     sf::FloatRect size = bgsprite.getLocalBounds();
     bgsprite.setPosition(0, 0);
-    bgsprite.setScale(WINDOW_WIDTH/size.width, WINDOW_HEIGHT/size.height);
+    bgsprite.setScale(window_width/size.width, window_height/size.height);
     bgsprite.setOrigin(0, 0);
     window.draw(bgsprite);
 
@@ -161,7 +161,7 @@ void Mainmenu::run(sf::RenderWindow &window)
         iptext.setString("Please enter the server's ip and confirm with enter:");
         iptext.setFont(textfont);
         iptext.setOrigin(0, iptext.getLocalBounds().height * 2.0);
-        iptext.setPosition(WINDOW_WIDTH/2.0, WINDOW_HEIGHT/2.0);
+        iptext.setPosition(window_width/2.0, window_height/2.0);
         window.draw(iptext);
 
         iptext.setString(ipstring);

@@ -12,14 +12,14 @@
 class Renderer
 {
     public:
-        Renderer();
+        Renderer(int window_width_, int window_height_);
         virtual ~Renderer();
         void render(sf::RenderWindow &window, Gamestate &state, EntityPtr myself_, Networker &networker);
         void resetcamera();
         void resetdrawlayersize(sf::Vector2u size);
         EntityPtr myself;
-        int WINDOW_WIDTH;
-        int WINDOW_HEIGHT;
+        int window_width;
+        int window_height;
         int VIEWPORT_WIDTH = 960;
         sf::View cameraview;
         sf::RenderTexture background;

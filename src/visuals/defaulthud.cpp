@@ -9,7 +9,7 @@
 
 void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
 {
-    HUD_Y_BASELINE = renderer.WINDOW_HEIGHT * 9.0/10.0;
+    HUD_Y_BASELINE = renderer.window_height * 9.0/10.0;
 
     // TODO: Draw gamemode hud
 
@@ -39,7 +39,7 @@ void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
 
         // Ult button
         double total_width = 100;
-        double mid_x = renderer.WINDOW_WIDTH / 2.0;
+        double mid_x = renderer.window_width / 2.0;
         double mid_y = HUD_Y_BASELINE;
         double alpha = 0.6;
 
@@ -108,8 +108,8 @@ void DefaultHud::render(Renderer &renderer, Gamestate &state, Player &myself)
 
 void DefaultHud::renderkillfeed(Renderer &renderer, Gamestate &state, Player &myself)
 {
-    double yoffset = renderer.WINDOW_HEIGHT / 12.0;
-    double xborder = renderer.WINDOW_WIDTH * 50.0/51.0;
+    double yoffset = renderer.window_height / 12.0;
+    double xborder = renderer.window_width * 50.0/51.0;
 
     for (auto &event : state.killfeed)
     {
@@ -159,7 +159,7 @@ void DefaultHud::renderhealthbar(Renderer &renderer, Gamestate &state, Character
     double health_height = 15;
     double health_top_y = HUD_Y_BASELINE - health_height / 2.0;
     double totalwidth = 200;
-    double center_x = renderer.WINDOW_WIDTH/11.0 + totalwidth/2.0;
+    double center_x = renderer.window_width/11.0 + totalwidth/2.0;
     double between_rect_spacing = 2;
     double slant = 0.3;
     double hp_per_rect = 25;
@@ -244,7 +244,7 @@ void DefaultHud::renderhealthbar(Renderer &renderer, Gamestate &state, Character
 
 void DefaultHud::mccreehud(Renderer &renderer, Gamestate &state, Mccree &myself)
 {
-    double abilities_x = renderer.WINDOW_WIDTH * 6.0/7.0;
+    double abilities_x = renderer.window_width * 6.0/7.0;
     double abilities_y = HUD_Y_BASELINE;
 
     // Weapon icon
@@ -280,7 +280,7 @@ void DefaultHud::mccreehud(Renderer &renderer, Gamestate &state, Mccree &myself)
 
 void DefaultHud::reinhardthud(Renderer &renderer, Gamestate &state, Reinhardt &myself)
 {
-    double abilities_x = renderer.WINDOW_WIDTH * 6.0/7.0;
+    double abilities_x = renderer.window_width * 6.0/7.0;
     double abilities_y = HUD_Y_BASELINE;
 
     // Weapon icon
@@ -290,7 +290,7 @@ void DefaultHud::reinhardthud(Renderer &renderer, Gamestate &state, Reinhardt &m
     sprite.setPosition(abilities_x, abilities_y);
     renderer.hudground.draw(sprite);
 
-    abilities_x -= renderer.WINDOW_WIDTH * 1.0/10.0;
+    abilities_x -= renderer.window_width * 1.0/10.0;
 
     Hammer& hammer = state.get<Hammer&>(myself.weapon);
 
@@ -305,7 +305,7 @@ void DefaultHud::reinhardthud(Renderer &renderer, Gamestate &state, Reinhardt &m
 
 void DefaultHud::luciohud(Renderer &renderer, Gamestate &state, Lucio &myself)
 {
-    double abilities_x = renderer.WINDOW_WIDTH * 6.0/7.0;
+    double abilities_x = renderer.window_width * 6.0/7.0;
     double abilities_y = HUD_Y_BASELINE;
 
     // Weapon icon
@@ -330,7 +330,7 @@ void DefaultHud::luciohud(Renderer &renderer, Gamestate &state, Lucio &myself)
 //    al_draw_text(renderer.font8, al_map_rgb(255, 255, 255),
 //                 ammo_x + al_get_text_width(renderer.font12, ammo.c_str()) * 1.1,
 //                 ammo_y - al_get_font_line_height(renderer.font8), ALLEGRO_ALIGN_LEFT, maxammo.c_str());
-//    abilities_x -= renderer.WINDOW_WIDTH * 1.0/10.0;
+//    abilities_x -= renderer.window_width * 1.0/10.0;
     Timer emptytimer;
     emptytimer.init(0, false);
 

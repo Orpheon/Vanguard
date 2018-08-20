@@ -64,8 +64,8 @@ void InputCatcher::run(sf::RenderWindow &window, Gamestate &state, Networker &ne
                 break;
 
             case sf::Event::Resized:
-                renderer.WINDOW_WIDTH = event.size.width;
-                renderer.WINDOW_HEIGHT = event.size.height;
+                renderer.window_width = event.size.width;
+                renderer.window_height = event.size.height;
                 renderer.resetcamera();
                 break;
 
