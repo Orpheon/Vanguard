@@ -3,8 +3,6 @@ cmake_minimum_required(VERSION 2.8)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CmakeModules")
 
-find_package(SFML 2.5 COMPONENTS graphics network system window REQUIRED)
-
 option(COMPILE_STATIC "Compile statically instead of dynamically" OFF)
 option(VANGUARD_DEBUG_MODE "Generate debug symbols and stack trace, currently linux-only" ON)
 set(VANGUARD_DEBUG_MODE ON)
@@ -14,7 +12,12 @@ if (WIN32)
     set (VANGUARD_DEBUG_MODE OFF)
 endif (WIN32)
 
-find_library(ENET_PATH enet)
+if (COMPILE_STATIC)
+    set (SFML_STATIC_LIBRARIES TRUE)
+endif (COMPILE_STATIC)
+find_package(SFML 2.5 COMPONENTS graphics network system window REQUIRED)
+
+    find_library(ENET_PATH enet)
 if (NOT EXISTS ${ENET_PATH})
     message(FATAL_ERROR "${ENET_PATH} does not exist - you probably have not installed enet.")
 endif()
