@@ -17,6 +17,10 @@ https://sourceforge.net/projects/asio/files/asio/1.10.8%20%28Stable%29/asio-1.10
 make
 make install
 
+# For SFML
+https://www.sfml-dev.org/tutorials/2.5/compile-with-cmake.php
+cmake -G"MSYS Makefiles" -DSFML_USE_STATIC_STD_LIBS=true -DCMAKE_INSTALL_PREFIX=/mingw64 ..
+
 30 pixels per overwatch meter
 
 
