@@ -6,5 +6,5 @@ Please note that this is still very much in alpha and not meant to be playable i
 
 For modifying the sprites or adding new ones, one must run `python update_sprites.py` with [Pillow](https://python-pillow.org/) installed. The game does not require recompilation.
 
-For compiling the game, one requires [Allegro](http://liballeg.org/download.html) v5.2 or above, [enet](http://enet.bespin.org/Downloads.html) v1.3.13 or above and [ASIO Standalone](https://think-async.com/Asio). If on linux, libdw-dev is also heavily recommended for stack traces.
+For compiling the game, one requires [SFML](https://www.sfml-dev.org/) v2.5 or above, [enet](http://enet.bespin.org/Downloads.html) v1.3.13 or above and [ASIO Standalone](https://think-async.com/Asio). If on linux, libdw-dev is also heavily recommended for stack traces.
 Compile the game either with cmake, the python configure.py files that generate ninja scripts, or the codeblocks project file (although the latter two probably require extensive updating).
